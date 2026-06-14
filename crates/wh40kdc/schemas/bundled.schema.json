@@ -1504,7 +1504,12 @@
               "type": "object",
               "properties": {
                 "required_keywords": {
-                  "$ref": "#/$defs/keyword-list"
+                  "$ref": "#/$defs/keyword-list",
+                  "description": "AND set: the target must carry every keyword listed here."
+                },
+                "required_keywords_any": {
+                  "$ref": "#/$defs/keyword-list",
+                  "description": "OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json."
                 },
                 "excluded_keywords": {
                   "$ref": "#/$defs/keyword-list"
@@ -2044,6 +2049,55 @@
       "required": [
         "unit_id",
         "models",
+        "game_version"
+      ],
+      "additionalProperties": false
+    },
+    "unit-keyword": {
+      "title": "Unit Keyword",
+      "description": "Catalog entry for a universal unit ability (a 'Core ability' in the rulebook: Deep Strike, Scouts X\", Feel No Pain X+, Deadly Demise X, etc.). These are the unit-side counterpart of weapon-keyword.schema.json — community-authored mechanic labels, not reproduced rules text. A unit references a parameterised instance from its `ability_ids` (e.g. `scouts-6`); this catalog records the value-agnostic definition keyed by base id (e.g. `scouts`). The optional `effect` describes the mechanic in the Ability DSL; null when the behaviour is modelled per-faction in enrichment data rather than here.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/entity-id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "required_parameters": {
+          "type": "array",
+          "description": "Parameter keys that must be supplied at each reference site (e.g. Scouts 6\" → ['value']). Empty for abilities that take no number (Deep Strike, Infiltrators, Stealth).",
+          "items": {
+            "type": "string",
+            "enum": [
+              "value"
+            ]
+          },
+          "uniqueItems": true,
+          "maxItems": 1
+        },
+        "effect": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/effect"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Mechanical effect of this ability. Null when the behaviour is authored per-faction in the enrichment Ability DSL rather than centrally here — engines resolve the per-faction record."
+        },
+        "game_version": {
+          "$ref": "#/$defs/game-version-ref"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "required_parameters",
+        "effect",
         "game_version"
       ],
       "additionalProperties": false

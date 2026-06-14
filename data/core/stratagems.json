@@ -84,8 +84,8 @@
     }
   },
   {
-    "id": "grenade",
-    "name": "GRENADE",
+    "id": "explosives",
+    "name": "EXPLOSIVES",
     "category": "core",
     "type": "wargear",
     "detachment_id": null,
@@ -96,7 +96,8 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": {
-      "required_keywords": [
+      "required_keywords_any": [
+        "Explosives",
         "Grenades"
       ]
     },
@@ -107,8 +108,8 @@
     }
   },
   {
-    "id": "tank-shock",
-    "name": "TANK SHOCK",
+    "id": "crushing-impact",
+    "name": "CRUSHING IMPACT",
     "category": "core",
     "type": "strategic-ploy",
     "detachment_id": null,
@@ -119,7 +120,8 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": {
-      "required_keywords": [
+      "required_keywords_any": [
+        "Monster",
         "Vehicle"
       ]
     },
@@ -162,29 +164,6 @@
     "player_turn": "opponent-turn",
     "timing": "once-per-turn",
     "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "go-to-ground",
-    "name": "GO TO GROUND",
-    "category": "core",
-    "type": "battle-tactic",
-    "detachment_id": null,
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": {
-      "required_keywords": [
-        "Infantry"
-      ]
-    },
     "ability_id": null,
     "game_version": {
       "edition": "11th",

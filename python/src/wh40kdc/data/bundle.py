@@ -23,6 +23,7 @@ COLLECTION_KEYS = (
     "target_profiles",
     "weapons",
     "weapon_keywords",
+    "unit_keywords",
     "factions",
     "abilities",
     "phase_mappings",

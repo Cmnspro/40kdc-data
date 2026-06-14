@@ -10507,6 +10507,11 @@ impl<'de> ::serde::Deserialize<'de> for StatValueString {
 ///              "type": "string"
 ///            },
 ///            "required_keywords": {
+///              "description": "AND set: the target must carry every keyword listed here.",
+///              "$ref": "#/$defs/keyword-list"
+///            },
+///            "required_keywords_any": {
+///              "description": "OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json.",
 ///              "$ref": "#/$defs/keyword-list"
 ///            }
 ///          },
@@ -10736,6 +10741,11 @@ impl<'de> ::serde::Deserialize<'de> for StratagemName {
 ///      "type": "string"
 ///    },
 ///    "required_keywords": {
+///      "description": "AND set: the target must carry every keyword listed here.",
+///      "$ref": "#/$defs/keyword-list"
+///    },
+///    "required_keywords_any": {
+///      "description": "OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json.",
 ///      "$ref": "#/$defs/keyword-list"
 ///    }
 ///  },
@@ -10750,8 +10760,12 @@ pub struct StratagemTargetRestrictions {
     pub excluded_keywords: ::std::option::Option<KeywordList>,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub notes: ::std::option::Option<::std::string::String>,
+    ///AND set: the target must carry every keyword listed here.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub required_keywords: ::std::option::Option<KeywordList>,
+    ///OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub required_keywords_any: ::std::option::Option<KeywordList>,
 }
 impl ::std::default::Default for StratagemTargetRestrictions {
     fn default() -> Self {
@@ -10759,6 +10773,7 @@ impl ::std::default::Default for StratagemTargetRestrictions {
             excluded_keywords: Default::default(),
             notes: Default::default(),
             required_keywords: Default::default(),
+            required_keywords_any: Default::default(),
         }
     }
 }
@@ -12698,6 +12713,222 @@ impl<'de> ::serde::Deserialize<'de> for UnitCompositionModelsItemProfileName {
             .map_err(|e: self::error::ConversionError| {
                 <D::Error as ::serde::de::Error>::custom(e.to_string())
             })
+    }
+}
+///Catalog entry for a universal unit ability (a 'Core ability' in the rulebook: Deep Strike, Scouts X", Feel No Pain X+, Deadly Demise X, etc.). These are the unit-side counterpart of weapon-keyword.schema.json — community-authored mechanic labels, not reproduced rules text. A unit references a parameterised instance from its `ability_ids` (e.g. `scouts-6`); this catalog records the value-agnostic definition keyed by base id (e.g. `scouts`). The optional `effect` describes the mechanic in the Ability DSL; null when the behaviour is modelled per-faction in enrichment data rather than here.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "title": "Unit Keyword",
+///  "description": "Catalog entry for a universal unit ability (a 'Core ability' in the rulebook: Deep Strike, Scouts X\", Feel No Pain X+, Deadly Demise X, etc.). These are the unit-side counterpart of weapon-keyword.schema.json — community-authored mechanic labels, not reproduced rules text. A unit references a parameterised instance from its `ability_ids` (e.g. `scouts-6`); this catalog records the value-agnostic definition keyed by base id (e.g. `scouts`). The optional `effect` describes the mechanic in the Ability DSL; null when the behaviour is modelled per-faction in enrichment data rather than here.",
+///  "type": "object",
+///  "required": [
+///    "effect",
+///    "game_version",
+///    "id",
+///    "name",
+///    "required_parameters"
+///  ],
+///  "properties": {
+///    "effect": {
+///      "description": "Mechanical effect of this ability. Null when the behaviour is authored per-faction in the enrichment Ability DSL rather than centrally here — engines resolve the per-faction record.",
+///      "oneOf": [
+///        {
+///          "$ref": "#/$defs/effect"
+///        },
+///        {
+///          "type": "null"
+///        }
+///      ]
+///    },
+///    "game_version": {
+///      "$ref": "#/$defs/game-version-ref"
+///    },
+///    "id": {
+///      "$ref": "#/$defs/entity-id"
+///    },
+///    "name": {
+///      "type": "string",
+///      "maxLength": 128,
+///      "minLength": 1
+///    },
+///    "required_parameters": {
+///      "description": "Parameter keys that must be supplied at each reference site (e.g. Scouts 6\" → ['value']). Empty for abilities that take no number (Deep Strike, Infiltrators, Stealth).",
+///      "type": "array",
+///      "items": {
+///        "type": "string",
+///        "enum": [
+///          "value"
+///        ]
+///      },
+///      "maxItems": 1,
+///      "uniqueItems": true
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct UnitKeyword {
+    ///Mechanical effect of this ability. Null when the behaviour is authored per-faction in the enrichment Ability DSL rather than centrally here — engines resolve the per-faction record.
+    pub effect: ::std::option::Option<Effect>,
+    pub game_version: GameVersionRef,
+    pub id: EntityId,
+    pub name: UnitKeywordName,
+    ///Parameter keys that must be supplied at each reference site (e.g. Scouts 6" → ['value']). Empty for abilities that take no number (Deep Strike, Infiltrators, Stealth).
+    pub required_parameters: Vec<UnitKeywordRequiredParametersItem>,
+}
+///`UnitKeywordName`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "string",
+///  "maxLength": 128,
+///  "minLength": 1
+///}
+/// ```
+/// </details>
+#[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+#[serde(transparent)]
+pub struct UnitKeywordName(::std::string::String);
+impl ::std::ops::Deref for UnitKeywordName {
+    type Target = ::std::string::String;
+    fn deref(&self) -> &::std::string::String {
+        &self.0
+    }
+}
+impl ::std::convert::From<UnitKeywordName> for ::std::string::String {
+    fn from(value: UnitKeywordName) -> Self {
+        value.0
+    }
+}
+impl ::std::str::FromStr for UnitKeywordName {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        if value.chars().count() > 128usize {
+            return Err("longer than 128 characters".into());
+        }
+        if value.chars().count() < 1usize {
+            return Err("shorter than 1 characters".into());
+        }
+        Ok(Self(value.to_string()))
+    }
+}
+impl ::std::convert::TryFrom<&str> for UnitKeywordName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String> for UnitKeywordName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String> for UnitKeywordName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl<'de> ::serde::Deserialize<'de> for UnitKeywordName {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        ::std::string::String::deserialize(deserializer)?
+            .parse()
+            .map_err(|e: self::error::ConversionError| {
+                <D::Error as ::serde::de::Error>::custom(e.to_string())
+            })
+    }
+}
+///`UnitKeywordRequiredParametersItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "string",
+///  "enum": [
+///    "value"
+///  ]
+///}
+/// ```
+/// </details>
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    Hash,
+    Ord,
+    PartialEq,
+    PartialOrd
+)]
+pub enum UnitKeywordRequiredParametersItem {
+    #[serde(rename = "value")]
+    Value,
+}
+impl ::std::fmt::Display for UnitKeywordRequiredParametersItem {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        match *self {
+            Self::Value => f.write_str("value"),
+        }
+    }
+}
+impl ::std::str::FromStr for UnitKeywordRequiredParametersItem {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        match value {
+            "value" => Ok(Self::Value),
+            _ => Err("invalid value".into()),
+        }
+    }
+}
+impl ::std::convert::TryFrom<&str> for UnitKeywordRequiredParametersItem {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String>
+for UnitKeywordRequiredParametersItem {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String>
+for UnitKeywordRequiredParametersItem {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
     }
 }
 ///A minimum number of units carrying a keyword that the detachment requires.

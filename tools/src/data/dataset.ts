@@ -30,6 +30,7 @@ import type {
   Wargear,
   WargearOption,
   WeaponKeyword,
+  UnitKeyword,
 } from "../generated.js";
 import { Collection } from "./collection.js";
 import {
@@ -91,6 +92,7 @@ export class Dataset {
   readonly abilities: Collection<RawData["abilities"][number], AbilityView>;
 
   // Id-bearing collections without bespoke views (records returned as-is).
+  readonly unitKeywords: Collection<UnitKeyword, UnitKeyword>;
   readonly targetProfiles: Collection<TargetProfile, TargetProfile>;
   readonly detachments: Collection<Detachment, Detachment>;
   readonly alliedRules: Collection<AlliedRule, AlliedRule>;
@@ -166,6 +168,7 @@ export class Dataset {
       wrap: (a) => new AbilityView(a, this),
     });
 
+    this.unitKeywords = idCollection(raw.unitKeywords);
     this.targetProfiles = idCollection(raw.targetProfiles, (p) => p.faction_id);
     this.detachments = idCollection(raw.detachments, (d) => d.faction_id);
     // Allied rules aren't owned by one faction (Daemonic Pact is shared by

@@ -25,6 +25,23 @@ stopping for approval. Author as much as the gate will admit.
   and unauthored residue into ONE final report (see **Final report**) — the only place
   you raise anything with the user.
 
+## Respect concurrent work — NEVER revert without confirmation
+
+The user may be editing this repo at the same time the pipeline runs (the `propose`/
+`repair` passes are long). Treat the working tree as shared and not yours to clean up.
+
+- **This pipeline writes ONLY to three places:** `data/enrichment/<faction>/abilities.json`,
+  `data/_audit/**`, and the out-of-repo `40kdc-abilities` raw-text store. If `git status`
+  shows ANY other file changed (core data, schemas, generated TS/Rust/Python, `CONTRIBUTING.md`,
+  this SKILL.md, CI workflows, untracked files …), assume it is the **user's concurrent work**,
+  not pipeline output — even if it looks unrelated, spurious, or mid-feature.
+- **NEVER `git checkout`/`restore`/`reset`/`clean`, delete, or overwrite a file you did not
+  create as part of this run — not without explicit user confirmation first.** Do not "tidy
+  up" the change-set. A revert of unstaged work is often unrecoverable. When something looks
+  out of scope, **surface it in the final report and ask** — do not act on it.
+- If you must report the change-set, scope your `git` reads to the three paths above; describe
+  everything else as "your other changes, untouched."
+
 ## Core principle — you do NOT author the DSL
 
 The project's correctness guarantee is structural (`CONTRIBUTING.md`, `CLAUDE.md` "IP
@@ -38,10 +55,29 @@ Everything downstream is the existing deterministic pipeline.
 ## Fidelity — never silently drop or simplify a mechanic
 
 A mechanic the rule states must be **represented, not flattened**. If the schema can
-express it, do so. If it genuinely cannot:
+express it, do so.
+
+**Structured data, never prose — and know which repo you're in.** Committed `data/**`
+(core schemas *and* enrichment DSL) carries only *structured* facts: enums, ids,
+keyword lists, `target_restrictions`, condition/effect trees. The original rule *text*
+lives ONLY in the out-of-repo `40kdc-abilities` store. So when a mechanic resists a
+field, the fix is to author the real structure (or extend the schema — below), **never**
+to retreat into a free-text `notes` / `description` / `community_notes` field and
+restate the rule in prose there. A `notes` string that paraphrases what a structured
+field should hold is the **same class of violation as a dropped mechanic** — it reads as
+authored, but the data is unusable by any engine. Concrete tell: writing
+`target_restrictions.notes: "That MONSTER or VEHICLE unit"` instead of
+`required_keywords_any: ["Monster","Vehicle"]` (the `*_any` OR-key, mirroring
+allied-rule's `army_keywords_any`). If the field that *should* hold it can't yet (e.g.
+`required_keywords` is AND-only), extend the schema per the steps below — do not narrate
+the gap in `notes`. `notes` is only for genuine out-of-band caveats a reader needs, never
+for mechanics the schema can (or should be taught to) carry.
+
+If the schema genuinely cannot express it:
 1. Do NOT emit a feature-dropped version as if complete, and do NOT smuggle it through
    an open `parameters`/`modifier` field with an invented value (e.g.
-   `attack-is-type: "strength-exceeds-target-toughness"` — that's not a real enum).
+   `attack-is-type: "strength-exceeds-target-toughness"` — that's not a real enum), nor
+   into a free-text `notes`/`description` field as prose (see the rule just above).
 2. Propose a MINIMAL extension aligned with existing patterns — a new `condition` type
    (condition.schema.json enum + its `$comment`), an optional `single-effect` field
    (effect.schema.json, e.g. `scaling`), or a documented modifier-narrowing key — and

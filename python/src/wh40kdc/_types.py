@@ -306,6 +306,7 @@ class WhenDrawn(TypedDict):
 
 class TargetRestrictions(TypedDict):
     required_keywords: NotRequired[KeywordList]
+    required_keywords_any: NotRequired[KeywordList]
     excluded_keywords: NotRequired[KeywordList]
     notes: NotRequired[str]
 
@@ -807,6 +808,14 @@ class SecondaryCard(TypedDict):
     actions: NotRequired[list[Action]]
     awards: NotRequired[list[Awards | Awards1]]
     text: NotRequired[str]
+    game_version: GameVersionRef
+
+
+class UnitKeyword(TypedDict):
+    id: EntityId
+    name: str
+    required_parameters: list[Literal["value"]]
+    effect: Effect | None
     game_version: GameVersionRef
 
 

@@ -9,8 +9,8 @@ Total: 188 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
-| adepta-sororitas | consecrated-ground | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adepta-sororitas | denuncia-oratory | stat-modifier | stat-modifier: operation "undefined" not supported |
+| adepta-sororitas | righteous-purpose | stat-modifier | stat-modifier: operation "undefined" not supported |
+| adepta-sororitas | shield-of-denial | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | driven-by-fury | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |

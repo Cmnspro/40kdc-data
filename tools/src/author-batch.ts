@@ -32,6 +32,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { execFile } from "node:child_process";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { createValidator } from "./schema-loader.js";
 import { hasEmptyModifier } from "./audit-coverage.js";
@@ -47,6 +48,8 @@ const ABILITY_SCHEMA_ID = "https://40kdc.dev/schemas/enrichment/ability-dsl/abil
 type Json = any;
 const readJSON = (p: string): Json => JSON.parse(readFileSync(p, "utf-8"));
 const writeJSON = (p: string, v: Json): void => writeFileSync(p, JSON.stringify(v, null, 2) + "\n");
+/** Stable digest of a stub's source rule — the resume key (rule changed ⇒ re-propose). */
+const srcHash = (s: string): string => createHash("sha1").update(s).digest("hex").slice(0, 12);
 
 const PARAMETERLESS = new Set(["deep-strike", "fallback-and-act", "fight-first", "fight-last", "shoot-on-death", "fight-on-death"]);
 
@@ -71,6 +74,8 @@ export interface Proposal {
   unencodable?: boolean;
   /** Canonical-key lint result (repair pass only). false = invented/out-of-vocab modifier keys. */
   canonical?: boolean;
+  /** Digest of the source rule at propose time — lets a resumed run skip unchanged stubs. */
+  src_hash?: string;
 }
 
 // ─── claude CLI bridge (subscription, structured output) ─────────────
@@ -366,6 +371,23 @@ const chunk = <T>(arr: T[], n: number): T[][] => {
   return out;
 };
 
+/**
+ * Run `fn` over `items` with at most `limit` in flight. Items are independent
+ * `claude -p` batches, so this collapses ~N sequential round-trips to N/limit.
+ * `limit = 1` is exactly the old sequential behaviour. Tasks settle in completion
+ * order; `fn` must place its own result (these callers push/index into a shared array).
+ */
+async function mapLimit<T>(items: T[], limit: number, fn: (item: T, idx: number) => Promise<void>): Promise<void> {
+  let next = 0;
+  const worker = async (): Promise<void> => {
+    while (next < items.length) {
+      const idx = next++;
+      await fn(items[idx], idx);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(limit, items.length)) }, worker));
+}
+
 const classifyUserPrompt = (items: Json[]): string =>
   `Classify each ability below. Return results[] (one per ability, echo its ability_id):\n\n` +
   items.map((it) => `- ability_id: ${it.ability_id}\n  name: ${it.name}\n  rule: ${it.src?.description ?? "(none)"}`).join("\n");
@@ -382,7 +404,7 @@ export const repairUserPrompt = (items: { ability_id: string; rule: string; draf
 
 // ─── propose ─────────────────────────────────────────────────────────
 
-interface ProposeOpts { batch: number; model: string }
+interface ProposeOpts { batch: number; model: string; fresh?: boolean; concurrency?: number }
 
 async function proposeFaction(faction: string, opts: ProposeOpts, validate: (x: unknown) => boolean): Promise<Json> {
   const inputPath = resolve(INPUT_DIR, `${faction}.json`);
@@ -393,8 +415,29 @@ async function proposeFaction(faction: string, opts: ProposeOpts, validate: (x: 
   const original = new Map<string, Json>();
   for (const a of readJSON(resolve(ENRICHMENT_ROOT, faction, "abilities.json")) as Json[]) original.set(a.ability_id, a);
 
+  // Resume: reuse prior proposals whose source rule is unchanged (skip errored ones so
+  // they get retried). A checkpoint is written after every batch, so an interrupted run
+  // loses at most the batch in flight. `--fresh` forces a full re-propose.
+  const outPath = resolve(OUT_DIR, `${faction}.json`);
+  mkdirSync(OUT_DIR, { recursive: true });
+  const prior = new Map<string, Proposal>();
+  if (!opts.fresh && existsSync(outPath)) for (const p of readJSON(outPath) as Proposal[]) prior.set(p.ability_id, p);
+
   const proposals: Proposal[] = [];
-  for (const batch of chunk(input, opts.batch)) {
+  const pending: Json[] = [];
+  const hashById = new Map<string, string>();
+  for (const it of input) {
+    const h = srcHash(it.src?.description ?? "");
+    hashById.set(it.ability_id, h);
+    const prev = prior.get(it.ability_id);
+    if (prev && !prev.error && prev.src_hash === h) proposals.push(prev);
+    else pending.push(it);
+  }
+  const resumed = proposals.length;
+  if (resumed > 0) process.stderr.write(`  ${faction}: resuming — ${resumed} kept, ${pending.length} to (re)propose\n`);
+  const checkpoint = (): void => writeJSON(outPath, proposals);
+
+  await mapLimit(chunk(pending, opts.batch), opts.concurrency ?? 1, async (batch) => {
     let forms: Json[];
     try {
       ({ results: forms } = await callClaude(CLASSIFY_SYSTEM, classifyUserPrompt(batch), CLASSIFY_SCHEMA, opts.model));
@@ -402,7 +445,8 @@ async function proposeFaction(faction: string, opts: ProposeOpts, validate: (x: 
       // One flaky call shouldn't sink the run — record the batch as errored and move on.
       process.stderr.write(`  ${faction}: classify batch failed (${(e as Error).message.slice(0, 80)}) — skipping ${batch.length}\n`);
       for (const it of batch) proposals.push({ ability_id: it.ability_id, name: it.name, faction, schema_valid: false, final_faithful: false, error: "classify call failed" });
-      continue;
+      checkpoint();
+      return;
     }
     const byId = new Map<string, Json>(forms.map((f: Json) => [f.ability_id, f]));
 
@@ -441,11 +485,12 @@ async function proposeFaction(faction: string, opts: ProposeOpts, validate: (x: 
         verdict, final_faithful: !!verdict?.faithful && b.schemaValid,
       });
     }
+    for (const p of proposals) if (p.src_hash == null) p.src_hash = hashById.get(p.ability_id);
     process.stderr.write(`  ${faction}: ${proposals.length}/${input.length}\n`);
-  }
+    checkpoint();
+  });
 
-  mkdirSync(OUT_DIR, { recursive: true });
-  writeJSON(resolve(OUT_DIR, `${faction}.json`), proposals);
+  checkpoint();
   return {
     faction, total: proposals.length,
     schema_valid: proposals.filter((p) => p.schema_valid).length,
@@ -456,7 +501,7 @@ async function proposeFaction(faction: string, opts: ProposeOpts, validate: (x: 
 
 // ─── repair (full-tree pass over the residue) ────────────────────────
 
-interface RepairOpts { batch: number; model: string; types?: Set<string> }
+interface RepairOpts { batch: number; model: string; types?: Set<string>; concurrency?: number }
 
 /**
  * Re-author the complex residue in proposed/<faction>.json as full nested DSL.
@@ -488,7 +533,7 @@ async function repairFaction(faction: string, opts: RepairOpts, validate: (x: un
   for (const a of readJSON(resolve(ENRICHMENT_ROOT, faction, "abilities.json")) as Json[]) original.set(a.ability_id, a);
 
   let done = 0;
-  for (const batch of chunk(targets, opts.batch)) {
+  await mapLimit(chunk(targets, opts.batch), opts.concurrency ?? 1, async (batch) => {
     let results: Json[];
     try {
       ({ results } = await callClaude(REPAIR_SYSTEM,
@@ -496,7 +541,7 @@ async function repairFaction(faction: string, opts: RepairOpts, validate: (x: un
         REPAIR_SCHEMA, opts.model));
     } catch (e) {
       process.stderr.write(`  ${faction}: repair batch failed (${(e as Error).message.slice(0, 80)}) — skipping ${batch.length}\n`);
-      continue;
+      return;
     }
     const byId = new Map<string, Json>(results.map((r: Json) => [r.ability_id, r]));
 
@@ -543,7 +588,8 @@ async function repairFaction(faction: string, opts: RepairOpts, validate: (x: un
     }
     done += batch.length;
     process.stderr.write(`  ${faction}: repaired ${done}/${targets.length}\n`);
-  }
+    writeJSON(proposalsPath, proposals); // checkpoint — partial repairs survive an interruption
+  });
 
   writeJSON(proposalsPath, proposals);
   const repaired = proposals.filter((p) => p.repaired);
@@ -663,7 +709,7 @@ async function main(): Promise<void> {
     return;
   }
   if (!["propose", "repair", "apply"].includes(mode) || !target) {
-    console.error("Usage:\n  author-batch propose <faction|--all> [--batch N] [--model M]\n  author-batch repair  <faction|--all> [--types t1,t2] [--batch N] [--model M]\n  author-batch apply   <faction|--all> [--min-confidence high|medium] [--include-complex] [--dry-run]\n  author-batch review");
+    console.error("Usage:\n  author-batch propose <faction|--all> [--batch N] [--model M] [--concurrency N] [--fresh]\n  author-batch repair  <faction|--all> [--types t1,t2] [--batch N] [--model M] [--concurrency N]\n  author-batch apply   <faction|--all> [--min-confidence high|medium] [--include-complex] [--dry-run]\n  author-batch review");
     process.exit(1);
   }
 
@@ -672,7 +718,7 @@ async function main(): Promise<void> {
     const validateFn = ajv.getSchema(ABILITY_SCHEMA_ID);
     if (!validateFn) throw new Error(`ability schema not loaded: ${ABILITY_SCHEMA_ID}`);
     const validate = (x: unknown): boolean => !!validateFn(x);
-    const opts: ProposeOpts = { batch: Number(flag(argv, "--batch")) || 15, model: flag(argv, "--model") ?? "claude-haiku-4-5" };
+    const opts: ProposeOpts = { batch: Number(flag(argv, "--batch")) || 15, model: flag(argv, "--model") ?? "claude-haiku-4-5", fresh: argv.includes("--fresh"), concurrency: Number(flag(argv, "--concurrency")) || 1 };
     const summary: Json[] = [];
     for (const f of factionList(target, INPUT_DIR)) {
       try {
@@ -696,6 +742,7 @@ async function main(): Promise<void> {
       batch: Number(flag(argv, "--batch")) || 8,
       model: flag(argv, "--model") ?? "claude-sonnet-4-6",
       types: typesArg ? new Set(typesArg.split(",").map((t) => t.trim()).filter(Boolean)) : undefined,
+      concurrency: Number(flag(argv, "--concurrency")) || 1,
     };
     const summary: Json[] = [];
     for (const f of factionList(target, OUT_DIR)) {

@@ -31,6 +31,7 @@ const FILE_TO_COLLECTION: Record<string, keyof RawData> = {
   "target-profiles": "targetProfiles",
   weapons: "weapons",
   "weapon-keywords": "weaponKeywords",
+  "unit-keywords": "unitKeywords",
   factions: "factions",
   abilities: "abilities",
   "phase-mappings": "phaseMappings",

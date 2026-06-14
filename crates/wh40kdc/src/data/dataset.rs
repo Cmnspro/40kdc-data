@@ -15,8 +15,8 @@ use crate::generated::{
     Ability, AlliedRule, DeploymentPattern, Detachment, Enhancement, Faction, ForceDisposition,
     GameVersion, HullShape, InteractionFlag, KeywordList, LeaderAttachment, Mission,
     MissionMatchup, Phase, PhaseMapping, ResourcePool, SecondaryCard, Stratagem, TargetProfile,
-    TerrainLayout, TerrainTemplate, TimingFlag, Unit, UnitComposition, Wargear, WargearOption,
-    Weapon, WeaponKeyword,
+    TerrainLayout, TerrainTemplate, TimingFlag, Unit, UnitComposition, UnitKeyword, Wargear,
+    WargearOption, Weapon, WeaponKeyword,
 };
 
 use super::collection::Collection;
@@ -41,6 +41,9 @@ pub struct RawData {
     /// Catalog of weapon keywords (Lethal Hits, Sustained Hits N, Anti-X N+, ...).
     #[serde(default)]
     pub weapon_keywords: Vec<WeaponKeyword>,
+    /// Catalog of universal unit abilities (Deep Strike, Scouts X", Feel No Pain X+, ...).
+    #[serde(default)]
+    pub unit_keywords: Vec<UnitKeyword>,
     #[serde(default)]
     pub factions: Vec<Faction>,
     /// Community-authored ability mechanics (keyed on `ability_id`, not `id`).
@@ -129,6 +132,7 @@ pub struct Dataset {
     pub weapons: Collection<Weapon>,
     pub weapon_keywords: Collection<WeaponKeyword>,
     pub factions: Collection<Faction>,
+    pub unit_keywords: Collection<UnitKeyword>,
     pub abilities: Collection<Ability>,
 
     // Id-bearing passthrough collections.
@@ -208,6 +212,11 @@ impl Dataset {
         );
         let weapon_keywords = id_name_collection(
             raw.weapon_keywords,
+            |k| k.id.to_string(),
+            |k| Some(k.name.as_str()),
+        );
+        let unit_keywords = id_name_collection(
+            raw.unit_keywords,
             |k| k.id.to_string(),
             |k| Some(k.name.as_str()),
         );
@@ -319,6 +328,7 @@ impl Dataset {
             units,
             weapons,
             weapon_keywords,
+            unit_keywords,
             factions,
             abilities,
             target_profiles,

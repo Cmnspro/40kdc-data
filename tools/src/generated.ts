@@ -208,6 +208,14 @@ export type AbilityCondition2 = SimpleCondition | CompoundCondition;
  * Predicate that BLOCKS starting the action while it holds (Sensor Sweep: a unit cannot start this action if there is only one operation marker on the battlefield).
  */
 export type AbilityCondition3 = SimpleCondition | CompoundCondition;
+/**
+ * AND set: the target must carry every keyword listed here.
+ */
+export type KeywordList6 = Keyword[];
+/**
+ * OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json.
+ */
+export type KeywordList7 = Keyword[];
 export type AbilityEffect1 =
   | SingleEffect
   | ChoiceEffect
@@ -1111,7 +1119,8 @@ export interface Stratagem {
   player_turn: PlayerTurn;
   timing: "once-per-phase" | "once-per-turn" | "once-per-battle" | "unlimited";
   target_restrictions?: {
-    required_keywords?: KeywordList;
+    required_keywords?: KeywordList6;
+    required_keywords_any?: KeywordList7;
     excluded_keywords?: KeywordList;
     notes?: string;
   } | null;
@@ -1438,6 +1447,27 @@ export interface BaseSize1 {
    * True when the entry is provisional/guessed (e.g. a category without authoritative dimensions) and should be revisited.
    */
   draft?: boolean;
+}
+/**
+ * Catalog entry for a universal unit ability (a 'Core ability' in the rulebook: Deep Strike, Scouts X", Feel No Pain X+, Deadly Demise X, etc.). These are the unit-side counterpart of weapon-keyword.schema.json — community-authored mechanic labels, not reproduced rules text. A unit references a parameterised instance from its `ability_ids` (e.g. `scouts-6`); this catalog records the value-agnostic definition keyed by base id (e.g. `scouts`). The optional `effect` describes the mechanic in the Ability DSL; null when the behaviour is modelled per-faction in enrichment data rather than here.
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "unit-keyword".
+ */
+export interface UnitKeyword {
+  id: EntityId;
+  name: string;
+  /**
+   * Parameter keys that must be supplied at each reference site (e.g. Scouts 6" → ['value']). Empty for abilities that take no number (Deep Strike, Infiltrators, Stealth).
+   *
+   * @maxItems 1
+   */
+  required_parameters: [] | ["value"];
+  /**
+   * Mechanical effect of this ability. Null when the behaviour is authored per-faction in the enrichment Ability DSL rather than centrally here — engines resolve the per-faction record.
+   */
+  effect: AbilityEffect1 | null;
+  game_version: GameVersionReference;
 }
 /**
  * A unit datasheet entry with stat profiles and point costs.

@@ -35,6 +35,7 @@ import type {
   WargearOption,
   Weapon,
   WeaponKeyword,
+  UnitKeyword,
 } from "../generated.js";
 
 /**
@@ -51,6 +52,8 @@ export interface RawData {
   weapons: Weapon[];
   /** Catalog of weapon keywords (Lethal Hits, Sustained Hits N, Anti-X N+, ...). */
   weaponKeywords: WeaponKeyword[];
+  /** Catalog of universal unit abilities (Deep Strike, Scouts X", Feel No Pain X+, ...). */
+  unitKeywords: UnitKeyword[];
   factions: Faction[];
   /** Community-authored ability mechanics (key is `ability_id`, not `id`). */
   abilities: AbilityDSLEntry[];
@@ -90,6 +93,7 @@ export function emptyRawData(): RawData {
     targetProfiles: [],
     weapons: [],
     weaponKeywords: [],
+    unitKeywords: [],
     factions: [],
     abilities: [],
     phaseMappings: [],

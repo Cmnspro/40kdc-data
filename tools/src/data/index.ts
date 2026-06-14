@@ -85,6 +85,8 @@ export const targetProfiles = dataset.targetProfiles;
 export const weapons = dataset.weapons;
 /** Catalog of weapon keywords (Lethal Hits, Sustained Hits N, Anti-X N+, ...). */
 export const weaponKeywords = dataset.weaponKeywords;
+/** Catalog of universal unit abilities (Deep Strike, Scouts X", Feel No Pain X+, ...). */
+export const unitKeywords = dataset.unitKeywords;
 /** All factions, linked to their units, abilities, and weapons. */
 export const factions = dataset.factions;
 /** All abilities, linked to their phases and the units that have them. */

@@ -36,7 +36,14 @@
         {
           "type": "object",
           "properties": {
-            "required_keywords": { "$ref": "../defs/common.schema.json#/$defs/keyword-list" },
+            "required_keywords": {
+              "$ref": "../defs/common.schema.json#/$defs/keyword-list",
+              "description": "AND set: the target must carry every keyword listed here."
+            },
+            "required_keywords_any": {
+              "$ref": "../defs/common.schema.json#/$defs/keyword-list",
+              "description": "OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json."
+            },
             "excluded_keywords": { "$ref": "../defs/common.schema.json#/$defs/keyword-list" },
             "notes": { "type": "string" }
           },

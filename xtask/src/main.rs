@@ -83,6 +83,7 @@ const FILE_TO_COLLECTION: &[(&str, &str)] = &[
     ("target-profiles", "target_profiles"),
     ("weapons", "weapons"),
     ("weapon-keywords", "weapon_keywords"),
+    ("unit-keywords", "unit_keywords"),
     ("factions", "factions"),
     ("abilities", "abilities"),
     ("phase-mappings", "phase_mappings"),
