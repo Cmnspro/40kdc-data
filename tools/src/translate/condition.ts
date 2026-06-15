@@ -103,6 +103,13 @@ export function describeCondition(c: Condition): string {
       return `${negate}has fought this phase`;
     case "destroyed-by-attack-type":
       return `${negate}destroyed by a ${str(p.attack_type)} attack`;
+    case "attack-stat-compare": {
+      // Mirrors the Rust arm byte-for-byte: missing params render as "" (not "?").
+      const sv = (v: unknown): string => (v == null ? "" : str(v));
+      return `${negate}the attack's ${sv(p.attacker_stat)} is ${dekebab(sv(p.comparison))} the target's ${sv(p.target_stat)}`;
+    }
+    case "made-ingress-move-this-turn":
+      return `${negate}the unit made an ingress move this turn`;
 
     // ── Scoring conditions (secondary-card award `when`) ────────────────────
     case "objective-majority":

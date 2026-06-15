@@ -599,7 +599,8 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "belisarius-cawl"
+      "belisarius-cawl",
+      "thulia-ghuld"
     ],
     "ability_type": "unit",
     "behavior": "passive"
@@ -1202,7 +1203,9 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "skitarii-vanguard"
+      "skitarii-vanguard",
+      "secutarii-hoplites",
+      "secutarii-peltasts"
     ],
     "ability_type": "unit",
     "behavior": "passive"
@@ -1230,7 +1233,9 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "skitarii-vanguard"
+      "skitarii-vanguard",
+      "secutarii-hoplites",
+      "secutarii-peltasts"
     ],
     "ability_type": "unit",
     "behavior": "passive"
@@ -2357,6 +2362,1237 @@
     },
     "faction_id": "adeptus-mechanicus",
     "ability_type": "faction",
-    "behavior": "reactive"
+    "behavior": "reactive",
+    "unit_ids": []
+  },
+  {
+    "ability_id": "noospheric-recon",
+    "name": "Noospheric Recon",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "detachment",
+    "behavior": "passive",
+    "detachment_id": "cohort-acquisitus"
+  },
+  {
+    "ability_id": "explorator-dispensation",
+    "name": "Explorator Dispensation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "cohort-acquisitus"
+  },
+  {
+    "ability_id": "stealth-screened-cybercanids-upgrade",
+    "name": "Stealth-screened Cybercanids Upgrade",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "cohort-acquisitus"
+  },
+  {
+    "ability_id": "defect-scrutiny",
+    "name": "Defect Scrutiny",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "cohort-acquisitus"
+  },
+  {
+    "ability_id": "repolarised-augurs",
+    "name": "Repolarised Augurs",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "cohort-acquisitus"
+  },
+  {
+    "ability_id": "clandestine-reposition",
+    "name": "Clandestine Reposition",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "cohort-acquisitus"
+  },
+  {
+    "ability_id": "war-form-mantles",
+    "name": "War-form Mantles",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "detachment",
+    "behavior": "passive",
+    "detachment_id": "lords-of-the-forge"
+  },
+  {
+    "ability_id": "vinghs-wafers-of-dynamism",
+    "name": "Vingh's Wafers of Dynamism",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "lords-of-the-forge"
+  },
+  {
+    "ability_id": "tl-4-9",
+    "name": "TL-4•9",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "lords-of-the-forge"
+  },
+  {
+    "ability_id": "scriptural-prognosis",
+    "name": "Scriptural Prognosis",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "lords-of-the-forge"
+  },
+  {
+    "ability_id": "overloaded-safeguards",
+    "name": "Overloaded Safeguards",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "lords-of-the-forge"
+  },
+  {
+    "ability_id": "holy-avarice",
+    "name": "Holy Avarice",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "lords-of-the-forge"
+  },
+  {
+    "ability_id": "cyber-static-canticles",
+    "name": "Cyber-static Canticles",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "detachment",
+    "behavior": "passive",
+    "detachment_id": "luminen-auto-choir"
+  },
+  {
+    "ability_id": "voltagheist-reliquary",
+    "name": "Voltagheist Reliquary",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "luminen-auto-choir"
+  },
+  {
+    "ability_id": "electromiasmic-brazier",
+    "name": "Electromiasmic Brazier",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "luminen-auto-choir"
+  },
+  {
+    "ability_id": "echoes-of-the-conduit-wars",
+    "name": "Echoes of the Conduit Wars",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "luminen-auto-choir"
+  },
+  {
+    "ability_id": "chant-of-electrotraction",
+    "name": "Chant of Electrotraction",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "luminen-auto-choir"
+  },
+  {
+    "ability_id": "momentum-feedback",
+    "name": "Momentum Feedback",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "luminen-auto-choir"
+  },
+  {
+    "ability_id": "murderous-imperative",
+    "name": "Murderous Imperative",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "detachment",
+    "behavior": "passive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "omnicogitator",
+    "name": "Omnicogitator",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "martial-signatum-amplificator",
+    "name": "Martial Signatum Amplificator",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "belicosa-class-capacitor-vanes",
+    "name": "Belicosa-class Capacitor Vanes",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "omnissiahs-fury",
+    "name": "Omnissiah's Fury",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "servo-driven-charge",
+    "name": "Servo-driven Charge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "threat-cogitation-targeters",
+    "name": "Threat-cogitation Targeters",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "unrelenting-aggression",
+    "name": "Unrelenting Aggression",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "precision-onslaught",
+    "name": "Precision Onslaught",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "unshackled-wrath",
+    "name": "Unshackled Wrath",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "analytic-reprisals",
+    "name": "Analytic Reprisals",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "eradication-cohort"
+  },
+  {
+    "ability_id": "noospheric-transference",
+    "name": "Noospheric Transference",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "detachment",
+    "behavior": "activated",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "transoracular-dyad-wafers",
+    "name": "Transoracular Dyad Wafers",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "cognitive-reinforcement",
+    "name": "Cognitive Reinforcement",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "sanctified-ordnance",
+    "name": "Sanctified Ordnance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "inloaded-lethality",
+    "name": "Inloaded Lethality",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "eradication-protocols",
+    "name": "Eradication Protocols",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "targeting-override",
+    "name": "Targeting Override",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "neural-overload",
+    "name": "Neural Overload",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "aggressive-impulse",
+    "name": "Aggressive Impulse",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "guided-retreat",
+    "name": "Guided Retreat",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "analytical-divination",
+    "name": "Analytical Divination",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "detachment_id": "haloscreed-battle-clade"
+  },
+  {
+    "ability_id": "rod-of-the-war-forge",
+    "name": "Rod of the War Forge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "thulia-ghuld"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "cybernetic-augmentation",
+    "name": "Cybernetic Augmentation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "thulia-ghuld"
+    ],
+    "ability_type": "unit",
+    "behavior": "passive"
+  },
+  {
+    "ability_id": "secutor-of-olympus",
+    "name": "Secutor of Olympus",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "thulia-ghuld"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "fanatical-devotion",
+    "name": "Fanatical Devotion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "thulia-ghuld"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "adaptive-tactics",
+    "name": "Adaptive Tactics",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "thulia-ghuld"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "the-fires-of-mars",
+    "name": "The Fires of Mars",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "thulia-ghuld"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "broad-spectrum-targeting-augurs",
+    "name": "Broad-spectrum Targeting Augurs",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "hastarii-exterminators"
+    ],
+    "ability_type": "unit",
+    "behavior": "passive"
+  },
+  {
+    "ability_id": "monocular-targeting-helms",
+    "name": "Monocular Targeting Helms",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "hastarii-fusiliers"
+    ],
+    "ability_type": "unit",
+    "behavior": "passive"
+  },
+  {
+    "ability_id": "invocation-of-machine-vengeance",
+    "name": "Invocation of Machine Vengeance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "belisarius-cawl"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "mantra-of-discipline",
+    "name": "Mantra of Discipline",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "belisarius-cawl"
+    ],
+    "ability_type": "unit",
+    "behavior": "aura"
+  },
+  {
+    "ability_id": "shroudpsalm-aura",
+    "name": "Shroudpsalm (Aura)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "belisarius-cawl"
+    ],
+    "ability_type": "unit",
+    "behavior": "aura"
+  },
+  {
+    "ability_id": "cyber-psalm-programming",
+    "name": "Cyber-psalm Programming",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "detachment",
+    "behavior": "passive",
+    "detachment_id": "cohort-cybernetica"
+  },
+  {
+    "ability_id": "veiled-hunter",
+    "name": "Veiled Hunter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "detachment_id": "skitarii-hunter-cohort"
   }
 ]

@@ -46,14 +46,25 @@
     },
     {
       "faction": "adeptus-mechanicus",
-      "total": 71,
+      "total": 124,
       "offensive": 13,
       "defensive": 10,
-      "inert": 51,
+      "inert": 104,
       "stub": 1,
-      "stubStructural": 1,
+      "stubStructural": 54,
       "gwTextLeak": 0,
       "defensiveSkipped": 2
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "total": 19,
+      "offensive": 0,
+      "defensive": 0,
+      "inert": 19,
+      "stub": 0,
+      "stubStructural": 19,
+      "gwTextLeak": 0,
+      "defensiveSkipped": 0
     },
     {
       "faction": "aeldari",
@@ -68,23 +79,23 @@
     },
     {
       "faction": "agents-of-the-imperium",
-      "total": 92,
+      "total": 130,
       "offensive": 23,
       "defensive": 8,
-      "inert": 63,
+      "inert": 101,
       "stub": 2,
-      "stubStructural": 2,
+      "stubStructural": 40,
       "gwTextLeak": 0,
       "defensiveSkipped": 2
     },
     {
       "faction": "astra-militarum",
-      "total": 151,
+      "total": 245,
       "offensive": 36,
       "defensive": 14,
-      "inert": 104,
+      "inert": 198,
       "stub": 3,
-      "stubStructural": 0,
+      "stubStructural": 94,
       "gwTextLeak": 0,
       "defensiveSkipped": 5
     },
@@ -266,12 +277,12 @@
     }
   ],
   "totals": {
-    "total": 2827,
+    "total": 3031,
     "offensive": 683,
     "defensive": 249,
-    "inert": 1979,
+    "inert": 2183,
     "stub": 152,
-    "stubStructural": 186,
+    "stubStructural": 390,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
@@ -282,7 +293,7 @@
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 179
+      "count": 383
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -7055,6 +7066,726 @@
       "gap": null
     },
     {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "noospheric-recon",
+      "name": "Noospheric Recon",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "explorator-dispensation",
+      "name": "Explorator Dispensation",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "stealth-screened-cybercanids-upgrade",
+      "name": "Stealth-screened Cybercanids Upgrade",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "defect-scrutiny",
+      "name": "Defect Scrutiny",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "repolarised-augurs",
+      "name": "Repolarised Augurs",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "clandestine-reposition",
+      "name": "Clandestine Reposition",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "war-form-mantles",
+      "name": "War-form Mantles",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "vinghs-wafers-of-dynamism",
+      "name": "Vingh's Wafers of Dynamism",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "tl-4-9",
+      "name": "TL-4•9",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "scriptural-prognosis",
+      "name": "Scriptural Prognosis",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "overloaded-safeguards",
+      "name": "Overloaded Safeguards",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "holy-avarice",
+      "name": "Holy Avarice",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "cyber-static-canticles",
+      "name": "Cyber-static Canticles",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "voltagheist-reliquary",
+      "name": "Voltagheist Reliquary",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "electromiasmic-brazier",
+      "name": "Electromiasmic Brazier",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "echoes-of-the-conduit-wars",
+      "name": "Echoes of the Conduit Wars",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "chant-of-electrotraction",
+      "name": "Chant of Electrotraction",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "momentum-feedback",
+      "name": "Momentum Feedback",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "murderous-imperative",
+      "name": "Murderous Imperative",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "omnicogitator",
+      "name": "Omnicogitator",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "martial-signatum-amplificator",
+      "name": "Martial Signatum Amplificator",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "belicosa-class-capacitor-vanes",
+      "name": "Belicosa-class Capacitor Vanes",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "omnissiahs-fury",
+      "name": "Omnissiah's Fury",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "servo-driven-charge",
+      "name": "Servo-driven Charge",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "threat-cogitation-targeters",
+      "name": "Threat-cogitation Targeters",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "unrelenting-aggression",
+      "name": "Unrelenting Aggression",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "precision-onslaught",
+      "name": "Precision Onslaught",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "unshackled-wrath",
+      "name": "Unshackled Wrath",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "analytic-reprisals",
+      "name": "Analytic Reprisals",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "noospheric-transference",
+      "name": "Noospheric Transference",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "transoracular-dyad-wafers",
+      "name": "Transoracular Dyad Wafers",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "cognitive-reinforcement",
+      "name": "Cognitive Reinforcement",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "sanctified-ordnance",
+      "name": "Sanctified Ordnance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "inloaded-lethality",
+      "name": "Inloaded Lethality",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "eradication-protocols",
+      "name": "Eradication Protocols",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "targeting-override",
+      "name": "Targeting Override",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "neural-overload",
+      "name": "Neural Overload",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "aggressive-impulse",
+      "name": "Aggressive Impulse",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "guided-retreat",
+      "name": "Guided Retreat",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "analytical-divination",
+      "name": "Analytical Divination",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "rod-of-the-war-forge",
+      "name": "Rod of the War Forge",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "cybernetic-augmentation",
+      "name": "Cybernetic Augmentation",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "secutor-of-olympus",
+      "name": "Secutor of Olympus",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "fanatical-devotion",
+      "name": "Fanatical Devotion",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "adaptive-tactics",
+      "name": "Adaptive Tactics",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "the-fires-of-mars",
+      "name": "The Fires of Mars",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "broad-spectrum-targeting-augurs",
+      "name": "Broad-spectrum Targeting Augurs",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "monocular-targeting-helms",
+      "name": "Monocular Targeting Helms",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "invocation-of-machine-vengeance",
+      "name": "Invocation of Machine Vengeance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "mantra-of-discipline",
+      "name": "Mantra of Discipline",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "shroudpsalm-aura",
+      "name": "Shroudpsalm (Aura)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "cyber-psalm-programming",
+      "name": "Cyber-psalm Programming",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-mechanicus",
+      "ability_id": "veiled-hunter",
+      "name": "Veiled Hunter",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "towering-example",
+      "name": "Towering Example",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "titanic-support",
+      "name": "Titanic Support",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "titanicus-traitoris",
+      "name": "Titanicus Traitoris",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "super-heavy-walker",
+      "name": "Super-heavy Walker",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "deadly-demise-2d6",
+      "name": "Deadly Demise 2D6",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "deadly-demise-d6-6",
+      "name": "Deadly Demise D6+6",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "deadly-demise-2d6-6",
+      "name": "Deadly Demise 2D6+6",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "striding-colossus-warhound",
+      "name": "Striding Colossus (Warhound)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "flank-speed",
+      "name": "Flank Speed",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "damaged-warhound-titan",
+      "name": "Damaged (Warhound Titan)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "striding-colossus-reaver",
+      "name": "Striding Colossus (Reaver)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "god-machine",
+      "name": "God-machine",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "damaged-reaver-titan",
+      "name": "Damaged (Reaver Titan)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "striding-colossus-warbringer",
+      "name": "Striding Colossus (Warbringer)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "titanic-fire-support",
+      "name": "Titanic Fire Support",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "damaged-warbringer-nemesis-titan",
+      "name": "Damaged (Warbringer Nemesis Titan)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "striding-colossus-warlord",
+      "name": "Striding Colossus (Warlord)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "wrath-of-the-omnissiah",
+      "name": "Wrath of the Omnissiah",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adeptus-titanicus",
+      "ability_id": "damaged-warlord-titan",
+      "name": "Damaged (Warlord Titan)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
       "faction": "aeldari",
       "ability_id": "deadly-demise-2d6",
       "name": "Deadly Demise 2D6",
@@ -9655,6 +10386,386 @@
       "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "extremis-sanction",
+      "name": "Extremis Sanction",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "decoy-targets",
+      "name": "Decoy Targets",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "esoteric-explosives",
+      "name": "Esoteric Explosives",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "intraneural-biotech",
+      "name": "Intraneural Biotech",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "micromelta-rounds",
+      "name": "Micromelta Rounds",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "prime-target",
+      "name": "Prime Target",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "hyperstimms",
+      "name": "Hyperstimms",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "willsapping-salvo",
+      "name": "Willsapping Salvo",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "orbital-oversight",
+      "name": "Orbital Oversight",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "blind-grenades",
+      "name": "Blind Grenades",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "ensnaring-trap",
+      "name": "Ensnaring Trap",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "on-my-signal-fire",
+      "name": "On My Signal, Fire!",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "tox-cycler",
+      "name": "Tox-cycler",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "ward-against-the-malefic-arts",
+      "name": "Ward Against the Malefic Arts",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "vox-cast-proclamations-aura",
+      "name": "Vox-cast Proclamations (Aura)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "vox-skull",
+      "name": "Vox-skull",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "throne-of-judgement-aura",
+      "name": "Throne of Judgement (Aura)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "unsubtle-crusader",
+      "name": "Unsubtle Crusader",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "malus-codicium",
+      "name": "Malus Codicium",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "dominate-will-psychic",
+      "name": "Dominate Will (Psychic)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "catechism-of-death",
+      "name": "Catechism of Death",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "unflinching",
+      "name": "Unflinching",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "jump-pack",
+      "name": "Jump Pack",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "psychic-hood",
+      "name": "Psychic Hood",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "terminatus-assault",
+      "name": "Terminatus Assault",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "teleport-homer",
+      "name": "Teleport Homer",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "storm-shield",
+      "name": "Storm Shield",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "turbo-boost",
+      "name": "Turbo-boost",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "proteus-doctrines",
+      "name": "Proteus Doctrines",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "fortis-doctrines",
+      "name": "Fortis Doctrines",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "indomitor-doctrines",
+      "name": "Indomitor Doctrines",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "spectrus-doctrines",
+      "name": "Spectrus Doctrines",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "helix-gauntlet",
+      "name": "Helix Gauntlet",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "infiltrator-comms-array",
+      "name": "Infiltrator Comms Array",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "malefic-warding",
+      "name": "Malefic Warding",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "bound-daemon",
+      "name": "Bound Daemon",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "inconceivable-augmentation",
+      "name": "Inconceivable Augmentation",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "agents-of-the-imperium",
+      "ability_id": "a-weaponsmith-not-a-warlord",
+      "name": "A Weaponsmith, Not a Warlord",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
       "faction": "astra-militarum",
       "ability_id": "deadly-demise-1",
       "name": "Deadly Demise 1",
@@ -11163,6 +12274,946 @@
       "offensive": false,
       "defensive": false,
       "gap": null
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "absolutist-principles",
+      "name": "Absolutist Principles",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "sharp-eyes-light-fingers",
+      "name": "Sharp Eyes, Light Fingers",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "exemplar-of-duty",
+      "name": "Exemplar of Duty",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "thick-skulled-obdurance",
+      "name": "Thick-skulled Obdurance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "low-profile",
+      "name": "Low Profile",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "stirred-to-action",
+      "name": "Stirred to Action",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "fire-zone-purge",
+      "name": "Fire Zone Purge",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "bombast-class-vox-array",
+      "name": "Bombast-class Vox-array",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "priority-drop-beacon",
+      "name": "Priority Drop Beacon",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "on-my-position",
+      "name": "On My Position",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "firing-hot",
+      "name": "Firing Hot",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "servo-designators",
+      "name": "Servo-designators",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "designated-targets",
+      "name": "Designated Targets",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "long-range-scout",
+      "name": "Long-range Scout",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "recon-star",
+      "name": "Recon Star",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "close-range-detection",
+      "name": "Close-range Detection",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "triggered-alerts",
+      "name": "Triggered Alerts",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "sump-smog-screen",
+      "name": "Sump-smog Screen",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "ceaseless-cannonade",
+      "name": "Ceaseless Cannonade",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "battalion-commander",
+      "name": "Battalion Commander",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "engine-speaker",
+      "name": "Engine Speaker",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "assault-hatches",
+      "name": "Assault Hatches",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "engine-of-wrath",
+      "name": "Engine of Wrath",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "imposing-arrival",
+      "name": "Imposing Arrival",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "adamantine-behemoth",
+      "name": "Adamantine Behemoth",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "shattering-salvo",
+      "name": "Shattering Salvo",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "withering-firepower",
+      "name": "Withering Firepower",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "accuracy-under-pressure",
+      "name": "Accuracy Under Pressure",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "squadron-command",
+      "name": "Squadron Command",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "exemplary-officer",
+      "name": "Exemplary Officer",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "master-manoeuvrist",
+      "name": "Master Manoeuvrist",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "omnissian-unguents",
+      "name": "Omnissian Unguents",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "grand-strategist",
+      "name": "Grand Strategist",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "order-the-advance",
+      "name": "Order the Advance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "supporting-ordnance",
+      "name": "Supporting Ordnance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "mobile-firebase",
+      "name": "Mobile Firebase",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "burst-of-speed",
+      "name": "Burst of Speed",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "combined-fire",
+      "name": "Combined Fire",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "opening-salvo",
+      "name": "Opening Salvo",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "ruthless-discipline",
+      "name": "Ruthless Discipline",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "abhuman-detail",
+      "name": "Abhuman Detail",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "aquilan-eye",
+      "name": "Aquilan Eye",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "spec-ops-veteran",
+      "name": "Spec Ops Veteran",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "laud-hailer",
+      "name": "Laud Hailer",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "snap-to-it",
+      "name": "Snap to It",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "no-retreat",
+      "name": "No Retreat!",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "veteran-sharpshooters",
+      "name": "Veteran Sharpshooters",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "purging-fire",
+      "name": "Purging Fire",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "mordian-minute",
+      "name": "Mordian Minute",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "additional-armour",
+      "name": "Additional Armour",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "independent-operatives",
+      "name": "Independent Operatives",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "vox-relay-beacon",
+      "name": "Vox-relay Beacon",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "will-of-iron",
+      "name": "Will of Iron",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "hero-of-hades-hive",
+      "name": "Hero of Hades Hive",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "mechanised-spearhead",
+      "name": "Mechanised Spearhead",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "brutal-disciplinarian",
+      "name": "Brutal Disciplinarian",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "aquiline-prow",
+      "name": "Aquiline Prow",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "icon-of-discipline",
+      "name": "Icon of Discipline",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "brutal-disciplinarian-commissar-graves-on-foot",
+      "name": "Brutal Disciplinarian (Commissar Graves on Foot)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "convoy-escort-vehicle",
+      "name": "Convoy Escort Vehicle",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "rapid-strike-vehicle",
+      "name": "Rapid Strike Vehicle",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "heroic-example",
+      "name": "Heroic Example",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "lesks-heroes",
+      "name": "Lesk's Heroes",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "artillery-commander",
+      "name": "Artillery Commander",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "aeronautica-commander",
+      "name": "Aeronautica Commander",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "divination-psychic",
+      "name": "Divination (Psychic)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "harkers-hellraisers",
+      "name": "Harker's Hellraisers",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "payback-time",
+      "name": "Payback Time",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "cold-steel-and-courage",
+      "name": "Cold Steel and Courage",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "been-there-seen-it-killed-it",
+      "name": "Been There, Seen it, Killed it",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "mindlock-quartermaster-cadre",
+      "name": "Mindlock (Quartermaster Cadre)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "tracking-target",
+      "name": "Tracking Target",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "battlefield-control",
+      "name": "Battlefield Control",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "armoured-aggressor",
+      "name": "Armoured Aggressor",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "rugged-reliability",
+      "name": "Rugged Reliability",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "battlefield-dominance",
+      "name": "Battlefield Dominance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "armoured-defender",
+      "name": "Armoured Defender",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "explosive-death",
+      "name": "Explosive Death",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "bomb-drop",
+      "name": "Bomb Drop",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "siege-bombardment",
+      "name": "Siege Bombardment",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "targeting-coordinates",
+      "name": "Targeting Coordinates",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "powerful-volley",
+      "name": "Powerful Volley",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "close-range-devastation",
+      "name": "Close-range Devastation",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "sentry-programming",
+      "name": "Sentry Programming",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "support-vehicle",
+      "name": "Support Vehicle",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "power-overload",
+      "name": "Power Overload",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "agile-dogfighter",
+      "name": "Agile Dogfighter",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "gunship-barrage",
+      "name": "Gunship Barrage",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "ancient-conquest",
+      "name": "Ancient Conquest",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "a-hearty-pick-me-up",
+      "name": "A Hearty 'Pick Me Up'",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "well-stocked-supplies",
+      "name": "Well-stocked Supplies",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "subterranean-assault",
+      "name": "Subterranean Assault",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "heavy-bombs",
+      "name": "Heavy Bombs",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "astra-militarum",
+      "ability_id": "inferno-bombs",
+      "name": "Inferno Bombs",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
     },
     {
       "faction": "chaos-daemons",

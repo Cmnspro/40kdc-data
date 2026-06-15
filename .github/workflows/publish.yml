@@ -1,8 +1,9 @@
 name: Publish 40kdc core to R2
 
-# Publishes ONLY this repo's slice (core data + manifest-core.json) to the shared
-# bucket, scoped to the core/ prefix. The 40kdc-abilities repo publishes its own slice
-# + manifest-abilities.json independently. No cross-repo coupling, no PAT.
+# Publishes ONLY this repo's slice as a single merged bundle (bundle-core.json) to the
+# private 40kdc-reference bucket. The 40kdc-abilities repo publishes bundle-abilities.json
+# independently. The app fetches both via presigned URLs minted by the Fly signer.
+# No cross-repo coupling, no public access, no PAT.
 
 on:
   push:
@@ -28,22 +29,17 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Build dist + manifest-core.json
+      - name: Build bundle-core.json
         run: node scripts/build-publish.mjs
         env:
           VERSION: ${{ github.sha }}
 
-      - name: Sync core slice to R2
+      - name: Upload bundle to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
         run: |
-          ENDPOINT="https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com"
-          # Scoped --delete: only ever touches the core/ prefix (never abilities/).
-          aws s3 sync dist/core "s3://${{ secrets.R2_BUCKET }}/core" \
-            --endpoint-url "$ENDPOINT" --delete \
-            --content-type application/json --cache-control "no-cache"
-          aws s3 cp dist/manifest-core.json "s3://${{ secrets.R2_BUCKET }}/manifest-core.json" \
-            --endpoint-url "$ENDPOINT" \
-            --content-type application/json --cache-control "no-cache"
+          aws s3 cp dist/bundle-core.json "s3://${{ secrets.R2_BUCKET }}/bundle-core.json" \
+            --endpoint-url "https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com" \
+            --content-type application/json

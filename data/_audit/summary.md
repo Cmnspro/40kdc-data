@@ -10,10 +10,11 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | adepta-sororitas | 123 | 30 | 9 | 86 | 0 | 7 | 0 | 1 |
 | adeptus-astartes | 348 | 109 | 39 | 215 | 6 | 19 | 0 | 7 |
 | adeptus-custodes | 106 | 26 | 13 | 71 | 0 | 3 | 0 | 3 |
-| adeptus-mechanicus | 71 | 13 | 10 | 51 | 1 | 1 | 0 | 2 |
+| adeptus-mechanicus | 124 | 13 | 10 | 104 | 54 | 1 | 0 | 2 |
+| adeptus-titanicus | 19 | 0 | 0 | 19 | 19 | 0 | 0 | 0 |
 | aeldari | 168 | 33 | 13 | 127 | 23 | 13 | 0 | 5 |
-| agents-of-the-imperium | 92 | 23 | 8 | 63 | 2 | 2 | 0 | 2 |
-| astra-militarum | 151 | 36 | 14 | 104 | 0 | 3 | 0 | 5 |
+| agents-of-the-imperium | 130 | 23 | 8 | 101 | 40 | 2 | 0 | 2 |
+| astra-militarum | 245 | 36 | 14 | 198 | 94 | 3 | 0 | 5 |
 | chaos-daemons | 147 | 39 | 14 | 100 | 1 | 7 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 4 | 3 | 0 | 0 |
 | chaos-space-marines | 222 | 63 | 17 | 149 | 7 | 21 | 0 | 6 |
@@ -30,14 +31,14 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | thousand-sons | 113 | 30 | 9 | 79 | 10 | 17 | 0 | 2 |
 | tyranids | 102 | 19 | 7 | 79 | 13 | 5 | 0 | 6 |
 | world-eaters | 129 | 20 | 7 | 102 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2827** | **683** | **249** | **1979** | **186** | **152** | **0** | **59** |
+| **TOTAL** | **3031** | **683** | **249** | **2183** | **390** | **152** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
 - `440` — effect type "ability-grant" is not modelled by the buff layer
-- `179` — stat-modifier: operation "undefined" not supported
+- `383` — stat-modifier: operation "undefined" not supported
 - `161` — effect type "movement-modifier" is not modelled by the buff layer
 - `127` — effect type "mortal-wounds" is not modelled by the buff layer
 - `90` — effect type "attack-restriction" is not modelled by the buff layer

@@ -153,6 +153,19 @@ If the schema genuinely cannot express it:
    (effect.schema.json, e.g. `scaling`), or a documented modifier-narrowing key — and
    wire it into the engine: add the key to `CANONICAL_MODIFIER_KEYS` and teach
    `REPAIR_SYSTEM` in `tools/src/author-batch.ts` so future runs emit it.
+2b. **Teach the human-readable describer in ALL THREE ports — byte-identical.** A new
+   `condition`/`effect` type that the schema accepts but a describer doesn't recognize
+   falls through to a generic `dekebab(type)` fallback (e.g. `attack-stat-compare` →
+   "attack stat compare") in whichever port forgot it — a silent **cross-impl parity
+   bug** the conformance *suites* do NOT catch (only `tooling/parity/differ.py` does, via
+   the `effect-translation` / `scoring-translation` areas). For every new type you MUST
+   add a matching arm, producing **character-for-character identical** output, in all of:
+   - `tools/src/translate/condition.ts` and/or `tools/src/translate/effect.ts` (TS — the corpus reference)
+   - `crates/wh40kdc/src/translate/mod.rs` and/or `effect.rs` (Rust)
+   - `python/src/wh40kdc/translate/condition.py` and/or `effect.py` (Python)
+   Match parameter handling exactly too (e.g. Rust's `unwrap_or("")` for a missing field
+   renders as `""`, not TS `str()`'s `"?"`). The phrasing is pinned by the corpus, so this
+   is a `SPEC_VERSION`-bumping change (Step 7 handles the bump + regen).
 3. Implement it, re-author the affected abilities against it, and `validate`.
 4. **ALWAYS run the CONTRIBUTING.md downstream regen after any schema edit** — the
    generated TS/Rust/Python artifacts drift otherwise and CI fails. Run, from the repo
@@ -343,13 +356,24 @@ done
 **Verify the cross-impl tie-out** (the whole point of the corpus — don't skip):
 
 ```bash
-cd tools && npx vitest run test/conformance.test.ts && cd ..   # TS reference
-cargo test -p wh40kdc --test conformance                       # Rust must reproduce the goldens
+cd tools && npx vitest run test/conformance.test.ts && cd ..   # TS reference vs goldens
+cargo test -p wh40kdc --test conformance                       # Rust roster/normalize goldens
+python3 tooling/parity/differ.py --pair ts,rust                # REQUIRED — see note
+python3 tooling/parity/differ.py --pair ts,py
+python3 tooling/parity/differ.py --pair rust,py
 ```
 
-Both must be green. (A local Windows `cargo test --workspace` may show `LNK1318` doctest
-linker errors — those are a `link.exe`/PDB flake, not a data problem, and don't occur on
-CI's Linux runners; the `--test conformance` run above is the real gate.) After this step,
+All must report `OK` / exit 0. **The parity differ is not optional and not redundant with
+the conformance suites:** the suites only check each impl against the committed goldens for
+the areas they cover (roster, normalize, scoring), but the `effect-translation` /
+`scoring-translation` *describer* output — the most likely thing to diverge when a new
+condition/effect type is added (Step 2b) — is cross-checked **only** by the differ. A run
+that skips the differ can ship a golden the other two impls can't reproduce, which is the
+exact load-bearing rule in `CLAUDE.md`. The differ builds the Rust/Python runners on first
+use (`--release` for Rust), so it needs those toolchains and some disk; if a build fails for
+lack of space, `cargo clean` first. (A local Windows `cargo test --workspace` may also show
+`LNK1318` doctest linker errors — a `link.exe`/PDB flake, not a data problem, absent on CI's
+Linux runners; the targeted runs above are the real gates.) After this step,
 `git diff --ignore-cr-at-eol` should show only: the authored `data/enrichment/**`, `data/_audit/**`,
 the three regenerated bundles/corpus, and (if bumped) `SPEC_VERSION` + `_spec.py`. If a
 required toolchain (Rust, Python) is missing, regenerate what you can and list the rest as a

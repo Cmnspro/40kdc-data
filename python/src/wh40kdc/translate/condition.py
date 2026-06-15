@@ -119,6 +119,17 @@ def describe_condition(c: Condition) -> str:
         return f"{negate}has fought this phase"
     if ctype == "destroyed-by-attack-type":
         return f"{negate}destroyed by a {_str(p.get('attack_type'))} attack"
+    if ctype == "attack-stat-compare":
+        # Mirrors the Rust arm byte-for-byte: missing params render as "" (not "?").
+        def _sv(v: Any) -> str:
+            return "" if v is None else _str(v)
+
+        return (
+            f"{negate}the attack's {_sv(p.get('attacker_stat'))} is "
+            f"{dekebab(_sv(p.get('comparison')))} the target's {_sv(p.get('target_stat'))}"
+        )
+    if ctype == "made-ingress-move-this-turn":
+        return f"{negate}the unit made an ingress move this turn"
 
     # ── Scoring conditions (secondary-card award `when`) ─────────────────────
     if ctype == "objective-majority":

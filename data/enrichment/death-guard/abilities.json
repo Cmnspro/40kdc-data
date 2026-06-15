@@ -20,7 +20,10 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "lord-of-poxes"
+      "lord-of-poxes",
+      "death-guard-chaos-lord",
+      "death-guard-chaos-lord-in-terminator-armour",
+      "death-guard-sorcerer-in-terminator-armour"
     ],
     "ability_type": "core",
     "behavior": "passive"
@@ -406,7 +409,8 @@
       "duration": "one-use"
     },
     "unit_ids": [
-      "chaos-spawn"
+      "chaos-spawn",
+      "death-guard-cultists"
     ],
     "ability_type": "core",
     "behavior": "activated"
@@ -748,7 +752,9 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "lord-of-contagion"
+      "lord-of-contagion",
+      "death-guard-chaos-lord-in-terminator-armour",
+      "death-guard-sorcerer-in-terminator-armour"
     ],
     "ability_type": "core",
     "behavior": "activated"
@@ -2284,7 +2290,8 @@
       "duration": "one-use"
     },
     "unit_ids": [
-      "mortarion"
+      "mortarion",
+      "defiler"
     ],
     "ability_type": "core",
     "behavior": "reactive"
@@ -3089,7 +3096,8 @@
     "faction_id": "death-guard",
     "ability_type": "faction",
     "behavior": "passive",
-    "community_notes": "-1T always active (Contagion). Plague choice: hill-climbing selects -1 Save (most offensive), equivalent to +1 AP. Other plague options are -1 to enemy Hit (defensive) and -1 M/Ld/OC (utility)."
+    "community_notes": "-1T always active (Contagion). Plague choice: hill-climbing selects -1 Save (most offensive), equivalent to +1 AP. Other plague options are -1 to enemy Hit (defensive) and -1 M/Ld/OC (utility).",
+    "unit_ids": []
   },
   {
     "ability_id": "pact-of-decay",
@@ -3113,7 +3121,8 @@
     },
     "faction_id": "death-guard",
     "ability_type": "faction",
-    "behavior": "passive"
+    "behavior": "passive",
+    "unit_ids": []
   },
   {
     "ability_id": "warped-and-rusted-animus",
@@ -3669,8 +3678,8 @@
         "dice": "D6",
         "table": {
           "1": 1,
-          "2-5": "D3",
-          "6": 3
+          "6": 3,
+          "2-5": "D3"
         },
         "trigger": "fall-back-while-engaged"
       }
@@ -3784,5 +3793,150 @@
         "Character"
       ]
     }
+  },
+  {
+    "ability_id": "nurgles-gift-aura",
+    "name": "Nurgle's Gift (Aura)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [],
+    "ability_type": "faction",
+    "behavior": "aura",
+    "faction_id": "death-guard"
+  },
+  {
+    "ability_id": "damaged-1-6-wounds-remaining",
+    "name": "Damaged: 1-6 Wounds Remaining",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "defiler"
+    ],
+    "ability_type": "unit",
+    "behavior": "passive"
+  },
+  {
+    "ability_id": "chaos-lord",
+    "name": "Chaos Lord",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "death-guard-chaos-lord",
+      "death-guard-chaos-lord-in-terminator-armour"
+    ],
+    "ability_type": "unit",
+    "behavior": "aura"
+  },
+  {
+    "ability_id": "desiccation-conduit-aura",
+    "name": "Desiccation Conduit (Aura)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "death-guard-chaos-lord",
+      "death-guard-chaos-lord-in-terminator-armour"
+    ],
+    "ability_type": "unit",
+    "behavior": "aura"
+  },
+  {
+    "ability_id": "putrescent-vitality-psychic",
+    "name": "Putrescent Vitality (Psychic)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "death-guard-sorcerer-in-terminator-armour"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
+  },
+  {
+    "ability_id": "pestilent-familiar-psychic",
+    "name": "Pestilent Familiar (Psychic)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "unit_ids": [
+      "death-guard-sorcerer-in-terminator-armour"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated"
   }
 ]
