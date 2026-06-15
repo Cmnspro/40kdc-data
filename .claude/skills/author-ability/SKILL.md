@@ -1,6 +1,6 @@
 ---
 name: Author Ability
-description: One-shot ingest of 40K abilities from a PDF or JSON into 40kdc-data's non-agentic DSL pipeline, capturing raw text into a sibling store keyed by ability_id. Runs end-to-end autonomously (extract → ingest → propose → repair-until-converged → apply → validate) without pausing, and bundles any questions into a single final report. Use for "author/import abilities from this PDF/JSON", "structure these abilities", "fill ability stubs", "build the raw-text lookup". Never hand-writes DSL — the gated classify→assemble→validate→verify pipeline does.
+description: One-shot ingest of 40K abilities from a PDF or JSON into 40kdc-data's non-agentic DSL pipeline, capturing raw text into a sibling store keyed by ability_id. Runs end-to-end autonomously (extract → ingest → propose → repair-until-converged → apply → validate → regenerate data-derived artifacts so the branch is push-ready/CI-green) without pausing, and bundles any questions into a single final report. Use for "author/import abilities from this PDF/JSON", "structure these abilities", "fill ability stubs", "build the raw-text lookup". Never hand-writes DSL — the gated classify→assemble→validate→verify pipeline does.
 ---
 
 # Skill: Author Ability
@@ -30,15 +30,21 @@ stopping for approval. Author as much as the gate will admit.
 The user may be editing this repo at the same time the pipeline runs (the `propose`/
 `repair` passes are long). Treat the working tree as shared and not yours to clean up.
 
-- **This pipeline writes ONLY to three places:** `data/enrichment/<faction>/abilities.json`,
-  `data/_audit/**`, and the out-of-repo `40kdc-abilities` raw-text store. If `git status`
-  shows ANY other file changed (core data, schemas, generated TS/Rust/Python, `CONTRIBUTING.md`,
-  this SKILL.md, CI workflows, untracked files …), assume it is the **user's concurrent work**,
-  not pipeline output — even if it looks unrelated, spurious, or mid-feature.
+- **This pipeline writes to three authoring places** — `data/enrichment/<faction>/abilities.json`,
+  `data/_audit/**`, and the out-of-repo `40kdc-abilities` raw-text store — **plus, in the
+  push-ready step (Step 7), a fixed set of regenerated artifacts:** `conformance/**`,
+  `crates/wh40kdc/src/data/bundle.generated.json`, `python/src/wh40kdc/_bundle.json`, and
+  (only on a real corpus change) `python/src/wh40kdc/_spec.py`. A schema change this run also
+  regenerates the schema-derived artifacts listed in its own section. If `git status` shows
+  any file changed **outside** that combined generated set (other core data, unrelated schemas,
+  `CONTRIBUTING.md`, this SKILL.md, CI workflows, untracked files …), assume it is the
+  **user's concurrent work**, not pipeline output — even if it looks unrelated or mid-feature.
 - **NEVER `git checkout`/`restore`/`reset`/`clean`, delete, or overwrite a file you did not
-  create as part of this run — not without explicit user confirmation first.** Do not "tidy
-  up" the change-set. A revert of unstaged work is often unrecoverable. When something looks
-  out of scope, **surface it in the final report and ask** — do not act on it.
+  create as part of this run — not without explicit user confirmation first.** The ONE
+  sanctioned exception is Step 7 restoring its OWN line-ending-only churn (see Step 7) on the
+  generated paths it just wrote — that and nothing else. Do not "tidy up" the rest of the
+  change-set. A revert of unstaged work is often unrecoverable. When something looks out of
+  scope, **surface it in the final report and ask** — do not act on it.
 - If you must report the change-set, scope your `git` reads to the three paths above; describe
   everything else as "your other changes, untouched."
 
@@ -157,7 +163,7 @@ If the schema genuinely cannot express it:
    python3 python/codegen/sync_bundle.py && python3 python/codegen/sync_spec.py && python3 python/codegen/gen_typeddicts.py
    cd tools && npm test && npm run validate          # then cross-impl: python3 tooling/parity/differ.py --pair ts,py (and rust,py)
    ```
-   `gen_typeddicts.py` needs the Python dev deps (`cd python && uv pip install -e ".[dev]"`); the parity differ needs built runners. If a step's toolchain is absent, report it as a required follow-up rather than skipping silently. Bump `conformance/SPEC_VERSION` only if you changed a conformance golden (a pure additive schema change does not).
+   `gen_typeddicts.py` needs the Python dev deps (`cd python && uv pip install -e ".[dev]"`); the parity differ needs built runners. If a step's toolchain is absent, report it as a required follow-up rather than skipping silently. This regen covers the *schema-derived* artifacts; the *data-derived* artifacts (conformance corpus + embedded bundles) are handled by **Step 7**, which runs every authoring run regardless of whether a schema changed. A pure additive schema change does not by itself touch a conformance golden — but authoring abilities usually does (Step 7 decides the `SPEC_VERSION` bump).
 5. **Surface every schema change in the final report for explicit approval** — the
    project requires a Schema Change issue before merge.
 
@@ -283,6 +289,72 @@ the final report.
 `npm run validate` (must pass) and `npm run audit:coverage`. A `gw-leak` > 0 is a real
 problem — locate and strip the prose before finishing.
 
+### 7. Make it push-ready — regenerate the data-derived artifacts
+
+Authoring abilities is a **data change**, and three CI jobs (`conformance`, `rust`, `python`
+in `.github/workflows/validate.yml`) gate on `git diff --exit-code` against artifacts derived
+from `data/**`. They drift the moment new abilities land, so a run is NOT push-ready until
+they are regenerated — even with no schema change. The committed, data-derived artifacts are:
+
+- `conformance/effect-translation/cases.json` (+ any other corpus golden) — the
+  effect-translation cases are **generated from the ability data**, so new abilities = new cases.
+- `crates/wh40kdc/src/data/bundle.generated.json` — the Rust embedded dataset.
+- `python/src/wh40kdc/_bundle.json` — the Python embedded dataset.
+
+(The TS embedded bundle, `tools/src/data/bundle.generated.ts`, is gitignored / rebuilt on
+demand — nothing to commit there.)
+
+Run, from the repo root (order matters — Python's `sync_bundle.py` reads the Rust bundle):
+
+```bash
+cd tools && npm run build && npm run gen:conformance && cd ..   # corpus from current data
+cargo run -p xtask -- bundle-data                               # Rust embedded dataset
+python3 python/codegen/sync_bundle.py                           # Python embedded dataset (reads the Rust bundle)
+```
+
+Then decide the **`SPEC_VERSION`** bump. Per `CONFORMANCE.md`, any semantic corpus change
+(a new/changed case) bumps `conformance/SPEC_VERSION`; regenerating the effect-translation
+golden from new abilities is exactly that. So:
+
+```bash
+# Real change in the corpus (ignoring Windows CRLF churn) other than SPEC_VERSION itself?
+git diff --ignore-cr-at-eol --name-only conformance | grep -v '^conformance/SPEC_VERSION$'
+```
+
+If that prints anything, bump it (single integer, +1) and mirror it into Python:
+
+```bash
+echo $(( $(cat conformance/SPEC_VERSION) + 1 )) > conformance/SPEC_VERSION
+python3 python/codegen/sync_spec.py        # rewrites python/src/wh40kdc/_spec.py to match
+```
+
+**Windows CRLF caveat (cross-platform safe).** With `core.autocrlf=true` and no `.gitattributes`,
+the generators rewrite many corpus files with LF, so `git status` flags ~70 roster/scoring
+files as modified with **no real content change**. Restore that churn — keep ONLY files with a
+genuine diff. This is the sanctioned Step-7 exception to the "never revert" rule (it touches
+only paths this step just generated); on Linux it's a harmless no-op:
+
+```bash
+for f in $(git diff --name-only conformance crates/wh40kdc/src/data/bundle.generated.json python/src/wh40kdc/_bundle.json); do
+  git diff --ignore-cr-at-eol --quiet -- "$f" && git checkout -- "$f"   # restore line-ending-only churn
+done
+```
+
+**Verify the cross-impl tie-out** (the whole point of the corpus — don't skip):
+
+```bash
+cd tools && npx vitest run test/conformance.test.ts && cd ..   # TS reference
+cargo test -p wh40kdc --test conformance                       # Rust must reproduce the goldens
+```
+
+Both must be green. (A local Windows `cargo test --workspace` may show `LNK1318` doctest
+linker errors — those are a `link.exe`/PDB flake, not a data problem, and don't occur on
+CI's Linux runners; the `--test conformance` run above is the real gate.) After this step,
+`git diff --ignore-cr-at-eol` should show only: the authored `data/enrichment/**`, `data/_audit/**`,
+the three regenerated bundles/corpus, and (if bumped) `SPEC_VERSION` + `_spec.py`. If a
+required toolchain (Rust, Python) is missing, regenerate what you can and list the rest as a
+**blocking** follow-up in the final report — the branch is not push-ready until all three run.
+
 ## Model selection (cost)
 
 Two layers; use the cheapest that's safe for each.
@@ -310,8 +382,13 @@ End with one consolidated summary:
 - **Review items:** "merged into authored" unit-link additions; any same-name collisions.
 - **Assumptions** you made (faction/edition inference, best-effort `unit_id` slugs, …).
 - **Questions** for the user — bundled here, nowhere else.
-- **Recommended next actions:** commit the `data/enrichment/<faction>` changes and the
-  `40kdc-abilities` store repo; hand-author / Opus-retry the listed residue.
+- **Push-ready state (Step 7):** confirm the data-derived artifacts were regenerated and the
+  TS + Rust conformance suites are green; state the `SPEC_VERSION` (and whether it was bumped);
+  flag any regen step whose toolchain was missing as a **blocking** follow-up.
+- **Recommended next actions:** commit in two repos — the `data/enrichment/<faction>` changes
+  **together with** the Step-7 regen outputs (`conformance/**`, the Rust/Python bundles,
+  `SPEC_VERSION`/`_spec.py`) as one push-ready commit, and the `40kdc-abilities` store repo
+  separately; hand-author / Opus-retry the listed residue.
 
 ## The raw-text lookup store
 
