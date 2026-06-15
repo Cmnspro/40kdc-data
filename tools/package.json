@@ -59,6 +59,8 @@
     "docs:api": "typedoc",
     "docs:api:html": "typedoc --options typedoc.html.json",
     "link:abilities": "tsx src/link-abilities.ts",
+    "import:catalog": "tsx src/import-catalog.ts",
+    "audit:missing-units": "tsx src/audit-missing-units.ts",
     "validate": "tsx src/cli.ts validate-all",
     "validate:core": "tsx src/cli.ts validate-core",
     "validate:enrichment": "tsx src/cli.ts validate-enrichment",
@@ -86,6 +88,7 @@
     "ajv-formats": "^3.0.0",
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
+    "fast-xml-parser": "^4.5.6",
     "fflate": "^0.8.2",
     "glob": "^11.0.0"
   },

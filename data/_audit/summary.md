@@ -18,27 +18,27 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | chaos-daemons | 147 | 39 | 14 | 100 | 1 | 7 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 4 | 3 | 0 | 0 |
 | chaos-space-marines | 222 | 63 | 17 | 149 | 7 | 21 | 0 | 6 |
-| death-guard | 107 | 25 | 7 | 78 | 4 | 8 | 0 | 3 |
+| death-guard | 113 | 25 | 7 | 84 | 10 | 8 | 0 | 3 |
 | drukhari | 94 | 21 | 6 | 69 | 20 | 7 | 0 | 1 |
 | emperors-children | 79 | 21 | 3 | 56 | 3 | 8 | 0 | 1 |
 | genestealer-cults | 81 | 13 | 6 | 64 | 20 | 2 | 0 | 1 |
 | grey-knights | 52 | 14 | 5 | 34 | 1 | 3 | 0 | 1 |
-| imperial-knights | 44 | 21 | 3 | 22 | 1 | 5 | 0 | 1 |
+| imperial-knights | 81 | 21 | 3 | 59 | 38 | 5 | 0 | 1 |
 | leagues-of-votann | 69 | 13 | 7 | 51 | 15 | 0 | 0 | 1 |
 | necrons | 148 | 24 | 23 | 109 | 21 | 6 | 0 | 1 |
 | orks | 143 | 29 | 12 | 106 | 25 | 6 | 0 | 3 |
 | tau-empire | 122 | 32 | 7 | 86 | 9 | 6 | 0 | 3 |
-| thousand-sons | 113 | 30 | 9 | 79 | 10 | 17 | 0 | 2 |
+| thousand-sons | 125 | 30 | 9 | 91 | 22 | 17 | 0 | 2 |
 | tyranids | 102 | 19 | 7 | 79 | 13 | 5 | 0 | 6 |
 | world-eaters | 129 | 20 | 7 | 102 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **3031** | **683** | **249** | **2183** | **390** | **152** | **0** | **59** |
+| **TOTAL** | **3086** | **683** | **249** | **2238** | **445** | **152** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
 - `440` — effect type "ability-grant" is not modelled by the buff layer
-- `383` — stat-modifier: operation "undefined" not supported
+- `438` — stat-modifier: operation "undefined" not supported
 - `161` — effect type "movement-modifier" is not modelled by the buff layer
 - `127` — effect type "mortal-wounds" is not modelled by the buff layer
 - `90` — effect type "attack-restriction" is not modelled by the buff layer

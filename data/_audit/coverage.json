@@ -134,12 +134,12 @@
     },
     {
       "faction": "death-guard",
-      "total": 107,
+      "total": 113,
       "offensive": 25,
       "defensive": 7,
-      "inert": 78,
+      "inert": 84,
       "stub": 8,
-      "stubStructural": 4,
+      "stubStructural": 10,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
@@ -189,12 +189,12 @@
     },
     {
       "faction": "imperial-knights",
-      "total": 44,
+      "total": 81,
       "offensive": 21,
       "defensive": 3,
-      "inert": 22,
+      "inert": 59,
       "stub": 5,
-      "stubStructural": 1,
+      "stubStructural": 38,
       "gwTextLeak": 0,
       "defensiveSkipped": 1
     },
@@ -244,12 +244,12 @@
     },
     {
       "faction": "thousand-sons",
-      "total": 113,
+      "total": 125,
       "offensive": 30,
       "defensive": 9,
-      "inert": 79,
+      "inert": 91,
       "stub": 17,
-      "stubStructural": 10,
+      "stubStructural": 22,
       "gwTextLeak": 0,
       "defensiveSkipped": 2
     },
@@ -277,12 +277,12 @@
     }
   ],
   "totals": {
-    "total": 3031,
+    "total": 3086,
     "offensive": 683,
     "defensive": 249,
-    "inert": 2183,
+    "inert": 2238,
     "stub": 152,
-    "stubStructural": 390,
+    "stubStructural": 445,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
@@ -293,7 +293,7 @@
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 383
+      "count": 438
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -585,6 +585,16 @@
     }
   ],
   "worklist": [
+    {
+      "faction": "_core",
+      "ability_id": "benefit-of-cover",
+      "name": "Benefit of Cover",
+      "shape": "bs-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
     {
       "faction": "adepta-sororitas",
       "ability_id": "sworn-protectors",
@@ -19126,6 +19136,66 @@
       "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
+      "faction": "death-guard",
+      "ability_id": "nurgles-gift-aura",
+      "name": "Nurgle's Gift (Aura)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "death-guard",
+      "ability_id": "damaged-1-6-wounds-remaining",
+      "name": "Damaged: 1-6 Wounds Remaining",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "death-guard",
+      "ability_id": "chaos-lord",
+      "name": "Chaos Lord",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "death-guard",
+      "ability_id": "desiccation-conduit-aura",
+      "name": "Desiccation Conduit (Aura)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "death-guard",
+      "ability_id": "putrescent-vitality-psychic",
+      "name": "Putrescent Vitality (Psychic)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "death-guard",
+      "ability_id": "pestilent-familiar-psychic",
+      "name": "Pestilent Familiar (Psychic)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
       "faction": "drukhari",
       "ability_id": "matchless-swiftness",
       "name": "Matchless Swiftness",
@@ -22624,6 +22694,376 @@
       "offensive": false,
       "defensive": false,
       "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "rain-of-devastation",
+      "name": "Rain of Devastation",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "blessed-plate",
+      "name": "Blessed Plate",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "archeotech-autoloaders",
+      "name": "Archeotech Autoloaders",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "ground-shaking-strides",
+      "name": "Ground-Shaking Strides",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "foebreaker-firestorm",
+      "name": "Foebreaker Firestorm",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "fire-shocked",
+      "name": "Fire Shocked",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "cogbound-alliance",
+      "name": "Cogbound Alliance",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "magos-questoris",
+      "name": "Magos Questoris",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "knight-of-the-opus-machina-aura",
+      "name": "Knight of the Opus Machina (Aura)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "omnissiahs-grace",
+      "name": "Omnissiah's Grace",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "vengeance-of-the-machine-cult",
+      "name": "Vengeance of the Machine Cult",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "in-the-shadow-of-giants",
+      "name": "In the Shadow of Giants",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "driven-from-their-lairs",
+      "name": "Driven from Their Lairs",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "gyro-optimised-actuators-upgrade",
+      "name": "Gyro-Optimised Actuators Upgrade",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "ancestral-overbleed-upgrade",
+      "name": "Ancestral Overbleed Upgrade",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "neural-lash",
+      "name": "Neural Lash",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "helm-conditioning",
+      "name": "Helm Conditioning",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "honoured-to-serve",
+      "name": "Honoured to Serve",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "knights-of-legend",
+      "name": "Knights of Legend",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "mysterious-guardian",
+      "name": "Mysterious Guardian",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "sanctuary",
+      "name": "Sanctuary",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "bringer-of-justice",
+      "name": "Bringer of Justice",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "hunters-eye",
+      "name": "Hunter's Eye",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "noble-sacrifice",
+      "name": "Noble Sacrifice",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "pointblank-barrage",
+      "name": "Pointblank Barrage",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "strength-from-exile",
+      "name": "Strength from Exile",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "full-tilt",
+      "name": "Full Tilt",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "survivor-of-strife",
+      "name": "Survivor of Strife",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "flanking-manoeuvres",
+      "name": "Flanking Manoeuvres",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "ram-jets",
+      "name": "Ram Jets",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "thundercharge",
+      "name": "Thundercharge",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "saturation-fire",
+      "name": "Saturation Fire",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "lancers-duty-bondsman",
+      "name": "Lancer's Duty (Bondsman)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "castigators-duty-bondsman",
+      "name": "Castigator's Duty (Bondsman)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "acherons-duty-bondsman",
+      "name": "Acheron's Duty (Bondsman)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "magaeras-duty-bondsman",
+      "name": "Magaera's Duty (Bondsman)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "imperial-knights",
+      "ability_id": "styrixs-duty-bondsman",
+      "name": "Styrix's Duty (Bondsman)",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
     },
     {
       "faction": "leagues-of-votann",
@@ -28576,6 +29016,126 @@
       "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
+      "faction": "thousand-sons",
+      "ability_id": "flow-of-magic",
+      "name": "Flow of Magic",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "arcane-might",
+      "name": "Arcane Might",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "empowered-manifestation",
+      "name": "Empowered Manifestation",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "empyric-onslaught",
+      "name": "Empyric Onslaught",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "noctilith-mantle",
+      "name": "Noctilith Mantle",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "warding-hex",
+      "name": "Warding Hex",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "wrath-of-the-doomed",
+      "name": "Wrath of the Doomed",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "strands-of-time",
+      "name": "Strands of Time",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "through-the-veil",
+      "name": "Through the Veil",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "scouring-warpflame",
+      "name": "Scouring Warpflame",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "kaleidoscopic-tempest",
+      "name": "Kaleidoscopic Tempest",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "thousand-sons",
+      "ability_id": "damaged-1-6-wounds-remaining",
+      "name": "Damaged: 1-6 Wounds Remaining",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
       "faction": "tyranids",
       "ability_id": "deep-strike",
       "name": "Deep Strike",
@@ -30880,16 +31440,6 @@
       "ability_id": "scorn-the-witch",
       "name": "Scorn the Witch",
       "shape": "feel-no-pain",
-      "stub": false,
-      "offensive": false,
-      "defensive": true,
-      "gap": null
-    },
-    {
-      "faction": "_core",
-      "ability_id": "benefit-of-cover",
-      "name": "Benefit of Cover",
-      "shape": "bs-modifier",
       "stub": false,
       "offensive": false,
       "defensive": true,
