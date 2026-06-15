@@ -404,7 +404,8 @@
       "sanctifiers"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] Sustained Hits 1 granted unconditionally to all weapons; rule limits to melee and only while the unit contains a Ministorum Priest."
   },
   {
     "ability_id": "cherub",
@@ -430,7 +431,8 @@
       "sanctifiers"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] models a generic CP/resource gain; rule gains 1 Miracle dice once per battle after an Act of Faith."
   },
   {
     "ability_id": "salvationist-medikit",
@@ -674,7 +676,8 @@
       "celestian-insidiants"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] blanket Feel No Pain 4+; rule limits it to Psychic Attacks and mortal wounds (use `ward` for a faithful pass)."
   },
   {
     "ability_id": "virtue-of-intolerance",
@@ -716,7 +719,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated, partial"
+    "community_notes": "[APPROX] Precision + Hit re-roll applied to all of this unit's attacks; rule limits them to the selected quarry unit. auto-generated, partial"
   },
   {
     "ability_id": "denuncia-oratory",
@@ -1463,7 +1466,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated, partial"
+    "community_notes": "[APPROX] +1 Hit & +1 Wound applied unconditionally (strongest case); rule gates that bonus on the target having destroyed a friendly Adepta Sororitas unit this battle. auto-generated, partial"
   },
   {
     "ability_id": "infiltrators",
@@ -1643,7 +1646,7 @@
       "type": "cp-refund",
       "target": "self",
       "modifier": {
-        "stratagem": "fire-overwatch-or-heroic"
+        "amount": 1
       }
     },
     "scope": {
@@ -1654,7 +1657,8 @@
       "daemonifuge"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] models -1 CP only; drops the 'regardless of other uses / does not prevent other uses' permission clause."
   },
   {
     "ability_id": "firing-deck-2",
@@ -2190,7 +2194,7 @@
     ],
     "ability_type": "unit",
     "behavior": "activated",
-    "community_notes": "auto-generated, partial"
+    "community_notes": "[APPROX] grants both Sustained Hits 1 + Lethal Hits (the charged-this-turn case); base case is a choice of one of the two when not charged. auto-generated, partial"
   },
   {
     "ability_id": "righteous-awareness",
@@ -2210,8 +2214,9 @@
       }
     },
     "scope": {
-      "range": "aura-9",
-      "duration": "permanent"
+      "range": "aura-custom",
+      "duration": "permanent",
+      "range_inches": 8
     },
     "unit_ids": [
       "dominion-squad"
@@ -2704,7 +2709,8 @@
       "repressor"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] placeholder ability-grant; the reactive opponent's-Charge-phase embark interaction is not modeled."
   },
   {
     "ability_id": "deadly-demise-d6",
@@ -2875,7 +2881,7 @@
     "faction_id": "adepta-sororitas",
     "ability_type": "faction",
     "behavior": "activated",
-    "community_notes": "Models 1 Miracle Die per activation as a guaranteed crit hit (auto-6). Sororitas generate ~8-10 Miracle Dice per game; 1 per unit-activation is a generous upper-bound that captures the mechanic's offensive value.",
+    "community_notes": "[APPROX] models the use of a Miracle dice as a guaranteed critical (auto-6); does not represent the dice-generation rule (gain 1 at the start of each battle round and each time an Adepta Sororitas unit is destroyed). Full rule in raw-text store. Models 1 Miracle Die per activation as a guaranteed crit hit (auto-6). Sororitas generate ~8-10 Miracle Dice per game; 1 per unit-activation is a generous upper-bound that captures the mechanic's offensive value.",
     "unit_ids": []
   },
   {
@@ -3565,18 +3571,53 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "M",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "leadership-modifier",
+          "target": "unit",
+          "modifier": {
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "objective-control-modifier",
+          "target": "unit",
+          "modifier": {
+            "operation": "add",
+            "value": 1
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [],
     "ability_type": "detachment",
     "behavior": "activated",
-    "detachment_id": "champions-of-faith"
+    "detachment_id": "champions-of-faith",
+    "community_notes": "[APPROX] strongest-version: assumes the unit is Righteous; +1 WS/BS modeled as +1 to Hit for the whole unit (rule limits to Battle Sisters / Celestian Sacresants / Paragon Warsuit models); OC clause assumes not Battle-shocked. Full rule in raw-text store."
   },
   {
     "ability_id": "triptych-of-judgement",
@@ -3793,18 +3834,21 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "feel-no-pain",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "threshold": 5
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "reactive",
-    "detachment_id": "champions-of-faith"
+    "detachment_id": "champions-of-faith",
+    "community_notes": "[APPROX] strongest-version: assumes the unit is Righteous (Feel No Pain 5+ vs mortal wounds); base case is 6+, and modeled as general FNP 5+. Full rule in raw-text store."
   },
   {
     "ability_id": "suffer-not-the-unfaithful",

@@ -5,12 +5,10 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 188 stub abilities.
+Total: 186 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
-| adepta-sororitas | righteous-purpose | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adepta-sororitas | shield-of-denial | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | driven-by-fury | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |

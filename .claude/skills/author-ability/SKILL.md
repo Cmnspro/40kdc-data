@@ -42,6 +42,70 @@ The user may be editing this repo at the same time the pipeline runs (the `propo
 - If you must report the change-set, scope your `git` reads to the three paths above; describe
   everything else as "your other changes, untouched."
 
+## What the DSL is FOR — mathhammer estimation, not exact text
+
+The Ability DSL exists for **mathhammer / estimation** (expected damage, scoring, matchup
+math), NOT to reproduce rules text. Two consequences shape every authoring + verifier
+judgement:
+
+1. **Assume the most powerful applicable version.** When a rule has a conditional or
+   escalating effect ("+1, or +2 if the unit is X"; "re-roll 1s, and full re-rolls if Y"),
+   author the **strongest outcome** — model it as if the condition is met. Do NOT gate an
+   estimation-relevant buff behind a hard-to-evaluate trigger and thereby under-count it. A
+   blanket-looking effect that is really the upper bound of a conditional rule is correct,
+   not a fidelity bug.
+2. **Resources are SPENT, not generated.** For faction-resource abilities (Miracle dice,
+   Blessings of Khorne, Pain tokens), author the **effect of using** the resource at its
+   best (e.g. a Miracle dice as a guaranteed critical / auto-6), NOT the act of gaining it.
+   So an army rule like `acts-of-faith` models the auto-6 spend, and a per-round/​on-destruction
+   *generation* clause is intentionally NOT re-authored — but because that omits part of the
+   rule, the entry is still an approximation and MUST carry the `[APPROX]` mark (below).
+
+This is the opposite contract from the **raw-text store**, which MUST reproduce the
+ability's exact wording. Same ability → two representations: DSL = strongest-case
+mechanical estimate; store = verbatim text. When the verifier weighs faithfulness, it
+judges the *strongest-case mechanic*, not text-completeness.
+
+Corollary for the final report: a "rules update" that only changes a trigger distance,
+a condition, or a resource-gain cadence usually needs **no DSL re-author** (the store holds
+the new text, and the DSL models the strongest case). Re-author only for genuine
+effect-magnitude or wrong-effect changes — but if the DSL no longer fully matches the
+current rule, still add the `[APPROX]` mark (below) so the divergence is tracked.
+
+### Mark every approximation — the `[APPROX]` convention
+
+When a DSL entry does NOT fully/faithfully represent its rule — a strongest-version
+simplification, a dropped condition/clause, or a placeholder — it MUST be flagged so a
+later faithful-authoring pass can find and extend it. The standardized marker is a
+**leading `[APPROX]` token in `community_notes`** (chosen over a schema field so it needs
+no downstream regen/approval; promote it to a structured field later only via the normal
+Schema Change process):
+
+```
+[APPROX] <exactly what is simplified or dropped vs the full rule>. Full rule in raw-text store. <any prior notes>
+```
+
+Rules:
+- Prepend the token; **preserve** any existing `community_notes` after it. Don't double-mark
+  (check for `[APPROX]` first).
+- Be specific about the gap ("+1 Hit/Wound applied unconditionally; rule gates it on the
+  target having destroyed a friendly unit"), so the later pass knows what to extend.
+- **Strongest-case and resource-as-spent modeling ARE approximations — mark them.** Any
+  time the DSL omits or simplifies part of the rule (a dropped condition/clause, an
+  upper-bound assumption, modeling only the resource's spend and not its generation), the
+  entry gets `[APPROX]`. Only an entry that **completely and faithfully** captures the rule
+  is left unmarked.
+- **A wrong/stale value is a BUG, not an approximation — fix it, don't mark it.** An
+  incorrect scalar or enum (a distance, threshold, stat, CP cost, phase, or a stale id
+  reference — e.g. the rule says 8" but the DSL holds 9") is simply wrong: **correct the
+  value in place** and do NOT add `[APPROX]`. Litmus test: if a faithful future pass would
+  merely **replace** the value, it was a bug (fix now); if it would **add complexity the
+  current model can't yet express**, it's an approximation (mark). Don't let a shared
+  convention (e.g. a family of abilities all defaulting to `aura-9`) mask a value that's
+  actually wrong for this specific rule.
+- Find all pending faithful-authoring work with: `grep -rl '\[APPROX\]' data/enrichment`.
+- Surface the `[APPROX]` count in the final report.
+
 ## Core principle — you do NOT author the DSL
 
 The project's correctness guarantee is structural (`CONTRIBUTING.md`, `CLAUDE.md` "IP

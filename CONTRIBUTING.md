@@ -85,17 +85,17 @@ Repair worklist by faction — abilities still needing DSL work (not total cover
 | death-guard | 4 | 8 | 0 | 3 |
 | chaos-knights | 4 | 3 | 0 | 0 |
 | emperors-children | 3 | 8 | 0 | 1 |
-| adepta-sororitas | 2 | 7 | 0 | 1 |
 | agents-of-the-imperium | 2 | 2 | 0 | 2 |
 | chaos-daemons | 1 | 7 | 0 | 4 |
 | imperial-knights | 1 | 5 | 0 | 1 |
 | grey-knights | 1 | 3 | 0 | 1 |
 | adeptus-mechanicus | 1 | 1 | 0 | 2 |
+| adepta-sororitas | 0 | 7 | 0 | 1 |
 | astra-militarum | 0 | 3 | 0 | 5 |
 | adeptus-custodes | 0 | 3 | 0 | 3 |
 | _core | 0 | 0 | 0 | 0 |
 | world-eaters | 0 | 0 | 0 | 0 |
-| **TOTAL** | **188** | **152** | **0** | **59** |
+| **TOTAL** | **186** | **152** | **0** | **59** |
 
 `stub*` = empty-modifier placeholder nodes (highest need first) · `notes-stub` = flagged in `community_notes` · `gw-leak` = suspected verbatim GW text · `def-skipped` = defensive abilities skipped by the buff walk. Enumerated stub ids: [`data/_audit/worklist.md`](data/_audit/worklist.md). Full total+repair breakdown: [`data/_audit/summary.md`](data/_audit/summary.md).
 <!-- coverage:end -->

@@ -7,7 +7,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | faction | total | offensive | defensive | inert | stub* | notes-stub | gw-leak | def-skipped |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
 | _core | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| adepta-sororitas | 123 | 29 | 8 | 88 | 2 | 7 | 0 | 1 |
+| adepta-sororitas | 123 | 30 | 9 | 86 | 0 | 7 | 0 | 1 |
 | adeptus-astartes | 348 | 109 | 39 | 215 | 6 | 19 | 0 | 7 |
 | adeptus-custodes | 106 | 26 | 13 | 71 | 0 | 3 | 0 | 3 |
 | adeptus-mechanicus | 71 | 13 | 10 | 51 | 1 | 1 | 0 | 2 |
@@ -30,23 +30,23 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | thousand-sons | 113 | 30 | 9 | 79 | 10 | 17 | 0 | 2 |
 | tyranids | 102 | 19 | 7 | 79 | 13 | 5 | 0 | 6 |
 | world-eaters | 129 | 20 | 7 | 102 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2827** | **682** | **248** | **1981** | **188** | **152** | **0** | **59** |
+| **TOTAL** | **2827** | **683** | **249** | **1979** | **186** | **152** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
 - `440` — effect type "ability-grant" is not modelled by the buff layer
-- `181` — stat-modifier: operation "undefined" not supported
+- `179` — stat-modifier: operation "undefined" not supported
 - `161` — effect type "movement-modifier" is not modelled by the buff layer
 - `127` — effect type "mortal-wounds" is not modelled by the buff layer
 - `90` — effect type "attack-restriction" is not modelled by the buff layer
 - `88` — dice-gated effect: stochastic; not expressible as a buff
-- `75` — effect type "leadership-modifier" is not modelled by the buff layer
+- `76` — effect type "leadership-modifier" is not modelled by the buff layer
 - `58` — conditional: cannot evaluate condition "undefined" against current context
 - `56` — effect type "resurrection" is not modelled by the buff layer
 - `47` — effect type "cp-refund" is not modelled by the buff layer
-- `44` — effect type "objective-control-modifier" is not modelled by the buff layer
+- `45` — effect type "objective-control-modifier" is not modelled by the buff layer
 - `39` — stat-modifier: operation "set" not supported
 - `36` — effect type "deep-strike" is not modelled by the buff layer
 - `35` — re-roll on "charge" (subset …) is outside the damage path
@@ -54,7 +54,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `31` — effect type "fallback-and-act" is not modelled by the buff layer
 - `22` — effect type "fight-on-death" is not modelled by the buff layer
 - `22` — effect type "fight-first" is not modelled by the buff layer
-- `19` — stat-modifier on "M" is outside the damage path
+- `20` — stat-modifier on "M" is outside the damage path
 - `18` — roll-modifier: operation "set" not supported
 - `14` — roll-modifier: operation "ignore-modifiers" not supported
 - `12` — roll-modifier on "charge" is outside the damage path

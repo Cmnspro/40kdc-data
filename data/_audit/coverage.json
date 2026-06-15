@@ -14,11 +14,11 @@
     {
       "faction": "adepta-sororitas",
       "total": 123,
-      "offensive": 29,
-      "defensive": 8,
-      "inert": 88,
+      "offensive": 30,
+      "defensive": 9,
+      "inert": 86,
       "stub": 7,
-      "stubStructural": 2,
+      "stubStructural": 0,
       "gwTextLeak": 0,
       "defensiveSkipped": 1
     },
@@ -267,11 +267,11 @@
   ],
   "totals": {
     "total": 2827,
-    "offensive": 682,
-    "defensive": 248,
-    "inert": 1981,
+    "offensive": 683,
+    "defensive": 249,
+    "inert": 1979,
     "stub": 152,
-    "stubStructural": 188,
+    "stubStructural": 186,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
@@ -282,7 +282,7 @@
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 181
+      "count": 179
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -302,7 +302,7 @@
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
-      "count": 75
+      "count": 76
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
@@ -318,7 +318,7 @@
     },
     {
       "reason": "effect type \"objective-control-modifier\" is not modelled by the buff layer",
-      "count": 44
+      "count": 45
     },
     {
       "reason": "stat-modifier: operation \"set\" not supported",
@@ -350,7 +350,7 @@
     },
     {
       "reason": "stat-modifier on \"M\" is outside the damage path",
-      "count": 19
+      "count": 20
     },
     {
       "reason": "roll-modifier: operation \"set\" not supported",
@@ -1518,11 +1518,11 @@
       "faction": "adepta-sororitas",
       "ability_id": "righteous-purpose",
       "name": "Righteous Purpose",
-      "shape": "stat-modifier",
-      "stub": true,
-      "offensive": false,
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "stat-modifier on \"M\" is outside the damage path"
     },
     {
       "faction": "adepta-sororitas",
@@ -1568,11 +1568,11 @@
       "faction": "adepta-sororitas",
       "ability_id": "shield-of-denial",
       "name": "Shield of Denial",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "feel-no-pain",
+      "stub": false,
       "offensive": false,
-      "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "defensive": true,
+      "gap": null
     },
     {
       "faction": "adepta-sororitas",
