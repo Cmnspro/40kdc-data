@@ -495,6 +495,13 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     jv(m, "critical_on")
                 );
             }
+            if nstr(m, "operation") == Some("set") {
+                return format!(
+                    "{subj} can change {} rolls to a {}",
+                    roll_name(m.get("roll").unwrap_or(&Value::Null)),
+                    jv(m, "value")
+                );
+            }
             if !notnull(m, "value") {
                 format!(
                     "{} {} {} rolls{ctx_note}",
@@ -796,6 +803,11 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             };
             format!("{subj} {} the {name}{val} ability", agree(&subj, "has"))
         }
+        T::UnitKeywordGrant => format!(
+            "{} units gain the {} keyword",
+            jv(m, "to_keywords"),
+            jv(m, "keyword")
+        ),
         T::DeepStrike => format!("{subj} {} the Deep Strike ability", agree(&subj, "has")),
         T::StrategicReservesArrival => {
             format!("{subj} can arrive from Strategic Reserves regardless of mission rules")

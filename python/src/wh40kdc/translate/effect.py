@@ -397,6 +397,8 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
             crit = "Critical Wounds" if m.get("roll") == "wound" else "Critical Hits"
             crit_on = _jstr(m["critical_on"])
             return f"{subj} {_v(subj, 'scores')} {crit} on {roll} rolls of {crit_on}+"
+        if m.get("operation") == "set":
+            return f"{subj} can change {roll} rolls to a {_jstr(m.get('value'))}"
         if m.get("value") is None:
             op = dekebab(_jstr(m.get("operation")))
             return f"{op} {_possessive(subj)} {roll} rolls{ctx_note}"
@@ -566,6 +568,8 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
         name = _title_case(_jstr(m.get("keyword_id")))
         val = f" {_jstr(m.get('value'))}" if m.get("value") is not None else ""
         return f"{subj} {_v(subj, 'has')} the {name}{val} ability"
+    if etype == "unit-keyword-grant":
+        return f"{_jstr(m.get('to_keywords'))} units gain the {_jstr(m.get('keyword'))} keyword"
     if etype == "deep-strike":
         return f"{subj} {_v(subj, 'has')} the Deep Strike ability"
     if etype == "strategic-reserves-arrival":

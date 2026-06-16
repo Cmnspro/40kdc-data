@@ -216,7 +216,7 @@
       "defensive": 13,
       "inert": 106,
       "stub": 5,
-      "stubStructural": 18,
+      "stubStructural": 17,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
@@ -271,7 +271,7 @@
     "defensive": 257,
     "inert": 2048,
     "stub": 153,
-    "stubStructural": 237,
+    "stubStructural": 236,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
@@ -282,7 +282,7 @@
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 227
+      "count": 226
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -542,6 +542,10 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"engagement-state\" against current context",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -24800,11 +24804,11 @@
       "faction": "orks",
       "ability_id": "thundering-wagons",
       "name": "Thundering Wagons",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "sequence",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",

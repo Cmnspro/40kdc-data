@@ -486,6 +486,9 @@ func describeEffectInline(e map[string]any, ctx map[string]any) string {
 			}
 			return subj + " " + ev(subj, "scores") + " " + crit + " on " + roll + " rolls of " + ejstr(m["critical_on"]) + "+"
 		}
+		if m["operation"] == "set" {
+			return subj + " can change " + roll + " rolls to a " + ejstr(m["value"])
+		}
 		if m["value"] == nil {
 			return dekebab(ejstr(m["operation"])) + " " + possessive(subj) + " " + roll + " rolls" + ctxNote
 		}
@@ -696,6 +699,8 @@ func describeEffectInline(e map[string]any, ctx map[string]any) string {
 			val = " " + ejstr(m["value"])
 		}
 		return subj + " " + ev(subj, "has") + " the " + name + val + " ability"
+	case "unit-keyword-grant":
+		return ejstr(m["to_keywords"]) + " units gain the " + ejstr(m["keyword"]) + " keyword"
 	case "deep-strike":
 		return subj + " " + ev(subj, "has") + " the Deep Strike ability"
 	case "strategic-reserves-arrival":

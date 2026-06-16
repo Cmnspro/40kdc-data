@@ -77,7 +77,7 @@ Repair worklist by faction — abilities still needing DSL work (not total cover
 | necrons | 21 | 6 | 0 | 1 |
 | drukhari | 20 | 7 | 0 | 1 |
 | genestealer-cults | 20 | 2 | 0 | 1 |
-| orks | 18 | 5 | 0 | 3 |
+| orks | 17 | 5 | 0 | 3 |
 | leagues-of-votann | 15 | 0 | 0 | 1 |
 | tyranids | 13 | 5 | 0 | 6 |
 | death-guard | 9 | 8 | 0 | 3 |
@@ -95,7 +95,7 @@ Repair worklist by faction — abilities still needing DSL work (not total cover
 | adeptus-custodes | 0 | 3 | 0 | 3 |
 | _core | 0 | 0 | 0 | 0 |
 | world-eaters | 0 | 0 | 0 | 0 |
-| **TOTAL** | **237** | **153** | **0** | **59** |
+| **TOTAL** | **236** | **153** | **0** | **59** |
 
 `stub*` = empty-modifier placeholder nodes (highest need first) · `notes-stub` = flagged in `community_notes` · `gw-leak` = suspected verbatim GW text · `def-skipped` = defensive abilities skipped by the buff walk. Enumerated stub ids: [`data/_audit/worklist.md`](data/_audit/worklist.md). Full total+repair breakdown: [`data/_audit/summary.md`](data/_audit/summary.md).
 <!-- coverage:end -->

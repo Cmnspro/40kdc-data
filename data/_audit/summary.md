@@ -25,19 +25,19 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | imperial-knights | 67 | 29 | 7 | 34 | 1 | 5 | 0 | 1 |
 | leagues-of-votann | 69 | 13 | 7 | 51 | 15 | 0 | 0 | 1 |
 | necrons | 148 | 24 | 23 | 109 | 21 | 6 | 0 | 1 |
-| orks | 143 | 29 | 13 | 106 | 18 | 5 | 0 | 3 |
+| orks | 143 | 29 | 13 | 106 | 17 | 5 | 0 | 3 |
 | tau-empire | 122 | 32 | 7 | 86 | 9 | 6 | 0 | 3 |
 | thousand-sons | 125 | 30 | 9 | 91 | 22 | 17 | 0 | 2 |
 | tyranids | 102 | 19 | 7 | 79 | 13 | 5 | 0 | 6 |
 | world-eaters | 129 | 20 | 7 | 102 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2923** | **705** | **257** | **2048** | **237** | **153** | **0** | **59** |
+| **TOTAL** | **2923** | **705** | **257** | **2048** | **236** | **153** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
 - `469` — effect type "ability-grant" is not modelled by the buff layer
-- `227` — stat-modifier: operation "undefined" not supported
+- `226` — stat-modifier: operation "undefined" not supported
 - `147` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
 - `91` — effect type "attack-restriction" is not modelled by the buff layer
@@ -103,6 +103,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `1` — re-roll on "weapon-attacks" (subset …) is outside the damage path
 - `1` — stat-modifier: operation "multiply" not supported
 - `1` — conditional: cannot evaluate condition "engagement-state" against current context
+- `1` — effect type "unit-keyword-grant" is not modelled by the buff layer
 - `1` — stat-modifier AP: operation "set-on-crit-wound" not supported
 - `1` — stat-modifier on "BS" is outside the damage path
 - `1` — stat-modifier on "blessings-dice" is outside the damage path

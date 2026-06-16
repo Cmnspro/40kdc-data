@@ -6328,7 +6328,69 @@
     }
   },
   {
-    "caseId": "torture-device#201",
+    "caseId": "thundering-wagons#201",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "unit-keyword-grant",
+          "target": "all-friendly",
+          "modifier": {
+            "keyword": "WAGON",
+            "to_keywords": [
+              "Battlewagon",
+              "Hunta Rig",
+              "Kill Rig"
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "WAGON"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "charge",
+              "subset": "all-failures"
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "WAGON"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "advance",
+              "operation": "set",
+              "value": 6
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "Battlewagon, Hunta Rig, Kill Rig units gain the WAGON keyword.\nIf the unit has the WAGON keyword, you can re-roll the Charge roll.\nIf the unit has the WAGON keyword, the unit can change Advance rolls to a 6."
+    }
+  },
+  {
+    "caseId": "torture-device#202",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6357,7 +6419,7 @@
     }
   },
   {
-    "caseId": "triarchal-menhirs#202",
+    "caseId": "triarchal-menhirs#203",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6394,7 +6456,7 @@
     }
   },
   {
-    "caseId": "tuff-git#203",
+    "caseId": "tuff-git#204",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6425,7 +6487,7 @@
     }
   },
   {
-    "caseId": "unholy-avalanche#204",
+    "caseId": "unholy-avalanche#205",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6464,7 +6526,7 @@
     }
   },
   {
-    "caseId": "warp-tainted#205",
+    "caseId": "warp-tainted#206",
     "effect": {
       "type": "objective-tag",
       "target": "unit",

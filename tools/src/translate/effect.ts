@@ -417,6 +417,8 @@ export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
         const crit = m.roll === "wound" ? "Critical Wounds" : "Critical Hits";
         return `${subj} ${v(subj, "scores")} ${crit} on ${rollName(m.roll)} rolls of ${jstr(m.critical_on)}+`;
       }
+      if (m.operation === "set")
+        return `${subj} can change ${rollName(m.roll)} rolls to a ${jstr(m.value)}`;
       if (m.value == null) return `${dekebab(jstr(m.operation))} ${possessive(subj)} ${rollName(m.roll)} rolls${ctxNote}`;
       return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to ${rollName(m.roll)} rolls${ctxNote}`;
     }
@@ -555,6 +557,8 @@ export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
       const val = m.value != null ? ` ${jstr(m.value)}` : "";
       return `${subj} has the ${name}${val} ability`;
     }
+    case "unit-keyword-grant":
+      return `${jstr(m.to_keywords)} units gain the ${jstr(m.keyword)} keyword`;
     case "deep-strike":
       return `${subj} has the Deep Strike ability`;
     case "strategic-reserves-arrival":

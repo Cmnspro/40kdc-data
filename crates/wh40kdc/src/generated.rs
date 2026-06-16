@@ -10042,7 +10042,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "bs-modifier",
 ///        "engagement-passthrough",
 ///        "strategic-reserves-arrival",
-///        "remove-battle-shock"
+///        "remove-battle-shock",
+///        "unit-keyword-grant"
 ///      ]
 ///    }
 ///  },
@@ -10223,7 +10224,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///    "bs-modifier",
 ///    "engagement-passthrough",
 ///    "strategic-reserves-arrival",
-///    "remove-battle-shock"
+///    "remove-battle-shock",
+///    "unit-keyword-grant"
 ///  ]
 ///}
 /// ```
@@ -10311,6 +10313,8 @@ pub enum SingleEffectType {
     StrategicReservesArrival,
     #[serde(rename = "remove-battle-shock")]
     RemoveBattleShock,
+    #[serde(rename = "unit-keyword-grant")]
+    UnitKeywordGrant,
 }
 impl ::std::fmt::Display for SingleEffectType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -10350,6 +10354,7 @@ impl ::std::fmt::Display for SingleEffectType {
             Self::EngagementPassthrough => f.write_str("engagement-passthrough"),
             Self::StrategicReservesArrival => f.write_str("strategic-reserves-arrival"),
             Self::RemoveBattleShock => f.write_str("remove-battle-shock"),
+            Self::UnitKeywordGrant => f.write_str("unit-keyword-grant"),
         }
     }
 }
@@ -10394,6 +10399,7 @@ impl ::std::str::FromStr for SingleEffectType {
             "engagement-passthrough" => Ok(Self::EngagementPassthrough),
             "strategic-reserves-arrival" => Ok(Self::StrategicReservesArrival),
             "remove-battle-shock" => Ok(Self::RemoveBattleShock),
+            "unit-keyword-grant" => Ok(Self::UnitKeywordGrant),
             _ => Err("invalid value".into()),
         }
     }

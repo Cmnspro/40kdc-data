@@ -665,6 +665,7 @@ class SingleEffect(TypedDict):
         "engagement-passthrough",
         "strategic-reserves-arrival",
         "remove-battle-shock",
+        "unit-keyword-grant",
     ]
     target: Literal[
         "self",
