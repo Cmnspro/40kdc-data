@@ -2006,12 +2006,22 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "keyword-grant",
-      "target": "unit",
-      "modifier": {
-        "keywords": [
-          "Lethal Hits"
-        ]
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "once-per-battle"
+        }
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "unit",
+        "modifier": {
+          "keywords": [
+            "Lethal Hits"
+          ],
+          "weapon_type": "ranged"
+        }
       }
     },
     "scope": {
@@ -4009,27 +4019,52 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "sequence",
-      "steps": [
-        {
-          "type": "stat-modifier",
-          "target": "unit",
-          "modifier": {
-            "stat": "S",
-            "operation": "add",
-            "value": 1
-          }
-        },
-        {
-          "type": "stat-modifier",
-          "target": "unit",
-          "modifier": {
-            "stat": "A",
-            "operation": "add",
-            "value": 1
-          }
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "once-per-battle"
         }
-      ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "ability_id": "charge-after-advance"
+            }
+          },
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "S",
+              "operation": "add",
+              "value": 1,
+              "attack_type": "melee"
+            }
+          },
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "A",
+              "operation": "add",
+              "value": 1,
+              "attack_type": "melee"
+            }
+          },
+          {
+            "type": "invulnerable-save",
+            "target": "unit",
+            "modifier": {
+              "invuln_sv": 5
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "any-on-battlefield",
