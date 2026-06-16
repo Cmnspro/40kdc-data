@@ -559,6 +559,8 @@ export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
       return `${subj} has the Deep Strike ability`;
     case "strategic-reserves-arrival":
       return `${subj} can arrive from Strategic Reserves regardless of mission rules`;
+    case "remove-battle-shock":
+      return `${subj} ${v(subj, "is")} no longer Battle-shocked`;
     case "fallback-and-act":
       return `${subj} is eligible to shoot and declare a charge in a turn in which it Fell Back`;
     case "engagement-passthrough":

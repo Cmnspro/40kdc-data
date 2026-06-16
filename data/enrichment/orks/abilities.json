@@ -4782,9 +4782,25 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "disembarked-from-transport",
+            "parameters": {}
+          },
+          {
+            "type": "is-battle-shocked",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "remove-battle-shock",
+        "target": "unit",
+        "modifier": {}
+      }
     },
     "scope": {
       "range": "unit",

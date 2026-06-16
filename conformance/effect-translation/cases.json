@@ -6394,7 +6394,38 @@
     }
   },
   {
-    "caseId": "unholy-avalanche#203",
+    "caseId": "tuff-git#203",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "disembarked-from-transport",
+            "parameters": {}
+          },
+          {
+            "type": "is-battle-shocked",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "remove-battle-shock",
+        "target": "unit",
+        "modifier": {}
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "If the unit disembarked from a Transport this turn, while the unit is Battle-shocked, the unit is no longer Battle-shocked."
+    }
+  },
+  {
+    "caseId": "unholy-avalanche#204",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6433,7 +6464,7 @@
     }
   },
   {
-    "caseId": "warp-tainted#204",
+    "caseId": "warp-tainted#205",
     "effect": {
       "type": "objective-tag",
       "target": "unit",

@@ -200,7 +200,7 @@ Total: 237 stub abilities.
 | orks | supercharged-squig-oil | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | targetin-gizmos | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | thundering-wagons | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | tuff-git | stat-modifier | stat-modifier: operation "undefined" not supported |
+| orks | tuff-git | conditional | conditional: cannot evaluate condition "undefined" against current context |
 | orks | yooz-in-trouble-now | stat-modifier | stat-modifier: operation "undefined" not supported |
 | tau-empire | autoreactive-camouflage | stat-modifier | stat-modifier: operation "undefined" not supported |
 | tau-empire | bodyguard | stat-modifier | stat-modifier: operation "undefined" not supported |

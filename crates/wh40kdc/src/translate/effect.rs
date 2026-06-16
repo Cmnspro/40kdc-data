@@ -800,6 +800,7 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
         T::StrategicReservesArrival => {
             format!("{subj} can arrive from Strategic Reserves regardless of mission rules")
         }
+        T::RemoveBattleShock => format!("{subj} {} no longer Battle-shocked", agree(&subj, "is")),
         T::FallbackAndAct => format!(
             "{subj} {} eligible to shoot and declare a charge in a turn in which it Fell Back",
             agree(&subj, "is")

@@ -981,7 +981,8 @@ export interface SingleEffect {
     | "unit-tag"
     | "bs-modifier"
     | "engagement-passthrough"
-    | "strategic-reserves-arrival";
+    | "strategic-reserves-arrival"
+    | "remove-battle-shock";
   target:
     | "self"
     | "bearer"

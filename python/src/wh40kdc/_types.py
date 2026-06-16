@@ -664,6 +664,7 @@ class SingleEffect(TypedDict):
         "bs-modifier",
         "engagement-passthrough",
         "strategic-reserves-arrival",
+        "remove-battle-shock",
     ]
     target: Literal[
         "self",

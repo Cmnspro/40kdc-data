@@ -570,6 +570,8 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
         return f"{subj} {_v(subj, 'has')} the Deep Strike ability"
     if etype == "strategic-reserves-arrival":
         return f"{subj} can arrive from Strategic Reserves regardless of mission rules"
+    if etype == "remove-battle-shock":
+        return f"{subj} {_v(subj, 'is')} no longer Battle-shocked"
     if etype == "fallback-and-act":
         return (
             f"{subj} {_v(subj, 'is')} eligible to shoot and declare a charge "
