@@ -52,3 +52,7 @@ __pycache__/
 # directory stays local.
 /_private/
 .env
+
+# Transient game-datacards download cache used by the one-shot
+# repair-wargear-from-gdc.ts migration (re-downloadable, never committed).
+/.gdc-cache/

@@ -166,6 +166,14 @@ export function buildWargearOptions(
     const id = nameToId(name); // throws on a name with no id-safe characters
     if (id.length > MAX_LEN) throw new Error(`id too long: ${id.slice(0, 40)}…`);
     if (weaponIds.has(id) || globalWeaponIds.has(id)) return id;
+    // A datasheet pluralises a weapon when the option takes more than one
+    // ("2 arachnus storm cannons"). The weapon entity is singular, so fall back
+    // to the singular id — but only when it is a real, known weapon, so we never
+    // mangle a genuinely plural non-weapon name.
+    if (id.endsWith("s")) {
+      const singular = id.slice(0, -1);
+      if (weaponIds.has(singular) || globalWeaponIds.has(singular)) return singular;
+    }
     if (!wargearById.has(id) && !pending.has(id)) {
       const entity: WargearEntity = { id, name, game_version: gameVersion };
       const category = categorize(name);

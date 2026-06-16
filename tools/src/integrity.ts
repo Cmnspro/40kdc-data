@@ -37,6 +37,23 @@ interface UnitLike {
 interface AbilityLike {
   ability_id?: string;
 }
+interface WargearOptionLike {
+  id?: string;
+  replaces?: string[];
+  replacement?: string[];
+  replacement_choice?: string[][];
+}
+
+/**
+ * Corruption signatures left in a wargear-option weapon ref when the option
+ * parser mis-handles a "one of the following" list (see option-parser.ts):
+ *  - a dangling conjunction tail ("…-and"/"…-or") — a severed "A and B" group;
+ *  - a captured prose qualifier ("options-you-cannot-select-the-same-option…",
+ *    "duplicates-are-not-allowed") swallowed as a fake weapon.
+ * Neither shape can occur in a real weapon/wargear id, so flagging them is safe.
+ */
+const DANGLING_CONJUNCTION = /-(?:and|or)$/;
+const CAPTURED_QUALIFIER = /^options-|-you-cannot-|-not-allowed$|-the-same-option/;
 
 function readArray<T>(file: string): T[] {
   return JSON.parse(readFileSync(file, "utf-8")) as T[];
@@ -122,6 +139,69 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
               message: `unit "${u.id}": faction_keyword "${fk}" is not permitted for ${faction} (expected only "${home}")`,
             });
           }
+        }
+      }
+
+      if (errs.length > 0) {
+        result.failed++;
+        result.errors.push({ file, index: i, errors: errs });
+      } else {
+        result.passed++;
+      }
+    }
+  }
+
+  // Wargear-option weapon refs must not carry a parser-corruption signature. This
+  // guards against the "1 A and 1 B" choice-group severing recurring on any
+  // future data regeneration or hand-edit.
+  const optionFiles = await glob("core/*/wargear-options.json", { cwd: root, absolute: true });
+  optionFiles.sort();
+  for (const file of optionFiles) {
+    const faction = basename(dirname(file));
+    if (faction.startsWith("_")) continue;
+
+    let options: WargearOptionLike[];
+    try {
+      options = readArray<WargearOptionLike>(file);
+    } catch {
+      continue;
+    }
+    if (!Array.isArray(options)) continue;
+
+    // The faction's weapon ids — to catch plural-of-weapon refs ("lascannons"
+    // where only the singular "lascannon" is a real weapon), the relic of a
+    // converter that lacked a "2 X" → singular fallback.
+    let weaponIds = new Set<string>();
+    try {
+      weaponIds = new Set(readArray<{ id?: string }>(resolve(dirname(file), "weapons.json")).map((w) => w.id ?? ""));
+    } catch {
+      // no weapons file — skip the plural-of-weapon check for this faction
+    }
+
+    result.totalFiles++;
+    for (let i = 0; i < options.length; i++) {
+      const o = options[i];
+      result.totalItems++;
+      const errs: Array<{ path: string; message: string }> = [];
+
+      const refs = [...(o.replaces ?? []), ...(o.replacement ?? [])];
+      for (const group of o.replacement_choice ?? []) refs.push(...group);
+      for (const ref of refs) {
+        if (DANGLING_CONJUNCTION.test(ref)) {
+          errs.push({
+            path: `/${i}`,
+            message: `wargear-option "${o.id}": weapon ref "${ref}" ends in a dangling conjunction — the option parser severed an "A and B" group (see option-parser.ts)`,
+          });
+        } else if (CAPTURED_QUALIFIER.test(ref)) {
+          errs.push({
+            path: `/${i}`,
+            message: `wargear-option "${o.id}": weapon ref "${ref}" is a captured prose qualifier, not a weapon`,
+          });
+        } else if (!weaponIds.has(ref) && ref.endsWith("s") && weaponIds.has(ref.slice(0, -1))) {
+          errs.push({
+            path: `/${i}`,
+            message: `wargear-option "${o.id}": weapon ref "${ref}" is a plural of weapon "${ref.slice(0, -1)}" — use the singular weapon id`,
+          });
         }
       }
 
