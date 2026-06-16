@@ -332,6 +332,8 @@ func conditionLeadIn(c map[string]any) string {
 		return "if the unit disembarked from a Transport this turn"
 	case "faction-rule-active":
 		return "while the " + titleCase(ejstr(p["rule"])) + " is active"
+	case "battle-round":
+		return "during the first " + ejstr(p["max"]) + " battle rounds"
 	case "remained-stationary":
 		return "if the unit Remained Stationary"
 	case "target-has-keyword":
@@ -696,6 +698,8 @@ func describeEffectInline(e map[string]any, ctx map[string]any) string {
 		return subj + " " + ev(subj, "has") + " the " + name + val + " ability"
 	case "deep-strike":
 		return subj + " " + ev(subj, "has") + " the Deep Strike ability"
+	case "strategic-reserves-arrival":
+		return subj + " can arrive from Strategic Reserves regardless of mission rules"
 	case "fallback-and-act":
 		return subj + " " + ev(subj, "is") + " eligible to shoot and declare a charge in a turn in which it Fell Back"
 	case "engagement-passthrough":

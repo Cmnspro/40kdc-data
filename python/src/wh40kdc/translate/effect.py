@@ -285,6 +285,8 @@ def _condition_lead_in(c: Condition) -> str:
         return "if the unit disembarked from a Transport this turn"
     if ctype == "faction-rule-active":
         return f"while the {_title_case(_jstr(p.get('rule')))} is active"
+    if ctype == "battle-round":
+        return f"during the first {_jstr(p.get('max'))} battle rounds"
     if ctype == "remained-stationary":
         return "if the unit Remained Stationary"
     if ctype == "target-has-keyword":
@@ -566,6 +568,8 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
         return f"{subj} {_v(subj, 'has')} the {name}{val} ability"
     if etype == "deep-strike":
         return f"{subj} {_v(subj, 'has')} the Deep Strike ability"
+    if etype == "strategic-reserves-arrival":
+        return f"{subj} can arrive from Strategic Reserves regardless of mission rules"
     if etype == "fallback-and-act":
         return (
             f"{subj} {_v(subj, 'is')} eligible to shoot and declare a charge "

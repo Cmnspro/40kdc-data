@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 235 stub abilities.
+Total: 237 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -81,6 +81,7 @@ Total: 235 stub abilities.
 | agents-of-the-imperium | ward-against-the-malefic-arts | stat-modifier | stat-modifier: operation "undefined" not supported |
 | agents-of-the-imperium | warrant-of-trade | stat-modifier | stat-modifier: operation "undefined" not supported |
 | agents-of-the-imperium | willsapping-salvo | stat-modifier | stat-modifier: operation "undefined" not supported |
+| astra-militarum | aerial-deployment | conditional | empty modifier |
 | chaos-daemons | shadow-form-abilities | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-knights | flush-the-quarry | engagement-passthrough | effect type "engagement-passthrough" is not modelled by the buff layer |
 | chaos-knights | grav-pinned | stat-modifier | stat-modifier: operation "undefined" not supported |
@@ -183,6 +184,7 @@ Total: 235 stub abilities.
 | necrons | their-number-is-legion | stat-modifier | stat-modifier: operation "undefined" not supported |
 | necrons | tools-of-dominion | stat-modifier | stat-modifier: operation "undefined" not supported |
 | necrons | will-of-the-conqueror | stat-modifier | stat-modifier: operation "undefined" not supported |
+| orks | aerial-deployment | conditional | empty modifier |
 | orks | armoured-duellists | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | boarding-ramps | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | brutal-broadside | stat-modifier | stat-modifier: operation "undefined" not supported |

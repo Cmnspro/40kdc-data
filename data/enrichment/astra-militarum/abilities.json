@@ -4167,53 +4167,22 @@
             }
           },
           {
-            "operator": "or",
-            "operands": [
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 1
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 2
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 3
-                }
-              }
-            ]
+            "type": "battle-round",
+            "parameters": {
+              "max": 3
+            }
           }
         ]
       },
       "effect": {
-        "type": "sequence",
-        "steps": [
-          {
-            "type": "ability-grant",
-            "target": "self",
-            "modifier": {
-              "grant_type": "reinforcements-step-setup"
-            }
-          },
-          {
-            "type": "ability-grant",
-            "target": "self",
-            "modifier": {
-              "grant_type": "ignore-mission-reserves-restrictions"
-            }
-          }
-        ]
+        "type": "strategic-reserves-arrival",
+        "target": "self",
+        "modifier": {}
       }
     },
     "scope": {
       "range": "self",
-      "duration": "turn"
+      "duration": "permanent"
     },
     "unit_ids": [
       "arvus-lighter",

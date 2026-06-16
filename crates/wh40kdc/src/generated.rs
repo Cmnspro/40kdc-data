@@ -9657,7 +9657,8 @@ impl ::std::convert::TryFrom<::std::string::String> for Side {
 ///        "attack-stat-compare",
 ///        "made-ingress-move-this-turn",
 ///        "disembarked-from-transport",
-///        "faction-rule-active"
+///        "faction-rule-active",
+///        "battle-round"
 ///      ]
 ///    }
 ///  },
@@ -9725,7 +9726,8 @@ pub struct SimpleCondition {
 ///    "attack-stat-compare",
 ///    "made-ingress-move-this-turn",
 ///    "disembarked-from-transport",
-///    "faction-rule-active"
+///    "faction-rule-active",
+///    "battle-round"
 ///  ]
 ///}
 /// ```
@@ -9831,6 +9833,8 @@ pub enum SimpleConditionType {
     DisembarkedFromTransport,
     #[serde(rename = "faction-rule-active")]
     FactionRuleActive,
+    #[serde(rename = "battle-round")]
+    BattleRound,
 }
 impl ::std::fmt::Display for SimpleConditionType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -9883,6 +9887,7 @@ impl ::std::fmt::Display for SimpleConditionType {
             Self::MadeIngressMoveThisTurn => f.write_str("made-ingress-move-this-turn"),
             Self::DisembarkedFromTransport => f.write_str("disembarked-from-transport"),
             Self::FactionRuleActive => f.write_str("faction-rule-active"),
+            Self::BattleRound => f.write_str("battle-round"),
         }
     }
 }
@@ -9936,6 +9941,7 @@ impl ::std::str::FromStr for SimpleConditionType {
             "made-ingress-move-this-turn" => Ok(Self::MadeIngressMoveThisTurn),
             "disembarked-from-transport" => Ok(Self::DisembarkedFromTransport),
             "faction-rule-active" => Ok(Self::FactionRuleActive),
+            "battle-round" => Ok(Self::BattleRound),
             _ => Err("invalid value".into()),
         }
     }
@@ -10034,7 +10040,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "objective-tag",
 ///        "unit-tag",
 ///        "bs-modifier",
-///        "engagement-passthrough"
+///        "engagement-passthrough",
+///        "strategic-reserves-arrival"
 ///      ]
 ///    }
 ///  },
@@ -10213,7 +10220,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///    "objective-tag",
 ///    "unit-tag",
 ///    "bs-modifier",
-///    "engagement-passthrough"
+///    "engagement-passthrough",
+///    "strategic-reserves-arrival"
 ///  ]
 ///}
 /// ```
@@ -10297,6 +10305,8 @@ pub enum SingleEffectType {
     BsModifier,
     #[serde(rename = "engagement-passthrough")]
     EngagementPassthrough,
+    #[serde(rename = "strategic-reserves-arrival")]
+    StrategicReservesArrival,
 }
 impl ::std::fmt::Display for SingleEffectType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -10334,6 +10344,7 @@ impl ::std::fmt::Display for SingleEffectType {
             Self::UnitTag => f.write_str("unit-tag"),
             Self::BsModifier => f.write_str("bs-modifier"),
             Self::EngagementPassthrough => f.write_str("engagement-passthrough"),
+            Self::StrategicReservesArrival => f.write_str("strategic-reserves-arrival"),
         }
     }
 }
@@ -10376,6 +10387,7 @@ impl ::std::str::FromStr for SingleEffectType {
             "unit-tag" => Ok(Self::UnitTag),
             "bs-modifier" => Ok(Self::BsModifier),
             "engagement-passthrough" => Ok(Self::EngagementPassthrough),
+            "strategic-reserves-arrival" => Ok(Self::StrategicReservesArrival),
             _ => Err("invalid value".into()),
         }
     }

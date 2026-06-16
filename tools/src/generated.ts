@@ -922,7 +922,8 @@ export interface SimpleCondition {
     | "attack-stat-compare"
     | "made-ingress-move-this-turn"
     | "disembarked-from-transport"
-    | "faction-rule-active";
+    | "faction-rule-active"
+    | "battle-round";
   parameters?: {
     [k: string]: unknown;
   };
@@ -979,7 +980,8 @@ export interface SingleEffect {
     | "objective-tag"
     | "unit-tag"
     | "bs-modifier"
-    | "engagement-passthrough";
+    | "engagement-passthrough"
+    | "strategic-reserves-arrival";
   target:
     | "self"
     | "bearer"

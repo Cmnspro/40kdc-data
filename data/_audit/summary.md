@@ -13,7 +13,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | adeptus-mechanicus | 100 | 24 | 11 | 68 | 1 | 1 | 0 | 2 |
 | aeldari | 168 | 33 | 13 | 127 | 23 | 13 | 0 | 5 |
 | agents-of-the-imperium | 130 | 23 | 8 | 101 | 40 | 2 | 0 | 2 |
-| astra-militarum | 191 | 46 | 16 | 132 | 0 | 3 | 0 | 5 |
+| astra-militarum | 191 | 46 | 16 | 132 | 1 | 3 | 0 | 5 |
 | chaos-daemons | 147 | 39 | 14 | 100 | 1 | 7 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 4 | 3 | 0 | 0 |
 | chaos-space-marines | 222 | 63 | 17 | 149 | 7 | 21 | 0 | 6 |
@@ -25,12 +25,12 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | imperial-knights | 67 | 29 | 7 | 34 | 1 | 5 | 0 | 1 |
 | leagues-of-votann | 69 | 13 | 7 | 51 | 15 | 0 | 0 | 1 |
 | necrons | 148 | 24 | 23 | 109 | 21 | 6 | 0 | 1 |
-| orks | 143 | 29 | 13 | 106 | 17 | 5 | 0 | 3 |
+| orks | 143 | 29 | 13 | 106 | 18 | 5 | 0 | 3 |
 | tau-empire | 122 | 32 | 7 | 86 | 9 | 6 | 0 | 3 |
 | thousand-sons | 125 | 30 | 9 | 91 | 22 | 17 | 0 | 2 |
 | tyranids | 102 | 19 | 7 | 79 | 13 | 5 | 0 | 6 |
 | world-eaters | 129 | 20 | 7 | 102 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2923** | **705** | **257** | **2048** | **235** | **153** | **0** | **59** |
+| **TOTAL** | **2923** | **705** | **257** | **2048** | **237** | **153** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 

@@ -608,6 +608,7 @@ class SimpleCondition(TypedDict):
         "made-ingress-move-this-turn",
         "disembarked-from-transport",
         "faction-rule-active",
+        "battle-round",
     ]
     parameters: NotRequired[dict[str, Any]]
     negated: NotRequired[bool]
@@ -662,6 +663,7 @@ class SingleEffect(TypedDict):
         "unit-tag",
         "bs-modifier",
         "engagement-passthrough",
+        "strategic-reserves-arrival",
     ]
     target: Literal[
         "self",

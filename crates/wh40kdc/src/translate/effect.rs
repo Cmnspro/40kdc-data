@@ -344,6 +344,9 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                 T::FactionRuleActive => {
                     format!("while the {} is active", title_case(&jv(p, "rule")))
                 }
+                T::BattleRound => {
+                    format!("during the first {} battle rounds", jv(p, "max"))
+                }
                 T::RemainedStationary => "if the unit Remained Stationary".to_string(),
                 T::TargetHasKeyword => format!("against {} targets", jv(p, "keyword")),
                 T::UnitHasKeyword => format!("if the unit has the {} keyword", jv(p, "keyword")),
@@ -794,6 +797,9 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             format!("{subj} {} the {name}{val} ability", agree(&subj, "has"))
         }
         T::DeepStrike => format!("{subj} {} the Deep Strike ability", agree(&subj, "has")),
+        T::StrategicReservesArrival => {
+            format!("{subj} can arrive from Strategic Reserves regardless of mission rules")
+        }
         T::FallbackAndAct => format!(
             "{subj} {} eligible to shoot and declare a charge in a turn in which it Fell Back",
             agree(&subj, "is")

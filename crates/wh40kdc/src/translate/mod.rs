@@ -261,6 +261,7 @@ fn describe_simple(s: &SimpleCondition) -> String {
             format!("{negate}the unit disembarked from a Transport this turn")
         }
         T::FactionRuleActive => format!("{negate}the {} is active", pj(p, "rule")),
+        T::BattleRound => format!("{negate}during the first {} battle rounds", pj(p, "max")),
         T::RemainedStationary => format!("{negate}the unit remained stationary"),
         T::UnitBelowStartingStrength => format!("{negate}the unit is below starting strength"),
         T::UnitBelowHalfStrength => format!("{negate}the unit is below half strength"),

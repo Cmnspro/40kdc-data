@@ -355,6 +355,8 @@ function conditionLeadIn(c: Condition): string {
       return "if the unit disembarked from a Transport this turn";
     case "faction-rule-active":
       return `while the ${titleCase(jstr(p.rule))} is active`;
+    case "battle-round":
+      return `during the first ${jstr(p.max)} battle rounds`;
     case "remained-stationary":
       return "if the unit Remained Stationary";
     case "target-has-keyword":
@@ -555,6 +557,8 @@ export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
     }
     case "deep-strike":
       return `${subj} has the Deep Strike ability`;
+    case "strategic-reserves-arrival":
+      return `${subj} can arrive from Strategic Reserves regardless of mission rules`;
     case "fallback-and-act":
       return `${subj} is eligible to shoot and declare a charge in a turn in which it Fell Back`;
     case "engagement-passthrough":

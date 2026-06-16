@@ -5839,7 +5839,47 @@
     }
   },
   {
-    "caseId": "rearm-reload-fire#190",
+    "caseId": "quantum-invader#190",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "movement"
+            }
+          },
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "reinforcements"
+            }
+          },
+          {
+            "type": "battle-round",
+            "parameters": {
+              "max": 3
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "strategic-reserves-arrival",
+        "target": "self"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "During the Movement phase, when it arrives as Reinforcements, during the first 3 battle rounds, this model can arrive from Strategic Reserves regardless of mission rules."
+    }
+  },
+  {
+    "caseId": "rearm-reload-fire#191",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5864,7 +5904,7 @@
     }
   },
   {
-    "caseId": "runnin-boots#191",
+    "caseId": "runnin-boots#192",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5889,7 +5929,7 @@
     }
   },
   {
-    "caseId": "seed-the-garden-of-nurgle#192",
+    "caseId": "seed-the-garden-of-nurgle#193",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5938,7 +5978,7 @@
     }
   },
   {
-    "caseId": "shadow-of-khorne-aura#193",
+    "caseId": "shadow-of-khorne-aura#194",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5988,7 +6028,7 @@
     }
   },
   {
-    "caseId": "shudderblink#194",
+    "caseId": "shudderblink#195",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6042,7 +6082,7 @@
     }
   },
   {
-    "caseId": "super-heavy-walker#195",
+    "caseId": "super-heavy-walker#196",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6115,7 +6155,7 @@
     }
   },
   {
-    "caseId": "swooping-descent#196",
+    "caseId": "swooping-descent#197",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6171,7 +6211,7 @@
     }
   },
   {
-    "caseId": "the-betrayer#197",
+    "caseId": "the-betrayer#198",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6238,7 +6278,7 @@
     }
   },
   {
-    "caseId": "the-dark-master-aura#198",
+    "caseId": "the-dark-master-aura#199",
     "effect": {
       "type": "terrain-area-tag",
       "target": "self",
@@ -6255,7 +6295,7 @@
     }
   },
   {
-    "caseId": "the-hammer-falls#199",
+    "caseId": "the-hammer-falls#200",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6288,7 +6328,7 @@
     }
   },
   {
-    "caseId": "torture-device#200",
+    "caseId": "torture-device#201",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6317,7 +6357,7 @@
     }
   },
   {
-    "caseId": "triarchal-menhirs#201",
+    "caseId": "triarchal-menhirs#202",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6354,7 +6394,7 @@
     }
   },
   {
-    "caseId": "unholy-avalanche#202",
+    "caseId": "unholy-avalanche#203",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6393,7 +6433,7 @@
     }
   },
   {
-    "caseId": "warp-tainted#203",
+    "caseId": "warp-tainted#204",
     "effect": {
       "type": "objective-tag",
       "target": "unit",

@@ -455,81 +455,30 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "operator": "or",
+        "operator": "and",
         "operands": [
           {
-            "operator": "and",
-            "operands": [
-              {
-                "type": "phase-is",
-                "parameters": {
-                  "phase": "movement"
-                }
-              },
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "reinforcements"
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 1
-                }
-              }
-            ]
+            "type": "phase-is",
+            "parameters": {
+              "phase": "movement"
+            }
           },
           {
-            "operator": "and",
-            "operands": [
-              {
-                "type": "phase-is",
-                "parameters": {
-                  "phase": "movement"
-                }
-              },
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "reinforcements"
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 2
-                }
-              }
-            ]
+            "type": "timing-is",
+            "parameters": {
+              "timing": "reinforcements"
+            }
           },
           {
-            "operator": "and",
-            "operands": [
-              {
-                "type": "phase-is",
-                "parameters": {
-                  "phase": "movement"
-                }
-              },
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "reinforcements"
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 3
-                }
-              }
-            ]
+            "type": "battle-round",
+            "parameters": {
+              "max": 3
+            }
           }
         ]
       },
       "effect": {
-        "type": "deep-strike",
+        "type": "strategic-reserves-arrival",
         "target": "self"
       }
     },
