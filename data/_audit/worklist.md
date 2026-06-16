@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 237 stub abilities.
+Total: 235 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -188,7 +188,6 @@ Total: 237 stub abilities.
 | orks | brutal-broadside | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | dakka-dakka-dakka | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | devastating-drift | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | eager-for-the-fight | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | impending-crunch | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | impervious | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | mekanised-brutality | stat-modifier | stat-modifier: operation "undefined" not supported |
@@ -196,7 +195,6 @@ Total: 237 stub abilities.
 | orks | rollin-deff-long-uncontrolled-bursts | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | rollin-deff-speshul-shells | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | run-em-down | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | runnin-boots | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | supercharged-squig-oil | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | targetin-gizmos | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | thundering-wagons | stat-modifier | stat-modifier: operation "undefined" not supported |

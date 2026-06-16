@@ -2889,7 +2889,9 @@
             "destroyed-in-tagged-terrain",
             "operation-markers",
             "attack-stat-compare",
-            "made-ingress-move-this-turn"
+            "made-ingress-move-this-turn",
+            "disembarked-from-transport",
+            "faction-rule-active"
           ]
         },
         "parameters": {
@@ -2952,6 +2954,9 @@
         },
         {
           "$ref": "#/$defs/dice-pool-allocation-effect"
+        },
+        {
+          "$ref": "#/$defs/select-units-effect"
         }
       ]
     },
@@ -3008,6 +3013,7 @@
             "invulnerable-save",
             "ward",
             "keyword-grant",
+            "unit-keyword",
             "movement-modifier",
             "deep-strike",
             "fallback-and-act",
@@ -3043,6 +3049,7 @@
             "attached-unit",
             "attacker",
             "defender",
+            "target",
             "friendly-within-aura",
             "enemy-within-aura",
             "all-friendly",
@@ -3264,6 +3271,50 @@
         "options"
       ]
     },
+    "select-units-effect": {
+      "type": "object",
+      "$comment": "Targeting wrapper: choose up to `selector.max_count` units matching `selector.keywords` of the named `owner`, then apply the nested `effect` to each. Models 'select up to N <keyword> units and do X' (redeploy, army-wide one-off buffs) that bare ability-grant labels previously flattened.",
+      "properties": {
+        "type": {
+          "const": "select-units"
+        },
+        "selector": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "keywords": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "owner": {
+              "type": "string",
+              "enum": [
+                "friendly",
+                "enemy"
+              ]
+            }
+          },
+          "required": [
+            "max_count",
+            "owner"
+          ]
+        },
+        "effect": {
+          "$ref": "#/$defs/effect-node"
+        }
+      },
+      "required": [
+        "type",
+        "selector",
+        "effect"
+      ]
+    },
     "effect": {
       "title": "Ability Effect",
       "$ref": "#/$defs/effect-node"
@@ -3479,7 +3530,8 @@
             "on-unit-selected",
             "on-unit-destroyed",
             "on-model-destroyed",
-            "on-damage-allocated"
+            "on-damage-allocated",
+            "before-this-model-removed"
           ]
         },
         "game_version": {

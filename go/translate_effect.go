@@ -10,7 +10,24 @@ import (
 // python .../translate/effect.py.
 
 var containerTypes = map[string]bool{
-	"sequence": true, "choice": true, "dice-gated": true, "dice-pool-allocation": true,
+	"sequence": true, "choice": true, "dice-gated": true, "dice-pool-allocation": true, "select-units": true,
+}
+
+// selectUnitsSubject renders "up to 3 friendly Orks Vehicle units" for select-units.
+func selectUnitsSubject(sel map[string]any) string {
+	var kws []string
+	for _, k := range getStrList(sel, "keywords") {
+		kws = append(kws, titleCase(k))
+	}
+	kw := strings.Join(kws, " ")
+	if kw != "" {
+		kw = " " + kw
+	}
+	noun := "units"
+	if ejstr(sel["max_count"]) == "1" {
+		noun = "unit"
+	}
+	return "up to " + ejstr(sel["max_count"]) + " " + ejstr(sel["owner"]) + kw + " " + noun
 }
 
 // ejstr is the effect module's _jstr (lists join with ", "; numbers without .0).
@@ -194,6 +211,23 @@ func esigned(operation, value any) string {
 	return "-" + ejstr(value)
 }
 
+// poolThreshold renders the per-die success phrase ("4+", "6", "3 or less") for
+// a mortal-wounds dice pool — no leading "a", as it follows "for each".
+func poolThreshold(comp string, threshold any) string {
+	th := ejstr(threshold)
+	switch comp {
+	case "lte":
+		return th + " or less"
+	case "gt":
+		return "more than " + th
+	case "lt":
+		return "less than " + th
+	case "eq":
+		return th
+	}
+	return th + "+"
+}
+
 func formatComparison(comp string, threshold any) string {
 	th := ejstr(threshold)
 	switch comp {
@@ -294,6 +328,10 @@ func conditionLeadIn(c map[string]any) string {
 		return "if the unit charged this turn"
 	case "advanced-this-turn":
 		return "if the unit Advanced this turn"
+	case "disembarked-from-transport":
+		return "if the unit disembarked from a Transport this turn"
+	case "faction-rule-active":
+		return "while the " + titleCase(ejstr(p["rule"])) + " is active"
 	case "remained-stationary":
 		return "if the unit Remained Stationary"
 	case "target-has-keyword":
@@ -649,6 +687,13 @@ func describeEffectInline(e map[string]any, ctx map[string]any) string {
 			return "each time this model is destroyed, it can shoot before being removed from play"
 		}
 		return "each time a model in " + subj + " is destroyed, it can shoot before being removed from play"
+	case "unit-keyword":
+		name := titleCase(ejstr(m["keyword_id"]))
+		val := ""
+		if m["value"] != nil {
+			val = " " + ejstr(m["value"])
+		}
+		return subj + " " + ev(subj, "has") + " the " + name + val + " ability"
 	case "deep-strike":
 		return subj + " " + ev(subj, "has") + " the Deep Strike ability"
 	case "fallback-and-act":
@@ -704,6 +749,10 @@ func describeEffectInline(e map[string]any, ctx map[string]any) string {
 		return describeDiceGatedInline(e, ctx)
 	case "dice-pool-allocation":
 		return describeDicePoolInline(e, ctx)
+	case "select-units":
+		sel, _ := getMap(e, "selector")
+		inner, _ := getMap(e, "effect")
+		return "select " + selectUnitsSubject(sel) + ": " + describeEffectInline(inner, ctx)
 	}
 	t := "unknown"
 	if e["type"] != nil {
@@ -727,6 +776,21 @@ func describeMortalWounds(e, m map[string]any, subj string, ctx map[string]any) 
 	verb := ev(subjMW, "suffers")
 	if strings.HasPrefix(subjMW, "each ") {
 		verb = "suffers"
+	}
+	// Dice-pool form: N dice rolled, each success worth `mortal_per_success`
+	// mortal wounds (distinct from a flat count).
+	if m["mortal_per_success"] != nil {
+		per := ejstr(m["mortal_per_success"])
+		perNoun := "mortal wounds"
+		if per == "1" {
+			perNoun = "mortal wound"
+		}
+		comp := "gte"
+		if c, ok := m["comparison"].(string); ok && c != "" {
+			comp = c
+		}
+		hit := poolThreshold(comp, m["threshold"])
+		return "roll " + diceCase(m["dice"]) + ": for each " + hit + ", " + subjMW + " " + verb + " " + per + " " + perNoun
 	}
 	var a *string
 	switch {
@@ -852,6 +916,14 @@ func describeEffect(e map[string]any, depth int, ctx map[string]any) string {
 			lines = append(lines, indent+"  - "+ejstr(opt["name"])+": need "+ejstr(req["type"])+" of "+ejstr(req["min_value"])+"+ -> "+describeEffectInline(eff, ctx))
 		}
 		return strings.Join(lines, "\n")
+	case "select-units":
+		sel, _ := getMap(e, "selector")
+		inner, _ := getMap(e, "effect")
+		lead := "Select " + selectUnitsSubject(sel)
+		if inner != nil && containerTypes[getStr(inner, "type")] {
+			return indent + arrow + lead + ":\n" + describeEffect(inner, depth+1, ctx)
+		}
+		return indent + arrow + lead + ": " + describeEffectInline(inner, ctx) + "."
 	}
 	return indent + arrow + capitalize(describeEffectInline(e, ctx)) + "."
 }

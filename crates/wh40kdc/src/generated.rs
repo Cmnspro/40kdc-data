@@ -3680,6 +3680,9 @@ impl ::std::convert::From<EffectNode> for Effect {
 ///    },
 ///    {
 ///      "$ref": "#/$defs/dice-pool-allocation-effect"
+///    },
+///    {
+///      "$ref": "#/$defs/select-units-effect"
 ///    }
 ///  ]
 ///}
@@ -3694,6 +3697,7 @@ pub enum EffectNode {
     DiceGatedEffect(DiceGatedEffect),
     ConditionalEffect(ConditionalEffect),
     DicePoolAllocationEffect(DicePoolAllocationEffect),
+    SelectUnitsEffect(SelectUnitsEffect),
 }
 impl ::std::convert::From<SingleEffect> for EffectNode {
     fn from(value: SingleEffect) -> Self {
@@ -3723,6 +3727,11 @@ impl ::std::convert::From<ConditionalEffect> for EffectNode {
 impl ::std::convert::From<DicePoolAllocationEffect> for EffectNode {
     fn from(value: DicePoolAllocationEffect) -> Self {
         Self::DicePoolAllocationEffect(value)
+    }
+}
+impl ::std::convert::From<SelectUnitsEffect> for EffectNode {
+    fn from(value: SelectUnitsEffect) -> Self {
+        Self::SelectUnitsEffect(value)
     }
 }
 ///A purchasable upgrade for a character unit, provided by a detachment.
@@ -9298,6 +9307,182 @@ impl ::std::convert::TryFrom<::std::string::String> for SecondaryCardWhenDrawnOp
         value.parse()
     }
 }
+///`SelectUnitsEffect`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "effect",
+///    "selector",
+///    "type"
+///  ],
+///  "properties": {
+///    "effect": {
+///      "$ref": "#/$defs/effect-node"
+///    },
+///    "selector": {
+///      "type": "object",
+///      "required": [
+///        "max_count",
+///        "owner"
+///      ],
+///      "properties": {
+///        "keywords": {
+///          "type": "array",
+///          "items": {
+///            "type": "string"
+///          }
+///        },
+///        "max_count": {
+///          "type": "integer",
+///          "minimum": 1.0
+///        },
+///        "owner": {
+///          "type": "string",
+///          "enum": [
+///            "friendly",
+///            "enemy"
+///          ]
+///        }
+///      },
+///      "additionalProperties": false
+///    },
+///    "type": {
+///      "const": "select-units"
+///    }
+///  },
+///  "$comment": "Targeting wrapper: choose up to `selector.max_count` units matching `selector.keywords` of the named `owner`, then apply the nested `effect` to each. Models 'select up to N <keyword> units and do X' (redeploy, army-wide one-off buffs) that bare ability-grant labels previously flattened."
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+pub struct SelectUnitsEffect {
+    pub effect: ::std::boxed::Box<EffectNode>,
+    pub selector: SelectUnitsEffectSelector,
+    #[serde(rename = "type")]
+    pub type_: ::serde_json::Value,
+}
+///`SelectUnitsEffectSelector`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "max_count",
+///    "owner"
+///  ],
+///  "properties": {
+///    "keywords": {
+///      "type": "array",
+///      "items": {
+///        "type": "string"
+///      }
+///    },
+///    "max_count": {
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
+///    "owner": {
+///      "type": "string",
+///      "enum": [
+///        "friendly",
+///        "enemy"
+///      ]
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct SelectUnitsEffectSelector {
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub keywords: ::std::vec::Vec<::std::string::String>,
+    pub max_count: ::std::num::NonZeroU64,
+    pub owner: SelectUnitsEffectSelectorOwner,
+}
+///`SelectUnitsEffectSelectorOwner`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "string",
+///  "enum": [
+///    "friendly",
+///    "enemy"
+///  ]
+///}
+/// ```
+/// </details>
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    Hash,
+    Ord,
+    PartialEq,
+    PartialOrd
+)]
+pub enum SelectUnitsEffectSelectorOwner {
+    #[serde(rename = "friendly")]
+    Friendly,
+    #[serde(rename = "enemy")]
+    Enemy,
+}
+impl ::std::fmt::Display for SelectUnitsEffectSelectorOwner {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        match *self {
+            Self::Friendly => f.write_str("friendly"),
+            Self::Enemy => f.write_str("enemy"),
+        }
+    }
+}
+impl ::std::str::FromStr for SelectUnitsEffectSelectorOwner {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        match value {
+            "friendly" => Ok(Self::Friendly),
+            "enemy" => Ok(Self::Enemy),
+            _ => Err("invalid value".into()),
+        }
+    }
+}
+impl ::std::convert::TryFrom<&str> for SelectUnitsEffectSelectorOwner {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String> for SelectUnitsEffectSelectorOwner {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String> for SelectUnitsEffectSelectorOwner {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
 ///`SequenceEffect`
 ///
 /// <details><summary>JSON schema</summary>
@@ -9470,7 +9655,9 @@ impl ::std::convert::TryFrom<::std::string::String> for Side {
 ///        "destroyed-in-tagged-terrain",
 ///        "operation-markers",
 ///        "attack-stat-compare",
-///        "made-ingress-move-this-turn"
+///        "made-ingress-move-this-turn",
+///        "disembarked-from-transport",
+///        "faction-rule-active"
 ///      ]
 ///    }
 ///  },
@@ -9536,7 +9723,9 @@ pub struct SimpleCondition {
 ///    "destroyed-in-tagged-terrain",
 ///    "operation-markers",
 ///    "attack-stat-compare",
-///    "made-ingress-move-this-turn"
+///    "made-ingress-move-this-turn",
+///    "disembarked-from-transport",
+///    "faction-rule-active"
 ///  ]
 ///}
 /// ```
@@ -9638,6 +9827,10 @@ pub enum SimpleConditionType {
     AttackStatCompare,
     #[serde(rename = "made-ingress-move-this-turn")]
     MadeIngressMoveThisTurn,
+    #[serde(rename = "disembarked-from-transport")]
+    DisembarkedFromTransport,
+    #[serde(rename = "faction-rule-active")]
+    FactionRuleActive,
 }
 impl ::std::fmt::Display for SimpleConditionType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -9688,6 +9881,8 @@ impl ::std::fmt::Display for SimpleConditionType {
             Self::OperationMarkers => f.write_str("operation-markers"),
             Self::AttackStatCompare => f.write_str("attack-stat-compare"),
             Self::MadeIngressMoveThisTurn => f.write_str("made-ingress-move-this-turn"),
+            Self::DisembarkedFromTransport => f.write_str("disembarked-from-transport"),
+            Self::FactionRuleActive => f.write_str("faction-rule-active"),
         }
     }
 }
@@ -9739,6 +9934,8 @@ impl ::std::str::FromStr for SimpleConditionType {
             "operation-markers" => Ok(Self::OperationMarkers),
             "attack-stat-compare" => Ok(Self::AttackStatCompare),
             "made-ingress-move-this-turn" => Ok(Self::MadeIngressMoveThisTurn),
+            "disembarked-from-transport" => Ok(Self::DisembarkedFromTransport),
+            "faction-rule-active" => Ok(Self::FactionRuleActive),
             _ => Err("invalid value".into()),
         }
     }
@@ -9795,6 +9992,7 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "attached-unit",
 ///        "attacker",
 ///        "defender",
+///        "target",
 ///        "friendly-within-aura",
 ///        "enemy-within-aura",
 ///        "all-friendly",
@@ -9812,6 +10010,7 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "invulnerable-save",
 ///        "ward",
 ///        "keyword-grant",
+///        "unit-keyword",
 ///        "movement-modifier",
 ///        "deep-strike",
 ///        "fallback-and-act",
@@ -9867,6 +10066,7 @@ pub struct SingleEffect {
 ///    "attached-unit",
 ///    "attacker",
 ///    "defender",
+///    "target",
 ///    "friendly-within-aura",
 ///    "enemy-within-aura",
 ///    "all-friendly",
@@ -9900,6 +10100,8 @@ pub enum SingleEffectTarget {
     Attacker,
     #[serde(rename = "defender")]
     Defender,
+    #[serde(rename = "target")]
+    Target,
     #[serde(rename = "friendly-within-aura")]
     FriendlyWithinAura,
     #[serde(rename = "enemy-within-aura")]
@@ -9918,6 +10120,7 @@ impl ::std::fmt::Display for SingleEffectTarget {
             Self::AttachedUnit => f.write_str("attached-unit"),
             Self::Attacker => f.write_str("attacker"),
             Self::Defender => f.write_str("defender"),
+            Self::Target => f.write_str("target"),
             Self::FriendlyWithinAura => f.write_str("friendly-within-aura"),
             Self::EnemyWithinAura => f.write_str("enemy-within-aura"),
             Self::AllFriendly => f.write_str("all-friendly"),
@@ -9937,6 +10140,7 @@ impl ::std::str::FromStr for SingleEffectTarget {
             "attached-unit" => Ok(Self::AttachedUnit),
             "attacker" => Ok(Self::Attacker),
             "defender" => Ok(Self::Defender),
+            "target" => Ok(Self::Target),
             "friendly-within-aura" => Ok(Self::FriendlyWithinAura),
             "enemy-within-aura" => Ok(Self::EnemyWithinAura),
             "all-friendly" => Ok(Self::AllFriendly),
@@ -9985,6 +10189,7 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///    "invulnerable-save",
 ///    "ward",
 ///    "keyword-grant",
+///    "unit-keyword",
 ///    "movement-modifier",
 ///    "deep-strike",
 ///    "fallback-and-act",
@@ -10042,6 +10247,8 @@ pub enum SingleEffectType {
     Ward,
     #[serde(rename = "keyword-grant")]
     KeywordGrant,
+    #[serde(rename = "unit-keyword")]
+    UnitKeyword,
     #[serde(rename = "movement-modifier")]
     MovementModifier,
     #[serde(rename = "deep-strike")]
@@ -10102,6 +10309,7 @@ impl ::std::fmt::Display for SingleEffectType {
             Self::InvulnerableSave => f.write_str("invulnerable-save"),
             Self::Ward => f.write_str("ward"),
             Self::KeywordGrant => f.write_str("keyword-grant"),
+            Self::UnitKeyword => f.write_str("unit-keyword"),
             Self::MovementModifier => f.write_str("movement-modifier"),
             Self::DeepStrike => f.write_str("deep-strike"),
             Self::FallbackAndAct => f.write_str("fallback-and-act"),
@@ -10143,6 +10351,7 @@ impl ::std::str::FromStr for SingleEffectType {
             "invulnerable-save" => Ok(Self::InvulnerableSave),
             "ward" => Ok(Self::Ward),
             "keyword-grant" => Ok(Self::KeywordGrant),
+            "unit-keyword" => Ok(Self::UnitKeyword),
             "movement-modifier" => Ok(Self::MovementModifier),
             "deep-strike" => Ok(Self::DeepStrike),
             "fallback-and-act" => Ok(Self::FallbackAndAct),
@@ -11971,7 +12180,8 @@ pub struct TerrainTemplateUpperFloor {
 ///        "on-unit-selected",
 ///        "on-unit-destroyed",
 ///        "on-model-destroyed",
-///        "on-damage-allocated"
+///        "on-damage-allocated",
+///        "before-this-model-removed"
 ///      ]
 ///    }
 ///  }
@@ -12014,7 +12224,8 @@ pub struct TimingFlag {
 ///    "on-unit-selected",
 ///    "on-unit-destroyed",
 ///    "on-model-destroyed",
-///    "on-damage-allocated"
+///    "on-damage-allocated",
+///    "before-this-model-removed"
 ///  ]
 ///}
 /// ```
@@ -12072,6 +12283,8 @@ pub enum TimingFlagTiming {
     OnModelDestroyed,
     #[serde(rename = "on-damage-allocated")]
     OnDamageAllocated,
+    #[serde(rename = "before-this-model-removed")]
+    BeforeThisModelRemoved,
 }
 impl ::std::fmt::Display for TimingFlagTiming {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -12096,6 +12309,7 @@ impl ::std::fmt::Display for TimingFlagTiming {
             Self::OnUnitDestroyed => f.write_str("on-unit-destroyed"),
             Self::OnModelDestroyed => f.write_str("on-model-destroyed"),
             Self::OnDamageAllocated => f.write_str("on-damage-allocated"),
+            Self::BeforeThisModelRemoved => f.write_str("before-this-model-removed"),
         }
     }
 }
@@ -12125,6 +12339,7 @@ impl ::std::str::FromStr for TimingFlagTiming {
             "on-unit-destroyed" => Ok(Self::OnUnitDestroyed),
             "on-model-destroyed" => Ok(Self::OnModelDestroyed),
             "on-damage-allocated" => Ok(Self::OnDamageAllocated),
+            "before-this-model-removed" => Ok(Self::BeforeThisModelRemoved),
             _ => Err("invalid value".into()),
         }
     }

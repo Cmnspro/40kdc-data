@@ -12,7 +12,8 @@ use super::{dekebab, describe_node, describe_timing};
 use crate::generated::{
     Ability, AbilityAppliesTo, CompoundConditionOperator, ConditionNode, DiceGatedEffect,
     DiceGatedEffectComparison, DiceGatedEffectThreshold, DicePoolAllocationEffect, EffectNode,
-    Scope, SimpleConditionType, SingleEffect, SingleEffectType,
+    Scope, SelectUnitsEffectSelector, SelectUnitsEffectSelectorOwner, SimpleConditionType,
+    SingleEffect, SingleEffectType,
 };
 
 /// Rendering context threaded from the ability (scope info the leaf needs).
@@ -249,6 +250,19 @@ fn signed(m: &Map<String, Value>) -> String {
 }
 
 /// Dice comparison → "a 4+", "a 3 or less", etc.
+/// Dice-pool success phrase → "4+", "6", "3 or less" (per-die threshold in a
+/// `mortal-wounds` pool — follows "for each", so no leading "a").
+fn pool_threshold(comp: &str, threshold: Option<&Value>) -> String {
+    let th = threshold.map(jval).unwrap_or_else(|| "?".to_string());
+    match comp {
+        "lte" => format!("{th} or less"),
+        "gt" => format!("more than {th}"),
+        "lt" => format!("less than {th}"),
+        "eq" => th,
+        _ => format!("{th}+"),
+    }
+}
+
 fn format_comparison(
     comp: DiceGatedEffectComparison,
     threshold: &DiceGatedEffectThreshold,
@@ -324,6 +338,12 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                 T::ModelIsLeader => "while this model leads a unit".to_string(),
                 T::ChargedThisTurn => "if the unit charged this turn".to_string(),
                 T::AdvancedThisTurn => "if the unit Advanced this turn".to_string(),
+                T::DisembarkedFromTransport => {
+                    "if the unit disembarked from a Transport this turn".to_string()
+                }
+                T::FactionRuleActive => {
+                    format!("while the {} is active", title_case(&jv(p, "rule")))
+                }
                 T::RemainedStationary => "if the unit Remained Stationary".to_string(),
                 T::TargetHasKeyword => format!("against {} targets", jv(p, "keyword")),
                 T::UnitHasKeyword => format!("if the unit has the {} keyword", jv(p, "keyword")),
@@ -511,6 +531,22 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             } else {
                 agree(&subj_mw, "suffers")
             };
+            // Dice-pool form: N dice rolled, each success worth
+            // `mortal_per_success` mortal wounds (distinct from a flat count).
+            if notnull(m, "mortal_per_success") {
+                let per = jv(m, "mortal_per_success");
+                let per_noun = if per == "1" {
+                    "mortal wound"
+                } else {
+                    "mortal wounds"
+                };
+                let comp = nstr(m, "comparison").unwrap_or("gte");
+                let hit = pool_threshold(comp, m.get("threshold"));
+                return format!(
+                    "roll {}: for each {hit}, {subj_mw} {verb} {per} {per_noun}",
+                    dice_case(m.get("dice").unwrap_or(&Value::Null))
+                );
+            }
             let a: Option<String> = if notnull(m, "count") {
                 Some(jv(m, "count"))
             } else if notnull(m, "amount") {
@@ -739,6 +775,15 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 format!("each time a model in {subj} is destroyed, it can shoot before being removed from play")
             }
         }
+        T::UnitKeyword => {
+            let name = title_case(&jv(m, "keyword_id"));
+            let val = if notnull(m, "value") {
+                format!(" {}", jv(m, "value"))
+            } else {
+                String::new()
+            };
+            format!("{subj} {} the {name}{val} ability", agree(&subj, "has"))
+        }
         T::DeepStrike => format!("{subj} {} the Deep Strike ability", agree(&subj, "has")),
         T::FallbackAndAct => format!(
             "{subj} {} eligible to shoot and declare a charge in a turn in which it Fell Back",
@@ -832,7 +877,37 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             d.pool.die,
             dice_pool_options_inline(d, ctx)
         ),
+        EffectNode::SelectUnitsEffect(s) => format!(
+            "select {}: {}",
+            select_units_subject(&s.selector),
+            inline(&s.effect, ctx)
+        ),
     }
+}
+
+/// "up to 3 friendly Orks Vehicle units" — the `select-units` selector phrase.
+fn select_units_subject(sel: &SelectUnitsEffectSelector) -> String {
+    let kw = sel
+        .keywords
+        .iter()
+        .map(|k| title_case(k))
+        .collect::<Vec<_>>()
+        .join(" ");
+    let owner = match sel.owner {
+        SelectUnitsEffectSelectorOwner::Friendly => "friendly",
+        SelectUnitsEffectSelectorOwner::Enemy => "enemy",
+    };
+    let noun = if sel.max_count.get() == 1 {
+        "unit"
+    } else {
+        "units"
+    };
+    let kw = if kw.is_empty() {
+        String::new()
+    } else {
+        format!(" {kw}")
+    };
+    format!("up to {} {owner}{kw} {noun}", sel.max_count)
 }
 
 fn dice_gated_inline(d: &DiceGatedEffect, ctx: &Ctx) -> String {
@@ -875,6 +950,7 @@ fn is_container(e: &EffectNode) -> bool {
             | EffectNode::ChoiceEffect(_)
             | EffectNode::DiceGatedEffect(_)
             | EffectNode::DicePoolAllocationEffect(_)
+            | EffectNode::SelectUnitsEffect(_)
     )
 }
 
@@ -956,6 +1032,15 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
                 ));
             }
             lines.join("\n")
+        }
+        EffectNode::SelectUnitsEffect(s) => {
+            let inner = &*s.effect;
+            let lead = format!("Select {}", select_units_subject(&s.selector));
+            if is_container(inner) {
+                format!("{indent}{arrow}{lead}:\n{}", block(inner, depth + 1, ctx))
+            } else {
+                format!("{indent}{arrow}{lead}: {}.", inline(inner, ctx))
+            }
         }
         EffectNode::SingleEffect(_) => {
             format!("{indent}{arrow}{}.", capitalize(&inline(e, ctx)))
