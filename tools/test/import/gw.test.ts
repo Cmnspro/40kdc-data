@@ -163,6 +163,6 @@ describe("gwAdapter resolves against the embedded dataset", () => {
     const warlord = roster.units.find((u) => u.is_warlord);
     expect(warlord?.ref.id).toBe("war-dog-executioner");
     const enhanced = roster.units.find((u) => u.enhancement !== null);
-    expect(enhanced?.enhancement?.id).toBe("preyslayers-mantle");
+    expect(enhanced?.enhancement?.id).toBe("preyslayers-mantle-houndpack-lance");
   });
 });

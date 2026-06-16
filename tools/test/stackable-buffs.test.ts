@@ -152,7 +152,7 @@ describe("Berzerker Warband detachment buffs", () => {
 
   it("surfaces Hack and Slash as an opt-in stratagem lever that improves AP", () => {
     const { buffs } = ds.stackableBuffsFor(WARBAND, { phase: "fight" });
-    const strat = buffs.find((b) => b.id === "detachment-stratagem:hack-and-slash");
+    const strat = buffs.find((b) => b.id === "detachment-stratagem:hack-and-slash-berzerker-warband");
     expect(strat, "hack-and-slash lever").toBeDefined();
     // Stratagems cost CP — off by default.
     expect(strat!.enabled).toBe(false);
