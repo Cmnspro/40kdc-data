@@ -211,12 +211,12 @@
     },
     {
       "faction": "orks",
-      "total": 142,
+      "total": 143,
       "offensive": 29,
       "defensive": 12,
-      "inert": 105,
-      "stub": 6,
-      "stubStructural": 24,
+      "inert": 106,
+      "stub": 7,
+      "stubStructural": 25,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
@@ -266,12 +266,12 @@
     }
   ],
   "totals": {
-    "total": 2922,
+    "total": 2923,
     "offensive": 705,
     "defensive": 256,
-    "inert": 2047,
-    "stub": 154,
-    "stubStructural": 242,
+    "inert": 2048,
+    "stub": 155,
+    "stubStructural": 243,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
@@ -282,7 +282,7 @@
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 235
+      "count": 236
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -24978,6 +24978,16 @@
       "faction": "orks",
       "ability_id": "tuff-git-blitz-brigade",
       "name": "Tuff Git",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "dakka-dakka-dakka-more-dakka",
+      "name": "Dakka! Dakka! Dakka!",
       "shape": "stat-modifier",
       "stub": true,
       "offensive": false,
