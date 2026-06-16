@@ -23,6 +23,11 @@ const readJSON = (p: string): any => JSON.parse(readFileSync(p, "utf-8"));
 const CORE = resolve(REPO, "data/core");
 // the app resolves text for each of these via store[ability_id ?? id]
 const keyOf = (e: { ability_id?: string; id?: string }): string => e.ability_id ?? e.id ?? "";
+// core.json holds the universal USR / weapon-keyword text shared across factions;
+// an ability whose id resolves there IS covered (the app's index embeds core.json),
+// so it must not be counted as a per-faction gap.
+const coreStorePath = join(STORE_ROOT, "core.json");
+const coreIds = new Set((existsSync(coreStorePath) ? readJSON(coreStorePath) : []).map((e: { ability_id?: string; id?: string }) => keyOf(e)));
 const allDirs = [...new Set([...readdirSync(ENRICH), ...readdirSync(CORE)])].filter((f) => !f.startsWith("_")).sort();
 
 interface Row { faction: string; enr: [number, number]; enh: [number, number]; strat: [number, number] }
@@ -31,7 +36,7 @@ const tot = { enr: [0, 0], enh: [0, 0], strat: [0, 0] } as Record<string, [numbe
 
 for (const f of allDirs) {
   const sp = join(STORE_ROOT, `${f}.json`);
-  const have = new Set((existsSync(sp) ? readJSON(sp) : []).map((e: { ability_id: string }) => e.ability_id));
+  const have = new Set<string>([...coreIds, ...(existsSync(sp) ? readJSON(sp) : []).map((e: { ability_id: string }) => e.ability_id)]);
   const cov = (items: { ability_id?: string; id?: string }[]): [number, number] => [items.length, items.filter((e) => have.has(keyOf(e))).length];
   const load = (p: string) => (existsSync(p) ? readJSON(p) : []);
   const enr = cov(load(join(ENRICH, f, "abilities.json")).map((e: { ability_id: string }) => ({ ability_id: e.ability_id })));

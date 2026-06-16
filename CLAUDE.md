@@ -229,12 +229,37 @@ across implementations by the `conformance/share/` corpus.
   Rust, `python codegen/sync_bundle.py`, `bash go/codegen/sync.sh`). Order matters:
   `registry:build` BEFORE `codegen:data` (which embeds the registry).
 
+## PDF ingestion — always use the coordinate path (needs poppler)
+
+**Source order:** prefer structured sources over PDFs. game-datacards 10e carries
+both the detachment↔rule association and rule text in `rules.detachment[]`
+(`reconcile-detachment-rules.ts` joins it; `author:backfill-store` for strat/enh/
+unit prose). The PDF path is the **fallback** for new-11e content those sources lack.
+
+**When you do read a pack PDF, use the coordinate foundation — never linearize.**
+All pack prose (stratagems, enhancements, detachment rules) goes through
+`extractPackCards()` (in `author-input-pack.ts`) → `detachmentSegments` /
+`findAnchors` / `captureBody` (`extract-faction-pack.ts`, `pack-blocks.ts`), which
+parse `pdftotext -bbox-layout` **per-word coordinates**. Cards are located inside
+their detachment's coordinate *region*, so association is positional (not guessed
+from the linear stream) and the 2-column layout never interleaves.
+- **Do NOT write a new extractor that linearizes with plain `pdftotext -`.** That
+  path mis-associates rules (it once put Sisters' "Hymns of Battle" on the wrong
+  detachment) and mangles columns/drop-caps. The two store extractors
+  (`extract-pack-store`, `extract-detachment-rules`) are built on `extractPackCards`.
+- **`-bbox-layout` requires *poppler's* pdftotext.** The XPDF build (Glyph & Cog
+  4.00) lacks it; the tools now **fail loudly** telling you to install poppler
+  (`choco install poppler` / `brew install poppler` / `apt install poppler-utils`)
+  and put it ahead of XPDF on PATH. If you're on XPDF you cannot run these tools.
+- **No regex drop-cap repair.** A split drop-cap (`"P yromancy"`) is
+  indistinguishable from a stat abbreviation (`"the S of"`, `"the T of"`) by regex;
+  repairing it corrupts stat lines. Leave the rare residue; the coordinate path
+  keeps most drop-caps intact.
+- Pack quirk: new 11e detachments print `<DET> STRATAGEM` (no type word); existing
+  ones print `<DET> – <TYPE> STRATAGEM` — match both.
+
 ## Authoring-time gotchas (Windows / tooling)
 
-- **PDF extraction:** new 11e detachments print `<DET> STRATAGEM` (no type word);
-  existing ones print `<DET> – <TYPE> STRATAGEM`. A parser that requires the type
-  word silently drops new-detachment cards — match both. `pdftotext` **without**
-  `-layout` (reading order) linearizes the two-column cards far better than `-layout`.
 - **`execSync` runs via `cmd.exe` on Windows**, where `^` is the escape char — a git
   ref like `HEAD^` / `<sha>^` becomes `HEAD`/`<sha>`. Use `~1` or the explicit parent
   hash instead.

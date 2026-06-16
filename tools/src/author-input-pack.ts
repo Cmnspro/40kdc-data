@@ -154,6 +154,45 @@ export function captureBody(blocks: Block[], anchor: CardAnchor, anchors: CardAn
 
 const normName = (s: string): string => normCaps(s);
 
+/** One fully-extracted card from a pack: detachment-scoped, with clean prose. */
+export interface PackCard {
+  detachment_id: string;
+  kind: CardAnchor["kind"];
+  id: string;
+  name: string;
+  body: string;
+}
+
+/**
+ * Whitespace/line normalization for a captured body. Deliberately does NOT try to
+ * repair drop-caps (a large initial letter pdftotext may split off): in 40k's
+ * stat-heavy prose a regex can't tell a drop-cap ("P yromancy") from a stat
+ * abbreviation ("the S of", "the T of") and would corrupt the latter. The
+ * coordinate path's block grouping already keeps most drop-caps intact; the rare
+ * residue is left as-is rather than risk corrupting stat lines.
+ */
+const normalizeBody = (s: string): string => s.replace(/\s+/g, " ").trim();
+
+/**
+ * Extract every card (detachment rule / stratagem / enhancement) from a pack via
+ * the coordinate path: segment by detachment region (reliable association — no
+ * guessing from the linear text stream), anchor each card, capture its
+ * column-scoped body. This is the single robust entry point both store extractors
+ * build on; it replaces linearized `pdftotext -` parsing. Requires poppler's
+ * pdftotext (`-bbox-layout`) — see runPdftotext.
+ */
+export function extractPackCards(pdf: string): PackCard[] {
+  const out: PackCard[] = [];
+  for (const seg of detachmentSegments(pdf)) {
+    const anchors = findAnchors(seg.blocks);
+    for (const a of anchors) {
+      const body = normalizeBody(captureBody(seg.blocks, a, anchors));
+      if (body.length > 5) out.push({ detachment_id: seg.id, kind: a.kind, id: a.id, name: a.name, body });
+    }
+  }
+  return out;
+}
+
 /** Build author-input entries for one faction's new-detachment stubs from its pack. */
 export function buildFactionFromPack(faction: string, pdf: string): AuthorInputEntry[] {
   const abilitiesPath = resolve(ENRICHMENT_ROOT, faction, "abilities.json");
