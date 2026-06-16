@@ -34,8 +34,20 @@ export function runPdftotext(args: string[]): string {
   try {
     return execFileSync("pdftotext", args, { encoding: "utf-8", maxBuffer: 128 * 1024 * 1024 });
   } catch (err: unknown) {
-    if ((err as { code?: string }).code === "ENOENT") {
-      throw new Error("pdftotext not found — install poppler (e.g. `brew install poppler`).");
+    const e = err as { code?: string; stderr?: string; stdout?: string };
+    if (e.code === "ENOENT") {
+      throw new Error("pdftotext not found — install poppler (brew install poppler / apt install poppler-utils / choco install poppler).");
+    }
+    // XPDF's pdftotext (Glyph & Cog) has no -bbox-layout and dumps usage instead.
+    // Fail loudly so nobody silently falls back to crude linearized extraction —
+    // the coordinate ingester REQUIRES poppler.
+    const out = String(e.stderr ?? "") + String(e.stdout ?? "");
+    if (args.includes("-bbox-layout") && /Usage:|Glyph & Cog|xpdf/i.test(out)) {
+      throw new Error(
+        "Your `pdftotext` is XPDF, which lacks `-bbox-layout`. The pack ingester needs POPPLER's pdftotext " +
+          "(coordinate extraction). Install poppler and make sure it precedes XPDF on PATH " +
+          "(choco install poppler / brew install poppler / apt install poppler-utils).",
+      );
     }
     throw err;
   }
