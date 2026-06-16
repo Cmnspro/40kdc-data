@@ -437,6 +437,12 @@ export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
         const per = jstr(m.mortal_per_success);
         const perNoun = per === "1" ? "mortal wound" : "mortal wounds";
         const hit = poolThreshold(jstr(m.comparison ?? "gte"), m.threshold);
+        // Per-model pool: one die per model in this/the target unit (e.g.
+        // "roll one D6 for each model in this unit: for each 4+, …").
+        if (m.per_model != null) {
+          const where = m.per_model === "target" ? "the target unit" : "this unit";
+          return `roll one ${diceCase(m.dice)} for each model in ${where}: for each ${hit}, ${subjMW} ${verb} ${per} ${perNoun}`;
+        }
         return `roll ${diceCase(m.dice)}: for each ${hit}, ${subjMW} ${verb} ${per} ${perNoun}`;
       }
       const a =

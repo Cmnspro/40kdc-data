@@ -790,7 +790,16 @@ func describeMortalWounds(e, m map[string]any, subj string, ctx map[string]any) 
 			comp = c
 		}
 		hit := poolThreshold(comp, m["threshold"])
-		return "roll " + diceCase(m["dice"]) + ": for each " + hit + ", " + subjMW + " " + verb + " " + per + " " + perNoun
+		die := diceCase(m["dice"])
+		// Per-model pool: one die per model in this/the target unit.
+		if m["per_model"] != nil {
+			where := "this unit"
+			if m["per_model"] == "target" {
+				where = "the target unit"
+			}
+			return "roll one " + die + " for each model in " + where + ": for each " + hit + ", " + subjMW + " " + verb + " " + per + " " + perNoun
+		}
+		return "roll " + die + ": for each " + hit + ", " + subjMW + " " + verb + " " + per + " " + perNoun
 	}
 	var a *string
 	switch {

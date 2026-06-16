@@ -297,9 +297,13 @@
     "version": "2025-q3",
     "effect": {
       "type": "mortal-wounds",
-      "target": "defender",
+      "target": "target",
       "modifier": {
-        "count": "1"
+        "dice": "D6",
+        "per_model": "self",
+        "threshold": 4,
+        "comparison": "gte",
+        "mortal_per_success": 1
       }
     },
     "scope": {
@@ -3275,14 +3279,18 @@
     "version": "2025-q3",
     "effect": {
       "type": "mortal-wounds",
-      "target": "defender",
+      "target": "target",
       "modifier": {
-        "count": "1"
+        "dice": "D6",
+        "per_model": "target",
+        "threshold": 6,
+        "comparison": "gte",
+        "mortal_per_success": 1
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "turn"
+      "duration": "permanent"
     },
     "unit_ids": [
       "burna-bommer"

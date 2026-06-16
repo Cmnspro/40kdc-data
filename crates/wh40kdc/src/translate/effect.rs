@@ -542,10 +542,19 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 };
                 let comp = nstr(m, "comparison").unwrap_or("gte");
                 let hit = pool_threshold(comp, m.get("threshold"));
-                return format!(
-                    "roll {}: for each {hit}, {subj_mw} {verb} {per} {per_noun}",
-                    dice_case(m.get("dice").unwrap_or(&Value::Null))
-                );
+                let die = dice_case(m.get("dice").unwrap_or(&Value::Null));
+                // Per-model pool: one die per model in this/the target unit.
+                if notnull(m, "per_model") {
+                    let where_ = if nstr(m, "per_model") == Some("target") {
+                        "the target unit"
+                    } else {
+                        "this unit"
+                    };
+                    return format!(
+                        "roll one {die} for each model in {where_}: for each {hit}, {subj_mw} {verb} {per} {per_noun}"
+                    );
+                }
+                return format!("roll {die}: for each {hit}, {subj_mw} {verb} {per} {per_noun}");
             }
             let a: Option<String> = if notnull(m, "count") {
                 Some(jv(m, "count"))

@@ -421,7 +421,12 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
             per = _jstr(m.get("mortal_per_success"))
             per_noun = "mortal wound" if per == "1" else "mortal wounds"
             hit = _pool_threshold(_jstr(m.get("comparison") or "gte"), m.get("threshold"))
-            return f"roll {_dice_case(m.get('dice'))}: for each {hit}, {subj_mw} {verb} {per} {per_noun}"
+            die = _dice_case(m.get("dice"))
+            # Per-model pool: one die per model in this/the target unit.
+            if m.get("per_model") is not None:
+                where = "the target unit" if m.get("per_model") == "target" else "this unit"
+                return f"roll one {die} for each model in {where}: for each {hit}, {subj_mw} {verb} {per} {per_noun}"
+            return f"roll {die}: for each {hit}, {subj_mw} {verb} {per} {per_noun}"
         if m.get("count") is not None:
             a: str | None = _jstr(m.get("count"))
         elif m.get("amount") is not None:
