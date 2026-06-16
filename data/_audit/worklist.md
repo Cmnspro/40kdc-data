@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 243 stub abilities.
+Total: 242 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -189,7 +189,6 @@ Total: 243 stub abilities.
 | orks | bodyguard | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | brutal-broadside-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | da-gobshot-thunderbuss-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | dakka-dakka-dakka-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | dead-shiny-shootas-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | devastating-drift-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | eager-for-the-fight | stat-modifier | stat-modifier: operation "undefined" not supported |
