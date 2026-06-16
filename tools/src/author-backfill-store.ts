@@ -39,7 +39,11 @@ const flag = (name: string): string | undefined => {
 const DRY = args.includes("--dry-run");
 const STORE_ROOT = resolve(REPO, flag("--store") ?? "../40kdc-abilities");
 const REPORT_PATH = flag("--report");
-const factionArgs = args.filter((a, i) => !a.startsWith("--") && args[i - 1] !== "--store" && args[i - 1] !== "--report");
+// When set (e.g. "game-datacards"), re-derive raw_text for EXISTING store entries
+// whose source.kind matches, overwriting them — used to repair entries after a
+// harvester improvement. Other sources (e.g. "pdf"/11e prose) are left untouched.
+const REFRESH = flag("--refresh-source");
+const factionArgs = args.filter((a, i) => !a.startsWith("--") && !["--store", "--report", "--refresh-source"].includes(args[i - 1]));
 
 const GDC_BASE = "https://raw.githubusercontent.com/game-datacards/datasources/main/10th/json";
 
@@ -118,20 +122,40 @@ async function gdcFile(base: string): Promise<Json | null> {
   }
 }
 
-/** Recursively harvest every {name, <prose>} pair into slug(name) -> text (first non-empty wins). */
+/**
+ * Build the raw text for one game-datacards node. Stratagems are multi-section
+ * ({when, target, effect, restrictions} + cost) — assemble the full card in the
+ * same shape the 11e PDF ingest uses ("1CP. WHEN: … TARGET: … EFFECT: …"), not
+ * just the effect. Datasheet abilities / enhancements carry a single prose field.
+ */
+function buildText(node: Json): string | null {
+  const isStratagem = typeof node.effect === "string" && (typeof node.when === "string" || typeof node.target === "string");
+  if (isStratagem) {
+    const parts: string[] = [];
+    const cost = node.cost != null ? String(node.cost).trim() : "";
+    if (cost) parts.push(`${cost}CP.`);
+    for (const [label, field] of [["WHEN", "when"], ["TARGET", "target"], ["EFFECT", "effect"], ["RESTRICTIONS", "restrictions"]] as const) {
+      const v = typeof node[field] === "string" ? cleanText(node[field]) : "";
+      if (v) parts.push(`${label}: ${v}`);
+    }
+    const text = parts.join(" ");
+    return text.length > 10 ? text : null;
+  }
+  for (const field of ["description", "rule", "effect", "ability"]) {
+    const t = node[field];
+    if (typeof t === "string" && cleanText(t).length > 10) return cleanText(t);
+  }
+  return null;
+}
+
+/** Recursively harvest every named node's text into slug(name) -> text (first non-empty wins). */
 function harvest(node: Json, out: Map<string, string>): void {
   if (Array.isArray(node)) { for (const v of node) harvest(v, out); return; }
   if (!node || typeof node !== "object") return;
-  const name = typeof node.name === "string" ? node.name : null;
-  if (name) {
-    for (const field of ["description", "rule", "effect", "ability"]) {
-      const t = node[field];
-      if (typeof t === "string" && cleanText(t).length > 10) {
-        const k = slug(name);
-        if (k && !out.has(k)) out.set(k, cleanText(t));
-        break;
-      }
-    }
+  if (typeof node.name === "string") {
+    const k = slug(node.name);
+    const t = buildText(node);
+    if (k && t && !out.has(k)) out.set(k, t);
   }
   for (const v of Object.values(node)) harvest(v, out);
 }
@@ -145,6 +169,7 @@ interface FactionResult {
   enhancements: Bucket;
   stratagems: Bucket;
   filled: number;
+  refreshed: number;
   missingSample: string[];
 }
 const DEFAULT_GV = { edition: "11th", dataslate: "pre-launch-provisional" };
@@ -207,11 +232,22 @@ async function backfillFaction(faction: string): Promise<FactionResult | null> {
   const hBucket = tally(coreEnh, (e) => [fill(e.ability_id ?? e.id, e.name, "enhancement", [], e.game_version)]);
   const sBucket = tally(coreStrat, (e) => [fill(e.ability_id ?? e.id, e.name, "stratagem", [], e.game_version)]);
 
-  if (newEntries.length && !DRY) {
+  // refresh pass: re-derive raw_text for existing entries of the named source
+  // (re-deriving with the current harvester; only overwrites when text changed).
+  let refreshed = 0;
+  if (REFRESH) {
+    for (const e of store) {
+      if (!e.source || e.source.kind !== REFRESH) continue;
+      const hit = lookup(e.ability_id, e.name);
+      if (hit && hit.t !== e.raw_text) { e.raw_text = hit.t; refreshed++; }
+    }
+  }
+
+  if ((newEntries.length || refreshed) && !DRY) {
     if (!existsSync(STORE_ROOT)) mkdirSync(STORE_ROOT, { recursive: true });
     writeFileSync(storePath, JSON.stringify([...store, ...newEntries], null, 2) + "\n");
   }
-  return { faction, enrichment: eBucket, enhancements: hBucket, stratagems: sBucket, filled: newEntries.length, missingSample };
+  return { faction, enrichment: eBucket, enhancements: hBucket, stratagems: sBucket, filled: newEntries.length, refreshed, missingSample };
 }
 
 async function main(): Promise<void> {
@@ -229,9 +265,11 @@ async function main(): Promise<void> {
     if (r) {
       results.push(r);
       const e = r.enrichment, h = r.enhancements, s = r.stratagems;
-      console.log(`${f.padEnd(24)} enr +${String(e.filled).padStart(4)}  enh +${String(h.filled).padStart(3)}  strat +${String(s.filled).padStart(3)}  (faction total filled ${r.filled})`);
+      const rf = r.refreshed ? `  refreshed ${r.refreshed}` : "";
+      console.log(`${f.padEnd(24)} enr +${String(e.filled).padStart(4)}  enh +${String(h.filled).padStart(3)}  strat +${String(s.filled).padStart(3)}  (filled ${r.filled})${rf}`);
     }
   }
+  const totalRefreshed = results.reduce((a, r) => a + r.refreshed, 0);
   const sum = (sel: (r: FactionResult) => Bucket) =>
     results.reduce((a, r) => { const b = sel(r); return { total: a.total + b.total, had: a.had + b.had, filled: a.filled + b.filled, missing: a.missing + b.missing }; }, { total: 0, had: 0, filled: 0, missing: 0 } as Bucket);
   const e = sum((r) => r.enrichment), h = sum((r) => r.enhancements), s = sum((r) => r.stratagems);
@@ -239,7 +277,7 @@ async function main(): Promise<void> {
   console.log("—".repeat(72));
   const line = (name: string, b: Bucket) => console.log(`${name.padEnd(16)} total=${String(b.total).padStart(5)}  had=${String(b.had).padStart(5)}  filled=${String(b.filled).padStart(5)}  missing=${String(b.missing).padStart(5)}`);
   line("enrichment", e); line("core enhancements", h); line("core stratagems", s);
-  console.log(`TOTAL ENTRIES FILLED THIS RUN: ${totalFilled}${DRY ? "  (DRY RUN — nothing written)" : ""}`);
+  console.log(`TOTAL FILLED: ${totalFilled}${REFRESH ? `  |  REFRESHED (${REFRESH}): ${totalRefreshed}` : ""}${DRY ? "  (DRY RUN — nothing written)" : ""}`);
 
   if (REPORT_PATH) {
     writeFileSync(resolve(REPO, REPORT_PATH), JSON.stringify({ generated: "backfill-store", totals: { enrichment: e, enhancements: h, stratagems: s, filled: totalFilled }, results }, null, 2) + "\n");
