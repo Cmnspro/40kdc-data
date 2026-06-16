@@ -199,6 +199,58 @@ across implementations by the `conformance/share/` corpus.
   (`data/_audit/store-coverage.md`). As with all raw text, it lands ONLY in the
   out-of-repo store, never in this repo.
 
+## Ability ids, the raw-text store, and share tokens
+
+- **Canonical ability_id pattern.** Detachment-scoped entities
+  (stratagems, enhancements, detachment rules) use `<name-slug>-<detachment-slug>`
+  (e.g. `prioritised-eradication-might-of-the-moritoi`) — the **full** detachment
+  slug, applied even when the name is unique. This is required: stratagem/enhancement
+  names repeat across detachments (e.g. two different `flawless-construction`s), so a
+  bare name-slug collides. Unit/faction abilities (no detachment) stay bare
+  (`deep-strike`, `oath-of-moment`). Run `npm run author:reconcile` to keep links in sync.
+- **Raw-text store shape.** The out-of-repo `40kdc-abilities` store is keyed by
+  `ability_id ?? id` (the app's lookup). **Stratagems** carry structured
+  `when`/`target`/`effect`/`restrictions` (cost lives in core `cp_cost`, not the
+  store); unit abilities + enhancements carry a single `raw_text` string. Fill
+  precedence: an 11e PDF entry (`source.kind: pdf`) supersedes a game-datacards 10e
+  entry; both are fill-only and never clobber existing 11e prose.
+- **Two backfill sources.** `npm run author:backfill-store` pulls 10e text from
+  game-datacards (fill-only). `npm run author:backfill-store`'s sibling
+  `extract-pack-store` pulls **11e** text from the faction-pack PDFs in
+  `_private/sources/` — this is the authoritative source for new-detachment content
+  game-datacards lacks. After either, regenerate `index.json`
+  (`tsx tools/src/build-abilities-index.ts`) and re-check `audit:store-coverage`.
+- **Share tokens (`data/share-registry.json`).** The list-builder encodes lists as
+  integer indices into this append-only registry (see `tools/docs/share-token.md`).
+  **Renames are NOT just tombstones** — they MUST be added to the `aliases` map
+  (`old-id → new-id`, applied on decode) or old share links break. Any id rename
+  must populate `aliases` and re-run `npm run registry:build`, then regen the
+  registry artifacts (`codegen:data` for TS, `cargo run -p xtask -- bundle-data` for
+  Rust, `python codegen/sync_bundle.py`, `bash go/codegen/sync.sh`). Order matters:
+  `registry:build` BEFORE `codegen:data` (which embeds the registry).
+
+## Authoring-time gotchas (Windows / tooling)
+
+- **PDF extraction:** new 11e detachments print `<DET> STRATAGEM` (no type word);
+  existing ones print `<DET> – <TYPE> STRATAGEM`. A parser that requires the type
+  word silently drops new-detachment cards — match both. `pdftotext` **without**
+  `-layout` (reading order) linearizes the two-column cards far better than `-layout`.
+- **`execSync` runs via `cmd.exe` on Windows**, where `^` is the escape char — a git
+  ref like `HEAD^` / `<sha>^` becomes `HEAD`/`<sha>`. Use `~1` or the explicit parent
+  hash instead.
+- Tool path args are resolved against the repo root, not the shell cwd — pass paths
+  relative to the repo (or absolute), not `../`-relative from `tools/`.
+- The store is a **sibling** repo (`../40kdc-abilities`), not under this one.
+
+## Working with the upstream fork
+
+`origin` is a personal fork; `upstream` is the canonical repo. `main` only ever
+mirrors `upstream/main` — never commit to it or PR into it. Feature branches PR to
+upstream. Resync with `git switch main && git fetch upstream && git merge --ff-only
+upstream/main && git push origin main`. After a feature merges upstream, rebase any
+descendant branch with `git rebase --onto main <old-base>` + `--force-with-lease`.
+Commit/stash before switching branches — uncommitted changes follow you across `git switch`.
+
 ## Commit Style
 
 - Conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `test:`.
