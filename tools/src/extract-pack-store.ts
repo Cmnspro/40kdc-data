@@ -100,17 +100,6 @@ for (let i = 0; i < lines.length; i++) {
   strats.push({ name, detachment, cost, when, target, effect, restrictions });
 }
 
-// --- assemble raw_text in the 11e PDF shape ---
-const stratText = (s: Strat): string => {
-  const parts: string[] = [];
-  if (s.cost) parts.push(`${s.cost}CP.`);
-  if (s.when) parts.push(`WHEN: ${s.when}`);
-  if (s.target) parts.push(`TARGET: ${s.target}`);
-  if (s.effect) parts.push(`EFFECT: ${s.effect}`);
-  if (s.restrictions) parts.push(`RESTRICTIONS: ${s.restrictions}`);
-  return parts.join(" ");
-};
-
 // --- match to canonical core ability_id (name-slug, prefer same detachment) ---
 const coreStrat: Json[] = existsSync(join(REPO, "data/core", FACTION, "stratagems.json")) ? JSON.parse(readFileSync(join(REPO, "data/core", FACTION, "stratagems.json"), "utf-8")) : [];
 const keyFor = (name: string, detachment: string): string | null => {
@@ -127,17 +116,19 @@ const store: Json[] = existsSync(storePath) ? JSON.parse(readFileSync(storePath,
 const byId = new Map(store.map((e) => [e.ability_id, e]));
 let written = 0, supersededGdc = 0, unmatched = 0; const unmatchedNames: string[] = [];
 const GV = { edition: "11th", dataslate: "pre-launch-provisional" };
+const ref = PDF.split(/[\\/]/).pop();
+// canonical store shape: stratagems carry structured fields (no raw_text/cost).
+const sections = (s: Strat): Json => { const o: Json = { when: s.when, target: s.target, effect: s.effect }; if (s.restrictions) o.restrictions = s.restrictions; return o; };
 for (const s of strats) {
-  const text = stratText(s);
-  if (!text || (!s.when && !s.effect)) { continue; }
+  if (!s.when && !s.effect) { continue; }
   const key = keyFor(s.name, s.detachment);
   if (!key) { unmatched++; unmatchedNames.push(`${s.name} (${s.detachment})`); continue; }
   const existing = byId.get(key);
   if (existing) {
-    if (existing.source?.kind === "game-datacards") { existing.raw_text = text; existing.source = { kind: "pdf", ref: PDF.split(/[\\/]/).pop(), edition: "11e" }; supersededGdc++; written++; }
+    if (existing.source?.kind === "game-datacards") { delete existing.raw_text; Object.assign(existing, sections(s)); existing.source = { kind: "pdf", ref, edition: "11e" }; supersededGdc++; written++; }
     // existing pdf entry: leave it (already authoritative)
   } else {
-    const entry = { ability_id: key, name: s.name.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/\B\w/g, (c) => c.toLowerCase()), faction_id: FACTION, unit_ids: [], ability_type: "stratagem", game_version: GV, source: { kind: "pdf", ref: PDF.split(/[\\/]/).pop(), edition: "11e" }, raw_text: text };
+    const entry = { ability_id: key, name: s.name.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/\B\w/g, (c) => c.toLowerCase()), faction_id: FACTION, unit_ids: [], ability_type: "stratagem", game_version: GV, source: { kind: "pdf", ref, edition: "11e" }, ...sections(s) };
     store.push(entry); byId.set(key, entry); written++;
   }
 }

@@ -206,6 +206,21 @@ async function backfillFaction(faction: string): Promise<FactionResult | null> {
   const newEntries: Json[] = [];
   const added = new Set<string>();
   const missingSample: string[] = [];
+  // canonical store shape: stratagems carry structured when/target/effect/restrictions
+  // (parsed from the assembled blob); everything else carries raw_text.
+  const sectionsOf = (blob: string): Json => {
+    const grab = (label: RegExp, nexts: RegExp[]): string => {
+      const mm = blob.match(label); if (!mm) return "";
+      const rest = blob.slice(mm.index! + mm[0].length); let end = rest.length;
+      for (const n of nexts) { const nm = rest.match(n); if (nm && nm.index! < end) end = nm.index!; }
+      return rest.slice(0, end).replace(/\s+/g, " ").trim();
+    };
+    const o: Json = { when: grab(/WHEN:/i, [/TARGET:/i, /EFFECT:/i, /RESTRICTIONS:/i]), target: grab(/TARGET:/i, [/EFFECT:/i, /RESTRICTIONS:/i]), effect: grab(/EFFECT:/i, [/RESTRICTIONS:/i]) };
+    const r = grab(/RESTRICTIONS:/i, []); if (r) o.restrictions = r;
+    return o;
+  };
+  const textFields = (ability_type: string, blob: string): Json =>
+    ability_type === "stratagem" && /WHEN:|EFFECT:/i.test(blob) ? sectionsOf(blob) : { raw_text: blob };
   // fill one entity keyed by `key`; returns 'had' | 'filled' | 'missing'
   const fill = (key: string, name: string, ability_type: string, unit_ids: Json, game_version: Json): "had" | "filled" | "missing" => {
     if (have.has(key) || added.has(key)) return "had";
@@ -217,7 +232,7 @@ async function backfillFaction(faction: string): Promise<FactionResult | null> {
     newEntries.push({
       ability_id: key, name, faction_id: faction, unit_ids: unit_ids ?? [],
       ability_type, game_version: game_version ?? DEFAULT_GV,
-      source: { kind: "game-datacards", ref: hit.ref, edition: "10e" }, raw_text: hit.t,
+      source: { kind: "game-datacards", ref: hit.ref, edition: "10e" }, ...textFields(ability_type, hit.t),
     });
     added.add(key);
     return "filled";
@@ -239,7 +254,10 @@ async function backfillFaction(faction: string): Promise<FactionResult | null> {
     for (const e of store) {
       if (!e.source || e.source.kind !== REFRESH) continue;
       const hit = lookup(e.ability_id, e.name);
-      if (hit && hit.t !== e.raw_text) { e.raw_text = hit.t; refreshed++; }
+      if (!hit) continue;
+      const fields = textFields(e.ability_type, hit.t);
+      if ("raw_text" in fields) { if (e.raw_text !== fields.raw_text) { e.raw_text = fields.raw_text; refreshed++; } }
+      else if (e.effect !== fields.effect || e.when !== fields.when) { delete e.raw_text; Object.assign(e, fields); refreshed++; }
     }
   }
 
