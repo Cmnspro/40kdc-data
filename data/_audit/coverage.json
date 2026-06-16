@@ -212,11 +212,11 @@
     {
       "faction": "orks",
       "total": 143,
-      "offensive": 29,
+      "offensive": 31,
       "defensive": 12,
-      "inert": 106,
-      "stub": 6,
-      "stubStructural": 25,
+      "inert": 104,
+      "stub": 5,
+      "stubStructural": 19,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
@@ -267,22 +267,22 @@
   ],
   "totals": {
     "total": 2923,
-    "offensive": 705,
+    "offensive": 707,
     "defensive": 256,
-    "inert": 2048,
-    "stub": 154,
-    "stubStructural": 243,
+    "inert": 2046,
+    "stub": 153,
+    "stubStructural": 237,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 465
+      "count": 469
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 236
+      "count": 230
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -314,7 +314,7 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 48
+      "count": 49
     },
     {
       "reason": "effect type \"objective-control-modifier\" is not modelled by the buff layer",
@@ -554,6 +554,16 @@
     }
   ],
   "worklist": [
+    {
+      "faction": "_core",
+      "ability_id": "benefit-of-cover",
+      "name": "Benefit of Cover",
+      "shape": "bs-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
     {
       "faction": "adepta-sororitas",
       "ability_id": "sworn-protectors",
@@ -24068,11 +24078,11 @@
       "faction": "orks",
       "ability_id": "bodyguard",
       "name": "Bodyguard",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "ability-grant",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -24748,11 +24758,11 @@
       "faction": "orks",
       "ability_id": "ramshackle-cover",
       "name": "Ramshackle Cover",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "ability-grant",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -24768,11 +24778,11 @@
       "faction": "orks",
       "ability_id": "fortification",
       "name": "Fortification",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "sequence",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "orks",
@@ -24868,21 +24878,21 @@
       "faction": "orks",
       "ability_id": "rollin-deff-dead-shiny-shootas",
       "name": "Dead Shiny Shootas",
-      "shape": "stat-modifier",
-      "stub": true,
-      "offensive": false,
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": null
     },
     {
       "faction": "orks",
       "ability_id": "rollin-deff-da-gobshot-thunderbuss",
       "name": "Da Gobshot Thunderbuss",
-      "shape": "stat-modifier",
-      "stub": true,
-      "offensive": false,
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -24968,11 +24978,11 @@
       "faction": "orks",
       "ability_id": "blitzkaptin",
       "name": "Blitzkaptin",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "ability-grant",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -29769,16 +29779,6 @@
       "ability_id": "scorn-the-witch",
       "name": "Scorn the Witch",
       "shape": "feel-no-pain",
-      "stub": false,
-      "offensive": false,
-      "defensive": true,
-      "gap": null
-    },
-    {
-      "faction": "_core",
-      "ability_id": "benefit-of-cover",
-      "name": "Benefit of Cover",
-      "shape": "bs-modifier",
       "stub": false,
       "offensive": false,
       "defensive": true,

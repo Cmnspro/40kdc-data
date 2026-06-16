@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 243 stub abilities.
+Total: 237 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -184,21 +184,15 @@ Total: 243 stub abilities.
 | necrons | tools-of-dominion | stat-modifier | stat-modifier: operation "undefined" not supported |
 | necrons | will-of-the-conqueror | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | armoured-duellists | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | blitzkaptin | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | boarding-ramps | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | bodyguard | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | brutal-broadside | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | dakka-dakka-dakka | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | devastating-drift | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | eager-for-the-fight | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | fortification | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | impending-crunch | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | impervious | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | mekanised-brutality | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | mount-up-ladz | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | ramshackle-cover | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | rollin-deff-da-gobshot-thunderbuss | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | rollin-deff-dead-shiny-shootas | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | rollin-deff-long-uncontrolled-bursts | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | rollin-deff-speshul-shells | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | run-em-down | stat-modifier | stat-modifier: operation "undefined" not supported |

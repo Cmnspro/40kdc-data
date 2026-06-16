@@ -1707,12 +1707,14 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "extra-leader-attachment"
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -1720,7 +1722,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "firing-deck-12",
@@ -3991,19 +3993,22 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "benefit-of-cover"
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
       "biged-bossbunka"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "reactive",
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "shoutin-pole-aura",
@@ -4053,19 +4058,51 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "attack-is-type",
+                "parameters": {
+                  "attack_type": "pistol"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "enemy-within-aura",
+            "modifier": {
+              "operation": "subtract",
+              "roll": "hit",
+              "value": 1,
+              "attack_type": "ranged"
+            }
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "grant_type": "ignore-desperate-escape-when-battle-shocked"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "engagement-range",
       "duration": "permanent"
     },
     "unit_ids": [
       "biged-bossbunka"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "aura",
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "thundering-wagons",
@@ -4308,14 +4345,19 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "keyword-grant",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "keywords": [
+          "rapid-fire"
+        ]
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
-    }
+    },
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "rollin-deff-da-gobshot-thunderbuss",
@@ -4333,14 +4375,20 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "keyword-grant",
+      "target": "self",
+      "modifier": {
+        "keywords": [
+          "devastating-wounds",
+          "hazardous"
+        ]
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
-    }
+    },
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "eager-for-the-fight",
@@ -4556,16 +4604,19 @@
     "faction_id": "orks",
     "detachment_id": "blitz-brigade",
     "ability_type": "enhancement",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
+      "type": "ability-grant",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "grant_type": "redeploy"
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "one-use"
+    },
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "supercharged-squig-oil",
