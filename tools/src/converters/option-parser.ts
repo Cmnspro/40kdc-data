@@ -58,23 +58,37 @@ function stripLeadingCount(item: string): string {
   return cleanName(item.replace(/^\s*\d+\s+/, ""));
 }
 
-/** Split a flat replacement/replaces clause on " and " into individual names. */
+/**
+ * Split a flat replacement/replaces clause into individual names on the list
+ * connectives — commas and " and " — so an Oxford-style group "1 A, 1 B and 1 C"
+ * yields three names, not a comma-glued blob. (Weapon names carry no commas.)
+ */
 function splitAnd(clause: string): string[] {
   return clause
-    .split(/\s+and\s+/i)
+    .split(/\s*,\s*|\s+and\s+/i)
     .map(stripLeadingCount)
-    .filter((s) => /[a-z0-9]/i.test(s)); // drop empties and stray punctuation
+    // Defensive: drop a dangling leading/trailing conjunction left by an
+    // imperfect upstream split, so a severed "A and" can never become an
+    // "a-and" id. (The fixed parseChoiceList no longer severs "A and B", but
+    // odd source spacing elsewhere shouldn't be able to forge a junk id.)
+    .map((s) => cleanName(s.replace(/^(?:and|or)\b|\b(?:and|or)$/gi, "")))
+    .filter((s) => /[a-z0-9]/i.test(s) && !/^(?:and|or)$/i.test(s));
 }
 
 /**
  * Split the concatenated "one of the following" list into groups. The source
- * runs items together with no separator ("1 flamer1 grav-gun1 meltagun"), so we
- * break before each leading count. Each item may itself be "A and B".
+ * runs items together with no separator ("1 flamer1 grav-gun1 meltagun"), so a
+ * new item begins where a non-space, non-digit character (the tail of the
+ * previous item's name) is immediately followed by that item's leading count.
+ * Crucially this does NOT break on the count inside an "A and 1 B" group, whose
+ * count is preceded by the space after "and" — keeping paired weapons together.
+ * Each resulting item may itself be "A and B".
  */
 function parseChoiceList(tail: string): string[][] {
-  // Break before a digit that begins a new item (preceded by a non-digit).
+  // Break only at a glued item boundary: <name-char><count><space>. A count
+  // that follows whitespace (the "and 1 B" of a pair) is left intact.
   const parts = tail
-    .split(/(?<=\D)(?=\d+\s)/)
+    .split(/(?<=[^\s\d])(?=\d+\s)/)
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
   const groups = parts.map(splitAnd).filter((g) => g.length > 0);
@@ -83,7 +97,13 @@ function parseChoiceList(tail: string): string[][] {
 
 /** Parse the text after the swap/add verb into a flat group or a choice. */
 function parseReplacement(rest: string): Pick<ParsedOption, "replacement" | "replacement_choice"> {
-  const choiceMatch = rest.match(/one of the following\s*:?\s*(.+)$/is);
+  // "one of the following", but also "1 of the following" / "2 of the following",
+  // optionally followed by "options" and a parenthetical qualifier such as
+  // "(you cannot select the same option more than once)" / "(duplicates are not
+  // allowed)" — none of which is a weapon and must not leak into the first item.
+  const choiceMatch = rest.match(
+    /(?:one|\d+) of the following(?:\s+options?)?\s*(?:\([^)]*\))?\s*:?\s*(.+)$/is,
+  );
   if (choiceMatch) {
     const groups = parseChoiceList(choiceMatch[1]);
     // A "choice" that parsed to a single alternative is just a plain

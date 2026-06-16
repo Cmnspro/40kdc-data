@@ -40,6 +40,18 @@ describe("referential integrity", () => {
     expect(result.passed).toBe(1);
   });
 
+  it("flags corrupt wargear-option weapon refs (dangling conjunction, captured qualifier, plural-of-weapon)", async () => {
+    const result = await checkReferentialIntegrity(resolve(FIXTURES, "integrity-wargear"));
+    // One clean option passes; the three corrupt ones fail.
+    expect(result.failed).toBe(3);
+    expect(result.passed).toBe(1);
+
+    const messages = result.errors.flatMap((e) => e.errors.map((x) => x.message));
+    expect(messages.some((m) => m.includes('"flamer-and"') && m.includes("dangling conjunction"))).toBe(true);
+    expect(messages.some((m) => m.includes('"duplicates-are-not-allowed"') && m.includes("captured prose qualifier"))).toBe(true);
+    expect(messages.some((m) => m.includes('"lascannons"') && m.includes("plural of weapon"))).toBe(true);
+  });
+
   it("registers the chaos cult factions with bare-legion home keywords", () => {
     expect(FACTION_HOME_KEYWORD["world-eaters"]).toBe("World Eaters");
     expect(FACTION_HOME_KEYWORD["chaos-space-marines"]).toBe("Heretic Astartes");

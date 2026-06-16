@@ -97,3 +97,100 @@ describe("parseOption — verb voices and shapes", () => {
     expect(o.replacement).toEqual(["blastmaster"]);
   });
 });
+
+describe("parseOption — paired-weapon choice groups (regression: '-and' truncation)", () => {
+  // The "one of the following" list runs items together with no separator, and
+  // each alternative is itself a pair "1 A and 1 B". The choice splitter must
+  // break only at the glued boundary (…B1 A…), never at the space before the
+  // "1 B" of a pair — otherwise the pair is severed and "A and" leaks an
+  // "a-and" id (see Seraphim/Captain/Telemon corruption).
+  it("keeps each 'A and B' alternative intact (Seraphim-style)", () => {
+    const o = ok(
+      "The Seraphim Superior's two bolt pistols can be replaced with one of the following:" +
+        "1 bolt pistol and 1 chainsword" +
+        "1 bolt pistol and 1 plasma pistol" +
+        "1 plasma pistol and 1 chainsword",
+    );
+    expect(o.replacement_choice).toEqual([
+      ["bolt pistol", "chainsword"],
+      ["bolt pistol", "plasma pistol"],
+      ["plasma pistol", "chainsword"],
+    ]);
+    // No alternative may carry a dangling conjunction.
+    for (const g of o.replacement_choice!) {
+      for (const name of g) expect(name).not.toMatch(/\band$/i);
+    }
+  });
+
+  it("keeps a three-weapon 'A and B and C' alternative intact", () => {
+    const o = ok(
+      "This model's storm bolter can be replaced with one of the following:" +
+        "1 heavy bolt pistol and 1 master-crafted power weapon and 1 relic shield" +
+        "1 power fist",
+    );
+    expect(o.replacement_choice).toEqual([
+      ["heavy bolt pistol", "master-crafted power weapon", "relic shield"],
+      ["power fist"],
+    ]);
+  });
+
+  it("single glued alternatives still split (no false merge)", () => {
+    const o = ok("The Boss Nob's big choppa can be replaced with one of the following:1 power klaw1 kombi-weapon");
+    expect(o.replacement_choice).toEqual([["power klaw"], ["kombi-weapon"]]);
+  });
+
+  it("accepts 'N of the following' (not just 'one of the following')", () => {
+    const o = ok("This model's reaper chainsword can be replaced with 1 of the following:1 thermal cannon1 gatling cannon and 1 heavy darkflamer");
+    expect(o.replacement_choice).toEqual([
+      ["thermal cannon"],
+      ["gatling cannon", "heavy darkflamer"],
+    ]);
+  });
+
+  it("strips an 'options (qualifier)' clause after 'the following'", () => {
+    const o = ok(
+      "Up to 2 Raptors can each have their Astartes chainsword replaced with one of the following options (you cannot select the same option more than once):" +
+        "1 flamer and 1 close combat weapon" +
+        "1 meltagun and 1 close combat weapon",
+    );
+    expect(o.replacement_choice).toEqual([
+      ["flamer", "close combat weapon"],
+      ["meltagun", "close combat weapon"],
+    ]);
+  });
+
+  it("splits Oxford-comma triples 'A, B and C'", () => {
+    const o = ok(
+      "This model's gun can be replaced with one of the following:" +
+        "1 arachnus storm cannon, 1 caestus and 1 plasma projector" +
+        "1 power fist",
+    );
+    expect(o.replacement_choice).toEqual([
+      ["arachnus storm cannon", "caestus", "plasma projector"],
+      ["power fist"],
+    ]);
+  });
+
+  it("Telemon Heavy Dreadnought: full 5-way choice with pairs and comma-triples", () => {
+    // Authoritative wargear text (game-datacards 10th), in the glued shape the
+    // upstream source emits. This is the exact corruption case from the report.
+    const o = ok(
+      "This model's 2 iliastus accelerator culverins can be replaced with one of the following:" +
+        "2 arachnus storm cannons" +
+        "2 Telemon caestus and 2 twin plasma projectors" +
+        "1 iliastus accelerator culverin and 1 arachnus storm cannon" +
+        "1 iliastus accelerator culverin, 1 Telemon caestus and 1 twin plasma projector" +
+        "1 arachnus storm cannon, 1 Telemon caestus and 1 twin plasma projector",
+    );
+    expect(o.replaces).toEqual(["iliastus accelerator culverins"]);
+    expect(o.replacement_choice).toEqual([
+      ["arachnus storm cannons"],
+      ["Telemon caestus", "twin plasma projectors"],
+      ["iliastus accelerator culverin", "arachnus storm cannon"],
+      ["iliastus accelerator culverin", "Telemon caestus", "twin plasma projector"],
+      ["arachnus storm cannon", "Telemon caestus", "twin plasma projector"],
+    ]);
+    // Every captured name is a clean weapon name — no dangling conjunction.
+    for (const g of o.replacement_choice!) for (const n of g) expect(n).not.toMatch(/\b(and|or)$/i);
+  });
+});
