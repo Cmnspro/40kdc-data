@@ -48,7 +48,13 @@ const clean = (s: string): string => decodeEntities(String(s)).replace(/\s+/g, "
 const lines = execFileSync("pdftotext", [resolve(REPO, PDF), "-"], { encoding: "utf-8", maxBuffer: 1 << 28 })
   .split("\n").map((l) => l.replace(/ /g, " ").trimEnd());
 
-const STRAT_MARKER = /^(.*?)\s+(BATTLE TACTIC|STRATEGIC PLOY|EPIC DEED|WARGEAR)\s+STRATAGEM$/;
+// Subtitle under every stratagem card. Existing detachments print
+// "<DET> – <TYPE> STRATAGEM"; NEW detachments print just "<DET> STRATAGEM"
+// (no type word) — match both, then strip any trailing type tag + dash/mojibake.
+const STRAT_MARKER = /\sSTRATAGEM$/;
+const TYPE_TAIL = /\s*[�–—-][\s�]*(BATTLE TACTIC|STRATEGIC PLOY|EPIC DEED|WARGEAR)$/i;
+const detachmentOf = (line: string): string =>
+  line.trim().replace(/\s+STRATAGEM$/i, "").replace(TYPE_TAIL, "").replace(/[\s�–—-]+$/, "").trim();
 const SECTION = /^(DETACHMENT RULES?|ENHANCEMENTS?|STRATAGEMS?|WARGEAR|KEYWORDS?|DATASHEETS?|LEGENDS)\b/i;
 const isCaps = (t: string): boolean => /[A-Z]/.test(t) && t === t.toUpperCase() && /^[-A-Z0-9 ',()\/]+$/.test(t) && t.length > 2 && t.length < 60;
 const stripField = (t: string, re: RegExp): string => t.replace(re, "").trim();
@@ -59,10 +65,9 @@ let markerCount = 0;
 
 // --- stratagems: anchored on the "<DET> <TYPE> STRATAGEM" marker line ---
 for (let i = 0; i < lines.length; i++) {
-  const m = lines[i].match(STRAT_MARKER);
-  if (!m) continue;
+  if (!STRAT_MARKER.test(lines[i]) || /^STRATAGEMS?$/i.test(lines[i].trim())) continue;
   markerCount++;
-  const detachment = clean(m[1]);
+  const detachment = clean(detachmentOf(lines[i]));
   // name: nearest non-empty caps line above the marker (may carry "<NAME> NNCP" or NN CP)
   let name = "", cost: string | null = null;
   for (let j = i - 1; j >= 0 && j > i - 6; j--) {
@@ -100,8 +105,38 @@ for (let i = 0; i < lines.length; i++) {
   strats.push({ name, detachment, cost, when, target, effect, restrictions });
 }
 
+// --- enhancements: under "ENHANCEMENTS" headers; name (strip " UPGRADE") + rule text
+//     (a leading flavour paragraph is dropped when a rule-start line is found) ---
+interface Enh { name: string; text: string }
+const enhancements: Enh[] = [];
+const RULE_START = /(unit only|model only|models only|Once per|Each time|While |Add \d|Subtract|Improve|In your|At the (start|end)|You can|This (unit|model)|Models in|Designate)/i;
+const ehName = (t: string): string => t.replace(/\s+\d+\s?CP$/i, "").replace(/\s*UPGRADE$/i, "").trim();
+let inEnh = false;
+for (let i = 0; i < lines.length; i++) {
+  const t = lines[i].trim();
+  if (/^ENHANCEMENTS?$/i.test(t)) { inEnh = true; continue; }
+  if (!inEnh) continue;
+  if (STRAT_MARKER.test(lines[i]) || /^(DETACHMENT RULES?|STRATAGEMS?|DATASHEETS?|LEGENDS|WARGEAR)\b/i.test(t)) { inEnh = false; continue; }
+  if (!isCaps(ehName(t))) continue;
+  const name = clean(ehName(t));
+  const body: string[] = [];
+  for (let j = i + 1; j < lines.length && j < i + 12; j++) {
+    const u = lines[j].trim();
+    if (!u) continue;
+    if (STRAT_MARKER.test(lines[j]) || /^(ENHANCEMENTS?|DETACHMENT RULES?|STRATAGEMS?)\b/i.test(u) || isCaps(ehName(u))) break;
+    body.push(u);
+  }
+  let start = body.findIndex((l) => RULE_START.test(l));
+  if (start < 0) start = 0;
+  const text = clean(body.slice(start).join(" "));
+  if (text.length > 10) enhancements.push({ name, text });
+}
+
 // --- match to canonical core ability_id (name-slug, prefer same detachment) ---
 const coreStrat: Json[] = existsSync(join(REPO, "data/core", FACTION, "stratagems.json")) ? JSON.parse(readFileSync(join(REPO, "data/core", FACTION, "stratagems.json"), "utf-8")) : [];
+const coreEnh: Json[] = existsSync(join(REPO, "data/core", FACTION, "enhancements.json")) ? JSON.parse(readFileSync(join(REPO, "data/core", FACTION, "enhancements.json"), "utf-8")) : [];
+const normEnh = (s: string): string => slug(String(s).replace(/\s*upgrade\s*$/i, ""));
+const enhKey = (name: string): string | null => { const ns = normEnh(name); const h = coreEnh.find((c) => normEnh(c.name) === ns); return h ? (h.ability_id ?? h.id) : null; };
 const keyFor = (name: string, detachment: string): string | null => {
   const ns = slug(name), ds = slug(detachment);
   const byBoth = coreStrat.find((c) => slug(c.name) === ns && c.detachment_id === ds);
@@ -133,10 +168,26 @@ for (const s of strats) {
   }
 }
 
-console.log(`${FACTION}: stratagem markers=${markerCount}  parsed=${strats.length}  written/updated=${written}  (superseded gdc=${supersededGdc})  unmatched-to-core=${unmatched}`);
-if (unmatchedNames.length) console.log("  unmatched:", unmatchedNames.slice(0, 12).join(" | "));
-if (markerCount !== strats.length) console.log(`  ⚠ COMPLETENESS: ${markerCount - strats.length} marker(s) not parsed into a stratagem — review.`);
-if (written && !DRY) {
+// --- write enhancements (fill-only; pdf supersedes game-datacards; single-prose raw_text) ---
+let ehWritten = 0, ehSuperseded = 0, ehUnmatched = 0; const ehUnmatchedNames: string[] = [];
+const titleCase = (s: string): string => s.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/\B\w/g, (c) => c.toLowerCase());
+for (const e of enhancements) {
+  const key = enhKey(e.name);
+  if (!key) { ehUnmatched++; ehUnmatchedNames.push(e.name); continue; }
+  const existing = byId.get(key);
+  if (existing) {
+    if (existing.source?.kind === "game-datacards") { existing.raw_text = e.text; existing.source = { kind: "pdf", ref, edition: "11e" }; ehSuperseded++; ehWritten++; }
+  } else {
+    const entry = { ability_id: key, name: titleCase(e.name), faction_id: FACTION, unit_ids: [], ability_type: "enhancement", game_version: GV, source: { kind: "pdf", ref, edition: "11e" }, raw_text: e.text };
+    store.push(entry); byId.set(key, entry); ehWritten++;
+  }
+}
+
+console.log(`${FACTION}: strat markers=${markerCount} parsed=${strats.length} written=${written}(gdc ${supersededGdc}) unmatched=${unmatched}  |  enh parsed=${enhancements.length} written=${ehWritten}(gdc ${ehSuperseded}) unmatched=${ehUnmatched}`);
+if (unmatchedNames.length) console.log("  strat-unmatched:", unmatchedNames.slice(0, 10).join(" | "));
+if (ehUnmatchedNames.length) console.log("  enh-unmatched:", ehUnmatchedNames.slice(0, 10).join(" | "));
+if (markerCount !== strats.length) console.log(`  ⚠ COMPLETENESS: ${markerCount - strats.length} stratagem marker(s) not parsed — review.`);
+if ((written || ehWritten) && !DRY) {
   if (!existsSync(STORE_ROOT)) mkdirSync(STORE_ROOT, { recursive: true });
   writeFileSync(storePath, JSON.stringify(store, null, 2) + "\n");
 }
