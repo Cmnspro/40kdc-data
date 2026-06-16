@@ -83,7 +83,22 @@
     }
   },
   {
-    "caseId": "a-plan-generations-in-the-making#4",
+    "caseId": "a-perfect-ambush#4",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "Modify the unit's characteristics."
+    }
+  },
+  {
+    "caseId": "a-plan-generations-in-the-making#5",
     "effect": {
       "type": "objective-control-modifier",
       "target": "unit",
@@ -100,7 +115,7 @@
     }
   },
   {
-    "caseId": "a-trophy-for-the-throne-butchers-of-khorne#5",
+    "caseId": "a-trophy-for-the-throne-butchers-of-khorne#6",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -139,7 +154,7 @@
     }
   },
   {
-    "caseId": "a-weaponsmith-not-a-warlord#6",
+    "caseId": "a-weaponsmith-not-a-warlord#7",
     "effect": {
       "type": "stat-modifier",
       "target": "unit",
@@ -154,7 +169,7 @@
     }
   },
   {
-    "caseId": "a-worthy-skull#7",
+    "caseId": "a-worthy-skull#8",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -205,7 +220,7 @@
     }
   },
   {
-    "caseId": "a-worthy-skull-khorne-daemonkin#8",
+    "caseId": "a-worthy-skull-khorne-daemonkin#9",
     "effect": {
       "type": "resource-gain",
       "target": "self",
@@ -223,7 +238,7 @@
     }
   },
   {
-    "caseId": "abbess-sanctorum#9",
+    "caseId": "abbess-sanctorum#10",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -260,7 +275,7 @@
     }
   },
   {
-    "caseId": "ablative-plating-hammer-of-the-emperor#10",
+    "caseId": "ablative-plating-hammer-of-the-emperor#11",
     "effect": {
       "type": "damage-reduction",
       "target": "self",
@@ -277,7 +292,7 @@
     }
   },
   {
-    "caseId": "abomination#11",
+    "caseId": "abomination#12",
     "effect": {
       "type": "feel-no-pain",
       "target": "unit",
@@ -294,7 +309,7 @@
     }
   },
   {
-    "caseId": "absolute-sensory-overload-frenzied-host#12",
+    "caseId": "absolute-sensory-overload-frenzied-host#13",
     "effect": {
       "type": "ability-grant",
       "target": "unit",
@@ -317,7 +332,7 @@
     }
   },
   {
-    "caseId": "absolutist-principles#13",
+    "caseId": "absolutist-principles#14",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -361,7 +376,7 @@
     }
   },
   {
-    "caseId": "accelerator-mandible#14",
+    "caseId": "accelerator-mandible#15",
     "effect": {
       "type": "stat-modifier",
       "target": "unit",
@@ -376,7 +391,7 @@
     }
   },
   {
-    "caseId": "accuracy-under-pressure-steel-hammer#15",
+    "caseId": "accuracy-under-pressure-steel-hammer#16",
     "effect": {
       "type": "re-roll",
       "target": "unit",
@@ -399,7 +414,7 @@
     }
   },
   {
-    "caseId": "acheron-s-duty-bondsman#16",
+    "caseId": "acheron-s-duty-bondsman#17",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -425,7 +440,7 @@
     }
   },
   {
-    "caseId": "achillan-eye#17",
+    "caseId": "achillan-eye#18",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -452,7 +467,22 @@
     }
   },
   {
-    "caseId": "acrobatic#18",
+    "caseId": "acquisition-at-any-cost#19",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "Modify the unit's characteristics."
+    }
+  },
+  {
+    "caseId": "acrobatic#20",
     "effect": {
       "type": "ability-grant",
       "target": "unit",
@@ -469,22 +499,7 @@
     }
   },
   {
-    "caseId": "acrobatic-display-exhibition-of-slaughter#19",
-    "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
-    },
-    "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    },
-    "expected": {
-      "text": "Modify the unit's characteristics."
-    }
-  },
-  {
-    "caseId": "acrobatic-escape#20",
+    "caseId": "acrobatic-escape#21",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -508,7 +523,7 @@
     }
   },
   {
-    "caseId": "acrobatic-gladiators#21",
+    "caseId": "acrobatic-gladiators#22",
     "effect": {
       "type": "ability-grant",
       "target": "unit",
@@ -525,7 +540,7 @@
     }
   },
   {
-    "caseId": "acrobatic-grace#22",
+    "caseId": "acrobatic-grace#23",
     "effect": {
       "type": "roll-modifier",
       "target": "attacker",
@@ -541,21 +556,6 @@
     },
     "expected": {
       "text": "The attacking unit gets -1 to Hit rolls."
-    }
-  },
-  {
-    "caseId": "acrobatic-onslaught#23",
-    "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
-    },
-    "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    },
-    "expected": {
-      "text": "Modify the unit's characteristics."
     }
   },
   {

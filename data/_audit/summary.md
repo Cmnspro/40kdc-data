@@ -7,37 +7,37 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | faction | total | offensive | defensive | inert | stub* | notes-stub | gw-leak | def-skipped |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
 | _core | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| adepta-sororitas | 94 | 28 | 10 | 59 | 2 | 9 | 0 | 1 |
-| adeptus-astartes | 348 | 109 | 39 | 215 | 6 | 19 | 0 | 7 |
-| adeptus-custodes | 83 | 20 | 12 | 55 | 0 | 3 | 0 | 3 |
-| adeptus-mechanicus | 100 | 24 | 11 | 68 | 1 | 1 | 0 | 2 |
-| aeldari | 168 | 33 | 13 | 127 | 23 | 13 | 0 | 5 |
-| agents-of-the-imperium | 130 | 23 | 8 | 101 | 40 | 2 | 0 | 2 |
-| astra-militarum | 191 | 46 | 16 | 132 | 0 | 3 | 0 | 5 |
-| chaos-daemons | 147 | 39 | 14 | 100 | 1 | 7 | 0 | 4 |
+| adepta-sororitas | 98 | 28 | 10 | 63 | 7 | 14 | 0 | 1 |
+| adeptus-astartes | 362 | 109 | 39 | 229 | 20 | 33 | 0 | 7 |
+| adeptus-custodes | 90 | 20 | 12 | 62 | 7 | 10 | 0 | 3 |
+| adeptus-mechanicus | 106 | 24 | 11 | 74 | 7 | 7 | 0 | 2 |
+| aeldari | 180 | 33 | 13 | 139 | 35 | 25 | 0 | 5 |
+| agents-of-the-imperium | 133 | 23 | 8 | 104 | 44 | 6 | 0 | 2 |
+| astra-militarum | 197 | 46 | 16 | 138 | 6 | 9 | 0 | 5 |
+| chaos-daemons | 155 | 39 | 14 | 108 | 9 | 15 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 4 | 3 | 0 | 0 |
-| chaos-space-marines | 222 | 63 | 17 | 149 | 7 | 21 | 0 | 6 |
-| death-guard | 113 | 26 | 7 | 83 | 9 | 8 | 0 | 3 |
-| drukhari | 94 | 21 | 6 | 69 | 20 | 7 | 0 | 1 |
-| emperors-children | 79 | 21 | 3 | 56 | 3 | 8 | 0 | 1 |
-| genestealer-cults | 81 | 13 | 6 | 64 | 20 | 2 | 0 | 1 |
-| grey-knights | 52 | 14 | 5 | 34 | 1 | 3 | 0 | 1 |
-| imperial-knights | 67 | 29 | 7 | 34 | 1 | 5 | 0 | 1 |
-| leagues-of-votann | 69 | 13 | 7 | 51 | 15 | 0 | 0 | 1 |
-| necrons | 148 | 24 | 23 | 109 | 21 | 6 | 0 | 1 |
-| orks | 143 | 29 | 12 | 106 | 25 | 7 | 0 | 3 |
-| tau-empire | 122 | 32 | 7 | 86 | 9 | 6 | 0 | 3 |
-| thousand-sons | 125 | 30 | 9 | 91 | 22 | 17 | 0 | 2 |
-| tyranids | 102 | 19 | 7 | 79 | 13 | 5 | 0 | 6 |
+| chaos-space-marines | 234 | 63 | 17 | 161 | 19 | 33 | 0 | 6 |
+| death-guard | 119 | 26 | 7 | 89 | 15 | 14 | 0 | 3 |
+| drukhari | 100 | 21 | 6 | 75 | 26 | 13 | 0 | 1 |
+| emperors-children | 87 | 21 | 3 | 64 | 11 | 16 | 0 | 1 |
+| genestealer-cults | 88 | 13 | 6 | 71 | 27 | 9 | 0 | 1 |
+| grey-knights | 61 | 14 | 5 | 43 | 10 | 12 | 0 | 1 |
+| imperial-knights | 73 | 29 | 7 | 40 | 7 | 11 | 0 | 1 |
+| leagues-of-votann | 76 | 13 | 7 | 58 | 22 | 7 | 0 | 1 |
+| necrons | 157 | 24 | 23 | 118 | 30 | 15 | 0 | 1 |
+| orks | 152 | 29 | 12 | 115 | 34 | 16 | 0 | 3 |
+| tau-empire | 129 | 32 | 7 | 93 | 16 | 13 | 0 | 3 |
+| thousand-sons | 130 | 30 | 9 | 96 | 27 | 22 | 0 | 2 |
+| tyranids | 111 | 19 | 7 | 88 | 22 | 14 | 0 | 6 |
 | world-eaters | 129 | 20 | 7 | 102 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2923** | **705** | **256** | **2048** | **243** | **155** | **0** | **59** |
+| **TOTAL** | **3083** | **705** | **256** | **2208** | **405** | **317** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
-- `465` — effect type "ability-grant" is not modelled by the buff layer
-- `236` — stat-modifier: operation "undefined" not supported
+- `463` — effect type "ability-grant" is not modelled by the buff layer
+- `398` — stat-modifier: operation "undefined" not supported
 - `168` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
 - `91` — effect type "attack-restriction" is not modelled by the buff layer
