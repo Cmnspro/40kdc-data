@@ -39,7 +39,7 @@ describe("resolve (against embedded grey-knights data)", () => {
   it("resolves the enhancement scoped to the detachment", () => {
     const gm = unitById(roster, "grand-master-in-nemesis-dreadknight")!;
     expect(gm.is_warlord).toBe(true);
-    expect(gm.enhancement?.id).toBe("pyresoul-psychic");
+    expect(gm.enhancement?.id).toBe("pyresoul-psychic-banishers");
     expect(gm.enhancement?.resolved).toBe(true);
   });
 
