@@ -45,8 +45,9 @@ interface WargearOptionLike {
 }
 
 /**
- * Corruption signatures left in a wargear-option weapon ref when the option
- * parser mis-handles a "one of the following" list (see option-parser.ts):
+ * Corruption signatures of a wargear-option weapon ref synthesized from prose
+ * rather than structural data — the failure mode of the retired army-assist prose
+ * lineage, kept here as a source-agnostic regression tripwire:
  *  - a dangling conjunction tail ("…-and"/"…-or") — a severed "A and B" group;
  *  - a captured prose qualifier ("options-you-cannot-select-the-same-option…",
  *    "duplicates-are-not-allowed") swallowed as a fake weapon.
@@ -190,7 +191,7 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
         if (DANGLING_CONJUNCTION.test(ref)) {
           errs.push({
             path: `/${i}`,
-            message: `wargear-option "${o.id}": weapon ref "${ref}" ends in a dangling conjunction — the option parser severed an "A and B" group (see option-parser.ts)`,
+            message: `wargear-option "${o.id}": weapon ref "${ref}" ends in a dangling conjunction — a prose-derived ref severed an "A and B" group`,
           });
         } else if (CAPTURED_QUALIFIER.test(ref)) {
           errs.push({

@@ -1,458 +1,440 @@
 [
   {
-    "id": "tech-priest-dominus-swap-1",
-    "unit_id": "tech-priest-dominus",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "macrostubber"
-    ],
-    "replacement": [
-      "phosphor-serpenta"
-    ]
-  },
-  {
-    "id": "tech-priest-dominus-swap-2",
-    "unit_id": "tech-priest-dominus",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "volkite-blaster"
-    ],
-    "replacement": [
-      "eradication-ray"
-    ]
-  },
-  {
-    "id": "kataphron-breachers-swap-1",
-    "unit_id": "kataphron-breachers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "heavy-arc-rifle"
-    ],
-    "replacement": [
-      "torsion-cannon"
-    ]
-  },
-  {
-    "id": "kataphron-breachers-swap-2",
-    "unit_id": "kataphron-breachers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "arc-claw"
-    ],
-    "replacement": [
-      "hydraulic-claw"
-    ]
-  },
-  {
-    "id": "kataphron-destroyers-swap-1",
-    "unit_id": "kataphron-destroyers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "heavy-grav-cannon"
-    ],
-    "replacement": [
-      "kataphron-plasma-culverin"
-    ]
-  },
-  {
-    "id": "kataphron-destroyers-swap-2",
-    "unit_id": "kataphron-destroyers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "phosphor-blaster"
-    ],
-    "replacement": [
-      "cognis-flamer"
-    ]
-  },
-  {
-    "id": "kastelan-robots-swap-1",
-    "unit_id": "kastelan-robots",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "twin-kastelan-fist"
-    ],
-    "replacement_choice": [
-      [
-        "kastelan-phosphor-blaster",
-        "kastelan-fist"
-      ],
-      [
-        "twin-kastelan-phosphor-blaster",
-        "close-combat-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "kastelan-robots-swap-2",
-    "unit_id": "kastelan-robots",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "incendine-combustor"
-    ],
-    "replacement": [
-      "heavy-phosphor-blaster"
-    ]
-  },
-  {
-    "id": "skitarii-rangers-addon-1",
-    "unit_id": "skitarii-rangers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Ranger Alpha",
-      "max_count": 1
-    },
-    "replacement": [
-      "alpha-combat-weapon"
-    ]
-  },
-  {
-    "id": "skitarii-rangers-swap-2",
-    "unit_id": "skitarii-rangers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Ranger Alpha",
-      "max_count": 1
-    },
-    "replaces": [
-      "galvanic-rifle"
-    ],
-    "replacement": [
-      "mechanicus-pistol"
-    ]
-  },
-  {
-    "id": "skitarii-rangers-swap-3",
-    "unit_id": "skitarii-rangers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Ranger",
-      "max_count": 1
-    },
-    "replaces": [
-      "galvanic-rifle"
-    ],
-    "replacement": [
-      "arc-rifle"
-    ]
-  },
-  {
-    "id": "skitarii-rangers-swap-4",
-    "unit_id": "skitarii-rangers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Ranger",
-      "max_count": 1
-    },
-    "replaces": [
-      "galvanic-rifle"
-    ],
-    "replacement": [
-      "plasma-caliver"
-    ]
-  },
-  {
-    "id": "skitarii-rangers-swap-5",
-    "unit_id": "skitarii-rangers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Ranger",
-      "max_count": 1
-    },
-    "replaces": [
-      "galvanic-rifle"
-    ],
-    "replacement": [
-      "transuranic-arquebus"
-    ]
-  },
-  {
-    "id": "skitarii-rangers-addon-6",
-    "unit_id": "skitarii-rangers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Ranger equipped with a galvanic rifle",
-      "max_count": 1
-    },
-    "replacement_choice": [
-      [
-        "enhanced-data-tether"
-      ],
-      [
-        "omnispex"
-      ]
-    ]
-  },
-  {
-    "id": "skitarii-vanguard-addon-1",
-    "unit_id": "skitarii-vanguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard Alpha",
-      "max_count": 1
-    },
-    "replacement": [
-      "alpha-combat-weapon"
-    ]
-  },
-  {
-    "id": "skitarii-vanguard-swap-2",
-    "unit_id": "skitarii-vanguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard Alpha",
-      "max_count": 1
-    },
-    "replaces": [
-      "radium-carbine"
-    ],
-    "replacement": [
-      "mechanicus-pistol"
-    ]
-  },
-  {
-    "id": "skitarii-vanguard-swap-3",
-    "unit_id": "skitarii-vanguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard",
-      "max_count": 1
-    },
-    "replaces": [
-      "radium-carbine"
-    ],
-    "replacement": [
-      "arc-rifle"
-    ]
-  },
-  {
-    "id": "skitarii-vanguard-swap-4",
-    "unit_id": "skitarii-vanguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard",
-      "max_count": 1
-    },
-    "replaces": [
-      "radium-carbine"
-    ],
-    "replacement": [
-      "plasma-caliver"
-    ]
-  },
-  {
-    "id": "skitarii-vanguard-swap-5",
-    "unit_id": "skitarii-vanguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard",
-      "max_count": 1
-    },
-    "replaces": [
-      "radium-carbine"
-    ],
-    "replacement": [
-      "transuranic-arquebus"
-    ]
-  },
-  {
-    "id": "skitarii-vanguard-addon-6",
-    "unit_id": "skitarii-vanguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard equipped with a radium carbine",
-      "max_count": 1
-    },
-    "replacement_choice": [
-      [
-        "enhanced-data-tether"
-      ],
-      [
-        "omnispex"
-      ]
-    ]
-  },
-  {
-    "id": "sicarian-infiltrators-swap-1",
-    "unit_id": "sicarian-infiltrators",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "stubcarbine",
-      "power-weapon"
-    ],
-    "replacement": [
-      "flechette-blaster",
-      "taser-goad"
-    ]
-  },
-  {
-    "id": "sicarian-ruststalkers-swap-1",
-    "unit_id": "sicarian-ruststalkers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sicarian Ruststalkers",
-      "any_number": true
-    },
-    "replaces": [
-      "transonic-razor",
-      "chordclaw"
-    ],
-    "replacement": [
-      "transonic-blades"
-    ]
-  },
-  {
-    "id": "sicarian-ruststalkers-swap-2",
-    "unit_id": "sicarian-ruststalkers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sicarian Ruststalker Princeps' transonic razor and chordclaw",
-      "max_count": 1
-    },
-    "replaces": [
-      "sicarian-ruststalker-princeps-transonic-razor",
-      "chordclaw"
-    ],
-    "replacement": [
-      "transonic-blades",
-      "chordclaw"
-    ]
-  },
-  {
-    "id": "ironstrider-ballistarii-swap-1",
+    "id": "ironstrider-ballistarii-wgo-1",
     "unit_id": "ironstrider-ballistarii",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
     },
     "replaces": [
       "twin-cognis-autocannon"
     ],
     "replacement": [
       "twin-cognis-lascannon"
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
   },
   {
-    "id": "onager-dunecrawler-swap-1",
+    "id": "kastelan-robots-wgo-2",
+    "unit_id": "kastelan-robots",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "twin-kastelan-fist"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "twin-kastelan-phosphor-blaster"
+      ],
+      [
+        "kastelan-fist",
+        "kastelan-phosphor-blaster"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kastelan-robots-wgo-3",
+    "unit_id": "kastelan-robots",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "incendine-combustor"
+    ],
+    "replacement": [
+      "heavy-phosphor-blaster"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kataphron-breachers-wgo-4",
+    "unit_id": "kataphron-breachers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "arc-claw"
+    ],
+    "replacement": [
+      "hydraulic-claw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kataphron-breachers-wgo-5",
+    "unit_id": "kataphron-breachers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "heavy-arc-rifle"
+    ],
+    "replacement": [
+      "torsion-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kataphron-destroyers-wgo-6",
+    "unit_id": "kataphron-destroyers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "phosphor-blaster"
+    ],
+    "replacement": [
+      "cognis-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kataphron-destroyers-wgo-7",
+    "unit_id": "kataphron-destroyers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "heavy-grav-cannon"
+    ],
+    "replacement": [
+      "kataphron-plasma-culverin"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "serberys-sulphurhounds-wgo-8",
+    "unit_id": "serberys-sulphurhounds",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "phosphor-blast-carbine"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-rangers-wgo-9",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "galvanic-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "transuranic-arquebus"
+      ],
+      [
+        "arc-rifle"
+      ],
+      [
+        "plasma-caliver"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-rangers-wgo-10",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "enhanced-data-tether"
+      ],
+      [
+        "omnispex"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-rangers-wgo-11",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "galvanic-rifle"
+    ],
+    "replacement": [
+      "mechanicus-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Ranger Alpha",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-rangers-wgo-12",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "alpha-combat-weapon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-vanguard-wgo-13",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "radium-carbine"
+    ],
+    "replacement_choice": [
+      [
+        "transuranic-arquebus"
+      ],
+      [
+        "arc-rifle"
+      ],
+      [
+        "plasma-caliver"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-vanguard-wgo-14",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "enhanced-data-tether"
+      ],
+      [
+        "omnispex"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-vanguard-wgo-15",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "radium-carbine"
+    ],
+    "replacement": [
+      "mechanicus-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Vanguard Alpha",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "skitarii-vanguard-wgo-16",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "alpha-combat-weapon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "sydonian-skatros-wgo-17",
+    "unit_id": "sydonian-skatros",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "radium-jezzail"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "sydonian-skatros-wgo-18",
+    "unit_id": "sydonian-skatros",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "skatros-transuranic-arquebus"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "servitor-battleclade-wgo-19",
+    "unit_id": "servitor-battleclade",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "phosphor-blaster"
+    ],
+    "replacement_choice": [
+      [
+        "incendine-igniter"
+      ],
+      [
+        "meltagun"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 3
+    },
+    "is_free": true
+  },
+  {
+    "id": "archaeopter-fusilave-wgo-20",
+    "unit_id": "archaeopter-fusilave",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "command-uplink"
+    ],
+    "replacement": [
+      "chaff-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "archaeopter-stratoraptor-wgo-21",
+    "unit_id": "archaeopter-stratoraptor",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "command-uplink"
+    ],
+    "replacement": [
+      "chaff-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "archaeopter-transvector-wgo-22",
+    "unit_id": "archaeopter-transvector",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "command-uplink"
+    ],
+    "replacement": [
+      "chaff-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "onager-dunecrawler-wgo-23",
     "unit_id": "onager-dunecrawler",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "broad-spectrum-data-tether"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "onager-dunecrawler-wgo-24",
+    "unit_id": "onager-dunecrawler",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "cognis-heavy-stubber"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "onager-dunecrawler-wgo-25",
+    "unit_id": "onager-dunecrawler",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -466,57 +448,21 @@
         "icarus-array"
       ],
       [
-        "neutron-laser",
-        "cognis-heavy-stubber"
+        "cognis-heavy-stubber",
+        "neutron-laser"
       ],
       [
         "twin-onager-heavy-phosphor-blaster"
       ]
-    ]
-  },
-  {
-    "id": "onager-dunecrawler-addon-2",
-    "unit_id": "onager-dunecrawler",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "additional-cognis-heavy-stubber"
-    ]
-  },
-  {
-    "id": "onager-dunecrawler-addon-3",
-    "unit_id": "onager-dunecrawler",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "broad-spectrum-data-tether"
-    ]
-  },
-  {
-    "id": "tech-priest-manipulus-swap-1",
-    "unit_id": "tech-priest-manipulus",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "magnarail-lance"
     ],
-    "replacement": [
-      "transonic-cannon"
-    ]
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "skorpius-disintegrator-swap-1",
+    "id": "skorpius-disintegrator-wgo-26",
     "unit_id": "skorpius-disintegrator",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -526,212 +472,64 @@
     ],
     "replacement": [
       "ferrumite-cannon"
-    ]
-  },
-  {
-    "id": "serberys-sulphurhounds-swap-1",
-    "unit_id": "serberys-sulphurhounds",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Serberys Sulphurhound",
-      "per_n_models": 3
-    },
-    "replaces": [
-      "phosphor-pistol"
     ],
-    "replacement": [
-      "phosphor-blast-carbine",
-      "phosphor-pistol"
-    ]
-  },
-  {
-    "id": "serberys-raiders-addon-1",
-    "unit_id": "serberys-raiders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Serberys Raider",
       "max_count": 1
     },
-    "replacement": [
-      "enhanced-data-tether"
-    ]
+    "is_free": true
   },
   {
-    "id": "archaeopter-transvector-swap-1",
-    "unit_id": "archaeopter-transvector",
-    "is_free": true,
+    "id": "tech-priest-dominus-wgo-27",
+    "unit_id": "tech-priest-dominus",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "command-uplink"
+      "macrostubber"
     ],
     "replacement": [
-      "chaff-launcher"
-    ]
-  },
-  {
-    "id": "archaeopter-stratoraptor-swap-1",
-    "unit_id": "archaeopter-stratoraptor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "command-uplink"
+      "phosphor-serpenta"
     ],
-    "replacement": [
-      "chaff-launcher"
-    ]
-  },
-  {
-    "id": "archaeopter-fusilave-swap-1",
-    "unit_id": "archaeopter-fusilave",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "command-uplink"
-    ],
-    "replacement": [
-      "chaff-launcher"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-addon-1",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "tome-skull"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-swap-1",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Combat Servitor model",
       "max_count": 1
     },
+    "is_free": true
+  },
+  {
+    "id": "tech-priest-dominus-wgo-28",
+    "unit_id": "tech-priest-dominus",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
     "replaces": [
-      "phosphor-blaster"
+      "volkite-blaster"
     ],
     "replacement": [
-      "meltagun"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-addon-2",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "plasma-pistol"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-swap-2",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+      "eradication-ray"
+    ],
     "model_constraint": {
-      "model_name": "Combat Servitor models",
-      "max_count": 3
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "tech-priest-manipulus-wgo-29",
+    "unit_id": "tech-priest-manipulus",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
     },
     "replaces": [
-      "phosphor-blaster"
+      "magnarail-lance"
     ],
     "replacement": [
-      "incendine-igniter"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-addon-3",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "eviscerator"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-addon-4",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "mystic-stave"
-    ]
-  },
-  {
-    "id": "servitor-battleclade-swap-5",
-    "unit_id": "servitor-battleclade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+      "transonic-cannon"
+    ],
     "model_constraint": {
-      "model_name": "Gun Servitors",
-      "any_number": true
+      "max_count": 1
     },
-    "replaces": [
-      "heavy-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "multi-melta"
-      ],
-      [
-        "plasma-cannon"
-      ]
-    ]
-  },
-  {
-    "id": "sydonian-skatros-swap-1",
-    "unit_id": "sydonian-skatros",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "radium-jezzail"
-    ],
-    "replacement": [
-      "skatros-transuranic-arquebus"
-    ]
+    "is_free": true
   }
 ]

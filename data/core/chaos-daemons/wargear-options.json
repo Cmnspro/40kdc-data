@@ -1,72 +1,62 @@
 [
   {
-    "id": "bloodletters-addon-1",
-    "unit_id": "bloodletters",
-    "is_free": true,
+    "id": "pink-horrors-wgo-1",
+    "unit_id": "pink-horrors",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replacement": [
+      "daemonic-icon"
+    ],
     "model_constraint": {
-      "model_name": "Bloodletter that is not equipped with a daemonic icon",
       "max_count": 1
     },
-    "replacement": [
-      "a-daemonic-icon-can-be-equipped-with-1-instrument-of-chaos"
-    ]
+    "is_free": true
   },
   {
-    "id": "bloodletters-addon-2",
-    "unit_id": "bloodletters",
-    "is_free": true,
+    "id": "pink-horrors-wgo-2",
+    "unit_id": "pink-horrors",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replacement": [
+      "instrument-of-chaos"
+    ],
     "model_constraint": {
-      "model_name": "Bloodletter that is not equipped with an instrument of Chaos",
       "max_count": 1
     },
-    "replacement": [
-      "an-instrument-of-chaos-can-be-equipped-with-1-daemonic-icon"
-    ]
+    "is_free": true
   },
   {
-    "id": "bloodcrushers-addon-1",
-    "unit_id": "bloodcrushers",
-    "is_free": true,
+    "id": "bloodthirster-wgo-3",
+    "unit_id": "bloodthirster",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replaces": [
+      "great-axe-of-khorne"
+    ],
+    "replacement_choice": [
+      [
+        "axe-of-khorne",
+        "bloodflail"
+      ],
+      [
+        "axe-of-khorne",
+        "lash-of-khorne"
+      ]
+    ],
     "model_constraint": {
-      "model_name": "Bloodcrusher that is not equipped with a daemonic icon",
       "max_count": 1
     },
-    "replacement": [
-      "a-daemonic-icon-can-be-equipped-with-1-instrument-of-chaos"
-    ]
+    "is_free": true
   },
   {
-    "id": "bloodcrushers-addon-2",
-    "unit_id": "bloodcrushers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Bloodcrusher that is not equipped with an instrument of Chaos",
-      "max_count": 1
-    },
-    "replacement": [
-      "an-instrument-of-chaos-can-be-equipped-with-1-daemonic-icon"
-    ]
-  },
-  {
-    "id": "lord-of-change-addon-1",
+    "id": "lord-of-change-wgo-4",
     "unit_id": "lord-of-change",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -78,27 +68,15 @@
       [
         "baleful-sword"
       ]
-    ]
-  },
-  {
-    "id": "great-unclean-one-swap-1",
-    "unit_id": "great-unclean-one",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "plague-flail"
     ],
-    "replacement": [
-      "bileblade"
-    ]
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "great-unclean-one-swap-2",
+    "id": "great-unclean-one-wgo-5",
     "unit_id": "great-unclean-one",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -108,193 +86,51 @@
     ],
     "replacement": [
       "doomsday-bell"
-    ]
-  },
-  {
-    "id": "plaguebearers-addon-1",
-    "unit_id": "plaguebearers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
-      "model_name": "Plaguebearer that is not equipped with a daemonic icon",
       "max_count": 1
     },
-    "replacement": [
-      "a-daemonic-icon-can-be-equipped-with-1-instrument-of-chaos"
-    ]
+    "is_free": true
   },
   {
-    "id": "plaguebearers-addon-2",
-    "unit_id": "plaguebearers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Plaguebearer that is not equipped with an instrument of Chaos",
-      "max_count": 1
-    },
-    "replacement": [
-      "an-instrument-of-chaos-can-be-equipped-with-1-daemonic-icon"
-    ]
-  },
-  {
-    "id": "plague-drones-addon-1",
-    "unit_id": "plague-drones",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Plague Drone that is not equipped with a daemonic icon",
-      "max_count": 1
-    },
-    "replacement": [
-      "a-daemonic-icon-can-be-equipped-with-1-instrument-of-chaos"
-    ]
-  },
-  {
-    "id": "plague-drones-addon-2",
-    "unit_id": "plague-drones",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Plague Drone that is not equipped with an instrument of Chaos",
-      "max_count": 1
-    },
-    "replacement": [
-      "an-instrument-of-chaos-can-be-equipped-with-1-daemonic-icon"
-    ]
-  },
-  {
-    "id": "keeper-of-secrets-addon-1",
-    "unit_id": "keeper-of-secrets",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "living-whipritual-knifeshining-aegis"
-    ]
-  },
-  {
-    "id": "keeper-of-secrets-addon-1",
-    "unit_id": "keeper-of-secrets",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "living-whipritual-knifeshining-aegis"
-    ]
-  },
-  {
-    "id": "daemonettes-addon-1",
-    "unit_id": "daemonettes",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Daemonette that is not equipped with a daemonic icon",
-      "max_count": 1
-    },
-    "replacement": [
-      "a-daemonic-icon-can-be-equipped-with-1-instrument-of-chaos"
-    ]
-  },
-  {
-    "id": "daemonettes-addon-2",
-    "unit_id": "daemonettes",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Daemonette that is not equipped with an instrument of Chaos",
-      "max_count": 1
-    },
-    "replacement": [
-      "an-instrument-of-chaos-can-be-equipped-with-1-daemonic-icon"
-    ]
-  },
-  {
-    "id": "seekers-addon-1",
-    "unit_id": "seekers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Seeker that is not equipped with a daemonic icon",
-      "max_count": 1
-    },
-    "replacement": [
-      "a-daemonic-icon-can-be-equipped-with-1-instrument-of-chaos"
-    ]
-  },
-  {
-    "id": "seekers-addon-2",
-    "unit_id": "seekers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Seeker that is not equipped with an instrument of Chaos",
-      "max_count": 1
-    },
-    "replacement": [
-      "an-instrument-of-chaos-can-be-equipped-with-1-daemonic-icon"
-    ]
-  },
-  {
-    "id": "soul-grinder-swap-1",
-    "unit_id": "soul-grinder",
-    "is_free": true,
+    "id": "great-unclean-one-wgo-6",
+    "unit_id": "great-unclean-one",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "warpsword"
+      "plague-flail"
     ],
     "replacement": [
-      "warpclaw"
-    ]
+      "bileblade"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "bloodthirster-swap-1",
-    "unit_id": "bloodthirster",
-    "is_free": true,
+    "id": "keeper-of-secrets-wgo-7",
+    "unit_id": "keeper-of-secrets",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
-      "great-axe-of-khorne"
-    ],
     "replacement_choice": [
       [
-        "bloodflail"
+        "living-whip"
       ],
       [
-        "lash-of-khorne"
+        "ritual-knife"
+      ],
+      [
+        "shining-aegis"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   }
 ]
