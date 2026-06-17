@@ -55,7 +55,6 @@ function readJson<T>(p: string): T[] {
 /**
  * Strip a trailing parenthetical tag the dump appends to enhancement names
  * (" (Upgrade)", " (Aura)") but the repo entity name (and thus its id) omits.
- * Mirrors the same normalization sync-mfm-points.ts applies.
  */
 function cleanEnhName(name: string): string {
   return name.replace(/\s*\([^)]*\)\s*$/, "").trim();

@@ -12,9 +12,9 @@
  * Titan factions ("Adeptus Titanicus" / "Titanicus Traitoris") have no repo dir
  * yet and resolve to null (deferred — repo/MFM intentionally skip titans).
  *
- * SHARED_ROSTERS mirrors sync-mfm-points.ts: a supplement page republishes a
- * parent's roster, so a datasheet that misses its own dir but resolves in a
- * shared dir is an expected duplicate, not a real miss.
+ * SHARED_ROSTERS captures supplement dirs whose units live in a parent dir: a
+ * supplement republishes a parent's roster, so a datasheet that misses its own
+ * dir but resolves in a shared dir is an expected duplicate, not a real miss.
  */
 import * as fs from "fs";
 import * as path from "path";
@@ -37,9 +37,9 @@ export const FACTION_ALIASES: Record<string, string> = {
 };
 
 /**
- * A supplement dir whose units actually live in a parent dir. Same intent as
- * sync-mfm-points.ts SHARED_ROSTERS: SM chapters republish the generic Astartes
- * roster; mono-god Chaos legions republish patron daemons + shared engines.
+ * A supplement dir whose units actually live in a parent dir: SM chapters
+ * republish the generic Astartes roster; mono-god Chaos legions republish
+ * patron daemons + shared engines.
  */
 export const SHARED_ROSTERS: Record<string, string[]> = {
   "black-templars": ["adeptus-astartes"],

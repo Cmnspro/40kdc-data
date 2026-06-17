@@ -198,12 +198,19 @@ across implementations by the `conformance/share/` corpus.
   each entry. Coverage is tracked by `npm run audit:store-coverage`
   (`data/_audit/store-coverage.md`). As with all raw text, it lands ONLY in the
   out-of-repo store, never in this repo.
-- **online MFM** (`mfm.warhammer-community.com`): the official Munitorum Field
-  Manual. **Authoritative** source for unit/enhancement points (overrides the
-  army-assist points above). Run `npx tsx tools/src/sync-mfm-points.ts` (dry run +
-  report) then `--write` to apply; full runbook in
-  [`tools/docs/mfm-points-sync.md`](tools/docs/mfm-points-sync.md). Models 11e
+- **GW MFM dump** (`_private/dump.json`, gitignored): the official Munitorum Field
+  Manual data export — a ~30MB UUID-keyed relational dump (`data_version 867`,
+  ~130 tables: datasheets, loadouts, enhancements, detachment rules, stratagems,
+  missions). **Authoritative** for the live game; supersedes army-assist →
+  convert-faction as the upstream for mechanical data. Run
+  `npx tsx tools/src/ingest-mfm.ts <subcommand>` (coverage / dispositions /
+  enhancements / points / wargear / stratagems / missions / cull-legends) — dry
+  run + `_reports/mfm-*.md` report by default, `--write` to apply, unmatched rows
+  to `_private/mfm/`. The loader/faction-map live in `tools/src/mfm/`. Models 11e
   per-army-ordinal pricing via `unit_count_min`/`unit_count_max` on unit `points`.
+  Numeric/structural fields land in the repo; GW prose routes to the out-of-repo
+  store. NB: unrelated to the NewRecruit roster-builder import/export feature
+  (`tools/src/{import,export}/newrecruit-*`), which keeps that name.
 
 ## Ability ids, the raw-text store, and share tokens
 
