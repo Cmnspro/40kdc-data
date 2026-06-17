@@ -73,12 +73,21 @@ func baseWeaponIDs(unit map[string]any, options []any) []string {
 	return out
 }
 
-// maximalLoadout is the maximal (take-every-swap) loadout: id -> count.
-func maximalLoadout(unit map[string]any, modelCount int, options []any) map[string]int {
+// baseLoadout is the base (legal, no-swap) loadout: id -> count, every base
+// weapon on every model. The legal default a freshly-added unit ships with —
+// each model in its out-of-the-box configuration. maximalLoadout starts from
+// this set and then applies every option at full cap.
+func baseLoadout(unit map[string]any, modelCount int, options []any) map[string]int {
 	counts := map[string]int{}
 	for _, id := range baseWeaponIDs(unit, options) {
 		counts[id] += modelCount
 	}
+	return counts
+}
+
+// maximalLoadout is the maximal (take-every-swap) loadout: id -> count.
+func maximalLoadout(unit map[string]any, modelCount int, options []any) map[string]int {
+	counts := baseLoadout(unit, modelCount, options)
 	for _, oAny := range options {
 		o, _ := asMap(oAny)
 		cap := optionCap(o, modelCount)

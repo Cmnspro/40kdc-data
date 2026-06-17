@@ -11,9 +11,11 @@
  */
 
 import {
+	baseLoadout,
+	baseUnitPoints,
 	clampWeaponCount,
 	exportRoster,
-	maximalLoadout,
+	pointsTierMissing,
 	tryImportRoster,
 	validateLoadout,
 	weaponBounds,
@@ -26,6 +28,10 @@ import {
 	type WargearOption,
 	type WeaponBound,
 } from '@alpaca-software/40kdc-data';
+
+// Re-exported so the builder UI keeps a single import surface; the ordinal-aware
+// pricing now lives in the package (see `unitOrdinals` for the army-copy index).
+export { baseUnitPoints, pointsTierMissing };
 import { ds } from '$lib/data/dataset';
 import type { DatacardData } from '$lib/types/DatacardData';
 
@@ -372,6 +378,7 @@ export interface DraftGroup extends Section {
  */
 export function groupDraftByRole(state: BuilderState): DraftGroup[] {
 	const armyFaction = state.factionId ?? undefined;
+	const ordinals = unitOrdinals(state.units);
 	const buckets = new Map<string, { section: Section; units: BuilderUnit[] }>();
 	for (const bu of state.units) {
 		const raw = buRaw(bu, armyFaction);
@@ -387,7 +394,7 @@ export function groupDraftByRole(state: BuilderState): DraftGroup[] {
 		.map(({ section, units }) => ({
 			...section,
 			units,
-			points: units.reduce((sum, u) => sum + unitPoints(u, armyFaction), 0),
+			points: units.reduce((sum, u) => sum + unitPoints(u, armyFaction, ordinals.get(u.key)), 0),
 		}));
 }
 
@@ -471,40 +478,41 @@ export function builderUnitToDatacardData(bu: BuilderUnit, armyFactionId?: strin
 // ── Points ───────────────────────────────────────────────────────────────────
 
 /**
- * Points for a unit at `modelCount`: the cost tier whose `models` threshold the
- * count reaches (highest tier ≤ count), plus the chosen enhancement's cost.
- * Returns 0 for the base when no tier covers the count (caller surfaces a
- * violation rather than guessing).
+ * 1-based army ordinal of each unit among those sharing its `datasheetId`, in
+ * army order. 11e prices some datasheets by how many copies you have taken
+ * (`unit.points` ordinal bands), so the Nth copy of a datasheet may cost more
+ * than the first — see {@link baseUnitPoints}. Keyed by `BuilderUnit.key`.
  */
-export function unitPoints(bu: BuilderUnit, armyFactionId?: string): number {
+export function unitOrdinals(units: readonly BuilderUnit[]): Map<string, number> {
+	const seen = new Map<string, number>();
+	const out = new Map<string, number>();
+	for (const u of units) {
+		const n = (seen.get(u.datasheetId) ?? 0) + 1;
+		seen.set(u.datasheetId, n);
+		out.set(u.key, n);
+	}
+	return out;
+}
+
+/**
+ * Points for a unit at `modelCount` taken as its `ordinal`-th army copy: the
+ * ordinal-aware cost tier (see {@link baseUnitPoints}) plus the chosen
+ * enhancement's cost. Returns 0 for the base when no tier covers the count
+ * (caller surfaces a violation rather than guessing). `ordinal` defaults to the
+ * 1st copy; whole-army callers pass the real ordinal via {@link unitOrdinals}.
+ */
+export function unitPoints(bu: BuilderUnit, armyFactionId?: string, ordinal = 1): number {
 	const unit = buRaw(bu, armyFactionId);
 	if (!unit) return 0;
-	const base = baseUnitPoints(unit, bu.modelCount);
+	const base = baseUnitPoints(unit, bu.modelCount, ordinal);
 	const enh = bu.enhancementId ? (ds.enhancements.get(bu.enhancementId)?.cost ?? 0) : 0;
 	return base + enh;
 }
 
-export function baseUnitPoints(unit: Unit, modelCount: number): number {
-	const tiers = (unit.points ?? []).slice().sort((a, b) => a.models - b.models);
-	if (tiers.length === 0) return 0;
-	let chosen = tiers[0];
-	for (const t of tiers) {
-		if (modelCount >= t.models) chosen = t;
-	}
-	return chosen.cost;
-}
-
-/** True when no points tier covers `modelCount` (an out-of-composition count). */
-export function pointsTierMissing(unit: Unit, modelCount: number): boolean {
-	const tiers = unit.points ?? [];
-	if (tiers.length === 0) return true;
-	const minModels = Math.min(...tiers.map((t) => t.models));
-	return modelCount < minModels;
-}
-
 export function totalPoints(state: BuilderState): number {
 	const armyFaction = state.factionId ?? undefined;
-	return state.units.reduce((sum, u) => sum + unitPoints(u, armyFaction), 0);
+	const ordinals = unitOrdinals(state.units);
+	return state.units.reduce((sum, u) => sum + unitPoints(u, armyFaction, ordinals.get(u.key)), 0);
 }
 
 export function pointsLimit(state: BuilderState): number {
@@ -524,10 +532,16 @@ export function effectiveBattleSize(state: BuilderState): BattleSize {
 
 // ── Loadout ───────────────────────────────────────────────────────────────────
 
-/** Default loadout for a freshly-added unit: the maximal (take-every-swap) set. */
+/**
+ * Default loadout for a freshly-added unit: the base (legal, no-swap) set — each
+ * model carries its base weapons, no options applied. The take-every-swap
+ * maximal set is illegal as a default (it stacks every swap at once), so the
+ * unit starts at its datasheet-default configuration and the player opts into
+ * swaps.
+ */
 export function defaultLoadout(unit: Unit, modelCount: number): Map<string, number> {
 	const options = ds.wargearOptionsOf(unit);
-	return maximalLoadout(unit, modelCount, options).counts;
+	return baseLoadout(unit, modelCount, options).counts;
 }
 
 /**
@@ -791,13 +805,14 @@ export interface BuilderViolation {
 function allyViolations(state: BuilderState): BuilderViolation[] {
 	const out: BuilderViolation[] = [];
 	const armyFaction = state.factionId ?? undefined;
+	const ordinals = unitOrdinals(state.units);
 	for (const { rule, label } of alliesForState(state)) {
 		const allyUnits = state.units.filter((u) => u.allyRuleId === rule.id);
 		if (allyUnits.length === 0) continue;
 
 		const cap = allyPointsLimit(rule, effectiveBattleSize(state));
 		if (cap != null) {
-			const spent = allyUnits.reduce((s, u) => s + unitPoints(u, armyFaction), 0);
+			const spent = allyUnits.reduce((s, u) => s + unitPoints(u, armyFaction, ordinals.get(u.key)), 0);
 			if (spent > cap) {
 				out.push({ unitKey: null, message: `${label}: ${spent} allied pts over the ${cap} pt limit` });
 			}
@@ -970,6 +985,7 @@ export function builderViolations(state: BuilderState): BuilderViolation[] {
 		});
 	}
 	const armyFaction = state.factionId ?? undefined;
+	const ordinals = unitOrdinals(state.units);
 	for (const bu of state.units) {
 		const unit = buRaw(bu, armyFaction);
 		if (!unit) {
@@ -983,7 +999,7 @@ export function builderViolations(state: BuilderState): BuilderViolation[] {
 				message: `model count ${bu.modelCount} outside ${mc.min}–${mc.max}`,
 			});
 		}
-		if (pointsTierMissing(unit, bu.modelCount)) {
+		if (pointsTierMissing(unit, bu.modelCount, ordinals.get(bu.key))) {
 			out.push({ unitKey: bu.key, message: 'no points cost for this model count' });
 		}
 		for (const v of loadoutViolations(bu, armyFaction)) {
@@ -1022,6 +1038,7 @@ export function builderToRoster(state: BuilderState): Roster {
 	});
 
 	const byKey = new Map(state.units.map((u) => [u.key, u]));
+	const ordinals = unitOrdinals(state.units);
 	const units = state.units.map((bu) => {
 		const unit = buRaw(bu, armyFaction);
 		const name = unit?.name ?? bu.datasheetId;
@@ -1044,7 +1061,7 @@ export function builderToRoster(state: BuilderState): Roster {
 		return {
 			ref: ref(bu.datasheetId, name),
 			model_count: bu.modelCount,
-			points: unit ? baseUnitPoints(unit, bu.modelCount) : null,
+			points: unit ? baseUnitPoints(unit, bu.modelCount, ordinals.get(bu.key)) : null,
 			is_warlord: bu.isWarlord,
 			enhancement: enh ? ref(enh.id, enh.name) : null,
 			enhancement_points: enh?.cost ?? null,

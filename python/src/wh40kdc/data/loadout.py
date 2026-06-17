@@ -70,6 +70,23 @@ def _base_weapon_ids(unit: Unit, options: list[WargearOption]) -> list[str]:
     return [id_ for id_ in unit.get("weapon_ids") or [] if id_ not in replacements]
 
 
+def base_loadout(
+    unit: Unit,
+    model_count: int,
+    options: list[WargearOption],
+) -> dict[str, int]:
+    """The base loadout: id → count, every base weapon on every model, no swaps.
+
+    This is the legal default a freshly-added unit ships with — each model in
+    its out-of-the-box configuration. :func:`maximal_loadout` starts from this
+    set and then applies every option at full cap.
+    """
+    counts: dict[str, int] = {}
+    for id_ in _base_weapon_ids(unit, options):
+        counts[id_] = counts.get(id_, 0) + model_count
+    return counts
+
+
 def maximal_loadout(
     unit: Unit,
     model_count: int,
@@ -81,9 +98,7 @@ def maximal_loadout(
     :func:`option_cap` (choices take their first branch). Swaps move count
     from the replaced id to the added id; add-ons only add.
     """
-    counts: dict[str, int] = {}
-    for id_ in _base_weapon_ids(unit, options):
-        counts[id_] = counts.get(id_, 0) + model_count
+    counts: dict[str, int] = base_loadout(unit, model_count, options)
     for option in options:
         cap = option_cap(option, model_count)
         if cap == 0:

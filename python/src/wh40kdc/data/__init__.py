@@ -11,6 +11,7 @@ from wh40kdc.data.entities import (
     WeaponView,
 )
 from wh40kdc.data.loadout import (
+    base_loadout,
     clamp_weapon_count,
     maximal_loadout,
     option_cap,
@@ -18,6 +19,7 @@ from wh40kdc.data.loadout import (
     weapon_bounds,
 )
 from wh40kdc.data.normalize import normalize_name
+from wh40kdc.data.pricing import base_unit_points, points_tier_missing
 
 __all__ = [
     "COLLECTION_KEYS",
@@ -29,11 +31,14 @@ __all__ = [
     "UnitView",
     "WeaponKeywordView",
     "WeaponView",
+    "base_loadout",
+    "base_unit_points",
     "clamp_weapon_count",
     "empty_raw_data",
     "maximal_loadout",
     "normalize_name",
     "option_cap",
+    "points_tier_missing",
     "raw_data",
     "validate_loadout",
     "weapon_bounds",

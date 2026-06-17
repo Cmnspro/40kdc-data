@@ -110,13 +110,22 @@ fn base_weapon_ids(unit: &Unit, options: &[&WargearOption]) -> Vec<String> {
         .collect()
 }
 
-/// The maximal loadout: every base weapon on every model, then each option
-/// applied at its full [`option_cap`] (choices take their first branch).
-pub fn maximal_loadout(unit: &Unit, model_count: u64, options: &[&WargearOption]) -> Loadout {
+/// The base loadout: every base (always-carried) weapon on every model, with no
+/// swaps applied. This is the legal default a freshly-added unit ships with —
+/// each model in its out-of-the-box configuration. [`maximal_loadout`] starts
+/// from this set and then applies every option at full cap.
+pub fn base_loadout(unit: &Unit, model_count: u64, options: &[&WargearOption]) -> Loadout {
     let mut counts: BTreeMap<String, i64> = BTreeMap::new();
     for id in base_weapon_ids(unit, options) {
         *counts.entry(id).or_insert(0) += model_count as i64;
     }
+    Loadout { counts }
+}
+
+/// The maximal loadout: every base weapon on every model, then each option
+/// applied at its full [`option_cap`] (choices take their first branch).
+pub fn maximal_loadout(unit: &Unit, model_count: u64, options: &[&WargearOption]) -> Loadout {
+    let mut counts = base_loadout(unit, model_count, options).counts;
     for option in options {
         let cap = option_cap(option, model_count) as i64;
         if cap == 0 {
@@ -312,6 +321,20 @@ mod tests {
         assert_eq!(get("plasma-pistol"), 3);
         assert_eq!(get("khornate-eviscerator"), 2);
         assert_eq!(get("icon-of-khorne"), 1);
+    }
+
+    #[test]
+    fn base_loadout_berzerkers_at_10_is_the_legal_default() {
+        let (bz, opts) = berzerkers();
+        let lo = base_loadout(bz, 10, &opts);
+        // Base weapons only (never a replacement) — none of the swap/add-on ids.
+        assert_eq!(lo.counts.get("bolt-pistol").copied(), Some(10));
+        assert_eq!(lo.counts.get("chainblade").copied(), Some(10));
+        assert_eq!(lo.counts.get("plasma-pistol").copied(), None);
+        assert_eq!(lo.counts.len(), 2);
+        // The legal default validates clean (the maximal set is what gets edited).
+        let counts: HashMap<String, i64> = lo.counts.into_iter().collect();
+        assert!(validate_loadout(bz, 10, &opts, &counts).is_empty());
     }
 
     #[test]

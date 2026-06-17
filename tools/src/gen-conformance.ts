@@ -1086,6 +1086,30 @@ function genEffectTranslation(): void {
     };
     cases.push(entry);
   }
+  // Pin the curated ability-grant label overrides for the sibling ids — they
+  // rarely surface in the capped sample above (ability-grant caps out on the
+  // common `charge-after-advance`). Shapes mirror real enrichment data; expected
+  // text still comes from the reference describer, so a second impl must
+  // independently reproduce it. See ABILITY_GRANT_LABELS in translate/effect.ts.
+  const FORCED_GRANT_CASES: { effect: Record<string, unknown>; scope: Record<string, unknown> }[] = [
+    {
+      effect: { type: "ability-grant", target: "unit", modifier: { grant_type: "charge-after-disembark" } },
+      scope: { range: "unit", duration: "permanent" },
+    },
+    {
+      effect: { type: "ability-grant", target: "self", modifier: { grant_type: "charge-after-fallback" } },
+      scope: { range: "self", duration: "turn" },
+    },
+  ];
+  for (const fc of FORCED_GRANT_CASES) {
+    const id = (fc.effect.modifier as Record<string, unknown>).grant_type as string;
+    cases.push({
+      caseId: `grant-label-${id}#${cases.length}`,
+      effect: fc.effect,
+      scope: fc.scope,
+      expected: { text: describeAbility({ effect: fc.effect as Effect, scope: fc.scope }) },
+    });
+  }
   writeJson(join(CONFORMANCE, "effect-translation", "cases.json"), cases);
   console.log(`effect-translation/cases.json: ${cases.length} cases (${seen.size} node types)`);
 }

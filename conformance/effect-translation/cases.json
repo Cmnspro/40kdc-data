@@ -495,7 +495,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit gains the Charge After Advance ability."
+      "text": "The unit gains the Advance & Charge ability."
     }
   },
   {
@@ -536,7 +536,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit gains the Charge After Advance ability."
+      "text": "The unit gains the Advance & Charge ability."
     }
   },
   {
@@ -6130,6 +6130,40 @@
     },
     "expected": {
       "text": "For the rest of the battle, the objective is marked as held.\nApplies to: units with Heretic Astartes."
+    }
+  },
+  {
+    "caseId": "grant-label-charge-after-disembark#196",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "charge-after-disembark"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "The unit gains the Charge After Disembarking ability."
+    }
+  },
+  {
+    "caseId": "grant-label-charge-after-fallback#197",
+    "effect": {
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "charge-after-fallback"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "turn"
+    },
+    "expected": {
+      "text": "Until the end of the turn, this model gains the Fall Back & Charge ability."
     }
   }
 ]

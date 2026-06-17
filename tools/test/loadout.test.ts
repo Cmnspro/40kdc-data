@@ -3,6 +3,7 @@ import { describe, it, expect } from "vitest";
 import { dataset } from "../src/data/index.js";
 import {
   optionCap,
+  baseLoadout,
   maximalLoadout,
   weaponBounds,
   clampWeaponCount,
@@ -28,6 +29,21 @@ describe("optionCap", () => {
   });
   it("max_count clamps a ratio", () => {
     expect(optionCap(opt({ model_constraint: { per_n_models: 5, max_count: 1 } }), 20)).toBe(1);
+  });
+});
+
+describe("baseLoadout — Khorne Berzerkers @ 10 (legal default)", () => {
+  it("carries only the base weapons on every model, no swaps applied", () => {
+    const bz = dataset.units.get("khorne-berzerkers")!;
+    const options = dataset.wargearOptionsOf(bz.raw);
+    const lo = baseLoadout(bz.raw, 10, options);
+    // Base weapons (never a replacement) only — none of the swap/add-on ids.
+    expect(Object.fromEntries(lo.counts)).toEqual({
+      "bolt-pistol": 10,
+      "chainblade": 10,
+    });
+    // The legal default is itself valid (the maximal take-every-swap set is not).
+    expect(validateLoadout(bz.raw, 10, options, lo.counts)).toEqual([]);
   });
 });
 

@@ -92,6 +92,24 @@ function capitalize(s: string): string {
 /** Small words kept lowercase mid-phrase in Title Case (`Benefit of Cover`, not `Benefit Of Cover`). */
 const TITLE_SMALL = new Set(["of", "or", "and", "the", "a", "an", "to", "in", "on", "for", "with"]);
 
+/**
+ * Curated display labels for granted-ability ids whose Title-Cased slug reads
+ * wrong. The slug encodes the mechanic (`charge-after-advance`); the label is
+ * the published name players know (`Advance & Charge`). Applied only to the
+ * ability-grant describer — keyed on the resolved grant (`grant_type ??
+ * ability_id`); ids absent here fall back to {@link titleCase}.
+ */
+const ABILITY_GRANT_LABELS: Record<string, string> = {
+  "charge-after-advance": "Advance & Charge",
+  "charge-after-fallback": "Fall Back & Charge",
+  "charge-after-disembark": "Charge After Disembarking",
+};
+
+/** The display label for a granted ability id: a curated override, else Title Case. */
+function grantLabel(id: string): string {
+  return ABILITY_GRANT_LABELS[id] ?? titleCase(id);
+}
+
 /** kebab/space token → Title Case (`deep-strike` → `Deep Strike`, `shoot-and-scoot` → `Shoot and Scoot`). */
 function titleCase(s: string): string {
   return dekebab(s)
@@ -433,7 +451,7 @@ export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
       const grant = m.grant_type ?? m.ability_id;
       const cap = m.capacity != null ? ` (${jstr(m.capacity)})` : "";
       return grant != null
-        ? `${subj} ${v(subj, "gains")} the ${titleCase(jstr(grant))} ability${cap}`
+        ? `${subj} ${v(subj, "gains")} the ${grantLabel(jstr(grant))} ability${cap}`
         : `${subj} ${v(subj, "gains")} an ability${cap}`;
     }
     case "movement-modifier": {

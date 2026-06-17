@@ -2,6 +2,7 @@
 import {
 	unitRaw,
 	unitPoints,
+	unitOrdinals,
 	loadoutSummary,
 	builderViolations,
 	attachedLeaders,
@@ -21,7 +22,7 @@ let { unit, draft, selected, onselect, onclone, onremove }: Props = $props();
 
 const armyFaction = $derived(draft.factionId ?? undefined);
 const raw = $derived(unitRaw(unit.datasheetId, unit.factionId, armyFaction));
-const points = $derived(unitPoints(unit, armyFaction));
+const points = $derived(unitPoints(unit, armyFaction, unitOrdinals(draft.units).get(unit.key)));
 const summary = $derived(loadoutSummary(unit));
 const hasIssues = $derived(builderViolations(draft).some((v) => v.unitKey === unit.key));
 /** Leaders attached to this row (so a bodyguard shows it's being led). */

@@ -92,6 +92,19 @@ const TITLE_SMALL: &[&str] = &[
     "of", "or", "and", "the", "a", "an", "to", "in", "on", "for", "with",
 ];
 
+/// Curated display label for a granted ability id, else Title Case. The slug
+/// encodes the mechanic (`charge-after-advance`); the label is the published
+/// name players know (`Advance & Charge`). Mirror of `ABILITY_GRANT_LABELS` in
+/// `tools/src/translate/effect.ts`; applied only by the ability-grant describer.
+fn grant_label(id: &str) -> String {
+    match id {
+        "charge-after-advance" => "Advance & Charge".to_string(),
+        "charge-after-fallback" => "Fall Back & Charge".to_string(),
+        "charge-after-disembark" => "Charge After Disembarking".to_string(),
+        _ => title_case(id),
+    }
+}
+
 /// kebab/space → Title Case (`deep-strike` → `Deep Strike`, small words stay lowercase mid-phrase).
 fn title_case(s: &str) -> String {
     dekebab(s)
@@ -593,7 +606,7 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 Some(g) => format!(
                     "{subj} {} the {} ability{cap}",
                     agree(&subj, "gains"),
-                    title_case(&jval(g))
+                    grant_label(&jval(g))
                 ),
                 None => format!("{subj} {} an ability{cap}", agree(&subj, "gains")),
             }

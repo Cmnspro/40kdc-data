@@ -20,6 +20,7 @@ import {
 	totalPoints,
 	builderViolations,
 	detachmentTagConflicts,
+	builderToRoster,
 	builderToRosterJson,
 	rosterTextToBuilderState,
 	unitRaw,
@@ -44,7 +45,7 @@ import {
 	type BuilderState,
 	type BuilderUnit,
 } from './builder';
-import { tryImportRoster } from '@alpaca-software/40kdc-data';
+import { baseLoadout, tryImportRoster } from '@alpaca-software/40kdc-data';
 
 /** First Space Marines unit with a points table and a model-count range. */
 function sampleUnit() {
@@ -96,6 +97,82 @@ describe('builder points', () => {
 			units: [makeUnit(u.id, minModels), makeUnit(u.id, minModels)],
 		};
 		expect(totalPoints(state)).toBe(2 * baseUnitPoints(u, minModels));
+	});
+
+	it('prices repeated ordinal-banded units by army copy', () => {
+		// World Eaters Chaos Terminators: 175 for your 1st–2nd copy, 185 for the 3rd+.
+		const we = 'world-eaters';
+		const raw = unitRaw('chaos-terminators', undefined, we)!;
+		const mk = (key: string): BuilderUnit => ({
+			key,
+			datasheetId: 'chaos-terminators',
+			modelCount: 5,
+			loadout: defaultLoadout(raw, 5),
+			enhancementId: null,
+			isWarlord: false,
+		});
+		const state: BuilderState = {
+			...emptyBuilderState(),
+			factionId: we,
+			units: [mk('a'), mk('b'), mk('c')],
+		};
+		expect(baseUnitPoints(raw, 5, 1)).toBe(175);
+		expect(baseUnitPoints(raw, 5, 3)).toBe(185);
+		expect(totalPoints(state)).toBe(175 + 175 + 185);
+	});
+
+	// Regression guard (the original World Eaters export bug): the *exported*
+	// roster — not just the in-memory total — must carry ordinal-aware per-unit
+	// points. A single Chaos Terminators unit exports at 175 (band #1–2), never
+	// 185 (band #3+), and the 3rd identical copy steps up to 185.
+	it('threads ordinal pricing all the way through builderToRoster', () => {
+		const we = 'world-eaters';
+		const raw = unitRaw('chaos-terminators', undefined, we)!;
+		const mk = (key: string): BuilderUnit => ({
+			key,
+			datasheetId: 'chaos-terminators',
+			modelCount: 5,
+			loadout: defaultLoadout(raw, 5),
+			enhancementId: null,
+			isWarlord: false,
+		});
+
+		// A lone unit: 175, not 185.
+		const solo = builderToRoster({ ...emptyBuilderState(), factionId: we, units: [mk('a')] });
+		expect(solo.units[0].points).toBe(175);
+		expect(solo.points.total_computed).toBe(175);
+
+		// Three copies: the 3rd crosses into the higher band.
+		const three = builderToRoster({
+			...emptyBuilderState(),
+			factionId: we,
+			units: [mk('a'), mk('b'), mk('c')],
+		});
+		expect(three.units.map((u) => u.points)).toEqual([175, 175, 185]);
+		expect(three.points.total_computed).toBe(535);
+	});
+});
+
+describe('builder default loadout', () => {
+	// Regression guard (the other half of the World Eaters export bug): a
+	// freshly-added unit must default to the legal base (no-swap) loadout, NOT the
+	// take-every-swap maximal set, which stacked 11×combi / 7×chainfist on 5
+	// models. validateLoadout does NOT catch that (messy multi-choice options
+	// back off the swap-conflict check), so we assert the defining symptom
+	// directly: no weapon is carried by more models than the unit has.
+	it('defaults a freshly-added unit to the legal base loadout', () => {
+		const we = 'world-eaters';
+		const raw = unitRaw('chaos-terminators', undefined, we)!;
+		const loadout = defaultLoadout(raw, 5);
+
+		for (const [id, count] of loadout) {
+			expect(count, `${id} exceeds the 5-model count`).toBeLessThanOrEqual(5);
+		}
+		// And it is exactly the package base loadout (every option un-applied).
+		const options = wargearOptionsFor('chaos-terminators', undefined, we);
+		expect(Object.fromEntries(loadout)).toEqual(
+			Object.fromEntries(baseLoadout(raw, 5, options).counts),
+		);
 	});
 });
 

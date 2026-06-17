@@ -34,15 +34,19 @@ export { normalizeName } from "./normalize.js";
 export { emptyRawData } from "./types.js";
 export type { RawData } from "./types.js";
 
-// Wargear-loadout maths: maximal default loadout, per-weapon bounds, validation.
+// Wargear-loadout maths: base/maximal loadout, per-weapon bounds, validation.
 export {
   optionCap,
+  baseLoadout,
   maximalLoadout,
   weaponBounds,
   clampWeaponCount,
   validateLoadout,
 } from "./loadout.js";
 export type { Loadout, WeaponBound, Violation } from "./loadout.js";
+
+// Unit point-cost maths: ordinal-aware tier selection over `points` bands.
+export { baseUnitPoints, pointsTierMissing } from "./pricing.js";
 
 // The cruncher surface — buff types + the engine — re-exported from the data
 // package so downstream callers can import their whole 40kdc API from

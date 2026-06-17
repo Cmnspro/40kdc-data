@@ -58,6 +58,22 @@ def _title_case(s: str) -> str:
     return " ".join(out)
 
 
+# Curated display labels for granted-ability ids whose Title-Cased slug reads
+# wrong. The slug encodes the mechanic (charge-after-advance); the label is the
+# published name players know (Advance & Charge). Mirror of ABILITY_GRANT_LABELS
+# in tools/src/translate/effect.ts; applied only by the ability-grant describer.
+_ABILITY_GRANT_LABELS = {
+    "charge-after-advance": "Advance & Charge",
+    "charge-after-fallback": "Fall Back & Charge",
+    "charge-after-disembark": "Charge After Disembarking",
+}
+
+
+def _grant_label(id: str) -> str:
+    """The display label for a granted ability id: a curated override, else Title Case."""
+    return _ABILITY_GRANT_LABELS.get(id) or _title_case(id)
+
+
 def _bracket_keyword(k: Any) -> str:
     return f"[{dekebab(_jstr(k)).upper()}]"
 
@@ -433,7 +449,7 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
             grant = m.get("ability_id")
         cap = f" ({_jstr(m['capacity'])})" if m.get("capacity") is not None else ""
         if grant is not None:
-            return f"{subj} {_v(subj, 'gains')} the {_title_case(_jstr(grant))} ability{cap}"
+            return f"{subj} {_v(subj, 'gains')} the {_grant_label(_jstr(grant))} ability{cap}"
         return f"{subj} {_v(subj, 'gains')} an ability{cap}"
     if etype == "movement-modifier":
         kind = m.get("move_type")

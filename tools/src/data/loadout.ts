@@ -73,6 +73,24 @@ function baseWeaponIds(unit: Unit, options: readonly WargearOption[]): string[] 
 }
 
 /**
+ * The base loadout: every base (always-carried) weapon on every model, with no
+ * swaps applied. This is the legal default a freshly-added unit ships with —
+ * each model in its out-of-the-box configuration. {@link maximalLoadout} starts
+ * from this set and then applies every option at full cap.
+ */
+export function baseLoadout(
+  unit: Unit,
+  modelCount: number,
+  options: readonly WargearOption[],
+): Loadout {
+  const counts = new Map<string, number>();
+  for (const id of baseWeaponIds(unit, options)) {
+    counts.set(id, (counts.get(id) ?? 0) + modelCount);
+  }
+  return { counts };
+}
+
+/**
  * The maximal loadout: every base weapon on every model, then each option
  * applied at its full {@link optionCap} (choices take their first branch). Swaps
  * move count from the replaced id to the added id; add-ons only add.
@@ -82,10 +100,7 @@ export function maximalLoadout(
   modelCount: number,
   options: readonly WargearOption[],
 ): Loadout {
-  const counts = new Map<string, number>();
-  for (const id of baseWeaponIds(unit, options)) {
-    counts.set(id, (counts.get(id) ?? 0) + modelCount);
-  }
+  const counts = baseLoadout(unit, modelCount, options).counts;
   for (const option of options) {
     const cap = optionCap(option, modelCount);
     if (cap === 0) continue;

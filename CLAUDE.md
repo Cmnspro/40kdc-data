@@ -294,9 +294,15 @@ Commit/stash before switching branches — uncommitted changes follow you across
 `1.0.0` is the stable baseline (declared when the BSData wargear regen retired the
 army-assist lineage and the share registry reached v6). From here:
 
-- **Patch** (`1.0.x`) — bugfixes and corrections to existing data/behavior.
-- **Minor** (`1.x.0`) — MFM dataslate ingests, new faction packs, and other
-  additive content/feature drops.
+- **Patch** (`1.0.x`) — bugfixes and corrections to existing data/behavior. This
+  is the default for almost everything, and explicitly **includes additive
+  tool-surface work that ships alongside a fix**: new package API/functions,
+  describer-wording corrections, and the conformance SPEC bumps they require. A
+  new export or a moved golden does **not** by itself force a minor.
+- **Minor** (`1.x.0`) — **reserved for points/MFM data drops only**: MFM dataslate
+  ingests and new faction packs (the content that changes the game data itself).
+  The next points change is the next minor; nothing bumps to a minor *before*
+  then. Non-data features ride patch releases.
 - **Major** (`x.0.0`) — reserved for breaking schema/API/wire-format changes.
 
 The four version files move **together** — `tools/package.json`,

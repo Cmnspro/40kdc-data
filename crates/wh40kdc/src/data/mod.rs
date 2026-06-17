@@ -23,11 +23,13 @@ mod collection;
 mod dataset;
 mod loadout;
 mod normalize;
+mod pricing;
 
 pub use collection::Collection;
 pub use dataset::{Dataset, RawData};
 pub use loadout::{
-    clamp_weapon_count, maximal_loadout, option_cap, validate_loadout, Loadout, Violation,
-    ViolationCode, WeaponBound,
+    base_loadout, clamp_weapon_count, maximal_loadout, option_cap, validate_loadout, Loadout,
+    Violation, ViolationCode, WeaponBound,
 };
 pub use normalize::normalize_name;
+pub use pricing::{base_unit_points, points_tier_missing};

@@ -1,0 +1,67 @@
+"""Unit point-cost maths shared by every consumer of the dataset.
+
+Given a unit, a model count, and the unit's army ordinal, which ``points`` tier
+applies.
+
+11e prices some datasheets by **army ordinal** — how many copies of that
+datasheet you have already taken. The schema models this with optional
+``unit_count_min``/``unit_count_max`` bands on each ``points`` tier (1-based,
+inclusive; an open-ended top band has ``unit_count_max: null``). Selecting a cost
+is a two-step filter: keep the tiers whose ordinal band contains this copy, then
+pick the highest model-count tier the count reaches. A tier with no
+``unit_count_min`` is unbanded and applies to every copy (the common case). Only
+native ``points`` are handled here; ``allied_points`` is a separate concern.
+
+Python mirror of ``tools/src/data/pricing.ts`` /
+``crates/wh40kdc/src/data/pricing.rs``.
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
+Unit = dict[str, Any]
+PointsTier = dict[str, Any]
+
+
+def _tier_covers_ordinal(tier: PointsTier, ordinal: int) -> bool:
+    """True when ``ordinal`` (1-based army copy) falls within ``tier``'s band."""
+    minimum = tier.get("unit_count_min")
+    if minimum is None:
+        return True  # unbanded: applies to every copy
+    if ordinal < minimum:
+        return False
+    maximum = tier.get("unit_count_max")
+    return maximum is None or ordinal <= maximum
+
+
+def base_unit_points(unit: Unit, model_count: int, ordinal: int = 1) -> int:
+    """Base point cost for a unit of ``model_count`` models as its ``ordinal``-th copy.
+
+    Among the tiers whose ordinal band covers this copy (1-based; defaults to the
+    1st copy), returns the cost of the highest ``models`` threshold the count
+    reaches (lowest tier when none is reached). Returns 0 when no tier applies —
+    the caller surfaces a violation rather than guessing.
+    """
+    tiers = sorted(
+        (t for t in unit.get("points") or [] if _tier_covers_ordinal(t, ordinal)),
+        key=lambda t: t["models"],
+    )
+    if not tiers:
+        return 0
+    chosen = tiers[0]
+    for t in tiers:
+        if model_count >= t["models"]:
+            chosen = t
+    return chosen["cost"]
+
+
+def points_tier_missing(unit: Unit, model_count: int, ordinal: int = 1) -> bool:
+    """True when no points tier covers ``model_count`` for this ``ordinal``.
+
+    Mirrors the band filter of :func:`base_unit_points`.
+    """
+    models = [t["models"] for t in unit.get("points") or [] if _tier_covers_ordinal(t, ordinal)]
+    if not models:
+        return True
+    return model_count < min(models)

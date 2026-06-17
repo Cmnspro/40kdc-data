@@ -57,6 +57,25 @@ func titleCase(s string) string {
 	return strings.Join(out, " ")
 }
 
+// abilityGrantLabels are curated display labels for granted-ability ids whose
+// Title-Cased slug reads wrong. The slug encodes the mechanic
+// (charge-after-advance); the label is the published name players know
+// (Advance & Charge). Mirror of ABILITY_GRANT_LABELS in
+// tools/src/translate/effect.ts; applied only by the ability-grant describer.
+var abilityGrantLabels = map[string]string{
+	"charge-after-advance":   "Advance & Charge",
+	"charge-after-fallback":  "Fall Back & Charge",
+	"charge-after-disembark": "Charge After Disembarking",
+}
+
+// grantLabel returns the curated label for a granted ability id, else Title Case.
+func grantLabel(id string) string {
+	if label, ok := abilityGrantLabels[id]; ok {
+		return label
+	}
+	return titleCase(id)
+}
+
 func bracketKeyword(k any) string { return "[" + strings.ToUpper(dekebab(ejstr(k))) + "]" }
 
 var dRe = regexp.MustCompile(`[dD]`)
@@ -512,7 +531,7 @@ func describeEffectInline(e map[string]any, ctx map[string]any) string {
 			cap = " (" + ejstr(m["capacity"]) + ")"
 		}
 		if grant != nil {
-			return subj + " " + ev(subj, "gains") + " the " + titleCase(ejstr(grant)) + " ability" + cap
+			return subj + " " + ev(subj, "gains") + " the " + grantLabel(ejstr(grant)) + " ability" + cap
 		}
 		return subj + " " + ev(subj, "gains") + " an ability" + cap
 	case "movement-modifier":

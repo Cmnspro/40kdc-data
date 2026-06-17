@@ -82,8 +82,8 @@ pub mod data;
 pub use data::{normalize_name, Collection, Dataset, RawData};
 
 pub use data::{
-    clamp_weapon_count, maximal_loadout, option_cap, validate_loadout, Loadout, Violation,
-    ViolationCode, WeaponBound,
+    base_loadout, base_unit_points, clamp_weapon_count, maximal_loadout, option_cap,
+    points_tier_missing, validate_loadout, Loadout, Violation, ViolationCode, WeaponBound,
 };
 
 /// Army-list importer: ListForge share payload + NewRecruit (JSON / wtc /

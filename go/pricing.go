@@ -1,0 +1,77 @@
+package wh40kdc
+
+import "sort"
+
+// Unit point-cost maths shared by every consumer of the dataset: given a unit, a
+// model count, and the unit's army ordinal, which `points` tier applies.
+//
+// 11e prices some datasheets by army ordinal — how many copies of that datasheet
+// you have already taken. The schema models this with optional unit_count_min /
+// unit_count_max bands on each points tier (1-based, inclusive; an open-ended top
+// band has unit_count_max: null). Selecting a cost is a two-step filter: keep the
+// tiers whose ordinal band contains this copy, then pick the highest model-count
+// tier the count reaches. A tier with no unit_count_min is unbanded and applies
+// to every copy (the common case). Only native points are handled here;
+// allied_points is a separate concern. Mirror of tools/src/data/pricing.ts.
+
+// tierCoversOrdinal reports whether ordinal (1-based army copy) falls within
+// tier's ordinal band.
+func tierCoversOrdinal(tier map[string]any, ordinal int) bool {
+	if tier["unit_count_min"] == nil {
+		return true // unbanded: applies to every copy
+	}
+	if ordinal < asInt(tier["unit_count_min"]) {
+		return false
+	}
+	if tier["unit_count_max"] == nil {
+		return true // open-ended top band (absent or JSON null)
+	}
+	return ordinal <= asInt(tier["unit_count_max"])
+}
+
+// baseUnitPoints is the base point cost for a unit of modelCount models taken as
+// its ordinal-th army copy (1-based). Among the tiers whose ordinal band covers
+// this copy, returns the cost of the highest models threshold the count reaches
+// (lowest tier when none is reached). Returns 0 when no tier applies — the caller
+// surfaces a violation rather than guessing.
+func baseUnitPoints(unit map[string]any, modelCount, ordinal int) int {
+	var tiers []map[string]any
+	for _, tAny := range getList(unit, "points") {
+		t, ok := asMap(tAny)
+		if ok && tierCoversOrdinal(t, ordinal) {
+			tiers = append(tiers, t)
+		}
+	}
+	if len(tiers) == 0 {
+		return 0
+	}
+	sort.SliceStable(tiers, func(i, j int) bool {
+		return asInt(tiers[i]["models"]) < asInt(tiers[j]["models"])
+	})
+	chosen := tiers[0]
+	for _, t := range tiers {
+		if modelCount >= asInt(t["models"]) {
+			chosen = t
+		}
+	}
+	return asInt(chosen["cost"])
+}
+
+// pointsTierMissing reports whether no points tier covers modelCount for this
+// ordinal. Mirrors the band filter of baseUnitPoints.
+func pointsTierMissing(unit map[string]any, modelCount, ordinal int) bool {
+	minModels := -1
+	for _, tAny := range getList(unit, "points") {
+		t, ok := asMap(tAny)
+		if !ok || !tierCoversOrdinal(t, ordinal) {
+			continue
+		}
+		if m := asInt(t["models"]); minModels == -1 || m < minModels {
+			minModels = m
+		}
+	}
+	if minModels == -1 {
+		return true
+	}
+	return modelCount < minModels
+}
