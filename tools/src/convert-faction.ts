@@ -10,7 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { nameToId, parseStratagemType, parsePlayerTurn, mapPhases } from "./converters/id-generator.js";
+import { nameToId, detachmentScopedId, parseStratagemType, parsePlayerTurn, mapPhases } from "./converters/id-generator.js";
 import { parseMove, parseTargetNumber, parseIntStat, parseInvuln } from "./converters/stat-parser.js";
 import { findFactionViewIndex, getViewEntries, getPointsForView, splitIntoViews, type SourceAbility } from "./converters/view-selector.js";
 import { buildWeaponRegistry, type SourceWargear } from "./converters/weapon-dedup.js";
@@ -451,10 +451,10 @@ export function convertFaction(
     const detId = nameToId(detName);
     const detEnhIds = factionEnhancements
       .filter((e) => e.detachment === detName)
-      .map((e) => nameToId(e.name));
+      .map((e) => detachmentScopedId(e.name, detName));
     const detStratIds = factionStratagems
       .filter((s) => s.detachment === detName)
-      .map((s) => nameToId(s.name));
+      .map((s) => detachmentScopedId(s.name, detName));
 
     const record: Record<string, unknown> = {
       id: detId,
@@ -478,7 +478,7 @@ export function convertFaction(
   // ─── Build enhancements ───
   console.log("Converting enhancements...");
   const enhancementEntities = factionEnhancements.map((e) => ({
-    id: nameToId(e.name),
+    id: detachmentScopedId(e.name, e.detachment),
     name: e.name,
     detachment_id: nameToId(e.detachment),
     cost: parseInt(e.cost, 10),
@@ -496,7 +496,7 @@ export function convertFaction(
     const playerTurn = parsePlayerTurn(s.turn);
 
     return {
-      id: nameToId(s.name),
+      id: detachmentScopedId(s.name, s.detachment),
       name: s.name,
       category: "detachment" as const,
       type,

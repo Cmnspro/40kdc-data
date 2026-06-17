@@ -22,6 +22,19 @@ export function nameToId(name: string): string {
   return id;
 }
 
+/**
+ * Canonical id for a detachment-scoped entity (stratagem, enhancement,
+ * detachment rule): `<name-slug>-<detachment-slug>`. The full detachment slug
+ * is always appended — even when the name is unique — because names repeat
+ * across detachments (e.g. two different "Flawless Construction"s), so a bare
+ * name slug collides. Unit/faction abilities (no detachment) stay bare and use
+ * `nameToId` directly. See CLAUDE.md "Ability ids, the raw-text store, and
+ * share tokens".
+ */
+export function detachmentScopedId(name: string, detachment: string): string {
+  return `${nameToId(name)}-${nameToId(detachment)}`;
+}
+
 /** Convert a stratagem type string to the schema enum value and detachment ID. */
 export function parseStratagemType(typeStr: string): {
   type: string;
