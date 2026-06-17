@@ -56,10 +56,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "onager-dunecrawler",
@@ -118,10 +118,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "kataphron-destroyers",
@@ -142,7 +142,7 @@
     "points": [
       {
         "models": 3,
-        "cost": 105
+        "cost": 100
       },
       {
         "models": 6,
@@ -179,10 +179,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "cybernetica-datasmith",
@@ -204,7 +204,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 35
+        "cost": 25
       }
     ],
     "keywords": [
@@ -236,10 +236,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "support"
   },
   {
@@ -261,15 +261,39 @@
     "points": [
       {
         "models": 1,
-        "cost": 85
+        "cost": 80,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 2,
-        "cost": 170
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 3,
-        "cost": 255
+        "cost": 240,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 95,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 2,
+        "cost": 175,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 3,
+        "cost": 255,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -303,10 +327,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "tech-priest-manipulus",
@@ -362,10 +386,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -430,10 +454,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "belisarius-cawl",
@@ -455,7 +479,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 210
+        "cost": 220
       }
     ],
     "keywords": [
@@ -493,10 +517,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "servitor-battleclade",
@@ -527,7 +551,7 @@
     "points": [
       {
         "models": 9,
-        "cost": 60
+        "cost": 65
       }
     ],
     "keywords": [
@@ -564,10 +588,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "fulgurite-electro-priests",
@@ -622,10 +646,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "skorpius-disintegrator",
@@ -646,7 +670,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 165
+        "cost": 160
       }
     ],
     "keywords": [
@@ -679,10 +703,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "sydonian-skatros",
@@ -740,10 +764,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "sicarian-infiltrators",
@@ -764,11 +788,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 75
+        "cost": 75,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 155
+        "cost": 155,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 85,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 165,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -802,10 +842,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "archaeopter-transvector",
@@ -826,7 +866,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 150
+        "cost": 145
       }
     ],
     "keywords": [
@@ -866,10 +906,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "skitarii-vanguard",
@@ -891,7 +931,7 @@
     "points": [
       {
         "models": 10,
-        "cost": 95
+        "cost": 90
       }
     ],
     "keywords": [
@@ -928,10 +968,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "tech-priest-dominus",
@@ -989,10 +1029,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1014,11 +1054,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 75
+        "cost": 80,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 150
+        "cost": 150,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 90,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 160,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1053,10 +1109,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "kataphron-breachers",
@@ -1077,7 +1133,7 @@
     "points": [
       {
         "models": 3,
-        "cost": 160
+        "cost": 150
       },
       {
         "models": 6,
@@ -1113,10 +1169,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "sicarian-ruststalkers",
@@ -1137,11 +1193,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 80
+        "cost": 75,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 165
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 85,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 170,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1172,10 +1244,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "technoarcheologist",
@@ -1230,10 +1302,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1256,10 +1328,6 @@
       {
         "models": 5,
         "cost": 65
-      },
-      {
-        "models": 10,
-        "cost": 130
       }
     ],
     "keywords": [
@@ -1288,10 +1356,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "serberys-raiders",
@@ -1348,10 +1416,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "sydonian-dragoons-with-taser-lances",
@@ -1372,15 +1440,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 65
+        "cost": 60
       },
       {
         "models": 2,
-        "cost": 130
+        "cost": 120
       },
       {
         "models": 3,
-        "cost": 195
+        "cost": 170
       }
     ],
     "keywords": [
@@ -1413,10 +1481,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "serberys-sulphurhounds",
@@ -1475,10 +1543,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "tech-priest-enginseer",
@@ -1535,10 +1603,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1593,10 +1661,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1658,10 +1726,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "kastelan-robots",
@@ -1682,11 +1750,27 @@
     "points": [
       {
         "models": 2,
-        "cost": 180
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 1
       },
       {
         "models": 4,
-        "cost": 360
+        "cost": 320,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 2,
+        "cost": 180,
+        "unit_count_min": 2,
+        "unit_count_max": null
+      },
+      {
+        "models": 4,
+        "cost": 340,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1722,10 +1806,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "pteraxii-sterylizors",
@@ -1746,11 +1830,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 80
+        "cost": 80,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 160
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 90,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 170,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1784,10 +1884,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "archaeopter-fusilave",
@@ -1840,10 +1940,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "skitarii-rangers",
@@ -1901,10 +2001,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "terrax-pattern-termite",

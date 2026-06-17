@@ -1535,6 +1535,14 @@ export interface Unit {
   points?: {
     models: number;
     cost: number;
+    /**
+     * 11e per-army-ordinal pricing: the first army-copy count (1-based) this tier's cost applies to. Absent (together with unit_count_max) means the cost applies to every copy — the common case. Present only for datasheets the MFM prices by how many you have taken (e.g. 'your 1st-2nd units cost X, your 3rd+ unit costs Y').
+     */
+    unit_count_min?: number;
+    /**
+     * Inclusive upper army-copy count for this tier's band, or null for an open-ended top band ('3rd+ unit'). Absent when unit_count_min is absent.
+     */
+    unit_count_max?: number | null;
     [k: string]: unknown;
   }[];
   /**

@@ -232,7 +232,8 @@ def test_enumerate_forgefiend_two_clean_configs(ds: Dataset) -> None:
     en = compare.enumerate_loadouts(ds, "world-eaters", "forgefiend")
     assert {c.label for c in en.configs} == {"Hades autocannon", "Ectoplasma cannon"}
     assert en.counts_known is False
-    assert all(c.points == 165 for c in en.configs)
+    # MFM v1.0 (11e launch) reprices the Forgefiend to 160 for the 1st-2nd unit.
+    assert all(c.points == 160 for c in en.configs)
 
 
 def test_enumerate_defiler_configs_are_mutually_exclusive(ds: Dataset) -> None:

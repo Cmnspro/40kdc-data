@@ -53,10 +53,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "heretic-astartes-daemon-prince-with-wings",
@@ -111,10 +111,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "sorcerer-in-terminator-armour",
@@ -176,10 +176,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -251,10 +251,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "sorcerer",
@@ -316,10 +316,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -352,7 +352,15 @@
     "points": [
       {
         "models": 5,
-        "cost": 90
+        "cost": 90,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 5,
+        "cost": 100,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -390,10 +398,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -449,10 +457,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -474,7 +482,15 @@
     "points": [
       {
         "models": 2,
-        "cost": 160
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 2,
+        "cost": 170,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -503,10 +519,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "lord-discordant-on-helstalker",
@@ -565,10 +581,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-terminator-squad",
@@ -628,10 +644,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "cultist-firebrand",
@@ -653,7 +669,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 45
+        "cost": 45,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 50,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -686,10 +710,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -711,7 +735,9 @@
     "points": [
       {
         "models": 1,
-        "cost": 220
+        "cost": 240,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -753,10 +779,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "possessed",
@@ -777,11 +803,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 120
+        "cost": 120,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 240
+        "cost": 250,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 130,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 260,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -809,10 +851,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "traitor-enforcer",
@@ -844,7 +886,7 @@
     "points": [
       {
         "models": 2,
-        "cost": 55
+        "cost": 70
       }
     ],
     "keywords": [
@@ -878,10 +920,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -948,10 +990,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -973,7 +1015,7 @@
     "points": [
       {
         "models": 2,
-        "cost": 70
+        "cost": 60
       }
     ],
     "keywords": [
@@ -1014,10 +1056,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-predator-annihilator",
@@ -1038,7 +1080,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 135
+        "cost": 135,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 145,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1078,10 +1128,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "venomcrawler",
@@ -1102,7 +1152,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 110
+        "cost": 110,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 120,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1132,10 +1190,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "havocs",
@@ -1156,7 +1214,15 @@
     "points": [
       {
         "models": 5,
-        "cost": 125
+        "cost": 125,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 135,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1196,10 +1262,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "noctilith-crown",
@@ -1249,10 +1315,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "raptors",
@@ -1273,11 +1339,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 110
+        "cost": 110,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 210
+        "cost": 210,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 120,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 220,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1317,10 +1399,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "defiler",
@@ -1341,7 +1423,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 190
+        "cost": 300,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 1,
+        "cost": 330,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1389,10 +1479,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-predator-destructor",
@@ -1413,7 +1503,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 140
+        "cost": 140,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 150,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1453,10 +1551,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chosen",
@@ -1477,11 +1575,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 125
+        "cost": 125,
+        "unit_count_min": 1,
+        "unit_count_max": 1
       },
       {
         "models": 10,
-        "cost": 250
+        "cost": 250,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 5,
+        "cost": 135,
+        "unit_count_min": 2,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 260,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1515,10 +1629,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "traitor-guardsmen-squad",
@@ -1578,10 +1692,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "heldrake",
@@ -1602,7 +1716,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 205
+        "cost": 175
       }
     ],
     "keywords": [
@@ -1640,10 +1754,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-vindicator",
@@ -1664,7 +1778,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 185
+        "cost": 185,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 195,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1698,10 +1820,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "forgefiend",
@@ -1722,7 +1844,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 170
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 170,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1760,10 +1890,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "warpsmith",
@@ -1785,7 +1915,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 70
+        "cost": 60
       }
     ],
     "keywords": [
@@ -1821,10 +1951,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1883,10 +2013,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1908,11 +2038,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 110
+        "cost": 110,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 220
+        "cost": 210,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 120,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 220,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1946,10 +2092,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "master-of-executions",
@@ -1971,7 +2117,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 80
+        "cost": 70
       }
     ],
     "keywords": [
@@ -2006,10 +2152,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "support"
   },
   {
@@ -2041,11 +2187,27 @@
     "points": [
       {
         "models": 8,
-        "cost": 90
+        "cost": 90,
+        "unit_count_min": 1,
+        "unit_count_max": 1
       },
       {
         "models": 16,
-        "cost": 195
+        "cost": 195,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 8,
+        "cost": 110,
+        "unit_count_min": 2,
+        "unit_count_max": null
+      },
+      {
+        "models": 16,
+        "cost": 215,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -2074,10 +2236,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "helbrute",
@@ -2146,10 +2308,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-lord-with-jump-pack",
@@ -2171,7 +2333,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 80
+        "cost": 90
       }
     ],
     "keywords": [
@@ -2207,10 +2369,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2237,7 +2399,7 @@
       },
       {
         "models": 20,
-        "cost": 100
+        "cost": 90
       }
     ],
     "keywords": [
@@ -2269,10 +2431,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-lord",
@@ -2328,10 +2490,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2396,10 +2558,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "warp-talons",
@@ -2420,11 +2582,27 @@
     "points": [
       {
         "models": 5,
-        "cost": 125
+        "cost": 125,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 270
+        "cost": 280,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 135,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 10,
+        "cost": 290,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -2455,10 +2633,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "fellgor-beastmen",
@@ -2479,7 +2657,7 @@
     "points": [
       {
         "models": 10,
-        "cost": 70
+        "cost": 60
       }
     ],
     "keywords": [
@@ -2514,10 +2692,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "maulerfiend",
@@ -2577,10 +2755,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "chaos-rhino",
@@ -2650,10 +2828,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "legionaries",
@@ -2723,10 +2901,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "red-corsairs-reave-captain",
@@ -2748,7 +2926,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 75
+        "cost": 70
       }
     ],
     "keywords": [
@@ -2781,10 +2959,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2817,7 +2995,7 @@
     "points": [
       {
         "models": 5,
-        "cost": 115
+        "cost": 135
       }
     ],
     "keywords": [
@@ -2859,10 +3037,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "vashtorr-the-arkifane",
@@ -2884,7 +3062,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 175
+        "cost": 205
       }
     ],
     "keywords": [
@@ -2918,10 +3096,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "huron-blackheart",
@@ -2976,10 +3154,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3037,10 +3215,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3063,7 +3241,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 270
+        "cost": 285
       }
     ],
     "keywords": [
@@ -3098,10 +3276,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3170,10 +3348,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3229,10 +3407,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "khorne-lord-of-skulls",
@@ -3253,7 +3431,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 450
+        "cost": 450,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 1,
+        "cost": 475,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -3292,10 +3478,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "dreadclaw-drop-pod",
@@ -3850,7 +4036,20 @@
         "OC": 2
       }
     ],
-    "points": [],
+    "points": [
+      {
+        "models": 3,
+        "cost": 180,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 3,
+        "cost": 190,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      }
+    ],
     "keywords": [
       "Chaos",
       "Daemon",
@@ -3877,10 +4076,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "gellerpox-infected",
