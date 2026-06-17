@@ -450,6 +450,8 @@ class Profile(TypedDict):
 class Point(TypedDict):
     models: int
     cost: int
+    unit_count_min: NotRequired[int]
+    unit_count_max: NotRequired[int | None]
 
 
 class ModelCount(TypedDict):

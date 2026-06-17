@@ -12258,6 +12258,23 @@ impl ::std::convert::TryFrom<::std::string::String> for TimingFlagTiming {
 ///          "models": {
 ///            "type": "integer",
 ///            "minimum": 1.0
+///          },
+///          "unit_count_max": {
+///            "description": "Inclusive upper army-copy count for this tier's band, or null for an open-ended top band ('3rd+ unit'). Absent when unit_count_min is absent.",
+///            "oneOf": [
+///              {
+///                "type": "integer",
+///                "minimum": 1.0
+///              },
+///              {
+///                "type": "null"
+///              }
+///            ]
+///          },
+///          "unit_count_min": {
+///            "description": "11e per-army-ordinal pricing: the first army-copy count (1-based) this tier's cost applies to. Absent (together with unit_count_max) means the cost applies to every copy — the common case. Present only for datasheets the MFM prices by how many you have taken (e.g. 'your 1st-2nd units cost X, your 3rd+ unit costs Y').",
+///            "type": "integer",
+///            "minimum": 1.0
 ///          }
 ///        }
 ///      }
@@ -13199,6 +13216,23 @@ impl<'de> ::serde::Deserialize<'de> for UnitName {
 ///    "models": {
 ///      "type": "integer",
 ///      "minimum": 1.0
+///    },
+///    "unit_count_max": {
+///      "description": "Inclusive upper army-copy count for this tier's band, or null for an open-ended top band ('3rd+ unit'). Absent when unit_count_min is absent.",
+///      "oneOf": [
+///        {
+///          "type": "integer",
+///          "minimum": 1.0
+///        },
+///        {
+///          "type": "null"
+///        }
+///      ]
+///    },
+///    "unit_count_min": {
+///      "description": "11e per-army-ordinal pricing: the first army-copy count (1-based) this tier's cost applies to. Absent (together with unit_count_max) means the cost applies to every copy — the common case. Present only for datasheets the MFM prices by how many you have taken (e.g. 'your 1st-2nd units cost X, your 3rd+ unit costs Y').",
+///      "type": "integer",
+///      "minimum": 1.0
 ///    }
 ///  }
 ///}
@@ -13208,6 +13242,12 @@ impl<'de> ::serde::Deserialize<'de> for UnitName {
 pub struct UnitPointsItem {
     pub cost: u64,
     pub models: ::std::num::NonZeroU64,
+    ///Inclusive upper army-copy count for this tier's band, or null for an open-ended top band ('3rd+ unit'). Absent when unit_count_min is absent.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub unit_count_max: ::std::option::Option<::std::num::NonZeroU64>,
+    ///11e per-army-ordinal pricing: the first army-copy count (1-based) this tier's cost applies to. Absent (together with unit_count_max) means the cost applies to every copy — the common case. Present only for datasheets the MFM prices by how many you have taken (e.g. 'your 1st-2nd units cost X, your 3rd+ unit costs Y').
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub unit_count_min: ::std::option::Option<::std::num::NonZeroU64>,
 }
 ///`UnitProfilesItem`
 ///

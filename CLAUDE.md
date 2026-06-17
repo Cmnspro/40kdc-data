@@ -198,6 +198,12 @@ across implementations by the `conformance/share/` corpus.
   each entry. Coverage is tracked by `npm run audit:store-coverage`
   (`data/_audit/store-coverage.md`). As with all raw text, it lands ONLY in the
   out-of-repo store, never in this repo.
+- **online MFM** (`mfm.warhammer-community.com`): the official Munitorum Field
+  Manual. **Authoritative** source for unit/enhancement points (overrides the
+  army-assist points above). Run `npx tsx tools/src/sync-mfm-points.ts` (dry run +
+  report) then `--write` to apply; full runbook in
+  [`tools/docs/mfm-points-sync.md`](tools/docs/mfm-points-sync.md). Models 11e
+  per-army-ordinal pricing via `unit_count_min`/`unit_count_max` on unit `points`.
 
 ## Ability ids, the raw-text store, and share tokens
 
