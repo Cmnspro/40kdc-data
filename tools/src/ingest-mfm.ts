@@ -36,6 +36,7 @@ import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
 import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
+import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
@@ -483,6 +484,23 @@ function runCullCmd(dump: MfmDump, write: boolean): void {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+function runStratagemsCmd(dump: MfmDump, write: boolean): void {
+  const report = runStratagems(dump, write);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-stratagems.md");
+  fs.writeFileSync(reportPath, buildStratReport(report, write));
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Stratagems report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${sum((d) => d.matched)}, cp applied ${sum((d) => d.cpChanged.length)}, ` +
+      `phases (review) ${sum((d) => d.phasesChanged.length)}, turn (review) ${sum((d) => d.turnChanged.length)}, ` +
+      `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump}.`
+  );
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 function main(): void {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
@@ -490,7 +508,7 @@ function main(): void {
   const dumpFlag = argv.indexOf("--dump");
   const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
 
-  const commands = ["coverage", "dispositions", "enhancements", "points", "cull-legends"];
+  const commands = ["coverage", "dispositions", "enhancements", "points", "cull-legends", "stratagems"];
   if (!commands.includes(cmd)) {
     console.error(
       `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>]\n` +
@@ -505,6 +523,7 @@ function main(): void {
   else if (cmd === "enhancements") runEnhancementsCmd(dump, write);
   else if (cmd === "points") runPointsCmd(dump, write);
   else if (cmd === "cull-legends") runCullCmd(dump, write);
+  else if (cmd === "stratagems") runStratagemsCmd(dump, write);
 }
 
 main();
