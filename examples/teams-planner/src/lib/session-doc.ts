@@ -72,6 +72,34 @@ export function toSnapshotPayload(payload: unknown): unknown {
   return fromCloudPayload(payload);
 }
 
+/**
+ * Adopt an authoritative *live* session doc into local state. Returns the plan
+ * to render AND the session doc that plan re-serializes to; the caller stores
+ * the latter as `lastSessionDoc` so the next push diff is empty and nothing
+ * echoes back to peers — the self-stabilizing invariant.
+ *
+ * Adoption is deliberately **lossless** (no `sanitizePlan`). A live document is
+ * trusted: it is born sanitized at its creation/import boundary (goLive seeds
+ * it from an already-sanitized plan; an opened snapshot is sanitized by the
+ * storage-shaped bridge before it becomes session-shaped) and thereafter is
+ * mutated only by whole-player editor ops from peers whose own state stays
+ * valid. Re-running import-grade `sanitizePlan` here would PRUNE legitimate
+ * in-progress state — e.g. an army a peer just added but hasn't given a
+ * detachment yet, or a faction id from a peer on a newer dataset — and because
+ * the push effect then diffs the pruned plan against the unpruned wire doc, the
+ * pruning echoes back as a *deletion*, making the army (or faction) vanish on
+ * the peer that added it. Lossless conversion keeps render-state and wire-state
+ * identical, so the diff is empty and no normalization is ever echoed.
+ *
+ * (The round-trip through `sessionDocToPlan`/`planToSessionDoc` still heals
+ * benign LWW ordering artifacts — dangling order ids, orphan players — which
+ * is deterministic, so peers converge rather than oscillate.)
+ */
+export function adoptSessionDoc(doc: SessionDoc): { plan: TeamPlan; lastSessionDoc: SessionDoc } {
+  const plan = sessionDocToPlan(doc);
+  return { plan, lastSessionDoc: planToSessionDoc(plan) };
+}
+
 /** Minimal op batch turning `prev` into `next`: per-player set/del on
  *  disjoint id paths, whole-value sets for the scalars and the order. */
 export function diffSessionDocs(prev: SessionDoc, next: SessionDoc): DocOp[] {

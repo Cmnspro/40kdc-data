@@ -3,6 +3,7 @@
 import { describe, expect, it } from "vitest";
 import { applyDocOps } from "../../../_shared/doc-protocol";
 import {
+  adoptSessionDoc,
   diffSessionDocs,
   fromCloudPayload,
   isSessionShaped,
@@ -11,6 +12,7 @@ import {
   toSnapshotPayload,
   type SessionDoc,
 } from "./session-doc";
+import { sanitizePlan } from "./share-plan";
 import type { Player, TeamPlan } from "./coverage";
 
 function player(id: string, name: string): Player {
@@ -86,6 +88,83 @@ describe("diffSessionDocs", () => {
     expect(ab).toEqual(ba);
     expect(ab.playersById.p1.name).toBe("Alicia");
     expect(ab.playersById.p2.name).toBe("Bobby");
+  });
+});
+
+describe("adoptSessionDoc (live-loop convergence through sanitizePlan)", () => {
+  // A player who just clicked "+ Add army": the new army has a real faction
+  // but no detachments yet. sanitizePlan drops empty armies, so the live loop
+  // must NOT echo that drop back to the sender (which would make the army
+  // vanish on screen). World Eaters is a known faction in the dataset.
+  const withEmptyArmy: TeamPlan = {
+    teamName: "Crusaders",
+    size: 5,
+    players: [
+      {
+        id: "p1",
+        name: "Alice",
+        factionIds: ["world-eaters"],
+        armies: [{ id: "a1", name: "", factionId: "world-eaters", detachmentIds: [] }],
+        preferences: [],
+        locked: {},
+      },
+    ],
+  };
+
+  it("the raw wire doc, naively re-sanitized, would echo a deletion (the bug)", () => {
+    // What the sender pushes (its local empty army is kept locally, unsanitized).
+    const wire = planToSessionDoc(withEmptyArmy);
+    // A peer adopting it the *old* way: render sanitized, but keep the raw doc
+    // as lastSessionDoc. The next push diff is then non-empty — it deletes the
+    // empty army and echoes that back to the sender.
+    const sanitized = sanitizePlan(sessionDocToPlan(wire));
+    expect(sanitized).not.toBeNull();
+    const echo = diffSessionDocs(wire, planToSessionDoc(sanitized!.plan));
+    expect(echo).not.toEqual([]);
+  });
+
+  it("adoptSessionDoc preserves the in-progress army and emits no echo", () => {
+    const wire = planToSessionDoc(withEmptyArmy);
+    const adopted = adoptSessionDoc(wire);
+    // Lossless: the just-added empty army survives (it is NOT pruned), so the
+    // peer keeps showing it instead of echoing a deletion back to the sender.
+    expect(adopted.plan.players[0].armies).toHaveLength(1);
+    expect(adopted.plan.players[0].armies[0].detachmentIds).toEqual([]);
+    // The push $effect diffs planToSessionDoc(plan) against lastSessionDoc;
+    // adoptSessionDoc guarantees they match, so nothing echoes.
+    expect(diffSessionDocs(adopted.lastSessionDoc, planToSessionDoc(adopted.plan))).toEqual([]);
+  });
+
+  it("is idempotent: adopting the adopted doc changes nothing", () => {
+    const once = adoptSessionDoc(planToSessionDoc(withEmptyArmy));
+    const twice = adoptSessionDoc(once.lastSessionDoc);
+    expect(twice.lastSessionDoc).toEqual(once.lastSessionDoc);
+    expect(twice.plan).toEqual(once.plan);
+  });
+
+  it("a populated, fully-valid plan adopts unchanged (no spurious echo)", () => {
+    // An army with a real detachment survives sanitize untouched, so adoption
+    // is a no-op and produces no echo.
+    const valid: TeamPlan = {
+      teamName: "Crusaders",
+      size: 5,
+      players: [
+        {
+          id: "p1",
+          name: "Alice",
+          factionIds: ["world-eaters"],
+          armies: [
+            { id: "a1", name: "Goretrack Onslaught", factionId: "world-eaters", detachmentIds: ["goretrack-onslaught"] },
+          ],
+          preferences: [],
+          locked: {},
+        },
+      ],
+    };
+    const wire = planToSessionDoc(sanitizePlan(valid)!.plan);
+    const adopted = adoptSessionDoc(wire);
+    expect(adopted.lastSessionDoc).toEqual(wire);
+    expect(diffSessionDocs(adopted.lastSessionDoc, planToSessionDoc(adopted.plan))).toEqual([]);
   });
 });
 

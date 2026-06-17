@@ -29,11 +29,11 @@
   } from "../../_shared/doc-session.svelte";
   import { applyDocOps } from "../../_shared/doc-protocol";
   import {
+    adoptSessionDoc,
     diffSessionDocs,
     fromCloudPayload,
     isSessionShaped,
     planToSessionDoc,
-    sessionDocToPlan,
     toSnapshotPayload,
     type SessionDoc,
   } from "./lib/session-doc";
@@ -135,8 +135,13 @@
           sendOps([{ o: "set", p: [], v: lastSessionDoc }]);
         }
       }
-      const result = sanitizePlan(sessionDocToPlan(lastSessionDoc));
-      if (result) plan = result.plan;
+      // Adopt losslessly and re-derive lastSessionDoc from the adopted plan so
+      // render-state and wire-state stay identical — otherwise the push $effect
+      // would diff a normalized plan against the raw doc and echo a deletion
+      // back to peers (a just-added army would vanish on its sender).
+      const adopted = adoptSessionDoc(lastSessionDoc);
+      plan = adopted.plan;
+      lastSessionDoc = adopted.lastSessionDoc;
     },
     onRemoteOps(ops) {
       if (!lastSessionDoc) return;
@@ -146,8 +151,13 @@
         // Divergence — the next reconnect's welcome restores exact state.
         return;
       }
-      const result = sanitizePlan(sessionDocToPlan(lastSessionDoc));
-      if (result) plan = result.plan;
+      // Adopt losslessly and re-derive lastSessionDoc from the adopted plan so
+      // render-state and wire-state stay identical — otherwise the push $effect
+      // would diff a normalized plan against the raw doc and echo a deletion
+      // back to peers (a just-added army would vanish on its sender).
+      const adopted = adoptSessionDoc(lastSessionDoc);
+      plan = adopted.plan;
+      lastSessionDoc = adopted.lastSessionDoc;
     },
   });
 
