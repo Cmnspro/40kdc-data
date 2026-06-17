@@ -2247,81 +2247,6 @@
     }
   },
   {
-    "id": "storm-vortex-projector",
-    "name": "Storm vortex projector",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "blast",
-        "range": 24,
-        "stats": {
-          "A": "D6+3",
-          "S": 6,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
-      },
-      {
-        "name": "beam",
-        "range": 36,
-        "stats": {
-          "A": 3,
-          "S": 12,
-          "AP": -3,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "prow-blade",
-    "name": "Prow blade",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Prow blade",
-        "range": "Melee",
-        "stats": {
-          "A": 1,
-          "S": 8,
-          "AP": -2,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "extra-attacks"
-          },
-          {
-            "keyword_id": "lance"
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 3
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "bladevanes",
     "name": "Bladevanes",
     "type": "melee",
@@ -2337,43 +2262,6 @@
           "WS": 4
         },
         "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "splinterstorm-cannon",
-    "name": "Splinterstorm cannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Splinterstorm cannon",
-        "range": 36,
-        "stats": {
-          "A": 8,
-          "S": 3,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Infantry",
-              "threshold": 3
-            }
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
       }
     ],
     "game_version": {

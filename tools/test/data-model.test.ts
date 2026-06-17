@@ -279,7 +279,7 @@ describe("edge cases", () => {
 
 describe("collection integrity", () => {
   it("exposes the embedded data", () => {
-    expect(units.size).toBeGreaterThan(1000);
+    expect(units.size).toBeGreaterThan(900);
     expect(factions.size).toBe(35);
     expect(weapons.size).toBeGreaterThan(0);
     expect(abilities.size).toBeGreaterThan(0);

@@ -35,6 +35,7 @@ import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-m
 import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
 import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
+import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
@@ -443,6 +444,45 @@ function runPointsCmd(dump: MfmDump, write: boolean): void {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+function runCullCmd(dump: MfmDump, write: boolean): void {
+  const report = runCull(dump, write);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-cull-legends.md");
+  fs.writeFileSync(reportPath, buildCullReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-cull-legends.json"),
+    JSON.stringify(
+      {
+        totalDropped: report.totalDropped,
+        aborted: report.aborted,
+        dropped: report.dirs.map((d) => ({ dir: d.dir, ids: d.dropped.map((x) => x.id) })),
+        suspicious: report.dirs.flatMap((d) => d.suspicious.map((s) => ({ dir: d.dir, ...s }))),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  console.log(`Cull report → ${path.relative(REPO_ROOT, reportPath)}`);
+  if (report.aborted) {
+    console.error(`ABORTED: ${report.aborted}`);
+    process.exit(1);
+  }
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(
+    `Dropped ${report.totalDropped} units; pruned wargear-options ${sum((d) => d.wargearOptionsRemoved)}, ` +
+      `compositions ${sum((d) => d.compositionsRemoved)}, leader-entries ${sum((d) => d.leaderEntriesRemoved)}, ` +
+      `bodyguard-refs ${sum((d) => d.bodyguardRefsStripped)}, orphan weapons ${sum((d) => d.weaponsRemoved.length)}, ` +
+      `orphan wargear ${sum((d) => d.wargearRemoved.length)}; abilities flagged ${sum((d) => d.abilitiesOrphaned.length)}.`
+  );
+  const susp = sum((d) => d.suspicious.length);
+  if (susp) console.log(`⚠ ${susp} possible name-match bug(s) flagged for review (see report).`);
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 function main(): void {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
@@ -450,7 +490,7 @@ function main(): void {
   const dumpFlag = argv.indexOf("--dump");
   const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
 
-  const commands = ["coverage", "dispositions", "enhancements", "points"];
+  const commands = ["coverage", "dispositions", "enhancements", "points", "cull-legends"];
   if (!commands.includes(cmd)) {
     console.error(
       `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>]\n` +
@@ -464,6 +504,7 @@ function main(): void {
   else if (cmd === "dispositions") runDispositionsCmd(dump, write);
   else if (cmd === "enhancements") runEnhancementsCmd(dump, write);
   else if (cmd === "points") runPointsCmd(dump, write);
+  else if (cmd === "cull-legends") runCullCmd(dump, write);
 }
 
 main();

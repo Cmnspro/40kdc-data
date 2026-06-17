@@ -5237,102 +5237,6 @@
     }
   },
   {
-    "id": "tauros-grenade-launcher",
-    "name": "Tauros grenade launcher",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "krak",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 9,
-          "AP": -2,
-          "D": "D3",
-          "BS": 4
-        },
-        "keywords": []
-      },
-      {
-        "name": "frag",
-        "range": 24,
-        "stats": {
-          "A": "D6",
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "armoured-frame",
-    "name": "Armoured frame",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Armoured frame",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hydra-quad-autocannon",
-    "name": "Hydra quad autocannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Hydra quad autocannon",
-        "range": 72,
-        "stats": {
-          "A": 4,
-          "S": 9,
-          "AP": -1,
-          "D": 3,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Fly",
-              "threshold": 2
-            }
-          },
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "close-combat-weapons",
     "name": "Close combat weapons",
     "type": "melee",
@@ -5416,29 +5320,6 @@
     }
   },
   {
-    "id": "powerlifter",
-    "name": "Powerlifter",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Powerlifter",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 10,
-          "AP": -2,
-          "D": "D3",
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "twin-lascannon",
     "name": "Twin lascannon",
     "type": "ranged",
@@ -5451,33 +5332,6 @@
           "S": 12,
           "AP": -3,
           "D": "D6+1",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "twin-multi-laser",
-    "name": "Twin multi-laser",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Twin multi-laser",
-        "range": 36,
-        "stats": {
-          "A": 4,
-          "S": 6,
-          "AP": 0,
-          "D": 1,
           "BS": 4
         },
         "keywords": [
@@ -5553,182 +5407,6 @@
     }
   },
   {
-    "id": "vendetta-twin-lascannon",
-    "name": "Vendetta twin lascannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Vendetta twin lascannon",
-        "range": 48,
-        "stats": {
-          "A": 1,
-          "S": 12,
-          "AP": -3,
-          "D": "D6+1",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "vendetta-hellstrike-rack",
-    "name": "Vendetta hellstrike rack",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Vendetta hellstrike rack",
-        "range": 48,
-        "stats": {
-          "A": 2,
-          "S": 10,
-          "AP": -3,
-          "D": "D6",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Fly",
-              "threshold": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "griffon-heavy-mortar",
-    "name": "Griffon heavy mortar",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Griffon heavy mortar",
-        "range": 48,
-        "stats": {
-          "A": "D6",
-          "S": 7,
-          "AP": -1,
-          "D": 2,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "indirect-fire"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "stygies-laser-destroyer",
-    "name": "Stygies laser destroyer",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Stygies laser destroyer",
-        "range": 72,
-        "stats": {
-          "A": 2,
-          "S": 14,
-          "AP": -4,
-          "D": "D6+3",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "heavy"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "medusa-siege-cannon",
-    "name": "Medusa siege cannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Medusa siege cannon",
-        "range": 36,
-        "stats": {
-          "A": "D6",
-          "S": 12,
-          "AP": -2,
-          "D": 4,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "indirect-fire"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hellstrike-missile",
-    "name": "Hellstrike missile",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Hellstrike missile",
-        "range": 48,
-        "stats": {
-          "A": 1,
-          "S": 10,
-          "AP": -3,
-          "D": "D6",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Fly",
-              "threshold": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "multiple-rocket-pod",
     "name": "Multiple rocket pod",
     "type": "ranged",
@@ -5746,99 +5424,6 @@
         "keywords": [
           {
             "keyword_id": "blast"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "minotaur-twin-earthshaker-cannon",
-    "name": "Minotaur twin earthshaker cannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Minotaur twin earthshaker cannon",
-        "range": 240,
-        "stats": {
-          "A": "D6+3",
-          "S": 8,
-          "AP": -2,
-          "D": 2,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "indirect-fire"
-          },
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "omega-pattern-plasma-blastgun",
-    "name": "Omega-pattern plasma blastgun",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Omega-pattern plasma blastgun",
-        "range": 60,
-        "stats": {
-          "A": "2D6",
-          "S": 9,
-          "AP": -3,
-          "D": 3,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "hazardous"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dominus-triple-bombard",
-    "name": "Dominus triple bombard",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Dominus triple bombard",
-        "range": 48,
-        "stats": {
-          "A": "2D6",
-          "S": 12,
-          "AP": -2,
-          "D": 3,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "indirect-fire"
           }
         ]
       }
@@ -5882,59 +5467,6 @@
     }
   },
   {
-    "id": "gorgon-mortar",
-    "name": "Gorgon mortar",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Gorgon mortar",
-        "range": 48,
-        "stats": {
-          "A": "D6",
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "indirect-fire"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "landing-ramp",
-    "name": "Landing ramp",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Landing ramp",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 8,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "twin-battle-cannon",
     "name": "Twin battle cannon",
     "type": "ranged",
@@ -5955,33 +5487,6 @@
           },
           {
             "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "stormhammer-cannon",
-    "name": "Stormhammer cannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Stormhammer cannon",
-        "range": 72,
-        "stats": {
-          "A": "3D6",
-          "S": 12,
-          "AP": -2,
-          "D": 3,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
           }
         ]
       }
@@ -6085,60 +5590,6 @@
     }
   },
   {
-    "id": "stub-pistol",
-    "name": "Stub pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Stub pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "commissars-pistol",
-    "name": "Commissar’s pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Commissar’s pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "savage-claws",
     "name": "Savage claws",
     "type": "melee",
@@ -6158,102 +5609,6 @@
             "keyword_id": "extra-attacks"
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "commissars-close-combat-weapon",
-    "name": "Commissar’s close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Commissar’s close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "quartermasters-pistol",
-    "name": "Quartermaster’s pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Quartermaster’s pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "quartermasters-close-combat-weapon",
-    "name": "Quartermaster’s close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Quartermaster’s close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "medical-scalpels",
-    "name": "Medical scalpels",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Medical scalpels",
-        "range": "Melee",
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 5
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -6492,33 +5847,6 @@
     }
   },
   {
-    "id": "stomping-feet",
-    "name": "Stomping feet",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Stomping feet",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "extra-attacks"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "hunting-lance",
     "name": "Hunting lance",
     "type": "melee",
@@ -6626,33 +5954,6 @@
           },
           {
             "keyword_id": "indirect-fire"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sergeants-pistol",
-    "name": "Sergeant’s pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Sergeant’s pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
           }
         ]
       }
@@ -6839,29 +6140,6 @@
             }
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sergeants-close-combat-weapon",
-    "name": "Sergeant’s close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Sergeant’s close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
       }
     ],
     "game_version": {
