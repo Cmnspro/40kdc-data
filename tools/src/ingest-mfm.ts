@@ -1,0 +1,469 @@
+/**
+ * ingest-mfm.ts — ingest the GW MFM data dump (_private/dump.json)
+ * into data/core/, one entity category at a time.
+ *
+ * The dump is authoritative for the live game (it IS the MFM); it supersedes the
+ * army-assist → convert-faction path as the upstream source. The Legends/Forge-World
+ * tail the dump omits is dropped from the repo (see the cull-legends subcommand), not
+ * backfilled. Numeric/structural fields land here; GW prose routes to the out-of-repo
+ * store (never committed here).
+ *
+ * Subcommands (more land in later phases):
+ *   coverage      Report dump-vs-repo coverage; writes no data. (phase 1)
+ *   dispositions  (phase 2)  enhancements (phase 3)  points (phase 4)
+ *   wargear       (phase 5)  stratagems/missions (phase 6)
+ *   cull-legends  Drop dump-absent Legends/Forge-World units + prune refs
+ *
+ * Every mutating subcommand is DRY RUN by default; pass --write to apply.
+ *
+ * Usage:
+ *   npx tsx tools/src/ingest-mfm.ts coverage
+ *   npx tsx tools/src/ingest-mfm.ts coverage --dump /path/to/dump.json
+ */
+import * as fs from "fs";
+import * as path from "path";
+import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
+import {
+  loadDump,
+  MfmDump,
+  REPO_ROOT,
+  type DatasheetRow,
+  type DetachmentRow,
+  type EnhancementRow,
+} from "./mfm/loader.js";
+import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-map.js";
+import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
+import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
+import { runPoints, buildPointsReport } from "./mfm/points.js";
+
+const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+const REPORT_DIR = path.join(CORE_DIR, "_reports");
+const UNMATCHED_DIR = path.join(REPO_ROOT, "_private", "mfm");
+
+function readJson<T>(p: string): T[] {
+  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
+}
+function repoIds(dir: string, file: string): Set<string> {
+  return new Set(readJson<{ id: string }>(path.join(CORE_DIR, dir, file)).map((e) => e.id));
+}
+
+/** Bucket dump datasheets / detachments / enhancements by their resolved repo dir. */
+function bucketByDir<T extends { id?: string }>(
+  rows: T[],
+  factionKeywordOf: (row: T) => string | null,
+  dump: MfmDump
+): Map<string, T[]> {
+  const out = new Map<string, T[]>();
+  for (const row of rows) {
+    const fkId = factionKeywordOf(row);
+    const fkName = fkId ? dump.enName(dump.byId("faction_keyword").get(fkId)) : undefined;
+    const dir = repoDirForFactionName(fkName);
+    if (!dir) continue; // titans / unmapped — surfaced separately
+    (out.get(dir) ?? out.set(dir, []).get(dir)!).push(row);
+  }
+  return out;
+}
+
+interface DirCoverage {
+  dir: string;
+  unitsMatched: number;
+  unitsNew: string[]; // in dump, no repo entity (excludes shared-roster dups)
+  unitsSharedSkipped: number;
+  unitsRepoOnly: string[]; // in repo, not in dump (Legends/FW → dropped by cull-legends)
+  detMatched: number;
+  detNew: string[];
+  detRepoOnly: string[];
+  enhMatched: number;
+  enhNew: string[];
+  enhRepoOnly: string[];
+}
+
+/** Safe slug — returns null instead of throwing on unsluggable names. */
+function slug(name: string | undefined): string | null {
+  if (!name) return null;
+  try {
+    return nameToId(name);
+  } catch {
+    return null;
+  }
+}
+
+function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
+  const liveDatasheets = dump
+    .table<DatasheetRow>("datasheet")
+    .filter((d) => !d.isLegends);
+  const dsByDir = bucketByDir(
+    liveDatasheets,
+    (d) => dump.factionKeywordOfDatasheet(d.id!),
+    dump
+  );
+  const detByDir = bucketByDir(
+    dump.table<DetachmentRow>("detachment"),
+    (d) => dump.factionKeywordOfDetachment(d.id!),
+    dump
+  );
+  const enhByDir = bucketByDir(
+    dump.table<EnhancementRow>("enhancement"),
+    (e) => dump.factionKeywordOfDetachment(e.detachmentId),
+    dump
+  );
+
+  // Global dump id sets — the repo-only ("dropped by cull-legends") signal must be
+  // routing-agnostic: a repo entity is a true gap only if NO dump entity anywhere
+  // shares its id. Per-dir buckets above stay as the routing diagnostic.
+  const globalUnitIds = new Set<string>();
+  for (const ds of liveDatasheets) {
+    const id = slug(dump.enName(ds));
+    if (id) globalUnitIds.add(id);
+  }
+  const globalDetIds = new Set<string>();
+  for (const det of dump.table<DetachmentRow>("detachment")) {
+    const id = slug(dump.enName(det));
+    if (id) globalDetIds.add(id);
+  }
+  const globalEnhIds = new Set<string>();
+  for (const enh of dump.table<EnhancementRow>("enhancement")) {
+    const en = dump.enName(enh);
+    const dn = dump.enName(dump.byId<DetachmentRow>("detachment").get(enh.detachmentId));
+    if (en && dn) {
+      try {
+        globalEnhIds.add(detachmentScopedId(en, dn));
+      } catch {
+        /* skip */
+      }
+    }
+  }
+
+  // unmapped faction keywords (e.g. titans) that own live datasheets
+  const unmapped = new Set<string>();
+  for (const d of liveDatasheets) {
+    const fkId = dump.factionKeywordOfDatasheet(d.id!);
+    const fkName = fkId ? dump.enName(dump.byId("faction_keyword").get(fkId)) : undefined;
+    if (fkName && !repoDirForFactionName(fkName)) unmapped.add(fkName);
+  }
+
+  const dirs: DirCoverage[] = [];
+  for (const dir of [...repoDirs()].sort()) {
+    const dumpUnitIds = new Map<string, string>(); // id → display name
+    for (const ds of dsByDir.get(dir) ?? []) {
+      const n = dump.enName(ds);
+      if (!n) continue;
+      try {
+        dumpUnitIds.set(nameToId(n), n);
+      } catch {
+        /* unsluggable name — skip */
+      }
+    }
+    const repoUnitIds = repoIds(dir, "units.json");
+    const shared = SHARED_ROSTERS[dir] ?? [];
+    const sharedIds = new Set(shared.flatMap((p) => [...repoIds(p, "units.json")]));
+
+    const unitsNew: string[] = [];
+    let unitsMatched = 0;
+    let unitsSharedSkipped = 0;
+    for (const [id, name] of dumpUnitIds) {
+      if (repoUnitIds.has(id)) unitsMatched++;
+      else if (sharedIds.has(id)) unitsSharedSkipped++;
+      else unitsNew.push(`${name} (${id})`);
+    }
+    const unitsRepoOnly = [...repoUnitIds].filter((id) => !globalUnitIds.has(id)).sort();
+
+    // detachments
+    const dumpDetIds = new Map<string, string>();
+    for (const det of detByDir.get(dir) ?? []) {
+      const n = dump.enName(det);
+      if (!n) continue;
+      try {
+        dumpDetIds.set(nameToId(n), n);
+      } catch {
+        /* skip */
+      }
+    }
+    const repoDetIds = repoIds(dir, "detachments.json");
+    const detNew: string[] = [];
+    let detMatched = 0;
+    for (const [id, name] of dumpDetIds) {
+      if (repoDetIds.has(id)) detMatched++;
+      else detNew.push(`${name} (${id})`);
+    }
+    const detRepoOnly = [...repoDetIds].filter((id) => !globalDetIds.has(id)).sort();
+
+    // enhancements — id is detachmentScopedId(enhName, detName)
+    const dumpEnhIds = new Map<string, string>();
+    for (const enh of enhByDir.get(dir) ?? []) {
+      const en = dump.enName(enh);
+      const det = dump.byId<DetachmentRow>("detachment").get((enh as EnhancementRow).detachmentId);
+      const dn = dump.enName(det);
+      if (!en || !dn) continue;
+      try {
+        dumpEnhIds.set(detachmentScopedId(en, dn), `${en} / ${dn}`);
+      } catch {
+        /* skip */
+      }
+    }
+    const repoEnhIds = repoIds(dir, "enhancements.json");
+    const enhNew: string[] = [];
+    let enhMatched = 0;
+    for (const [id, label] of dumpEnhIds) {
+      if (repoEnhIds.has(id)) enhMatched++;
+      else enhNew.push(`${label} (${id})`);
+    }
+    const enhRepoOnly = [...repoEnhIds].filter((id) => !globalEnhIds.has(id)).sort();
+
+    // only emit dirs the dump actually touches, or that have repo-only gaps
+    if (
+      dumpUnitIds.size === 0 &&
+      dumpDetIds.size === 0 &&
+      dumpEnhIds.size === 0 &&
+      repoUnitIds.size === 0
+    )
+      continue;
+
+    dirs.push({
+      dir,
+      unitsMatched,
+      unitsNew,
+      unitsSharedSkipped,
+      unitsRepoOnly,
+      detMatched,
+      detNew,
+      detRepoOnly,
+      enhMatched,
+      enhNew,
+      enhRepoOnly,
+    });
+  }
+  return { dirs, unmappedFactions: [...unmapped].sort() };
+}
+
+function buildReport(dump: MfmDump, cov: ReturnType<typeof coverage>): string {
+  const { dirs, unmappedFactions } = cov;
+  const sum = (f: (d: DirCoverage) => number) => dirs.reduce((a, d) => a + f(d), 0);
+  const L: string[] = [];
+  L.push(`# MFM coverage — dump data_version ${dump.version ?? "?"}`);
+  L.push("");
+  L.push("Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.");
+  L.push(
+    "**Repo-only** = in repo, absent from the (Legends-free) dump → dropped (Legends/Forge-World; see cull-legends)."
+  );
+  L.push("");
+  L.push(
+    "| Faction dir | Units matched | Units new | Units shared-skip | Units repo-only | Det matched | Det new | Det repo-only | Enh matched | Enh new | Enh repo-only |"
+  );
+  L.push("|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|");
+  for (const d of dirs) {
+    L.push(
+      `| ${d.dir} | ${d.unitsMatched} | ${d.unitsNew.length} | ${d.unitsSharedSkipped} | ${d.unitsRepoOnly.length} | ${d.detMatched} | ${d.detNew.length} | ${d.detRepoOnly.length} | ${d.enhMatched} | ${d.enhNew.length} | ${d.enhRepoOnly.length} |`
+    );
+  }
+  L.push(
+    `| **TOTAL** | **${sum((d) => d.unitsMatched)}** | **${sum((d) => d.unitsNew.length)}** | **${sum((d) => d.unitsSharedSkipped)}** | **${sum((d) => d.unitsRepoOnly.length)}** | **${sum((d) => d.detMatched)}** | **${sum((d) => d.detNew.length)}** | **${sum((d) => d.detRepoOnly.length)}** | **${sum((d) => d.enhMatched)}** | **${sum((d) => d.enhNew.length)}** | **${sum((d) => d.enhRepoOnly.length)}** |`
+  );
+  L.push("");
+
+  // Whole-dataset categories the dump dwarfs the repo on.
+  const repoStrat = readJson<{ id: string }>(path.join(CORE_DIR, "stratagems.json")).length;
+  const repoMiss = readJson<{ id: string }>(path.join(CORE_DIR, "missions.json")).length;
+  L.push("## Whole-dataset categories");
+  L.push("");
+  L.push("| Category | Repo | Dump |");
+  L.push("|---|--:|--:|");
+  L.push(`| Stratagems | ${repoStrat} | ${dump.table("stratagem").length} |`);
+  L.push(
+    `| Missions | ${repoMiss} | ${dump.table("primary_mission").length} primary + ${dump.table("secondary_mission").length} secondary |`
+  );
+  L.push(`| Force dispositions | 5 | ${dump.table("force_disposition").length} |`);
+  L.push(
+    `| Detachment→disposition map | — | ${dump.table("detachment_force_disposition").length} (1:1) |`
+  );
+  L.push("");
+
+  if (unmappedFactions.length) {
+    L.push("## Unmapped faction keywords (own live datasheets, no repo dir)");
+    L.push("");
+    unmappedFactions.forEach((f) => L.push(`- ${f}`));
+    L.push("");
+  }
+
+  for (const d of dirs) {
+    if (!d.unitsNew.length && !d.detNew.length && !d.enhNew.length && !d.unitsRepoOnly.length)
+      continue;
+    L.push(`## ${d.dir}`);
+    const block = (title: string, items: string[]) => {
+      if (!items.length) return;
+      L.push("", `**${title}** (${items.length}):`);
+      items.slice(0, 100).forEach((i) => L.push(`- ${i}`));
+      if (items.length > 100) L.push(`- …and ${items.length - 100} more`);
+    };
+    block("Units new in dump", d.unitsNew);
+    block("Units repo-only (Legends/FW → dropped)", d.unitsRepoOnly);
+    block("Detachments new in dump", d.detNew);
+    block("Detachments repo-only", d.detRepoOnly);
+    block("Enhancements new in dump", d.enhNew);
+    L.push("");
+  }
+  return L.join("\n") + "\n";
+}
+
+function runCoverage(dump: MfmDump): void {
+  const cov = coverage(dump);
+  const report = buildReport(dump, cov);
+
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-coverage.md");
+  fs.writeFileSync(reportPath, report);
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  const unmatched = cov.dirs
+    .filter((d) => d.unitsNew.length || d.detNew.length || d.enhNew.length || d.unitsRepoOnly.length)
+    .map((d) => ({
+      dir: d.dir,
+      unitsNew: d.unitsNew,
+      unitsRepoOnly: d.unitsRepoOnly,
+      detNew: d.detNew,
+      enhNew: d.enhNew,
+    }));
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-coverage.json"),
+    JSON.stringify({ unmappedFactions: cov.unmappedFactions, dirs: unmatched }, null, 2) + "\n"
+  );
+
+  const t = (f: (d: DirCoverage) => number) => cov.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Coverage report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Units matched ${t((d) => d.unitsMatched)}, new ${t((d) => d.unitsNew.length)}, repo-only ${t((d) => d.unitsRepoOnly.length)} (Legends/FW).`
+  );
+  console.log(
+    `Detachments matched ${t((d) => d.detMatched)}, new ${t((d) => d.detNew.length)}. ` +
+      `Enhancements matched ${t((d) => d.enhMatched)}, new ${t((d) => d.enhNew.length)}.`
+  );
+  if (cov.unmappedFactions.length)
+    console.log(`Unmapped factions (no repo dir): ${cov.unmappedFactions.join(", ")}`);
+}
+
+function runDispositionsCmd(dump: MfmDump, write: boolean): void {
+  const report = runDispositions(dump, write);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-dispositions.md");
+  fs.writeFileSync(reportPath, buildDispReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-dispositions.json"),
+    JSON.stringify(
+      {
+        newInDump: report.newInDump,
+        repoOnly: report.dirs
+          .filter((d) => d.unmatchedRepo.length)
+          .map((d) => ({ dir: d.dir, ids: d.unmatchedRepo })),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Dispositions report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${sum((d) => d.matched)}, DP changed ${sum((d) => d.dpChanged.length)}, ` +
+      `disposition changed ${sum((d) => d.dispChanged.length)}, ` +
+      `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump.length}.`
+  );
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+function runEnhancementsCmd(dump: MfmDump, write: boolean): void {
+  const report = runEnhancements(dump, write);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-enhancements.md");
+  fs.writeFileSync(reportPath, buildEnhReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-enhancements.json"),
+    JSON.stringify(
+      {
+        newInDump: report.newInDump,
+        repoOnly: report.dirs
+          .filter((d) => d.unmatchedRepo.length)
+          .map((d) => ({ dir: d.dir, ids: d.unmatchedRepo })),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Enhancements report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${sum((d) => d.matched)}, cost changed ${sum((d) => d.costChanged.length)}, ` +
+      `confirmed ${sum((d) => d.confirmed)}, repo-only ${sum((d) => d.unmatchedRepo.length)}, ` +
+      `new-in-dump ${report.newInDump.length}.`
+  );
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+function runPointsCmd(dump: MfmDump, write: boolean): void {
+  const report = runPoints(dump, write);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-points.md");
+  fs.writeFileSync(reportPath, buildPointsReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-points.json"),
+    JSON.stringify(
+      {
+        newInDump: report.newInDump,
+        ambiguous: report.dirs
+          .filter((d) => d.ambiguousSkipped.length)
+          .map((d) => ({ dir: d.dir, ids: d.ambiguousSkipped })),
+        structure: report.dirs
+          .filter((d) => d.structureSkipped.length)
+          .map((d) => ({ dir: d.dir, units: d.structureSkipped })),
+        repoOnly: report.dirs
+          .filter((d) => d.repoOnly.length)
+          .map((d) => ({ dir: d.dir, ids: d.repoOnly })),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Points report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${sum((d) => d.matched)}, points changed ${sum((d) => d.pointsChanged.length)}, ` +
+      `allied added ${sum((d) => d.alliedAdded.length)}, ambiguous-kept ${sum((d) => d.ambiguousSkipped.length)}, ` +
+      `repo-only ${sum((d) => d.repoOnly.length)}, new-in-dump ${report.newInDump.length}.`
+  );
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+function main(): void {
+  const argv = process.argv.slice(2);
+  const cmd = argv[0];
+  const write = argv.includes("--write");
+  const dumpFlag = argv.indexOf("--dump");
+  const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
+
+  const commands = ["coverage", "dispositions", "enhancements", "points"];
+  if (!commands.includes(cmd)) {
+    console.error(
+      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>]\n` +
+        `(wargear/stratagems land in later phases)`
+    );
+    process.exit(2);
+  }
+
+  const dump = loadDump(dumpPath);
+  if (cmd === "coverage") runCoverage(dump);
+  else if (cmd === "dispositions") runDispositionsCmd(dump, write);
+  else if (cmd === "enhancements") runEnhancementsCmd(dump, write);
+  else if (cmd === "points") runPointsCmd(dump, write);
+}
+
+main();

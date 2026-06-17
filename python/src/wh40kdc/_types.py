@@ -454,6 +454,14 @@ class Point(TypedDict):
     unit_count_max: NotRequired[int | None]
 
 
+class AlliedPoint(TypedDict):
+    host_faction: EntityId
+    models: int
+    cost: int
+    unit_count_min: NotRequired[int]
+    unit_count_max: NotRequired[int | None]
+
+
 class ModelCount(TypedDict):
     min: int
     max: int
@@ -477,6 +485,7 @@ class Unit(TypedDict):
     attachment_role: NotRequired[Literal["leader", "support"] | None]
     profiles: list[Profile]
     points: NotRequired[list[Point]]
+    allied_points: NotRequired[list[AlliedPoint]]
     points_provisional: NotRequired[bool]
     keywords: NotRequired[KeywordList]
     faction_keywords: NotRequired[KeywordList]

@@ -12176,6 +12176,48 @@ impl ::std::convert::TryFrom<::std::string::String> for TimingFlagTiming {
 ///        "$ref": "#/$defs/entity-id"
 ///      }
 ///    },
+///    "allied_points": {
+///      "description": "11e: alternate point costs that apply only when this unit is included in a host army of another faction (e.g. an Agents of the Imperium unit allied into any IMPERIUM army). Each entry mirrors a `points` tier but is scoped to a `host_faction`. Absent for the common case where the unit costs the same everywhere; consumers that don't model allied pricing read `points` (the native cost) and ignore this.",
+///      "type": "array",
+///      "items": {
+///        "type": "object",
+///        "required": [
+///          "cost",
+///          "host_faction",
+///          "models"
+///        ],
+///        "properties": {
+///          "cost": {
+///            "type": "integer",
+///            "minimum": 0.0
+///          },
+///          "host_faction": {
+///            "description": "The host-army faction/super-faction keyword this cost applies under (e.g. `imperium`).",
+///            "$ref": "#/$defs/entity-id"
+///          },
+///          "models": {
+///            "type": "integer",
+///            "minimum": 1.0
+///          },
+///          "unit_count_max": {
+///            "oneOf": [
+///              {
+///                "type": "integer",
+///                "minimum": 1.0
+///              },
+///              {
+///                "type": "null"
+///              }
+///            ]
+///          },
+///          "unit_count_min": {
+///            "type": "integer",
+///            "minimum": 1.0
+///          }
+///        },
+///        "additionalProperties": false
+///      }
+///    },
 ///    "attachment_role": {
 ///      "description": "Character attachment role (11e). 'support' implies the unit is only legal when attached to a host unit (cannot be taken solo); 'leader' is valid as a standalone list entry. null/absent for non-attaching units.",
 ///      "oneOf": [
@@ -12410,6 +12452,9 @@ impl ::std::convert::TryFrom<::std::string::String> for TimingFlagTiming {
 pub struct Unit {
     #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
     pub ability_ids: ::std::vec::Vec<EntityId>,
+    ///11e: alternate point costs that apply only when this unit is included in a host army of another faction (e.g. an Agents of the Imperium unit allied into any IMPERIUM army). Each entry mirrors a `points` tier but is scoped to a `host_faction`. Absent for the common case where the unit costs the same everywhere; consumers that don't model allied pricing read `points` (the native cost) and ignore this.
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub allied_points: ::std::vec::Vec<UnitAlliedPointsItem>,
     ///Character attachment role (11e). 'support' implies the unit is only legal when attached to a host unit (cannot be taken solo); 'leader' is valid as a standalone list entry. null/absent for non-attaching units.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub attachment_role: ::std::option::Option<UnitAttachmentRole>,
@@ -12441,6 +12486,63 @@ pub struct Unit {
     pub transport_capacity: ::std::option::Option<UnitTransportCapacity>,
     #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
     pub weapon_ids: ::std::vec::Vec<EntityId>,
+}
+///`UnitAlliedPointsItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "cost",
+///    "host_faction",
+///    "models"
+///  ],
+///  "properties": {
+///    "cost": {
+///      "type": "integer",
+///      "minimum": 0.0
+///    },
+///    "host_faction": {
+///      "description": "The host-army faction/super-faction keyword this cost applies under (e.g. `imperium`).",
+///      "$ref": "#/$defs/entity-id"
+///    },
+///    "models": {
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
+///    "unit_count_max": {
+///      "oneOf": [
+///        {
+///          "type": "integer",
+///          "minimum": 1.0
+///        },
+///        {
+///          "type": "null"
+///        }
+///      ]
+///    },
+///    "unit_count_min": {
+///      "type": "integer",
+///      "minimum": 1.0
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct UnitAlliedPointsItem {
+    pub cost: u64,
+    ///The host-army faction/super-faction keyword this cost applies under (e.g. `imperium`).
+    pub host_faction: EntityId,
+    pub models: ::std::num::NonZeroU64,
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub unit_count_max: ::std::option::Option<::std::num::NonZeroU64>,
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub unit_count_min: ::std::option::Option<::std::num::NonZeroU64>,
 }
 ///`UnitAttachmentRole`
 ///

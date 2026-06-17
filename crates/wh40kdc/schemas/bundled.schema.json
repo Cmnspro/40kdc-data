@@ -2257,6 +2257,48 @@
             ]
           }
         },
+        "allied_points": {
+          "type": "array",
+          "description": "11e: alternate point costs that apply only when this unit is included in a host army of another faction (e.g. an Agents of the Imperium unit allied into any IMPERIUM army). Each entry mirrors a `points` tier but is scoped to a `host_faction`. Absent for the common case where the unit costs the same everywhere; consumers that don't model allied pricing read `points` (the native cost) and ignore this.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "host_faction": {
+                "$ref": "#/$defs/entity-id",
+                "description": "The host-army faction/super-faction keyword this cost applies under (e.g. `imperium`)."
+              },
+              "models": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "cost": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unit_count_min": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "unit_count_max": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "host_faction",
+              "models",
+              "cost"
+            ],
+            "additionalProperties": false
+          }
+        },
         "points_provisional": {
           "type": "boolean",
           "default": false,
