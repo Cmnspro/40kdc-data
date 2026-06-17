@@ -1,8 +1,337 @@
 [
   {
-    "id": "archon-swap-1",
+    "id": "cronos-wgo-1",
+    "unit_id": "cronos",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "spirit-vortex"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "hellions-wgo-2",
+    "unit_id": "hellions",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "hellglaive"
+    ],
+    "replacement": [
+      "stunclaw",
+      "splinter-pistol",
+      "hellglaive"
+    ],
+    "model_constraint": {
+      "model_name": "Heliarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "hellions-wgo-3",
+    "unit_id": "hellions",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "phantasm-grenade-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "incubi-wgo-4",
+    "unit_id": "incubi",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "demiklaives"
+      ],
+      [
+        "klaive"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Klaivex",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "incubi-wgo-5",
+    "unit_id": "incubi",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "incubi-shrine-token"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "kabalite-warriors-wgo-6",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "shredder"
+      ],
+      [
+        "blaster"
+      ],
+      [
+        "splinter-cannon"
+      ],
+      [
+        "dark-lance"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "kabalite-warriors-wgo-7",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "blast-pistol"
+      ],
+      [
+        "splinter-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "kabalite-warriors-wgo-8",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "phantasm-grenade-launcher"
+      ],
+      [
+        "kabalite-icon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "reavers-wgo-9",
+    "unit_id": "reavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "blaster"
+      ],
+      [
+        "heat-lance"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Arena Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "reavers-wgo-10",
+    "unit_id": "reavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "cluster-caltrops"
+      ],
+      [
+        "grav-talon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Arena Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "scourges-with-heavy-weapons-wgo-11",
+    "unit_id": "scourges-with-heavy-weapons",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "blaster"
+      ],
+      [
+        "heat-lance"
+      ],
+      [
+        "shredder"
+      ],
+      [
+        "dark-lance"
+      ],
+      [
+        "haywire-blaster"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Scourge with Heavy Weapon",
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "talos-wgo-12",
+    "unit_id": "talos",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "twin-splinter-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "twin-haywire-blaster"
+      ],
+      [
+        "twin-heat-lance"
+      ],
+      [
+        "stinger-pod"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "wracks-wgo-13",
+    "unit_id": "wracks",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "torturers-tool"
+      ],
+      [
+        "hexrifle"
+      ],
+      [
+        "liquifier-gun"
+      ],
+      [
+        "ossefactor"
+      ],
+      [
+        "stinger-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Acothyst",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "wracks-wgo-14",
+    "unit_id": "wracks",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "torturers-tool"
+    ],
+    "model_constraint": {
+      "model_name": "Acothyst",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "wyches-wgo-15",
+    "unit_id": "wyches",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-pistol"
+    ],
+    "replacement": [
+      "blast-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Hekatrix",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "archon-wgo-16",
     "unit_id": "archon",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -17,27 +346,15 @@
       [
         "soul-trap"
       ]
-    ]
-  },
-  {
-    "id": "archon-swap-1",
-    "unit_id": "archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "splinter-pistol"
     ],
-    "replacement": [
-      "blast-pistol"
-    ]
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "archon-swap-2",
+    "id": "archon-wgo-17",
     "unit_id": "archon",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -45,513 +362,17 @@
     "replaces": [
       "huskblade"
     ],
-    "replacement_choice": [
-      [
-        "agoniser"
-      ],
-      [
-        "master-crafted-power-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-1",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "power-weapon"
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-1",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "sybarite-weapon"
-    ]
-  },
-  {
-    "id": "kabalite-warriors-addon-2",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replacement_choice": [
-      [
-        "kabalite-icon"
-      ],
-      [
-        "phantasm-grenade-launcher"
-      ]
-    ]
-  },
-  {
-    "id": "kabalite-warriors-addon-2",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replacement": [
-      "phantasm-grenade-launcher"
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-3",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blast-pistol"
-      ],
-      [
-        "splinter-pistol"
-      ]
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-4",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "blaster"
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-5",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "dark-lance"
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-6",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "shredder"
-    ]
-  },
-  {
-    "id": "kabalite-warriors-swap-7",
-    "unit_id": "kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "splinter-cannon"
-    ]
-  },
-  {
-    "id": "wyches-swap-1",
-    "unit_id": "wyches",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hekatrix",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-pistol"
-    ],
-    "replacement": [
-      "blast-pistol"
-    ]
-  },
-  {
-    "id": "wyches-swap-2",
-    "unit_id": "wyches",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hekatrix",
-      "max_count": 1
-    },
-    "replaces": [
-      "hekatarii-blade"
-    ],
-    "replacement": [
-      "power-weapon"
-    ]
-  },
-  {
-    "id": "wyches-swap-3",
-    "unit_id": "wyches",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Wyches",
-      "max_count": 3
-    },
-    "replaces": [
-      "splinter-pistol",
-      "hekatarii-blade"
-    ],
-    "replacement": [
-      "gladiatorial-weapons"
-    ]
-  },
-  {
-    "id": "incubi-swap-1",
-    "unit_id": "incubi",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Klaivex",
-      "max_count": 1
-    },
-    "replaces": [
-      "klaive"
-    ],
-    "replacement": [
-      "demiklaives"
-    ]
-  },
-  {
-    "id": "incubi-swap-1",
-    "unit_id": "incubi",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Klaivex",
-      "max_count": 1
-    },
-    "replaces": [
-      "klaive"
-    ],
-    "replacement": [
-      "demilklaives"
-    ]
-  },
-  {
-    "id": "incubi-addon-2",
-    "unit_id": "incubi",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "incubi-shrine-token"
-    ]
-  },
-  {
-    "id": "wracks-swap-1",
-    "unit_id": "wracks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replaces": [
-      "twin-torturers-tools"
-    ],
-    "replacement": [
-      "hexrifle",
-      "torturers-tool1-models-twin-torturers-tools-can-be-replaced-with-1-liquifier-gun",
-      "torturers-tool1-models-twin-torturers-tools-can-be-replaced-with-1-ossefactor",
-      "torturers-tool1-models-twin-torturers-tools-can-be-replaced-with-1-stinger-pistol",
-      "torturers-tool"
-    ]
-  },
-  {
-    "id": "wracks-swap-2",
-    "unit_id": "wracks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Acothyst",
-      "max_count": 1
-    },
-    "replaces": [
-      "twin-torturers-tools"
-    ],
-    "replacement": [
-      "power-weapon",
-      "torturers-tool"
-    ]
-  },
-  {
-    "id": "wracks-swap-3",
-    "unit_id": "wracks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "tool"
-    ],
-    "replacement": [
-      "power-weapon"
-    ]
-  },
-  {
-    "id": "raider-swap-1",
-    "unit_id": "raider",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "dark-lance"
-    ],
-    "replacement": [
-      "disintegrator-cannon"
-    ]
-  },
-  {
-    "id": "venom-swap-1",
-    "unit_id": "venom",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-splinter-rifle"
-    ],
-    "replacement": [
-      "splinter-cannon"
-    ]
-  },
-  {
-    "id": "reavers-swap-1",
-    "unit_id": "reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blaster"
-      ],
-      [
-        "heat-lance"
-      ]
-    ]
-  },
-  {
-    "id": "reavers-addon-1",
-    "unit_id": "reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Arena Champion",
-      "max_count": 1
-    },
     "replacement": [
       "agoniser"
-    ]
-  },
-  {
-    "id": "reavers-addon-2",
-    "unit_id": "reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "replacement_choice": [
-      [
-        "cluster-caltrops"
-      ],
-      [
-        "grav-talon"
-      ]
-    ]
-  },
-  {
-    "id": "reavers-addon-3",
-    "unit_id": "reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "replacement_choice": [
-      [
-        "grav-talon"
-      ],
-      [
-        "cluster-caltrops"
-      ]
-    ]
-  },
-  {
-    "id": "hellions-addon-1",
-    "unit_id": "hellions",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Helliarch",
-      "max_count": 1
-    },
-    "replacement": [
-      "phantasm-grenade-launcher"
-    ]
-  },
-  {
-    "id": "hellions-swap-2",
-    "unit_id": "hellions",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Helliarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "hellglaive"
     ],
-    "replacement_choice": [
-      [
-        "splinter-pistol",
-        "power-weapon"
-      ],
-      [
-        "splinter-pistol",
-        "stunclaw"
-      ]
-    ]
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "razorwing-jetfighter-swap-1",
-    "unit_id": "razorwing-jetfighter",
-    "is_free": true,
+    "id": "raider-wgo-18",
+    "unit_id": "raider",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -561,12 +382,51 @@
     ],
     "replacement": [
       "disintegrator-cannon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "razorwing-jetfighter-swap-2",
+    "id": "ravager-wgo-19",
+    "unit_id": "ravager",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "dark-lance"
+    ],
+    "replacement": [
+      "disintegrator-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 3
+    },
+    "is_free": true
+  },
+  {
+    "id": "razorwing-jetfighter-wgo-20",
     "unit_id": "razorwing-jetfighter",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "dark-lance"
+    ],
+    "replacement": [
+      "disintegrator-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "razorwing-jetfighter-wgo-21",
+    "unit_id": "razorwing-jetfighter",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -576,24 +436,45 @@
     ],
     "replacement": [
       "splinter-cannon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "voidraven-bomber-addon-1",
+    "id": "venom-wgo-22",
+    "unit_id": "venom",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "twin-splinter-rifle"
+    ],
+    "replacement": [
+      "splinter-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "voidraven-bomber-wgo-23",
     "unit_id": "voidraven-bomber",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement": [
       "voidraven-missiles"
-    ]
+    ],
+    "is_free": true
   },
   {
-    "id": "voidraven-bomber-swap-2",
+    "id": "voidraven-bomber-wgo-24",
     "unit_id": "voidraven-bomber",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -603,299 +484,10 @@
     ],
     "replacement": [
       "dark-scythe"
-    ]
-  },
-  {
-    "id": "talos-swap-1",
-    "unit_id": "talos",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "twin-splinter-cannon"
     ],
-    "replacement_choice": [
-      [
-        "stinger-pod"
-      ],
-      [
-        "twin-haywire-blaster"
-      ],
-      [
-        "twin-heat-lance"
-      ]
-    ]
-  },
-  {
-    "id": "talos-swap-2",
-    "unit_id": "talos",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "macro-scalpels"
-    ],
-    "replacement_choice": [
-      [
-        "talos-ichor-injector"
-      ],
-      [
-        "twin-liquifier-gun"
-      ]
-    ]
-  },
-  {
-    "id": "talos-swap-3",
-    "unit_id": "talos",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "macro-scalpels"
-    ],
-    "replacement_choice": [
-      [
-        "chain-flails"
-      ],
-      [
-        "talos-gauntlet"
-      ]
-    ]
-  },
-  {
-    "id": "cronos-addon-1",
-    "unit_id": "cronos",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replacement": [
-      "spirit-vortex"
-    ]
-  },
-  {
-    "id": "succubus-addon-1",
-    "unit_id": "succubus",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "blast-pistol"
-      ],
-      [
-        "splinter-pistol"
-      ]
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-1",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Archsybarite",
       "max_count": 1
     },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "power-weapon"
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-2",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Archsybarite",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blast-pistol"
-      ],
-      [
-        "splinter-pistol"
-      ]
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-addon-3",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Archsybarite",
-      "max_count": 1
-    },
-    "replacement_choice": [
-      [
-        "kabalite-icon"
-      ],
-      [
-        "phantasm-grenade-launcher"
-      ]
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-4",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Agent",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blaster"
-      ],
-      [
-        "shredder"
-      ]
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-5",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Agent",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "dark-lance"
-      ],
-      [
-        "splinter-cannon"
-      ]
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-6",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Agent",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "stinger-pistol"
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-7",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Agent",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "shardcarbine"
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-8",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Agent",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "pain-sculptors"
-    ]
-  },
-  {
-    "id": "hand-of-the-archon-swap-9",
-    "unit_id": "hand-of-the-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Agent",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "splinter-pistol",
-      "razorflail"
-    ]
+    "is_free": true
   }
 ]

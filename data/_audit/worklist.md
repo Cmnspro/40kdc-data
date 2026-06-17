@@ -269,7 +269,7 @@ Total: 405 stub abilities.
 | leagues-of-votann | coordinated-crossfire-armoured-trailblazers | stat-modifier | stat-modifier: operation "undefined" not supported |
 | leagues-of-votann | economy-of-motion-farseekers | stat-modifier | stat-modifier: operation "undefined" not supported |
 | leagues-of-votann | eye-of-the-hunt | stat-modifier | stat-modifier: operation "undefined" not supported |
-| leagues-of-votann | fury-from-the-d-lve | stat-modifier | stat-modifier: operation "undefined" not supported |
+| leagues-of-votann | fury-from-the-delve | stat-modifier | stat-modifier: operation "undefined" not supported |
 | leagues-of-votann | fury-of-the-hearth-hearthguard-covenant | stat-modifier | stat-modifier: operation "undefined" not supported |
 | leagues-of-votann | ironskein-hearthguard-covenant | stat-modifier | stat-modifier: operation "undefined" not supported |
 | leagues-of-votann | martial-leverage | stat-modifier | stat-modifier: operation "undefined" not supported |

@@ -1,28 +1,33 @@
 [
   {
-    "id": "chaos-lord-swap-1",
-    "unit_id": "chaos-lord",
-    "is_free": true,
+    "id": "legionaries-wgo-1",
+    "unit_id": "legionaries",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "daemon-hammer"
+      "boltgun"
     ],
     "replacement_choice": [
       [
-        "accursed-weapon"
+        "astartes-chainsword"
       ],
       [
-        "astartes-chainsword"
+        "heavy-melee-weapon"
+      ],
+      [
+        "balefire-tome"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 9
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-lord-swap-1",
-    "unit_id": "chaos-lord",
-    "is_free": true,
+    "id": "legionaries-wgo-2",
+    "unit_id": "legionaries",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -30,60 +35,342 @@
     "replaces": [
       "bolt-pistol"
     ],
-    "replacement": [
-      "plasma-pistol"
-    ]
+    "replacement_choice": [
+      [
+        "accursed-weapon"
+      ],
+      [
+        "astartes-chainsword"
+      ],
+      [
+        "heavy-melee-weapon"
+      ],
+      [
+        "plasma-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Aspiring Champion",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-lord-swap-2",
-    "unit_id": "chaos-lord",
-    "is_free": true,
+    "id": "legionaries-wgo-3",
+    "unit_id": "legionaries",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "plasma-pistol"
+      "boltgun"
     ],
-    "replacement": [
-      "power-fist"
-    ]
+    "replacement_choice": [
+      [
+        "accursed-weapon"
+      ],
+      [
+        "astartes-chainsword"
+      ],
+      [
+        "heavy-melee-weapon"
+      ],
+      [
+        "plasma-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Aspiring Champion",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-lord-swap-2",
-    "unit_id": "chaos-lord",
-    "is_free": true,
+    "id": "legionaries-wgo-4",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "chaos-icon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-5",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "meltagun"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-6",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "flamer"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-7",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "havoc-autocannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-8",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "heavy-bolter"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-9",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "lascannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-10",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "missile-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "legionaries-wgo-11",
+    "unit_id": "legionaries",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "reaper-chaincannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-12",
+    "unit_id": "cultist-mob",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "accursed-weapon"
+      "autopistol"
     ],
     "replacement": [
-      "power-fist"
-    ]
+      "bolt-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-lord-swap-3",
-    "unit_id": "chaos-lord",
-    "is_free": true,
+    "id": "cultist-mob-wgo-13",
+    "unit_id": "cultist-mob",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
-      "bolt-pistol",
-      "accursed-weapon"
-    ],
     "replacement": [
-      "twin-lightning-claws"
-    ]
+      "warp-stalker"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-lord-in-terminator-armour-swap-1",
-    "unit_id": "chaos-lord-in-terminator-armour",
-    "is_free": true,
+    "id": "cultist-mob-wgo-14",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "unholy-speed"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-15",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "mutant-form"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-16",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "massive-fangs"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-17",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "eightfold-eyes"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-18",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "daemonic-flesh"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-19",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "scorpion-tail"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-20",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "iron-hard-talons"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cultist-mob-wgo-21",
+    "unit_id": "cultist-mob",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "dark-blessing"
+    ],
+    "model_constraint": {
+      "model_name": "Cultist Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-22",
+    "unit_id": "chaos-terminator-squad",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -93,12 +380,1138 @@
     ],
     "replacement": [
       "combi-weapon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 9
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-lord-in-terminator-armour-swap-2",
+    "id": "chaos-terminator-squad-wgo-23",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "accursed-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "chainfist"
+      ],
+      [
+        "power-fist"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 6
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-24",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "accursed-weapon",
+      "chainfist",
+      "power-fist",
+      "combi-bolter",
+      "combi-weapon"
+    ],
+    "replacement": [
+      "paired-accursed-weapons"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-25",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "accursed-weapon"
+    ],
+    "replacement": [
+      "chainfist"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-26",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "combi-bolter"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-27",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "warp-stalker"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-28",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "unholy-speed"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-29",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "mutant-form"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-30",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "massive-fangs"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-31",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "eightfold-eyes"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-32",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "daemonic-flesh"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-33",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "scorpion-tail"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-34",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "iron-hard-talons"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-terminator-squad-wgo-35",
+    "unit_id": "chaos-terminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "dark-blessing"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "possessed-wgo-36",
+    "unit_id": "possessed",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "chaos-icon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-37",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "max_count": 4
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-38",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "max_count": 4
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-39",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "accursed-weapon"
+    ],
+    "replacement": [
+      "power-fist"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-40",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-41",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun",
+      "combi-weapon",
+      "accursed-weapon",
+      "power-fist"
+    ],
+    "replacement": [
+      "paired-accursed-weapons"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-42",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-43",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "warp-stalker"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-44",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "unholy-speed"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-45",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "mutant-form"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-46",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "massive-fangs"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-47",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "eightfold-eyes"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-48",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "daemonic-flesh"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-49",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "scorpion-tail"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-50",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "iron-hard-talons"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-51",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "dark-blessing"
+    ],
+    "model_constraint": {
+      "model_name": "Chosen Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chosen-wgo-52",
+    "unit_id": "chosen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "chaos-icon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-53",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "astartes-chainsword"
+    ],
+    "model_constraint": {
+      "max_count": 5
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-54",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "accursed-weapon"
+      ],
+      [
+        "astartes-chainsword"
+      ],
+      [
+        "plasma-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-55",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "warp-stalker"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-56",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "unholy-speed"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-57",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "mutant-form"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-58",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "massive-fangs"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-59",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "eightfold-eyes"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-60",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "daemonic-flesh"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-61",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "scorpion-tail"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-62",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "iron-hard-talons"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-63",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "dark-blessing"
+    ],
+    "model_constraint": {
+      "model_name": "Biker Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-bikers-wgo-64",
+    "unit_id": "chaos-bikers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "chaos-icon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "raptors-wgo-65",
+    "unit_id": "raptors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "max_count": 4
+    },
+    "is_free": true
+  },
+  {
+    "id": "raptors-wgo-66",
+    "unit_id": "raptors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "astartes-chainsword"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-melee-weapon"
+      ],
+      [
+        "mutations"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 4
+    },
+    "is_free": true
+  },
+  {
+    "id": "raptors-wgo-67",
+    "unit_id": "raptors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "astartes-chainsword"
+    ],
+    "replacement_choice": [
+      [
+        "accursed-weapon"
+      ],
+      [
+        "heavy-melee-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Raptor Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "raptors-wgo-68",
+    "unit_id": "raptors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Raptor Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "havocs-wgo-69",
+    "unit_id": "havocs",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "astartes-chainsword"
+    ],
+    "replacement": [
+      "accursed-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Havoc Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "havocs-wgo-70",
+    "unit_id": "havocs",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "flamer"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-gun"
+      ],
+      [
+        "plasma-pistol"
+      ],
+      [
+        "accursed-weapon"
+      ],
+      [
+        "boltgun"
+      ],
+      [
+        "meltagun"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Havoc Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "traitor-guardsmen-squad-wgo-71",
+    "unit_id": "traitor-guardsmen-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "lasgun"
+    ],
+    "replacement_choice": [
+      [
+        "flamer"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "cultist-sniper-rifle"
+      ],
+      [
+        "cultist-grenade-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "traitor-guardsmen-squad-wgo-72",
+    "unit_id": "traitor-guardsmen-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "chainsword"
+    ],
+    "model_constraint": {
+      "model_name": "Traitor Sergeant",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "traitor-guardsmen-squad-wgo-73",
+    "unit_id": "traitor-guardsmen-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "corrupted-pistol"
+    ],
+    "replacement": [
+      "boltgun"
+    ],
+    "model_constraint": {
+      "model_name": "Traitor Sergeant",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "fellgor-beastmen-wgo-74",
+    "unit_id": "fellgor-beastmen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "great-weapon"
+      ],
+      [
+        "corrupted-stave"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "fellgor-beastmen-wgo-75",
+    "unit_id": "fellgor-beastmen",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Fellgor Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "nemesis-claw-wgo-76",
+    "unit_id": "nemesis-claw",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement_choice": [
+      [
+        "astartes-chainsword"
+      ],
+      [
+        "accursed-weapon"
+      ],
+      [
+        "nostraman-chainglaive"
+      ],
+      [
+        "paired-accursed-weapons"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 9
+    },
+    "is_free": true
+  },
+  {
+    "id": "nemesis-claw-wgo-77",
+    "unit_id": "nemesis-claw",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "nostraman-chainblade"
+    ],
+    "replacement": [
+      "accursed-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Visionary",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "nemesis-claw-wgo-78",
+    "unit_id": "nemesis-claw",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Visionary",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "nemesis-claw-wgo-79",
+    "unit_id": "nemesis-claw",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "meltagun"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "red-corsairs-raiders-wgo-80",
+    "unit_id": "red-corsairs-raiders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement": [
+      "meltagun"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    },
+    "is_free": true
+  },
+  {
+    "id": "red-corsairs-raiders-wgo-81",
+    "unit_id": "red-corsairs-raiders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "reavers-blade"
+    ],
+    "replacement": [
+      "power-fist"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    },
+    "is_free": true
+  },
+  {
+    "id": "red-corsairs-raiders-wgo-82",
+    "unit_id": "red-corsairs-raiders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "hand-flamer"
+    ],
+    "model_constraint": {
+      "model_name": "Red Corsairs Raider Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-lord-in-terminator-armour-wgo-83",
     "unit_id": "chaos-lord-in-terminator-armour",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "combi-bolter"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-lord-in-terminator-armour-wgo-84",
+    "unit_id": "chaos-lord-in-terminator-armour",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -111,1528 +1524,147 @@
         "chainfist"
       ],
       [
-        "power-fist"
+        "paired-accursed-weapons"
       ]
-    ]
-  },
-  {
-    "id": "chaos-lord-in-terminator-armour-swap-3",
-    "unit_id": "chaos-lord-in-terminator-armour",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "combi-bolter",
-      "exalted-weapon"
     ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chaos-lord-on-bike-swap-1",
-    "unit_id": "chaos-lord-on-bike",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    "model_constraint": {
+      "max_count": 1
     },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "chaos-lord-on-bike-swap-2",
-    "unit_id": "chaos-lord-on-bike",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-bike-swap-3",
-    "unit_id": "chaos-lord-on-bike",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol",
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chaos-lord-on-juggernaut-swap-1",
-    "unit_id": "chaos-lord-on-juggernaut",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-juggernaut-swap-2",
-    "unit_id": "chaos-lord-on-juggernaut",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-juggernaut-swap-3",
-    "unit_id": "chaos-lord-on-juggernaut",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol",
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chaos-lord-on-disc-of-tzeentch-swap-1",
-    "unit_id": "chaos-lord-on-disc-of-tzeentch",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-disc-of-tzeentch-swap-2",
-    "unit_id": "chaos-lord-on-disc-of-tzeentch",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-disc-of-tzeentch-swap-3",
-    "unit_id": "chaos-lord-on-disc-of-tzeentch",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol",
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chaos-lord-on-palanquin-of-nurgle-swap-1",
-    "unit_id": "chaos-lord-on-palanquin-of-nurgle",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-palanquin-of-nurgle-swap-2",
-    "unit_id": "chaos-lord-on-palanquin-of-nurgle",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-palanquin-of-nurgle-swap-3",
-    "unit_id": "chaos-lord-on-palanquin-of-nurgle",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol",
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chaos-lord-on-steed-of-slaanesh-swap-1",
-    "unit_id": "chaos-lord-on-steed-of-slaanesh",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-steed-of-slaanesh-swap-2",
-    "unit_id": "chaos-lord-on-steed-of-slaanesh",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-lord-on-steed-of-slaanesh-swap-3",
-    "unit_id": "chaos-lord-on-steed-of-slaanesh",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol",
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "sorcerer-in-terminator-armour-swap-1",
+    "id": "sorcerer-in-terminator-armour-wgo-85",
     "unit_id": "sorcerer-in-terminator-armour",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement": [
-      "combi-weapon"
-    ]
-  },
-  {
-    "id": "sorcerer-in-terminator-armour-swap-1",
-    "unit_id": "sorcerer-in-terminator-armour",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-combi-bolter"
-    ],
-    "replacement": [
-      "inferno-combi-weapon"
-    ]
-  },
-  {
-    "id": "sorcerer-in-terminator-armour-addon-2",
-    "unit_id": "sorcerer-in-terminator-armour",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement": [
       "chaos-familiar"
-    ]
-  },
-  {
-    "id": "sorcerer-on-bike-swap-1",
-    "unit_id": "sorcerer-on-bike",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
     ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "sorcerer-on-disc-of-tzeentch-swap-1",
-    "unit_id": "sorcerer-on-disc-of-tzeentch",
-    "is_free": true,
+    "id": "sorcerer-in-terminator-armour-wgo-86",
+    "unit_id": "sorcerer-in-terminator-armour",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "sorcerer-on-palanquin-of-nurgle-swap-1",
-    "unit_id": "sorcerer-on-palanquin-of-nurgle",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "sorcerer-on-steed-of-slaanesh-swap-1",
-    "unit_id": "sorcerer-on-steed-of-slaanesh",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "cultist-mob-swap-1",
-    "unit_id": "cultist-mob",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Cultist Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "autopistol"
-    ],
-    "replacement": [
-      "bolt-pistol"
-    ]
-  },
-  {
-    "id": "cultist-mob-swap-2",
-    "unit_id": "cultist-mob",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "autogun",
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "autopistol",
-      "brutal-assault-weapon"
-    ]
-  },
-  {
-    "id": "cultist-mob-swap-3",
-    "unit_id": "cultist-mob",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Cultist",
-      "per_n_models": 10
-    },
-    "replaces": [
-      "autogun"
-    ],
-    "replacement": [
-      "flamer"
-    ]
-  },
-  {
-    "id": "cultist-mob-swap-4",
-    "unit_id": "cultist-mob",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Cultist",
-      "per_n_models": 10
-    },
-    "replaces": [
-      "autogun"
-    ],
-    "replacement": [
-      "heavy-stubber"
-    ]
-  },
-  {
-    "id": "cultist-mob-swap-5",
-    "unit_id": "cultist-mob",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Cultist",
-      "per_n_models": 10
-    },
-    "replaces": [
-      "autogun"
-    ],
-    "replacement": [
-      "grenade-launcher"
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-1",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Terminator",
-      "per_n_models": 5
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-flamer"
-      ],
-      [
-        "reaper-autocannon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-1",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Terminator",
-      "per_n_models": 5
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-flamer"
-      ],
-      [
-        "reaper-autocannon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-1",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Terminator",
-      "max_count": 1
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-flamer"
-      ],
-      [
-        "reaper-autocannon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-2",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
     },
     "replaces": [
       "combi-bolter"
     ],
     "replacement": [
       "combi-weapon"
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-3",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replaces": [
-      "combi-bolter",
-      "accursed-weapon"
     ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-3",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
       "max_count": 1
     },
-    "replaces": [
-      "combi-bolter",
-      "accursed-weapon"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
+    "is_free": true
   },
   {
-    "id": "chaos-terminator-squad-swap-4",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5,
-      "max_count": 3
-    },
-    "replaces": [
-      "accursed-weapon"
-    ],
-    "replacement": [
-      "power-fist"
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-4",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 3
-    },
-    "replaces": [
-      "accursed-weapon"
-    ],
-    "replacement": [
-      "power-fist"
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-5",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replaces": [
-      "accursed-weapon"
-    ],
-    "replacement": [
-      "chainfist"
-    ]
-  },
-  {
-    "id": "chaos-terminator-squad-swap-5",
-    "unit_id": "chaos-terminator-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replaces": [
-      "accursed-weapon"
-    ],
-    "replacement": [
-      "chainfist"
-    ]
-  },
-  {
-    "id": "chosen-swap-1",
-    "unit_id": "chosen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5,
-      "max_count": 2
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol"
-    ]
-  },
-  {
-    "id": "chosen-swap-2",
-    "unit_id": "chosen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5,
-      "max_count": 2
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement": [
-      "combi-weapon"
-    ]
-  },
-  {
-    "id": "chosen-swap-3",
-    "unit_id": "chosen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replaces": [
-      "boltgun",
-      "accursed-weapon"
-    ],
-    "replacement": [
-      "paired-accursed-weapons"
-    ]
-  },
-  {
-    "id": "chosen-addon-5",
-    "unit_id": "chosen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "chaos-icon"
-    ]
-  },
-  {
-    "id": "possessed-addon-1",
-    "unit_id": "possessed",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "chaos-icon"
-    ]
-  },
-  {
-    "id": "possessed-addon-1",
-    "unit_id": "possessed",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "diseased-icon"
-    ]
-  },
-  {
-    "id": "helbrute-swap-1",
-    "unit_id": "helbrute",
-    "is_free": true,
+    "id": "lord-discordant-on-helstalker-wgo-87",
+    "unit_id": "lord-discordant-on-helstalker",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "multi-melta"
-    ],
-    "replacement_choice": [
-      [
-        "helbrute-plasma-cannon"
-      ],
-      [
-        "twin-autocannon"
-      ],
-      [
-        "twin-heavy-bolter"
-      ],
-      [
-        "twin-lascannon"
-      ],
-      [
-        "helbrute-fist"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-swap-1",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-melta"
-    ],
-    "replacement_choice": [
-      [
-        "helbrute-plasma-cannon"
-      ],
-      [
-        "twin-autocannon"
-      ],
-      [
-        "twin-inferno-heavy-bolter"
-      ],
-      [
-        "twin-lascannon"
-      ],
-      [
-        "helbrute-fist"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-swap-1",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-melta"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-cannon"
-      ],
-      [
-        "twin-autocannon"
-      ],
-      [
-        "twin-lascannon"
-      ],
-      [
-        "twin-heavy-bolter"
-      ],
-      [
-        "additional-helbrute-fist"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-swap-1",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-melta"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-cannon"
-      ],
-      [
-        "twin-autocannon"
-      ],
-      [
-        "twin-heavy-bolter"
-      ],
-      [
-        "twin-lascannon"
-      ],
-      [
-        "helbrute-fist"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-swap-2",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "missile-launcher"
-    ],
-    "replacement_choice": [
-      [
-        "helbrute-fist"
-      ],
-      [
-        "helbrute-hammer"
-      ],
-      [
-        "power-scourge"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-swap-2",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "of this model",
-      "max_count": 1
-    },
-    "replaces": [
-      "helbrute-fist"
-    ],
-    "replacement": [
-      "missile-launcher"
-    ]
-  },
-  {
-    "id": "helbrute-addon-3",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-addon-3",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-swap-3",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "of this model",
-      "max_count": 1
-    },
-    "replaces": [
-      "missile-launcher"
-    ],
-    "replacement_choice": [
-      [
-        "helbrute-fist"
-      ],
-      [
-        "helbrute-hammer"
-      ],
-      [
-        "power-scourge"
-      ]
-    ]
-  },
-  {
-    "id": "helbrute-addon-4",
-    "unit_id": "helbrute",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-rhino-addon-1",
-    "unit_id": "chaos-rhino",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-rhino-addon-1",
-    "unit_id": "chaos-rhino",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "additional-inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-rhino-addon-1",
-    "unit_id": "chaos-rhino",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "additional-combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-bikers-swap-1",
-    "unit_id": "chaos-bikers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Biker Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-bikers-swap-2",
-    "unit_id": "chaos-bikers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Bikers",
-      "any_number": true
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "astartes-chainsword"
-    ]
-  },
-  {
-    "id": "chaos-bikers-swap-3",
-    "unit_id": "chaos-bikers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Chaos Bikers",
-      "max_count": 2
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "flamer"
-      ],
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-bikers-addon-4",
-    "unit_id": "chaos-bikers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "chaos-icon"
-    ]
-  },
-  {
-    "id": "raptors-swap-1",
-    "unit_id": "raptors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Raptor Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol"
-    ]
-  },
-  {
-    "id": "raptors-swap-2",
-    "unit_id": "raptors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Raptor Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "accursed-weapon"
-      ],
-      [
-        "heavy-melee-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "raptors-swap-4",
-    "unit_id": "raptors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Raptors",
-      "per_n_models": 5,
-      "max_count": 2
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "heavy-melee-weapon"
-    ]
-  },
-  {
-    "id": "raptors-swap-5",
-    "unit_id": "raptors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Raptor",
-      "per_n_models": 5
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement": [
-      "mutations"
-    ]
-  },
-  {
-    "id": "raptors-swap-6",
-    "unit_id": "raptors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Raptors",
-      "max_count": 2
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "flamer",
-        "close-combat-weapon"
-      ],
-      [
-        "meltagun",
-        "close-combat-weapon"
-      ],
-      [
-        "plasma-gun",
-        "close-combat-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "raptors-swap-7",
-    "unit_id": "raptors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "flamer",
-        "close-combat-weapon"
-      ],
-      [
-        "meltagun",
-        "close-combat-weapon"
-      ],
-      [
-        "plasma-gun",
-        "close-combat-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "heldrake-swap-1",
-    "unit_id": "heldrake",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hades-autocannon"
+      "helstalker-autocannon"
     ],
     "replacement": [
       "baleflamer"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-land-raider-addon-1",
-    "unit_id": "chaos-land-raider",
-    "is_free": true,
+    "id": "lord-discordant-on-helstalker-wgo-88",
+    "unit_id": "lord-discordant-on-helstalker",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-land-raider-addon-1",
-    "unit_id": "chaos-land-raider",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    "replaces": [
+      "techno-virus-injector"
+    ],
+    "replacement": [
+      "magma-cutter"
+    ],
+    "model_constraint": {
+      "max_count": 1
     },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "chaos-land-raider-addon-2",
+    "id": "chaos-land-raider-wgo-89",
     "unit_id": "chaos-land-raider",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement": [
       "havoc-launcher"
-    ]
+    ],
+    "is_free": true
   },
   {
-    "id": "chaos-predator-destructor-addon-1",
-    "unit_id": "chaos-predator-destructor",
-    "is_free": true,
+    "id": "chaos-land-raider-wgo-90",
+    "unit_id": "chaos-land-raider",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "combi-bolter"
+      ],
+      [
+        "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-91",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-92",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "combi-bolter"
+      ],
+      [
+        "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-93",
+    "unit_id": "chaos-predator-annihilator",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -1644,29 +1676,79 @@
       [
         "lascannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-predator-destructor-addon-1",
+    "id": "chaos-predator-destructor-wgo-94",
     "unit_id": "chaos-predator-destructor",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-95",
+    "unit_id": "chaos-predator-destructor",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement_choice": [
+      [
+        "combi-bolter"
+      ],
+      [
+        "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-96",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "heavy-bolter"
+      ],
       [
         "lascannon"
-      ],
-      [
-        "inferno-heavy-bolters"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "chaos-predator-destructor-addon-2",
-    "unit_id": "chaos-predator-destructor",
-    "is_free": true,
+    "id": "chaos-vindicator-wgo-97",
+    "unit_id": "chaos-vindicator",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "chaos-vindicator-wgo-98",
+    "unit_id": "chaos-vindicator",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -1678,221 +1760,33 @@
       [
         "combi-weapon"
       ]
-    ]
-  },
-  {
-    "id": "chaos-predator-destructor-addon-2",
-    "unit_id": "chaos-predator-destructor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-predator-destructor-addon-3",
-    "unit_id": "chaos-predator-destructor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "chaos-predator-destructor-addon-3",
-    "unit_id": "chaos-predator-destructor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "chaos-vindicator-addon-1",
-    "unit_id": "chaos-vindicator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-vindicator-addon-1",
-    "unit_id": "chaos-vindicator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-vindicator-addon-2",
-    "unit_id": "chaos-vindicator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "chaos-vindicator-addon-2",
-    "unit_id": "chaos-vindicator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "havocs-swap-1",
-    "unit_id": "havocs",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
-      "model_name": "Havoc Champion",
       "max_count": 1
     },
-    "replaces": [
-      "astartes-chainsword"
-    ],
-    "replacement_choice": [
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "havocs-swap-2",
-    "unit_id": "havocs",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Havoc Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "flamer"
-    ],
-    "replacement_choice": [
-      [
-        "boltgun"
-      ],
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
-      ],
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "havocs-swap-3",
-    "unit_id": "havocs",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Havocs",
-      "any_number": true
-    },
-    "replaces": [
-      "havoc-autocannon-or-havoc-lascannon"
-    ],
-    "replacement_choice": [
-      [
-        "havoc-autocannon"
-      ],
-      [
-        "havoc-heavy-bolter"
-      ],
-      [
-        "havoc-lascannon"
-      ],
-      [
-        "havoc-missile-launcher"
-      ],
-      [
-        "havoc-reaper-chaincannon"
-      ]
-    ]
-  },
-  {
-    "id": "forgefiend-swap-1",
+    "id": "forgefiend-wgo-99",
     "unit_id": "forgefiend",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "hades-autocannon",
+      "ectoplasma-cannon"
+    ],
+    "replacement": [
       "hades-autocannon"
     ],
-    "replacement": [
-      "ectoplasma-cannon",
-      "ectoplasma-cannon"
-    ]
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "forgefiend-swap-2",
+    "id": "forgefiend-wgo-100",
     "unit_id": "forgefiend",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -1903,28 +1797,98 @@
     "replacement": [
       "ectoplasma-cannon",
       "armoured-limbs"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "forgefiend-swap-2",
-    "unit_id": "forgefiend",
-    "is_free": true,
+    "id": "helbrute-wgo-101",
+    "unit_id": "helbrute",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "forgefiend-jaws"
+      "missile-launcher"
     ],
-    "replacement": [
-      "ectoplasma-cannon",
-      "forgefiend-claws"
-    ]
+    "replacement_choice": [
+      [
+        "helbrute-fist",
+        "combi-bolter"
+      ],
+      [
+        "helbrute-fist",
+        "heavy-flamer"
+      ],
+      [
+        "helbrute-hammer"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "maulerfiend-swap-1",
+    "id": "helbrute-wgo-102",
+    "unit_id": "helbrute",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "multi-melta"
+    ],
+    "replacement_choice": [
+      [
+        "twin-autocannon"
+      ],
+      [
+        "helbrute-fist",
+        "heavy-flamer"
+      ],
+      [
+        "helbrute-fist",
+        "combi-bolter"
+      ],
+      [
+        "helbrute-plasma-cannon"
+      ],
+      [
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "heldrake-wgo-103",
+    "unit_id": "heldrake",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "hades-autocannon"
+    ],
+    "replacement": [
+      "baleflamer"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "maulerfiend-wgo-104",
     "unit_id": "maulerfiend",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -1933,93 +1897,28 @@
       "lasher-tendrils"
     ],
     "replacement": [
-      "magma-cutters"
-    ]
+      "magma-cutter"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "defiler-swap-1",
-    "unit_id": "defiler",
-    "is_free": true,
+    "id": "chaos-rhino-wgo-105",
+    "unit_id": "chaos-rhino",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
-      "twin-heavy-flamer"
+    "replacement": [
+      "havoc-launcher"
     ],
-    "replacement_choice": [
-      [
-        "defiler-scourge"
-      ],
-      [
-        "havoc-launcher"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "defiler-swap-1",
-    "unit_id": "defiler",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-heavy-flamer"
-    ],
-    "replacement_choice": [
-      [
-        "havoc-launcher"
-      ],
-      [
-        "defiler-scourge"
-      ]
-    ]
-  },
-  {
-    "id": "defiler-swap-2",
-    "unit_id": "defiler",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "reaper-autocannon"
-    ],
-    "replacement_choice": [
-      [
-        "twin-heavy-bolter"
-      ],
-      [
-        "twin-lascannon"
-      ]
-    ]
-  },
-  {
-    "id": "defiler-swap-2",
-    "unit_id": "defiler",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "reaper-autocannon"
-    ],
-    "replacement_choice": [
-      [
-        "twin-lascannon"
-      ],
-      [
-        "twin-inferno-heavy-bolter"
-      ]
-    ]
-  },
-  {
-    "id": "defiler-addon-3",
-    "unit_id": "defiler",
-    "is_free": true,
+    "id": "chaos-rhino-wgo-106",
+    "unit_id": "chaos-rhino",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -2031,24 +1930,33 @@
       [
         "combi-weapon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "defiler-addon-3",
-    "unit_id": "defiler",
-    "is_free": true,
+    "id": "khorne-lord-of-skulls-wgo-107",
+    "unit_id": "khorne-lord-of-skulls",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replaces": [
+      "hades-gatling-cannon"
+    ],
     "replacement": [
-      "inferno-combi-weapon"
-    ]
+      "skullhurler"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "khorne-lord-of-skulls-swap-1",
+    "id": "khorne-lord-of-skulls-wgo-108",
     "unit_id": "khorne-lord-of-skulls",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -2063,912 +1971,78 @@
       [
         "ichor-cannon"
       ]
-    ]
-  },
-  {
-    "id": "khorne-lord-of-skulls-swap-2",
-    "unit_id": "khorne-lord-of-skulls",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hades-gatling-cannon"
     ],
-    "replacement": [
-      "skullhurler"
-    ]
-  },
-  {
-    "id": "sorcerer-addon-1",
-    "unit_id": "sorcerer",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    "model_constraint": {
+      "max_count": 1
     },
-    "replacement": [
-      "prosperine-khopesh"
-    ]
+    "is_free": true
   },
   {
-    "id": "chaos-predator-annihilator-addon-1",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
+    "id": "chaos-lord-with-jump-pack-wgo-109",
+    "unit_id": "chaos-lord-with-jump-pack",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement_choice": [
       [
-        "heavy-bolter"
+        "accursed-weapon"
       ],
       [
-        "lascannon"
+        "twin-lightning-claws"
       ]
-    ]
-  },
-  {
-    "id": "chaos-predator-annihilator-addon-1",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    ],
+    "model_constraint": {
+      "max_count": 1
     },
-    "replacement_choice": [
-      [
-        "lascannon"
-      ],
-      [
-        "inferno-heavy-bolters"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "chaos-predator-annihilator-addon-1",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-predator-annihilator-addon-2",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-weapon"
-      ],
-      [
-        "combi-bolter"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-predator-annihilator-addon-2",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-predator-annihilator-addon-2",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-predator-annihilator-addon-3",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "chaos-predator-annihilator-addon-3",
-    "unit_id": "chaos-predator-annihilator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "blood-slaughterer-swap-1",
-    "unit_id": "blood-slaughterer",
-    "is_free": true,
+    "id": "chaos-lord-with-jump-pack-wgo-110",
+    "unit_id": "chaos-lord-with-jump-pack",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "impaler-harpoon",
-      "slaughter-blade"
+      "bolt-pistol"
     ],
     "replacement": [
-      "twin-slaughter-blade"
-    ]
-  },
-  {
-    "id": "decimator-swap-1",
-    "unit_id": "decimator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "decimator-butcher-cannon"
+      "plasma-pistol"
     ],
-    "replacement_choice": [
-      [
-        "decimator-conversion-beamer"
-      ],
-      [
-        "soulburner-petard"
-      ],
-      [
-        "storm-laser"
-      ],
-      [
-        "hellflamer",
-        "decimator-claw"
-      ]
-    ]
-  },
-  {
-    "id": "decimator-swap-2",
-    "unit_id": "decimator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    "model_constraint": {
+      "max_count": 1
     },
-    "replaces": [
-      "decimator-butcher-cannon"
-    ],
-    "replacement": [
-      "twin-decimator-claw",
-      "hellflamer"
-    ]
+    "is_free": true
   },
   {
-    "id": "chaos-deimos-predator-swap-1",
-    "unit_id": "chaos-deimos-predator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "plasma-destroyer"
-    ],
-    "replacement_choice": [
-      [
-        "conversion-beam-cannon"
-      ],
-      [
-        "infernus-cannon"
-      ],
-      [
-        "magna-melta-cannon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-deimos-predator-addon-2",
-    "unit_id": "chaos-deimos-predator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ],
-      [
-        "lascannon"
-      ]
-    ]
-  },
-  {
-    "id": "chaos-deimos-predator-addon-3",
-    "unit_id": "chaos-deimos-predator",
-    "is_free": true,
+    "id": "red-corsairs-reave-captain-wgo-111",
+    "unit_id": "red-corsairs-reave-captain",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement": [
-      "combi-bolter"
-    ]
-  },
-  {
-    "id": "chaos-deimos-predator-addon-4",
-    "unit_id": "chaos-deimos-predator",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ]
-  },
-  {
-    "id": "hell-blade-swap-1",
-    "unit_id": "hell-blade",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-autocannon"
+      "plasma-pistol"
     ],
-    "replacement": [
-      "twin-lascannon"
-    ]
+    "is_free": true
   },
   {
-    "id": "hell-talon-swap-1",
-    "unit_id": "hell-talon",
-    "is_free": true,
+    "id": "defiler-wgo-112",
+    "unit_id": "defiler",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "autocannon"
-    ],
-    "replacement": [
-      "havoc-launcher"
-    ]
-  },
-  {
-    "id": "chaos-thunderhawk-swap-1",
-    "unit_id": "chaos-thunderhawk",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "thunderhawk-heavy-cannon"
-    ],
-    "replacement": [
-      "turbo-laser-destructor"
-    ]
-  },
-  {
-    "id": "chaos-thunderhawk-swap-2",
-    "unit_id": "chaos-thunderhawk",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "thunderhawk-cluster-bombs"
-    ],
-    "replacement": [
-      "hellstrike-missile-battery"
-    ]
-  },
-  {
-    "id": "lord-discordant-on-helstalker-swap-1",
-    "unit_id": "lord-discordant-on-helstalker",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "helstalker-autocannon"
-    ],
-    "replacement": [
-      "baleflamer"
-    ]
-  },
-  {
-    "id": "lord-discordant-on-helstalker-swap-2",
-    "unit_id": "lord-discordant-on-helstalker",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "techno-virus-injector"
+      "excruciator-cannon"
     ],
     "replacement": [
       "magma-cutter"
-    ]
-  },
-  {
-    "id": "fellgor-beastmen-swap-1",
-    "unit_id": "fellgor-beastmen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Fellgor Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "bolt-pistol"
     ],
-    "replacement": [
-      "plasma-pistol"
-    ]
-  },
-  {
-    "id": "fellgor-beastmen-swap-2",
-    "unit_id": "fellgor-beastmen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Fellgor Beastman",
-      "max_count": 1
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "great-weapon"
-    ]
-  },
-  {
-    "id": "fellgor-beastmen-swap-3",
-    "unit_id": "fellgor-beastmen",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Fellgor Beastman",
-      "max_count": 1
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "corrupted-stave"
-    ]
-  },
-  {
-    "id": "legionaries-swap-1",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Aspiring Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "heavy-melee-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "legionaries-swap-2",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Aspiring Champion",
-      "max_count": 1
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol"
-      ],
-      [
-        "accursed-weapon"
-      ],
-      [
-        "astartes-chainsword"
-      ],
-      [
-        "heavy-melee-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "legionaries-addon-3",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
       "max_count": 1
     },
-    "replacement": [
-      "chaos-icon"
-    ]
-  },
-  {
-    "id": "legionaries-swap-4",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Legionaries",
-      "any_number": true
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement": [
-      "astartes-chainsword"
-    ]
-  },
-  {
-    "id": "legionaries-swap-5",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Legionary",
-      "max_count": 1
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement": [
-      "heavy-melee-weapon"
-    ]
-  },
-  {
-    "id": "legionaries-swap-6",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Legionary",
-      "max_count": 1
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement": [
-      "balefire-tome"
-    ]
-  },
-  {
-    "id": "legionaries-swap-7",
-    "unit_id": "legionaries",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Legionary",
-      "per_n_models": 5
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol",
-        "astartes-chainsword"
-      ],
-      [
-        "flamer"
-      ],
-      [
-        "havoc-autocannon"
-      ],
-      [
-        "heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ],
-      [
-        "meltagun"
-      ],
-      [
-        "missile-launcher"
-      ],
-      [
-        "plasma-gun"
-      ],
-      [
-        "reaper-chaincannon"
-      ]
-    ]
-  },
-  {
-    "id": "traitor-guardsmen-squad-swap-1",
-    "unit_id": "traitor-guardsmen-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Traitor Guardsmen",
-      "max_count": 3
-    },
-    "replaces": [
-      "lasgun"
-    ],
-    "replacement_choice": [
-      [
-        "cultist-grenade-launcher"
-      ],
-      [
-        "flamer"
-      ],
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
-      ],
-      [
-        "cultist-sniper-rifle"
-      ]
-    ]
-  },
-  {
-    "id": "traitor-guardsmen-squad-swap-2",
-    "unit_id": "traitor-guardsmen-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Traitor Sergeant",
-      "max_count": 1
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement_choice": [
-      [
-        "chainsword"
-      ],
-      [
-        "power-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "traitor-guardsmen-squad-swap-3",
-    "unit_id": "traitor-guardsmen-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Traitor Sergeant",
-      "max_count": 1
-    },
-    "replaces": [
-      "corrupted-pistol"
-    ],
-    "replacement": [
-      "boltgun"
-    ]
-  },
-  {
-    "id": "renegade-enforcer-swap-1",
-    "unit_id": "renegade-enforcer",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "enforcer-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "autogun"
-      ],
-      [
-        "lasgun"
-      ],
-      [
-        "shotgun"
-      ]
-    ]
-  },
-  {
-    "id": "renegade-enforcer-swap-2",
-    "unit_id": "renegade-enforcer",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "enforcer-melee-weapon"
-    ],
-    "replacement_choice": [
-      [
-        "power-fist"
-      ],
-      [
-        "power-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "renegade-heavy-weapons-squad-swap-1",
-    "unit_id": "renegade-heavy-weapons-squad",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "any-numbers-of-models-heavy-stubbers"
-    ],
-    "replacement_choice": [
-      [
-        "autocannon"
-      ],
-      [
-        "heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ],
-      [
-        "missile-launcher"
-      ],
-      [
-        "mortar"
-      ]
-    ]
-  },
-  {
-    "id": "renegade-ogryn-brutes-swap-1",
-    "unit_id": "renegade-ogryn-brutes",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replaces": [
-      "ogryn-weapon"
-    ],
-    "replacement": [
-      "ogryn-power-drill"
-    ]
-  },
-  {
-    "id": "nemesis-claw-swap-1",
-    "unit_id": "nemesis-claw",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Visionary",
-      "max_count": 1
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol"
-    ]
-  },
-  {
-    "id": "nemesis-claw-swap-2",
-    "unit_id": "nemesis-claw",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Visionary",
-      "max_count": 1
-    },
-    "replaces": [
-      "nostraman-chainblade"
-    ],
-    "replacement_choice": [
-      [
-        "accursed-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ]
-  },
-  {
-    "id": "nemesis-claw-swap-3",
-    "unit_id": "nemesis-claw",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Legionaries",
-      "any_number": true
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement": [
-      "astartes-chainsword"
-    ]
-  },
-  {
-    "id": "nemesis-claw-swap-4",
-    "unit_id": "nemesis-claw",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "missile-launcher"
-      ]
-    ]
-  },
-  {
-    "id": "nemesis-claw-swap-5",
-    "unit_id": "nemesis-claw",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Legionary",
-      "max_count": 1
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "flamer"
-      ],
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
-      ]
-    ]
-  },
-  {
-    "id": "nemesis-claw-swap-6",
-    "unit_id": "nemesis-claw",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "accursed-weapon"
-      ],
-      [
-        "nostraman-chainglaive"
-      ],
-      [
-        "paired-accursed-weapons"
-      ],
-      [
-        "voice-eater",
-        "astartes-chainsword"
-      ]
-    ]
+    "is_free": true
   }
 ]

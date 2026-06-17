@@ -1,275 +1,153 @@
 [
   {
-    "id": "hive-tyrant-swap-1",
-    "unit_id": "hive-tyrant",
-    "is_free": true,
+    "id": "tyranid-warriors-with-ranged-bio-weapons-wgo-1",
+    "unit_id": "tyranid-warriors-with-ranged-bio-weapons",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "monstrous-bonesword",
-      "lash-whip"
+      "devourer"
     ],
     "replacement_choice": [
       [
-        "heavy-venom-cannon"
+        "deathspitter"
       ],
       [
-        "stranglethorn-cannon"
+        "spinefists"
       ],
       [
-        "monstrous-scything-talons"
+        "venom-cannon"
+      ],
+      [
+        "barbed-strangler"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "model_name": "Tyranid Prime",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "hive-tyrant-swap-2",
-    "unit_id": "hive-tyrant",
-    "is_free": true,
+    "id": "tyranid-warriors-with-ranged-bio-weapons-wgo-2",
+    "unit_id": "tyranid-warriors-with-ranged-bio-weapons",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "monstrous-scything-talons"
+      "devourer"
     ],
     "replacement_choice": [
       [
-        "heavy-venom-cannon"
+        "deathspitter"
       ],
       [
-        "stranglethorn-cannon"
+        "spinefists"
+      ],
+      [
+        "venom-cannon"
+      ],
+      [
+        "barbed-strangler"
       ]
-    ]
-  },
-  {
-    "id": "tervigon-swap-1",
-    "unit_id": "tervigon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "massive-scything-talons"
     ],
-    "replacement": [
-      "massive-crushing-claws"
-    ]
+    "model_constraint": {
+      "model_name": "Tyranid Warrior",
+      "any_number": true
+    },
+    "is_free": true
   },
   {
-    "id": "termagants-swap-1",
+    "id": "termagants-wgo-3",
     "unit_id": "termagants",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
+    "replacement": [
       "fleshborer"
     ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "termagants-wgo-4",
+    "unit_id": "termagants",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
     "replacement": [
       "termagant-devourer"
-    ]
-  },
-  {
-    "id": "termagants-swap-2",
-    "unit_id": "termagants",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "fleshborer"
     ],
-    "replacement": [
-      "termagant-spinefists"
-    ]
-  },
-  {
-    "id": "termagants-swap-3",
-    "unit_id": "termagants",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "per_n_models": 10
+      "max_count": 1
     },
-    "replaces": [
-      "ranged-weapon"
-    ],
-    "replacement": [
-      "shardlauncher"
-    ]
+    "is_free": true
   },
   {
-    "id": "termagants-swap-4",
-    "unit_id": "termagants",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "replaces": [
-      "ranged-weapon"
-    ],
-    "replacement": [
-      "spike-rifle"
-    ]
-  },
-  {
-    "id": "termagants-swap-5",
-    "unit_id": "termagants",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "replaces": [
-      "ranged-weapon"
-    ],
-    "replacement": [
-      "strangleweb"
-    ]
-  },
-  {
-    "id": "ripper-swarms-addon-1",
-    "unit_id": "ripper-swarms",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "spinemaws"
-    ]
-  },
-  {
-    "id": "tyrant-guard-swap-1",
+    "id": "tyrant-guard-wgo-5",
     "unit_id": "tyrant-guard",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "model_constraint": {
-      "any_number": true
-    },
     "replaces": [
-      "scything-talons",
-      "rending-claw"
+      "scything-talons-and-rending-claws"
     ],
     "replacement_choice": [
       [
-        "bone-cleaver-lash-whip",
-        "rending-claw"
+        "bone-cleaver-lash-whip-and-rending-claws"
       ],
       [
-        "crushing-claws",
-        "rending-claw"
+        "crushing-claws-and-rending-claws"
       ]
-    ]
-  },
-  {
-    "id": "hive-guard-swap-1",
-    "unit_id": "hive-guard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
       "any_number": true
     },
-    "replaces": [
-      "shockcannon"
-    ],
-    "replacement": [
-      "impaler-cannon"
-    ]
+    "is_free": true
   },
   {
-    "id": "sky-slasher-swarms-addon-1",
-    "unit_id": "sky-slasher-swarms",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replacement": [
-      "spinemaws"
-    ]
-  },
-  {
-    "id": "harpy-swap-1",
-    "unit_id": "harpy",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-stranglethorn-cannon"
-    ],
-    "replacement": [
-      "twin-heavy-venom-cannon"
-    ]
-  },
-  {
-    "id": "carnifexes-swap-1",
+    "id": "carnifexes-wgo-6",
     "unit_id": "carnifexes",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replacement": [
+      "bio-plasma"
+    ],
     "model_constraint": {
       "any_number": true
     },
-    "replaces": [
-      "carnifex-extra-scything-talons"
-    ],
-    "replacement_choice": [
-      [
-        "deathspitters-with-slimer-maggots"
-      ],
-      [
-        "devourers-with-brainleech-worms"
-      ],
-      [
-        "heavy-venom-cannon"
-      ],
-      [
-        "stranglethorn-cannon"
-      ],
-      [
-        "carnifex-crushing-claws"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "carnifexes-swap-2",
+    "id": "carnifexes-wgo-7",
     "unit_id": "carnifexes",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replacement": [
+      "spine-banks"
+    ],
     "model_constraint": {
       "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "carnifexes-wgo-8",
+    "unit_id": "carnifexes",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
     },
     "replaces": [
       "carnifex-scything-talons"
@@ -284,42 +162,83 @@
       [
         "carnifex-crushing-claws"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
   },
   {
-    "id": "carnifexes-addon-3",
+    "id": "carnifexes-wgo-9",
     "unit_id": "carnifexes",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replaces": [
+      "carnifex-extra-scything-talons"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-venom-cannon"
+      ],
+      [
+        "stranglethorn-cannon"
+      ],
+      [
+        "deathspitters-with-slimer-maggots"
+      ],
+      [
+        "devourers-with-brainleech-worms"
+      ],
+      [
+        "carnifex-crushing-claws"
+      ]
+    ],
     "model_constraint": {
       "any_number": true
     },
-    "replacement": [
-      "bio-plasma"
-    ]
+    "is_free": true
   },
   {
-    "id": "carnifexes-addon-4",
-    "unit_id": "carnifexes",
-    "is_free": true,
+    "id": "hive-guard-wgo-10",
+    "unit_id": "hive-guard",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replaces": [
+      "shockcannon"
+    ],
+    "replacement": [
+      "impaler-cannon"
+    ],
     "model_constraint": {
       "any_number": true
     },
-    "replacement": [
-      "spine-banks"
-    ]
+    "is_free": true
   },
   {
-    "id": "tyrannofex-swap-1",
+    "id": "tervigon-wgo-11",
+    "unit_id": "tervigon",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "massive-scything-talons"
+    ],
+    "replacement": [
+      "massive-crushing-claws"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "tyrannofex-wgo-12",
     "unit_id": "tyrannofex",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -329,24 +248,44 @@
     ],
     "replacement_choice": [
       [
-        "acid-spray"
+        "rupture-cannon"
       ],
       [
-        "rupture-cannon"
+        "acid-spray"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "winged-hive-tyrant-swap-1",
-    "unit_id": "winged-hive-tyrant",
-    "is_free": true,
+    "id": "harpy-wgo-13",
+    "unit_id": "harpy",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "monstrous-bonesword",
-      "lash-whip"
+      "twin-stranglethorn-cannon"
+    ],
+    "replacement": [
+      "twin-heavy-venom-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "hive-tyrant-wgo-14",
+    "unit_id": "hive-tyrant",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "monstrous-bonesword-and-lash-whip"
     ],
     "replacement_choice": [
       [
@@ -358,6 +297,59 @@
       [
         "monstrous-scything-talons"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "hive-tyrant-wgo-15",
+    "unit_id": "hive-tyrant",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "monstrous-scything-talons"
+    ],
+    "replacement_choice": [
+      [
+        "stranglethorn-cannon"
+      ],
+      [
+        "heavy-venom-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "winged-hive-tyrant-wgo-16",
+    "unit_id": "winged-hive-tyrant",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "monstrous-bonesword-and-lash-whip"
+    ],
+    "replacement_choice": [
+      [
+        "monstrous-scything-talons"
+      ],
+      [
+        "stranglethorn-cannon"
+      ],
+      [
+        "heavy-venom-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   }
 ]

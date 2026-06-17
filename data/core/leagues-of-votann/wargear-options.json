@@ -1,128 +1,65 @@
 [
   {
-    "id": "kahl-swap-1",
-    "unit_id": "kahl",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "autoch-pattem-combi-bolter"
-    ],
-    "replacement": [
-      "volkanite-disintegrator"
-    ]
-  },
-  {
-    "id": "kahl-swap-2",
-    "unit_id": "kahl",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "forgewrought-plasma-axe"
-    ],
-    "replacement": [
-      "mass-gauntlet"
-    ]
-  },
-  {
-    "id": "kahl-swap-3",
-    "unit_id": "kahl",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "rampart-crest"
-    ],
-    "replacement": [
-      "teleport-crest"
-    ]
-  },
-  {
-    "id": "einhyr-champion-swap-1",
-    "unit_id": "einhyr-champion",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "mass-hammer"
-    ],
-    "replacement": [
-      "darkstar-axe"
-    ]
-  },
-  {
-    "id": "einhyr-champion-swap-2",
-    "unit_id": "einhyr-champion",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "weavefield-crest"
-    ],
-    "replacement": [
-      "teleport-crest"
-    ]
-  },
-  {
-    "id": "hearthkyn-warriors-swap-1",
+    "id": "hearthkyn-warriors-wgo-1",
     "unit_id": "hearthkyn-warriors",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hearthkyn Warriors",
-      "any_number": true
     },
     "replaces": [
       "autoch-pattern-bolter"
     ],
-    "replacement": [
-      "ion-blaster"
-    ]
+    "replacement_choice": [
+      [
+        "ion-blaster"
+      ],
+      [
+        "plasma-knife"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 9
+    },
+    "is_free": true
   },
   {
-    "id": "hearthkyn-warriors-swap-3",
+    "id": "hearthkyn-warriors-wgo-2",
     "unit_id": "hearthkyn-warriors",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hearthkyn Warriors",
-      "max_count": 2
     },
     "replaces": [
-      "autoch-pattern-bolter-or-ion-blaster"
+      "autoch-pattern-bolter"
     ],
-    "replacement": [
-      "plasma-knife"
-    ]
+    "replacement_choice": [
+      [
+        "hylas-rotary-cannon"
+      ],
+      [
+        "hylas-auto-rifle"
+      ],
+      [
+        "l7-missile-launcher"
+      ],
+      [
+        "magna-rail-rifle"
+      ],
+      [
+        "etacarn-plasma-beamer"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
   },
   {
-    "id": "hearthkyn-warriors-swap-4",
+    "id": "hearthkyn-warriors-wgo-3",
     "unit_id": "hearthkyn-warriors",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Theyn",
-      "max_count": 1
     },
     "replaces": [
       "autoch-pattern-bolter"
@@ -134,28 +71,50 @@
       [
         "theyns-pistol"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "model_name": "Theyn",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "hearthkyn-warriors-addon-5",
+    "id": "hearthkyn-warriors-wgo-4",
     "unit_id": "hearthkyn-warriors",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "model_constraint": {
-      "model_name": "Theyn can be equipped with 1 Theyn",
-      "max_count": 1
-    },
     "replacement": [
       "theyns-melee-weapon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "einhyr-hearthguard-swap-1",
+    "id": "einhyr-hearthguard-wgo-5",
     "unit_id": "einhyr-hearthguard",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "weavefield-crest"
+    ],
+    "replacement": [
+      "teleport-crest"
+    ],
+    "model_constraint": {
+      "model_name": "Hesyr",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "einhyr-hearthguard-wgo-6",
+    "unit_id": "einhyr-hearthguard",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -165,12 +124,16 @@
     ],
     "replacement": [
       "volkanite-disintegrator"
-    ]
+    ],
+    "model_constraint": {
+      "model_name": "Einhyr Hearthguard",
+      "any_number": true
+    },
+    "is_free": true
   },
   {
-    "id": "einhyr-hearthguard-swap-2",
+    "id": "einhyr-hearthguard-wgo-7",
     "unit_id": "einhyr-hearthguard",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -180,106 +143,34 @@
     ],
     "replacement": [
       "plasma-blade-gauntlet"
-    ]
-  },
-  {
-    "id": "einhyr-hearthguard-swap-3",
-    "unit_id": "einhyr-hearthguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hesyr",
-      "max_count": 1
-    },
-    "replaces": [
-      "concussion-gauntlet-or-plasma-blade-gauntlet"
     ],
-    "replacement": [
-      "graviton-hammer"
-    ]
-  },
-  {
-    "id": "einhyr-hearthguard-swap-4",
-    "unit_id": "einhyr-hearthguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Hesyr",
-      "max_count": 1
+      "model_name": "Einhyr Hearthguard",
+      "any_number": true
     },
-    "replaces": [
-      "weavefield-crest"
-    ],
-    "replacement": [
-      "teleport-crest"
-    ]
+    "is_free": true
   },
   {
-    "id": "cthonian-beserks-swap-1",
+    "id": "cthonian-beserks-wgo-8",
     "unit_id": "cthonian-beserks",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
-      "heavy-plasma-axe"
+    "replacement": [
+      "mole-grenade-launcher"
     ],
-    "replacement": [
-      "concussion-maul"
-    ]
-  },
-  {
-    "id": "cthonian-beserks-swap-2",
-    "unit_id": "cthonian-beserks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "model that is not equipped with a mole grenade launcher",
-      "per_n_models": 5
+      "any_number": true
     },
-    "replaces": [
-      "heavy-plasma-axe-or-concussion-maul"
-    ],
-    "replacement": [
-      "twin-concussion-gauntlet"
-    ]
+    "is_free": true
   },
   {
-    "id": "cthonian-beserks-addon-3",
-    "unit_id": "cthonian-beserks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "model that is not equipped with a twin concussion gauntlet or a mole grenade launcher",
-      "per_n_models": 5
-    },
-    "replacement": [
-      "a-twin-concussion-gauntlet-or-a-mole-grenade-launcher-can-be-equipped-with-1-mole-grenade-launcher"
-    ]
-  },
-  {
-    "id": "hernkyn-pioneers-addon-1",
+    "id": "hernkyn-pioneers-wgo-9",
     "unit_id": "hernkyn-pioneers",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
     },
     "replacement_choice": [
       [
@@ -288,81 +179,306 @@
       [
         "ion-beamer"
       ]
-    ]
-  },
-  {
-    "id": "hernkyn-pioneers-addon-2",
-    "unit_id": "hernkyn-pioneers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
-      "model_name": "model that is not equipped with either a HYLas rotary cannon or an ion beamer",
-      "max_count": 1
+      "any_number": true
     },
-    "replacement": [
-      "either-a-hylas-rotary-cannon-or-an-ion-beamer-can-be-equipped-with-1-multiwave-comms-array"
-    ]
+    "is_free": true
   },
   {
-    "id": "hernkyn-pioneers-addon-3",
-    "unit_id": "hernkyn-pioneers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "model that is not equipped with either a HYLas rotary cannon or an ion beamer",
-      "max_count": 1
-    },
-    "replacement": [
-      "either-a-hylas-rotary-cannon-or-an-ion-beamer-can-be-equipped-with-1-panspectral-scanner"
-    ]
-  },
-  {
-    "id": "hernkyn-pioneers-addon-4",
-    "unit_id": "hernkyn-pioneers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "model that is not equipped with either a HYLas rotary cannon or an ion beamer",
-      "max_count": 1
-    },
-    "replacement": [
-      "either-a-hylas-rotary-cannon-or-an-ion-beamer-can-be-equipped-with-1-rollbar-searchlight"
-    ]
-  },
-  {
-    "id": "hekaton-land-fortress-swap-1",
-    "unit_id": "hekaton-land-fortress",
-    "is_free": true,
+    "id": "brokhyr-thunderkyn-wgo-10",
+    "unit_id": "brokhyr-thunderkyn",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "twin-bolt-cannon"
+      "bolt-cannon"
     ],
     "replacement_choice": [
       [
-        "twin-bolt-cannon",
-        "twin-ion-beamer"
+        "graviton-blast-cannon"
       ],
       [
-        "twin-ion-beamer"
+        "sp-conversion-beamer"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
   },
   {
-    "id": "hekaton-land-fortress-swap-2",
+    "id": "hernkyn-yaegirs-wgo-11",
+    "unit_id": "hernkyn-yaegirs",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-shotgun"
+    ],
+    "replacement_choice": [
+      [
+        "apm-launcher"
+      ],
+      [
+        "magna-coil-rifle"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "hernkyn-yaegirs-wgo-12",
+    "unit_id": "hernkyn-yaegirs",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-shotgun"
+    ],
+    "replacement": [
+      "bolt-revolver",
+      "plasma-knife"
+    ],
+    "model_constraint": {
+      "model_name": "Yaegir Theyn",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "kapricus-defenders-wgo-13",
+    "unit_id": "kapricus-defenders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "smoke-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kapricus-defenders-wgo-14",
+    "unit_id": "kapricus-defenders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "magna-rail-cannon"
+    ],
+    "replacement": [
+      "hylas-rotary-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators-wgo-15",
+    "unit_id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "heavy-volkanite-disintegrator",
+      "plasma-knife"
+    ],
+    "replacement": [
+      "autoch-pattern-bolter",
+      "plasma-sword"
+    ],
+    "model_constraint": {
+      "model_name": "Steeljack Theyn",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ironkin-steeljacks-with-melee-weapons-wgo-16",
+    "unit_id": "ironkin-steeljacks-with-melee-weapons",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "plasma-sword"
+    ],
+    "replacement": [
+      "concussion-gauntlet"
+    ],
+    "model_constraint": {
+      "max_count": 5
+    },
+    "is_free": true
+  },
+  {
+    "id": "ironkin-steeljacks-with-melee-weapons-wgo-17",
+    "unit_id": "ironkin-steeljacks-with-melee-weapons",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "plasma-sword"
+    ],
+    "replacement": [
+      "concussion-gauntlet"
+    ],
+    "model_constraint": {
+      "model_name": "Steeljack Theyn",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "cthonian-earthshakers-wgo-18",
+    "unit_id": "cthonian-earthshakers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "breacher-ordnance"
+      ],
+      [
+        "tremor-shells"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "kahl-wgo-19",
+    "unit_id": "kahl",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "rampart-crest"
+    ],
+    "replacement": [
+      "teleport-crest"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "kahl-wgo-20",
+    "unit_id": "kahl",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "forgewrought-plasma-axe"
+    ],
+    "replacement": [
+      "mass-gauntlet"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "kahl-wgo-21",
+    "unit_id": "kahl",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "autoch-pattern-combi-bolter"
+    ],
+    "replacement": [
+      "volkanite-disintegrator"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "einhyr-champion-wgo-22",
+    "unit_id": "einhyr-champion",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "weavefield-crest"
+    ],
+    "replacement": [
+      "teleport-crest"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "einhyr-champion-wgo-23",
+    "unit_id": "einhyr-champion",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "mass-hammer"
+    ],
+    "replacement": [
+      "darkstar-axe"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "sagitaur-wgo-24",
+    "unit_id": "sagitaur",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "hylas-beam-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "sagitaur-missile-launcher",
+        "l7-missile-launcher"
+      ],
+      [
+        "matr-autocannon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "hekaton-land-fortress-wgo-25",
     "unit_id": "hekaton-land-fortress",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -377,138 +493,58 @@
       [
         "heavy-magna-rail-cannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "hekaton-land-fortress-swap-3",
+    "id": "hekaton-land-fortress-wgo-26",
     "unit_id": "hekaton-land-fortress",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "panspectral-scanner"
+      "twin-bolt-cannon"
+    ],
+    "replacement": [
+      "twin-ion-beamer"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "hekaton-land-fortress-wgo-27",
+    "unit_id": "hekaton-land-fortress",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "pan-spectral-scanner"
     ],
     "replacement": [
       "hekaton-warhead"
-    ]
-  },
-  {
-    "id": "hernkyn-yaegirs-swap-1",
-    "unit_id": "hernkyn-yaegirs",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-shotgun"
     ],
-    "replacement": [
-      "bolt-revolver",
-      "plasma-knife"
-    ]
-  },
-  {
-    "id": "hernkyn-yaegirs-swap-2",
-    "unit_id": "hernkyn-yaegirs",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Hernkyn Yaegir",
       "max_count": 1
     },
-    "replaces": [
-      "bolt-revolver",
-      "plasma-knife-or-its-bolt-shotgun"
-    ],
-    "replacement": [
-      "magna-coil-rifle"
-    ]
+    "is_free": true
   },
   {
-    "id": "hernkyn-yaegirs-swap-3",
-    "unit_id": "hernkyn-yaegirs",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hernkyn Yaegir",
-      "max_count": 1
-    },
-    "replaces": [
-      "bolt-revolver",
-      "plasma-knife-or-its-bolt-shotgun"
-    ],
-    "replacement": [
-      "apm-launcher"
-    ]
-  },
-  {
-    "id": "cthonian-earthshakers-swap-1",
-    "unit_id": "cthonian-earthshakers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "breacher-ordnance"
-    ],
-    "replacement": [
-      "tremor-shells"
-    ]
-  },
-  {
-    "id": "kapricus-defenders-swap-1",
-    "unit_id": "kapricus-defenders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "models in this unit",
-      "any_number": true
-    },
-    "replaces": [
-      "magna-rail-cannon"
-    ],
-    "replacement": [
-      "hylas-rotary-cannon"
-    ]
-  },
-  {
-    "id": "kapricus-defenders-addon-2",
-    "unit_id": "kapricus-defenders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replacement": [
-      "smoke-launcher"
-    ]
-  },
-  {
-    "id": "kapricus-carrier-addon-1",
+    "id": "kapricus-carrier-wgo-28",
     "unit_id": "kapricus-carrier",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement": [
       "smoke-launcher"
-    ]
+    ],
+    "is_free": true
   }
 ]

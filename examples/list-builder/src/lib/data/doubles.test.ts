@@ -199,7 +199,7 @@ describe('doubles share fragment', () => {
 		const c = character();
 		const d = draft(
 			{ name: 'Alpha', detachmentIds: ['gladius-task-force'], units: [makeUnit(hero.id, { isWarlord: true })] },
-			{ name: 'Beta', units: [makeUnit(c.id, { enhancementId: 'artificer-armour' })] },
+			{ name: 'Beta', units: [makeUnit(c.id, { enhancementId: 'artificer-armour-gladius-task-force' })] },
 			750,
 		);
 		const decoded = decodeDoublesShare(encodeDoublesShare(d));
@@ -211,7 +211,9 @@ describe('doubles share fragment', () => {
 		expect(decoded.draft.armies[0].name).toBe('Alpha');
 		expect(decoded.draft.armies[0].detachmentIds).toEqual(['gladius-task-force']);
 		expect(decoded.draft.armies[0].units[0].isWarlord).toBe(true);
-		expect(decoded.draft.armies[1].units[0].enhancementId).toBe('artificer-armour');
+		// The share registry aliases the legacy `artificer-armour` id onto its
+		// canonical detachment-scoped form, so the round-trip returns the canonical id.
+		expect(decoded.draft.armies[1].units[0].enhancementId).toBe('artificer-armour-gladius-task-force');
 		expect(decoded.draft.armies.map(pointsLimit)).toEqual([750, 750]);
 	});
 

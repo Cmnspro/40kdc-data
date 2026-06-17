@@ -5788,37 +5788,6 @@
     }
   },
   {
-    "id": "firestorm-scatter-laser",
-    "name": "Firestorm scatter laser",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Firestorm scatter laser",
-        "range": 36,
-        "stats": {
-          "A": 16,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Fly",
-              "threshold": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "twin-shuriken-catapult",
     "name": "Twin shuriken catapult",
     "type": "ranged",
@@ -5882,110 +5851,6 @@
     }
   },
   {
-    "id": "phoenix-missile-array",
-    "name": "Phoenix missile array",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Phoenix missile array",
-        "range": 48,
-        "stats": {
-          "A": "D6",
-          "S": 6,
-          "AP": -1,
-          "D": 2,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "phoenix-pulse-laser",
-    "name": "Phoenix pulse laser",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Phoenix pulse laser",
-        "range": 48,
-        "stats": {
-          "A": 4,
-          "S": 10,
-          "AP": -2,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "twin-pulse-laser",
-    "name": "Twin pulse laser",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Twin pulse laser",
-        "range": 48,
-        "stats": {
-          "A": 3,
-          "S": 9,
-          "AP": -2,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "twin-vampire-pulsar",
-    "name": "Twin Vampire pulsar",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Twin Vampire pulsar",
-        "range": 60,
-        "stats": {
-          "A": 3,
-          "S": 12,
-          "AP": -3,
-          "D": 4,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "scatter-laser",
     "name": "Scatter laser",
     "type": "ranged",
@@ -6024,98 +5889,6 @@
           "WS": 4
         },
         "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "aeldari-missile-launcher",
-    "name": "Aeldari missile launcher",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "sunburst",
-        "range": 48,
-        "stats": {
-          "A": "D6",
-          "S": 4,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
-      },
-      {
-        "name": "starshot",
-        "range": 48,
-        "stats": {
-          "A": 1,
-          "S": 10,
-          "AP": -2,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "wasp-feet",
-    "name": "Wasp feet",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Wasp feet",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dissonance-pistol",
-    "name": "Dissonance pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Dissonance pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 6,
-          "AP": -1,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
       }
     ],
     "game_version": {
@@ -6251,36 +6024,6 @@
     }
   },
   {
-    "id": "brace-of-pistols",
-    "name": "Brace of pistols",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Brace of pistols",
-        "range": 12,
-        "stats": {
-          "A": 2,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "shardcarbine",
     "name": "Shardcarbine",
     "type": "ranged",
@@ -6305,36 +6048,6 @@
           },
           {
             "keyword_id": "assault"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "corsair-firearm",
-    "name": "Corsair firearm",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Corsair firearm",
-        "range": 24,
-        "stats": {
-          "A": 4,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "lethal-hits"
           }
         ]
       }
@@ -6378,132 +6091,6 @@
     }
   },
   {
-    "id": "void-sabre",
-    "name": "Void sabre",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Void sabre",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "spar-glaive",
-    "name": "Spar-glaive",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Spar-glaive",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ranger-long-rifle",
-    "name": "Ranger long rifle",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ranger long rifle",
-        "range": 36,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": -1,
-          "D": 2,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "heavy"
-          },
-          {
-            "keyword_id": "precision"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "power-blade",
-    "name": "Power blade",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Power blade",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "psytronome-shaper",
-    "name": "Psytronome shaper",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Psytronome shaper",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 3,
-          "AP": 0,
-          "D": "D3",
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "psychic"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "splinter-cannon",
     "name": "Splinter cannon",
     "type": "ranged",
@@ -6531,33 +6118,6 @@
             "parameters": {
               "value": 1
             }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dissonance-cannon",
-    "name": "Dissonance cannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Dissonance cannon",
-        "range": 24,
-        "stats": {
-          "A": 3,
-          "S": 6,
-          "AP": -1,
-          "D": 2,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
           }
         ]
       }

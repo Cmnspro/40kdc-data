@@ -1546,6 +1546,19 @@ export interface Unit {
     [k: string]: unknown;
   }[];
   /**
+   * 11e: alternate point costs that apply only when this unit is included in a host army of another faction (e.g. an Agents of the Imperium unit allied into any IMPERIUM army). Each entry mirrors a `points` tier but is scoped to a `host_faction`. Absent for the common case where the unit costs the same everywhere; consumers that don't model allied pricing read `points` (the native cost) and ignore this.
+   */
+  allied_points?: {
+    /**
+     * Kebab-case identifier
+     */
+    host_faction: string;
+    models: number;
+    cost: number;
+    unit_count_min?: number;
+    unit_count_max?: number | null;
+  }[];
+  /**
    * True when point costs are carried over provisionally (e.g. seeded from a prior edition during migration) and not yet confirmed against the current dataslate.
    */
   points_provisional?: boolean;

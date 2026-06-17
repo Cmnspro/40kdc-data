@@ -1,8 +1,66 @@
 [
   {
-    "id": "knight-paladin-swap-1",
+    "id": "armiger-warglaive-wgo-1",
+    "unit_id": "armiger-warglaive",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "questoris-heavy-stubber"
+    ],
+    "replacement": [
+      "meltagun"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "armiger-helverin-wgo-2",
+    "unit_id": "armiger-helverin",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "questoris-heavy-stubber"
+    ],
+    "replacement": [
+      "meltagun"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-paladin-wgo-3",
     "unit_id": "knight-paladin",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "twin-icarus-autocannon"
+      ],
+      [
+        "ironstorm-missile-pod"
+      ],
+      [
+        "stormspear-rocket-pod"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-paladin-wgo-4",
+    "unit_id": "knight-paladin",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -12,12 +70,15 @@
     ],
     "replacement": [
       "questoris-heavy-stubber"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-paladin-swap-2",
+    "id": "knight-paladin-wgo-5",
     "unit_id": "knight-paladin",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -27,32 +88,38 @@
     ],
     "replacement": [
       "thunderstrike-gauntlet"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-paladin-addon-3",
-    "unit_id": "knight-paladin",
-    "is_free": true,
+    "id": "knight-errant-wgo-6",
+    "unit_id": "knight-errant",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement_choice": [
       [
+        "twin-icarus-autocannon"
+      ],
+      [
         "ironstorm-missile-pod"
       ],
       [
         "stormspear-rocket-pod"
-      ],
-      [
-        "twin-icarus-autocannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-errant-swap-1",
+    "id": "knight-errant-wgo-7",
     "unit_id": "knight-errant",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -62,12 +129,15 @@
     ],
     "replacement": [
       "questoris-heavy-stubber"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-errant-swap-2",
+    "id": "knight-errant-wgo-8",
     "unit_id": "knight-errant",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -77,117 +147,38 @@
     ],
     "replacement": [
       "thunderstrike-gauntlet"
-    ]
-  },
-  {
-    "id": "knight-errant-addon-3",
-    "unit_id": "knight-errant",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "ironstorm-missile-pod"
-      ],
-      [
-        "stormspear-rocket-pod"
-      ],
-      [
-        "twin-icarus-autocannon"
-      ]
-    ]
-  },
-  {
-    "id": "knight-warden-swap-1",
-    "unit_id": "knight-warden",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "meltagun"
     ],
-    "replacement": [
-      "questoris-heavy-stubber"
-    ]
-  },
-  {
-    "id": "knight-warden-swap-2",
-    "unit_id": "knight-warden",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    "model_constraint": {
+      "max_count": 1
     },
-    "replaces": [
-      "reaper-chainsword"
-    ],
-    "replacement": [
-      "thunderstrike-gauntlet"
-    ]
+    "is_free": true
   },
   {
-    "id": "knight-warden-addon-3",
-    "unit_id": "knight-warden",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "ironstorm-missile-pod"
-      ],
-      [
-        "stormspear-rocket-pod"
-      ],
-      [
-        "twin-icarus-autocannon"
-      ]
-    ]
-  },
-  {
-    "id": "knight-gallant-swap-1",
+    "id": "knight-gallant-wgo-9",
     "unit_id": "knight-gallant",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "meltagun"
-    ],
-    "replacement": [
-      "questoris-heavy-stubber"
-    ]
-  },
-  {
-    "id": "knight-gallant-addon-2",
-    "unit_id": "knight-gallant",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement_choice": [
       [
+        "twin-icarus-autocannon"
+      ],
+      [
         "ironstorm-missile-pod"
       ],
       [
         "stormspear-rocket-pod"
-      ],
-      [
-        "twin-icarus-autocannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-crusader-swap-1",
-    "unit_id": "knight-crusader",
-    "is_free": true,
+    "id": "knight-gallant-wgo-10",
+    "unit_id": "knight-gallant",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -197,12 +188,74 @@
     ],
     "replacement": [
       "questoris-heavy-stubber"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-crusader-swap-2",
+    "id": "knight-warden-wgo-11",
+    "unit_id": "knight-warden",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "twin-icarus-autocannon"
+      ],
+      [
+        "ironstorm-missile-pod"
+      ],
+      [
+        "stormspear-rocket-pod"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-warden-wgo-12",
+    "unit_id": "knight-warden",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "meltagun"
+    ],
+    "replacement": [
+      "questoris-heavy-stubber"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-warden-wgo-13",
+    "unit_id": "knight-warden",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "reaper-chainsword"
+    ],
+    "replacement": [
+      "thunderstrike-gauntlet"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-crusader-wgo-14",
     "unit_id": "knight-crusader",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -211,34 +264,139 @@
       "thermal-cannon"
     ],
     "replacement": [
-      "rapid-fire-battle-cannon",
-      "questoris-heavy-stubber"
-    ]
+      "questoris-heavy-stubber",
+      "rapid-fire-battle-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "knight-crusader-addon-3",
+    "id": "knight-crusader-wgo-15",
     "unit_id": "knight-crusader",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement_choice": [
       [
+        "twin-icarus-autocannon"
+      ],
+      [
         "ironstorm-missile-pod"
       ],
       [
         "stormspear-rocket-pod"
-      ],
-      [
-        "twin-icarus-autocannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "acastus-knight-porphyrion-swap-1",
+    "id": "knight-crusader-wgo-16",
+    "unit_id": "knight-crusader",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "meltagun"
+    ],
+    "replacement": [
+      "questoris-heavy-stubber"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-preceptor-wgo-17",
+    "unit_id": "knight-preceptor",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "twin-icarus-autocannon"
+      ],
+      [
+        "ironstorm-missile-pod"
+      ],
+      [
+        "stormspear-rocket-pod"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-preceptor-wgo-18",
+    "unit_id": "knight-preceptor",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "reaper-chainsword"
+    ],
+    "replacement": [
+      "thunderstrike-gauntlet"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-castellan-wgo-19",
+    "unit_id": "knight-castellan",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shieldbreaker-missile-launcher",
+      "twin-siegebreaker-cannon"
+    ],
+    "replacement": [
+      "shieldbreaker-missile-launcher",
+      "twin-siegebreaker-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "knight-valiant-wgo-20",
+    "unit_id": "knight-valiant",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shieldbreaker-missile-launcher",
+      "twin-siegebreaker-cannon"
+    ],
+    "replacement": [
+      "shieldbreaker-missile-launcher",
+      "twin-siegebreaker-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "acastus-knight-porphyrion-wgo-21",
     "unit_id": "acastus-knight-porphyrion",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -248,18 +406,21 @@
     ],
     "replacement_choice": [
       [
+        "acastus-autocannon",
         "lascannon"
       ],
       [
-        "acastus-autocannon",
         "lascannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "acastus-knight-porphyrion-swap-2",
+    "id": "acastus-knight-porphyrion-wgo-22",
     "unit_id": "acastus-knight-porphyrion",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -269,12 +430,15 @@
     ],
     "replacement": [
       "helios-defence-missiles"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "questoris-knight-magaera-swap-1",
+    "id": "questoris-knight-magaera-wgo-23",
     "unit_id": "questoris-knight-magaera",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -285,12 +449,15 @@
     "replacement": [
       "hekaton-siege-claw",
       "twin-rad-cleanser"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "questoris-knight-styrix-swap-1",
+    "id": "questoris-knight-styrix-wgo-24",
     "unit_id": "questoris-knight-styrix",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -301,179 +468,47 @@
     "replacement": [
       "hekaton-siege-claw",
       "twin-rad-cleanser"
-    ]
-  },
-  {
-    "id": "armiger-helverin-swap-1",
-    "unit_id": "armiger-helverin",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "questoris-heavy-stubber"
     ],
-    "replacement": [
-      "meltagun"
-    ]
-  },
-  {
-    "id": "armiger-warglaive-swap-1",
-    "unit_id": "armiger-warglaive",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+    "model_constraint": {
+      "max_count": 1
     },
-    "replaces": [
-      "questoris-heavy-stubber"
-    ],
-    "replacement": [
-      "meltagun"
-    ]
+    "is_free": true
   },
   {
-    "id": "knight-preceptor-swap-1",
-    "unit_id": "knight-preceptor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "questoris-multi-laser"
-    ],
-    "replacement_choice": [
-      [
-        "meltagun"
-      ],
-      [
-        "questoris-heavy-stubber"
-      ]
-    ]
-  },
-  {
-    "id": "knight-preceptor-swap-2",
-    "unit_id": "knight-preceptor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "reaper-chainsword"
-    ],
-    "replacement": [
-      "thunderstrike-gauntlet"
-    ]
-  },
-  {
-    "id": "knight-preceptor-addon-3",
-    "unit_id": "knight-preceptor",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "ironstorm-missile-pod"
-      ],
-      [
-        "stormspear-rocket-pod"
-      ],
-      [
-        "twin-icarus-autocannon"
-      ]
-    ]
-  },
-  {
-    "id": "knight-castellan-swap-1",
-    "unit_id": "knight-castellan",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shieldbreaker-missile-launcher",
-      "twin-siegebreaker-cannon"
-    ],
-    "replacement": [
-      "shieldbreaker-missile-launcher",
-      "twin-siegebreaker-cannon"
-    ]
-  },
-  {
-    "id": "knight-valiant-swap-1",
-    "unit_id": "knight-valiant",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shieldbreaker-missile-launcher",
-      "twin-siegebreaker-cannon"
-    ],
-    "replacement": [
-      "shieldbreaker-missile-launcher",
-      "twin-siegebreaker-cannon"
-    ]
-  },
-  {
-    "id": "armiger-moirax-swap-1",
+    "id": "armiger-moirax-wgo-25",
     "unit_id": "armiger-moirax",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
-      "graviton-pulsar"
+    "replacement": [
+      "lightning-lock"
     ],
-    "replacement_choice": [
-      [
-        "siege-claw",
-        "rad-cleanser"
-      ],
-      [
-        "lightning-lock"
-      ],
-      [
-        "conversion-beam-cannon"
-      ],
-      [
-        "volkite-veuglaire"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "armiger-moirax-swap-2",
+    "id": "armiger-moirax-wgo-26",
     "unit_id": "armiger-moirax",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "replaces": [
-      "volkite-veuglaire"
+    "replacement": [
+      "conversion-beam-cannon"
     ],
-    "replacement_choice": [
-      [
-        "siege-claw",
-        "rad-cleanser"
-      ],
-      [
-        "graviton-pulsar"
-      ],
-      [
-        "lightning-lock"
-      ],
-      [
-        "conversion-beam-cannon"
-      ]
-    ]
+    "is_free": true
+  },
+  {
+    "id": "armiger-moirax-wgo-27",
+    "unit_id": "armiger-moirax",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "siege-claw",
+      "rad-cleanser"
+    ],
+    "is_free": true
   }
 ]

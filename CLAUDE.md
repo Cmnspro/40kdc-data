@@ -198,12 +198,19 @@ across implementations by the `conformance/share/` corpus.
   each entry. Coverage is tracked by `npm run audit:store-coverage`
   (`data/_audit/store-coverage.md`). As with all raw text, it lands ONLY in the
   out-of-repo store, never in this repo.
-- **online MFM** (`mfm.warhammer-community.com`): the official Munitorum Field
-  Manual. **Authoritative** source for unit/enhancement points (overrides the
-  army-assist points above). Run `npx tsx tools/src/sync-mfm-points.ts` (dry run +
-  report) then `--write` to apply; full runbook in
-  [`tools/docs/mfm-points-sync.md`](tools/docs/mfm-points-sync.md). Models 11e
+- **GW MFM dump** (`_private/dump.json`, gitignored): the official Munitorum Field
+  Manual data export — a ~30MB UUID-keyed relational dump (`data_version 867`,
+  ~130 tables: datasheets, loadouts, enhancements, detachment rules, stratagems,
+  missions). **Authoritative** for the live game; supersedes army-assist →
+  convert-faction as the upstream for mechanical data. Run
+  `npx tsx tools/src/ingest-mfm.ts <subcommand>` (coverage / dispositions /
+  enhancements / points / wargear / stratagems / missions / cull-legends) — dry
+  run + `_reports/mfm-*.md` report by default, `--write` to apply, unmatched rows
+  to `_private/mfm/`. The loader/faction-map live in `tools/src/mfm/`. Models 11e
   per-army-ordinal pricing via `unit_count_min`/`unit_count_max` on unit `points`.
+  Numeric/structural fields land in the repo; GW prose routes to the out-of-repo
+  store. NB: unrelated to the NewRecruit roster-builder import/export feature
+  (`tools/src/{import,export}/newrecruit-*`), which keeps that name.
 
 ## Ability ids, the raw-text store, and share tokens
 
@@ -281,6 +288,25 @@ upstream. Resync with `git switch main && git fetch upstream && git merge --ff-o
 upstream/main && git push origin main`. After a feature merges upstream, rebase any
 descendant branch with `git rebase --onto main <old-base>` + `--force-with-lease`.
 Commit/stash before switching branches — uncommitted changes follow you across `git switch`.
+
+## Versioning
+
+`1.0.0` is the stable baseline (declared when the BSData wargear regen retired the
+army-assist lineage and the share registry reached v6). From here:
+
+- **Patch** (`1.0.x`) — bugfixes and corrections to existing data/behavior.
+- **Minor** (`1.x.0`) — MFM dataslate ingests, new faction packs, and other
+  additive content/feature drops.
+- **Major** (`x.0.0`) — reserved for breaking schema/API/wire-format changes.
+
+The four version files move **together** — `tools/package.json`,
+`crates/wh40kdc/Cargo.toml`, `python/src/wh40kdc/_version.py`, and `go/version.go`
+(`const Version`). CI (`validate.yml`) hard-fails on any drift between them.
+
+Pre-`1.0.0` share links carry **no** compatibility guarantee; the v6 registry is
+the first baseline whose tokens are expected to keep decoding. Past v6, an id
+rename must be carried in `data/share-registry.json` `aliases` (see the share-token
+section above) rather than tombstoned.
 
 ## Commit Style
 

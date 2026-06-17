@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
-import { defineConfig, type Plugin } from "vite";
+import type { Plugin } from "vite";
+import { configDefaults, defineConfig } from "vitest/config";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { buildSha, dataPackageVersion } from "../_shared/build-stamp.js";
@@ -83,5 +84,10 @@ export default defineConfig({
     // Footer staleness stamp: bundled dataset version + build commit.
     __DATA_VERSION__: JSON.stringify(dataPackageVersion(import.meta.url)),
     __BUILD_SHA__: JSON.stringify(buildSha()),
+  },
+  test: {
+    // The `e2e/` specs are Playwright (run via `npm run test:e2e`); keep them
+    // out of vitest's default glob so `npm test` doesn't try to collect them.
+    exclude: [...configDefaults.exclude, "e2e/**"],
   },
 });

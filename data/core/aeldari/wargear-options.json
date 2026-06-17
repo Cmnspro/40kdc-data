@@ -1,8 +1,7 @@
 [
   {
-    "id": "autarch-swap-1",
-    "unit_id": "autarch",
-    "is_free": true,
+    "id": "corsair-voidreavers-wgo-1",
+    "unit_id": "corsair-voidreavers",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -12,131 +11,242 @@
     ],
     "replacement_choice": [
       [
-        "death-spinner"
+        "neuro-disruptor"
       ],
       [
-        "dragon-fusion-gun"
-      ],
-      [
-        "dragon-fusion-pistol"
-      ],
-      [
-        "reaper-launcher"
+        "shuriken-rifle"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "model_name": "Voidreaver Felarch",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "autarch-swap-2",
-    "unit_id": "autarch",
-    "is_free": true,
+    "id": "corsair-voidreavers-wgo-2",
+    "unit_id": "corsair-voidreavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "mistshield"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "corsair-voidscarred-wgo-3",
+    "unit_id": "corsair-voidscarred",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "star-glaive"
+      "power-sword"
+    ],
+    "replacement": [
+      "paired-hekatarii-blades"
+    ],
+    "model_constraint": {
+      "per_n_models": 19
+    },
+    "is_free": true
+  },
+  {
+    "id": "corsair-voidscarred-wgo-4",
+    "unit_id": "corsair-voidscarred",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "power-sword"
+    ],
+    "replacement": [
+      "fusion-pistol"
+    ],
+    "model_constraint": {
+      "per_n_models": 19
+    },
+    "is_free": true
+  },
+  {
+    "id": "corsair-voidscarred-wgo-5",
+    "unit_id": "corsair-voidscarred",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
     ],
     "replacement_choice": [
       [
-        "banshee-blade"
+        "neuro-disruptor"
       ],
       [
-        "scorpion-chainsword"
+        "shuriken-rifle"
       ]
-    ]
-  },
-  {
-    "id": "farseer-swap-1",
-    "unit_id": "farseer",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "witchblade"
     ],
-    "replacement": [
-      "singing-spear"
-    ]
-  },
-  {
-    "id": "farseer-skyrunner-swap-1",
-    "unit_id": "farseer-skyrunner",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "witchblade"
-    ],
-    "replacement": [
-      "singing-spear"
-    ]
-  },
-  {
-    "id": "warlock-conclave-swap-1",
-    "unit_id": "warlock-conclave",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "witchblade"
-    ],
-    "replacement": [
-      "singing-spear"
-    ]
-  },
-  {
-    "id": "warlock-swap-1",
-    "unit_id": "warlock",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "witchblade"
-    ],
-    "replacement": [
-      "singing-spear"
-    ]
-  },
-  {
-    "id": "warlock-skyrunners-swap-1",
-    "unit_id": "warlock-skyrunners",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "witchblade"
-    ],
-    "replacement": [
-      "singing-spear"
-    ]
-  },
-  {
-    "id": "guardian-defenders-swap-1",
-    "unit_id": "guardian-defenders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Heavy Weapon Platform",
+      "model_name": "Voidscarred Felarch",
       "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "corsair-voidscarred-wgo-6",
+    "unit_id": "corsair-voidscarred",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "mistshield"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "dark-reapers-wgo-7",
+    "unit_id": "dark-reapers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "reaper-launcher"
+    ],
+    "replacement_choice": [
+      [
+        "shuriken-cannon"
+      ],
+      [
+        "tempest-launcher"
+      ],
+      [
+        "missile-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Dark Reaper Exarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "dark-reapers-wgo-8",
+    "unit_id": "dark-reapers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "aspect-shrine-token"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "dire-avengers-wgo-9",
+    "unit_id": "dire-avengers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "avenger-shuriken-catapult"
+    ],
+    "replacement_choice": [
+      [
+        "diresword",
+        "shuriken-pistol"
+      ],
+      [
+        "avenger-shuriken-catapult"
+      ],
+      [
+        "diresword"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Dire Avenger Exarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "dire-avengers-wgo-10",
+    "unit_id": "dire-avengers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "aspect-shrine-token"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "fire-dragons-wgo-11",
+    "unit_id": "fire-dragons",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "exarchs-dragon-fusion-gun"
+    ],
+    "replacement_choice": [
+      [
+        "dragons-breath-flamer"
+      ],
+      [
+        "firepike"
+      ],
+      [
+        "dragon-axe",
+        "dragon-fusion-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Fire Dragon Exarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "fire-dragons-wgo-12",
+    "unit_id": "fire-dragons",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "aspect-shrine-token"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "guardian-defenders-wgo-13",
+    "unit_id": "guardian-defenders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
     },
     "replaces": [
       "shuriken-cannon"
@@ -154,459 +264,64 @@
       [
         "starcannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "model_name": "Heavy Weapon Platform",
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "storm-guardians-swap-1",
-    "unit_id": "storm-guardians",
-    "is_free": true,
+    "id": "howling-banshees-wgo-14",
+    "unit_id": "howling-banshees",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "model_constraint": {
-      "model_name": "Storm Guardians",
-      "max_count": 2
-    },
     "replaces": [
+      "banshee-blade",
       "shuriken-pistol"
-    ],
-    "replacement": [
-      "flamer"
-    ]
-  },
-  {
-    "id": "storm-guardians-swap-2",
-    "unit_id": "storm-guardians",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Storm Guardians",
-      "max_count": 2
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement": [
-      "fusion-gun"
-    ]
-  },
-  {
-    "id": "storm-guardians-swap-3",
-    "unit_id": "storm-guardians",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Storm Guardians",
-      "max_count": 2
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "power-sword"
-    ]
-  },
-  {
-    "id": "windriders-swap-1",
-    "unit_id": "windriders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "twin-shuriken-catapult"
     ],
     "replacement_choice": [
       [
-        "scatter-laser"
-      ],
-      [
-        "shuriken-cannon"
-      ]
-    ]
-  },
-  {
-    "id": "dire-avengers-swap-1",
-    "unit_id": "dire-avengers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Dire Avenger Exarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "avenger-shuriken-catapult"
-    ],
-    "replacement_choice": [
-      [
-        "diresword"
-      ],
-      [
-        "power-glaive"
-      ]
-    ]
-  },
-  {
-    "id": "dire-avengers-addon-2",
-    "unit_id": "dire-avengers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "avenger-shuriken-catapult-it-can-be-equipped-with-1-additional-avenger-shuriken-catapult"
-    ]
-  },
-  {
-    "id": "dire-avengers-swap-3",
-    "unit_id": "dire-avengers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Dire Avenger Exarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement": [
-      "shimmershield"
-    ]
-  },
-  {
-    "id": "dire-avengers-addon-4",
-    "unit_id": "dire-avengers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "aspect-shrine-token"
-    ]
-  },
-  {
-    "id": "howling-banshees-swap-1",
-    "unit_id": "howling-banshees",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Howling Banshee Exarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "banshee-blade"
-    ],
-    "replacement": [
-      "of-the-following-1-executioner1-triskele"
-    ]
-  },
-  {
-    "id": "howling-banshees-swap-2",
-    "unit_id": "howling-banshees",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Howling Banshee Exarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "shuriken-pistol",
-      "banshee-blade"
-    ],
-    "replacement": [
-      "mirrorswords"
-    ]
-  },
-  {
-    "id": "howling-banshees-addon-3",
-    "unit_id": "howling-banshees",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "aspect-shrine-token"
-    ]
-  },
-  {
-    "id": "striking-scorpions-swap-1",
-    "unit_id": "striking-scorpions",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Striking Scorpion Exarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "shuriken-pistol",
-      "scorpion-chainsword",
-      "scorpions-claw"
-    ],
-    "replacement_choice": [
-      [
-        "biting-blade",
+        "executioner",
         "shuriken-pistol"
       ],
       [
-        "chainsabres"
+        "triskele",
+        "shuriken-pistol"
+      ],
+      [
+        "mirrorswords"
       ]
-    ]
-  },
-  {
-    "id": "striking-scorpions-addon-2",
-    "unit_id": "striking-scorpions",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "aspect-shrine-token"
-    ]
-  },
-  {
-    "id": "fire-dragons-swap-1",
-    "unit_id": "fire-dragons",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Fire Dragon Exarch model",
+      "model_name": "Howling Banshee Exarch",
       "max_count": 1
     },
-    "replaces": [
-      "exarchs-dragon-fusion-gun"
-    ],
-    "replacement": [
-      "of-the-following-1-dragons-breath-flamer1-dragon-fusion-pistol",
-      "dragon-axe1-firepike"
-    ]
+    "is_free": true
   },
   {
-    "id": "fire-dragons-addon-2",
-    "unit_id": "fire-dragons",
-    "is_free": true,
+    "id": "howling-banshees-wgo-15",
+    "unit_id": "howling-banshees",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
     },
     "replacement": [
       "aspect-shrine-token"
-    ]
-  },
-  {
-    "id": "wraithguard-swap-1",
-    "unit_id": "wraithguard",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "wraithcannon"
     ],
-    "replacement": [
-      "d-scythe"
-    ]
-  },
-  {
-    "id": "wraithblades-swap-1",
-    "unit_id": "wraithblades",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "ghostswords"
-    ],
-    "replacement": [
-      "ghostaxe",
-      "forceshield"
-    ]
-  },
-  {
-    "id": "wave-serpent-swap-1",
-    "unit_id": "wave-serpent",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-shuriken-cannon"
-    ],
-    "replacement_choice": [
-      [
-        "twin-missile-launcher"
-      ],
-      [
-        "twin-bright-lance"
-      ],
-      [
-        "twin-scatter-laser"
-      ],
-      [
-        "twin-starcannon"
-      ]
-    ]
-  },
-  {
-    "id": "wave-serpent-swap-2",
-    "unit_id": "wave-serpent",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-shuriken-catapult"
-    ],
-    "replacement": [
-      "shuriken-cannon"
-    ]
-  },
-  {
-    "id": "swooping-hawks-swap-1",
-    "unit_id": "swooping-hawks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Swooping Hawk Exarch",
-      "max_count": 1
+      "max_count": 2
     },
-    "replaces": [
-      "hawks-talon"
-    ],
-    "replacement_choice": [
-      [
-        "exarchs-lasblaster"
-      ],
-      [
-        "sunpistol",
-        "power-sword"
-      ],
-      [
-        "scatter-laser"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "swooping-hawks-addon-2",
-    "unit_id": "swooping-hawks",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "aspect-shrine-token"
-    ]
-  },
-  {
-    "id": "warp-spiders-swap-1",
-    "unit_id": "warp-spiders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Warp Spider Exarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "exarchs-death-spinner"
-    ],
-    "replacement_choice": [
-      [
-        "spinneret-rifle",
-        "death-weavers"
-      ],
-      [
-        "powerblades",
-        "death-weavers"
-      ],
-      [
-        "powerblade-array"
-      ]
-    ]
-  },
-  {
-    "id": "warp-spiders-addon-2",
-    "unit_id": "warp-spiders",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "aspect-shrine-token"
-    ]
-  },
-  {
-    "id": "shining-spears-swap-1",
+    "id": "shining-spears-wgo-16",
     "unit_id": "shining-spears",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Shining Spear Exarch",
-      "max_count": 1
     },
     "replaces": [
       "laser-lance"
@@ -618,102 +333,414 @@
       [
         "star-lance"
       ]
-    ]
-  },
-  {
-    "id": "shining-spears-swap-2",
-    "unit_id": "shining-spears",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
       "model_name": "Shining Spear Exarch",
       "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "shining-spears-wgo-17",
+    "unit_id": "shining-spears",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
     },
     "replaces": [
       "twin-shuriken-catapult"
     ],
     "replacement": [
       "shuriken-cannon"
-    ]
-  },
-  {
-    "id": "shining-spears-addon-3",
-    "unit_id": "shining-spears",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    ],
     "model_constraint": {
       "model_name": "Shining Spear Exarch",
       "max_count": 1
     },
+    "is_free": true
+  },
+  {
+    "id": "shining-spears-wgo-18",
+    "unit_id": "shining-spears",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
     "replacement": [
       "shimmershield"
-    ]
-  },
-  {
-    "id": "crimson-hunter-swap-1",
-    "unit_id": "crimson-hunter",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "starcannon"
     ],
-    "replacement": [
-      "bright-lance"
-    ]
-  },
-  {
-    "id": "dark-reapers-swap-1",
-    "unit_id": "dark-reapers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Dark Reaper Exarch",
       "max_count": 1
     },
-    "replaces": [
-      "reaper-launcher"
-    ],
-    "replacement": [
-      "of-the-following-1-missile-launcher1-shuriken-cannon1-tempest-launcher"
-    ]
+    "is_free": true
   },
   {
-    "id": "dark-reapers-addon-2",
-    "unit_id": "dark-reapers",
-    "is_free": true,
+    "id": "skyweavers-wgo-19",
+    "unit_id": "skyweavers",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replaces": [
+      "shuriken-cannon"
+    ],
+    "replacement": [
+      "skyweaver-haywire-cannon"
+    ],
     "model_constraint": {
-      "per_n_models": 5
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "skyweavers-wgo-20",
+    "unit_id": "skyweavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "star-bolas"
+    ],
+    "replacement": [
+      "zephyrglaive"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "storm-guardians-wgo-21",
+    "unit_id": "storm-guardians",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "flamer"
+      ],
+      [
+        "fusion-gun"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "storm-guardians-wgo-22",
+    "unit_id": "storm-guardians",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "power-sword"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "striking-scorpions-wgo-23",
+    "unit_id": "striking-scorpions",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "scorpion-chainsword",
+      "scorpions-claw",
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "chainsabres"
+      ],
+      [
+        "biting-blade",
+        "shuriken-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Striking Scorpion Exarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "striking-scorpions-wgo-24",
+    "unit_id": "striking-scorpions",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
     },
     "replacement": [
       "aspect-shrine-token"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
   },
   {
-    "id": "falcon-swap-1",
-    "unit_id": "falcon",
-    "is_free": true,
+    "id": "swooping-hawks-wgo-25",
+    "unit_id": "swooping-hawks",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replaces": [
-      "scatter-laser"
+      "hawks-talon"
+    ],
+    "replacement_choice": [
+      [
+        "exarchs-lasblaster"
+      ],
+      [
+        "scatter-laser"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Swooping Hawk Exarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "swooping-hawks-wgo-26",
+    "unit_id": "swooping-hawks",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "aspect-shrine-token"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "troupe-wgo-27",
+    "unit_id": "troupe",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "harlequins-blade"
+    ],
+    "replacement": [
+      "harlequins-special-weapon"
+    ],
+    "model_constraint": {
+      "max_count": 11
+    },
+    "is_free": true
+  },
+  {
+    "id": "troupe-wgo-28",
+    "unit_id": "troupe",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "harlequins-blade"
+    ],
+    "replacement": [
+      "harlequins-special-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Lead Player",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "troupe-wgo-29",
+    "unit_id": "troupe",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "fusion-pistol"
+      ],
+      [
+        "neuro-disruptor"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Lead Player",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "warlock-conclave-wgo-30",
+    "unit_id": "warlock-conclave",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "witchblade"
+    ],
+    "replacement": [
+      "singing-spear"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "warp-spiders-wgo-31",
+    "unit_id": "warp-spiders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "exarchs-death-spinner"
+    ],
+    "replacement_choice": [
+      [
+        "death-weavers",
+        "spinneret-rifle"
+      ],
+      [
+        "powerblades",
+        "death-weavers"
+      ],
+      [
+        "powerblade-array"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Warp Spider Exarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "warp-spiders-wgo-32",
+    "unit_id": "warp-spiders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "aspect-shrine-token"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "is_free": true
+  },
+  {
+    "id": "windriders-wgo-33",
+    "unit_id": "windriders",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "twin-shuriken-catapult"
+    ],
+    "replacement_choice": [
+      [
+        "scatter-laser"
+      ],
+      [
+        "shuriken-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "wraithguard-wgo-34",
+    "unit_id": "wraithguard",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "wraithcannon"
+    ],
+    "replacement": [
+      "d-scythe"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "wraithblades-wgo-35",
+    "unit_id": "wraithblades",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "ghostswords"
+    ],
+    "replacement": [
+      "ghostaxe"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "warlock-skyrunners-wgo-36",
+    "unit_id": "warlock-skyrunners",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "witchblade"
+    ],
+    "replacement": [
+      "singing-spear"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "war-walkers-wgo-37",
+    "unit_id": "war-walkers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-cannon"
     ],
     "replacement_choice": [
       [
@@ -723,17 +750,288 @@
         "bright-lance"
       ],
       [
-        "shuriken-cannon"
+        "scatter-laser"
       ],
       [
         "starcannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
   },
   {
-    "id": "falcon-swap-2",
+    "id": "ynnari-kabalite-warriors-wgo-38",
+    "unit_id": "ynnari-kabalite-warriors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "blast-pistol"
+      ],
+      [
+        "splinter-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-kabalite-warriors-wgo-39",
+    "unit_id": "ynnari-kabalite-warriors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "sybarite-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-kabalite-warriors-wgo-40",
+    "unit_id": "ynnari-kabalite-warriors",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "phantasm-grenade-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-incubi-wgo-41",
+    "unit_id": "ynnari-incubi",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "klaive"
+    ],
+    "replacement": [
+      "demiklaives"
+    ],
+    "model_constraint": {
+      "model_name": "Klaivex",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-reavers-wgo-42",
+    "unit_id": "ynnari-reavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "blaster"
+      ],
+      [
+        "heat-lance"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Arena Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-reavers-wgo-43",
+    "unit_id": "ynnari-reavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement_choice": [
+      [
+        "cluster-caltrops"
+      ],
+      [
+        "grav-talon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Arena Champion",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "corsair-skyreavers-wgo-44",
+    "unit_id": "corsair-skyreavers",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "neuro-disruptor"
+      ],
+      [
+        "blast-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Skyreaver Felarch",
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "autarch-wgo-45",
+    "unit_id": "autarch",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "star-glaive"
+    ],
+    "replacement_choice": [
+      [
+        "scorpion-chainsword"
+      ],
+      [
+        "banshee-blade"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "autarch-wgo-46",
+    "unit_id": "autarch",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "reaper-launcher"
+      ],
+      [
+        "death-spinner"
+      ],
+      [
+        "dragon-fusion-gun"
+      ],
+      [
+        "dragon-fusion-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "autarch-wayleaper-wgo-47",
+    "unit_id": "autarch-wayleaper",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "star-glaive"
+    ],
+    "replacement_choice": [
+      [
+        "scorpion-chainsword"
+      ],
+      [
+        "banshee-blade"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "autarch-wayleaper-wgo-48",
+    "unit_id": "autarch-wayleaper",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "reaper-launcher"
+      ],
+      [
+        "death-spinner"
+      ],
+      [
+        "dragon-fusion-gun"
+      ],
+      [
+        "dragon-fusion-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "crimson-hunter-wgo-49",
+    "unit_id": "crimson-hunter",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "starcannon"
+    ],
+    "replacement": [
+      "bright-lance"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "falcon-wgo-50",
     "unit_id": "falcon",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -743,12 +1041,80 @@
     ],
     "replacement": [
       "shuriken-cannon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "fire-prism-swap-1",
+    "id": "falcon-wgo-51",
+    "unit_id": "falcon",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "missile-launcher"
+      ],
+      [
+        "bright-lance"
+      ],
+      [
+        "scatter-laser"
+      ],
+      [
+        "starcannon"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "farseer-wgo-52",
+    "unit_id": "farseer",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "witchblade"
+    ],
+    "replacement": [
+      "singing-spear"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "farseer-skyrunner-wgo-53",
+    "unit_id": "farseer-skyrunner",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "witchblade"
+    ],
+    "replacement": [
+      "singing-spear"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "fire-prism-wgo-54",
     "unit_id": "fire-prism",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -758,12 +1124,15 @@
     ],
     "replacement": [
       "shuriken-cannon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "night-spinner-swap-1",
+    "id": "night-spinner-wgo-55",
     "unit_id": "night-spinner",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -773,12 +1142,212 @@
     ],
     "replacement": [
       "shuriken-cannon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "wraithlord-swap-1",
+    "id": "shadowseer-wgo-56",
+    "unit_id": "shadowseer",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement": [
+      "neuro-disruptor"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "troupe-master-wgo-57",
+    "unit_id": "troupe-master",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "harlequins-special-weapon"
+    ],
+    "replacement": [
+      "troupe-masters-blade"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "troupe-master-wgo-58",
+    "unit_id": "troupe-master",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "fusion-pistol"
+      ],
+      [
+        "neuro-disruptor"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "voidweaver-wgo-59",
+    "unit_id": "voidweaver",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "voidweaver-haywire-cannon"
+    ],
+    "replacement": [
+      "prismatic-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "warlock-wgo-60",
+    "unit_id": "warlock",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "witchblade"
+    ],
+    "replacement": [
+      "singing-spear"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "wave-serpent-wgo-61",
+    "unit_id": "wave-serpent",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "twin-shuriken-catapult"
+    ],
+    "replacement": [
+      "shuriken-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "wraithknight-wgo-62",
+    "unit_id": "wraithknight",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "scattershield"
+    ],
+    "replacement": [
+      "heavy-wraithcannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "wraithknight-wgo-63",
+    "unit_id": "wraithknight",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "suncannon"
+    ],
+    "replacement": [
+      "heavy-wraithcannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "wraithknight-wgo-64",
+    "unit_id": "wraithknight",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "scatter-laser"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "wraithknight-wgo-65",
+    "unit_id": "wraithknight",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "shuriken-cannon"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "wraithknight-wgo-66",
+    "unit_id": "wraithknight",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "starcannon"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "wraithlord-wgo-67",
     "unit_id": "wraithlord",
-    "is_free": true,
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "ghostglaive"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "wraithlord-wgo-68",
+    "unit_id": "wraithlord",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -788,171 +1357,15 @@
     ],
     "replacement": [
       "flamer"
-    ]
-  },
-  {
-    "id": "wraithlord-addon-2",
-    "unit_id": "wraithlord",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "ghostglaive"
-    ]
-  },
-  {
-    "id": "wraithlord-addon-3",
-    "unit_id": "wraithlord",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "up-to-two-of-the-following-1-missile-launcher1-bright-lance1-scatter-laser1-shuriken-cannon1-starcannon"
-    ]
-  },
-  {
-    "id": "wasp-assault-walker-swap-1",
-    "unit_id": "wasp-assault-walker",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "scatter-laser"
     ],
-    "replacement_choice": [
-      [
-        "aeldari-missile-launcher"
-      ],
-      [
-        "bright-lance"
-      ],
-      [
-        "shuriken-cannon"
-      ],
-      [
-        "starcannon"
-      ]
-    ]
-  },
-  {
-    "id": "wasp-assault-walker-swap-2",
-    "unit_id": "wasp-assault-walker",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-cannon"
-    ],
-    "replacement_choice": [
-      [
-        "aeldari-missile-launcher"
-      ],
-      [
-        "bright-lance"
-      ],
-      [
-        "scatter-laser"
-      ],
-      [
-        "starcannon"
-      ]
-    ]
-  },
-  {
-    "id": "revenant-titan-swap-1",
-    "unit_id": "revenant-titan",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "revenant-pulsar"
-    ],
-    "replacement": [
-      "sonic-lance"
-    ]
-  },
-  {
-    "id": "revenant-titan-swap-2",
-    "unit_id": "revenant-titan",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "sonic-lance"
-    ],
-    "replacement": [
-      "revenant-pulsar"
-    ]
-  },
-  {
-    "id": "corsair-cloud-dancer-band-swap-1",
-    "unit_id": "corsair-cloud-dancer-band",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "any_number": true
+      "max_count": 2
     },
-    "replaces": [
-      "twin-shuriken-catapult"
-    ],
-    "replacement_choice": [
-      [
-        "dark-lance"
-      ],
-      [
-        "dissonance-cannon"
-      ],
-      [
-        "scatter-laser"
-      ],
-      [
-        "shuriken-cannon"
-      ],
-      [
-        "splinter-cannon"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "corsair-cloud-dancer-band-addon-2",
-    "unit_id": "corsair-cloud-dancer-band",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Cloud Dancer Felarch",
-      "max_count": 1
-    },
-    "replacement_choice": [
-      [
-        "dissonance-pistol"
-      ],
-      [
-        "void-sabre"
-      ]
-    ]
-  },
-  {
-    "id": "phantom-titan-swap-1",
+    "id": "phantom-titan-wgo-69",
     "unit_id": "phantom-titan",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -962,27 +1375,30 @@
     ],
     "replacement_choice": [
       [
-        "phantom-starcannon",
-        "wraith-glaive"
-      ],
-      [
-        "phantom-starcannon",
-        "pulse-laser",
-        "wraith-glaive"
-      ],
-      [
-        "pulse-laser",
-        "wraith-glaive"
-      ],
-      [
         "phantom-pulsar"
+      ],
+      [
+        "phantom-starcannon",
+        "wraith-glaive"
+      ],
+      [
+        "pulse-laser",
+        "wraith-glaive"
+      ],
+      [
+        "pulse-laser",
+        "wraith-glaive",
+        "phantom-starcannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "phantom-titan-swap-2",
+    "id": "phantom-titan-wgo-70",
     "unit_id": "phantom-titan",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -999,20 +1415,23 @@
         "wraith-glaive"
       ],
       [
-        "phantom-starcannon",
         "pulse-laser",
         "wraith-glaive"
       ],
       [
         "pulse-laser",
-        "wraith-glaive"
+        "wraith-glaive",
+        "phantom-starcannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "phantom-titan-swap-3",
+    "id": "phantom-titan-wgo-71",
     "unit_id": "phantom-titan",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -1022,200 +1441,51 @@
     ],
     "replacement": [
       "pulse-laser"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "corsair-reaver-band-swap-1",
-    "unit_id": "corsair-reaver-band",
-    "is_free": true,
+    "id": "revenant-titan-wgo-72",
+    "unit_id": "revenant-titan",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
-    "model_constraint": {
-      "any_number": true
-    },
     "replaces": [
-      "corsair-firearm"
+      "revenant-pulsar"
     ],
     "replacement": [
-      "spar-glaive"
-    ]
-  },
-  {
-    "id": "corsair-reaver-band-swap-2",
-    "unit_id": "corsair-reaver-band",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replaces": [
-      "corsair-firearm"
+      "sonic-lance"
     ],
-    "replacement_choice": [
-      [
-        "aeldari-missile-launcher"
-      ],
-      [
-        "blaster"
-      ],
-      [
-        "dark-lance"
-      ],
-      [
-        "flamer"
-      ],
-      [
-        "fusion-gun"
-      ],
-      [
-        "shredder"
-      ],
-      [
-        "shuriken-cannon"
-      ],
-      [
-        "splinter-cannon"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-reaver-band-addon-3",
-    "unit_id": "corsair-reaver-band",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Corsair Reaver Felarch",
       "max_count": 1
     },
-    "replacement_choice": [
-      [
-        "dissonance-pistol"
-      ],
-      [
-        "void-sabre"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "corsair-skyreaver-band-swap-1",
-    "unit_id": "corsair-skyreaver-band",
-    "is_free": true,
+    "id": "revenant-titan-wgo-73",
+    "unit_id": "revenant-titan",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
     },
     "replaces": [
-      "corsair-firearm"
+      "sonic-lance"
     ],
-    "replacement_choice": [
-      [
-        "shardcarbine"
-      ],
-      [
-        "shuriken-catapult"
-      ],
-      [
-        "spar-glaive"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-skyreaver-band-swap-2",
-    "unit_id": "corsair-skyreaver-band",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replaces": [
-      "corsair-firearm"
+    "replacement": [
+      "revenant-pulsar"
     ],
-    "replacement_choice": [
-      [
-        "aeldari-missile-launcher"
-      ],
-      [
-        "blaster"
-      ],
-      [
-        "dark-lance"
-      ],
-      [
-        "flamer"
-      ],
-      [
-        "fusion-gun"
-      ],
-      [
-        "shredder"
-      ],
-      [
-        "shuriken-cannon"
-      ],
-      [
-        "splinter-cannon"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-skyreaver-band-addon-3",
-    "unit_id": "corsair-skyreaver-band",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Corsair Skyreaver Felarch",
       "max_count": 1
     },
-    "replacement_choice": [
-      [
-        "dissonance-pistol"
-      ],
-      [
-        "void-sabre"
-      ]
-    ]
+    "is_free": true
   },
   {
-    "id": "ynnari-archon-swap-1",
+    "id": "ynnari-archon-wgo-74",
     "unit_id": "ynnari-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "splinter-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "blast-pistol"
-      ],
-      [
-        "soul-trap"
-      ]
-    ]
-  },
-  {
-    "id": "ynnari-archon-swap-1",
-    "unit_id": "ynnari-archon",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -1225,911 +1495,15 @@
     ],
     "replacement": [
       "blast-pistol"
-    ]
-  },
-  {
-    "id": "ynnari-archon-swap-2",
-    "unit_id": "ynnari-archon",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "huskblade"
     ],
-    "replacement_choice": [
-      [
-        "agoniser"
-      ],
-      [
-        "master-crafted-power-weapon"
-      ]
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-swap-1",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "model_constraint": {
-      "model_name": "Sybarite",
       "max_count": 1
     },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "power-weapon"
-    ]
+    "is_free": true
   },
   {
-    "id": "ynnari-kabalite-warriors-swap-1",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "sybarite-weapon"
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-addon-2",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replacement_choice": [
-      [
-        "kabalite-icon"
-      ],
-      [
-        "phantasm-grenade-launcher"
-      ]
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-addon-2",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replacement": [
-      "phantasm-grenade-launcher"
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-swap-3",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blast-pistol"
-      ],
-      [
-        "splinter-pistol"
-      ]
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-swap-4",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "blaster"
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-swap-5",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "dark-lance"
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-swap-6",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "shredder"
-    ]
-  },
-  {
-    "id": "ynnari-kabalite-warriors-swap-7",
-    "unit_id": "ynnari-kabalite-warriors",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Kabalite Warrior",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement": [
-      "splinter-cannon"
-    ]
-  },
-  {
-    "id": "ynnari-wyches-swap-1",
-    "unit_id": "ynnari-wyches",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hekatrix",
-      "max_count": 1
-    },
-    "replaces": [
-      "splinter-pistol"
-    ],
-    "replacement": [
-      "blast-pistol"
-    ]
-  },
-  {
-    "id": "ynnari-wyches-swap-2",
-    "unit_id": "ynnari-wyches",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Hekatrix",
-      "max_count": 1
-    },
-    "replaces": [
-      "hekatarii-blade"
-    ],
-    "replacement": [
-      "power-weapon"
-    ]
-  },
-  {
-    "id": "ynnari-wyches-swap-3",
-    "unit_id": "ynnari-wyches",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Wyches",
-      "max_count": 3
-    },
-    "replaces": [
-      "splinter-pistol",
-      "hekatarii-blade"
-    ],
-    "replacement": [
-      "gladiatorial-weapons"
-    ]
-  },
-  {
-    "id": "ynnari-incubi-swap-1",
-    "unit_id": "ynnari-incubi",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Klaivex",
-      "max_count": 1
-    },
-    "replaces": [
-      "klaive"
-    ],
-    "replacement": [
-      "demiklaives"
-    ]
-  },
-  {
-    "id": "ynnari-incubi-swap-1",
-    "unit_id": "ynnari-incubi",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Klaivex",
-      "max_count": 1
-    },
-    "replaces": [
-      "klaive"
-    ],
-    "replacement": [
-      "demilklaives"
-    ]
-  },
-  {
-    "id": "ynnari-incubi-addon-2",
-    "unit_id": "ynnari-incubi",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "replacement": [
-      "incubi-shrine-token"
-    ]
-  },
-  {
-    "id": "ynnari-raider-swap-1",
-    "unit_id": "ynnari-raider",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "dark-lance"
-    ],
-    "replacement": [
-      "disintegrator-cannon"
-    ]
-  },
-  {
-    "id": "ynnari-venom-swap-1",
-    "unit_id": "ynnari-venom",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-splinter-rifle"
-    ],
-    "replacement": [
-      "splinter-cannon"
-    ]
-  },
-  {
-    "id": "ynnari-reavers-swap-1",
-    "unit_id": "ynnari-reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blaster"
-      ],
-      [
-        "heat-lance"
-      ]
-    ]
-  },
-  {
-    "id": "ynnari-reavers-addon-1",
-    "unit_id": "ynnari-reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Arena Champion",
-      "max_count": 1
-    },
-    "replacement": [
-      "agoniser"
-    ]
-  },
-  {
-    "id": "ynnari-reavers-addon-2",
-    "unit_id": "ynnari-reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "replacement_choice": [
-      [
-        "cluster-caltrops"
-      ],
-      [
-        "grav-talon"
-      ]
-    ]
-  },
-  {
-    "id": "ynnari-reavers-addon-3",
-    "unit_id": "ynnari-reavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "replacement_choice": [
-      [
-        "grav-talon"
-      ],
-      [
-        "cluster-caltrops"
-      ]
-    ]
-  },
-  {
-    "id": "firestorm-swap-1",
-    "unit_id": "firestorm",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-shuriken-catapult"
-    ],
-    "replacement": [
-      "shuriken-cannon"
-    ]
-  },
-  {
-    "id": "corsair-voidreavers-swap-1",
-    "unit_id": "corsair-voidreavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Voidreaver Felarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "neuro-disruptor"
-      ],
-      [
-        "shuriken-rifle"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-voidreavers-addon-2",
-    "unit_id": "corsair-voidreavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Voidreaver Felarch",
-      "max_count": 1
-    },
-    "replacement": [
-      "mistshield"
-    ]
-  },
-  {
-    "id": "corsair-voidreavers-swap-3",
-    "unit_id": "corsair-voidreavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Corsair Voidreavers in this unit",
-      "any_number": true
-    },
-    "replaces": [
-      "shuriken-pistol",
-      "power-sword"
-    ],
-    "replacement": [
-      "shuriken-rifle"
-    ]
-  },
-  {
-    "id": "corsair-voidreavers-swap-4",
-    "unit_id": "corsair-voidreavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Corsair Voidreaver",
-      "per_n_models": 5
-    },
-    "replaces": [
-      "power-sword-or-shuriken-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blaster"
-      ],
-      [
-        "shredder"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-voidreavers-swap-5",
-    "unit_id": "corsair-voidreavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "shuriken-cannon"
-      ],
-      [
-        "wraithcannon"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-swap-1",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Corsair Voidscarred",
-      "any_number": true
-    },
-    "replaces": [
-      "shuriken-pistol",
-      "power-sword"
-    ],
-    "replacement": [
-      "shuriken-rifle"
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-swap-2",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Voidscarred Felarch",
-      "max_count": 1
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "neuro-disruptor"
-      ],
-      [
-        "shuriken-rifle"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-addon-3",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Voidscarred Felarch",
-      "max_count": 1
-    },
-    "replacement": [
-      "mistshield"
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-swap-4",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Corsair Voidscarred",
-      "per_n_models": 5
-    },
-    "replaces": [
-      "shuriken-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blaster"
-      ],
-      [
-        "shredder"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-swap-5",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "shuriken-cannon"
-      ],
-      [
-        "wraithcannon"
-      ]
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-swap-6",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-rifle"
-    ],
-    "replacement": [
-      "long-rifle"
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-swap-7",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "power-sword"
-    ],
-    "replacement": [
-      "fusion-pistol"
-    ]
-  },
-  {
-    "id": "corsair-voidscarred-addon-8",
-    "unit_id": "corsair-voidscarred",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Corsair Voidscarred model equipped with a shuriken pistol and power sword",
-      "max_count": 1
-    },
-    "replacement": [
-      "a-shuriken-pistol",
-      "power-sword-can-be-equipped-with-1-faolcha"
-    ]
-  },
-  {
-    "id": "troupe-master-swap-1",
-    "unit_id": "troupe-master",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "fusion-pistol"
-      ],
-      [
-        "neuro-disruptor"
-      ]
-    ]
-  },
-  {
-    "id": "troupe-master-swap-2",
-    "unit_id": "troupe-master",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "troupe-masters-blade"
-    ],
-    "replacement": [
-      "harlequins-special-weapon"
-    ]
-  },
-  {
-    "id": "shadowseer-swap-1",
-    "unit_id": "shadowseer",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement": [
-      "neuro-disruptor"
-    ]
-  },
-  {
-    "id": "troupe-swap-1",
-    "unit_id": "troupe",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "harlequins-blade"
-    ],
-    "replacement": [
-      "harlequins-special-weapon"
-    ]
-  },
-  {
-    "id": "troupe-swap-2",
-    "unit_id": "troupe",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "model_name": "Lead Player",
-      "max_count": 1
-    },
-    "replaces": [
-      "harlequins-blade"
-    ],
-    "replacement": [
-      "power-sword"
-    ]
-  },
-  {
-    "id": "troupe-swap-3",
-    "unit_id": "troupe",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement": [
-      "neuro-disruptorup-to-2-models-can-each-have-their-shuriken-pistol-replaced-with-1-fusion-pistol"
-    ]
-  },
-  {
-    "id": "troupe-swap-4",
-    "unit_id": "troupe",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement": [
-      "neuro-disruptorup-to-4-models-can-each-have-their-shuriken-pistol-replaced-with-1-fusion-pistol"
-    ]
-  },
-  {
-    "id": "skyweavers-swap-1",
-    "unit_id": "skyweavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "shuriken-cannon"
-    ],
-    "replacement": [
-      "skyweaver-haywire-cannon"
-    ]
-  },
-  {
-    "id": "skyweavers-swap-2",
-    "unit_id": "skyweavers",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "model_constraint": {
-      "any_number": true
-    },
-    "replaces": [
-      "star-bolas"
-    ],
-    "replacement": [
-      "zephyrglaive"
-    ]
-  },
-  {
-    "id": "voidweaver-swap-1",
-    "unit_id": "voidweaver",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "voidweaver-haywire-cannon"
-    ],
-    "replacement": [
-      "prismatic-cannon"
-    ]
-  },
-  {
-    "id": "autarch-wayleaper-swap-1",
-    "unit_id": "autarch-wayleaper",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "shuriken-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "death-spinner"
-      ],
-      [
-        "dragon-fusion-gun"
-      ],
-      [
-        "dragon-fusion-pistol"
-      ],
-      [
-        "reaper-launcher"
-      ]
-    ]
-  },
-  {
-    "id": "autarch-wayleaper-swap-2",
-    "unit_id": "autarch-wayleaper",
-    "is_free": true,
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "star-glaive"
-    ],
-    "replacement_choice": [
-      [
-        "banshee-blade"
-      ],
-      [
-        "scorpion-chainsword"
-      ]
-    ]
-  },
-  {
-    "id": "wraithknight-with-ghostglaive-swap-1",
+    "id": "wraithknight-with-ghostglaive-wgo-75",
     "unit_id": "wraithknight-with-ghostglaive",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
@@ -2139,35 +1513,141 @@
     ],
     "replacement": [
       "heavy-wraithcannon"
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   },
   {
-    "id": "wraithknight-with-ghostglaive-addon-2",
+    "id": "wraithknight-with-ghostglaive-wgo-76",
     "unit_id": "wraithknight-with-ghostglaive",
-    "is_free": true,
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
     "replacement": [
-      "up-to-two-of-the-following-1-scatter-laser1-shuriken-cannon1-starcannon"
-    ]
+      "scatter-laser"
+    ],
+    "is_free": true
   },
   {
-    "id": "ynnari-succubus-addon-1",
-    "unit_id": "ynnari-succubus",
-    "is_free": true,
+    "id": "wraithknight-with-ghostglaive-wgo-77",
+    "unit_id": "wraithknight-with-ghostglaive",
     "game_version": {
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replacement": [
+      "shuriken-cannon"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "wraithknight-with-ghostglaive-wgo-78",
+    "unit_id": "wraithknight-with-ghostglaive",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "starcannon"
+    ],
+    "is_free": true
+  },
+  {
+    "id": "ynnari-succubus-wgo-79",
+    "unit_id": "ynnari-succubus",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "splinter-pistol"
+    ],
+    "replacement": [
+      "blast-pistol"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-raider-wgo-80",
+    "unit_id": "ynnari-raider",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "dark-lance"
+    ],
+    "replacement": [
+      "disintegrator-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "ynnari-venom-wgo-81",
+    "unit_id": "ynnari-venom",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "twin-splinter-rifle"
+    ],
+    "replacement": [
+      "splinter-cannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "vyper-wgo-82",
+    "unit_id": "vyper",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bright-lance"
+    ],
     "replacement_choice": [
       [
-        "blast-pistol"
+        "scatter-laser"
       ],
       [
-        "splinter-pistol"
+        "starcannon"
       ]
-    ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "vyper-wgo-83",
+    "unit_id": "vyper",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "shuriken-cannon"
+    ],
+    "replacement": [
+      "missile-launcher"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
   }
 ]
