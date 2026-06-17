@@ -289,6 +289,25 @@ upstream/main && git push origin main`. After a feature merges upstream, rebase 
 descendant branch with `git rebase --onto main <old-base>` + `--force-with-lease`.
 Commit/stash before switching branches — uncommitted changes follow you across `git switch`.
 
+## Versioning
+
+`1.0.0` is the stable baseline (declared when the BSData wargear regen retired the
+army-assist lineage and the share registry reached v6). From here:
+
+- **Patch** (`1.0.x`) — bugfixes and corrections to existing data/behavior.
+- **Minor** (`1.x.0`) — MFM dataslate ingests, new faction packs, and other
+  additive content/feature drops.
+- **Major** (`x.0.0`) — reserved for breaking schema/API/wire-format changes.
+
+The four version files move **together** — `tools/package.json`,
+`crates/wh40kdc/Cargo.toml`, `python/src/wh40kdc/_version.py`, and `go/version.go`
+(`const Version`). CI (`validate.yml`) hard-fails on any drift between them.
+
+Pre-`1.0.0` share links carry **no** compatibility guarantee; the v6 registry is
+the first baseline whose tokens are expected to keep decoding. Past v6, an id
+rename must be carried in `data/share-registry.json` `aliases` (see the share-token
+section above) rather than tombstoned.
+
 ## Commit Style
 
 - Conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `test:`.

@@ -228,11 +228,21 @@ def test_rank_by_specific_target(ds: Dataset) -> None:
     assert ranked[0]["config"].label == "2x Ecto"  # S10 AP-3 out-damages Hades into a Rhino
 
 
-def test_enumerate_forgefiend_two_clean_configs(ds: Dataset) -> None:
+def test_enumerate_forgefiend_configs(ds: Dataset) -> None:
     en = compare.enumerate_loadouts(ds, "world-eaters", "forgefiend")
-    assert {c.label for c in en.configs} == {"Hades autocannon", "Ectoplasma cannon"}
+    # The BSData datasheet models two independent swaps: the main turret
+    # (hades autocannon <-> ectoplasma cannon) and the maw mount (jaws ->
+    # ectoplasma cannon + claws). The maw is a separate weapon slot, so a
+    # hades-turret + ectoplasma-maw mix is a real loadout, not just the two
+    # single-weapon configs.
+    assert {c.label for c in en.configs} == {
+        "Hades autocannon",
+        "Ectoplasma cannon",
+        "Ectoplasma cannon + Hades autocannon",
+    }
     assert en.counts_known is False
-    # MFM v1.0 (11e launch) reprices the Forgefiend to 160 for the 1st-2nd unit.
+    # MFM v1.0 (11e launch) reprices the Forgefiend to 160 for the 1st-2nd unit;
+    # the maw swap is free, so every config stays at 160.
     assert all(c.points == 160 for c in en.configs)
 
 
