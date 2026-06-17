@@ -340,12 +340,12 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
     case "find_ability":
       return ds.abilities.find(q.args.query)?.id ?? null;
     case "abilities_of": {
-      const u = ds.units.get(q.args.unitId);
+      const u = ds.units.getAny(q.args.unitId);
       if (!u) throw new Error(`abilities_of: unknown unit ${q.args.unitId}`);
       return u.abilities.map((a) => a.id);
     }
     case "weapons_of": {
-      const u = ds.units.get(q.args.unitId);
+      const u = ds.units.getAny(q.args.unitId);
       if (!u) throw new Error(`weapons_of: unknown unit ${q.args.unitId}`);
       return u.weapons.map((w) => w.id);
     }
@@ -355,7 +355,7 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       return [...a.phases].sort();
     }
     case "faction_of": {
-      const u = ds.units.get(q.args.unitId);
+      const u = ds.units.getAny(q.args.unitId);
       if (!u) throw new Error(`faction_of: unknown unit ${q.args.unitId}`);
       return u.faction?.id ?? null;
     }
@@ -371,12 +371,12 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       return f.weapons.map((w) => w.id).sort();
     }
     case "base_size_of": {
-      const u = ds.units.get(q.args.unitId);
+      const u = ds.units.getAny(q.args.unitId);
       if (!u) throw new Error(`base_size_of: unknown unit ${q.args.unitId}`);
       return encodeBase(u.raw.base_size_mm);
     }
     case "model_bases_of": {
-      const u = ds.units.get(q.args.unitId);
+      const u = ds.units.getAny(q.args.unitId);
       if (!u) throw new Error(`model_bases_of: unknown unit ${q.args.unitId}`);
       const comp = ds.unitCompositions.find((c) => c.unit_id === q.args.unitId);
       return (comp?.models ?? []).map((m) => `${m.name}=${encodeBase(m.base_size_mm) ?? "none"}`);
@@ -419,7 +419,7 @@ function loadAttributionInput(ds: Dataset, filename: string): {
   const path = join(CONFORMANCE, "cruncher", filename);
   const c = JSON.parse(readFileSync(path, "utf8")) as CruncherCaseInput;
   const weapon = ds.weapons.get(c.attacker.weaponId);
-  const unit = ds.units.get(c.target.unitId);
+  const unit = ds.units.getAny(c.target.unitId);
   if (!weapon) throw new Error(`attribution: unknown weapon ${c.attacker.weaponId}`);
   if (!unit) throw new Error(`attribution: unknown unit ${c.target.unitId}`);
   return {

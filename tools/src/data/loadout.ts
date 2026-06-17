@@ -29,7 +29,7 @@ export interface Loadout {
 /** A loadout-rule violation. `id` is the offending weapon/wargear id. */
 export interface Violation {
   id: string;
-  code: "exceeds-max" | "below-min";
+  code: "exceeds-max" | "below-min" | "swap-conflict";
   message: string;
 }
 
@@ -169,7 +169,72 @@ export function validateLoadout(
       out.push({ id, code: "below-min", message: `${id}: ${n} below min ${b.min}` });
     }
   }
+  out.push(...swapConflicts(unit, modelCount, options, counts));
   // Deterministic order so the result is stable for cross-impl comparison.
   out.sort((a, b) => (a.id === b.id ? a.code.localeCompare(b.code) : a.id.localeCompare(b.id)));
+  return out;
+}
+
+/**
+ * Swap-conservation violations the independent per-id {@link weaponBounds} can't
+ * see: a model's replaceable slot holds the base weapon OR one of its swap
+ * replacements, never both, so `count(base) + Σ count(its replacements)` cannot
+ * exceed `modelCount`. Without this, keeping a base weapon *and* adding its
+ * replacement passes every per-id bound while being illegal (e.g. War Dog
+ * Brigand with both diabolus heavy stubber and havoc multi-launcher).
+ *
+ * Enforced only for the unambiguous shape — a base weapon swapped out by plain
+ * (non-choice) options that replace it alone, whose replacement ids are unique
+ * within this unit's option set and aren't themselves base weapons. Choice /
+ * multi-replace / shared-replacement options can't be attributed to one slot
+ * pool, so they stay on the looser per-id bounds rather than risk a false
+ * positive. Mirror of `crates/wh40kdc/src/data/loadout.rs`.
+ */
+function swapConflicts(
+  unit: Unit,
+  modelCount: number,
+  options: readonly WargearOption[],
+  counts: Map<string, number>,
+): Violation[] {
+  const baseIds = new Set(baseWeaponIds(unit, options));
+  const addedBy = new Map<string, number>();
+  for (const o of options) {
+    for (const id of o.replacement ?? []) addedBy.set(id, (addedBy.get(id) ?? 0) + 1);
+    for (const g of o.replacement_choice ?? []) {
+      for (const id of g) addedBy.set(id, (addedBy.get(id) ?? 0) + 1);
+    }
+  }
+  const out: Violation[] = [];
+  for (const base of baseIds) {
+    const cleanAdds = new Set<string>();
+    let messy = false;
+    for (const o of options) {
+      const replaces: readonly string[] = o.replaces ?? [];
+      if (!replaces.includes(base)) continue;
+      // Only a plain, single-target swap of this exact base weapon is unambiguous.
+      if (replaces.length !== 1 || (o.replacement_choice?.length ?? 0) > 0) {
+        messy = true;
+        break;
+      }
+      for (const b of o.replacement ?? []) {
+        if (baseIds.has(b) || (addedBy.get(b) ?? 0) > 1) {
+          messy = true;
+          break;
+        }
+        cleanAdds.add(b);
+      }
+      if (messy) break;
+    }
+    if (messy || cleanAdds.size === 0) continue;
+    let total = counts.get(base) ?? 0;
+    for (const b of cleanAdds) total += counts.get(b) ?? 0;
+    if (total > modelCount) {
+      out.push({
+        id: base,
+        code: "swap-conflict",
+        message: `${base} and its swap replacement(s) total ${total}, exceeding ${modelCount} (a model takes the base weapon or a swap, not both)`,
+      });
+    }
+  }
   return out;
 }

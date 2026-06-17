@@ -166,6 +166,66 @@ def validate_loadout(
             out.append(
                 {"id": id_, "code": "below-min", "message": f"{id_}: {n} below min {b['min']}"}
             )
+    out.extend(_swap_conflicts(unit, model_count, options, counts))
     # Deterministic order so the result is stable for cross-impl comparison.
     out.sort(key=lambda v: (v["id"], v["code"]))
+    return out
+
+
+def _swap_conflicts(
+    unit: Unit,
+    model_count: int,
+    options: list[WargearOption],
+    counts: dict[str, int],
+) -> list[dict[str, str]]:
+    """Swap-conservation violations the per-id :func:`weapon_bounds` can't see.
+
+    A model's replaceable slot holds the base weapon OR one of its swap
+    replacements, never both, so ``count(base) + sum(count(replacements))``
+    cannot exceed ``model_count``. Enforced only for the unambiguous shape — a
+    base weapon swapped out by plain (non-choice) options that replace it alone,
+    whose replacement ids are unique within this unit's option set and aren't
+    themselves base weapons. Mirror of ``tools/src/data/loadout.ts``.
+    """
+    base_ids = set(_base_weapon_ids(unit, options))
+    added_by: dict[str, int] = {}
+    for o in options:
+        for id_ in o.get("replacement") or []:
+            added_by[id_] = added_by.get(id_, 0) + 1
+        for group in o.get("replacement_choice") or []:
+            for id_ in group:
+                added_by[id_] = added_by.get(id_, 0) + 1
+    out: list[dict[str, str]] = []
+    for base in base_ids:
+        clean_adds: set[str] = set()
+        messy = False
+        for o in options:
+            replaces = o.get("replaces") or []
+            if base not in replaces:
+                continue
+            if len(replaces) != 1 or (o.get("replacement_choice") or []):
+                messy = True
+                break
+            for b in o.get("replacement") or []:
+                if b in base_ids or added_by.get(b, 0) > 1:
+                    messy = True
+                    break
+                clean_adds.add(b)
+            if messy:
+                break
+        if messy or not clean_adds:
+            continue
+        total = counts.get(base, 0) + sum(counts.get(b, 0) for b in clean_adds)
+        if total > model_count:
+            out.append(
+                {
+                    "id": base,
+                    "code": "swap-conflict",
+                    "message": (
+                        f"{base} and its swap replacement(s) total {total}, "
+                        f"exceeding {model_count} (a model takes the base weapon "
+                        f"or a swap, not both)"
+                    ),
+                }
+            )
     return out

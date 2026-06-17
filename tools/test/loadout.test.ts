@@ -76,6 +76,37 @@ describe("weaponBounds + clampWeaponCount + validateLoadout", () => {
     const lo = maximalLoadout(bz.raw, 10, options);
     expect(validateLoadout(bz.raw, 10, options, lo.counts)).toEqual([]);
   });
+
+  it("flags a swap conflict: base weapon kept while its replacement is also taken", () => {
+    // War Dog Brigand's lone option swaps the diabolus heavy stubber for a havoc
+    // multi-launcher — a model takes one or the other, never both. Each id sits
+    // independently within [0,1], so only the swap-conservation check catches it.
+    const wd = dataset.units.get("war-dog-brigand")!;
+    const opts = dataset.wargearOptionsOf(wd.raw);
+    expect(
+      validateLoadout(
+        wd.raw,
+        1,
+        opts,
+        new Map([
+          ["diabolus-heavy-stubber", 1],
+          ["havoc-multi-launcher", 1],
+        ]),
+      ),
+    ).toEqual([
+      {
+        id: "diabolus-heavy-stubber",
+        code: "swap-conflict",
+        message:
+          "diabolus-heavy-stubber and its swap replacement(s) total 2, exceeding 1 (a model takes the base weapon or a swap, not both)",
+      },
+    ]);
+    // Either single choice is legal.
+    expect(
+      validateLoadout(wd.raw, 1, opts, new Map([["diabolus-heavy-stubber", 1]])),
+    ).toEqual([]);
+    expect(validateLoadout(wd.raw, 1, opts, new Map([["havoc-multi-launcher", 1]]))).toEqual([]);
+  });
 });
 
 describe("wargearOptionsOf accessor", () => {

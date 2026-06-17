@@ -12,7 +12,17 @@ const playerColor = $derived(data.player === 'Attacker' ? 'text-red-400' : 'text
 // Resolve everything static from the embedded 40kdc dataset by id. A null
 // datasheet_id means the import never resolved this unit — render the
 // degraded card (raw name + loadout text) instead of going blank.
-const unit = $derived(data.datasheet_id ? ds.units.get(data.datasheet_id) : undefined);
+// Scope to faction_id when known so a shared chassis (e.g. the Chaos cult
+// legions) resolves the right copy; fall back to a faction-less lookup
+// (getAny) only when faction is genuinely unknown.
+const unit = $derived(
+	!data.datasheet_id
+		? undefined
+		: data.faction_id
+			? (ds.units.getInFaction(data.datasheet_id, data.faction_id) ??
+				ds.units.getAny(data.datasheet_id))
+			: ds.units.getAny(data.datasheet_id),
+);
 
 function stat(v: unknown): string {
 	return v == null ? '-' : String(v);

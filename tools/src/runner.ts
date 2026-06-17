@@ -350,22 +350,22 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
       case "find_ability":
         return ok(ds.abilities.find(input.query ?? "")?.id ?? null);
       case "abilities_of": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.abilities.map((x) => x.id));
       }
       case "weapons_of": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.weapons.map((x) => x.id));
       }
       case "wargear_options_of": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.wargearOptions.map((x) => x.id));
       }
       case "maximal_loadout": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const modelCount = Number(input.modelCount);
         const lo = maximalLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw));
@@ -378,17 +378,17 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
         return ok([...ab.phases]);
       }
       case "faction_of": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.faction?.id ?? null);
       }
       case "base_size_of": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(encodeBase(u.raw.base_size_mm));
       }
       case "model_bases_of": {
-        const u = ds.units.get(input.unitId);
+        const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
         // Ordered "modelName=encodedBase" pairs in declared model order.
@@ -526,7 +526,7 @@ function buildEngineInput(
   const ds = getDataset(state);
   const weapon = ds.weapons.get(a.attacker.weaponId);
   if (!weapon) return { ok: false, response: err("UNKNOWN_ENTITY", { kind: "weapon", id: a.attacker.weaponId }) };
-  const unit = ds.units.get(a.target.unitId);
+  const unit = ds.units.getAny(a.target.unitId);
   if (!unit) return { ok: false, response: err("UNKNOWN_ENTITY", { kind: "unit", id: a.target.unitId }) };
   const input: EngineInput = {
     attacker: { weapon: weapon.raw, profileIndex: a.attacker.profileIndex },

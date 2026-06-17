@@ -71,7 +71,7 @@ export function resolveEligibleAbilities(
   // several Chaos factions), so a faction-blind `get` can return the wrong
   // faction's copy — and with it the wrong intrinsic abilities/keywords.
   const resolveUnit = (id: string, fid: string | undefined) =>
-    (fid ? dataset.units.getInFaction(id, fid) : undefined) ?? dataset.units.get(id);
+    (fid ? dataset.units.getInFaction(id, fid) : undefined) ?? dataset.units.getAny(id);
 
   const unit = resolveUnit(input.unitId, input.factionId);
   if (!unit) return [];
@@ -105,7 +105,7 @@ export function resolveEligibleAbilities(
     // faction-correct); fall back to the first registered copy.
     const detachment =
       dataset.detachments.getInFaction(input.detachmentId, factionId) ??
-      dataset.detachments.get(input.detachmentId);
+      dataset.detachments.getAny(input.detachmentId);
     if (detachment) {
       for (const stratId of detachment.stratagem_ids ?? []) {
         const stratagem = dataset.stratagems.get(stratId);

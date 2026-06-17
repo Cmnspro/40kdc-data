@@ -147,14 +147,27 @@ export function detachmentsForFaction(factionId: string | null): Detachment[] {
 	return ds.detachments.byFaction(factionId).slice().sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/**
+ * Resolve a detachment by id, scoped to the army's faction. The shared Space
+ * Marine detachments (e.g. `gladius-task-force`) are replicated under all 13
+ * chapter factions and diverge per chapter (detachment_rule_id, stratagem_ids,
+ * enhancement_ids, detachment_points), so a faction-less lookup returns the
+ * wrong chapter's copy. Pass the army's `factionId`; `getAny` is the explicit
+ * first-wins fallback when faction is genuinely unknown.
+ */
+export function detachmentRaw(id: string, factionId?: string): Detachment | undefined {
+	return (factionId ? ds.detachments.getInFaction(id, factionId) : undefined) ?? ds.detachments.getAny(id);
+}
+
 /** DP cost of a detachment (1–3), or 0 when the entity records none. */
-export function detachmentPointCost(detachmentId: string): number {
-	return ds.detachments.get(detachmentId)?.detachment_points ?? 0;
+export function detachmentPointCost(detachmentId: string, factionId?: string): number {
+	return detachmentRaw(detachmentId, factionId)?.detachment_points ?? 0;
 }
 
 /** Total DP spent by the selected detachments. */
 export function totalDetachmentPoints(state: BuilderState): number {
-	return state.detachmentIds.reduce((sum, id) => sum + detachmentPointCost(id), 0);
+	const fid = state.factionId ?? undefined;
+	return state.detachmentIds.reduce((sum, id) => sum + detachmentPointCost(id, fid), 0);
 }
 
 /** The 11e detachment-point budget for the draft's effective battle size. */
@@ -177,8 +190,9 @@ export interface TagConflict {
  */
 export function detachmentTagConflicts(state: BuilderState): TagConflict[] {
 	const byTag = new Map<string, string[]>();
+	const fid = state.factionId ?? undefined;
 	for (const id of state.detachmentIds) {
-		const det = ds.detachments.get(id);
+		const det = detachmentRaw(id, fid);
 		if (!det) continue;
 		for (const tag of det.tags ?? []) {
 			const names = byTag.get(tag);
@@ -205,14 +219,15 @@ export function eligibleEnhancements(
 	detachmentIds: string[],
 	unit: Unit | undefined,
 	selected: string[] = [],
+	factionId?: string,
 ): Enhancement[] {
 	if (detachmentIds.length === 0 || !unit) return [];
-	const unitKeywords = effectiveKeywords(unit, detachmentIds, selected);
+	const unitKeywords = effectiveKeywords(unit, detachmentIds, selected, factionId);
 	if (!unitKeywords.has('character')) return [];
 	const seen = new Set<string>();
 	const out: Enhancement[] = [];
 	for (const detachmentId of detachmentIds) {
-		const det = ds.detachments.get(detachmentId);
+		const det = detachmentRaw(detachmentId, factionId);
 		if (!det) continue;
 		for (const id of det.enhancement_ids ?? []) {
 			if (seen.has(id)) continue;
@@ -444,6 +459,9 @@ export function builderUnitToDatacardData(bu: BuilderUnit, armyFactionId?: strin
 		unit_name: unit?.name ?? bu.datasheetId,
 		player: 'Attacker',
 		datasheet_id: bu.datasheetId,
+		// Stamp the resolved faction so the (id-only) Datacard renders the right
+		// copy of a shared chassis instead of falling back to first-wins.
+		faction_id: unit?.faction_id ?? null,
 		ranged_weapon_ids: ranged,
 		melee_weapon_ids: melee,
 		loadout_raw_names: equipped.map((id) => itemName(id)),
@@ -512,8 +530,17 @@ export function defaultLoadout(unit: Unit, modelCount: number): Map<string, numb
 	return maximalLoadout(unit, modelCount, options).counts;
 }
 
-export function wargearOptionsFor(datasheetId: string): WargearOption[] {
-	const unit = unitRaw(datasheetId);
+/**
+ * Wargear options for a datasheet, scoped to its faction so a shared chassis
+ * resolves the right copy. Pass the allied `factionId` and/or the army's
+ * `armyFactionId` exactly as {@link unitRaw} expects.
+ */
+export function wargearOptionsFor(
+	datasheetId: string,
+	factionId?: string,
+	armyFactionId?: string,
+): WargearOption[] {
+	const unit = unitRaw(datasheetId, factionId, armyFactionId);
 	return unit ? ds.wargearOptionsOf(unit) : [];
 }
 
@@ -677,11 +704,12 @@ export function effectiveKeywords(
 	unit: Unit,
 	detachmentIds: string[],
 	selected: string[] = [],
+	factionId?: string,
 ): Set<string> {
 	const have = keywordSet(unit);
 	const picked = new Set(selected.map((k) => k.toLowerCase()));
 	for (const id of detachmentIds) {
-		for (const grant of ds.detachments.get(id)?.granted_keywords ?? []) {
+		for (const grant of detachmentRaw(id, factionId)?.granted_keywords ?? []) {
 			if (!(grant.to_keywords ?? []).some((k) => have.has(k.toLowerCase()))) continue;
 			// Count-limited grants require an explicit per-unit selection.
 			if (grant.max_selected != null && !picked.has(grant.keyword.toLowerCase())) continue;
@@ -701,11 +729,15 @@ export interface SelectableGrant {
 	maxSelected: number;
 	detachmentName: string;
 }
-export function selectableGrantsFor(unit: Unit, detachmentIds: string[]): SelectableGrant[] {
+export function selectableGrantsFor(
+	unit: Unit,
+	detachmentIds: string[],
+	factionId?: string,
+): SelectableGrant[] {
 	const have = keywordSet(unit);
 	const out: SelectableGrant[] = [];
 	for (const id of detachmentIds) {
-		const det = ds.detachments.get(id);
+		const det = detachmentRaw(id, factionId);
 		for (const grant of det?.granted_keywords ?? []) {
 			if (grant.max_selected == null) continue;
 			if (!(grant.to_keywords ?? []).some((k) => have.has(k.toLowerCase()))) continue;
@@ -736,7 +768,7 @@ export function canBeWarlord(
 ): boolean {
 	const raw = buRaw(bu, armyFactionId);
 	if (!raw) return false;
-	if (!effectiveKeywords(raw, detachmentIds, bu.selectedGrants ?? []).has('character')) return false;
+	if (!effectiveKeywords(raw, detachmentIds, bu.selectedGrants ?? [], armyFactionId).has('character')) return false;
 	if (bu.allyRuleId && ds.alliedRules.get(bu.allyRuleId)?.cannot_be_warlord) return false;
 	return true;
 }
@@ -844,7 +876,7 @@ function constructionViolations(state: BuilderState): BuilderViolation[] {
 		if (!raw) continue;
 		// Effective keywords include detachment grants (e.g. Houndpack Lance makes
 		// War Dogs Battleline → cap 6 instead of 3).
-		const kw = effectiveKeywords(raw, state.detachmentIds);
+		const kw = effectiveKeywords(raw, state.detachmentIds, [], armyFaction);
 		const cap = kw.has('battleline') || raw.role === 'dedicated-transport' ? 6 : 3;
 		const e = counts.get(u.datasheetId);
 		if (e) e.count += 1;
@@ -883,7 +915,7 @@ function constructionViolations(state: BuilderState): BuilderViolation[] {
 	// Count-limited detachment grants (e.g. Houndpack Lance: ≤3 CHARACTER War Dogs).
 	const seenGrant = new Set<string>();
 	for (const id of state.detachmentIds) {
-		const det = ds.detachments.get(id);
+		const det = detachmentRaw(id, armyFaction);
 		for (const grant of det?.granted_keywords ?? []) {
 			if (grant.max_selected == null || seenGrant.has(grant.keyword.toLowerCase())) continue;
 			seenGrant.add(grant.keyword.toLowerCase());
@@ -899,12 +931,12 @@ function constructionViolations(state: BuilderState): BuilderViolation[] {
 
 	// Detachment unit minimums (e.g. Houndpack Lance: 3+ WAR DOG units).
 	for (const id of state.detachmentIds) {
-		const det = ds.detachments.get(id);
+		const det = detachmentRaw(id, armyFaction);
 		for (const req of det?.unit_minimums ?? []) {
 			const k = req.keyword.toLowerCase();
 			const have = state.units.filter((u) => {
 				const raw = buRaw(u, armyFaction);
-				return raw ? effectiveKeywords(raw, state.detachmentIds, u.selectedGrants ?? []).has(k) : false;
+				return raw ? effectiveKeywords(raw, state.detachmentIds, u.selectedGrants ?? [], armyFaction).has(k) : false;
 			}).length;
 			if (have < req.min) {
 				out.push({
@@ -985,7 +1017,7 @@ export function builderToRoster(state: BuilderState): Roster {
 		? (ds.factions.get(state.factionId)?.name ?? state.factionId)
 		: null;
 	const detachments = state.detachmentIds.map((id) => {
-		const det = ds.detachments.get(id);
+		const det = detachmentRaw(id, armyFaction);
 		return { ref: ref(id, det?.name ?? id), dp_cost: det?.detachment_points ?? null };
 	});
 

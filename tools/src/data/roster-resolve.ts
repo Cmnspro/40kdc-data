@@ -26,7 +26,11 @@ export function resolveRosterUnit(
 ): UnitView | undefined {
   const id = rosterUnit.ref.id;
   if (id === null) return undefined;
-  return dataset.units.get(id);
+  // The importer carries no faction context here, so accept first-wins for a
+  // shared chassis (getAny opts out of the units guard). NB: a roster's own
+  // faction is known upstream — threading it would resolve the correct copy of
+  // a shared Chaos/Marine chassis; tracked as a separate import-path fix.
+  return dataset.units.getAny(id);
 }
 
 /**

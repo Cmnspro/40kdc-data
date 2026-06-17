@@ -78,7 +78,7 @@ function walkLinkedApi(label: string, roster: Roster, ds: Dataset): void {
       console.log(`  · ${u.ref.raw_name}  [unresolved]`);
       continue;
     }
-    const unit = ds.units.get(u.ref.id);
+    const unit = ds.units.getAny(u.ref.id);
     if (!unit) {
       console.log(`  · ${u.ref.id}  [not in dataset]`);
       continue;

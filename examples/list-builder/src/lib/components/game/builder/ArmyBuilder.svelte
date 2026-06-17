@@ -4,6 +4,7 @@ import { ds } from '$lib/data/dataset';
 import {
 	emptyBuilderState,
 	detachmentsForFaction,
+	detachmentRaw,
 	detachmentPointCost,
 	totalDetachmentPoints,
 	detachmentPointCap,
@@ -105,7 +106,7 @@ const dispositions = $derived(ds.forceDispositions.all);
 // constrains the choice to that set (empty upstream today → manual fallback).
 // With several detachments the constraint is the union of what they grant.
 const forcedDispositions = $derived(
-	[...new Set(draft.detachmentIds.flatMap((id) => ds.detachments.get(id)?.force_dispositions ?? []))],
+	[...new Set(draft.detachmentIds.flatMap((id) => detachmentRaw(id, draft.factionId ?? undefined)?.force_dispositions ?? []))],
 );
 $effect(() => {
 	if (
@@ -151,7 +152,7 @@ function toggleDetachment(id: string, on: boolean) {
 		// Dropping a detachment can orphan its enhancements — clear any that no
 		// longer belong to a selected detachment.
 		const allowed = new Set(
-			draft.detachmentIds.flatMap((d) => ds.detachments.get(d)?.enhancement_ids ?? []),
+			draft.detachmentIds.flatMap((d) => detachmentRaw(d, draft.factionId ?? undefined)?.enhancement_ids ?? []),
 		);
 		draft.units = draft.units.map((u) =>
 			u.enhancementId && !allowed.has(u.enhancementId) ? { ...u, enhancementId: null } : u,
@@ -256,14 +257,14 @@ function save() {
 			>
 				<option value="">+ add detachment</option>
 				{#each detachments.filter((d) => !draft.detachmentIds.includes(d.id)) as d (d.id)}
-					<option value={d.id}>{d.name} ({detachmentPointCost(d.id)} DP)</option>
+					<option value={d.id}>{d.name} ({detachmentPointCost(d.id, draft.factionId ?? undefined)} DP)</option>
 				{/each}
 			</select>
 			{#if draft.detachmentIds.length > 0}
 				<div class="mt-1 flex flex-wrap gap-1">
 					{#each draft.detachmentIds as id (id)}
 						<span class="bg-panel border-panel-border text-text flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs normal-case">
-							{ds.detachments.get(id)?.name ?? id} ({detachmentPointCost(id)} DP)
+							{detachmentRaw(id, draft.factionId ?? undefined)?.name ?? id} ({detachmentPointCost(id, draft.factionId ?? undefined)} DP)
 							<button
 								type="button"
 								class="text-text-dim hover:text-amber-400"

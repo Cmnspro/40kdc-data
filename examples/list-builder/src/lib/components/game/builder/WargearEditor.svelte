@@ -9,12 +9,14 @@ import {
 
 interface Props {
 	unit: BuilderUnit;
+	/** Army faction, so a shared chassis resolves the right copy's wargear. */
+	armyFaction?: string;
 	onchange: (loadout: Map<string, number>) => void;
 }
-let { unit, onchange }: Props = $props();
+let { unit, armyFaction, onchange }: Props = $props();
 
 // Bounds drive which ids are adjustable and their valid ranges.
-const bounds = $derived(loadoutBounds(unit));
+const bounds = $derived(loadoutBounds(unit, armyFaction));
 // Show every id that has a bound (base + optional), in stable id order.
 const rows = $derived(
 	[...bounds.entries()]
@@ -22,7 +24,7 @@ const rows = $derived(
 		.sort((a, b) => a[0].localeCompare(b[0]))
 		.map(([id, b]) => ({ id, name: itemName(id), min: b.min, max: b.max })),
 );
-const violations = $derived(new Set(loadoutViolations(unit).map((v) => v.id)));
+const violations = $derived(new Set(loadoutViolations(unit, armyFaction).map((v) => v.id)));
 
 function setCount(id: string, requested: number) {
 	const next = new Map(unit.loadout);

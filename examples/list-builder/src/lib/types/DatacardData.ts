@@ -14,6 +14,14 @@ export type DatacardData = {
 	player: string;
 	datasheet_id: string | null;
 	/**
+	 * Owning faction of `datasheet_id`, used to resolve the correct copy of a
+	 * datasheet shared across factions (e.g. the Chaos chassis under the cult
+	 * legions, where each faction's copy has different keywords/profiles/points).
+	 * Null when the source has no faction context (degraded imports) — the card
+	 * then falls back to a faction-less first-wins lookup.
+	 */
+	faction_id?: string | null;
+	/**
 	 * Loadout-filtered weapon ids in canonical ranged/melee order.
 	 */
 	ranged_weapon_ids: Array<string>;

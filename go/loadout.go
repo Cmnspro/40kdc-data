@@ -145,12 +145,80 @@ func validateLoadout(unit map[string]any, modelCount int, options []any, counts 
 			out = append(out, map[string]string{"id": id, "code": "below-min", "message": id + ": " + itoa(n) + " below min " + itoa(b.min)})
 		}
 	}
+	out = append(out, swapConflicts(unit, modelCount, options, counts)...)
 	sort.SliceStable(out, func(i, j int) bool {
 		if out[i]["id"] != out[j]["id"] {
 			return out[i]["id"] < out[j]["id"]
 		}
 		return out[i]["code"] < out[j]["code"]
 	})
+	return out
+}
+
+// swapConflicts reports swap-conservation violations the per-id weaponBounds
+// can't see: a model's replaceable slot holds the base weapon OR one of its
+// swap replacements, never both, so count(base) + sum(count(replacements))
+// cannot exceed modelCount. Enforced only for the unambiguous shape — a base
+// weapon swapped out by plain (non-choice) options that replace it alone, whose
+// replacement ids are unique within this unit's option set and aren't
+// themselves base weapons. Mirror of tools/src/data/loadout.ts.
+func swapConflicts(unit map[string]any, modelCount int, options []any, counts map[string]int) []map[string]string {
+	baseIDs := map[string]struct{}{}
+	for _, id := range baseWeaponIDs(unit, options) {
+		baseIDs[id] = struct{}{}
+	}
+	addedBy := map[string]int{}
+	for _, oAny := range options {
+		o, _ := asMap(oAny)
+		for _, id := range getStrList(o, "replacement") {
+			addedBy[id]++
+		}
+		for _, group := range getList(o, "replacement_choice") {
+			for _, id := range toStrList(group) {
+				addedBy[id]++
+			}
+		}
+	}
+	var out []map[string]string
+	for base := range baseIDs {
+		cleanAdds := map[string]struct{}{}
+		messy := false
+		for _, oAny := range options {
+			o, _ := asMap(oAny)
+			replaces := getStrList(o, "replaces")
+			if !contains(replaces, base) {
+				continue
+			}
+			if len(replaces) != 1 || len(getList(o, "replacement_choice")) > 0 {
+				messy = true
+				break
+			}
+			for _, b := range getStrList(o, "replacement") {
+				if _, isBase := baseIDs[b]; isBase || addedBy[b] > 1 {
+					messy = true
+					break
+				}
+				cleanAdds[b] = struct{}{}
+			}
+			if messy {
+				break
+			}
+		}
+		if messy || len(cleanAdds) == 0 {
+			continue
+		}
+		total := counts[base]
+		for b := range cleanAdds {
+			total += counts[b]
+		}
+		if total > modelCount {
+			out = append(out, map[string]string{
+				"id":      base,
+				"code":    "swap-conflict",
+				"message": base + " and its swap replacement(s) total " + itoa(total) + ", exceeding " + itoa(modelCount) + " (a model takes the base weapon or a swap, not both)",
+			})
+		}
+	}
 	return out
 }
 

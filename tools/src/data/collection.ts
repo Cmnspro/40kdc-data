@@ -11,9 +11,26 @@
  * `get(id)`/`find` return the first match when an id is shared across factions;
  * use {@link Collection.byFaction} or {@link Collection.findAll} to disambiguate.
  *
+ * Collections whose copies genuinely diverge per faction (units: different
+ * points, keywords and profiles) set {@link CollectionConfig.guardUnscoped} so a
+ * faction-less {@link Collection.get} of an id that exists under several factions
+ * throws outside production — a faction-unaware lookup there is a bug (it would
+ * silently return whichever faction's copy registered first). Code that has no
+ * faction context on purpose (roster import, the conformance runner) calls
+ * {@link Collection.getAny} instead.
+ *
  * @packageDocumentation
  */
 import { normalizeName } from "./normalize.js";
+
+/**
+ * True only in a production build. The {@link CollectionConfig.guardUnscoped}
+ * tripwire throws everywhere else (dev servers, `vitest`, CLI tools) so an
+ * ambiguous unscoped lookup surfaces immediately; in production it degrades to
+ * the historical first-wins behaviour rather than crashing a user's session.
+ */
+const PRODUCTION =
+  typeof process !== "undefined" && process.env?.NODE_ENV === "production";
 
 /** How a {@link Collection} reads keys and builds views from raw records. */
 export interface CollectionConfig<T, V> {
@@ -30,6 +47,20 @@ export interface CollectionConfig<T, V> {
   nameOf?: (item: T) => string | undefined;
   /** Owning faction id, if applicable — drives {@link Collection.byFaction}. */
   factionOf?: (item: T) => string | null | undefined;
+  /**
+   * When set, a faction-less {@link Collection.get} of an id that exists under
+   * more than one faction throws outside production (see module docs). Use for
+   * collections whose per-faction copies diverge (units), so callers are forced
+   * to pass faction via {@link Collection.getInFaction} or opt out explicitly
+   * with {@link Collection.getAny}. Requires {@link factionOf}.
+   */
+  guardUnscoped?: boolean;
+  /**
+   * Noun used in the {@link guardUnscoped} throw message (e.g. `"unit"`,
+   * `"detachment"`). Defaults to `"entity"`. Cosmetic — steers the error toward
+   * the right collection without changing behaviour.
+   */
+  entityLabel?: string;
   /** Wrap a raw record in its linked view. */
   wrap: (item: T) => V;
 }
@@ -50,13 +81,20 @@ export class Collection<T, V> implements Iterable<V> {
   private readonly idOf: (item: T) => string;
   private readonly nameOf?: (item: T) => string | undefined;
   private readonly wrapFn: (item: T) => V;
+  /** Ids registered under >1 faction; only populated when guarding. */
+  private readonly ambiguousIds?: Set<string>;
+  /** Noun for the guard throw message. */
+  private readonly entityLabel: string;
 
   constructor(cfg: CollectionConfig<T, V>) {
     this.idOf = cfg.idOf;
     this.nameOf = cfg.nameOf;
     this.wrapFn = cfg.wrap;
+    this.entityLabel = cfg.entityLabel ?? "entity";
     const dedupeKeyOf = cfg.dedupeKeyOf ?? cfg.idOf;
     const seen = new Set<string>();
+    // id -> distinct faction ids it appears under (only tracked when guarding).
+    const idFactions = cfg.guardUnscoped ? new Map<string, Set<string>>() : undefined;
     for (const item of cfg.items) {
       const dedupeKey = dedupeKeyOf(item);
       if (seen.has(dedupeKey)) continue; // first-wins dedup
@@ -70,7 +108,20 @@ export class Collection<T, V> implements Iterable<V> {
       if (name) push(this.byNorm, normalizeName(name), item);
 
       const faction = cfg.factionOf?.(item);
-      if (faction) push(this.byFactionId, faction, item);
+      if (faction) {
+        push(this.byFactionId, faction, item);
+        if (idFactions) {
+          const set = idFactions.get(id);
+          if (set) set.add(faction);
+          else idFactions.set(id, new Set([faction]));
+        }
+      }
+    }
+    if (idFactions) {
+      this.ambiguousIds = new Set();
+      for (const [id, factions] of idFactions) {
+        if (factions.size > 1) this.ambiguousIds.add(id);
+      }
     }
   }
 
@@ -84,8 +135,33 @@ export class Collection<T, V> implements Iterable<V> {
     return this.items.length;
   }
 
-  /** Look up by exact id. */
+  /**
+   * Look up by exact id. For a guarded collection (see
+   * {@link CollectionConfig.guardUnscoped}), an id that exists under more than
+   * one faction throws outside production — pass a faction via
+   * {@link getInFaction}, or call {@link getAny} when faction is genuinely
+   * unknown. In production this degrades to first-wins.
+   */
   get(id: string): V | undefined {
+    if (!PRODUCTION && this.ambiguousIds?.has(id)) {
+      throw new Error(
+        `Ambiguous ${this.entityLabel} lookup: "${id}" exists under multiple factions; ` +
+          `faction-less get() would return whichever copy registered first ` +
+          `(wrong divergent fields). Use getInFaction("${id}", factionId), ` +
+          `or getAny("${id}") when faction is genuinely unknown (import / conformance).`,
+      );
+    }
+    const item = this.byId.get(id);
+    return item ? this.wrapFn(item) : undefined;
+  }
+
+  /**
+   * First-wins lookup by exact id that never throws, for callers with no
+   * faction context on purpose (roster import, the conformance runner). For a
+   * guarded collection this is the explicit opt-out of {@link get}'s ambiguity
+   * tripwire; for an unguarded one it is identical to {@link get}.
+   */
+  getAny(id: string): V | undefined {
     const item = this.byId.get(id);
     return item ? this.wrapFn(item) : undefined;
   }

@@ -140,6 +140,10 @@ export class Dataset {
       dedupeKeyOf: (u) => `${u.faction_id}::${u.id}`,
       nameOf: (u) => u.name,
       factionOf: (u) => u.faction_id,
+      // Per-faction copies of a shared chassis genuinely diverge (points,
+      // keywords, profiles), so a faction-less get() of a shared id is a bug.
+      guardUnscoped: true,
+      entityLabel: "unit",
       wrap: (u) => new UnitView(u, this),
     });
     this.weapons = new Collection({
@@ -183,6 +187,11 @@ export class Dataset {
       nameOf: (d) => d.name,
       dedupeKeyOf: (d) => `${d.faction_id}::${d.id}`,
       factionOf: (d) => d.faction_id,
+      // Shared Space Marine detachments diverge per chapter (detachment_rule_id,
+      // stratagem_ids, enhancement_ids, detachment_points), so a faction-less
+      // get() of a shared id is a bug — same guard as the units collection.
+      guardUnscoped: true,
+      entityLabel: "detachment",
       wrap: (d) => d,
     });
     // Allied rules aren't owned by one faction (Daemonic Pact is shared by
@@ -343,7 +352,9 @@ export class Dataset {
   leadersAttachableTo(bodyguardUnitId: string): UnitView[] {
     return this.leaderAttachments
       .filter((la) => la.eligible_bodyguard_ids.includes(bodyguardUnitId))
-      .map((la) => this.units.get(la.leader_id))
+      // Attachment data is faction-agnostic (no faction context here); accept
+      // first-wins for a shared leader/bodyguard chassis via getAny.
+      .map((la) => this.units.getAny(la.leader_id))
       .filter((u): u is UnitView => u !== undefined)
       .sort((a, b) => a.name.localeCompare(b.name));
   }
@@ -363,7 +374,7 @@ export class Dataset {
       if (la.leader_id !== leaderUnitId) continue;
       for (const bodyguardId of la.eligible_bodyguard_ids) {
         if (seen.has(bodyguardId)) continue;
-        const unit = this.units.get(bodyguardId);
+        const unit = this.units.getAny(bodyguardId);
         if (!unit) continue;
         seen.add(bodyguardId);
         out.push(unit);

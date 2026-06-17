@@ -125,6 +125,21 @@ describe("Collection.find / findAll", () => {
   it("getInFaction returns undefined when the id is absent from the faction", () => {
     expect(units.getInFaction("chaos-land-raider", "adepta-sororitas")).toBeUndefined();
   });
+
+  it("get() throws for a shared chassis id resolved without a faction (dev guard)", () => {
+    // The tripwire that turns the original silent mis-lookup into a loud error:
+    // a faction-blind get() of an id under several factions would return the
+    // first-registered copy (wrong keywords/points). vitest runs outside
+    // production, so it throws.
+    expect(() => units.get("chaos-land-raider")).toThrow(/Ambiguous unit lookup/);
+    // getAny is the explicit opt-out for genuinely faction-unknown callers
+    // (roster import, the conformance runner) — first-wins, never throws.
+    expect(units.getAny("chaos-land-raider")).toBeDefined();
+    // The scoped accessor is unaffected.
+    expect(units.getInFaction("chaos-land-raider", "world-eaters")?.raw.faction_id).toBe(
+      "world-eaters",
+    );
+  });
 });
 
 describe("internationalization (diacritic- and punctuation-insensitive lookup)", () => {

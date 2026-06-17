@@ -29,7 +29,7 @@ let { unit, draft, onchange, onwarlord }: Props = $props();
 const armyFaction = $derived(draft.factionId ?? undefined);
 const raw = $derived(unit ? unitRaw(unit.datasheetId, unit.factionId, armyFaction) : undefined);
 const enhancements = $derived(
-	unit ? eligibleEnhancements(draft.detachmentIds, raw, unit.selectedGrants ?? []) : [],
+	unit ? eligibleEnhancements(draft.detachmentIds, raw, unit.selectedGrants ?? [], armyFaction) : [],
 );
 const points = $derived(unit ? unitPoints(unit, armyFaction) : 0);
 const modelRange = $derived(raw?.model_count ?? null);
@@ -38,7 +38,7 @@ const leader = $derived(!!raw && isLeader(raw));
 /** Count-limited detachment grants this unit can take (e.g. Houndpack CHARACTER). */
 const grants = $derived(
 	raw
-		? selectableGrantsFor(raw, draft.detachmentIds).map((g) => ({
+		? selectableGrantsFor(raw, draft.detachmentIds, armyFaction).map((g) => ({
 				...g,
 				on: (unit?.selectedGrants ?? []).some((k) => k.toLowerCase() === g.keyword.toLowerCase()),
 				picked: grantSelectionCount(draft, g.keyword),
@@ -183,7 +183,7 @@ function setAttachment(key: string) {
 				<div class="text-text-muted mb-1.5 text-xs font-semibold uppercase tracking-wider">
 					Wargear
 				</div>
-				<WargearEditor {unit} onchange={(loadout) => onchange({ ...unit, loadout })} />
+				<WargearEditor {unit} {armyFaction} onchange={(loadout) => onchange({ ...unit, loadout })} />
 			</div>
 
 			<!-- Live datacard for the selected unit (reflects the equipped loadout). -->

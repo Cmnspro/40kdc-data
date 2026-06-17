@@ -24,6 +24,7 @@ import { ds } from '$lib/data/dataset';
 import {
 	builderStateToShareList,
 	buRaw,
+	detachmentRaw,
 	shareListToBuilderState,
 	type BuilderState,
 	type BuilderViolation,
@@ -121,12 +122,14 @@ export function teamViolations(draft: DoublesDraft): TeamViolation[] {
 	const [a, b] = draft.armies;
 
 	// Epic Heroes (the dataset's once-per-army proxy) can't be in both armies.
-	const epicIn = (army: BuilderState) =>
-		new Map(
+	const epicIn = (army: BuilderState) => {
+		const fid = army.factionId ?? undefined;
+		return new Map(
 			army.units
-				.filter((u) => buRaw(u)?.role === 'epic-hero')
-				.map((u) => [u.datasheetId, buRaw(u)?.name ?? u.datasheetId]),
+				.filter((u) => buRaw(u, fid)?.role === 'epic-hero')
+				.map((u) => [u.datasheetId, buRaw(u, fid)?.name ?? u.datasheetId]),
 		);
+	};
 	const epicA = epicIn(a);
 	for (const [id, name] of epicIn(b)) {
 		if (epicA.has(id)) {
@@ -196,7 +199,7 @@ export function teamDispositionOptions(
 		const side = i as DoublesSide;
 		const granted = [
 			...new Set(
-				army.detachmentIds.flatMap((id) => ds.detachments.get(id)?.force_dispositions ?? []),
+				army.detachmentIds.flatMap((id) => detachmentRaw(id, army.factionId ?? undefined)?.force_dispositions ?? []),
 			),
 		];
 		const ids = granted.length > 0 ? granted : all;

@@ -14,6 +14,9 @@ import {
 	detachmentsForFaction,
 	eligibleEnhancements,
 	defaultLoadout,
+	builderUnitToDatacardData,
+	wargearOptionsFor,
+	loadoutViolations,
 	totalPoints,
 	builderViolations,
 	detachmentTagConflicts,
@@ -453,6 +456,55 @@ describe('shared Chaos datasheets resolve to the army faction', () => {
 		// An ally's explicit faction still wins over the army fallback.
 		const csm = unitRaw('chaos-spawn', 'chaos-space-marines', 'world-eaters');
 		expect(csm?.faction_keywords).toContain('Heretic Astartes');
+	});
+
+	it('resolves the World Eaters Chaos Terminators, not the Emperor’s Children copy', () => {
+		// Regression for the reported bug: chaos-terminators exists only under
+		// world-eaters + emperors-children; emperors-children sorts first, so a
+		// faction-blind lookup returned the wrong (Slaanesh, 5-model) datasheet.
+		const we = unitRaw('chaos-terminators', undefined, 'world-eaters');
+		expect(we?.faction_id).toBe('world-eaters');
+		expect(we?.profiles[0]?.name).toBe('World Eaters Terminator');
+		expect(we?.keywords).toContain('Khorne');
+		expect(we?.keywords).not.toContain('Slaanesh');
+		// Data regression: WE fields 5–10 models (its points table has a 10-model
+		// tier); the view-split had swapped the cap with the EC copy.
+		expect(we?.model_count).toEqual({ min: 5, max: 10 });
+		const ec = unitRaw('chaos-terminators', undefined, 'emperors-children');
+		expect(ec?.keywords).toContain('Slaanesh');
+		expect(ec?.model_count).toEqual({ min: 5, max: 5 });
+	});
+
+	it('resolves a shared vehicle chassis to the army faction’s keywords only', () => {
+		// The generic chaos-space-marines Land Raider legitimately carries all
+		// four god marks; a WE list must see the Khorne-only WE copy, not that one.
+		const lr = unitRaw('chaos-land-raider', undefined, 'world-eaters');
+		expect(lr?.faction_id).toBe('world-eaters');
+		expect(lr?.keywords).toContain('Khorne');
+		for (const god of ['Slaanesh', 'Nurgle', 'Tzeentch']) {
+			expect(lr?.keywords).not.toContain(god);
+		}
+		// "Frame" is a model-build tag the dataset omits everywhere; it had leaked
+		// onto the WE vehicle copies only.
+		expect(lr?.keywords).not.toContain('Frame');
+	});
+
+	it('stamps faction onto the datacard and scopes wargear for a shared chassis', () => {
+		const bu: BuilderUnit = {
+			key: 't',
+			datasheetId: 'chaos-terminators',
+			modelCount: 5,
+			loadout: new Map(),
+			enhancementId: null,
+			isWarlord: false,
+		};
+		// builderUnitToDatacardData resolves via the army faction and records it,
+		// so the (id-only) Datacard re-resolves the right copy instead of first-wins.
+		expect(builderUnitToDatacardData(bu, 'world-eaters').faction_id).toBe('world-eaters');
+		// Faction-scoped wargear/loadout lookups resolve (and never trip the
+		// units guard) for a shared id.
+		expect(wargearOptionsFor('chaos-terminators', undefined, 'world-eaters')).toBeDefined();
+		expect(loadoutViolations(bu, 'world-eaters')).toEqual([]);
 	});
 
 	it('does not flag own World Eaters units when a Chaos Knights ally is present', () => {

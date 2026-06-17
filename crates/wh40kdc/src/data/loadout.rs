@@ -40,6 +40,7 @@ pub struct Violation {
 pub enum ViolationCode {
     ExceedsMax,
     BelowMin,
+    SwapConflict,
 }
 
 impl ViolationCode {
@@ -47,6 +48,7 @@ impl ViolationCode {
         match self {
             ViolationCode::ExceedsMax => "exceeds-max",
             ViolationCode::BelowMin => "below-min",
+            ViolationCode::SwapConflict => "swap-conflict",
         }
     }
 }
@@ -208,7 +210,80 @@ pub fn validate_loadout(
             });
         }
     }
+    out.extend(swap_conflicts(unit, model_count, options, counts));
     out.sort_by(|a, b| a.id.cmp(&b.id).then(a.code.as_str().cmp(b.code.as_str())));
+    out
+}
+
+/// Swap-conservation violations the independent per-id [`weapon_bounds`] can't
+/// see: a model's replaceable slot holds the base weapon OR one of its swap
+/// replacements, never both, so `count(base) + Σ count(replacements)` cannot
+/// exceed `model_count`. Enforced only for the unambiguous shape — a base weapon
+/// swapped out by plain (non-choice) options that replace it alone, whose
+/// replacement ids are unique within this unit's option set and aren't
+/// themselves base weapons. Mirror of `tools/src/data/loadout.ts`.
+fn swap_conflicts(
+    unit: &Unit,
+    model_count: u64,
+    options: &[&WargearOption],
+    counts: &HashMap<String, i64>,
+) -> Vec<Violation> {
+    let base_ids: HashSet<String> = base_weapon_ids(unit, options).into_iter().collect();
+    let mut added_by: HashMap<String, u32> = HashMap::new();
+    for o in options {
+        for id in &o.replacement {
+            *added_by.entry(id.to_string()).or_insert(0) += 1;
+        }
+        for group in &o.replacement_choice {
+            for id in group {
+                *added_by.entry(id.to_string()).or_insert(0) += 1;
+            }
+        }
+    }
+    let mut out = Vec::new();
+    for base in &base_ids {
+        let mut clean_adds: HashSet<String> = HashSet::new();
+        let mut messy = false;
+        for o in options {
+            if !o.replaces.iter().any(|r| r.as_str() == base.as_str()) {
+                continue;
+            }
+            // Only a plain, single-target swap of this exact base weapon is unambiguous.
+            if o.replaces.len() != 1 || !o.replacement_choice.is_empty() {
+                messy = true;
+                break;
+            }
+            for b in &o.replacement {
+                if base_ids.contains(b.as_str())
+                    || added_by.get(b.as_str()).copied().unwrap_or(0) > 1
+                {
+                    messy = true;
+                    break;
+                }
+                clean_adds.insert(b.to_string());
+            }
+            if messy {
+                break;
+            }
+        }
+        if messy || clean_adds.is_empty() {
+            continue;
+        }
+        let mut total = counts.get(base).copied().unwrap_or(0);
+        for b in &clean_adds {
+            total += counts.get(b).copied().unwrap_or(0);
+        }
+        if total > model_count as i64 {
+            out.push(Violation {
+                id: base.clone(),
+                code: ViolationCode::SwapConflict,
+                message: format!(
+                    "{base} and its swap replacement(s) total {total}, exceeding {model_count} \
+                     (a model takes the base weapon or a swap, not both)"
+                ),
+            });
+        }
+    }
     out
 }
 
@@ -268,5 +343,29 @@ mod tests {
         let lo = maximal_loadout(bz, 10, &opts);
         let counts: HashMap<String, i64> = lo.counts.into_iter().collect();
         assert!(validate_loadout(bz, 10, &opts, &counts).is_empty());
+    }
+
+    #[test]
+    fn validate_flags_swap_conflict() {
+        // War Dog Brigand swaps the diabolus heavy stubber for a havoc
+        // multi-launcher — one or the other, never both. Per-id bounds pass
+        // (each in [0,1]); only the swap-conservation check catches the conflict.
+        let ds = Dataset::embedded();
+        let wd = ds.units.get("war-dog-brigand").expect("war-dog in dataset");
+        let opts = ds.wargear_options_of(wd);
+        let mut both = HashMap::new();
+        both.insert("diabolus-heavy-stubber".to_string(), 1i64);
+        both.insert("havoc-multi-launcher".to_string(), 1i64);
+        let v = validate_loadout(wd, 1, &opts, &both);
+        assert_eq!(v.len(), 1);
+        assert_eq!(v[0].id, "diabolus-heavy-stubber");
+        assert_eq!(v[0].code, ViolationCode::SwapConflict);
+
+        let mut keep = HashMap::new();
+        keep.insert("diabolus-heavy-stubber".to_string(), 1i64);
+        assert!(validate_loadout(wd, 1, &opts, &keep).is_empty());
+        let mut swap = HashMap::new();
+        swap.insert("havoc-multi-launcher".to_string(), 1i64);
+        assert!(validate_loadout(wd, 1, &opts, &swap).is_empty());
     }
 }
