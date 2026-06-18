@@ -51,9 +51,23 @@
     "unit_id": "terminator-squad",
     "models": [
       {
+        "name": "Terminator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "power-fist"
+        ]
+      },
+      {
         "name": "Terminator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -192,9 +206,24 @@
     "unit_id": "sternguard-veteran-squad",
     "models": [
       {
+        "name": "Sternguard Veteran Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "sternguard-bolt-pistol",
+          "sternguard-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Sternguard Veteran",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -482,10 +511,10 @@
           "diameter": 90
         },
         "default_weapon_ids": [
-          "twin-heavy-bolter",
-          "brutalis-fists",
           "twin-icarus-ironhail-heavy-stubber",
-          "brutalis-bolt-rifles"
+          "twin-heavy-bolter",
+          "blood-fist-bolt-rifles",
+          "blood-fists"
         ]
       }
     ],
@@ -530,12 +559,8 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "power-fist",
-          "relic-weapon",
-          "astartes-chainsword",
-          "hand-flamer",
-          "plasma-pistol",
-          "heavy-bolt-pistol"
+          "heavy-bolt-pistol",
+          "astartes-chainsword"
         ]
       }
     ],
@@ -598,11 +623,8 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "power-fist",
-          "relic-weapon",
-          "inferno-pistol",
-          "master-crafted-chainsword",
-          "heavy-bolt-pistol"
+          "heavy-bolt-pistol",
+          "master-crafted-chainsword"
         ]
       }
     ],
@@ -800,11 +822,8 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "power-fist",
-          "relic-weapon",
-          "inferno-pistol",
-          "master-crafted-chainsword",
-          "heavy-bolt-pistol"
+          "heavy-bolt-pistol",
+          "master-crafted-chainsword"
         ]
       }
     ],
@@ -843,9 +862,25 @@
     "unit_id": "ravenwing-black-knights",
     "models": [
       {
+        "name": "Ravenwing Huntmaster",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 75,
+          "length": 42
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "plasma-talon",
+          "black-knight-combat-weapon"
+        ]
+      },
+      {
         "name": "Ravenwing Black Knight",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "oval",
@@ -892,9 +927,23 @@
     "unit_id": "deathwing-terminator-squad",
     "models": [
       {
+        "name": "Deathwing Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "power-weapon"
+        ]
+      },
+      {
         "name": "Deathwing Terminator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1037,9 +1086,22 @@
     "unit_id": "deathwing-knights",
     "models": [
       {
+        "name": "Knight Master",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "great-weapon-of-the-unforgiven"
+        ]
+      },
+      {
         "name": "Deathwing Knight",
-        "min": 5,
-        "max": 5,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1106,8 +1168,8 @@
     "models": [
       {
         "name": "Ravenwing Champion",
-        "min": 3,
-        "max": 3,
+        "min": 1,
+        "max": 1,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "oval",
@@ -1118,6 +1180,38 @@
           "plasma-talon",
           "bolt-pistol",
           "master-crafted-power-weapon"
+        ]
+      },
+      {
+        "name": "Ravenwing Apothecary",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 75,
+          "length": 42
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "plasma-talon",
+          "black-knight-combat-weapon"
+        ]
+      },
+      {
+        "name": "Ravenwing Ancient",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 75,
+          "length": 42
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "plasma-talon",
+          "black-knight-combat-weapon"
         ]
       }
     ],
@@ -1312,9 +1406,8 @@
         "min": 2,
         "max": 7,
         "default_weapon_ids": [
-          "close-combat-weapon",
-          "deathwatch-marksman-bolt-carbine",
-          "special-issue-bolt-pistol"
+          "special-issue-bolt-pistol",
+          "xenophase-blade"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1432,9 +1525,23 @@
     "unit_id": "deathwatch-terminator-squad",
     "models": [
       {
+        "name": "Deathwatch Terminator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "power-fist",
+          "storm-bolter"
+        ]
+      },
+      {
         "name": "Deathwatch Terminator",
-        "min": 10,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1455,9 +1562,24 @@
     "unit_id": "fortis-kill-team",
     "models": [
       {
+        "name": "Kill Team Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "deathwatch-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Kill Team Intercessor",
-        "min": 24,
-        "max": 24,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1549,9 +1671,23 @@
     "unit_id": "assault-intercessor-squad",
     "models": [
       {
+        "name": "Assault Intercessor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "astartes-chainsword"
+        ]
+      },
+      {
         "name": "Assault Intercessor",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1572,9 +1708,23 @@
     "unit_id": "inceptor-squad",
     "models": [
       {
+        "name": "Inceptor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "assault-bolters",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Inceptor",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1700,7 +1850,13 @@
           "shape": "oval",
           "width": 90,
           "length": 52.5
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "onslaught-gatling-cannon",
+          "stormtooth",
+          "power-sword"
+        ]
       }
     ],
     "game_version": {
@@ -1735,9 +1891,24 @@
     "unit_id": "eradicator-squad",
     "models": [
       {
+        "name": "Eradicator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "melta-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Eradicator",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1852,9 +2023,23 @@
     "unit_id": "terminator-assault-squad",
     "models": [
       {
+        "name": "Assault Terminator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "thunder-hammer",
+          "storm-shield"
+        ]
+      },
+      {
         "name": "Assault Terminator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1898,9 +2083,23 @@
     "unit_id": "bladeguard-veteran-squad",
     "models": [
       {
+        "name": "Bladeguard Veteran Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "master-crafted-power-weapon"
+        ]
+      },
+      {
         "name": "Bladeguard Veteran",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2249,9 +2448,24 @@
     "unit_id": "suppressor-squad",
     "models": [
       {
+        "name": "Suppressor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "accelerator-autocannon",
+          "bolt-pistol",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Suppressor",
-        "min": 3,
-        "max": 3,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2296,9 +2510,24 @@
     "unit_id": "devastator-squad",
     "models": [
       {
+        "name": "Devastator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "boltgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Devastator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2406,9 +2635,24 @@
     "unit_id": "centurion-devastator-squad",
     "models": [
       {
+        "name": "Devastator Centurion Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 50
+        },
+        "default_weapon_ids": [
+          "grav-cannon",
+          "centurion-bolters",
+          "centurion-fists"
+        ]
+      },
+      {
         "name": "Devastator Centurion",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2457,9 +2701,24 @@
     "unit_id": "hellblaster-squad",
     "models": [
       {
+        "name": "Hellblaster Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "plasma-incinerator",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Hellblaster",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2481,9 +2740,24 @@
     "unit_id": "heavy-intercessor-squad",
     "models": [
       {
+        "name": "Heavy Intercessor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "heavy-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Heavy Intercessor",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2550,9 +2824,8 @@
         "min": 2,
         "max": 7,
         "default_weapon_ids": [
-          "close-combat-weapon",
-          "deathwatch-marksman-bolt-carbine",
-          "special-issue-bolt-pistol"
+          "special-issue-bolt-pistol",
+          "xenophase-blade"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -2585,9 +2858,24 @@
     "unit_id": "scout-squad",
     "models": [
       {
+        "name": "Scout Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "boltgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Scout",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2872,9 +3160,24 @@
     "unit_id": "eliminator-squad",
     "models": [
       {
+        "name": "Eliminator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "bolt-sniper-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Eliminator",
-        "min": 3,
-        "max": 3,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2955,9 +3258,25 @@
     "unit_id": "desolation-squad",
     "models": [
       {
+        "name": "Desolation Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "castellan-launcher",
+          "superfrag-rocket-launcher",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Desolation Marine",
-        "min": 5,
-        "max": 5,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2980,9 +3299,24 @@
     "unit_id": "centurion-assault-squad",
     "models": [
       {
+        "name": "Assault Centurion Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 50
+        },
+        "default_weapon_ids": [
+          "twin-flamer",
+          "siege-drills",
+          "centurion-bolters"
+        ]
+      },
+      {
         "name": "Assault Centurion",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3027,9 +3361,24 @@
     "unit_id": "tactical-squad",
     "models": [
       {
+        "name": "Tactical Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "boltgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Tactical Marine",
-        "min": 10,
-        "max": 10,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3258,9 +3607,24 @@
     "unit_id": "incursor-squad",
     "models": [
       {
+        "name": "Incursor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "occulus-bolt-carbine",
+          "paired-combat-blades"
+        ]
+      },
+      {
         "name": "Incursor",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3282,9 +3646,23 @@
     "unit_id": "assault-intercessors-with-jump-packs",
     "models": [
       {
+        "name": "Assault Intercessor Sergeant with Jump Pack",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "astartes-chainsword"
+        ]
+      },
+      {
         "name": "Assault Intercessors with Jump Packs",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3365,9 +3743,23 @@
     "unit_id": "vanguard-veteran-squad-with-jump-packs",
     "models": [
       {
+        "name": "Vanguard Veteran Sergeant with Jump Pack",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "vanguard-veteran-weapon"
+        ]
+      },
+      {
         "name": "Vanguard Veteran with Jump Pack",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3388,14 +3780,49 @@
     "unit_id": "company-heroes",
     "models": [
       {
+        "name": "Ancient",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Company Champion",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "master-crafted-power-weapon"
+        ]
+      },
+      {
         "name": "Company Veteran",
-        "min": 4,
-        "max": 4,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "close-combat-weapon",
+          "master-crafted-heavy-bolter",
+          "master-crafted-bolt-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -3407,9 +3834,23 @@
     "unit_id": "aggressor-squad",
     "models": [
       {
+        "name": "Aggressor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "flamestorm-gauntlets",
+          "twin-power-fists"
+        ]
+      },
+      {
         "name": "Aggressor",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3647,9 +4088,24 @@
     "unit_id": "intercessor-squad",
     "models": [
       {
+        "name": "Intercessor Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Intercessor",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3724,9 +4180,23 @@
     "unit_id": "terminator-squad",
     "models": [
       {
+        "name": "Terminator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "power-fist"
+        ]
+      },
+      {
         "name": "Terminator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3876,9 +4346,24 @@
     "unit_id": "infiltrator-squad",
     "models": [
       {
+        "name": "Infiltrator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "marksman-bolt-carbine",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Infiltrator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3925,9 +4410,23 @@
     "unit_id": "deathwatch-terminator-squad",
     "models": [
       {
+        "name": "Deathwatch Terminator Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "power-fist",
+          "storm-bolter"
+        ]
+      },
+      {
         "name": "Deathwatch Terminator",
-        "min": 10,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3948,9 +4447,24 @@
     "unit_id": "infernus-squad",
     "models": [
       {
+        "name": "Infernus Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "pyreblaster",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Infernus Marine",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -3972,9 +4486,24 @@
     "unit_id": "sternguard-veteran-squad",
     "models": [
       {
+        "name": "Sternguard Veteran Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "sternguard-bolt-pistol",
+          "sternguard-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Sternguard Veteran",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4117,9 +4646,23 @@
     "unit_id": "reiver-squad",
     "models": [
       {
+        "name": "Reiver Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "special-issue-bolt-pistol",
+          "combat-knife"
+        ]
+      },
+      {
         "name": "Reiver",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4140,9 +4683,24 @@
     "unit_id": "fortis-kill-team",
     "models": [
       {
+        "name": "Kill Team Sergeant",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "deathwatch-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Kill Team Intercessor",
-        "min": 24,
-        "max": 24,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4307,9 +4865,24 @@
     "unit_id": "thunderwolf-cavalry",
     "models": [
       {
+        "name": "Thunderwolf Cavalry Pack Leader",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 60
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "teeth-and-claws",
+          "wolf-guard-weapon"
+        ]
+      },
+      {
         "name": "Thunderwolf Cavalry",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4331,9 +4904,24 @@
     "unit_id": "grey-hunters",
     "models": [
       {
+        "name": "Grey Hunter Pack Leader",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "bolt-carbine",
+          "astartes-chainsword"
+        ]
+      },
+      {
         "name": "Grey Hunter",
-        "min": 10,
-        "max": 10,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4485,9 +5073,23 @@
     "unit_id": "blood-claws",
     "models": [
       {
+        "name": "Blood Claw Pack Leader",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "astartes-chainsword"
+        ]
+      },
+      {
         "name": "Blood Claw",
-        "min": 10,
-        "max": 20,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4555,9 +5157,23 @@
     "unit_id": "wolf-guard-terminators",
     "models": [
       {
+        "name": "Wolf Guard Terminator Pack Leader",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "master-crafted-power-weapon"
+        ]
+      },
+      {
         "name": "Wolf Guard Terminator",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",

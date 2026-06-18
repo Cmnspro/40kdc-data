@@ -620,9 +620,24 @@
     "unit_id": "bloodcrushers",
     "models": [
       {
+        "name": "Bloodhunter",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 90,
+          "length": 52.5
+        },
+        "default_weapon_ids": [
+          "hellblade",
+          "juggernauts-bladed-horn"
+        ]
+      },
+      {
         "name": "Bloodcrusher",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "oval",
@@ -644,9 +659,23 @@
     "unit_id": "fiends",
     "models": [
       {
+        "name": "Blissbringer",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 75,
+          "length": 42
+        },
+        "default_weapon_ids": [
+          "barbed-tail-and-dissecting-claws"
+        ]
+      },
+      {
         "name": "Fiend",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "oval",
@@ -833,9 +862,27 @@
     "unit_id": "plague-drones",
     "models": [
       {
+        "name": "Plaguebringer",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "flying-base",
+          "size": "large",
+          "draft": true,
+          "width": 120,
+          "length": 92
+        },
+        "default_weapon_ids": [
+          "deaths-heads",
+          "foul-mouthparts",
+          "plaguesword"
+        ]
+      },
+      {
         "name": "Plague Drone",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "flying-base",
@@ -1009,7 +1056,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "lashes-of-torment",
+          "seeker-tongues",
+          "slashing-claws"
+        ]
       }
     ],
     "game_version": {
@@ -1245,9 +1297,23 @@
     "unit_id": "flamers",
     "models": [
       {
+        "name": "Pyrocaster",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "flickering-flames",
+          "flamer-mouths"
+        ]
+      },
+      {
         "name": "Flamer",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1290,9 +1356,24 @@
     "unit_id": "flesh-hounds",
     "models": [
       {
+        "name": "Gore Hound",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 60,
+          "length": 35.5
+        },
+        "default_weapon_ids": [
+          "burning-roar",
+          "gore-drenched-fangs"
+        ]
+      },
+      {
         "name": "Flesh Hound",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "oval",

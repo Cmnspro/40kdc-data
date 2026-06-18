@@ -209,9 +209,24 @@
         }
       },
       {
+        "name": "Gun Servitor",
+        "min": 2,
+        "max": 2,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "heavy-arc-rifle",
+          "heavy-bolter",
+          "servo-claw"
+        ]
+      },
+      {
         "name": "Combat Servitor",
-        "min": 8,
-        "max": 8,
+        "min": 6,
+        "max": 6,
         "default_weapon_ids": [
           "servo-claw",
           "phosphor-blaster"

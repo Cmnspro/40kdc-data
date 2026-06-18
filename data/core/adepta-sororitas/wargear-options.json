@@ -8,8 +8,8 @@
     },
     "is_free": true,
     "replaces": [
-      "hallowed-mace",
-      "bolt-pistol"
+      "bolt-pistol",
+      "hallowed-mace"
     ],
     "replacement_choice": [
       [
@@ -33,8 +33,8 @@
     },
     "is_free": true,
     "replaces": [
-      "hallowed-mace",
-      "bolt-pistol"
+      "bolt-pistol",
+      "hallowed-mace"
     ],
     "replacement": [
       "anointed-halberd"
@@ -53,8 +53,8 @@
     },
     "is_free": true,
     "replaces": [
-      "hallowed-mace",
-      "bolt-pistol"
+      "bolt-pistol",
+      "hallowed-mace"
     ],
     "replacement_choice": [
       [
@@ -209,26 +209,38 @@
     },
     "is_free": true,
     "replaces": [
+      "plasma-gun",
       "ministorum-flamer"
     ],
-    "replacement_choice": [
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun",
-        "holy-fire"
-      ],
-      [
-        "plasma-gun"
-      ]
+    "replacement": [
+      "meltagun"
     ],
     "model_constraint": {
+      "model_name": "Missionary",
       "any_number": true
     }
   },
   {
     "id": "sanctifiers-wgo-mfm-2",
+    "unit_id": "sanctifiers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "ministorum-flamer"
+    ],
+    "replacement": [
+      "holy-fire"
+    ],
+    "model_constraint": {
+      "model_name": "Missionary",
+      "any_number": true
+    }
+  },
+  {
+    "id": "sanctifiers-wgo-mfm-3",
     "unit_id": "sanctifiers",
     "game_version": {
       "edition": "11th",
@@ -249,6 +261,7 @@
       ]
     ],
     "model_constraint": {
+      "model_name": "Sanctifier",
       "any_number": true
     }
   },
@@ -301,8 +314,8 @@
     },
     "is_free": true,
     "replaces": [
-      "null-mace",
-      "condemnor-bolt-pistol"
+      "condemnor-bolt-pistol",
+      "null-mace"
     ],
     "replacement_choice": [
       [
@@ -373,9 +386,9 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
       "bolt-pistol",
-      "bolt-pistol"
+      "bolt-pistol",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -401,8 +414,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "bolt-pistol"
+      "bolt-pistol",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -429,9 +442,9 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-tracks",
       "heavy-bolter",
-      "immolation-flamers"
+      "immolation-flamers",
+      "armoured-tracks"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -449,9 +462,9 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-tracks",
       "heavy-bolter",
-      "immolation-flamers"
+      "immolation-flamers",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
@@ -511,8 +524,8 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "close-combat-weapon",
-      "heavy-bolter"
+      "heavy-bolter",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -536,8 +549,8 @@
     },
     "is_free": true,
     "replaces": [
-      "boltgun",
       "bolt-pistol",
+      "boltgun",
       "close-combat-weapon"
     ],
     "replacement_choice": [
@@ -602,8 +615,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "autogun"
+      "autogun",
+      "close-combat-weapon"
     ],
     "replacement": [
       "novitiate-melee-weapons"
@@ -649,8 +662,8 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-tracks",
-      "storm-bolter"
+      "storm-bolter",
+      "armoured-tracks"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -669,9 +682,9 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
+      "heavy-bolter",
       "paragon-storm-bolters",
-      "paragon-war-blade",
-      "heavy-bolter"
+      "paragon-war-blade"
     ],
     "replacement_choice": [
       [
@@ -695,10 +708,10 @@
     },
     "is_free": true,
     "replaces": [
-      "paragon-war-blade",
       "bolt-pistol",
+      "heavy-bolter",
       "paragon-storm-bolters",
-      "heavy-bolter"
+      "paragon-war-blade"
     ],
     "replacement_choice": [
       [
@@ -722,10 +735,10 @@
     },
     "is_free": true,
     "replaces": [
-      "paragon-war-blade",
       "bolt-pistol",
+      "heavy-bolter",
       "paragon-storm-bolters",
-      "heavy-bolter"
+      "paragon-war-blade"
     ],
     "replacement": [
       "paragon-grenade-launchers"
@@ -745,9 +758,9 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
+      "heavy-bolter",
       "paragon-storm-bolters",
-      "paragon-war-blade",
-      "heavy-bolter"
+      "paragon-war-blade"
     ],
     "replacement": [
       "paragon-war-mace"
@@ -766,10 +779,10 @@
     },
     "is_free": true,
     "replaces": [
-      "paragon-war-blade",
       "bolt-pistol",
+      "heavy-bolter",
       "paragon-storm-bolters",
-      "heavy-bolter"
+      "paragon-war-blade"
     ],
     "replacement": [
       "paragon-war-mace"
@@ -789,9 +802,9 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
+      "heavy-bolter",
       "paragon-storm-bolters",
-      "paragon-war-blade",
-      "heavy-bolter"
+      "paragon-war-blade"
     ],
     "replacement": [
       "paragon-grenade-launchers"
@@ -811,10 +824,10 @@
     "is_free": true,
     "replaces": [
       "castigator-autocannons",
-      "armoured-tracks",
       "heavy-bolter",
       "heavy-bolter",
-      "heavy-bolter"
+      "heavy-bolter",
+      "armoured-tracks"
     ],
     "replacement": [
       "storm-bolter"
@@ -833,10 +846,10 @@
     "is_free": true,
     "replaces": [
       "castigator-autocannons",
-      "armoured-tracks",
       "heavy-bolter",
       "heavy-bolter",
-      "heavy-bolter"
+      "heavy-bolter",
+      "armoured-tracks"
     ],
     "replacement": [
       "castigator-battle-cannon"
@@ -855,10 +868,10 @@
     "is_free": true,
     "replaces": [
       "castigator-autocannons",
-      "armoured-tracks",
       "heavy-bolter",
       "heavy-bolter",
-      "heavy-bolter"
+      "heavy-bolter",
+      "armoured-tracks"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -877,8 +890,8 @@
     "is_free": true,
     "replaces": [
       "exorcist-missile-launcher",
-      "armoured-tracks",
-      "heavy-bolter"
+      "heavy-bolter",
+      "armoured-tracks"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -897,8 +910,8 @@
     "is_free": true,
     "replaces": [
       "exorcist-missile-launcher",
-      "armoured-tracks",
-      "heavy-bolter"
+      "heavy-bolter",
+      "armoured-tracks"
     ],
     "replacement": [
       "exorcist-conflagration-rockets"
@@ -916,8 +929,8 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-penitent-buzz-blades",
-      "penitent-flamers"
+      "penitent-flamers",
+      "twin-penitent-buzz-blades"
     ],
     "replacement_choice": [
       [
@@ -1062,8 +1075,8 @@
     },
     "is_free": true,
     "replaces": [
-      "boltgun",
       "bolt-pistol",
+      "boltgun",
       "close-combat-weapon"
     ],
     "replacement_choice": [
@@ -1147,8 +1160,8 @@
     },
     "is_free": true,
     "replaces": [
-      "boltgun",
       "bolt-pistol",
+      "boltgun",
       "close-combat-weapon"
     ],
     "replacement_choice": [
@@ -1173,8 +1186,8 @@
     },
     "is_free": true,
     "replaces": [
-      "boltgun",
       "bolt-pistol",
+      "boltgun",
       "close-combat-weapon"
     ],
     "replacement_choice": [
@@ -1281,8 +1294,8 @@
     },
     "is_free": true,
     "replaces": [
-      "hallowed-chainsword",
-      "bolt-pistol"
+      "bolt-pistol",
+      "hallowed-chainsword"
     ],
     "replacement_choice": [
       [

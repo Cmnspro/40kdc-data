@@ -71,9 +71,24 @@
     "unit_id": "crisis-fireknife-battlesuits",
     "models": [
       {
+        "name": "Crisis Fireknife Shas’vre",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 50
+        },
+        "default_weapon_ids": [
+          "plasma-rifle",
+          "missile-pod",
+          "battlesuit-fists"
+        ]
+      },
+      {
         "name": "Crisis Fireknife Shas’ui",
-        "min": 3,
-        "max": 3,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -352,9 +367,24 @@
     "unit_id": "the-twin-lance",
     "models": [
       {
+        "name": "Ri’Lantar",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 60
+        },
+        "default_weapon_ids": [
+          "fusion-eliminator",
+          "xv-pulse-pistol",
+          "shardstorm-burst-system"
+        ]
+      },
+      {
         "name": "Ri’Locai",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -376,14 +406,34 @@
     "unit_id": "crisis-starscythe-battlesuits",
     "models": [
       {
+        "name": "Crisis Starscythe Shas’vre",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 50
+        },
+        "default_weapon_ids": [
+          "burst-cannon",
+          "tau-flamer",
+          "battlesuit-fists"
+        ]
+      },
+      {
         "name": "Crisis Starscythe Shas’ui",
-        "min": 3,
-        "max": 3,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "burst-cannon",
+          "tau-flamer",
+          "battlesuit-fists"
+        ]
       }
     ],
     "game_version": {
@@ -1039,9 +1089,24 @@
     "unit_id": "crisis-sunforge-battlesuits",
     "models": [
       {
+        "name": "Crisis Sunforge Shas’vre",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 50
+        },
+        "default_weapon_ids": [
+          "fusion-blaster",
+          "fusion-blaster",
+          "battlesuit-fists"
+        ]
+      },
+      {
         "name": "Crisis Sunforge Shas’ui",
-        "min": 3,
-        "max": 3,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",

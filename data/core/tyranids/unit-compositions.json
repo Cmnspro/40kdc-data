@@ -450,12 +450,12 @@
         }
       },
       {
-        "name": "Ravener",
-        "profile_name": "Raveners",
+        "name": "Raveners",
         "min": 4,
         "max": 4,
         "default_weapon_ids": [
-          "ravener-claws-and-talons"
+          "ravener-heavy-claws-and-talons",
+          "venom-bolt"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -590,9 +590,23 @@
     "unit_id": "zoanthropes",
     "models": [
       {
+        "name": "Neurothrope",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "warp-blast",
+          "chitinous-claws-and-teeth"
+        ]
+      },
+      {
         "name": "Zoanthrope",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -943,9 +957,22 @@
     "unit_id": "neurogaunts",
     "models": [
       {
+        "name": "Neurogaunt Nodebeast",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        },
+        "default_weapon_ids": [
+          "chitinous-claws-and-teeth"
+        ]
+      },
+      {
         "name": "Neurogaunt",
-        "min": 11,
-        "max": 22,
+        "min": 10,
+        "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",

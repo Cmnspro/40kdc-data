@@ -34,6 +34,7 @@ import {
   type MiniatureRow,
   type WargearItemRow,
   type WargearOptionRow,
+  type WargearOptionGroupRow,
   type BaseMiniatureLoadoutRow,
   type BaseMiniatureLoadoutWargearOptionRow,
   type LoadoutChoiceSetRow,
@@ -41,6 +42,8 @@ import {
   type LoadoutChoiceWargearItemRow,
   type LimitedWargearChoiceSetRow,
   type WargearLimitRow,
+  type UnitCompositionRow,
+  type UnitCompositionMiniatureRow,
 } from "./loader.js";
 import { repoDirForFactionName, repoDirs, FACTION_ALIASES, SHARED_ROSTERS } from "./faction-map.js";
 
@@ -264,37 +267,68 @@ function sameMultiset(a: string[], b: string[]): boolean {
   return true;
 }
 
+/** The dump's *default* unit composition row for a datasheet (isDefault, else lowest displayOrder). */
+function defaultUnitComposition(dump: MfmDump, datasheetId: string): UnitCompositionRow | undefined {
+  const ucs = (dump.groupBy<UnitCompositionRow>("unit_composition", "datasheetId").get(datasheetId) ?? [])
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+  return ucs.find((c) => c.isDefault) ?? ucs[0];
+}
+
+/** Per-miniature default model count (Σ `unit_composition_miniature.min`) for the default composition. */
+function modelCountByMiniId(dump: MfmDump, datasheetId: string): Map<string, number> {
+  const out = new Map<string, number>();
+  const uc = defaultUnitComposition(dump, datasheetId);
+  if (!uc) return out;
+  const minis = dump
+    .groupBy<UnitCompositionMiniatureRow>("unit_composition_miniature", "unitCompositionId")
+    .get(uc.id!);
+  for (const m of minis ?? []) out.set(m.miniatureId, (out.get(m.miniatureId) ?? 0) + m.min);
+  return out;
+}
+
 /**
- * Resolve a datasheet's per-model default loadout from `base_miniature_loadout`.
+ * Resolve a datasheet's per-model default loadout from the GW `wargear_option_group`
+ * / `wargear_option` model — the authoritative default the army builder shows.
  * Returns a map keyed by miniature display name; unresolved items are collected.
+ *
+ * A group is, in this dump, either entirely `defaultValue>0` (a base-loadout slot)
+ * or entirely `defaultValue==0` (a swap slot). We read the base slots: each option's
+ * per-model quantity is `defaultValue / model_count` (a checkbox `default=1` on a
+ * single figure → 1; a bulk stepper `default=N` over N models → 1 each; a genuine
+ * multi-weapon like the Megatrakk's twin big shoota `default=2` over 1 model → 2).
+ * The matching swap slots (`defaultValue==0`) carry no `replaces` relationship, so
+ * options stay derived from `loadout_choice_set` (delta-factored against this base).
  */
-function deriveDefaults(
+/**
+ * The legacy base loadout from `base_miniature_loadout` (per miniature id) — the
+ * 1.0.2 derivation source, kept as the *fallback* for miniatures the option-group
+ * model can't cleanly express (heterogeneous / non-uniform). `skip` holds the
+ * miniature ids already populated from option groups so the fallback never
+ * re-reports their unresolved names or overrides their corrected default.
+ */
+function baseFromMiniatureLoadout(
   dump: MfmDump,
   datasheetId: string,
   resolve: (name: string) => string | null,
   unresolved: { name: string; context: string }[],
-): { byName: Map<string, string[]>; byMiniId: Map<string, string[]> } {
-  const miniName = (id: string) => dump.enName(dump.byId<MiniatureRow>("miniature").get(id)) ?? id;
+  skip: ReadonlySet<string>,
+): Map<string, string[]> {
+  const out = new Map<string, string[]>();
+  if (!dump.tables["base_miniature_loadout"] || !dump.tables["base_miniature_loadout_wargear_option"]) {
+    return out; // dump (or test fixture) without the legacy tables — no fallback
+  }
+  const miniById = dump.byId<MiniatureRow>("miniature");
+  const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
   const wiName = dump.byId<WargearItemRow>("wargear_item");
   const woById = dump.byId<WargearOptionRow>("wargear_option");
   const bmlOpts = dump.groupBy<BaseMiniatureLoadoutWargearOptionRow>(
     "base_miniature_loadout_wargear_option",
     "baseMiniatureLoadoutId",
   );
-
-  const byName = new Map<string, string[]>();
-  const byMiniId = new Map<string, string[]>();
-  const bmls = dump
-    .groupBy<BaseMiniatureLoadoutRow>("base_miniature_loadout", "datasheetId")
-    .get(datasheetId);
-  for (const b of bmls ?? []) {
+  for (const b of dump.groupBy<BaseMiniatureLoadoutRow>("base_miniature_loadout", "datasheetId").get(datasheetId) ?? []) {
+    if (skip.has(b.miniatureId)) continue;
     const ids: string[] = [];
-    // If a base *weapon* fails to resolve (the GW dump names a built-in gun
-    // differently from the repo — common for vehicles like the Defiler), do NOT
-    // half-populate this model: a partial default would leave the unresolved
-    // weapon as a false orphan. Leaving the model unpopulated lets the loadout
-    // layer's orphan→base fallback handle it correctly. A non-weapon item
-    // (medikit, banner) that doesn't resolve is harmless — skip just the item.
     let unresolvedWeapon = false;
     for (const x of bmlOpts.get(b.id) ?? []) {
       const wo = woById.get(x.wargearOptionId);
@@ -305,16 +339,101 @@ function deriveDefaults(
       const id = resolve(name);
       if (!id) {
         unresolved.push({ name, context: `base loadout of ${miniName(b.miniatureId)}` });
-        if ((item as WargearItemRow | undefined)?.wargearType === "weapon") unresolvedWeapon = true;
+        if (item?.wargearType === "weapon") unresolvedWeapon = true;
         continue;
       }
       for (let i = 0; i < Math.max(1, x.count); i++) ids.push(id);
     }
-    if (ids.length && !unresolvedWeapon) {
-      byName.set(miniName(b.miniatureId), ids);
-      byMiniId.set(b.miniatureId, ids);
+    if (ids.length && !unresolvedWeapon) out.set(b.miniatureId, ids);
+  }
+  return out;
+}
+
+function deriveDefaults(
+  dump: MfmDump,
+  datasheetId: string,
+  resolve: (name: string) => string | null,
+  unresolved: { name: string; context: string }[],
+  notes: string[],
+): { byName: Map<string, string[]>; byMiniId: Map<string, string[]> } {
+  const miniById = dump.byId<MiniatureRow>("miniature");
+  const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
+  const wiName = dump.byId<WargearItemRow>("wargear_item");
+  const woByGroup = dump.groupBy<WargearOptionRow>("wargear_option", "wargearOptionGroupId");
+  const groups = (dump.groupBy<WargearOptionGroupRow>("wargear_option_group", "datasheetId").get(datasheetId) ?? [])
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+  const modelCounts = modelCountByMiniId(dump, datasheetId);
+
+  // Per miniature, the base (default>0) groups. A datasheet-wide group
+  // (miniatureId null) names a unit-wide always-on item the dump can't attribute
+  // to a model row — leave those to the reviewed MANUAL_DEFAULTS channel.
+  const baseGroupsByMini = new Map<string, WargearOptionGroupRow[]>();
+  for (const g of groups) {
+    if (!g.miniatureId) continue;
+    if ((woByGroup.get(g.id) ?? []).some((o) => o.defaultValue > 0)) {
+      (baseGroupsByMini.get(g.miniatureId) ?? baseGroupsByMini.set(g.miniatureId, []).get(g.miniatureId)!).push(g);
     }
   }
+
+  const byMiniId = new Map<string, string[]>();
+  for (const [miniId, gs] of baseGroupsByMini) {
+    // A miniature split across >1 default group has a non-uniform per-figure loadout
+    // no single row can express (e.g. Aquila Kill Team's Deathwatch Veteran built from
+    // choices, Voidsmen-at-Arms) — fall back to base_miniature_loadout below.
+    if (gs.length > 1) {
+      notes.push(`${miniName(miniId)}: ${gs.length} default loadout groups — base_miniature_loadout fallback`);
+      continue;
+    }
+    const mc = modelCounts.get(miniId) ?? 0;
+    if (!mc) {
+      notes.push(`${miniName(miniId)}: no model_count — base_miniature_loadout fallback`);
+      continue;
+    }
+    const ids: string[] = [];
+    // Don't half-populate a model whose base *weapon* fails to resolve (a partial
+    // default would leave the unresolved weapon a false orphan); a non-weapon item
+    // (medikit, banner) failing is harmless — skip just the item.
+    let unresolvedWeapon = false;
+    let nonUniform = false;
+    for (const o of (woByGroup.get(gs[0].id) ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder)) {
+      if (o.defaultValue <= 0) continue;
+      const item = wiName.get(o.wargearItemId);
+      const name = dump.enName(item);
+      if (!name) continue;
+      const id = resolve(name);
+      if (!id) {
+        unresolved.push({ name, context: `default loadout of ${miniName(miniId)}` });
+        if (item?.wargearType === "weapon") unresolvedWeapon = true;
+        continue;
+      }
+      // A checkbox is per-model (every model of the type carries it); a stepper is a
+      // squad-total count spread across the model_count (Breaka Boy hammer 5/5 = 1;
+      // Megatrakk twin big shoota 2/1 = 2). A fractional stepper share (only some
+      // models carry it by default) can't be a uniform per-model row → fall back.
+      const perModel = o.inputType === "stepper" ? o.defaultValue / mc : o.defaultValue;
+      if (!Number.isInteger(perModel) || perModel < 1) {
+        nonUniform = true;
+        break;
+      }
+      for (let i = 0; i < perModel; i++) ids.push(id);
+    }
+    if (nonUniform) {
+      notes.push(`${miniName(miniId)}: non-uniform default count — base_miniature_loadout fallback`);
+      continue;
+    }
+    if (ids.length && !unresolvedWeapon) byMiniId.set(miniId, ids);
+  }
+
+  // Fallback for every miniature the option-group path did not cleanly populate —
+  // preserves the 1.0.2 base for heterogeneous/odd datasheets (no regression) while
+  // the clean ones keep the corrected option-group default.
+  for (const [miniId, ids] of baseFromMiniatureLoadout(dump, datasheetId, resolve, unresolved, new Set(byMiniId.keys()))) {
+    if (!byMiniId.has(miniId)) byMiniId.set(miniId, ids);
+  }
+
+  const byName = new Map<string, string[]>();
+  for (const [miniId, ids] of byMiniId) byName.set(miniName(miniId), ids);
   return { byName, byMiniId };
 }
 
@@ -378,6 +497,7 @@ export function deriveWargear(
     datasheetId,
     resolve,
     unresolved,
+    notes,
   );
 
   const miniName = (id: string) => dump.enName(dump.byId<MiniatureRow>("miniature").get(id)) ?? id;
@@ -391,7 +511,10 @@ export function deriveWargear(
     .groupBy<LoadoutChoiceSetRow>("loadout_choice_set", "datasheetId")
     .get(datasheetId);
 
-  const multiModel = defaultsByModel.size > 1;
+  // Multi-model = the datasheet has >1 miniature type (drives whether an option is
+  // scoped with model_constraint.model_name). Read it from the dump composition, not
+  // defaultsByModel.size — a miniature the heterogeneity guard skipped still counts.
+  const multiModel = dumpComposition(dump, datasheetId).length > 1;
   const options: DerivedOption[] = [];
 
   for (const set of (sets ?? []).slice().sort((a, b) => a.id.localeCompare(b.id))) {
@@ -473,6 +596,141 @@ export function deriveWargear(
   return { defaultsByModel, options, unresolved, notes };
 }
 
+/** One miniature row of the dump's default unit composition. */
+export interface DumpMini {
+  name: string;
+  min: number;
+  max: number;
+}
+
+/**
+ * The dump's *default* unit composition for a datasheet, as an ordered list of
+ * (miniature name, min, max) — sorted by the miniature's `displayOrder` so the
+ * special/champion figure (which the dump lists first) leads. Empty when the
+ * datasheet has no composition rows in the dump.
+ */
+export function dumpComposition(dump: MfmDump, datasheetId: string): DumpMini[] {
+  const miniById = dump.byId<MiniatureRow & { displayOrder?: number }>("miniature");
+  const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
+  const order = (id: string) => miniById.get(id)?.displayOrder ?? 0;
+  const uc = defaultUnitComposition(dump, datasheetId);
+  if (!uc) return [];
+  const minis = (
+    dump.groupBy<UnitCompositionMiniatureRow>("unit_composition_miniature", "unitCompositionId").get(uc.id!) ?? []
+  )
+    .slice()
+    .sort((a, b) => order(a.miniatureId) - order(b.miniatureId));
+  // Collapse duplicate miniature rows (same display name) by summing counts.
+  const byName = new Map<string, DumpMini>();
+  for (const m of minis) {
+    const name = miniName(m.miniatureId);
+    const cur = byName.get(name);
+    if (cur) {
+      cur.min += m.min;
+      cur.max += m.max;
+    } else {
+      byName.set(name, { name, min: m.min, max: m.max });
+    }
+  }
+  // Drop figures absent from the default composition (max 0) — these are optional
+  // attachments the dump lists at 0/0, not model rows to synthesize.
+  return [...byName.values()].filter((m) => m.max > 0);
+}
+
+interface BaseSize {
+  shape: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Reconcile a repo composition's `models` against the dump's authoritative
+ * miniature list, *synthesizing* any per-figure row the dump lists but the repo
+ * collapsed away (the Category ② "missing single-figure" defect). Dump-derived:
+ * row name, `min`/`max`, and `default_weapon_ids` (the miniature's base loadout).
+ * Inferred (the dump carries neither): `base_size_mm` is inherited from the repo's
+ * existing rows when uniform, else the unit's own base; `is_leader_model` is the
+ * singleton-among-a-bulk-squad heuristic. Both inferences are flagged in `notes`.
+ *
+ * Returns `null` when there is nothing to synthesize (no missing row). Returns a
+ * result with empty `synthesized` (and a diagnostic note) when the repo carries a
+ * row the dump does not list while also missing one — an ambiguous divergence the
+ * importer refuses to auto-mangle, leaving it for manual reconciliation.
+ */
+export function reconcileModels(
+  models: CompModel[],
+  dumpMinis: DumpMini[],
+  defaultsByModel: Map<string, string[]>,
+  unit: UnitRecord,
+): { models: CompModel[]; synthesized: string[]; notes: string[] } | null {
+  if (dumpMinis.length === 0) return null;
+  const byName = new Map(models.map((m) => [m.name, m]));
+  const missing = dumpMinis.filter((d) => !byName.has(d.name));
+  if (missing.length === 0) return null; // defaults-patch path already covers this
+
+  const dumpNames = new Set(dumpMinis.map((d) => d.name));
+  const extra = models.filter((m) => !dumpNames.has(m.name));
+  if (extra.length) {
+    return {
+      models,
+      synthesized: [],
+      notes: [
+        `composition has row(s) absent from the dump (${extra
+          .map((m) => m.name)
+          .join(", ")}) while ${missing.length} dump row(s) are missing — manual reconcile, not auto-synthesized`,
+      ],
+    };
+  }
+
+  // base_size_mm inheritance: the repo siblings' base when they share exactly one,
+  // else the unit's own base. Never invented.
+  const sibBases = models
+    .map((m) => (m as { base_size_mm?: BaseSize }).base_size_mm)
+    .filter((b): b is BaseSize => !!b);
+  const uniform =
+    sibBases.length && sibBases.every((b) => JSON.stringify(b) === JSON.stringify(sibBases[0]))
+      ? sibBases[0]
+      : (unit as { base_size_mm?: BaseSize }).base_size_mm;
+
+  const notes: string[] = [];
+  const synthesized: string[] = [];
+  const out: CompModel[] = [];
+  for (const d of dumpMinis) {
+    const existing = byName.get(d.name);
+    if (existing) {
+      // Adopt the dump's authoritative counts (e.g. a collapsed bulk row of N
+      // shrinks to N−1 once the champion gets its own row); preserve every other
+      // hand-authored field and the already-patched defaults.
+      existing.min = d.min;
+      existing.max = d.max;
+      out.push(existing);
+      continue;
+    }
+    const row: CompModel = { name: d.name, min: d.min, max: d.max };
+    row.is_leader_model = d.max === 1 && dumpMinis.some((x) => x.name !== d.name && x.max > 1);
+    if (uniform) (row as { base_size_mm?: BaseSize }).base_size_mm = uniform;
+    else notes.push(`synthesized row "${d.name}": no uniform base_size_mm to inherit — left unset`);
+    const def = defaultsByModel.get(d.name);
+    if (def?.length) row.default_weapon_ids = def;
+    else notes.push(`synthesized row "${d.name}": dump has no resolvable base loadout — default_weapon_ids left empty`);
+    notes.push(
+      `synthesized model row "${d.name}" (min ${d.min}/max ${d.max}, leader=${row.is_leader_model}) from dump composition`,
+    );
+    synthesized.push(d.name);
+    out.push(row);
+  }
+
+  const mc = (unit as { model_count?: { min?: number; max?: number } }).model_count;
+  if (mc) {
+    const sumMin = out.reduce((s, m) => s + m.min, 0);
+    const sumMax = out.reduce((s, m) => s + m.max, 0);
+    if (typeof mc.min === "number" && sumMin !== mc.min)
+      notes.push(`synthesized composition min ${sumMin} ≠ unit model_count.min ${mc.min} — review`);
+    if (typeof mc.max === "number" && sumMax !== mc.max)
+      notes.push(`synthesized composition max ${sumMax} ≠ unit model_count.max ${mc.max} — review`);
+  }
+  return { models: out, synthesized, notes };
+}
+
 // ─────────────────────────── per-faction apply ───────────────────────────
 
 /**
@@ -518,6 +776,8 @@ export interface DirWargearResult {
   matched: number;
   optionsChanged: number;
   defaultsChanged: number;
+  /** per-figure composition rows synthesized from the dump (Category ② fill). */
+  synthesizedRows: number;
   unresolvedNames: { id: string; name: string; context: string }[];
   /** GW↔repo spelling drift auto-resolved by the fuzzy fallback (auditable). */
   autoResolved: { name: string; from: string; to: string }[];
@@ -580,6 +840,7 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
       matched: 0,
       optionsChanged: 0,
       defaultsChanged: 0,
+      synthesizedRows: 0,
       unresolvedNames: [],
       autoResolved: [],
       notes: [],
@@ -630,6 +891,26 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
               if (write) m.default_weapon_ids = ids;
               compsChanged = true;
             }
+          }
+        }
+      }
+
+      // ── synthesize per-figure rows the dump lists but the repo collapsed away ──
+      // The importer is patch-only on existing rows, so a datasheet whose dump
+      // composition has a distinct single-figure miniature (e.g. a Boss Nob) with
+      // no matching repo row would otherwise leave that figure's fixed weapon an
+      // orphan. Rebuild the composition from the dump's authoritative miniature
+      // list, inheriting base/leader where the dump is silent (both flagged).
+      const dumpMinis = dumpComposition(dump, ds.id!);
+      if (dumpMinis.length) {
+        for (const comp of compsByUnit.get(id) ?? []) {
+          const rec = reconcileModels(comp.models, dumpMinis, derived.defaultsByModel, byId.get(id)!);
+          if (!rec) continue;
+          for (const n of rec.notes) res.notes.push({ id, note: n });
+          if (rec.synthesized.length) {
+            res.synthesizedRows += rec.synthesized.length;
+            if (write) comp.models = rec.models;
+            compsChanged = true;
           }
         }
       }
@@ -728,15 +1009,15 @@ export function buildWargearReport(report: WargearReport, write: boolean): strin
   L.push("Dump-primary `default_weapon_ids` + wargear-options. BSData retained only for");
   L.push("dump-absent (repo-only) units. Unresolved weapon names are triaged, never guessed.");
   L.push("");
-  L.push("| Dir | Matched | Options | Defaults Δ | Unresolved | Fuzzy | Notes | New-in-dump | Repo-only (fallback) |");
-  L.push("|---|--:|--:|--:|--:|--:|--:|--:|--:|");
+  L.push("| Dir | Matched | Options | Defaults Δ | Synth | Unresolved | Fuzzy | Notes | New-in-dump | Repo-only (fallback) |");
+  L.push("|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|");
   for (const d of dirs.filter((d) => d.matched || d.repoOnlyFallback.length)) {
     L.push(
-      `| ${d.dir} | ${d.matched} | ${d.optionsChanged} | ${d.defaultsChanged} | ${d.unresolvedNames.length} | ${d.autoResolved.length} | ${d.notes.length} | ${d.newInDump.length} | ${d.repoOnlyFallback.length} |`,
+      `| ${d.dir} | ${d.matched} | ${d.optionsChanged} | ${d.defaultsChanged} | ${d.synthesizedRows} | ${d.unresolvedNames.length} | ${d.autoResolved.length} | ${d.notes.length} | ${d.newInDump.length} | ${d.repoOnlyFallback.length} |`,
     );
   }
   L.push(
-    `| **TOTAL** | **${sum((d) => d.matched)}** | **${sum((d) => d.optionsChanged)}** | **${sum((d) => d.defaultsChanged)}** | **${sum((d) => d.unresolvedNames.length)}** | **${sum((d) => d.autoResolved.length)}** | **${sum((d) => d.notes.length)}** | **${sum((d) => d.newInDump.length)}** | **${sum((d) => d.repoOnlyFallback.length)}** |`,
+    `| **TOTAL** | **${sum((d) => d.matched)}** | **${sum((d) => d.optionsChanged)}** | **${sum((d) => d.defaultsChanged)}** | **${sum((d) => d.synthesizedRows)}** | **${sum((d) => d.unresolvedNames.length)}** | **${sum((d) => d.autoResolved.length)}** | **${sum((d) => d.notes.length)}** | **${sum((d) => d.newInDump.length)}** | **${sum((d) => d.repoOnlyFallback.length)}** |`,
   );
   L.push("");
   for (const d of dirs) {

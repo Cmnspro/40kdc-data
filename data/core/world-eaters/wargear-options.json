@@ -8,9 +8,9 @@
     },
     "is_free": true,
     "replaces": [
-      "forgefiend-jaws",
       "hades-autocannon",
-      "hades-autocannon"
+      "hades-autocannon",
+      "forgefiend-jaws"
     ],
     "replacement": [
       "ectoplasma-cannon",
@@ -70,8 +70,8 @@
     },
     "is_free": true,
     "replaces": [
-      "chainblade",
-      "bolt-pistol"
+      "bolt-pistol",
+      "chainblade"
     ],
     "replacement": [
       "icon-of-khorne"
@@ -90,8 +90,8 @@
     },
     "is_free": true,
     "replaces": [
-      "chainblade",
-      "bolt-pistol"
+      "bolt-pistol",
+      "chainblade"
     ],
     "replacement": [
       "khornate-eviscerator"
@@ -110,8 +110,8 @@
     },
     "is_free": true,
     "replaces": [
-      "chainblade",
-      "bolt-pistol"
+      "bolt-pistol",
+      "chainblade"
     ],
     "replacement": [
       "icon-of-khorne"
@@ -130,8 +130,8 @@
     },
     "is_free": true,
     "replaces": [
-      "chainblade",
-      "bolt-pistol"
+      "bolt-pistol",
+      "chainblade"
     ],
     "replacement": [
       "plasma-pistol"
@@ -150,8 +150,8 @@
     },
     "is_free": true,
     "replaces": [
-      "chainblade",
-      "bolt-pistol"
+      "bolt-pistol",
+      "chainblade"
     ],
     "replacement": [
       "plasma-pistol"
@@ -229,9 +229,9 @@
     },
     "is_free": true,
     "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
       "twin-heavy-bolter",
-      "soulshatter-lascannon",
-      "soulshatter-lascannon",
       "armoured-tracks"
     ],
     "replacement_choice": [
@@ -255,9 +255,9 @@
     },
     "is_free": true,
     "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
       "twin-heavy-bolter",
-      "soulshatter-lascannon",
-      "soulshatter-lascannon",
       "armoured-tracks"
     ],
     "replacement": [
@@ -276,8 +276,8 @@
     },
     "is_free": true,
     "replaces": [
-      "maulerfiend-fists",
-      "lasher-tendrils"
+      "lasher-tendrils",
+      "maulerfiend-fists"
     ],
     "replacement": [
       "magma-cutter",
@@ -296,11 +296,12 @@
     },
     "is_free": true,
     "replaces": [
-      "excruciator-cannon",
+      "shearing-claws",
       "hades-battle-cannon",
-      "heavy-baleflamer",
+      "excruciator-cannon",
+      "excruciator-cannon",
       "heavy-missile-launcher",
-      "shearing-claws"
+      "heavy-baleflamer"
     ],
     "replacement": [
       "ectoplasma-destructor"
@@ -318,11 +319,12 @@
     },
     "is_free": true,
     "replaces": [
-      "excruciator-cannon",
+      "shearing-claws",
       "hades-battle-cannon",
-      "heavy-baleflamer",
+      "excruciator-cannon",
+      "excruciator-cannon",
       "heavy-missile-launcher",
-      "shearing-claws"
+      "heavy-baleflamer"
     ],
     "replacement": [
       "magma-cutters",
@@ -341,13 +343,22 @@
     },
     "is_free": true,
     "replaces": [
+      "shearing-claws",
       "hades-battle-cannon",
-      "heavy-baleflamer",
-      "heavy-missile-launcher",
-      "shearing-claws"
+      "excruciator-cannon",
+      "excruciator-cannon",
+      "heavy-baleflamer"
     ],
-    "replacement": [
-      "excruciator-cannon"
+    "replacement_choice": [
+      [
+        "electroscourge"
+      ],
+      [
+        "heavy-reaper-autocannon"
+      ],
+      [
+        "hades-lascannon"
+      ]
     ],
     "model_constraint": {
       "any_number": true
@@ -362,20 +373,21 @@
     },
     "is_free": true,
     "replaces": [
-      "excruciator-cannon",
+      "shearing-claws",
       "hades-battle-cannon",
-      "heavy-baleflamer",
-      "shearing-claws"
+      "excruciator-cannon",
+      "excruciator-cannon",
+      "heavy-missile-launcher"
     ],
     "replacement_choice": [
+      [
+        "hades-lascannon"
+      ],
       [
         "electroscourge"
       ],
       [
         "heavy-reaper-autocannon"
-      ],
-      [
-        "hades-lascannon"
       ]
     ],
     "model_constraint": {
@@ -391,40 +403,12 @@
     },
     "is_free": true,
     "replaces": [
-      "excruciator-cannon",
+      "shearing-claws",
       "hades-battle-cannon",
-      "heavy-missile-launcher",
-      "shearing-claws"
-    ],
-    "replacement_choice": [
-      [
-        "hades-lascannon"
-      ],
-      [
-        "electroscourge"
-      ],
-      [
-        "heavy-reaper-autocannon"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "defiler-wgo-mfm-6",
-    "unit_id": "defiler",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
       "excruciator-cannon",
-      "hades-battle-cannon",
-      "heavy-baleflamer",
+      "excruciator-cannon",
       "heavy-missile-launcher",
-      "shearing-claws"
+      "heavy-baleflamer"
     ],
     "replacement_choice": [
       [
@@ -461,8 +445,8 @@
     },
     "is_free": true,
     "replaces": [
-      "heldrake-claws",
-      "hades-autocannon"
+      "hades-autocannon",
+      "heldrake-claws"
     ],
     "replacement": [
       "baleflamer"
@@ -542,8 +526,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "multi-melta"
+      "multi-melta",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -583,9 +567,9 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
+      "missile-launcher",
       "multi-melta",
-      "missile-launcher"
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -750,8 +734,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "missile-launcher"
+      "missile-launcher",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -785,8 +769,8 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-tracks",
-      "predator-autocannon"
+      "predator-autocannon",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
@@ -809,8 +793,8 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-tracks",
-      "predator-autocannon"
+      "predator-autocannon",
+      "armoured-tracks"
     ],
     "replacement": [
       "havoc-launcher"
@@ -828,8 +812,8 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-tracks",
-      "predator-autocannon"
+      "predator-autocannon",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
@@ -1093,9 +1077,9 @@
     },
     "is_free": true,
     "replaces": [
+      "gorestorm-cannon",
       "hades-gatling-cannon",
-      "great-cleaver-of-khorne",
-      "gorestorm-cannon"
+      "great-cleaver-of-khorne"
     ],
     "replacement_choice": [
       [
@@ -1118,9 +1102,9 @@
     },
     "is_free": true,
     "replaces": [
+      "gorestorm-cannon",
       "hades-gatling-cannon",
-      "great-cleaver-of-khorne",
-      "gorestorm-cannon"
+      "great-cleaver-of-khorne"
     ],
     "replacement": [
       "skullhurler"

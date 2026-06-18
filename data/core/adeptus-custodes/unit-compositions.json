@@ -192,9 +192,22 @@
     "unit_id": "vigilators",
     "models": [
       {
+        "name": "Vigilator Sister Superior",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "executioner-greatblade"
+        ]
+      },
+      {
         "name": "Vigilator",
-        "min": 4,
-        "max": 10,
+        "min": 3,
+        "max": 3,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -237,9 +250,23 @@
     "unit_id": "witchseekers",
     "models": [
       {
+        "name": "Witchseeker Sister Superior",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "witchseeker-flamer",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Witchseeker",
-        "min": 4,
-        "max": 10,
+        "min": 3,
+        "max": 3,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -658,9 +685,23 @@
     "unit_id": "prosecutors",
     "models": [
       {
+        "name": "Prosecutor Sister Superior",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "boltgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Prosecutor",
-        "min": 4,
-        "max": 10,
+        "min": 3,
+        "max": 3,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",

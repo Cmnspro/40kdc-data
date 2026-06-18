@@ -8,10 +8,10 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
-      "exoarmour-grenade-launcher",
       "etacarn-plasma-gun",
-      "concussion-gauntlet"
+      "exoarmour-grenade-launcher",
+      "concussion-gauntlet",
+      "weavefield-crest"
     ],
     "replacement": [
       "volkanite-disintegrator"
@@ -31,8 +31,8 @@
     "is_free": true,
     "replaces": [
       "etacarn-plasma-gun",
-      "concussion-gauntlet",
-      "exoarmour-grenade-launcher"
+      "exoarmour-grenade-launcher",
+      "concussion-gauntlet"
     ],
     "replacement": [
       "plasma-blade-gauntlet"
@@ -51,10 +51,10 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
-      "exoarmour-grenade-launcher",
       "etacarn-plasma-gun",
-      "concussion-gauntlet"
+      "exoarmour-grenade-launcher",
+      "concussion-gauntlet",
+      "weavefield-crest"
     ],
     "replacement": [
       "teleport-crest"
@@ -74,8 +74,8 @@
     "is_free": true,
     "replaces": [
       "etacarn-plasma-gun",
-      "concussion-gauntlet",
-      "exoarmour-grenade-launcher"
+      "exoarmour-grenade-launcher",
+      "concussion-gauntlet"
     ],
     "replacement": [
       "volkanite-disintegrator"
@@ -94,10 +94,10 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
-      "exoarmour-grenade-launcher",
       "etacarn-plasma-gun",
-      "concussion-gauntlet"
+      "exoarmour-grenade-launcher",
+      "concussion-gauntlet",
+      "weavefield-crest"
     ],
     "replacement_choice": [
       [
@@ -121,10 +121,10 @@
     },
     "is_free": true,
     "replaces": [
-      "plasma-knife",
+      "bolt-revolver",
       "bolt-shotgun",
       "magna-coil-autocannon",
-      "bolt-revolver"
+      "plasma-knife"
     ],
     "replacement_choice": [
       [
@@ -150,30 +150,28 @@
     },
     "is_free": true,
     "replaces": [
-      "breacher-ordnance"
+      "autoch-pattern-bolt-pistol",
+      "autoch-pattern-bolt-pistol",
+      "breacher-ordnance",
+      "plasma-picks"
     ],
     "replacement": [
-      "autoch-pattern-bolt-pistol"
+      "tremor-shells"
     ],
     "model_constraint": {
       "any_number": true
     }
   },
   {
-    "id": "cthonian-earthshakers-wgo-mfm-2",
-    "unit_id": "cthonian-earthshakers",
+    "id": "kapricus-carrier-wgo-mfm-1",
+    "unit_id": "kapricus-carrier",
     "game_version": {
       "edition": "11th",
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "breacher-ordnance",
-      "autoch-pattern-bolt-pistol",
-      "plasma-picks"
-    ],
     "replacement": [
-      "tremor-shells"
+      "smoke-launcher"
     ],
     "model_constraint": {
       "any_number": true
@@ -188,14 +186,15 @@
     },
     "is_free": true,
     "replaces": [
-      "autoch-pattern-bolter",
-      "plasma-sword"
-    ],
-    "replacement": [
       "heavy-volkanite-disintegrator",
       "plasma-knife"
     ],
+    "replacement": [
+      "autoch-pattern-bolter",
+      "plasma-sword"
+    ],
     "model_constraint": {
+      "model_name": "Steeljack Theyn",
       "any_number": true
     }
   },
@@ -208,10 +207,10 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-bolt-cannon",
-      "twin-bolt-cannon",
-      "matr-autocannon",
       "cyclic-ion-cannon",
+      "matr-autocannon",
+      "twin-bolt-cannon",
+      "twin-bolt-cannon",
       "armoured-wheels",
       "pan-spectral-scanner"
     ],
@@ -232,9 +231,9 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-bolt-cannon",
-      "matr-autocannon",
       "cyclic-ion-cannon",
+      "matr-autocannon",
+      "twin-bolt-cannon",
       "armoured-wheels",
       "pan-spectral-scanner"
     ],
@@ -254,10 +253,10 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-bolt-cannon",
-      "twin-bolt-cannon",
-      "matr-autocannon",
       "cyclic-ion-cannon",
+      "matr-autocannon",
+      "twin-bolt-cannon",
+      "twin-bolt-cannon",
       "armoured-wheels",
       "pan-spectral-scanner"
     ],
@@ -277,10 +276,10 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-bolt-cannon",
-      "twin-bolt-cannon",
-      "matr-autocannon",
       "cyclic-ion-cannon",
+      "matr-autocannon",
+      "twin-bolt-cannon",
+      "twin-bolt-cannon",
       "armoured-wheels",
       "pan-spectral-scanner"
     ],
@@ -311,6 +310,7 @@
       "concussion-gauntlet"
     ],
     "model_constraint": {
+      "model_name": "Ironkin Steeljack",
       "any_number": true
     }
   },
@@ -323,12 +323,13 @@
     },
     "is_free": true,
     "replaces": [
-      "concussion-gauntlet"
-    ],
-    "replacement": [
       "plasma-sword"
     ],
+    "replacement": [
+      "concussion-gauntlet"
+    ],
     "model_constraint": {
+      "model_name": "Steeljack Theyn",
       "any_number": true
     }
   },
@@ -370,8 +371,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "bolt-shotgun"
+      "bolt-shotgun",
+      "close-combat-weapon"
     ],
     "replacement": [
       "bolt-revolver",
@@ -391,9 +392,9 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
+      "autoch-pattern-combi-bolter",
       "mass-hammer",
-      "autoch-pattern-combi-bolter"
+      "weavefield-crest"
     ],
     "replacement": [
       "darkstar-axe"
@@ -411,9 +412,9 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
+      "autoch-pattern-combi-bolter",
       "mass-hammer",
-      "autoch-pattern-combi-bolter"
+      "weavefield-crest"
     ],
     "replacement": [
       "teleport-crest"
@@ -431,8 +432,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "bolt-cannon"
+      "bolt-cannon",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -455,9 +456,9 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-hull",
       "magna-rail-cannon",
-      "twin-magna-coil-autocannon"
+      "twin-magna-coil-autocannon",
+      "armoured-hull"
     ],
     "replacement": [
       "hylas-rotary-cannon"
@@ -475,9 +476,9 @@
     },
     "is_free": true,
     "replaces": [
-      "armoured-hull",
       "magna-rail-cannon",
-      "twin-magna-coil-autocannon"
+      "twin-magna-coil-autocannon",
+      "armoured-hull"
     ],
     "replacement": [
       "smoke-launcher"
@@ -537,8 +538,8 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-bolt-cannon",
       "hylas-beam-cannon",
+      "twin-bolt-cannon",
       "armoured-wheels"
     ],
     "replacement_choice": [
@@ -563,9 +564,9 @@
     },
     "is_free": true,
     "replaces": [
+      "autoch-pattern-combi-bolter",
       "forgewrought-plasma-axe",
-      "rampart-crest",
-      "autoch-pattern-combi-bolter"
+      "rampart-crest"
     ],
     "replacement": [
       "volkanite-disintegrator"
@@ -583,9 +584,9 @@
     },
     "is_free": true,
     "replaces": [
+      "autoch-pattern-combi-bolter",
       "forgewrought-plasma-axe",
-      "rampart-crest",
-      "autoch-pattern-combi-bolter"
+      "rampart-crest"
     ],
     "replacement": [
       "teleport-crest"
@@ -603,9 +604,9 @@
     },
     "is_free": true,
     "replaces": [
+      "autoch-pattern-combi-bolter",
       "forgewrought-plasma-axe",
-      "rampart-crest",
-      "autoch-pattern-combi-bolter"
+      "rampart-crest"
     ],
     "replacement": [
       "mass-gauntlet"
@@ -623,10 +624,10 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
-      "autoch-pattern-bolter",
       "autoch-pattern-bolt-pistol",
-      "close-combat-weapon"
+      "autoch-pattern-bolter",
+      "close-combat-weapon",
+      "weavefield-crest"
     ],
     "replacement": [
       "theyns-melee-weapon"
@@ -645,10 +646,10 @@
     },
     "is_free": true,
     "replaces": [
-      "weavefield-crest",
-      "autoch-pattern-bolter",
       "autoch-pattern-bolt-pistol",
-      "close-combat-weapon"
+      "autoch-pattern-bolter",
+      "close-combat-weapon",
+      "weavefield-crest"
     ],
     "replacement_choice": [
       [
@@ -672,9 +673,9 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
+      "autoch-pattern-bolt-pistol",
       "autoch-pattern-bolter",
-      "autoch-pattern-bolt-pistol"
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [

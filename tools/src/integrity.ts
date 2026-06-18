@@ -72,7 +72,6 @@ export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([
   "adeptus-astartes/baal-predator/heavy-flamer-1",
   "adeptus-astartes/devastator-squad/storm-bolter",
   "imperial-knights/canis-rex/chainbreaker-multi-laser",
-  "tau-empire/the-twin-lance/fusion-eliminator",
   "astra-militarum/gaunts-ghosts/corbecs-hot-shot-lascarbine",
 
   // ── Collapsed single-figure miniatures ──
@@ -92,21 +91,15 @@ export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([
   "adeptus-astartes/wardens-of-ultramar/bolt-rifle",
   "adeptus-astartes/wardens-of-ultramar/force-stave",
   "adeptus-astartes/wardens-of-ultramar/power-weapon",
-  "adeptus-astartes/decimus-kill-team/xenophase-blade",
   "adeptus-astartes/spectrus-kill-team/deathwatch-occulus-bolt-carbine",
   "adeptus-astartes/spectrus-kill-team/paired-combat-blades",
   "adeptus-astartes/fortis-kill-team/heavy-bolt-pistol",
   "adeptus-astartes/fortis-kill-team/pyreblaster",
-  "adeptus-astartes/deathwing-terminator-squad/power-weapon",
   "adeptus-astartes/victrix-honour-guard/blades-of-honour",
   "adeptus-astartes/wolf-guard-headtakers/teeth-and-claws",
-  "adepta-sororitas/sanctifiers/burning-hands",
-  "agents-of-the-imperium/sanctifiers/burning-hands",
   "agents-of-the-imperium/rogue-trader-entourage/dartmask",
   "agents-of-the-imperium/rogue-trader-entourage/death-cult-power-blade",
   "astra-militarum/krieg-command-squad/lasgun",
-  "leagues-of-votann/brokhyr-iron-master/autoch-pattern-bolt-pistol",
-  "leagues-of-votann/brokhyr-iron-master/manipulator-arms",
   "aeldari/corsair-voidscarred/paired-hekatarii-blades",
   // Daemon split-models (Pink→Blue→Brimstone) whose sub-figure weapons live on
   // miniatures the repo composition doesn't list as separate model rows.
@@ -114,12 +107,7 @@ export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([
   "chaos-daemons/pink-horrors/coruscating-blue-flames",
   "chaos-daemons/blue-horrors/yellow-claws",
   "chaos-daemons/blue-horrors/coruscating-yellow-flames",
-  "chaos-daemons/flesh-hounds/burning-roar",
 
-  // ── Profile-mode / generic-label weapon ids ──
-  // The repo weapon id is a generic profile label, not a named weapon the dump
-  // exposes under a mappable name.
-  "aeldari/striking-scorpions/melee",
 
   // ── Model-name-mismatch fixed weapons ──
   // A weapon the GW dump carries on a specific miniature whose display name
@@ -130,12 +118,8 @@ export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([
   "adeptus-astartes/fortis-kill-team/castellan-launcher",
   "adeptus-astartes/fortis-kill-team/plasma-incinerator",
   "adeptus-astartes/indomitor-kill-team/twin-power-fists",
-  "adeptus-astartes/ravenwing-command-squad/black-knight-combat-weapon",
   "adeptus-astartes/spectrus-kill-team/special-issue-bolt-pistol",
-  "astra-militarum/krieg-command-squad/close-combat-weapon",
-  "orks/breaka-boyz/choppa",
   "tau-empire/kroot-carnivores/kroot-pistol",
-  "tyranids/hyperadapted-raveners/ravener-heavy-claws-and-talons",
 ]);
 interface WargearOptionLike {
   id?: string;

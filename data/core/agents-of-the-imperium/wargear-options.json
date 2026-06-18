@@ -8,26 +8,38 @@
     },
     "is_free": true,
     "replaces": [
+      "plasma-gun",
       "ministorum-flamer"
     ],
-    "replacement_choice": [
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
-      ],
-      [
-        "holy-fire",
-        "plasma-gun"
-      ]
+    "replacement": [
+      "meltagun"
     ],
     "model_constraint": {
+      "model_name": "Missionary",
       "any_number": true
     }
   },
   {
     "id": "sanctifiers-wgo-mfm-2",
+    "unit_id": "sanctifiers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "ministorum-flamer"
+    ],
+    "replacement": [
+      "holy-fire"
+    ],
+    "model_constraint": {
+      "model_name": "Missionary",
+      "any_number": true
+    }
+  },
+  {
+    "id": "sanctifiers-wgo-mfm-3",
     "unit_id": "sanctifiers",
     "game_version": {
       "edition": "11th",
@@ -47,6 +59,7 @@
       ]
     ],
     "model_constraint": {
+      "model_name": "Sanctifier",
       "any_number": true
     }
   },
@@ -59,10 +72,13 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-stubber"
+      "multi-laser",
+      "heavy-bolter",
+      "lasgun-array",
+      "armoured-tracks"
     ],
     "replacement": [
-      "storm-bolter"
+      "hunter-killer-missile"
     ],
     "model_constraint": {
       "any_number": true
@@ -77,19 +93,12 @@
     },
     "is_free": true,
     "replaces": [
-      "multi-laser",
-      "heavy-bolter",
-      "heavy-stubber"
+      "lasgun-array",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
-        "storm-bolter",
-        "heavy-flamer",
-        "heavy-flamer"
-      ],
-      [
-        "heavy-flamer",
-        "heavy-flamer"
+        "heavy-stubber"
       ],
       [
         "storm-bolter"
@@ -108,10 +117,29 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolter"
+      "multi-laser",
+      "heavy-bolter",
+      "lasgun-array",
+      "armoured-tracks"
     ],
-    "replacement": [
-      "heavy-flamer"
+    "replacement_choice": [
+      [
+        "storm-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-stubber"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "storm-bolter"
+      ]
     ],
     "model_constraint": {
       "any_number": true
@@ -126,12 +154,18 @@
     },
     "is_free": true,
     "replaces": [
-      "multi-laser",
-      "heavy-bolter"
+      "heavy-bolter",
+      "lasgun-array",
+      "armoured-tracks"
     ],
-    "replacement": [
-      "heavy-flamer",
-      "heavy-flamer"
+    "replacement_choice": [
+      [
+        "heavy-stubber",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer"
+      ]
     ],
     "model_constraint": {
       "any_number": true
@@ -146,34 +180,16 @@
     },
     "is_free": true,
     "replaces": [
-      "multi-laser"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-flamer"
-      ],
-      [
-        "heavy-bolter"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "inquisitorial-chimera-wgo-mfm-6",
-    "unit_id": "inquisitorial-chimera",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
       "multi-laser",
-      "heavy-stubber"
+      "lasgun-array",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
+        "heavy-stubber",
+        "heavy-flamer"
+      ],
+      [
         "heavy-bolter"
       ],
       [
@@ -186,26 +202,11 @@
       ],
       [
         "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-stubber"
       ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "inquisitorial-chimera-wgo-mfm-7",
-    "unit_id": "inquisitorial-chimera",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "heavy-bolter",
-      "heavy-stubber"
-    ],
-    "replacement": [
-      "heavy-flamer"
     ],
     "model_constraint": {
       "any_number": true
@@ -313,9 +314,9 @@
     },
     "is_free": true,
     "replaces": [
-      "blessed-wardings",
+      "bolt-pistol",
       "inquisitorial-melee-weapon",
-      "bolt-pistol"
+      "blessed-wardings"
     ],
     "replacement": [
       "psychic-shock-wave",
@@ -336,8 +337,8 @@
     },
     "is_free": true,
     "replaces": [
-      "blessed-wardings",
-      "inquisitorial-melee-weapon"
+      "inquisitorial-melee-weapon",
+      "blessed-wardings"
     ],
     "replacement": [
       "psychic-gifts",
@@ -357,8 +358,8 @@
     },
     "is_free": true,
     "replaces": [
-      "blessed-wardings",
-      "bolt-pistol"
+      "bolt-pistol",
+      "blessed-wardings"
     ],
     "replacement": [
       "psychic-gifts",
@@ -508,8 +509,8 @@
     },
     "is_free": true,
     "replaces": [
-      "power-weapon",
-      "boltgun"
+      "boltgun",
+      "power-weapon"
     ],
     "replacement_choice": [
       [
@@ -585,8 +586,8 @@
     },
     "is_free": true,
     "replaces": [
-      "power-weapon",
-      "boltgun"
+      "boltgun",
+      "power-weapon"
     ],
     "replacement_choice": [
       [
@@ -653,6 +654,21 @@
     "model_constraint": {
       "model_name": "Deathwatch Veterans",
       "per_n_models": 5
+    }
+  },
+  {
+    "id": "imperial-rhino-wgo-mfm-1",
+    "unit_id": "imperial-rhino",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
     }
   },
   {
@@ -747,9 +763,9 @@
     },
     "is_free": true,
     "replaces": [
+      "arbites-combat-shotgun",
       "arbites-shotpistol",
-      "close-combat-weapon",
-      "arbites-combat-shotgun"
+      "close-combat-weapon"
     ],
     "replacement": [
       "nuncio-aquila"
@@ -845,6 +861,7 @@
       ]
     ],
     "model_constraint": {
+      "model_name": "Navis Armsman",
       "any_number": true
     }
   },
@@ -871,6 +888,7 @@
       ]
     ],
     "model_constraint": {
+      "model_name": "Navis Sergeant-at-Arms",
       "any_number": true
     }
   },
@@ -956,9 +974,9 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
+      "bolt-pistol",
       "boltgun",
-      "bolt-pistol"
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -994,8 +1012,8 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
-      "boltgun"
+      "boltgun",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -1031,9 +1049,9 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
       "bolt-pistol",
-      "boltgun"
+      "boltgun",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -1059,8 +1077,8 @@
     "replaces": [
       "blackstar-rocket-launcher",
       "blackstar-rocket-launcher",
-      "armoured-hull",
-      "twin-assault-cannon"
+      "twin-assault-cannon",
+      "armoured-hull"
     ],
     "replacement_choice": [
       [
@@ -1085,8 +1103,8 @@
     "replaces": [
       "blackstar-rocket-launcher",
       "blackstar-rocket-launcher",
-      "armoured-hull",
-      "twin-assault-cannon"
+      "twin-assault-cannon",
+      "armoured-hull"
     ],
     "replacement": [
       "twin-lascannon"
@@ -1106,8 +1124,8 @@
     "replaces": [
       "blackstar-rocket-launcher",
       "blackstar-rocket-launcher",
-      "armoured-hull",
-      "twin-assault-cannon"
+      "twin-assault-cannon",
+      "armoured-hull"
     ],
     "replacement": [
       "stormstrike-missile-launcher",
@@ -1128,8 +1146,8 @@
     "replaces": [
       "blackstar-rocket-launcher",
       "blackstar-rocket-launcher",
-      "armoured-hull",
-      "twin-assault-cannon"
+      "twin-assault-cannon",
+      "armoured-hull"
     ],
     "replacement": [
       "hurricane-bolter"

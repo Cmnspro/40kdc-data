@@ -449,16 +449,30 @@
     "unit_id": "breaka-boyz",
     "models": [
       {
+        "name": "Boss Nob",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "rokkit-pistol",
+          "smash-hammer",
+          "choppa"
+        ]
+      },
+      {
         "name": "Breaka Boy",
-        "min": 6,
-        "max": 6,
+        "min": 5,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
         },
         "default_weapon_ids": [
-          "smash-hammer",
           "smash-hammer"
         ]
       }
@@ -529,8 +543,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "choppa",
-          "rokkit-pistol"
+          "rokkit-pistol",
+          "rokkit-pistol",
+          "choppa"
         ],
         "is_leader_model": true,
         "base_size_mm": {

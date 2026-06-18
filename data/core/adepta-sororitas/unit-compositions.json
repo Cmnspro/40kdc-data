@@ -118,8 +118,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "holy-fire",
-          "close-combat-weapon"
+          "plasma-gun",
+          "ministorum-flamer",
+          "sanctifier-melee-weapon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -132,8 +133,8 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
-          "ministorum-hand-flamer",
-          "close-combat-weapon"
+          "holy-fire",
+          "burning-hands"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -146,7 +147,6 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
-          "ministorum-flamer",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -173,6 +173,7 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
+          "ministorum-hand-flamer",
           "sanctifier-melee-weapon"
         ],
         "is_leader_model": false,
@@ -631,9 +632,25 @@
     "unit_id": "paragon-warsuits",
     "models": [
       {
+        "name": "Paragon Superior",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 50
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "heavy-bolter",
+          "paragon-storm-bolters",
+          "paragon-war-blade"
+        ]
+      },
+      {
         "name": "Paragon",
-        "min": 3,
-        "max": 3,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",

@@ -513,7 +513,8 @@ function runWargearCmd(dump: MfmDump, write: boolean, onlyDir?: string): void {
   console.log(`Wargear report → ${path.relative(REPO_ROOT, reportPath)}`);
   console.log(
     `Matched ${sum((d) => d.matched)}, options ${sum((d) => d.optionsChanged)}, ` +
-      `defaults Δ ${sum((d) => d.defaultsChanged)}, unresolved ${sum((d) => d.unresolvedNames.length)}, ` +
+      `defaults Δ ${sum((d) => d.defaultsChanged)}, synth ${sum((d) => d.synthesizedRows)}, ` +
+      `unresolved ${sum((d) => d.unresolvedNames.length)}, ` +
       `new-in-dump ${sum((d) => d.newInDump.length)}, repo-only ${sum((d) => d.repoOnlyFallback.length)}.`
   );
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
