@@ -486,9 +486,13 @@
     fill: oklch(0.68 0.15 62 / 0.55);
     stroke: oklch(0.5 0.16 58);
   }
-  .piece.feature.light {
+  .piece.feature.dense {
     fill: oklch(0.62 0.15 145 / 0.45);
     stroke: oklch(0.45 0.16 145);
+  }
+  .piece.feature.light {
+    fill: oklch(0.68 0.15 62 / 0.55);
+    stroke: oklch(0.5 0.16 58);
   }
   .piece.blocked {
     stroke-dasharray: 0.5 0.4;
