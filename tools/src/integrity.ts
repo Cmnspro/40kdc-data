@@ -50,77 +50,19 @@ interface AbilityLike {
 /**
  * Known, accepted loadout orphans — a `<faction>/<unit_id>/<weapon_id>` triple
  * whose weapon is in the unit's `weapon_ids` but is neither a recorded
- * `default_weapon_ids` entry nor reachable through any wargear-option. After the
- * MFM-dump wargear ingest these are the irreducible residue: weapons the GW dump
- * genuinely does not model as a default/option for the unit, or non-weapon
- * wargear the dump tracks separately. Each entry is a deliberate, reviewed
- * exception — a NEW orphan (any triple not listed) fails CI, and a listed triple
- * that is no longer an orphan is reported as stale so the list stays minimal.
+ * `default_weapon_ids` entry nor reachable through any wargear-option. Each entry
+ * is a deliberate, reviewed exception — a NEW orphan (any triple not listed) fails
+ * CI, and a listed triple that is no longer an orphan is reported as stale so the
+ * list stays minimal.
+ *
+ * This set is now EMPTY: every former orphan has been resolved by restructuring
+ * the unit composition to match the GW MFM dump's per-figure miniature rows
+ * (collapsed single-figure squads, daemon split-models, kill-team weapon variants,
+ * and same-named distinct-loadout figures). Keep the gate zero-tolerance — add a
+ * triple here only with a comment justifying why the dump genuinely cannot model
+ * the loadout, never to silence a fixable data gap.
  */
-export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([
-  // ── Stale repo weapons absent from current GW data ──
-  // The repo weapon_ids carry old/Forge-World/Legends configs the live MFM dump
-  // no longer lists for the datasheet, so there is no dump weapon to model them as
-  // a default or option. Resolving means culling these from weapon_ids (a
-  // Legends/FW judgement, share-registry-adjacent) — deferred.
-  "adeptus-astartes/venerable-dreadnought/armoured-feet",
-  "adeptus-astartes/venerable-dreadnought/dreadnought-inferno-cannon",
-  "adeptus-astartes/venerable-dreadnought/twin-autocannon",
-  "adeptus-astartes/venerable-dreadnought/twin-heavy-bolter",
-  "adeptus-astartes/venerable-dreadnought/twin-heavy-flamer",
-  "adeptus-astartes/venerable-dreadnought/twin-lascannon",
-  "adeptus-astartes/baal-predator/heavy-flamer-1",
-  "adeptus-astartes/devastator-squad/storm-bolter",
-  "imperial-knights/canis-rex/chainbreaker-multi-laser",
-  "astra-militarum/gaunts-ghosts/corbecs-hot-shot-lascarbine",
-
-  // ── Collapsed single-figure miniatures ──
-  // The repo composition merges several DISTINCT named single-figure dump
-  // miniatures (each with its own fixed loadout) into one model-type, so a
-  // per-model default_weapon_ids cannot record which figure carries which weapon
-  // without forcing every model of the type to carry it (an illegal carry-all).
-  // Correct fix = restructure the composition into per-figure model rows (moves
-  // points tiers/allocation/base-sizes) — deferred.
-  "chaos-space-marines/masters-of-the-maelstrom/absolvor-bolt-pistol",
-  "chaos-space-marines/masters-of-the-maelstrom/force-stave",
-  "chaos-space-marines/masters-of-the-maelstrom/laspistol",
-  "chaos-space-marines/masters-of-the-maelstrom/mind-wrench",
-  "chaos-space-marines/masters-of-the-maelstrom/power-sabre",
-  "chaos-space-marines/masters-of-the-maelstrom/reductor-array",
-  "adeptus-astartes/wardens-of-ultramar/astropathic-blast",
-  "adeptus-astartes/wardens-of-ultramar/bolt-rifle",
-  "adeptus-astartes/wardens-of-ultramar/force-stave",
-  "adeptus-astartes/wardens-of-ultramar/power-weapon",
-  "adeptus-astartes/spectrus-kill-team/deathwatch-occulus-bolt-carbine",
-  "adeptus-astartes/spectrus-kill-team/paired-combat-blades",
-  "adeptus-astartes/fortis-kill-team/heavy-bolt-pistol",
-  "adeptus-astartes/fortis-kill-team/pyreblaster",
-  "adeptus-astartes/victrix-honour-guard/blades-of-honour",
-  "adeptus-astartes/wolf-guard-headtakers/teeth-and-claws",
-  "agents-of-the-imperium/rogue-trader-entourage/dartmask",
-  "agents-of-the-imperium/rogue-trader-entourage/death-cult-power-blade",
-  "astra-militarum/krieg-command-squad/lasgun",
-  "aeldari/corsair-voidscarred/paired-hekatarii-blades",
-  // Daemon split-models (Pink→Blue→Brimstone) whose sub-figure weapons live on
-  // miniatures the repo composition doesn't list as separate model rows.
-  "chaos-daemons/pink-horrors/blue-claws",
-  "chaos-daemons/pink-horrors/coruscating-blue-flames",
-  "chaos-daemons/blue-horrors/yellow-claws",
-  "chaos-daemons/blue-horrors/coruscating-yellow-flames",
-
-
-  // ── Model-name-mismatch fixed weapons ──
-  // A weapon the GW dump carries on a specific miniature whose display name
-  // doesn't match any repo composition model row, so it lands in neither the
-  // model's default_weapon_ids nor (being unchanged across the dump's loadout
-  // choices) any swap option. Same per-figure modelling gap as above; resolving
-  // means reconciling the dump miniature names to the repo composition rows.
-  "adeptus-astartes/fortis-kill-team/castellan-launcher",
-  "adeptus-astartes/fortis-kill-team/plasma-incinerator",
-  "adeptus-astartes/indomitor-kill-team/twin-power-fists",
-  "adeptus-astartes/spectrus-kill-team/special-issue-bolt-pistol",
-  "tau-empire/kroot-carnivores/kroot-pistol",
-]);
+export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([]);
 interface WargearOptionLike {
   id?: string;
   replaces?: string[];
@@ -196,6 +138,27 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
       continue; // structural problems are the AJV pass's job
     }
     if (!Array.isArray(units)) continue;
+
+    // No two units in a faction file may share an id. The linked API keys units
+    // by id with first-wins (`Collection`), so a duplicate silently shadows the
+    // later entry — e.g. a stale `pre-launch-provisional` points row hiding the
+    // authoritative `launch` row, so the corrected points never reach consumers.
+    // An append-instead-of-replace ingest is the recurring cause; flag any
+    // collision so it can't ship.
+    const idCounts = new Map<string, number>();
+    for (const u of units) if (u.id) idCounts.set(u.id, (idCounts.get(u.id) ?? 0) + 1);
+    const dupIds = [...idCounts].filter(([, n]) => n > 1).map(([id]) => id);
+    if (dupIds.length > 0) {
+      result.failed++;
+      result.errors.push({
+        file,
+        index: 0,
+        errors: dupIds.map((id) => ({
+          path: "/",
+          message: `duplicate unit id "${id}" appears ${idCounts.get(id)}× in ${faction}/units.json — the linked API keys by id (first-wins), so the later entry is silently shadowed; keep exactly one`,
+        })),
+      });
+    }
 
     const defined = new Set<string>(coreAbilities);
     loadAbilityIds(resolve(root, `enrichment/${faction}/abilities.json`), defined);

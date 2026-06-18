@@ -1,4 +1,4 @@
-# MFM wargear — APPLIED
+# MFM wargear — DRY RUN
 
 Dump-primary `default_weapon_ids` + wargear-options. BSData retained only for
 dump-absent (repo-only) units. Unresolved weapon names are triaged, never guessed.
@@ -6,7 +6,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | Dir | Matched | Options | Defaults Δ | Synth | Unresolved | Fuzzy | Notes | New-in-dump | Repo-only (fallback) |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
 | adepta-sororitas | 32 | 56 | 0 | 0 | 2 | 0 | 6 | 5 | 0 |
-| adeptus-astartes | 172 | 263 | 0 | 0 | 18 | 1 | 21 | 22 | 0 |
+| adeptus-astartes | 172 | 263 | 0 | 0 | 18 | 1 | 20 | 22 | 0 |
 | adeptus-custodes | 31 | 22 | 0 | 0 | 8 | 0 | 6 | 4 | 0 |
 | adeptus-mechanicus | 31 | 33 | 0 | 0 | 0 | 0 | 15 | 7 | 0 |
 | aeldari | 72 | 92 | 0 | 0 | 28 | 3 | 21 | 4 | 0 |
@@ -14,7 +14,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | astra-militarum | 66 | 155 | 0 | 0 | 12 | 0 | 14 | 9 | 0 |
 | chaos-daemons | 53 | 14 | 0 | 0 | 6 | 0 | 4 | 92 | 0 |
 | chaos-knights | 20 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| chaos-space-marines | 53 | 91 | 0 | 0 | 28 | 3 | 11 | 104 | 0 |
+| chaos-space-marines | 53 | 91 | 0 | 0 | 28 | 3 | 10 | 104 | 0 |
 | death-guard | 30 | 24 | 0 | 0 | 39 | 0 | 7 | 11 | 0 |
 | drukhari | 23 | 39 | 0 | 0 | 3 | 1 | 0 | 4 | 0 |
 | emperors-children | 17 | 24 | 0 | 0 | 0 | 0 | 3 | 9 | 0 |
@@ -22,13 +22,13 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | grey-knights | 26 | 39 | 0 | 0 | 8 | 1 | 6 | 4 | 0 |
 | imperial-knights | 22 | 28 | 0 | 0 | 0 | 0 | 1 | 1 | 0 |
 | leagues-of-votann | 22 | 31 | 0 | 0 | 8 | 1 | 4 | 4 | 0 |
-| necrons | 52 | 25 | 2 | 0 | 15 | 0 | 15 | 5 | 0 |
+| necrons | 52 | 25 | 1 | 0 | 15 | 0 | 15 | 5 | 0 |
 | orks | 53 | 49 | 0 | 0 | 8 | 1 | 3 | 10 | 0 |
-| tau-empire | 43 | 74 | 2 | 0 | 13 | 0 | 8 | 4 | 0 |
+| tau-empire | 43 | 74 | 1 | 0 | 13 | 0 | 7 | 4 | 0 |
 | thousand-sons | 28 | 36 | 0 | 0 | 39 | 0 | 3 | 10 | 0 |
 | tyranids | 51 | 17 | 0 | 0 | 0 | 1 | 14 | 6 | 0 |
 | world-eaters | 25 | 40 | 0 | 0 | 0 | 0 | 6 | 9 | 0 |
-| **TOTAL** | **974** | **1236** | **4** | **0** | **249** | **14** | **181** | **333** | **0** |
+| **TOTAL** | **974** | **1236** | **2** | **0** | **249** | **14** | **178** | **333** | **0** |
 
 ## adepta-sororitas
 
@@ -63,7 +63,6 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 - firestrike-servo-turrets: composition has row(s) absent from the dump (Firestrike Servo-turrets) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - victrix-honour-guard: Chapter Ancient: no model_count — base_miniature_loadout fallback
 - victrix-honour-guard: Chapter Champion: no model_count — base_miniature_loadout fallback
-- wardens-of-ultramar: composition has row(s) absent from the dump (Victrix Guard) while 4 dump row(s) are missing — manual reconcile, not auto-synthesized
 - outrider-squad: Invader ATV: no model_count — base_miniature_loadout fallback
 - sword-brethren-squad: alternate loadout_choice_set f0e5f28e (Sword Brother) — review
 - sword-brethren-squad: composition has row(s) absent from the dump (Sword Brethren Squad) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
@@ -172,7 +171,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 
 **Notes (cap approximations / alternates):**
 - voidsmen-at-arms: Voidsman: 2 default loadout groups — base_miniature_loadout fallback
-- rogue-trader-entourage: composition has row(s) absent from the dump (Canid, Lectro-Maester) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
+- rogue-trader-entourage: composition has row(s) absent from the dump (Lectro-Maester) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - aquila-kill-team: Deathwatch Veteran: no model_count — base_miniature_loadout fallback
 - aquila-kill-team: composition has row(s) absent from the dump (Watch Sergeant) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - imperial-navy-breachers: Navis Armsman: 3 default loadout groups — base_miniature_loadout fallback
@@ -196,7 +195,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 - cadian-shock-troops: composition has row(s) absent from the dump (Cadian Sergeant, Cadian Shock Trooper) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
 - death-korps-of-krieg: composition has row(s) absent from the dump (Watchmaster) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - scout-sentinels: composition has row(s) absent from the dump (Scout Sentinels) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
-- gaunts-ghosts: composition has row(s) absent from the dump (Brin Milo, Try Again Bragg) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
+- gaunts-ghosts: composition has row(s) absent from the dump (Try Again Bragg) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - cadian-heavy-weapons-squad: composition has row(s) absent from the dump (Cadian Heavy Weapons Squad) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - catachan-heavy-weapons-squad: composition has row(s) absent from the dump (Catachan Heavy Weapons Squad) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - catachan-jungle-fighters: composition has row(s) absent from the dump (Catachan Sergeant, Catachan Jungle Fighter) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
@@ -242,7 +241,6 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 - chaos-terminator-squad: alternate loadout_choice_set bbd655f9 (Chaos Terminator) — review
 - chaos-terminator-squad: alternate loadout_choice_set c1fa45a8 (Terminator Champion) — review
 - mutilators: composition has row(s) absent from the dump (Mutilators) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
-- masters-of-the-maelstrom: composition has row(s) absent from the dump (Corsair) while 3 dump row(s) are missing — manual reconcile, not auto-synthesized
 - nemesis-claw: composition has row(s) absent from the dump (Nemesis Champion, Nemesis Claw) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
 - obliterators: composition has row(s) absent from the dump (Obliterators) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - red-corsairs-raiders: composition has row(s) absent from the dump (Corsair Champion, Red Corsair) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
@@ -405,7 +403,6 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 - piranhas: composition has row(s) absent from the dump (Piranhas) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 - breacher-team: composition has row(s) absent from the dump (Fire Warrior Shas’ui, Fire Warrior) while 2 dump row(s) are missing — manual reconcile, not auto-synthesized
 - stealth-battlesuits: composition has row(s) absent from the dump (Stealth Battlesuit) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
-- kroot-carnivores: composition has row(s) absent from the dump (Kroot Trail Shaper) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
 
 ## thousand-sons
 

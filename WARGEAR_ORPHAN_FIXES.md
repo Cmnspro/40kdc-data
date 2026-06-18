@@ -6,6 +6,25 @@ ingest. It drove loadout **orphans 95 → 52** and populated **926/994** composi
 zero-tolerance gate stays green. **Every one of these has a real loadout in the GW app —
 this doc is the worklist to fill each hole and delete its allowlist entry.**
 
+> **Update (session 4, 1.0.3):** the option-group rewrite (`98a20a97`) took orphans 52 → 39;
+> this session cleared **all of Category ① (39 → 29)**, GW-app-verified. Category ① below is
+> ✅ **RESOLVED** (kept for the record). The live worklist is now Categories ②–④.
+>
+> **Update (session 5, 1.0.3):** Categories ②, ③, and ④ are all ✅ **RESOLVED** —
+> `KNOWN_LOADOUT_ORPHANS` is now **EMPTY (29 → 0)**; the loadout-coverage gate is fully
+> zero-tolerance with no allowlisted exceptions. Each unit's per-figure composition was
+> rebuilt to match the GW MFM dump's miniature rows and GW-app-verified (krieg, spectrus,
+> fortis, indomitor, corsair confirmed against the app; daemon split-models and the
+> collapsed single-figure squads derived from the authoritative dump). Mechanisms used:
+> (A) restructure into per-figure rows the importer auto-fills — masters-of-the-maelstrom,
+> wardens-of-ultramar, rogue-trader-entourage, kroot-carnivores; (B) direct default on a
+> `0/0`/optional figure the importer leaves alone — wolf-guard-headtakers, victrix-honour-guard,
+> pink-horrors, blue-horrors; (C) buildable weapon-variant rows (kill-team "X with Y", corsair
+> specialists) — spectrus/fortis/indomitor-kill-team, corsair-voidscarred; (D) distinct-named
+> rows for same-named distinct-loadout figures — krieg-command-squad. No importer/derivation
+> change was needed (pure data); one `MANUAL_DEFAULTS` entry keeps the corsair specialists'
+> close-combat-weapon stable across re-ingest. Conformance SPEC stays 43 (no golden moved).
+
 ## How to work this list
 
 1. An **orphan** = a weapon in a unit's `units.json` `weapon_ids` that is neither in any
@@ -32,7 +51,16 @@ kebab'd name has no repo weapon id). Many fixes below come down to reconciling o
 
 ---
 
-## Category ① — Stale repo weapons absent from current GW data (11)
+## Category ① — Stale repo weapons absent from current GW data (✅ RESOLVED, session 4)
+
+Outcome: Venerable Dreadnought (Space Wolves datasheet — the GK twin-lascannon/heavy-plasma
+variant is a different unit) had all 6 stale arms culled from `weapon_ids`; `baal-predator`
+dropped the corrupt `heavy-flamer-1` duplicate; `devastator-squad` dropped the stale
+`storm-bolter`; Canis Rex's weapon was renamed by GW (Chainbreaker → Questoris) but keeps a
+distinct BS2+ profile, so its display name now reads "Questoris multi-laser" while the id stays
+`chainbreaker-multi-laser`, fixed via a per-unit override (`WEAPON_ALIASES_BY_UNIT`); Gaunt's
+Ghosts had its stale `Brin Milo` row replaced by `Colm Corbec` (the current datasheet figure).
+
 
 The repo `weapon_ids` carry old / Forge-World / Legends configs the live MFM dump no longer
 lists for the datasheet. **Fix: confirm against the GW app, then cull the dead weapon from

@@ -24,6 +24,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { Dataset } from "./data/dataset.js";
+import { baseLoadout } from "./data/loadout.js";
 import { normalizeName } from "./data/normalize.js";
 import { describeScoringCard, describeAbility, type Effect } from "./translate/index.js";
 import { awardsOf } from "./scoring/index.js";
@@ -266,6 +267,7 @@ type LinkedApiQuery =
   | { name: string; query: "weapons_of_faction"; args: { factionId: string }; comparison: "set" }
   | { name: string; query: "base_size_of"; args: { unitId: string }; comparison: "scalar" }
   | { name: string; query: "model_bases_of"; args: { unitId: string }; comparison: "ordered" }
+  | { name: string; query: "base_loadout"; args: { unitId: string; modelCount: string }; comparison: "set" }
   | { name: string; query: "units_with_keyword"; args: { keyword: string }; comparison: "set" }
   | {
       name: string;
@@ -317,6 +319,12 @@ const LINKED_API_QUERIES: LinkedApiQuery[] = [
   { name: "ally_units_for iconoclast-fiefdom-damned", query: "ally_units_for", args: { ruleId: "iconoclast-fiefdom-damned" }, comparison: "set" },
   { name: "ally_units_for world-eaters-khorne-daemons", query: "ally_units_for", args: { ruleId: "world-eaters-khorne-daemons" }, comparison: "set" },
   { name: "ally_units_for star-childrens-blessings (excludes broodlord/genestealers)", query: "ally_units_for", args: { ruleId: "star-childrens-blessings" }, comparison: "set" },
+  // base_loadout(unit, modelCount): the pinned legal default loadout, encoded as a
+  // sorted "weaponId:count" multiset. chaos-terminators is a uniform squad (per-model
+  // scaling); crusader-squad exercises leader+bulk per-figure allocation.
+  { name: "base_loadout chaos-terminators @5 (legal default, no swaps)", query: "base_loadout", args: { unitId: "chaos-terminators", modelCount: "5" }, comparison: "set" },
+  { name: "base_loadout chaos-terminators @10 scales per model", query: "base_loadout", args: { unitId: "chaos-terminators", modelCount: "10" }, comparison: "set" },
+  { name: "base_loadout crusader-squad @10 exercises leader+bulk allocation", query: "base_loadout", args: { unitId: "crusader-squad", modelCount: "10" }, comparison: "set" },
 ];
 
 function genLinkedApi(): void {
@@ -380,6 +388,15 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       if (!u) throw new Error(`model_bases_of: unknown unit ${q.args.unitId}`);
       const comp = ds.unitCompositions.find((c) => c.unit_id === q.args.unitId);
       return (comp?.models ?? []).map((m) => `${m.name}=${encodeBase(m.base_size_mm) ?? "none"}`);
+    }
+    case "base_loadout": {
+      // Mirrors the runner's base_loadout op: the legal default loadout encoded as
+      // a sorted "id:count" multiset (set-compared).
+      const u = ds.units.getAny(q.args.unitId);
+      if (!u) throw new Error(`base_loadout: unknown unit ${q.args.unitId}`);
+      const comp = ds.unitCompositions.find((c) => c.unit_id === q.args.unitId);
+      const lo = baseLoadout(u.raw, Number(q.args.modelCount), ds.wargearOptionsOf(u.raw), comp?.models);
+      return [...lo.counts].map(([id, n]) => `${id}:${n}`).sort();
     }
     case "units_with_keyword":
       return ds.unitsWithKeyword(q.args.keyword).map((u) => u.id).sort();

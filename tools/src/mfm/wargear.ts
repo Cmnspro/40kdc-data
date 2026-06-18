@@ -134,6 +134,23 @@ const WEAPON_ALIASES: Record<string, Record<string, string>> = {
 };
 
 /**
+ * Per-unit weapon-name overrides, by `faction → unit_id → dump-name-slug → repo-id`.
+ * Unlike {@link WEAPON_ALIASES} (faction-wide), these apply ONLY when resolving the
+ * named datasheet — for cases where the GW dump reuses one display name across two
+ * distinct repo weapons (different profiles) and the faction-wide alias would corrupt
+ * the *other* unit that legitimately uses the generic id. Example: GW renamed Canis
+ * Rex's "Chainbreaker multi-laser" to "Questoris multi-laser", but it keeps a distinct
+ * BS2+/Sustained Hits 1 profile; the generic `questoris-multi-laser` (BS3+) is used by
+ * `knight-preceptor`. Mapping the dump name to `chainbreaker-multi-laser` for canis-rex
+ * only keeps both correct (and the override harmlessly no-ops if GW reverts the name).
+ */
+const WEAPON_ALIASES_BY_UNIT: Record<string, Record<string, Record<string, string>>> = {
+  "imperial-knights": {
+    "canis-rex": { "questoris-multi-laser": "chainbreaker-multi-laser" },
+  },
+};
+
+/**
  * Reviewed always-on weapons to ensure present in a model's `default_weapon_ids`,
  * by `faction → unit_id → model display name → [weapon ids]`. These are weapons a
  * model always carries that the GW dump does not model as a base-loadout item for
@@ -150,6 +167,17 @@ const MANUAL_DEFAULTS: Record<string, Record<string, Record<string, string[]>>> 
   // figure — never multiplied across a bulk model-type.
   "adeptus-astartes": {
     "decimus-kill-team": { "Watch Sergeant": ["plasma-pistol"] },
+  },
+  aeldari: {
+    // The Corsair Voidscarred specialist miniatures each carry a close combat
+    // weapon per the GW app, but the dump's base_miniature_loadout omits it for
+    // these figures (it lists only their distinguishing wargear). Re-add it so a
+    // wargear --write keeps the per-figure rows matching the datasheet.
+    "corsair-voidscarred": {
+      "Shade Runner": ["close-combat-weapon"],
+      "Soul Weaver": ["close-combat-weapon"],
+      "Way Seeker": ["close-combat-weapon"],
+    },
   },
   "agents-of-the-imperium": {
     "aquila-kill-team": { "Watch Sergeant": ["plasma-pistol"] },
@@ -210,11 +238,17 @@ export interface AutoResolution {
  * faction vocabulary, the candidate unique and ≥6 chars so short ids never
  * collide. Every fuzzy hit is recorded for the report; genuine misses return null
  * (→ triaged). Mutates `audit` with each fuzzy resolution.
+ *
+ * `priorityAliases` (reviewed per-unit overrides) are applied BEFORE the direct
+ * `validIds` match — they REMAP one valid id to another (the GW dump reuses a display
+ * name across two distinct repo weapons), so they must win over the exact-slug return
+ * that would otherwise pick the wrong weapon. They are not fuzzy, so they skip `audit`.
  */
-function makeResolver(
+export function makeResolver(
   validIds: Set<string>,
   audit: AutoResolution[],
   aliases: Record<string, string> = {},
+  priorityAliases: Record<string, string> = {},
 ): (name: string) => string | null {
   const idList = [...validIds].filter((id) => id.length >= 6);
   return (name: string) => {
@@ -224,6 +258,8 @@ function makeResolver(
     } catch {
       return null;
     }
+    const forced = priorityAliases[id];
+    if (forced && validIds.has(forced)) return forced;
     if (validIds.has(id)) return id;
     // Reviewed faction override (weapon-name divergence the fuzzy pass can't bridge).
     const aliased = aliases[id];
@@ -875,7 +911,14 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
       matchedRepoIds.add(id);
       res.matched++;
 
-      const derived = deriveWargear(dump, ds.id!, resolve);
+      // A unit with reviewed per-unit overrides gets a resolver that layers them on
+      // top of the faction aliases — for this datasheet only; every other unit keeps
+      // the shared `resolve` (so a dump name reused across two profiles maps correctly).
+      const unitAliases = WEAPON_ALIASES_BY_UNIT[dir]?.[id];
+      const unitResolve = unitAliases
+        ? makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {}, unitAliases)
+        : resolve;
+      const derived = deriveWargear(dump, ds.id!, unitResolve);
       for (const u of derived.unresolved) res.unresolvedNames.push({ id, name: u.name, context: u.context });
       for (const n of derived.notes) res.notes.push({ id, note: n });
 

@@ -1325,8 +1325,8 @@
     "models": [
       {
         "name": "Kill Team Heavy Intercessors",
-        "min": 16,
-        "max": 16,
+        "min": 3,
+        "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1336,6 +1336,35 @@
           "close-combat-weapon",
           "bolt-pistol",
           "deathwatch-heavy-bolt-rifle"
+        ]
+      },
+      {
+        "name": "Kill Team Heavy Intercessor with power fists",
+        "min": 0,
+        "max": 3,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "flamestorm-gauntlets",
+          "twin-power-fists"
+        ]
+      },
+      {
+        "name": "Kill Team Heavy Intercessor with melta rifle",
+        "min": 0,
+        "max": 3,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "melta-rifle",
+          "close-combat-weapon"
         ]
       }
     ],
@@ -1578,7 +1607,7 @@
       },
       {
         "name": "Kill Team Intercessor",
-        "min": 9,
+        "min": 2,
         "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
@@ -1588,6 +1617,66 @@
         "default_weapon_ids": [
           "bolt-pistol",
           "deathwatch-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with plasma incinerator",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "plasma-incinerator",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with heavy bolt pistol",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "astartes-chainsword"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with pyreblaster",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "pyreblaster",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with superfrag rocket launcher",
+        "min": 0,
+        "max": 2,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "castellan-launcher",
+          "superfrag-rocket-launcher",
           "close-combat-weapon"
         ]
       }
@@ -1602,8 +1691,8 @@
     "models": [
       {
         "name": "Kill Team Infiltrator",
-        "min": 21,
-        "max": 21,
+        "min": 3,
+        "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1613,6 +1702,50 @@
           "deathwatch-marksman-bolt-carbine",
           "close-combat-weapon",
           "bolt-pistol"
+        ]
+      },
+      {
+        "name": "Kill Team Infiltrator with bolt sniper rifle",
+        "min": 0,
+        "max": 3,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "bolt-sniper-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Infiltrator with Deathwatch occulus bolt carbine",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "deathwatch-occulus-bolt-carbine",
+          "paired-combat-blades"
+        ]
+      },
+      {
+        "name": "Kill Team Infiltrator with combat knife",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "special-issue-bolt-pistol",
+          "combat-knife"
         ]
       }
     ],
@@ -2247,6 +2380,19 @@
           "master-crafted-power-weapon",
           "master-crafted-bolt-carbine"
         ]
+      },
+      {
+        "name": "Chapter Champion",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "blades-of-honour"
+        ]
       }
     ],
     "game_version": {
@@ -2550,8 +2696,8 @@
     "models": [
       {
         "name": "Kill Team Heavy Intercessors",
-        "min": 16,
-        "max": 16,
+        "min": 3,
+        "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -2561,6 +2707,35 @@
           "close-combat-weapon",
           "bolt-pistol",
           "deathwatch-heavy-bolt-rifle"
+        ]
+      },
+      {
+        "name": "Kill Team Heavy Intercessor with power fists",
+        "min": 0,
+        "max": 3,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "flamestorm-gauntlets",
+          "twin-power-fists"
+        ]
+      },
+      {
+        "name": "Kill Team Heavy Intercessor with melta rifle",
+        "min": 0,
+        "max": 3,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "melta-rifle",
+          "close-combat-weapon"
         ]
       }
     ],
@@ -3469,13 +3644,42 @@
         "is_leader_model": false
       },
       {
-        "name": "Victrix Guard",
-        "profile_name": "Veteran Sergeant Metaurus",
-        "min": 4,
-        "max": 4,
+        "name": "Dainal Komelius",
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
-          "bolt-pistol",
-          "close-combat-weapon"
+          "force-stave",
+          "astropathic-blast"
+        ],
+        "is_leader_model": false
+      },
+      {
+        "name": "Ancient Gadriel",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "bolt-rifle"
+        ],
+        "is_leader_model": false
+      },
+      {
+        "name": "Gaius Silva",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "power-weapon",
+          "archeotech-laspistol"
+        ],
+        "is_leader_model": false
+      },
+      {
+        "name": "Aemelia Minervas",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "archeotech-laspistol",
+          "power-weapon"
         ],
         "is_leader_model": false
       }
@@ -4699,7 +4903,7 @@
       },
       {
         "name": "Kill Team Intercessor",
-        "min": 9,
+        "min": 2,
         "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
@@ -4709,6 +4913,66 @@
         "default_weapon_ids": [
           "bolt-pistol",
           "deathwatch-bolt-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with plasma incinerator",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "plasma-incinerator",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with heavy bolt pistol",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "astartes-chainsword"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with pyreblaster",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "pyreblaster",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Intercessor with superfrag rocket launcher",
+        "min": 0,
+        "max": 2,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "castellan-launcher",
+          "superfrag-rocket-launcher",
           "close-combat-weapon"
         ]
       }
@@ -4795,8 +5059,8 @@
     "models": [
       {
         "name": "Kill Team Infiltrator",
-        "min": 21,
-        "max": 21,
+        "min": 3,
+        "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -4806,6 +5070,50 @@
           "deathwatch-marksman-bolt-carbine",
           "close-combat-weapon",
           "bolt-pistol"
+        ]
+      },
+      {
+        "name": "Kill Team Infiltrator with bolt sniper rifle",
+        "min": 0,
+        "max": 3,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "bolt-sniper-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Kill Team Infiltrator with Deathwatch occulus bolt carbine",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "deathwatch-occulus-bolt-carbine",
+          "paired-combat-blades"
+        ]
+      },
+      {
+        "name": "Kill Team Infiltrator with combat knife",
+        "min": 0,
+        "max": 4,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "special-issue-bolt-pistol",
+          "combat-knife"
         ]
       }
     ],
@@ -5008,7 +5316,7 @@
         "min": 0,
         "max": 2,
         "default_weapon_ids": [
-          "close-combat-weapon"
+          "teeth-and-claws"
         ],
         "is_leader_model": false,
         "base_size_mm": {

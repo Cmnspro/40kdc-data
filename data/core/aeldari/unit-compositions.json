@@ -189,9 +189,24 @@
     "unit_id": "corsair-voidscarred",
     "models": [
       {
-        "name": "Way Seeker",
-        "min": 5,
-        "max": 13,
+        "name": "Voidscarred Felarch",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Corsair Voidscarred",
+        "min": 4,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -199,8 +214,54 @@
         },
         "default_weapon_ids": [
           "shuriken-pistol",
-          "witch-staff",
-          "executioner"
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Shade Runner",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "close-combat-weapon",
+          "paired-hekatarii-blades"
+        ]
+      },
+      {
+        "name": "Soul Weaver",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Way Seeker",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "executioner",
+          "close-combat-weapon",
+          "witch-staff"
         ]
       }
     ],

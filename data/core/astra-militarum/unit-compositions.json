@@ -103,13 +103,13 @@
         }
       },
       {
-        "name": "Brin Milo",
+        "name": "Colm Corbec",
         "profile_name": "Oan Mkoll",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "lasgun",
-          "close-combat-weapon"
+          "corbecs-hot-shot-lascarbine",
+          "straight-silver-knife"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1328,9 +1328,65 @@
         }
       },
       {
-        "name": "Veteran Guardsman",
-        "min": 5,
-        "max": 5,
+        "name": "Veteran Guardsman (Chainsword)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "laspistol",
+          "chainsword"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Servo-scribes)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "laspistol",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Master Vox)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "lasgun",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Regimental Standard)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "lasgun",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Boltgun)",
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "boltgun",
           "close-combat-weapon"

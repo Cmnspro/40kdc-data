@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { MfmDump } from "../src/mfm/loader.js";
-import { deriveWargear, withinEditDistance1, dumpComposition, reconcileModels } from "../src/mfm/wargear.js";
+import { deriveWargear, withinEditDistance1, dumpComposition, reconcileModels, makeResolver } from "../src/mfm/wargear.js";
 
 /**
  * A hand-built minimal dump exercising the full derivation: two model types
@@ -241,6 +241,30 @@ describe("deriveDefaults quantity rule + heterogeneity guard (option-group model
       wargear_option: [{ id: "o", wargearItemId: "wi-turret", wargearOptionGroupId: "g", inputType: "checkbox", defaultValue: 1, points: 0, displayOrder: 1 }],
     });
     expect(deriveWargear(dump, "dsZ", slug).defaultsByModel.size).toBe(0);
+  });
+});
+
+describe("makeResolver per-unit priority overrides", () => {
+  // Both ids are valid faction weapons (the GW dump reuses the display name
+  // "Questoris multi-laser" for two distinct profiles). Without an override the
+  // exact slug wins; the per-unit override must remap it BEFORE the direct match.
+  const valid = new Set(["questoris-multi-laser", "chainbreaker-multi-laser", "las-impulsor"]);
+
+  it("returns the exact-slug match when no override applies", () => {
+    const r = makeResolver(valid, []);
+    expect(r("Questoris multi-laser")).toBe("questoris-multi-laser");
+  });
+
+  it("a priority override remaps a valid id to another, beating the direct match", () => {
+    const r = makeResolver(valid, [], {}, { "questoris-multi-laser": "chainbreaker-multi-laser" });
+    expect(r("Questoris multi-laser")).toBe("chainbreaker-multi-laser");
+    // unrelated names are unaffected
+    expect(r("Las-impulsor")).toBe("las-impulsor");
+  });
+
+  it("a priority override pointing at a non-existent id falls through to the direct match", () => {
+    const r = makeResolver(valid, [], {}, { "questoris-multi-laser": "not-a-real-id" });
+    expect(r("Questoris multi-laser")).toBe("questoris-multi-laser");
   });
 });
 

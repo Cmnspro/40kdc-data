@@ -44,7 +44,10 @@ def run_linked_query(ds: Any, query: str, args: dict[str, Any]) -> Any:
         unit = ds.units.get(args["unitId"])
         comp = next((c for c in ds.unit_compositions if c.get("unit_id") == args["unitId"]), None)
         lo = base_loadout(
-            unit.raw, int(args["modelCount"]), ds.wargear_options_of(unit.raw), (comp or {}).get("models")
+            unit.raw,
+            int(args["modelCount"]),
+            ds.wargear_options_of(unit.raw),
+            (comp or {}).get("models"),
         )
         return sorted(f"{id_}:{n}" for id_, n in lo.items())
     if query == "maximal_loadout":

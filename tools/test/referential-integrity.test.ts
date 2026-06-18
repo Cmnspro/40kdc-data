@@ -52,6 +52,14 @@ describe("referential integrity", () => {
     expect(messages.some((m) => m.includes('"lascannons"') && m.includes("plural of weapon"))).toBe(true);
   });
 
+  it("flags a duplicate unit id within a faction file (first-wins shadowing)", async () => {
+    const result = await checkReferentialIntegrity(resolve(FIXTURES, "integrity-dup-unit"));
+    const messages = result.errors.flatMap((e) => e.errors.map((x) => x.message));
+    expect(messages.some((m) => m.includes('duplicate unit id "dup-unit"') && m.includes("first-wins"))).toBe(true);
+    // The unique id must NOT be flagged.
+    expect(messages.some((m) => m.includes('"solo-unit"'))).toBe(false);
+  });
+
   it("registers the chaos cult factions with bare-legion home keywords", () => {
     expect(FACTION_HOME_KEYWORD["world-eaters"]).toBe("World Eaters");
     expect(FACTION_HOME_KEYWORD["chaos-space-marines"]).toBe("Heretic Astartes");
