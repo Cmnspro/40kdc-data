@@ -22,7 +22,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Helbrute",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mutalith-vortex-beast",
@@ -48,7 +59,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Mutalith Vortex Beast",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-land-raider",
@@ -74,7 +96,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Land Raider",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tzaangor-shaman",
@@ -98,7 +131,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Tzaangor Shaman",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-spawn",
@@ -121,14 +165,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Spawn",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sorcerer",
     "faction_id": "thousand-sons",
     "models": [
       {
-        "name": "Sorcerer",
+        "name": "Thousand Sons Sorcerer",
         "min": 1,
         "max": 1,
         "is_leader_model": false,
@@ -141,7 +196,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Thousand Sons Sorcerer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-vindicator",
@@ -165,7 +231,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Vindicator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-rhino",
@@ -189,7 +266,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ahriman",
@@ -214,7 +302,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ahriman",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "rubric-marines",
@@ -253,7 +352,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aspiring Sorcerer",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Rubric Marine",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Aspiring Sorcerer",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Rubric Marine",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "infernal-master",
@@ -278,7 +407,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Infernal Master",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tzaangor-enlightened",
@@ -300,7 +440,7 @@
       {
         "name": "Enlightened",
         "min": 2,
-        "max": 2,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -314,7 +454,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aviarch",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Enlightened",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Aviarch",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Enlightened",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tzaangor-enlightened-with-fatecaster-greatbows",
@@ -337,7 +507,7 @@
       {
         "name": "Enlightened",
         "min": 2,
-        "max": 2,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -352,7 +522,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aviarch",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Enlightened",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Aviarch",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Enlightened",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "scarab-occult-terminators",
@@ -391,7 +591,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Scarab Occult Sorcerer",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Scarab Occult Terminator",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Scarab Occult Sorcerer",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Scarab Occult Terminator",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "magnus-the-red",
@@ -416,7 +646,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Magnus the Red",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-predator-destructor",
@@ -440,7 +681,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Predator Destructor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "defiler",
@@ -460,7 +712,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Defiler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "daemon-prince-of-tzeentch-with-wings",
@@ -485,7 +748,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Daemon Prince of Tzeentch with Wings",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tzaangors",
@@ -522,14 +796,44 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Twistbray",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tzaangor",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Twistbray",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tzaangor",
+            "min": 10,
+            "max": 19
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sekhetar-robots",
     "faction_id": "thousand-sons",
     "models": [
       {
-        "name": "Sekhetar Robots",
+        "name": "Sekhetar Robot",
         "min": 2,
         "max": 4,
         "is_leader_model": false,
@@ -542,14 +846,34 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sekhetar Robot",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sekhetar Robot",
+            "min": 3,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "exalted-sorcerer-on-disc-of-tzeentch",
     "faction_id": "thousand-sons",
     "models": [
       {
-        "name": "Exalted Sorcerer on Disc of Tzeentch",
+        "name": "Exalted Sorcerer",
         "min": 1,
         "max": 1,
         "is_leader_model": false,
@@ -562,7 +886,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Exalted Sorcerer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "maulerfiend",
@@ -587,7 +922,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Maulerfiend",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "exalted-sorcerer",
@@ -612,7 +958,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Exalted Sorcerer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sorcerer-in-terminator-armour",
@@ -637,7 +994,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sorcerer in Terminator Armour",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-predator-annihilator",
@@ -661,7 +1029,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Predator Annihilator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "forgefiend",
@@ -687,7 +1066,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Forgefiend",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "heldrake",
@@ -712,7 +1102,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Heldrake",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "daemon-prince-of-tzeentch",
@@ -737,6 +1138,17 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Daemon Prince of Tzeentch",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

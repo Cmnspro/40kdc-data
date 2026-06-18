@@ -8,8 +8,10 @@ import {
   weaponBounds,
   clampWeaponCount,
   validateLoadout,
+  checkUnitLegality,
+  type LoadoutTier,
 } from "../src/data/loadout.js";
-import type { WargearOption } from "../src/generated.js";
+import type { Unit, WargearOption } from "../src/generated.js";
 
 const GV = { edition: "10th", dataslate: "2025-q3" };
 function opt(p: Partial<WargearOption>): WargearOption {
@@ -29,6 +31,41 @@ describe("optionCap", () => {
   });
   it("max_count clamps a ratio", () => {
     expect(optionCap(opt({ model_constraint: { per_n_models: 5, max_count: 1 } }), 20)).toBe(1);
+  });
+});
+
+describe("optionCap — eligible-model clamp", () => {
+  const models = [
+    { name: "Champion", min: 1, max: 1, is_leader_model: true },
+    { name: "Trooper", min: 4, max: 9 },
+  ];
+  it("caps a champion-scoped option at the champion count (1), not per_n_models", () => {
+    // floor(10/5) = 2, but only 1 Champion exists → 1.
+    expect(optionCap(opt({ model_constraint: { model_name: "Champion", per_n_models: 5 } }), 10, models)).toBe(1);
+  });
+  it("scopes any_number to the matching profile's count", () => {
+    expect(optionCap(opt({ model_constraint: { model_name: "Champion", any_number: true } }), 10, models)).toBe(1);
+  });
+  it("leaves the cap unclamped when model_name matches no row", () => {
+    expect(optionCap(opt({ model_constraint: { model_name: "Nobody", per_n_models: 5 } }), 10, models)).toBe(2);
+  });
+});
+
+describe("validateLoadout — shared-allowance budgets", () => {
+  const unit = (budgets: unknown) => ({ id: "u", wargear_budgets: budgets } as unknown as Unit);
+  it("flags when summed budget items exceed floor(models * count / per_models)", () => {
+    const u = unit([{ items: ["a", "b"], count: 1, per_models: 5 }]);
+    const v = validateLoadout(u, 10, [], new Map([["a", 2], ["b", 1]])); // 3 > floor(10/5)=2
+    expect(v.some((x) => x.code === "exceeds-allowance")).toBe(true);
+  });
+  it("passes exactly at the cap", () => {
+    const u = unit([{ items: ["a", "b"], count: 1, per_models: 5 }]);
+    expect(validateLoadout(u, 10, [], new Map([["a", 1], ["b", 1]]))).toEqual([]); // 2 == 2
+  });
+  it("uses an exact ratio — 3 per 5 → 6 at 10 models", () => {
+    const u = unit([{ items: ["a"], count: 3, per_models: 5 }]);
+    expect(validateLoadout(u, 10, [], new Map([["a", 6]]))).toEqual([]);
+    expect(validateLoadout(u, 10, [], new Map([["a", 7]])).some((x) => x.code === "exceeds-allowance")).toBe(true);
   });
 });
 
@@ -134,6 +171,49 @@ describe("weaponBounds + clampWeaponCount + validateLoadout", () => {
     // Either single choice is legal.
     expect(validateLoadout(unit, 1, opts, new Map([["diabolus-heavy-stubber", 1]]))).toEqual([]);
     expect(validateLoadout(unit, 1, opts, new Map([["havoc-multi-launcher", 1]]))).toEqual([]);
+  });
+});
+
+describe("checkUnitLegality — tier selection", () => {
+  // Neurogaunts: 1 Nodebeast + 10, or 1 + 11–20, or 2 + 20. A roster carries only
+  // the total model count, so the tier that admits 22 is the one with 2 Nodebeasts.
+  const unit = { id: "neurogaunts" } as unknown as Unit;
+  const models = [
+    { name: "Neurogaunt Nodebeast", min: 1, max: 2, is_leader_model: true },
+    { name: "Neurogaunt", min: 10, max: 20 },
+  ];
+  const tiers: LoadoutTier[] = [
+    { models: [{ name: "Neurogaunt Nodebeast", min: 1, max: 1 }, { name: "Neurogaunt", min: 10, max: 10 }] },
+    { models: [{ name: "Neurogaunt Nodebeast", min: 1, max: 1 }, { name: "Neurogaunt", min: 11, max: 20 }] },
+    { models: [{ name: "Neurogaunt Nodebeast", min: 2, max: 2 }, { name: "Neurogaunt", min: 20, max: 20 }] },
+  ];
+
+  it("accepts a size that matches a tier", () => {
+    expect(checkUnitLegality(unit, 22, [], new Map(), models, tiers)).toEqual([]);
+    expect(checkUnitLegality(unit, 11, [], new Map(), models, tiers)).toEqual([]);
+    expect(checkUnitLegality(unit, 15, [], new Map(), models, tiers)).toEqual([]);
+  });
+
+  it("flags invalid-model-count when the size matches no tier", () => {
+    const v = checkUnitLegality(unit, 23, [], new Map(), models, tiers);
+    expect(v).toEqual([
+      { id: "neurogaunts", code: "invalid-model-count", message: "neurogaunts: 23 models matches no composition tier" },
+    ]);
+    // 21 is reachable (tier 1: 1 Nodebeast + 11–20 → total 12–21).
+    expect(checkUnitLegality(unit, 21, [], new Map(), models, tiers)).toEqual([]);
+  });
+
+  it("is legal iff some containing tier validates clean", () => {
+    // A 1-per-5 budget: at 22 models the only containing tier is {2 + 20}, allowing
+    // floor(22/5)=4. 5 copies exceeds it under every containing tier → flagged.
+    const u = { id: "neurogaunts", wargear_budgets: [{ items: ["spike"], count: 1, per_models: 5 }] } as unknown as Unit;
+    expect(checkUnitLegality(u, 22, [], new Map([["spike", 4]]), models, tiers)).toEqual([]);
+    expect(checkUnitLegality(u, 22, [], new Map([["spike", 5]]), models, tiers)[0].code).toBe("exceeds-allowance");
+  });
+
+  it("falls back to a plain validateLoadout (no size check) when no tiers are supplied", () => {
+    // 99 models, no tiers → no invalid-model-count; behaves like validateLoadout.
+    expect(checkUnitLegality(unit, 99, [], new Map(), models)).toEqual([]);
   });
 });
 

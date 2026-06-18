@@ -11,7 +11,7 @@
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 
-use crate::generated::{Unit, UnitCompositionModelsItem, WargearOption};
+use crate::generated::{Unit, UnitCompositionModelsItem, UnitCompositionTiersItem, WargearOption};
 
 /// Inclusive count range a single weapon/wargear id may take in a loadout.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -41,6 +41,8 @@ pub enum ViolationCode {
     ExceedsMax,
     BelowMin,
     SwapConflict,
+    ExceedsAllowance,
+    InvalidModelCount,
 }
 
 impl ViolationCode {
@@ -49,13 +51,19 @@ impl ViolationCode {
             ViolationCode::ExceedsMax => "exceeds-max",
             ViolationCode::BelowMin => "below-min",
             ViolationCode::SwapConflict => "swap-conflict",
+            ViolationCode::ExceedsAllowance => "exceeds-allowance",
+            ViolationCode::InvalidModelCount => "invalid-model-count",
         }
     }
 }
 
 /// The maximum number of models that may take `option` in a unit of
 /// `model_count` models. See [`super`] / the TS mirror for the semantics.
-pub fn option_cap(option: &WargearOption, model_count: u64) -> u64 {
+pub fn option_cap(
+    option: &WargearOption,
+    model_count: u64,
+    models: Option<&[LoadoutModel]>,
+) -> u64 {
     let Some(c) = option.model_constraint.as_ref() else {
         return model_count;
     };
@@ -69,10 +77,35 @@ pub fn option_cap(option: &WargearOption, model_count: u64) -> u64 {
     if let Some(m) = c.max_count {
         cap = cap.min(m.get());
     }
+    // Eligible-model clamp: an option scoped to a named model profile can be taken
+    // by no more models than exist of that profile — a lone champion caps the swap
+    // at 1 even when `per_n_models` would allow more. The composition row name is
+    // the authority; a name with no matching row leaves the cap unclamped.
+    if let (Some(name), Some(ms)) = (c.model_name.as_ref(), models) {
+        if let Some(eligible) = eligible_model_count(ms, model_count, name) {
+            cap = cap.min(eligible);
+        }
+    }
     // A swap is per-model: at most one per model, so never more than
     // model_count — a `max_count` larger than the current squad size must not
     // drive a weapon count negative. (u64 floors the lower bound at zero.)
     cap.min(model_count)
+}
+
+/// How many models of profile `name` a unit of `model_count` fields, per
+/// [`allocate_models`]. `None` when no row carries that name — the caller then
+/// leaves the option uncapped by eligibility.
+fn eligible_model_count(models: &[LoadoutModel], model_count: u64, name: &str) -> Option<u64> {
+    if !models.iter().any(|m| m.name.as_deref() == Some(name)) {
+        return None;
+    }
+    let mut n = 0;
+    for (model, count) in allocate_models(models, model_count) {
+        if model.name.as_deref() == Some(name) {
+            n += count;
+        }
+    }
+    Some(n)
 }
 
 /// The ids a single option adds for the given choice branch (default 0).
@@ -138,6 +171,8 @@ fn base_weapon_ids(unit: &Unit, options: &[&WargearOption]) -> Vec<String> {
 /// mapped into this shape.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LoadoutModel {
+    /// Model-profile name; matched against an option's `model_constraint.model_name`.
+    pub name: Option<String>,
     pub min: u64,
     pub max: u64,
     pub default_weapon_ids: Vec<String>,
@@ -147,6 +182,7 @@ pub struct LoadoutModel {
 impl From<&UnitCompositionModelsItem> for LoadoutModel {
     fn from(m: &UnitCompositionModelsItem) -> Self {
         LoadoutModel {
+            name: Some((*m.name).clone()),
             min: m.min,
             max: m.max.get(),
             default_weapon_ids: m.default_weapon_ids.iter().map(|i| i.to_string()).collect(),
@@ -269,7 +305,7 @@ pub fn maximal_loadout(
 ) -> Loadout {
     let mut counts = base_counts(unit, model_count, options, models);
     for option in options {
-        let cap = option_cap(option, model_count) as i64;
+        let cap = option_cap(option, model_count, models) as i64;
         if cap == 0 {
             continue;
         }
@@ -298,7 +334,7 @@ pub fn weapon_bounds(
         bounds.insert(id, WeaponBound { min: n, max: n });
     }
     for option in options {
-        let cap = option_cap(option, model_count);
+        let cap = option_cap(option, model_count, models);
         for id in &option.replaces {
             let b = bounds
                 .entry(id.to_string())
@@ -342,7 +378,19 @@ pub fn validate_loadout(
 ) -> Vec<Violation> {
     let bounds = weapon_bounds(unit, model_count, options, models);
     let mut out = Vec::new();
+    // Items governed by a shared-allowance budget are policed solely by
+    // `budget_violations`; their per-id `weapon_bounds` max is derived from the
+    // dump's cross-product loadout branches (the unreliable signal the budget
+    // replaces), so skip the per-id check for them. Mirror of the TS reference.
+    let budgeted: HashSet<&str> = unit
+        .wargear_budgets
+        .iter()
+        .flat_map(|b| b.items.iter().map(|i| &***i))
+        .collect();
     for (id, &n) in counts {
+        if budgeted.contains(id.as_str()) {
+            continue;
+        }
         let Some(b) = bounds.get(id) else { continue };
         if n > b.max as i64 {
             out.push(Violation {
@@ -359,8 +407,166 @@ pub fn validate_loadout(
         }
     }
     out.extend(swap_conflicts(unit, model_count, options, counts, models));
+    out.extend(budget_violations(unit, model_count, counts));
     out.sort_by(|a, b| a.id.cmp(&b.id).then(a.code.as_str().cmp(b.code.as_str())));
     out
+}
+
+/// Shared-allowance violations: each [`Unit::wargear_budgets`] entry lets its
+/// listed items take at most `floor(model_count * count / per_models)` copies
+/// between them. Summing the final counts is robust to *how* the items are
+/// equipped — unlike per-option caps, which the dump's cross-product loadout
+/// branches defeat. The violation `id` is the budget's sorted items joined by `+`.
+/// Mirror of `tools/src/data/loadout.ts`.
+fn budget_violations(
+    unit: &Unit,
+    model_count: u64,
+    counts: &HashMap<String, i64>,
+) -> Vec<Violation> {
+    let mut out = Vec::new();
+    for budget in &unit.wargear_budgets {
+        if budget.items.is_empty() {
+            continue;
+        }
+        let used: i64 = budget
+            .items
+            .iter()
+            .map(|id| counts.get(&***id).copied().unwrap_or(0))
+            .sum();
+        // `per_models == 0` is a flat per-unit cap of `count`; otherwise a ratio.
+        let (cap, limit) = if budget.per_models == 0 {
+            (
+                budget.count.get() as i64,
+                format!("{} per unit", budget.count.get()),
+            )
+        } else {
+            (
+                (model_count * budget.count.get() / budget.per_models) as i64,
+                format!("{} per {} models", budget.count.get(), budget.per_models),
+            )
+        };
+        if used > cap {
+            let mut items: Vec<String> = budget.items.iter().map(|i| i.to_string()).collect();
+            items.sort();
+            let id = items.join("+");
+            out.push(Violation {
+                code: ViolationCode::ExceedsAllowance,
+                message: format!("{id}: {used} exceeds shared allowance {cap} ({limit})"),
+                id,
+            });
+        }
+    }
+    out
+}
+
+/// One discrete buildable squad size: per-model count ranges keyed by model name.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct LoadoutTier {
+    pub models: Vec<LoadoutTierModel>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct LoadoutTierModel {
+    pub name: String,
+    pub min: u64,
+    pub max: u64,
+}
+
+impl From<&UnitCompositionTiersItem> for LoadoutTier {
+    fn from(t: &UnitCompositionTiersItem) -> Self {
+        LoadoutTier {
+            models: t
+                .models
+                .iter()
+                .map(|m| LoadoutTierModel {
+                    name: (*m.name).clone(),
+                    min: m.min,
+                    max: m.max.get(),
+                })
+                .collect(),
+        }
+    }
+}
+
+/// Map a unit-composition's tier rows into the [`LoadoutTier`] shape.
+pub fn loadout_tiers(tiers: &[UnitCompositionTiersItem]) -> Vec<LoadoutTier> {
+    tiers.iter().map(LoadoutTier::from).collect()
+}
+
+/// Merge a tier's per-model count ranges onto the composition's `models` metadata
+/// by name, producing the [`LoadoutModel`] list for that tier.
+fn tier_models(tier: &LoadoutTier, base: &[LoadoutModel]) -> Vec<LoadoutModel> {
+    tier.models
+        .iter()
+        .map(|tm| {
+            let mut lm = base
+                .iter()
+                .find(|b| b.name.as_deref() == Some(tm.name.as_str()))
+                .cloned()
+                .unwrap_or(LoadoutModel {
+                    name: None,
+                    min: 0,
+                    max: 0,
+                    default_weapon_ids: Vec::new(),
+                    is_leader_model: false,
+                });
+            lm.name = Some(tm.name.clone());
+            lm.min = tm.min;
+            lm.max = tm.max;
+            lm
+        })
+        .collect()
+}
+
+/// Whole-unit legality, tier-aware — the building block for a roster check. A
+/// roster records only the *total* `model_count`, so we select every tier whose
+/// total range `[Σmin, Σmax]` contains it and run [`validate_loadout`] against
+/// each tier's allocation. The unit is legal iff **some** containing tier
+/// validates clean. Deterministic reporting: the empty result of the first clean
+/// tier (in tier order), else the violations of the first containing tier; an
+/// `invalid-model-count` violation when the size matches no tier. With no tiers it
+/// falls back to a plain [`validate_loadout`]. Mirror of `tools/src/data/loadout.ts`.
+pub fn check_unit_legality(
+    unit: &Unit,
+    model_count: u64,
+    options: &[&WargearOption],
+    counts: &HashMap<String, i64>,
+    models: Option<&[LoadoutModel]>,
+    tiers: Option<&[LoadoutTier]>,
+) -> Vec<Violation> {
+    let tiers = match tiers {
+        Some(t) if !t.is_empty() => t,
+        _ => return validate_loadout(unit, model_count, options, counts, models),
+    };
+    let base = models.unwrap_or(&[]);
+    let candidates: Vec<Vec<LoadoutModel>> = tiers
+        .iter()
+        .map(|tier| tier_models(tier, base))
+        .filter(|tm| {
+            let min: u64 = tm.iter().map(|m| m.min).sum();
+            let max: u64 = tm.iter().map(|m| m.max).sum();
+            model_count >= min && model_count <= max
+        })
+        .collect();
+    if candidates.is_empty() {
+        let id = unit.id.as_str().to_string();
+        return vec![Violation {
+            message: format!("{id}: {model_count} models matches no composition tier"),
+            code: ViolationCode::InvalidModelCount,
+            id,
+        }];
+    }
+    let mut first: Option<Vec<Violation>> = None;
+    for tm in &candidates {
+        let violations = validate_loadout(unit, model_count, options, counts, Some(tm));
+        if violations.is_empty() {
+            return Vec::new();
+        }
+        if first.is_none() {
+            first = Some(violations);
+        }
+    }
+    first.unwrap_or_default()
 }
 
 /// Swap-conservation violations the independent per-id [`weapon_bounds`] can't
@@ -468,7 +674,12 @@ mod tests {
         }))
         .expect("synthetic unit deserializes")
     }
-    fn syn_opt(j: serde_json::Value) -> WargearOption {
+    fn syn_opt(mut j: serde_json::Value) -> WargearOption {
+        // faction_id is required on wargear-option (Stage A); inject a default so the
+        // data-independent fixtures stay terse.
+        if j.get("faction_id").is_none() {
+            j["faction_id"] = serde_json::json!("test");
+        }
         serde_json::from_value(j).expect("synthetic option deserializes")
     }
 
@@ -527,13 +738,17 @@ mod tests {
                     .is_some()
             })
             .expect("a per_n_models option");
-        assert_eq!(option_cap(ratio, 10), 2);
-        assert_eq!(option_cap(ratio, 9), 1);
+        assert_eq!(option_cap(ratio, 10, None), 2);
+        assert_eq!(option_cap(ratio, 9, None), 1);
     }
 
     #[test]
-    fn validate_flags_over_cap_and_accepts_maximal() {
+    fn validate_flags_over_cap_and_accepts_base() {
         let (bz, opts) = berzerkers();
+        // plasma-pistol is a single-weapon per-N allowance (not a shared budget):
+        // 2 on the troopers + 1 on the champion = 3 at 10 models, so 4 trips the
+        // per-weapon bound. (The maximal loadout is a per-weapon upper bound and is
+        // intentionally budget-blind, so it is not asserted legal here.)
         let mut over = HashMap::new();
         over.insert("plasma-pistol".to_string(), 4i64);
         let v = validate_loadout(bz, 10, &opts, &over, None);
@@ -541,7 +756,8 @@ mod tests {
         assert_eq!(v[0].id, "plasma-pistol");
         assert_eq!(v[0].code, ViolationCode::ExceedsMax);
 
-        let lo = maximal_loadout(bz, 10, &opts, None);
+        // The base loadout (the legal default) always validates clean.
+        let lo = base_loadout(bz, 10, &opts, None);
         let counts: HashMap<String, i64> = lo.counts.into_iter().collect();
         assert!(validate_loadout(bz, 10, &opts, &counts, None).is_empty());
     }

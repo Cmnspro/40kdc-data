@@ -204,7 +204,7 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		pu := puAny.(map[string]any)
 		units = append(units, resolveUnit(pu, factionIDStr, detachmentIDs, ds, diag))
 	}
-	inferLeaderAttachments(parsedUnits, units, ds, diag)
+	inferLeaderAttachments(parsedUnits, units, ds, factionIDStr, diag)
 
 	tr := parsed["total_reported"]
 	tc := parsed["total_computed"]
@@ -219,6 +219,10 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		"faction_id":  factionID,
 		"detachments": detachments,
 		"battle_size": battleSize,
+		// Only the canonical roster-json round-trip carries a picked Force
+		// Disposition; other source formats don't encode it yet, so it defaults
+		// to null and the roster-legality checker flags it (advisory).
+		"force_disposition": parsed["force_disposition"],
 		"points": map[string]any{
 			"declared_limit": parsed["declared_limit"],
 			"detachment_cap": cap,
@@ -327,7 +331,7 @@ func resolveEnhancement(rawName string, detachmentIDs []string, ds *Dataset, dia
 	return refUnresolved(rawName, candFromRaw(ds.Enhancements.FindAll(rawName)))
 }
 
-func inferLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, diag *diagBuilder) {
+func inferLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, factionID string, diag *diagBuilder) {
 	bodyguardIDs := map[string]bool{}
 	for i, uAny := range units {
 		u := uAny.(map[string]any)
@@ -343,6 +347,25 @@ func inferLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, diag *d
 		pu := parsedUnits[i].(map[string]any)
 		leaderID, ok := ref["id"].(string)
 		if !ok || leaderID == "" || pu["is_character"] != true {
+			continue
+		}
+		// Only `support` characters are auto-attached: per the GW datasheet
+		// bodyguard-group data they cannot operate alone, so attaching to an
+		// eligible bodyguard present in the roster is certain. A `leader` (or a
+		// character with no attachment_role) MAY be solo, so we don't guess one.
+		// attachment_role is faction-specific, so resolve faction-scoped.
+		var resolvedUnit *UnitView
+		if factionID != "" {
+			if uv, ok := ds.Units.GetInFaction(leaderID, factionID); ok {
+				resolvedUnit = uv
+			}
+		}
+		if resolvedUnit == nil {
+			if uv, ok := ds.Units.Get(leaderID); ok {
+				resolvedUnit = uv
+			}
+		}
+		if resolvedUnit == nil || getStr(resolvedUnit.Raw, "attachment_role") != "support" {
 			continue
 		}
 		var attachment map[string]any
@@ -383,7 +406,7 @@ func inferLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, diag *d
 			"bodyguard_ref": refResolved(bodyguardID, bref["raw_name"]),
 			"provisional":   true,
 		}
-		diag.warn("leader-attachment-inferred", "Leader attachment was inferred from leader-attachment data and is provisional.", ref["raw_name"])
+		diag.warn("leader-attachment-inferred", "Support character attached to an eligible bodyguard (it cannot operate alone); provisional.", ref["raw_name"])
 	}
 }
 

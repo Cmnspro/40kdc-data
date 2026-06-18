@@ -1449,6 +1449,51 @@ export interface UnitComposition {
       hull_shape_id?: EntityId | null;
     }[]
   ];
+  /**
+   * The discrete buildable squad sizes (GW's per-datasheet unit-composition rows). Each tier gives a per-model count range; a legal squad must match exactly one tier. When absent, the squad is treated as a single implicit tier equal to `models[]`. The top-level `models[]` min/max are the aggregate envelope (min-of-mins / max-of-maxes) across the tiers, so consumers that read only `models[]` still see the full range.
+   *
+   * @minItems 1
+   */
+  tiers?: [
+    {
+      /**
+       * One entry per top-level `models[]` row, matched by `name`, giving this tier's count range for that model type.
+       *
+       * @minItems 1
+       */
+      models: [
+        {
+          name: string;
+          min: number;
+          max: number;
+        },
+        ...{
+          name: string;
+          min: number;
+          max: number;
+        }[]
+      ];
+    },
+    ...{
+      /**
+       * One entry per top-level `models[]` row, matched by `name`, giving this tier's count range for that model type.
+       *
+       * @minItems 1
+       */
+      models: [
+        {
+          name: string;
+          min: number;
+          max: number;
+        },
+        ...{
+          name: string;
+          min: number;
+          max: number;
+        }[]
+      ];
+    }[]
+  ];
   game_version: GameVersionReference;
 }
 /**
@@ -1583,6 +1628,20 @@ export interface Unit {
   };
   weapon_ids?: EntityId[];
   ability_ids?: EntityId[];
+  /**
+   * Limited-wargear squad allowances the per-weapon bounds cannot express: a GW `limited_wargear_choice_set` that is either (a) SHARED across several weapons (a 'for every N models, one model can take one of A/B/C' line) or (b) a FLAT per-unit cap ('up to 1 per unit'). A loadout is legal only if the summed count of a budget's items is at most the cap: `floor(model_count * count / per_models)` for a ratio, or just `count` when `per_models` is 0 (a flat per-unit cap). Single-weapon per-N allowances are NOT budgets — the per-weapon bounds already model them (they correctly sum a weapon's capacity across the model types that may take it).
+   */
+  wargear_budgets?: {
+    /**
+     * @minItems 1
+     */
+    items: [EntityId, ...EntityId[]];
+    count: number;
+    /**
+     * Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).
+     */
+    per_models: number;
+  }[];
   transport_capacity?: {
     capacity: number;
     keyword_restrictions?: KeywordList | null;

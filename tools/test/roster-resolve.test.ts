@@ -218,19 +218,46 @@ function worldEatersRoster(units: RosterUnit[]): Roster {
 
 describe("checkRosterLegality", () => {
   it("flags the illegal 5× reaper-autocannon Chaos Terminators loadout (10 models)", () => {
-    // The motivating bug: 10x Chaos Terminators with 5x Reaper autocannon. A
-    // 'per 5 models' allowance caps reaper well below 5 at 10 models.
+    // The motivating bug: 10x Chaos Terminators with 5x Reaper autocannon. Reaper
+    // and heavy flamer share one 'for every 5 models, 1 can take one of …' budget,
+    // so the cap at 10 models is 2 — enforced as a sum over the shared allowance.
     const roster = worldEatersRoster([
       chaosTerminators(10, [
-        wargear("combi-bolter", 10),
+        wargear("combi-bolter", 5),
         wargear("accursed-weapon", 10),
         wargear("reaper-autocannon", 5),
       ]),
     ]);
     const report = checkRosterLegality(roster, ds);
     expect(report).toHaveLength(1);
-    const reaper = report[0].violations.find((v) => v.id === "reaper-autocannon");
-    expect(reaper?.code).toBe("exceeds-max");
+    const allowance = report[0].violations.find((v) => v.code === "exceeds-allowance");
+    expect(allowance?.id).toContain("reaper-autocannon");
+  });
+
+  it("flags 3× reaper-autocannon at 10 models (over the 2-per-squad allowance)", () => {
+    // Previously slipped through (summed per-option cap was 4); the shared budget
+    // is the authoritative gate.
+    const roster = worldEatersRoster([
+      chaosTerminators(10, [
+        wargear("combi-bolter", 7),
+        wargear("accursed-weapon", 10),
+        wargear("reaper-autocannon", 3),
+      ]),
+    ]);
+    const report = checkRosterLegality(roster, ds);
+    expect(report[0].violations.some((v) => v.code === "exceeds-allowance")).toBe(true);
+  });
+
+  it("passes 2× reaper-autocannon at 10 models (within the allowance)", () => {
+    const roster = worldEatersRoster([
+      chaosTerminators(10, [
+        wargear("combi-bolter", 8),
+        wargear("accursed-weapon", 10),
+        wargear("reaper-autocannon", 2),
+      ]),
+    ]);
+    const report = checkRosterLegality(roster, ds);
+    expect(report[0].violations).toEqual([]);
   });
 
   it("passes a legal default Chaos Terminators loadout (no swaps)", () => {

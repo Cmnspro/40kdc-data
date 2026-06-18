@@ -94,8 +94,19 @@ export {
   primaryDetachment,
   primaryDetachmentId,
   checkRosterLegality,
+  checkRoster,
+  validateRosterCore,
 } from "./roster-resolve.js";
-export type { UnitLegality } from "./roster-resolve.js";
+export type {
+  UnitLegality,
+  RosterLegality,
+  RosterViolation,
+  RosterViolationCode,
+  NormRoster,
+} from "./roster-resolve.js";
+export { pointsLimitForBattleSize, detachmentCapForBattleSize } from "./battle-sizes.js";
+export { candidateAffordability } from "./affordability.js";
+export type { AffordabilitySpec, AffordabilityUnit, CandidateCost } from "./affordability.js";
 
 import { Dataset } from "./dataset.js";
 

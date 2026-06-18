@@ -18,6 +18,9 @@ import {
 	wargearOptionsFor,
 	loadoutViolations,
 	totalPoints,
+	pointsLimit,
+	nextCopyCost,
+	canAfford,
 	builderViolations,
 	detachmentTagConflicts,
 	builderToRoster,
@@ -825,5 +828,45 @@ describe('Houndpack Lance: minimum War Dog units', () => {
 			units: [warDog('a'), warDog('b'), warDog('c')],
 		});
 		expect(three.some((v) => /requires .* War Dog units/.test(v.message))).toBe(false);
+	});
+});
+
+describe('affordability (nextCopyCost / canAfford)', () => {
+	const we = 'world-eaters';
+	// Resolve the World Eaters copy explicitly — chaos-terminators is a shared
+	// chassis, so a faction-less lookup is ambiguous.
+	const raw = unitRaw('chaos-terminators', undefined, we)!;
+	const mk = (key: string): BuilderUnit => ({
+		key,
+		datasheetId: 'chaos-terminators',
+		modelCount: 5,
+		loadout: defaultLoadout(raw, 5),
+		enhancementId: null,
+		isWarlord: false,
+	});
+
+	it('prices the next copy ordinal-aware (Chaos Terminators 175 → 185 on the 3rd)', () => {
+		const empty: BuilderState = { ...emptyBuilderState(), factionId: we };
+		expect(nextCopyCost(empty, raw)).toBe(175);
+
+		const twoTaken: BuilderState = { ...emptyBuilderState(), factionId: we, units: [mk('a'), mk('b')] };
+		expect(nextCopyCost(twoTaken, raw)).toBe(185);
+	});
+
+	it('canAfford flips false once the running total leaves no room', () => {
+		// Override the limit to just above one 5-man squad (175): a second copy
+		// (another 175) won't fit.
+		const tight: BuilderState = {
+			...emptyBuilderState(),
+			factionId: we,
+			pointsLimitOverride: 200,
+			units: [mk('a')],
+		};
+		expect(totalPoints(tight)).toBe(175);
+		expect(pointsLimit(tight)).toBe(200);
+		expect(canAfford(tight, raw)).toBe(false);
+
+		const roomy: BuilderState = { ...emptyBuilderState(), factionId: we, pointsLimitOverride: 400 };
+		expect(canAfford(roomy, raw)).toBe(true);
 	});
 });

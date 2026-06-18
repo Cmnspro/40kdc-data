@@ -888,6 +888,108 @@ describe("scoring conformance corpus", () => {
   }
 });
 
+// Roster-legality conformance — pins the tier-aware whole-unit legality check
+// (`check_unit_legality`): tier selection, the `invalid-model-count` size check,
+// and the shared wargear-allowance budgets. Dispatched through the runner — the
+// same path the cross-impl differ drives — and compared exactly (sorted
+// `"code:id"` strings). The Rust/Python/Go ports assert against the same corpus.
+
+interface RosterLegalityCase {
+  name: string;
+  args: unknown;
+  expected: string[];
+}
+
+describe("roster-legality conformance corpus", () => {
+  const cases = readJson(join(CONFORMANCE, "roster_legality", "cases.json")) as RosterLegalityCase[];
+  const specVersion = Number.parseInt(
+    readFileSync(join(CONFORMANCE, "SPEC_VERSION"), "utf8").trim(),
+    10,
+  );
+  const state = createRunnerState();
+  dispatch(state, {
+    op: "init",
+    args: { spec_version: specVersion, locale: "C", tz: "UTC", seed: 0 },
+  });
+
+  it("the roster-legality corpus is non-empty", () => {
+    expect(cases.length).toBeGreaterThan(0);
+  });
+
+  for (const c of cases) {
+    it(`roster_legality/${c.name}`, () => {
+      const res = dispatch(state, { op: "check_unit_legality", args: c.args });
+      expect(res.ok, `check_unit_legality errored: ${JSON.stringify(res)}`).toBe(true);
+      if (res.ok) expect(res.value).toEqual(c.expected);
+    });
+  }
+});
+
+// Roster-validation conformance — pins the whole-army legality check
+// (`check_roster_legality`): the nine army-construction dimensions plus the
+// per-unit loadout codes, output as sorted `"<scope>|<severity>|<code>:<id>"`
+// strings (scope = `army` or `u<index>`; severity = `error|warn`). The
+// Rust/Python/Go ports assert against the same corpus.
+describe("roster-validation conformance corpus", () => {
+  const cases = readJson(join(CONFORMANCE, "roster_validation", "cases.json")) as RosterLegalityCase[];
+  const specVersion = Number.parseInt(
+    readFileSync(join(CONFORMANCE, "SPEC_VERSION"), "utf8").trim(),
+    10,
+  );
+  const state = createRunnerState();
+  dispatch(state, {
+    op: "init",
+    args: { spec_version: specVersion, locale: "C", tz: "UTC", seed: 0 },
+  });
+
+  it("the roster-validation corpus is non-empty", () => {
+    expect(cases.length).toBeGreaterThan(0);
+  });
+
+  for (const c of cases) {
+    it(`roster_validation/${c.name}`, () => {
+      const res = dispatch(state, { op: "check_roster_legality", args: c.args });
+      expect(res.ok, `check_roster_legality errored: ${JSON.stringify(res)}`).toBe(true);
+      if (res.ok) expect(res.value).toEqual(c.expected);
+    });
+  }
+});
+
+// Affordability conformance — pins `candidate_affordability`: ordinal-aware
+// cheapest-next-copy pricing + the affordable flag against the remaining budget,
+// output as `[{ unitId, nextCopyCost, affordable }]` sorted by (cost, id). The
+// Rust/Python/Go ports assert against the same corpus.
+interface AffordabilityCase {
+  name: string;
+  args: unknown;
+  expected: { unitId: string; nextCopyCost: number; affordable: boolean }[];
+}
+
+describe("affordability conformance corpus", () => {
+  const cases = readJson(join(CONFORMANCE, "affordability", "cases.json")) as AffordabilityCase[];
+  const specVersion = Number.parseInt(
+    readFileSync(join(CONFORMANCE, "SPEC_VERSION"), "utf8").trim(),
+    10,
+  );
+  const state = createRunnerState();
+  dispatch(state, {
+    op: "init",
+    args: { spec_version: specVersion, locale: "C", tz: "UTC", seed: 0 },
+  });
+
+  it("the affordability corpus is non-empty", () => {
+    expect(cases.length).toBeGreaterThan(0);
+  });
+
+  for (const c of cases) {
+    it(`affordability/${c.name}`, () => {
+      const res = dispatch(state, { op: "candidate_affordability", args: c.args });
+      expect(res.ok, `candidate_affordability errored: ${JSON.stringify(res)}`).toBe(true);
+      if (res.ok) expect(res.value).toEqual(c.expected);
+    });
+  }
+});
+
 describe("cruncher conformance corpus", () => {
   const ds = Dataset.embedded();
   const cruncherDir = join(CONFORMANCE, "cruncher");

@@ -36,14 +36,44 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sacresant Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Celestian Sacresant",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sacresant Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Celestian Sacresant",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mortifiers",
     "faction_id": "adepta-sororitas",
     "models": [
       {
-        "name": "Mortifiers",
+        "name": "Mortifier",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -64,7 +94,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Mortifier",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Mortifier",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "canoness-with-jump-pack",
@@ -87,7 +137,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Canoness with Jump Pack",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "palatine",
@@ -111,7 +172,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Palatine",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sanctifiers",
@@ -120,8 +192,8 @@
       {
         "name": "Missionary",
         "profile_name": "Missionary",
-        "min": 1,
-        "max": 1,
+        "min": 2,
+        "max": 2,
         "default_weapon_ids": [
           "plasma-gun",
           "ministorum-flamer",
@@ -135,8 +207,8 @@
       },
       {
         "name": "Miraculist",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "holy-fire",
           "burning-hands"
@@ -149,8 +221,8 @@
       },
       {
         "name": "Salvationist",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "close-combat-weapon"
         ],
@@ -162,8 +234,8 @@
       },
       {
         "name": "Death Cult Assassin",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "death-cult-blades"
         ],
@@ -175,8 +247,8 @@
       },
       {
         "name": "Sanctifier",
-        "min": 2,
-        "max": 2,
+        "min": 4,
+        "max": 4,
         "default_weapon_ids": [
           "ministorum-hand-flamer",
           "sanctifier-melee-weapon"
@@ -191,14 +263,45 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Missionary",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Miraculist",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Salvationist",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Cult Assassin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sanctifier",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "arco-flagellants",
     "faction_id": "adepta-sororitas",
     "models": [
       {
-        "name": "Arco-flagellants",
+        "name": "Arco-flagellant",
         "min": 3,
         "max": 10,
         "is_leader_model": false,
@@ -214,14 +317,34 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Arco-flagellant",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Arco-flagellant",
+            "min": 4,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "celestian-insidiants",
     "faction_id": "adepta-sororitas",
     "models": [
       {
-        "name": "Insidiant Superior",
+        "name": "Celestian Insidiant Superior",
         "profile_name": "Celestian Insidiant",
         "min": 1,
         "max": 1,
@@ -253,7 +376,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Celestian Insidiant Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Celestian Insidiant",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "imagifier",
@@ -278,7 +417,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Imagifier",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "triumph-of-saint-katherine",
@@ -303,7 +453,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Triumph of Saint Katherine",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "seraphim-squad",
@@ -344,7 +505,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Seraphim Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Seraphim",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Seraphim Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Seraphim",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "repentia-squad",
@@ -381,7 +572,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Repentia Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sister Repentia",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Repentia Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sister Repentia",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "dialogus",
@@ -405,7 +626,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Dialogus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "dogmata",
@@ -429,7 +661,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Dogmata",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "immolator",
@@ -454,7 +697,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Immolator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hospitaller",
@@ -478,7 +732,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hospitaller",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "morvenn-vahl",
@@ -503,7 +768,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Morvenn Vahl",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "retributor-squad",
@@ -544,7 +820,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Retributor Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Retributor",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sisters-novitiate-squad",
@@ -584,7 +876,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Novitiate Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sister Novitiate",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "daemonifuge",
@@ -622,7 +930,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ephrael Stern",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Kyganil of the Bloody Tears",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sororitas-rhino",
@@ -646,7 +970,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sororitas Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "paragon-warsuits",
@@ -688,7 +1023,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Paragon Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Paragon",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "castigator",
@@ -715,7 +1066,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Castigator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "exorcist",
@@ -740,14 +1102,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Exorcist",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "penitent-engines",
     "faction_id": "adepta-sororitas",
     "models": [
       {
-        "name": "Penitent Engines",
+        "name": "Penitent Engine",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -760,7 +1133,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Penitent Engine",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Penitent Engine",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "junith-eruita",
@@ -784,7 +1177,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Junith Eruita",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ministorum-priest",
@@ -807,7 +1211,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ministorum Priest",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "zephyrim-squad",
@@ -846,7 +1261,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Zephyrim Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Zephyrim",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Zephyrim Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Zephyrim",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "dominion-squad",
@@ -887,7 +1332,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Dominion Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Dominion",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "saint-celestine",
@@ -924,7 +1385,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Celestine",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Geminae Superia",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "battle-sisters-squad",
@@ -965,7 +1442,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Battle Sister",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "canoness",
@@ -989,7 +1482,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Canoness",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "aestred-thurga-and-agathae-dolan",
@@ -1027,6 +1531,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aestred Thurga",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Agathae Dolan",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

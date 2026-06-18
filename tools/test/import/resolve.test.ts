@@ -57,8 +57,11 @@ describe("resolve (against embedded grey-knights data)", () => {
     expect(roster.diagnostics.unresolved_weapons).toBe(0);
   });
 
-  it("infers a provisional leader attachment", () => {
-    // Grand Master can lead a Paladin Squad / Brotherhood Terminator Squad.
+  it("does not auto-attach a solo-capable leader (support-only inference)", () => {
+    // Grand Master can lead a Paladin Squad, but its dump-sourced attachment_role
+    // is "leader" — solo-capable — so the importer leaves it unattached for the
+    // user to place. Only "support" characters (which cannot be taken solo) are
+    // auto-attached. See inferLeaderAttachments in import/resolve.ts.
     const payload = {
       name: "Leader Test",
       generatedBy: "List Forge",
@@ -97,9 +100,49 @@ describe("resolve (against embedded grey-knights data)", () => {
     };
     const r = importRoster(payload, { dataset: ds });
     const gm = unitById(r, "grand-master")!;
-    expect(gm.leader_attachment).not.toBeNull();
-    expect(gm.leader_attachment!.bodyguard_ref.id).toBe("paladin-squad");
-    expect(gm.leader_attachment!.provisional).toBe(true);
+    expect(gm.leader_attachment).toBeNull();
+    expect(r.diagnostics.warnings.some((w) => w.code === "leader-attachment-inferred")).toBe(false);
+  });
+
+  it("auto-attaches a support character to an eligible bodyguard", () => {
+    // A Painboy (dump-sourced attachment_role "support") cannot be fielded solo,
+    // so the importer attaches it to an eligible bodyguard (Boyz) when one is in
+    // the roster, flagged provisional with a diagnostic warning.
+    const payload = {
+      name: "Support Test",
+      generatedBy: "List Forge",
+      roster: {
+        name: "Support Test",
+        costs: [{ name: "pts", value: 0 }],
+        forces: [
+          {
+            id: "f1",
+            name: "Army Roster",
+            selections: [
+              {
+                id: "u-painboy",
+                name: "Painboy",
+                type: "model",
+                number: 1,
+                categories: [{ name: "Faction: Orks" }, { name: "Character", primary: true }],
+              },
+              {
+                id: "u-boyz",
+                name: "Boyz",
+                type: "unit",
+                number: 10,
+                categories: [{ name: "Faction: Orks" }, { name: "Infantry", primary: true }],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const r = importRoster(payload, { dataset: ds });
+    const pb = unitById(r, "painboy")!;
+    expect(pb.leader_attachment).not.toBeNull();
+    expect(pb.leader_attachment!.bodyguard_ref.id).toBe("boyz");
+    expect(pb.leader_attachment!.provisional).toBe(true);
     expect(r.diagnostics.warnings.some((w) => w.code === "leader-attachment-inferred")).toBe(true);
   });
 

@@ -4,6 +4,172 @@ import "sort"
 
 // handleLinkedQuery dispatches the Dataset read-path queries. Go mirror of
 // python runner._handle_linked_query.
+// handleCheckUnitLegality is the tier-aware whole-unit loadout legality op —
+// mirror of the TS runner op. Returns sorted "code:id" strings.
+func (s *RunnerState) handleCheckUnitLegality(args any) map[string]any {
+	a, ok := asMap(args)
+	if !ok {
+		return errResp("INVALID_INPUT", detail("check_unit_legality args must be an object"))
+	}
+	unitID, ok := a["unitId"].(string)
+	if !ok {
+		return errResp("INVALID_INPUT", detail("check_unit_legality.unitId/modelCount required"))
+	}
+	mc, ok := a["modelCount"].(float64)
+	if !ok {
+		return errResp("INVALID_INPUT", detail("check_unit_legality.unitId/modelCount required"))
+	}
+	modelCount := int(mc)
+	ds := s.dataset()
+	var u *UnitView
+	if fid, ok := a["factionId"].(string); ok {
+		if uv, found := ds.Units.GetInFaction(unitID, fid); found {
+			u = uv
+		}
+	} else if uv, found := ds.Units.Get(unitID); found {
+		u = uv
+	}
+	if u == nil {
+		return errResp("UNKNOWN_ENTITY", map[string]any{"kind": "unit", "id": unitID})
+	}
+	factionID := getStr(u.Raw, "faction_id")
+	var models, tiers []any
+	for _, cAny := range ds.UnitCompositions {
+		c, _ := asMap(cAny)
+		if getStr(c, "unit_id") == unitID && getStr(c, "faction_id") == factionID {
+			models = getList(c, "models")
+			tiers = getList(c, "tiers")
+			break
+		}
+	}
+	counts := map[string]int{}
+	if cs, ok := asMap(a["counts"]); ok {
+		for k, v := range cs {
+			counts[k] = asInt(v)
+		}
+	}
+	violations := checkUnitLegality(u.Raw, modelCount, ds.wargearOptionsOf(u.Raw), counts, models, tiers)
+	strs := make([]string, 0, len(violations))
+	for _, v := range violations {
+		strs = append(strs, v["code"]+":"+v["id"])
+	}
+	sort.Strings(strs)
+	return okResp(toAnyList(strs))
+}
+
+// handleCheckRosterLegality is the whole-army legality op — mirror of the TS
+// runner op. Builds a normRoster from the compact spec, runs validateRosterCore,
+// and returns the sorted union of per-unit loadout and army violations as
+// "<scope>|<severity>|<code>:<id>" strings (scope army or u<index>).
+func (s *RunnerState) handleCheckRosterLegality(args any) map[string]any {
+	a, ok := asMap(args)
+	if !ok {
+		return errResp("INVALID_INPUT", detail("check_roster_legality args must be an object"))
+	}
+	unitsRaw, ok := a["units"].([]any)
+	if !ok {
+		return errResp("INVALID_INPUT", detail("check_roster_legality.units must be an array"))
+	}
+	spec := normRoster{
+		factionID:  getStr(a, "factionId"),
+		battleSize: getStr(a, "battleSize"),
+	}
+	if fd, ok := a["forceDisposition"].(string); ok {
+		spec.forceDisposition = &fd
+	}
+	for _, dAny := range getList(a, "detachments") {
+		d, _ := asMap(dAny)
+		if id, ok := d["id"].(string); ok {
+			spec.detachmentIDs = append(spec.detachmentIDs, id)
+		}
+	}
+	for _, uAny := range unitsRaw {
+		u, _ := asMap(uAny)
+		nu := normUnit{
+			unitID:     getStr(u, "unitId"),
+			modelCount: asInt(u["modelCount"]),
+			isWarlord:  u["isWarlord"] == true,
+			counts:     map[string]int{},
+		}
+		if e, ok := u["enhancementId"].(string); ok {
+			nu.enhancementID = e
+		}
+		if l, ok := u["leaderBodyguardId"].(string); ok {
+			nu.leaderBodyguardID = l
+		}
+		if cs, ok := asMap(u["counts"]); ok {
+			for k, v := range cs {
+				nu.counts[k] = asInt(v)
+			}
+		}
+		spec.units = append(spec.units, nu)
+	}
+
+	units, army := validateRosterCore(spec, s.dataset())
+	lines := []string{}
+	for _, ur := range units {
+		for _, v := range ur.violations {
+			lines = append(lines, "u"+itoa(ur.unitIndex)+"|error|"+v["code"]+":"+v["id"])
+		}
+	}
+	for _, v := range army {
+		scope := "army"
+		if v.unitIndex >= 0 {
+			scope = "u" + itoa(v.unitIndex)
+		}
+		lines = append(lines, scope+"|"+v.severity+"|"+v.code+":"+v.id)
+	}
+	sort.Strings(lines)
+	return okResp(toAnyList(lines))
+}
+
+// handleCandidateAffordability is the cheapest-next-copy pricing + affordability
+// op — mirror of the TS runner op. Returns [{unitId, nextCopyCost, affordable}]
+// sorted ascending by (nextCopyCost, unitId).
+func (s *RunnerState) handleCandidateAffordability(args any) map[string]any {
+	a, ok := asMap(args)
+	if !ok {
+		return errResp("INVALID_INPUT", detail("candidate_affordability args must be an object"))
+	}
+	if _, ok := a["units"].([]any); !ok {
+		return errResp("INVALID_INPUT", detail("candidate_affordability.units must be an array"))
+	}
+	spec := affordabilitySpec{
+		factionID:  getStr(a, "factionId"),
+		battleSize: getStr(a, "battleSize"),
+	}
+	if v, ok := a["pointsLimitOverride"].(float64); ok {
+		n := int(v)
+		spec.pointsLimitOverride = &n
+	}
+	for _, uAny := range getList(a, "units") {
+		u, _ := asMap(uAny)
+		au := affordabilityUnit{
+			unitID:     getStr(u, "unitId"),
+			modelCount: asInt(u["modelCount"]),
+		}
+		if e, ok := u["enhancementId"].(string); ok {
+			au.enhancementID = e
+		}
+		spec.units = append(spec.units, au)
+	}
+	if ids, ok := a["candidateUnitIds"].([]any); ok {
+		spec.candidateProvided = true
+		for _, idAny := range ids {
+			if id, ok := idAny.(string); ok {
+				spec.candidateUnitIDs = append(spec.candidateUnitIDs, id)
+			}
+		}
+	}
+
+	result := candidateAffordability(spec, s.dataset())
+	out := make([]any, len(result))
+	for i, r := range result {
+		out[i] = r
+	}
+	return okResp(out)
+}
+
 func (s *RunnerState) handleLinkedQuery(args any) map[string]any {
 	a, ok := asMap(args)
 	if !ok {

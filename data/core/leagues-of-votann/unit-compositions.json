@@ -21,7 +21,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Memnyr Strategist",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "einhyr-hearthguard",
@@ -63,7 +74,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hesyr",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Einhyr Hearthguard",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Hesyr",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Einhyr Hearthguard",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "grimnyr",
@@ -101,14 +142,30 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Grimnyr",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "CORV",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hernkyn-pioneers",
     "faction_id": "leagues-of-votann",
     "models": [
       {
-        "name": "Hernkyn Pioneers",
+        "name": "Hernkyn Pioneer",
         "min": 3,
         "max": 6,
         "is_leader_model": false,
@@ -128,7 +185,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hernkyn Pioneer",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Hernkyn Pioneer",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cthonian-earthshakers",
@@ -154,7 +231,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cthonian Earthshakers",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kapricus-carrier",
@@ -180,7 +268,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kapricus Carrier",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
@@ -203,7 +302,7 @@
       {
         "name": "Ironkin Steeljack",
         "min": 2,
-        "max": 2,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -218,7 +317,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Steeljack Theyn",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Ironkin Steeljack",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Steeljack Theyn",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Ironkin Steeljack",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hekaton-land-fortress",
@@ -246,7 +375,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hekaton Land Fortress",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "buri-aegnirssen",
@@ -270,7 +410,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Buri Aegnirssen",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "brokhyr-iron-master",
@@ -375,7 +526,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Berehk Stornbröw",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ironkin-steeljacks-with-melee-weapons",
@@ -398,7 +560,7 @@
       {
         "name": "Ironkin Steeljack",
         "min": 2,
-        "max": 2,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -413,7 +575,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Steeljack Theyn",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Ironkin Steeljack",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Steeljack Theyn",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Ironkin Steeljack",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "uthar-the-destined",
@@ -438,7 +630,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ûthar the Destined",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hernkyn-yaegirs",
@@ -476,7 +679,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Yaegir Theyn",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Hernkyn Yaegir",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "einhyr-champion",
@@ -501,7 +720,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Einhyr Champion",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "brokhyr-thunderkyn",
@@ -525,7 +755,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Brôkhyr Thunderkyn",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Brôkhyr Thunderkyn",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "arkanyst-evaluator",
@@ -549,14 +799,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Arkanyst Evaluator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kapricus-defenders",
     "faction_id": "leagues-of-votann",
     "models": [
       {
-        "name": "Kapricus Defenders",
+        "name": "Kapricus Defender",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -570,14 +831,34 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kapricus Defender",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Kapricus Defender",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cthonian-beserks",
     "faction_id": "leagues-of-votann",
     "models": [
       {
-        "name": "Cthonian Beserks",
+        "name": "Cthonian Beserk",
         "min": 5,
         "max": 10,
         "is_leader_model": false,
@@ -593,7 +874,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cthonian Beserk",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Cthonian Beserk",
+            "min": 6,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sagitaur",
@@ -618,7 +919,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sagitaur",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kahl",
@@ -643,7 +955,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kâhl",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hearthkyn-warriors",
@@ -685,6 +1008,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Theyn",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Hearthkyn Warrior",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -29,6 +29,7 @@ import * as path from "path";
 import { nameToId, detachmentScopedId } from "../converters/id-generator.js";
 import { MfmDump, REPO_ROOT, type DetachmentRow, type StratagemRow } from "./loader.js";
 import { repoDirs } from "./faction-map.js";
+import type { StagedWrite } from "./apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 
@@ -128,6 +129,7 @@ export interface DirStratResult {
 export interface StratReport {
   dirs: DirStratResult[];
   newInDump: number;
+  staged: StagedWrite[];
 }
 
 function readJson<T>(p: string): T[] {
@@ -141,6 +143,7 @@ export function runStratagems(dump: MfmDump, write: boolean): StratReport {
   const canon = buildStratCanon(dump);
   const matchedIds = new Set<string>();
   const dirs: DirStratResult[] = [];
+  const staged: StagedWrite[] = [];
 
   // include the global core stratagems file alongside the per-faction ones
   const targets: string[] = ["", ...[...repoDirs()].sort()];
@@ -169,7 +172,7 @@ export function runStratagems(dump: MfmDump, write: boolean): StratReport {
 
       if (c.cp_cost != null && s.cp_cost !== c.cp_cost) {
         res.cpChanged.push({ id: s.id, from: s.cp_cost, to: c.cp_cost });
-        if (write) s.cp_cost = c.cp_cost;
+        s.cp_cost = c.cp_cost; // mutate in BOTH modes; rehearsal validates the result
         dirty = true;
       }
       // phases / player_turn: derived for review only — reported, never written
@@ -183,12 +186,12 @@ export function runStratagems(dump: MfmDump, write: boolean): StratReport {
       // game_version intentionally left as-authored: only cp_cost is dump-verified;
       // phases/timing aren't, so flipping provisional→launch would over-claim.
     }
-    if (write && dirty) fs.writeFileSync(p, JSON.stringify(strats, null, 2) + "\n");
+    if (dirty) staged.push({ path: p, value: strats });
     dirs.push(res);
   }
 
   const newInDump = [...canon.keys()].filter((id) => !matchedIds.has(id)).length;
-  return { dirs, newInDump };
+  return { dirs, newInDump, staged };
 }
 
 export function buildStratReport(report: StratReport, write: boolean): string {

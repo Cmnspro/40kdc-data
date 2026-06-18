@@ -21,7 +21,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Lord of Poxes",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "defiler",
@@ -41,7 +52,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Defiler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-spawn",
@@ -64,7 +86,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Spawn",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tallyman",
@@ -88,14 +121,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Tallyman",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "poxwalkers",
     "faction_id": "death-guard",
     "models": [
       {
-        "name": "Poxwalkers",
+        "name": "Poxwalker",
         "min": 10,
         "max": 20,
         "is_leader_model": false,
@@ -111,7 +155,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Poxwalker",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Poxwalker",
+            "min": 11,
+            "max": 20
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "lord-of-contagion",
@@ -134,7 +198,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Lord of Contagion",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-predator-annihilator",
@@ -158,7 +233,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Predator Annihilator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-predator-destructor",
@@ -182,14 +268,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Predator Destructor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "foetid-bloat-drone-with-heavy-blight-launcher",
     "faction_id": "death-guard",
     "models": [
       {
-        "name": "Foetid Bloat-Drone with Heavy Blight Launcher",
+        "name": "Foetid Bloat-drone",
         "min": 1,
         "max": 1,
         "is_leader_model": false,
@@ -202,7 +299,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Foetid Bloat-drone",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "plagueburst-crawler",
@@ -229,7 +337,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Plagueburst Crawler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "biologus-putrifier",
@@ -254,7 +373,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Biologus Putrifier",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "plague-marines",
@@ -293,7 +423,51 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Plague Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Plague Marine",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Plague Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Plague Marine",
+            "min": 5,
+            "max": 6
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Plague Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Plague Marine",
+            "min": 7,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "plague-surgeon",
@@ -317,7 +491,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Plague Surgeon",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "daemon-prince-of-nurgle",
@@ -341,7 +526,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Daemon Prince of Nurgle",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "deathshroud-terminators",
@@ -380,7 +576,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Deathshroud Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Deathshroud Terminator",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Deathshroud Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Deathshroud Terminator",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "lord-of-virulence",
@@ -404,14 +630,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Lord of Virulence",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "foetid-bloat-drone",
     "faction_id": "death-guard",
     "models": [
       {
-        "name": "Foetid Bloat-Drone",
+        "name": "Foetid Bloat-drone",
         "min": 1,
         "max": 1,
         "is_leader_model": false,
@@ -424,7 +661,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Foetid Bloat-drone",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "noxious-blightbringer",
@@ -448,7 +696,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Noxious Blightbringer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "daemon-prince-of-nurgle-with-wings",
@@ -472,7 +731,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Daemon Prince of Nurgle with Wings",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "miasmic-malignifier",
@@ -495,14 +765,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Miasmic Malignifier",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "helbrute",
     "faction_id": "death-guard",
     "models": [
       {
-        "name": "Helbrute",
+        "name": "Death Guard Helbrute",
         "min": 1,
         "max": 1,
         "is_leader_model": false,
@@ -515,14 +796,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Death Guard Helbrute",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "myphitic-blight-haulers",
     "faction_id": "death-guard",
     "models": [
       {
-        "name": "Myphitic Blight-haulers",
+        "name": "Myphitic Blight-hauler",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -535,7 +827,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Myphitic Blight-hauler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Myphitic Blight-hauler",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mortarion",
@@ -560,7 +872,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Mortarion",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "malignant-plaguecaster",
@@ -585,7 +908,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Malignant Plaguecaster",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-rhino",
@@ -609,7 +943,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-land-raider",
@@ -635,7 +980,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Land Raider",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "foul-blightspawn",
@@ -659,7 +1015,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Foul Blightspawn",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "icon-bearer",
@@ -683,7 +1050,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Icon Bearer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "typhus",
@@ -706,7 +1084,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Typhus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "blightlord-terminators",
@@ -745,6 +1134,50 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Blightlord Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Blightlord Terminator",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Blightlord Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Blightlord Terminator",
+            "min": 3,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Blightlord Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Blightlord Terminator",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -270,6 +270,23 @@ class Dataset:
         """
         return self._wargear_options_by_unit.get(unit["id"], [])
 
+    def unit_composition_of(self, unit: dict[str, Any]) -> dict[str, Any] | None:
+        """The unit-composition row for the given unit, faction-scoped.
+
+        A shared chassis diverges per faction, so the composition is matched on
+        both ``unit_id`` and ``faction_id``. ``None`` when the unit has no
+        recorded composition. Mirror of TS ``unitCompositionOf``.
+        """
+        return next(
+            (
+                c
+                for c in self.unit_compositions
+                if c.get("unit_id") == unit["id"]
+                and c.get("faction_id") == unit.get("faction_id")
+            ),
+            None,
+        )
+
     def leaders_attachable_to(self, bodyguard_unit_id: str) -> list[UnitView]:
         """Leaders whose leader-attachment data lists the unit among its bodyguards.
 

@@ -387,6 +387,7 @@ impl FormatAdapter for RosterizerAdapter {
             faction_raw_name,
             detachment_raw_names,
             battle_size_raw: battle_size_raw.clone(),
+            force_disposition: None,
             declared_limit: parse_limit(battle_size_raw.as_deref()),
             total_reported,
             total_computed,

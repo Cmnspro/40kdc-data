@@ -436,6 +436,7 @@ impl FormatAdapter for GwHeaderlessAdapter {
             faction_raw_name,
             detachment_raw_names,
             battle_size_raw,
+            force_disposition: None,
             declared_limit,
             total_reported: None,
             total_computed,

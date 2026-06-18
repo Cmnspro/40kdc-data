@@ -12,6 +12,7 @@ from wh40kdc.data.entities import (
 )
 from wh40kdc.data.loadout import (
     base_loadout,
+    check_unit_legality,
     clamp_weapon_count,
     maximal_loadout,
     option_cap,
@@ -33,6 +34,7 @@ __all__ = [
     "WeaponView",
     "base_loadout",
     "base_unit_points",
+    "check_unit_legality",
     "clamp_weapon_count",
     "empty_raw_data",
     "maximal_loadout",

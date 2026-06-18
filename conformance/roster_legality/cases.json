@@ -1,0 +1,67 @@
+[
+  {
+    "name": "neurogaunts-min-squad-legal",
+    "args": { "unitId": "neurogaunts", "modelCount": 11, "counts": {} },
+    "expected": []
+  },
+  {
+    "name": "neurogaunts-mid-tier-legal",
+    "args": { "unitId": "neurogaunts", "modelCount": 21, "counts": {} },
+    "expected": []
+  },
+  {
+    "name": "neurogaunts-max-squad-legal",
+    "args": { "unitId": "neurogaunts", "modelCount": 22, "counts": {} },
+    "expected": []
+  },
+  {
+    "name": "neurogaunts-below-min-invalid",
+    "args": { "unitId": "neurogaunts", "modelCount": 10, "counts": {} },
+    "expected": ["invalid-model-count:neurogaunts"]
+  },
+  {
+    "name": "neurogaunts-above-max-invalid",
+    "args": { "unitId": "neurogaunts", "modelCount": 23, "counts": {} },
+    "expected": ["invalid-model-count:neurogaunts"]
+  },
+  {
+    "name": "berzerkers-fully-kitted-legal",
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "icon-of-khorne": 1, "plasma-pistol": 3, "khornate-eviscerator": 2 } },
+    "expected": []
+  },
+  {
+    "name": "berzerkers-icon-flat-cap-over",
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "icon-of-khorne": 2 } },
+    "expected": ["exceeds-allowance:icon-of-khorne"]
+  },
+  {
+    "name": "berzerkers-plasma-champion-plus-troops-legal",
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "plasma-pistol": 3 } },
+    "expected": []
+  },
+  {
+    "name": "berzerkers-plasma-over",
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "plasma-pistol": 4 } },
+    "expected": ["exceeds-max:plasma-pistol"]
+  },
+  {
+    "name": "berzerkers-eviscerator-over",
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "khornate-eviscerator": 3 } },
+    "expected": ["exceeds-max:khornate-eviscerator"]
+  },
+  {
+    "name": "terminators-reaper-at-cap-legal",
+    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon": 2 } },
+    "expected": []
+  },
+  {
+    "name": "terminators-reaper-over-allowance",
+    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon": 3 } },
+    "expected": ["exceeds-allowance:heavy-flamer+reaper-autocannon"]
+  },
+  {
+    "name": "terminators-reaper-heavyflamer-shared-over",
+    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon": 1, "heavy-flamer": 2 } },
+    "expected": ["exceeds-allowance:heavy-flamer+reaper-autocannon"]
+  }
+]

@@ -21,7 +21,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Heretic Astartes Daemon Prince",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "heretic-astartes-daemon-prince-with-wings",
@@ -45,7 +56,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Heretic Astartes Daemon Prince with Wings",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sorcerer-in-terminator-armour",
@@ -70,7 +92,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sorcerer in Terminator Armour",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "nemesis-claw",
@@ -134,7 +167,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sorcerer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "dark-commune",
@@ -241,14 +285,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Master of Possession",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "obliterators",
     "faction_id": "chaos-space-marines",
     "models": [
       {
-        "name": "Obliterators",
+        "name": "Obliterator",
         "min": 2,
         "max": 2,
         "is_leader_model": false,
@@ -261,7 +316,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Obliterator",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "lord-discordant-on-helstalker",
@@ -289,7 +355,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Lord Discordant on Helstalker",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-terminator-squad",
@@ -328,7 +405,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Terminator Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chaos Terminator",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Terminator Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chaos Terminator",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cultist-firebrand",
@@ -352,7 +459,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cultist Firebrand",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-land-raider",
@@ -378,7 +496,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Land Raider",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "possessed",
@@ -400,7 +529,7 @@
       {
         "name": "Possessed",
         "min": 4,
-        "max": 4,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -414,7 +543,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Possessed Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Possessed",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Possessed Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Possessed",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "traitor-enforcer",
@@ -451,7 +610,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Traitor Enforcer",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Traitor Ogryn",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "dark-apostle",
@@ -488,7 +663,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Dark Apostle",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Dark Disciple",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-spawn",
@@ -511,7 +702,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Spawn",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-predator-annihilator",
@@ -535,7 +737,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Predator Annihilator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "venomcrawler",
@@ -560,7 +773,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Venomcrawler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "havocs",
@@ -600,7 +824,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Havoc Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Havoc",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "noctilith-crown",
@@ -623,7 +863,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Noctilith Crown",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "raptors",
@@ -662,7 +913,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Raptor Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Raptor",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Raptor Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Raptor",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "defiler",
@@ -682,7 +963,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Defiler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-predator-destructor",
@@ -706,7 +998,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Predator Destructor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chosen",
@@ -747,7 +1050,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chosen Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chosen",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Chosen Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chosen",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "traitor-guardsmen-squad",
@@ -769,7 +1102,7 @@
         }
       },
       {
-        "name": "Traitor Guardsman",
+        "name": "Traitor Guardsmen",
         "min": 9,
         "max": 9,
         "default_weapon_ids": [
@@ -786,7 +1119,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Traitor Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Traitor Guardsmen",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "heldrake",
@@ -811,7 +1160,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Heldrake",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-vindicator",
@@ -835,7 +1195,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Vindicator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "forgefiend",
@@ -861,7 +1232,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Forgefiend",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "warpsmith",
@@ -888,7 +1270,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Warpsmith",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-lord-in-terminator-armour",
@@ -912,7 +1305,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Lord in Terminator Armour",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "red-corsairs-raiders",
@@ -977,7 +1381,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Master of Executions",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "accursed-cultists",
@@ -985,8 +1400,8 @@
     "models": [
       {
         "name": "Torment",
-        "min": 1,
-        "max": 3,
+        "min": 3,
+        "max": 6,
         "default_weapon_ids": [
           "hideous-mutations"
         ],
@@ -999,7 +1414,7 @@
       {
         "name": "Mutant",
         "min": 5,
-        "max": 13,
+        "max": 10,
         "default_weapon_ids": [
           "blasphemous-appendages"
         ],
@@ -1013,7 +1428,51 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Torment",
+            "min": 3,
+            "max": 3
+          },
+          {
+            "name": "Mutant",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Torment",
+            "min": 3,
+            "max": 6
+          },
+          {
+            "name": "Mutant",
+            "min": 6,
+            "max": 10
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Torment",
+            "min": 4,
+            "max": 6
+          },
+          {
+            "name": "Mutant",
+            "min": 5,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "helbrute",
@@ -1038,7 +1497,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Helbrute",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-lord-with-jump-pack",
@@ -1062,7 +1532,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Lord with Jump Pack",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cultist-mob",
@@ -1125,7 +1606,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Lord",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-bikers",
@@ -1168,7 +1660,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Biker Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chaos Biker",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Biker Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chaos Biker",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "warp-talons",
@@ -1205,14 +1727,44 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Warp Talon Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Warp Talon",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Warp Talon Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Warp Talon",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "fellgor-beastmen",
     "faction_id": "chaos-space-marines",
     "models": [
       {
-        "name": "Fellgor Mangler",
+        "name": "Fellgor Champion",
         "profile_name": "Fellgor Beastman",
         "min": 1,
         "max": 1,
@@ -1227,7 +1779,7 @@
         }
       },
       {
-        "name": "Fellgor Beastman",
+        "name": "Fellgor Beastmen",
         "min": 9,
         "max": 9,
         "default_weapon_ids": [
@@ -1244,7 +1796,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Fellgor Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Fellgor Beastmen",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "maulerfiend",
@@ -1269,7 +1837,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Maulerfiend",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-rhino",
@@ -1293,7 +1872,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chaos Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "legionaries",
@@ -1334,7 +1924,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aspiring Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Legionary",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Aspiring Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Legionary",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "red-corsairs-reave-captain",
@@ -1358,14 +1978,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Red Corsairs Reave-Captain",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "masters-of-the-maelstrom",
     "faction_id": "chaos-space-marines",
     "models": [
       {
-        "name": "Katar Garrix",
+        "name": "Garreon the Corpsemaster",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -1379,7 +2010,7 @@
         }
       },
       {
-        "name": "The Enforcer",
+        "name": "Garlon Souleater",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -1393,7 +2024,7 @@
         }
       },
       {
-        "name": "Garreon the Corpsemaster",
+        "name": "Katar Garrix",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -1407,7 +2038,7 @@
         }
       },
       {
-        "name": "Garlon Souleater",
+        "name": "Captain Sargotta",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -1421,7 +2052,7 @@
         }
       },
       {
-        "name": "Captain Sargotta",
+        "name": "The Enforcer",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -1438,7 +2069,38 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Garreon the Corpsemaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Garlon Souleater",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Katar Garrix",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Captain Sargotta",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "The Enforcer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "vashtorr-the-arkifane",
@@ -1462,7 +2124,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Vashtorr the Arkifane",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "huron-blackheart",
@@ -1486,7 +2159,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Huron Blackheart",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "haarken-worldclaimer",
@@ -1510,7 +2194,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Haarken Worldclaimer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "abaddon-the-despoiler",
@@ -1534,7 +2229,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Abaddon the Despoiler",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "fabius-bile",
@@ -1572,7 +2278,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Fabius Bile",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Surgeon Acolyte",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cypher",
@@ -1596,7 +2318,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cypher",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "khorne-lord-of-skulls",
@@ -1621,16 +2354,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Khorne Lord of Skulls",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mutilators",
     "faction_id": "chaos-space-marines",
     "models": [
       {
-        "name": "Mutilators",
-        "min": 1,
-        "max": 1,
+        "name": "Mutilator",
+        "min": 3,
+        "max": 3,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1644,6 +2388,17 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Mutilator",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   }
 ]

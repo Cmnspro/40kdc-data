@@ -30,6 +30,7 @@ import {
   type ForceDispositionRow,
 } from "./loader.js";
 import { repoDirForFactionName, repoDirs } from "./faction-map.js";
+import type { StagedWrite } from "./apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 
@@ -59,6 +60,7 @@ export interface DirDispResult {
 export interface DispReport {
   dirs: DirDispResult[];
   newInDump: string[]; // dump detachment slugs with no repo entity anywhere
+  staged: StagedWrite[];
 }
 
 function readJson<T>(p: string): T[] {
@@ -128,6 +130,7 @@ export function runDispositions(dump: MfmDump, write: boolean): DispReport {
   const { bySlug, overrideBySlugDir } = buildCanon(dump);
   const matchedSlugs = new Set<string>();
   const dirs: DirDispResult[] = [];
+  const staged: StagedWrite[] = [];
 
   for (const dir of [...repoDirs()].sort()) {
     const p = path.join(CORE_DIR, dir, "detachments.json");
@@ -161,21 +164,20 @@ export function runDispositions(dump: MfmDump, write: boolean): DispReport {
           to: targetDisp,
         });
       }
-      if (write) {
-        // Reconcile only the two fields the dump is authoritative for here. The
-        // detachment's game_version dataslate is left untouched — bumping it to
-        // "launch" would over-claim, since its rule/enhancement/stratagem
-        // references aren't reconciled until later phases.
-        det.detachment_points = targetDp;
-        det.force_dispositions = targetDisp;
-      }
+      // Reconcile only the two fields the dump is authoritative for here, in BOTH
+      // modes (the dry-run rehearsal validates the result). The detachment's
+      // game_version dataslate is left untouched — bumping it to "launch" would
+      // over-claim, since its rule/enhancement/stratagem references aren't
+      // reconciled until later phases.
+      det.detachment_points = targetDp;
+      det.force_dispositions = targetDisp;
     }
-    if (write) fs.writeFileSync(p, JSON.stringify(dets, null, 2) + "\n");
+    staged.push({ path: p, value: dets });
     dirs.push(res);
   }
 
   const newInDump = [...bySlug.keys()].filter((s) => !matchedSlugs.has(s)).sort();
-  return { dirs, newInDump };
+  return { dirs, newInDump, staged };
 }
 
 export function buildDispReport(report: DispReport, write: boolean): string {

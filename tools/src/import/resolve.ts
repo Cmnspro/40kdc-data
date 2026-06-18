@@ -15,6 +15,7 @@
  * @packageDocumentation
  */
 import type { Dataset } from "../data/dataset.js";
+import { detachmentCapForBattleSize } from "../data/battle-sizes.js";
 import { normalizeName } from "../data/normalize.js";
 import type {
   BattleSize,
@@ -86,16 +87,7 @@ function mapBattleSize(raw: string | null): BattleSize | null {
 }
 
 /** 11e detachment-point budget for a battle size; null when the size is unknown. */
-function detachmentCap(battle_size: BattleSize | null): number | null {
-  switch (battle_size) {
-    case "strike-force":
-      return 3;
-    case "incursion":
-      return 2;
-    default:
-      return null;
-  }
-}
+const detachmentCap = detachmentCapForBattleSize;
 
 export function resolve(
   parsed: ParsedRoster,
@@ -165,7 +157,7 @@ export function resolve(
   const units = parsed.units.map((u) => resolveUnit(u, faction_id, detachmentIds, ds, diag));
 
   // --- Leader attachments (second pass: needs all resolved unit ids). -------
-  inferLeaderAttachments(parsed.units, units, ds, diag);
+  inferLeaderAttachments(parsed.units, units, ds, faction_id, diag);
 
   // --- Points reconciliation (reported vs computed kept distinct). ----------
   if (parsed.total_reported !== null && parsed.total_reported !== parsed.total_computed) {
@@ -181,6 +173,10 @@ export function resolve(
     faction_id,
     detachments,
     battle_size,
+    // Only the canonical roster-json round-trip carries a picked Force
+    // Disposition; other source formats don't encode it yet, so it defaults to
+    // null and the roster-legality checker flags it (advisory).
+    force_disposition: parsed.force_disposition ?? null,
     points: {
       declared_limit: parsed.declared_limit,
       detachment_cap,
@@ -283,6 +279,7 @@ function inferLeaderAttachments(
   parsedUnits: ParsedUnit[],
   units: RosterUnit[],
   ds: Dataset,
+  factionId: string | null,
   diag: DiagnosticsBuilder,
 ): void {
   const bodyguardIds = new Set(
@@ -292,6 +289,18 @@ function inferLeaderAttachments(
   units.forEach((unit, i) => {
     if (!unit.ref.id || !parsedUnits[i].is_character) return;
     const leaderId = unit.ref.id;
+    // Only `support` characters are auto-attached: per the GW datasheet
+    // bodyguard-group data they cannot operate alone, so attaching to an
+    // eligible bodyguard present in the roster is certain. A `leader` (or a
+    // character with no attachment_role) MAY be solo — the source doesn't
+    // encode the attachment, so we don't guess one. attachment_role is
+    // faction-specific (e.g. the World Eaters Master of Executions is a leader
+    // while the Chaos Space Marines one is support), so resolve faction-scoped.
+    const resolvedUnit = factionId
+      ? (ds.units.getInFaction(leaderId, factionId) ?? ds.units.getAny(leaderId))
+      : ds.units.getAny(leaderId);
+    if (resolvedUnit?.raw.attachment_role !== "support") return;
+
     const attachment = ds.leaderAttachments.find((la) => la.leader_id === leaderId);
     if (!attachment) return;
     const bodyguardId = attachment.eligible_bodyguard_ids.find((id) => bodyguardIds.has(id));
@@ -306,7 +315,7 @@ function inferLeaderAttachments(
     };
     diag.warn(
       "leader-attachment-inferred",
-      "Leader attachment was inferred from leader-attachment data and is provisional.",
+      "Support character attached to an eligible bodyguard (it cannot operate alone); provisional.",
       unit.ref.raw_name,
     );
   });

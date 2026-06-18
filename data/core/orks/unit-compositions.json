@@ -21,7 +21,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Weirdboy",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "megatrakk-scrapjet",
@@ -49,7 +60,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Megatrakk Scrapjet",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "warbikers",
@@ -89,14 +111,44 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob on Warbike",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Warbiker",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Boss Nob on Warbike",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Warbiker",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "deffkoptas",
     "faction_id": "orks",
     "models": [
       {
-        "name": "Deffkoptas",
+        "name": "Deffkopta",
         "min": 3,
         "max": 6,
         "is_leader_model": false,
@@ -115,7 +167,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Deffkopta",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Deffkopta",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kustom-boosta-blasta",
@@ -142,7 +214,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kustom Boosta-blasta",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "painboy",
@@ -166,14 +249,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Painboy",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "killa-kans",
     "faction_id": "orks",
     "models": [
       {
-        "name": "Killa Kans",
+        "name": "Killa Kan",
         "min": 3,
         "max": 6,
         "is_leader_model": false,
@@ -190,7 +284,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Killa Kan",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Killa Kan",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "lootas",
@@ -200,7 +314,7 @@
         "name": "Spanner",
         "profile_name": "Loota",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "default_weapon_ids": [
           "big-shoota",
           "close-combat-weapon"
@@ -214,7 +328,7 @@
       {
         "name": "Loota",
         "min": 4,
-        "max": 9,
+        "max": 8,
         "default_weapon_ids": [
           "deffgun",
           "close-combat-weapon"
@@ -229,7 +343,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Loota",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Loota",
+            "min": 8,
+            "max": 8
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "big-mek",
@@ -253,7 +397,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Big Mek",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "squighog-boyz",
@@ -262,7 +417,7 @@
       {
         "name": "Nob on Smasha Squig",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "default_weapon_ids": [
           "slugga",
           "squig-jaws",
@@ -278,7 +433,7 @@
       {
         "name": "Squighog Boy",
         "min": 3,
-        "max": 7,
+        "max": 6,
         "default_weapon_ids": [
           "stikka",
           "saddlegit-weapons",
@@ -295,7 +450,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Nob on Smasha Squig",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Squighog Boy",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Nob on Smasha Squig",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Squighog Boy",
+            "min": 6,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "warboss-in-mega-armour",
@@ -319,7 +504,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Warboss in Mega Armour",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "wazbom-blastajet",
@@ -345,7 +541,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Wazbom Blastajet",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "battlewagon",
@@ -368,7 +575,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Battlewagon",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "boss-snikrot",
@@ -392,7 +610,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Snikrot",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "morkanaut",
@@ -422,7 +651,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Morkanaut",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ghazghkull-thraka",
@@ -459,7 +699,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ghazghkull Thraka",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Makari",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "breaka-boyz",
@@ -497,7 +753,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Breaka Boy",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "stompa",
@@ -528,7 +800,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Stompa",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "biged-bossbunka",
@@ -552,7 +835,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Big’ed Bossbunka",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tankbustas",
@@ -591,7 +885,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tankbusta",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kommandos",
@@ -629,7 +939,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Kommando",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "boyz",
@@ -667,7 +993,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Boy",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Boy",
+            "min": 10,
+            "max": 19
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "trukk",
@@ -691,7 +1047,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Trukk",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "painboss",
@@ -714,7 +1081,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Painboss",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "gorkanaut",
@@ -744,7 +1122,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Gorkanaut",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mek-gunz",
@@ -806,7 +1195,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Stormboy",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Stormboy",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "flash-gitz",
@@ -845,7 +1264,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kaptin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Flash Git",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Kaptin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Flash Git",
+            "min": 4,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "blitza-bommer",
@@ -871,7 +1320,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Blitza-bommer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "deff-dread",
@@ -898,7 +1358,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Deff Dread",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "wurrboy",
@@ -922,7 +1393,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Wurrboy",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "beastboss",
@@ -947,7 +1429,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Beastboss",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "dakkajet",
@@ -973,7 +1466,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Dakkajet",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "big-mek-in-mega-armour",
@@ -997,7 +1501,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Big Mek in Mega Armour",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "rukkatrukk-squigbuggy",
@@ -1023,7 +1538,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Rukkatrukk Squigbuggy",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "beast-snagga-boyz",
@@ -1061,7 +1587,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Beast Snagga Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Beast Snagga Boy",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Beast Snagga Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Beast Snagga Boy",
+            "min": 10,
+            "max": 19
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "deffkilla-wartrike",
@@ -1087,7 +1643,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Deffkilla Wartrike",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mek",
@@ -1111,7 +1678,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Mek",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "shokkjump-dragsta",
@@ -1137,7 +1715,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shokkjump Dragsta",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "mozrog-skragbad",
@@ -1162,7 +1751,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Mozrog Skragbad",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "zodgrod-wortsnagga",
@@ -1186,7 +1786,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Zodgrod Wortsnagga",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "gretchin",
@@ -1195,7 +1806,7 @@
       {
         "name": "Runtherd",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "default_weapon_ids": [
           "runtherd-tools",
           "slugga"
@@ -1209,7 +1820,7 @@
       {
         "name": "Gretchin",
         "min": 10,
-        "max": 21,
+        "max": 20,
         "default_weapon_ids": [
           "grot-blasta",
           "close-combat-weapon"
@@ -1224,7 +1835,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Runtherd",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Gretchin",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Runtherd",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Gretchin",
+            "min": 20,
+            "max": 20
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "big-mek-with-shokk-attack-gun",
@@ -1248,7 +1889,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Big Mek with Shokk Attack Gun",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kill-rig",
@@ -1277,7 +1929,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kill Rig",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "burna-boyz",
@@ -1287,7 +1950,7 @@
         "name": "Spanner",
         "profile_name": "Burna Boy",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "default_weapon_ids": [
           "close-combat-weapon",
           "big-shoota"
@@ -1301,7 +1964,7 @@
       {
         "name": "Burna Boy",
         "min": 4,
-        "max": 9,
+        "max": 8,
         "default_weapon_ids": [
           "cuttin-flames",
           "burna"
@@ -1316,7 +1979,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Burna Boy",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Burna Boy",
+            "min": 8,
+            "max": 8
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "nobz",
@@ -1355,7 +2048,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Nob",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Nob",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "beastboss-on-squigosaur",
@@ -1380,7 +2103,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Beastboss on Squigosaur",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "meganobz",
@@ -1446,7 +2180,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boomdakka Snazzwagon",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "gargantuan-squiggoth",
@@ -1469,7 +2214,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Gargantuan Squiggoth",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "burna-bommer",
@@ -1495,7 +2251,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Burna-bommer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hunta-rig",
@@ -1523,7 +2290,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hunta Rig",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "warboss",
@@ -1548,6 +2326,17 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Warboss",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

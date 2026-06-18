@@ -4,7 +4,7 @@
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Scout Sentinels",
+        "name": "Scout Sentinel",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -17,7 +17,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Scout Sentinel",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Scout Sentinel",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cadian-castellan",
@@ -41,7 +61,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cadian Castellan",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "gaunts-ghosts",
@@ -62,7 +93,7 @@
         }
       },
       {
-        "name": "Oan Mkoll",
+        "name": "Colm Corbec",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -76,7 +107,7 @@
         }
       },
       {
-        "name": "Hlaine Larkin",
+        "name": "Elim Rawne",
         "profile_name": "Oan Mkoll",
         "min": 1,
         "max": 1,
@@ -91,7 +122,7 @@
         }
       },
       {
-        "name": "Elim Rawne",
+        "name": "Hlaine Larkin",
         "profile_name": "Oan Mkoll",
         "min": 1,
         "max": 1,
@@ -106,7 +137,7 @@
         }
       },
       {
-        "name": "Colm Corbec",
+        "name": "’Try Again’ Bragg",
         "profile_name": "Oan Mkoll",
         "min": 1,
         "max": 1,
@@ -121,7 +152,7 @@
         }
       },
       {
-        "name": "Try Again Bragg",
+        "name": "Oan Mkoll",
         "profile_name": "Oan Mkoll",
         "min": 1,
         "max": 1,
@@ -140,7 +171,43 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ibram Gaunt",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Colm Corbec",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Elim Rawne",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Hlaine Larkin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "’Try Again’ Bragg",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Oan Mkoll",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "nork-deddog",
@@ -164,7 +231,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Nork Deddog",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cadian-shock-troops",
@@ -241,7 +319,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Tempestor Prime",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tempestus Scion",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "lord-solar-leontus",
@@ -266,7 +360,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Lord Solar Leontus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tempestus-aquilons",
@@ -344,7 +449,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Fire Coordinator",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Heavy Weapons Gunner",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ratlings",
@@ -389,7 +510,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Battle Tank",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "stormsword",
@@ -418,7 +550,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Stormsword",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "taurox-prime",
@@ -443,14 +586,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Taurox Prime",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "field-ordnance-battery",
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Field Ordnance Battery",
+        "name": "Ordnance Team",
         "min": 2,
         "max": 2,
         "is_leader_model": false,
@@ -469,7 +623,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ordnance Team",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cyclops-demolition-vehicle",
@@ -492,7 +657,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cyclops Demolition Vehicle",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "rogal-dorn-commander",
@@ -518,7 +694,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Rogal Dorn Commander",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-exterminator",
@@ -543,7 +730,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Exterminator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "bullgryn-squad",
@@ -567,7 +765,7 @@
       {
         "name": "Bullgryn",
         "min": 2,
-        "max": 2,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -583,7 +781,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Bullgryn Bone ’ead",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Bullgryn",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Bullgryn Bone ’ead",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Bullgryn",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "primaris-psyker",
@@ -608,14 +836,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Primaris Psyker",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cadian-heavy-weapons-squad",
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Cadian Heavy Weapons Squad",
+        "name": "Heavy Weapon Team",
         "min": 3,
         "max": 3,
         "is_leader_model": false,
@@ -633,14 +872,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Heavy Weapon Team",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "catachan-heavy-weapons-squad",
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Catachan Heavy Weapons Squad",
+        "name": "Heavy Weapons Team",
         "min": 3,
         "max": 3,
         "is_leader_model": false,
@@ -658,7 +908,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Heavy Weapons Team",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hellhammer",
@@ -690,7 +951,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hellhammer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "aegis-defence-line",
@@ -713,14 +985,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aegis Defence Line",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "armoured-sentinels",
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Armoured Sentinels",
+        "name": "Armoured Sentinel",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -733,7 +1016,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Armoured Sentinel",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Armoured Sentinel",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "commissar",
@@ -757,7 +1060,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Commissar",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "deathstrike",
@@ -782,7 +1096,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Deathstrike",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "death-riders",
@@ -826,7 +1151,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ridemaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Rider",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Ridemaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Rider",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "artillery-team",
@@ -851,7 +1206,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Artillery Team",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-executioner",
@@ -876,7 +1242,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Executioner",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tempestus-scions",
@@ -915,7 +1292,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Tempestor",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tempestus Scion",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Tempestor",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tempestus Scion",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "stormlord",
@@ -946,7 +1353,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Stormlord",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ogryn-bodyguard",
@@ -971,7 +1389,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ogryn Bodyguard",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kasrkin",
@@ -1010,7 +1439,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kasrkin Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Kasrkin",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "cadian-command-squad",
@@ -1088,7 +1533,23 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Catachan Commander",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Veteran Guardsman",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "doomhammer",
@@ -1117,7 +1578,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Doomhammer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "rogal-dorn-battle-tank",
@@ -1143,7 +1615,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Rogal Dorn Battle Tank",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ministorum-priest",
@@ -1166,7 +1649,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ministorum Priest",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "death-korps-of-krieg",
@@ -1234,7 +1728,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Banesword",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "wyvern",
@@ -1259,7 +1764,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Wyvern",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "attilan-rough-riders",
@@ -1327,7 +1843,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hellhound",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-punisher",
@@ -1352,7 +1879,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Punisher",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "krieg-command-squad",
@@ -1470,7 +2008,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sly Marbo",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-demolisher",
@@ -1495,7 +2044,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Demolisher",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "taurox",
@@ -1519,7 +2079,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Taurox",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ogryn-squad",
@@ -1541,7 +2112,7 @@
       {
         "name": "Ogryn",
         "min": 2,
-        "max": 2,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -1555,7 +2126,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ogryn Bone ’ead",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Ogryn",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Ogryn Bone ’ead",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Ogryn",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "lord-marshal-dreir",
@@ -1581,7 +2182,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Lord Marshal Dreir",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tech-priest-enginseer",
@@ -1606,7 +2218,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Tech-Priest Enginseer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "banehammer",
@@ -1635,7 +2258,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Banehammer",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "catachan-jungle-fighters",
@@ -1699,7 +2333,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Commander",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "valkyrie",
@@ -1725,7 +2370,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Valkyrie",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ursula-creed",
@@ -1749,7 +2405,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ursula Creed",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "shadowsword",
@@ -1778,7 +2445,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shadowsword",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "manticore",
@@ -1803,7 +2481,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Manticore",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chimera",
@@ -1829,7 +2518,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Chimera",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "avenger-strike-fighter",
@@ -1857,7 +2557,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Avenger Strike Fighter",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-vanquisher",
@@ -1882,7 +2593,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Vanquisher",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "basilisk",
@@ -1907,7 +2629,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Basilisk",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "baneblade",
@@ -1939,7 +2672,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Baneblade",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "krieg-combat-engineers",
@@ -1977,7 +2721,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Krieg Engineer Watchmaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Krieg Combat Engineer",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Krieg Engineer Watchmaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Krieg Combat Engineer",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hydra",
@@ -2002,7 +2776,18 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Hydra",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-eradicator",
@@ -2027,6 +2812,17 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Leman Russ Eradicator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

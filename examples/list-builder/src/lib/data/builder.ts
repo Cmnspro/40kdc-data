@@ -520,6 +520,31 @@ export function pointsLimit(state: BuilderState): number {
 }
 
 /**
+ * Cheapest cost to add one more copy of `unit` to the current list — its
+ * smallest points tier evaluated at the ordinal it would enter the army (copies
+ * of its datasheet already present + 1). Ordinal-aware so the 3rd Chaos
+ * Terminators shows its real next cost. Mirrors `candidateAffordability`'s
+ * cheapest-next-copy in the package's `data/affordability.ts`.
+ */
+export function nextCopyCost(state: BuilderState, unit: Unit, armyFactionId?: string): number {
+	const resolved = unitRaw(unit.id, unit.faction_id, armyFactionId ?? state.factionId ?? undefined) ?? unit;
+	const tiers = resolved.points ?? [];
+	if (tiers.length === 0) return 0;
+	const copies = state.units.filter((u) => u.datasheetId === unit.id).length;
+	const nextOrdinal = copies + 1;
+	return Math.min(...tiers.map((t) => baseUnitPoints(resolved, t.models, nextOrdinal)));
+}
+
+/**
+ * Whether the current list can fit one more copy of `unit` under its points
+ * limit. Advisory — the builder treats over-limit as a soft warning, not a hard
+ * block — so callers use this to grey/annotate, not to forbid the add.
+ */
+export function canAfford(state: BuilderState, unit: Unit, armyFactionId?: string): boolean {
+	return totalPoints(state) + nextCopyCost(state, unit, armyFactionId) <= pointsLimit(state);
+}
+
+/**
  * The battle size whose size-keyed restrictions apply. With a points override
  * (a Doubles army), "rules that have restrictions based on the size of the
  * army are based on the points limit of that individual player's army" — so

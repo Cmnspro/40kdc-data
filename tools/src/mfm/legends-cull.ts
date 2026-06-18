@@ -35,6 +35,7 @@ import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import { MfmDump, REPO_ROOT, type DatasheetRow } from "./loader.js";
 import { repoDirs } from "./faction-map.js";
+import type { StagedWrite } from "./apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 
@@ -76,9 +77,6 @@ interface IdItem {
 function readJson<T>(p: string): T[] {
   return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
 }
-function writeJson(p: string, data: unknown): void {
-  fs.writeFileSync(p, JSON.stringify(data, null, 2) + "\n");
-}
 
 export interface DirCull {
   dir: string;
@@ -96,6 +94,7 @@ export interface CullReport {
   dirs: DirCull[];
   totalDropped: number;
   aborted: string | null; // reason, if the sanity tripwire fired
+  staged: StagedWrite[];
 }
 
 /** Build the global live + Legends datasheet name-slug sets from the dump. */
@@ -179,10 +178,12 @@ export function runCull(dump: MfmDump, write: boolean): CullReport {
       dirs: [],
       totalDropped,
       aborted: `cull set is ${totalDropped} units (> ${SANITY_MAX_DROP}) — implausible; refusing to write. Inspect the dump / name matching before proceeding.`,
+      staged: [],
     };
   }
 
   const dirs: DirCull[] = [];
+  const staged: StagedWrite[] = [];
   for (const { dir, units, options, comps, dropList, droppedIds } of all) {
     if (!dropList.length) continue;
     const res: DirCull = {
@@ -261,20 +262,26 @@ export function runCull(dump: MfmDump, write: boolean): CullReport {
       res.abilitiesOrphaned = [...droppedAbilityIds].filter((a) => !stillUsed.has(a)).sort();
     }
 
-    if (write) {
-      writeJson(path.join(CORE_DIR, dir, "units.json"), survivingUnits);
-      if (fs.existsSync(optPath) && res.wargearOptionsRemoved) writeJson(optPath, survivingOptions);
-      if (fs.existsSync(compPath) && res.compositionsRemoved) writeJson(compPath, survivingComps);
-      if (fs.existsSync(leaderPath) && (res.leaderEntriesRemoved || res.bodyguardRefsStripped))
-        writeJson(leaderPath, survivingLeaders);
-      if (fs.existsSync(weaponsPath) && res.weaponsRemoved.length) writeJson(weaponsPath, survivingWeapons);
-      if (fs.existsSync(wargearPath) && res.wargearRemoved.length) writeJson(wargearPath, survivingWargear);
-    }
+    // Stage the surviving sets in BOTH modes (same per-file conditions as the prior
+    // write) so the dry-run rehearsal validates the post-cull tree — catching e.g. a
+    // surviving option/composition that referenced a now-dropped unit. applyWrites
+    // persists all-or-nothing only on --write.
+    staged.push({ path: path.join(CORE_DIR, dir, "units.json"), value: survivingUnits });
+    if (fs.existsSync(optPath) && res.wargearOptionsRemoved)
+      staged.push({ path: optPath, value: survivingOptions });
+    if (fs.existsSync(compPath) && res.compositionsRemoved)
+      staged.push({ path: compPath, value: survivingComps });
+    if (fs.existsSync(leaderPath) && (res.leaderEntriesRemoved || res.bodyguardRefsStripped))
+      staged.push({ path: leaderPath, value: survivingLeaders });
+    if (fs.existsSync(weaponsPath) && res.weaponsRemoved.length)
+      staged.push({ path: weaponsPath, value: survivingWeapons });
+    if (fs.existsSync(wargearPath) && res.wargearRemoved.length)
+      staged.push({ path: wargearPath, value: survivingWargear });
 
     dirs.push(res);
   }
 
-  return { dirs, totalDropped, aborted: null };
+  return { dirs, totalDropped, aborted: null, staged };
 }
 
 export function buildCullReport(report: CullReport, write: boolean): string {

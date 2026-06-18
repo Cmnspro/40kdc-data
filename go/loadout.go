@@ -10,7 +10,7 @@ import (
 
 // optionCap is the maximum number of models that may take an option in a unit
 // of modelCount.
-func optionCap(option map[string]any, modelCount int) int {
+func optionCap(option map[string]any, modelCount int, models []any) int {
 	c, _ := getMap(option, "model_constraint")
 	if len(c) == 0 {
 		return maxInt(0, modelCount)
@@ -32,10 +32,43 @@ func optionCap(option map[string]any, modelCount int) int {
 	if c["max_count"] != nil {
 		cap = minInt(cap, asInt(c["max_count"]))
 	}
+	// Eligible-model clamp: an option scoped to a named model profile can be taken
+	// by no more models than exist of that profile — a lone champion caps the swap
+	// at 1 even when per_n_models would allow more. A name with no matching row
+	// leaves the cap unclamped.
+	if name, ok := c["model_name"].(string); ok && name != "" && len(models) > 0 {
+		if eligible, ok := eligibleModelCount(models, modelCount, name); ok {
+			cap = minInt(cap, eligible)
+		}
+	}
 	// A swap is per-model: at most one per model, so never more than modelCount —
 	// a max_count larger than the current squad size must not drive a weapon
 	// count negative.
 	return maxInt(0, minInt(cap, modelCount))
+}
+
+// eligibleModelCount is how many models of profile name a unit of modelCount
+// fields, per allocateModels; (0, false) when no row carries that name.
+func eligibleModelCount(models []any, modelCount int, name string) (int, bool) {
+	found := false
+	for _, mAny := range models {
+		if m, ok := asMap(mAny); ok {
+			if n, _ := m["name"].(string); n == name {
+				found = true
+				break
+			}
+		}
+	}
+	if !found {
+		return 0, false
+	}
+	n := 0
+	for _, row := range allocateModels(models, modelCount) {
+		if rn, _ := row.model["name"].(string); rn == name {
+			n += row.count
+		}
+	}
+	return n, true
 }
 
 func addedIDs(option map[string]any, choiceIndex int) []string {
@@ -205,7 +238,7 @@ func maximalLoadout(unit map[string]any, modelCount int, options []any, models [
 	counts := baseCounts(unit, modelCount, options, models)
 	for _, oAny := range options {
 		o, _ := asMap(oAny)
-		cap := optionCap(o, modelCount)
+		cap := optionCap(o, modelCount, models)
 		if cap == 0 {
 			continue
 		}
@@ -233,7 +266,7 @@ func weaponBounds(unit map[string]any, modelCount int, options []any, models []a
 	}
 	for _, oAny := range options {
 		o, _ := asMap(oAny)
-		cap := optionCap(o, modelCount)
+		cap := optionCap(o, modelCount, models)
 		for _, id := range getStrList(o, "replaces") {
 			b := bounds[id]
 			bounds[id] = intRange{maxInt(0, b.min-cap), b.max}
@@ -258,7 +291,21 @@ func weaponBounds(unit map[string]any, modelCount int, options []any, models []a
 func validateLoadout(unit map[string]any, modelCount int, options []any, counts map[string]int, models []any) []map[string]string {
 	bounds := weaponBounds(unit, modelCount, options, models)
 	var out []map[string]string
+	// Items governed by a shared-allowance budget are policed solely by
+	// budgetViolations; their per-id weaponBounds max is derived from the dump's
+	// cross-product loadout branches (the unreliable signal the budget replaces),
+	// so skip the per-id check for them.
+	budgeted := map[string]struct{}{}
+	for _, bAny := range getList(unit, "wargear_budgets") {
+		b, _ := asMap(bAny)
+		for _, id := range getStrList(b, "items") {
+			budgeted[id] = struct{}{}
+		}
+	}
 	for id, n := range counts {
+		if _, isBudgeted := budgeted[id]; isBudgeted {
+			continue
+		}
 		b, ok := bounds[id]
 		if !ok {
 			continue
@@ -270,6 +317,7 @@ func validateLoadout(unit map[string]any, modelCount int, options []any, counts 
 		}
 	}
 	out = append(out, swapConflicts(unit, modelCount, options, counts, models)...)
+	out = append(out, budgetViolations(unit, modelCount, counts)...)
 	sort.SliceStable(out, func(i, j int) bool {
 		if out[i]["id"] != out[j]["id"] {
 			return out[i]["id"] < out[j]["id"]
@@ -350,6 +398,134 @@ func swapConflicts(unit map[string]any, modelCount int, options []any, counts ma
 				"message": base + " and its swap replacement(s) total " + itoa(total) + ", exceeding " + itoa(cap) + " (a model takes the base weapon or a swap, not both)",
 			})
 		}
+	}
+	return out
+}
+
+// budgetViolations reports shared-allowance violations: each wargear_budgets
+// entry lets its listed items take at most floor(modelCount * count / per_models)
+// copies between them (per_models == 0 is a flat per-unit cap of count). The
+// violation id is the budget's sorted items joined by "+". Mirror of the TS ref.
+func budgetViolations(unit map[string]any, modelCount int, counts map[string]int) []map[string]string {
+	var out []map[string]string
+	for _, bAny := range getList(unit, "wargear_budgets") {
+		budget, _ := asMap(bAny)
+		items := getStrList(budget, "items")
+		if len(items) == 0 {
+			continue
+		}
+		used := 0
+		for _, id := range items {
+			used += counts[id]
+		}
+		count := asInt(budget["count"])
+		perModels := asInt(budget["per_models"])
+		var capN int
+		var limit string
+		if perModels > 0 {
+			capN = int(math.Floor(float64(modelCount) * float64(count) / float64(perModels)))
+			limit = itoa(count) + " per " + itoa(perModels) + " models"
+		} else {
+			capN = count
+			limit = itoa(count) + " per unit"
+		}
+		if used > capN {
+			sorted := append([]string(nil), items...)
+			sort.Strings(sorted)
+			id := joinStrings(sorted, "+")
+			out = append(out, map[string]string{
+				"id":      id,
+				"code":    "exceeds-allowance",
+				"message": id + ": " + itoa(used) + " exceeds shared allowance " + itoa(capN) + " (" + limit + ")",
+			})
+		}
+	}
+	return out
+}
+
+// tierModels merges a tier's per-model count ranges onto the composition's
+// models metadata by name, producing the model list the loadout maths consume.
+func tierModels(tier map[string]any, base []any) []any {
+	byName := map[string]map[string]any{}
+	for _, mAny := range base {
+		if m, ok := asMap(mAny); ok {
+			if n, _ := m["name"].(string); n != "" {
+				byName[n] = m
+			}
+		}
+	}
+	var out []any
+	for _, tmAny := range getList(tier, "models") {
+		tm, _ := asMap(tmAny)
+		name, _ := tm["name"].(string)
+		merged := map[string]any{}
+		if b, ok := byName[name]; ok {
+			for k, v := range b {
+				merged[k] = v
+			}
+		}
+		merged["name"] = tm["name"]
+		merged["min"] = tm["min"]
+		merged["max"] = tm["max"]
+		out = append(out, merged)
+	}
+	return out
+}
+
+// checkUnitLegality is whole-unit legality, tier-aware — the building block for a
+// roster check. A roster records only the total modelCount, so select every tier
+// whose total range [Σmin, Σmax] contains it and run validateLoadout against each
+// tier's allocation; the unit is legal iff some containing tier validates clean.
+// Deterministic reporting: the empty result of the first clean tier (in tier
+// order), else the violations of the first containing tier; an
+// invalid-model-count violation when the size matches no tier. With no tiers it
+// falls back to a plain validateLoadout. Mirror of the TS reference.
+func checkUnitLegality(unit map[string]any, modelCount int, options []any, counts map[string]int, models []any, tiers []any) []map[string]string {
+	if len(tiers) == 0 {
+		return validateLoadout(unit, modelCount, options, counts, models)
+	}
+	var candidates [][]any
+	for _, tAny := range tiers {
+		tier, _ := asMap(tAny)
+		tm := tierModels(tier, models)
+		lo, hi := 0, 0
+		for _, mAny := range tm {
+			m, _ := asMap(mAny)
+			lo += asInt(m["min"])
+			hi += asInt(m["max"])
+		}
+		if modelCount >= lo && modelCount <= hi {
+			candidates = append(candidates, tm)
+		}
+	}
+	if len(candidates) == 0 {
+		uid, _ := unit["id"].(string)
+		return []map[string]string{{
+			"id":      uid,
+			"code":    "invalid-model-count",
+			"message": uid + ": " + itoa(modelCount) + " models matches no composition tier",
+		}}
+	}
+	var first []map[string]string
+	for _, tm := range candidates {
+		violations := validateLoadout(unit, modelCount, options, counts, tm)
+		if len(violations) == 0 {
+			return []map[string]string{}
+		}
+		if first == nil {
+			first = violations
+		}
+	}
+	return first
+}
+
+func joinStrings(parts []string, sep string) string {
+	out := ""
+	for i, p := range parts {
+		if i > 0 {
+			out += sep
+		}
+		out += p
 	}
 	return out
 }

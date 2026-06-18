@@ -221,7 +221,13 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
         .collect();
 
     // --- Leader attachments (second pass: needs all resolved unit ids). -----
-    infer_leader_attachments(&parsed.units, &mut units, ds, &mut diag);
+    infer_leader_attachments(
+        &parsed.units,
+        &mut units,
+        ds,
+        faction_id.as_deref(),
+        &mut diag,
+    );
 
     // --- Points reconciliation (reported vs computed kept distinct). --------
     if let Some(reported) = parsed.total_reported {
@@ -246,6 +252,10 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
         faction_id,
         detachments,
         battle_size,
+        // The source formats don't yet encode a Force Disposition (only the
+        // canonical roster-json round-trip carries one), so this is `None`
+        // unless the parsed payload supplied it.
+        force_disposition: parsed.force_disposition.clone(),
         points: RosterPoints {
             declared_limit: parsed.declared_limit,
             detachment_cap,
@@ -385,18 +395,43 @@ fn resolve_enhancement(
 /// unambiguous attachment, so each inferred link is marked provisional: a
 /// resolved character unit is matched against a resolved non-character unit in
 /// the same roster using the dataset's leader-attachment data.
+///
+/// Only `support` characters are auto-attached: per the GW datasheet
+/// bodyguard-group data they cannot operate alone, so attaching to an eligible
+/// bodyguard present in the roster is certain. A `leader` (or a character with
+/// no `attachment_role`) MAY be solo — the source doesn't encode the
+/// attachment, so we don't guess one. `attachment_role` is faction-specific
+/// (e.g. the World Eaters Master of Executions is a leader while the Chaos
+/// Space Marines one is support), so resolve faction-scoped. Mirror of the TS
+/// `inferLeaderAttachments`.
 fn infer_leader_attachments(
     parsed_units: &[ParsedUnit],
     units: &mut [RosterUnit],
     ds: &Dataset,
+    faction_id: Option<&str>,
     diag: &mut DiagnosticsBuilder,
 ) {
+    use crate::generated::UnitAttachmentRole;
+
     let bodyguard_ids: std::collections::HashSet<String> = units
         .iter()
         .zip(parsed_units)
         .filter(|(u, p)| u.ref_.id.is_some() && !p.is_character)
         .filter_map(|(u, _)| u.ref_.id.clone())
         .collect();
+
+    // Resolve a unit faction-scoped (shared chassis diverge per faction in
+    // `attachment_role`), falling back to first-wins by id.
+    let resolve_unit = |id: &str| -> Option<&crate::Unit> {
+        faction_id
+            .and_then(|f| {
+                ds.units
+                    .by_faction(f)
+                    .into_iter()
+                    .find(|u| u.id.as_str() == id)
+            })
+            .or_else(|| ds.units.get(id))
+    };
 
     // First compute the attachments (immutable borrow of units), then apply
     // them (mutable borrow) to avoid overlapping borrows.
@@ -406,6 +441,12 @@ fn infer_leader_attachments(
             continue;
         };
         if !parsed.is_character {
+            continue;
+        }
+        // Auto-attach only Support characters (they cannot operate alone).
+        if resolve_unit(leader_id).and_then(|u| u.attachment_role)
+            != Some(UnitAttachmentRole::Support)
+        {
             continue;
         }
         let Some(attachment) = ds
@@ -440,7 +481,7 @@ fn infer_leader_attachments(
         let leader_raw = units[idx].ref_.raw_name.clone();
         diag.warn(
             WarningCode::LeaderAttachmentInferred,
-            "Leader attachment was inferred from leader-attachment data and is provisional.",
+            "Support character attached to an eligible bodyguard (it cannot operate alone); provisional.",
             Some(&leader_raw),
         );
     }

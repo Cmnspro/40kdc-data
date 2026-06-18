@@ -149,6 +149,14 @@ export interface Roster {
   faction_id: string | null;
   detachments: RosterDetachment[];
   battle_size: BattleSize | null;
+  /**
+   * The selected Force Disposition id (a `force-disposition-id`), or null when
+   * none has been picked. Required to be present (nullable) — picking one is
+   * mandatory in 11e list-building, but the source formats don't yet encode it,
+   * so imports default to null and the roster-legality checker surfaces an
+   * advisory `disposition-not-picked`.
+   */
+  force_disposition: string | null;
   points: RosterPoints;
   units: RosterUnit[];
   game_version: GameVersionRef;
@@ -197,6 +205,11 @@ export interface ParsedRoster {
   detachment_raw_names: string[];
   /** Raw battle-size label (e.g. "2. Strike Force (2000 Point limit)"). */
   battle_size_raw: string | null;
+  /**
+   * Selected Force Disposition id, when the source carried one (only the
+   * canonical roster-json round-trip does today). Absent/null otherwise.
+   */
+  force_disposition?: string | null;
   /** Points limit parsed from the battle-size label, if any. */
   declared_limit: number | null;
   /** Total points reported by the source cost block. */

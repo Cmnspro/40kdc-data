@@ -335,6 +335,7 @@ impl FormatAdapter for NewRecruitSimpleAdapter {
             faction_raw_name,
             detachment_raw_names: detachment_raw_name.into_iter().collect(),
             battle_size_raw,
+            force_disposition: None,
             declared_limit,
             total_reported,
             total_computed,
