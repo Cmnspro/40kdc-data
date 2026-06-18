@@ -216,6 +216,28 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
     }
     if (!Array.isArray(options)) continue;
 
+    // No two options in a faction file may share an id. The linked API keys
+    // options by (faction_id, unit_id) and an id is unique only *within* a
+    // faction — a shared chassis legitimately reuses ids across factions (e.g.
+    // `chaos-terminators-wgo-mfm-4` in World Eaters and Emperors Children mean
+    // different swaps). So cross-faction reuse is fine, but a duplicate *within*
+    // one faction file silently shadows the later option in `wargearOptionsOf`.
+    // Mirror of the duplicate-unit-id guard above.
+    const optIdCounts = new Map<string, number>();
+    for (const o of options) if (o.id) optIdCounts.set(o.id, (optIdCounts.get(o.id) ?? 0) + 1);
+    const dupOptIds = [...optIdCounts].filter(([, n]) => n > 1).map(([id]) => id);
+    if (dupOptIds.length > 0) {
+      result.failed++;
+      result.errors.push({
+        file,
+        index: 0,
+        errors: dupOptIds.map((id) => ({
+          path: "/",
+          message: `duplicate wargear-option id "${id}" appears ${optIdCounts.get(id)}× in ${faction}/wargear-options.json — ids must be unique within a faction (cross-faction reuse for a shared chassis is allowed); the later entry is silently shadowed`,
+        })),
+      });
+    }
+
     // The faction's weapon ids — to catch plural-of-weapon refs ("lascannons"
     // where only the singular "lascannon" is a real weapon), the relic of a
     // converter that lacked a "2 X" → singular fallback.
@@ -289,6 +311,26 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
       continue;
     }
     if (!Array.isArray(comps)) continue;
+
+    // At most one composition per unit within a faction. The linked API keys the
+    // composition by (faction_id, unit_id) first-wins, so a within-faction
+    // duplicate silently shadows the later row. (Cross-faction is fine — a shared
+    // chassis has a distinct composition per faction.) Same regression class as
+    // the duplicate-unit and duplicate-option guards.
+    const compCounts = new Map<string, number>();
+    for (const c of comps) if (c.unit_id) compCounts.set(c.unit_id, (compCounts.get(c.unit_id) ?? 0) + 1);
+    const dupComps = [...compCounts].filter(([, n]) => n > 1).map(([id]) => id);
+    if (dupComps.length > 0) {
+      result.failed++;
+      result.errors.push({
+        file,
+        index: 0,
+        errors: dupComps.map((id) => ({
+          path: "/",
+          message: `duplicate unit-composition for unit "${id}" appears ${compCounts.get(id)}× in ${faction}/unit-compositions.json — at most one composition per unit within a faction; the later entry is silently shadowed`,
+        })),
+      });
+    }
 
     const dir = dirname(file);
     let units: UnitLike[];

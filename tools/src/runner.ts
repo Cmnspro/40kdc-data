@@ -339,6 +339,11 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
   }
   const ds = getDataset(state);
   const input = (a.input ?? {}) as Record<string, string>;
+  // A shared chassis (same unit id in several factions) diverges per faction in
+  // its options/composition/profiles; when the case pins `factionId`, resolve
+  // that faction's copy, else fall back to first-wins `getAny` (back-compat).
+  const resolveUnit = (id: string) =>
+    input.factionId ? ds.units.getInFaction(id, input.factionId) : ds.units.getAny(id);
   try {
     switch (a.query) {
       case "find_unit":
@@ -350,34 +355,34 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
       case "find_ability":
         return ok(ds.abilities.find(input.query ?? "")?.id ?? null);
       case "abilities_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.abilities.map((x) => x.id));
       }
       case "weapons_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.weapons.map((x) => x.id));
       }
       case "wargear_options_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.wargearOptions.map((x) => x.id));
       }
       case "base_loadout": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const modelCount = Number(input.modelCount);
-        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const comp = ds.unitCompositionOf(u.raw);
         const lo = baseLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw), comp?.models);
         // Encode the id→count map as sorted "id:count" strings for set compare.
         return ok([...lo.counts].map(([id, n]) => `${id}:${n}`).sort());
       }
       case "maximal_loadout": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const modelCount = Number(input.modelCount);
-        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const comp = ds.unitCompositionOf(u.raw);
         const lo = maximalLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw), comp?.models);
         // Encode the id→count map as sorted "id:count" strings for set compare.
         return ok([...lo.counts].map(([id, n]) => `${id}:${n}`).sort());
@@ -388,19 +393,19 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
         return ok([...ab.phases]);
       }
       case "faction_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.faction?.id ?? null);
       }
       case "base_size_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(encodeBase(u.raw.base_size_mm));
       }
       case "model_bases_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
-        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const comp = ds.unitCompositionOf(u.raw);
         // Ordered "modelName=encodedBase" pairs in declared model order.
         return ok((comp?.models ?? []).map((m) => `${m.name}=${encodeBase(m.base_size_mm) ?? "none"}`));
       }

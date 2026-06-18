@@ -9,6 +9,7 @@
 import type { Roster, RosterDetachment, RosterUnit, RosterWargear } from "../import/types.js";
 import type { Dataset } from "./dataset.js";
 import type { UnitView, WeaponView } from "./entities.js";
+import { validateLoadout, type Violation } from "./loadout.js";
 
 /**
  * Resolve a roster's unit entry against the dataset, returning the linked
@@ -23,13 +24,19 @@ import type { UnitView, WeaponView } from "./entities.js";
 export function resolveRosterUnit(
   rosterUnit: RosterUnit,
   dataset: Dataset,
+  factionId?: string | null,
 ): UnitView | undefined {
   const id = rosterUnit.ref.id;
   if (id === null) return undefined;
-  // The importer carries no faction context here, so accept first-wins for a
-  // shared chassis (getAny opts out of the units guard). NB: a roster's own
-  // faction is known upstream — threading it would resolve the correct copy of
-  // a shared Chaos/Marine chassis; tracked as a separate import-path fix.
+  // A shared chassis (e.g. `chaos-terminators` in World Eaters *and* Emperors
+  // Children) genuinely diverges per faction — different points, options, and
+  // composition — so resolve the roster's own faction copy when known. Fall back
+  // to first-wins `getAny` (which opts out of the units guard) when the roster
+  // carries no faction or the faction has no copy of this id.
+  if (factionId) {
+    const scoped = dataset.units.getInFaction(id, factionId);
+    if (scoped) return scoped;
+  }
   return dataset.units.getAny(id);
 }
 
@@ -51,6 +58,64 @@ export function resolveRosterWargear(
     if (!weapon) continue;
     out.push({ weapon, count: w.count });
   }
+  return out;
+}
+
+/** The loadout-legality verdict for one resolved roster unit. */
+export interface UnitLegality {
+  /** Resolved unit id. */
+  unitId: string;
+  /** The unit's position in `roster.units` (source order). */
+  unitIndex: number;
+  /** Model count the loadout was checked against. */
+  modelCount: number;
+  /** Every count/swap rule the unit's loadout breaks; empty when legal. */
+  violations: Violation[];
+}
+
+/**
+ * Check every resolved unit in a roster for loadout legality — the building
+ * block for a "is this list legal" report (e.g. a tournament-organiser check).
+ *
+ * For each unit it resolves the unit, its authored wargear options and its
+ * unit-composition models the same way the loadout conformance surface does
+ * ({@link resolveRosterUnit} → {@link Dataset.wargearOptionsOf} →
+ * `unitCompositions` by `unit_id`), sums the roster's per-weapon counts, and
+ * runs {@link validateLoadout}. The check is non-destructive and never alters
+ * the roster: an illegal list still imports, it just reports violations — so a
+ * TO can load a player's list verbatim and see exactly what's wrong rather than
+ * have counts silently clamped or the import rejected.
+ *
+ * Returns one {@link UnitLegality} per **resolved** unit, in source order, with
+ * an empty `violations` array when the unit is legal (the entries double as a
+ * record of what was checked). Units the importer couldn't resolve (`ref.id`
+ * null, or an id absent from the dataset) are skipped — they're already flagged
+ * on the roster's `diagnostics`, and there's no datasheet to check them against.
+ * A roster is fully legal iff every entry's `violations` is empty **and** the
+ * roster reports no unresolved units.
+ */
+export function checkRosterLegality(roster: Roster, dataset: Dataset): UnitLegality[] {
+  const out: UnitLegality[] = [];
+  roster.units.forEach((rosterUnit, unitIndex) => {
+    const view = resolveRosterUnit(rosterUnit, dataset, roster.faction_id);
+    if (!view) return;
+    // Options and composition are faction-scoped off the resolved unit's own
+    // faction, so a shared chassis is checked against the right faction's rules.
+    const options = dataset.wargearOptionsOf(view.raw);
+    const composition = dataset.unitCompositionOf(view.raw);
+    const counts = new Map<string, number>();
+    for (const w of rosterUnit.wargear) {
+      const id = w.ref.id;
+      if (id === null) continue;
+      counts.set(id, (counts.get(id) ?? 0) + w.count);
+    }
+    out.push({
+      unitId: view.id,
+      unitIndex,
+      modelCount: rosterUnit.model_count,
+      violations: validateLoadout(view.raw, rosterUnit.model_count, options, counts, composition?.models),
+    });
+  });
   return out;
 }
 

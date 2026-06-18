@@ -93,7 +93,9 @@ export {
   resolveAttachmentPartners,
   primaryDetachment,
   primaryDetachmentId,
+  checkRosterLegality,
 } from "./roster-resolve.js";
+export type { UnitLegality } from "./roster-resolve.js";
 
 import { Dataset } from "./dataset.js";
 

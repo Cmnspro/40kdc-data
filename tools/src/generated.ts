@@ -1415,6 +1415,10 @@ export interface TerrainTemplate {
 export interface UnitComposition {
   unit_id: EntityId;
   /**
+   * Kebab-case identifier
+   */
+  faction_id: string;
+  /**
    * @minItems 1
    */
   models: [
@@ -1596,6 +1600,10 @@ export interface Unit {
 export interface WargearOption {
   id: EntityId;
   unit_id: EntityId;
+  /**
+   * Kebab-case identifier
+   */
+  faction_id: string;
   model_constraint?: {
     model_name?: string;
     per_n_models?: number;

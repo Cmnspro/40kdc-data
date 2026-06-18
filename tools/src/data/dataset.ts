@@ -128,8 +128,10 @@ export class Dataset {
   private readonly weaponsByKeyword = new Map<string, RawData["weapons"][number][]>();
   /** lowercased keyword → units carrying it (in `keywords` or `faction_keywords`). */
   private readonly unitsByKeyword = new Map<string, Unit[]>();
-  /** unit id → wargear options authored for it (declared order preserved). */
+  /** `faction_id::unit_id` → wargear options authored for it (declared order preserved). */
   private readonly wargearOptionsByUnit = new Map<string, WargearOption[]>();
+  /** `faction_id::unit_id` → the unit-composition authored for it. */
+  private readonly compositionByUnit = new Map<string, UnitComposition>();
 
   constructor(raw: RawData = emptyRawData()) {
     this.units = new Collection({
@@ -335,11 +337,26 @@ export class Dataset {
   }
 
   /**
-   * Wargear options authored for the given unit, in declared order. Mirror of
-   * Rust `Dataset::wargear_options_of`. Empty for a unit with no options.
+   * Wargear options authored for the given unit, in declared order. Scoped to
+   * the unit's own faction: a chassis shared across factions (e.g.
+   * `chaos-terminators` in World Eaters *and* Emperors Children) reuses the same
+   * option ids for different swaps, so the lookup keys on `(faction_id, unit_id)`
+   * — never the union across factions. Mirror of Rust `Dataset::wargear_options_of`.
+   * Empty for a unit with no options.
    */
   wargearOptionsOf(unit: Unit): WargearOption[] {
-    return this.wargearOptionsByUnit.get(unit.id) ?? [];
+    return this.wargearOptionsByUnit.get(`${unit.faction_id}::${unit.id}`) ?? [];
+  }
+
+  /**
+   * The unit-composition authored for the given unit, faction-scoped exactly
+   * like {@link wargearOptionsOf}: shared chassis carry a distinct composition
+   * per faction under one `unit_id`, so the lookup keys on `(faction_id,
+   * unit_id)` rather than the faction-blind `unitCompositions.find(...)`.
+   * `undefined` when the unit has no composition.
+   */
+  unitCompositionOf(unit: Unit): UnitComposition | undefined {
+    return this.compositionByUnit.get(`${unit.faction_id}::${unit.id}`);
   }
 
   /**
@@ -593,7 +610,13 @@ export class Dataset {
       }
     }
     for (const option of raw.wargearOptions) {
-      push(this.wargearOptionsByUnit, option.unit_id, option);
+      push(this.wargearOptionsByUnit, `${option.faction_id}::${option.unit_id}`, option);
+    }
+    for (const comp of raw.unitCompositions) {
+      // A unit has at most one composition per faction; keep the first if the
+      // data ever doubles (integrity flags within-faction duplicates).
+      const key = `${comp.faction_id}::${comp.unit_id}`;
+      if (!this.compositionByUnit.has(key)) this.compositionByUnit.set(key, comp);
     }
     const seenByKeyword = new Map<string, Set<string>>();
     for (const weapon of raw.weapons) {

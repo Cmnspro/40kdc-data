@@ -7,6 +7,10 @@
   "properties": {
     "id": { "$ref": "../defs/common.schema.json#/$defs/entity-id" },
     "unit_id": { "$ref": "../defs/common.schema.json#/$defs/entity-id" },
+    "faction_id": {
+      "$ref": "../defs/common.schema.json#/$defs/entity-id",
+      "description": "Owning faction. A chassis shared across factions reuses the same `id` for different option sets (e.g. `chaos-terminators-wgo-mfm-4` differs in World Eaters vs Emperors Children), so the option is keyed by (faction_id, unit_id, id) — `id` is unique only within a faction."
+    },
     "model_constraint": {
       "oneOf": [
         {
@@ -58,7 +62,7 @@
     },
     "game_version": { "$ref": "../defs/game-version-ref.schema.json" }
   },
-  "required": ["id", "unit_id", "game_version"],
+  "required": ["id", "unit_id", "faction_id", "game_version"],
   "additionalProperties": false,
   "allOf": [
     {
