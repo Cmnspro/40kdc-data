@@ -73,6 +73,14 @@ function asArray<T>(x: T | T[] | undefined | null): T[] {
 function cleanText(s: string): string {
   return String(s).replace(/^[➤•]\s*/, "").trim();
 }
+/** Normalize a model name for matching BSData models ↔ unit-composition rows:
+ *  lowercased, with a "w/ <loadout>" / "with <loadout>" suffix stripped. */
+function normModelName(s: string): string {
+  return cleanText(s)
+    .toLowerCase()
+    .replace(/\s+(w\/|with)\b.*$/, "")
+    .trim();
+}
 function collectByKey(node: unknown, key: string, out: Node[] = []): Node[] {
   if (Array.isArray(node)) {
     for (const v of node) collectByKey(v, key, out);
@@ -417,6 +425,14 @@ interface ReportRow {
   context: string;
   reason: string;
 }
+/** Per-model default loadout for a matched unit, for unit-composition population. */
+export interface CompDefaults {
+  unitId: string;
+  /** normalized (lowercased, suffix-stripped) BSData model name → default weapon ids. */
+  byModel: Record<string, string[]>;
+  /** The squad default-model loadout, used for bulk model rows with no name match. */
+  squadDefault: string[];
+}
 export interface FactionResult {
   faction: string;
   options: WargearOption[];
@@ -424,6 +440,7 @@ export interface FactionResult {
   matchedUnits: number;
   skippedUnits: string[]; // BSData unit names with no repo match
   reports: ReportRow[]; // triage — never fabricated
+  compDefaults: CompDefaults[]; // per-model default loadouts → unit-compositions.json
 }
 
 export function extractFaction(faction: string, cats: Catalogs): FactionResult {
@@ -434,6 +451,7 @@ export function extractFaction(faction: string, cats: Catalogs): FactionResult {
     matchedUnits: 0,
     skippedUnits: [],
     reports: [],
+    compDefaults: [],
   };
   const roots = cats.catByFaction.get(faction);
   if (!roots) return res;
@@ -535,6 +553,72 @@ export function extractFaction(faction: string, cats: Catalogs): FactionResult {
     const ids = new Set<string>();
     for (const got of resolveOption(model, cleanText(String(model.name ?? ""))) ?? []) ids.add(got);
     return ids;
+  };
+
+  /** The weapon sub-choice groups nested directly under a model (inline child
+   *  groups + entryLinks to shared groups), excluding model containers + noise. */
+  const nestedGroups = (model: Node): Node[] => {
+    const out: Node[] = [];
+    for (const g of childGroups(model)) {
+      if (directModelChildren(g).length === 0 && !isNoiseGroup(g, cats)) out.push(g);
+    }
+    for (const link of entryLinksOf(model)) {
+      if (String(link.type) === "selectionEntryGroup" && !isNoiseGroup(link, cats)) {
+        const g = resolveGroup(link, cats);
+        if (g && directModelChildren(g).length === 0) out.push(g);
+      }
+    }
+    return out;
+  };
+
+  /** A group's selectable entries (inline + weapon entryLinks) resolved to id
+   *  lists — one choice per entry. Hidden / ability-selector entries are dropped. */
+  const groupChoices = (group: Node): string[][] => {
+    const choices: string[][] = [];
+    for (const e of [...childEntries(group), ...entryLinksOf(group)]) {
+      if (String(e.type) === "selectionEntryGroup" || isHidden(e, cats)) continue;
+      const n = entryName(e, cats);
+      if (!n || NOISE_ITEM_NAME_RE.test(n)) continue;
+      const ids = resolveOption(e, n);
+      if (ids) choices.push(ids);
+    }
+    return choices;
+  };
+
+  /** A model's representative *fixed* loadout: its flat weapon set with every
+   *  nested sub-choice group reduced to just its default (a defaulted group) or
+   *  removed entirely (a no-default mandatory choice — those become slots). Used
+   *  to decompose a variant model that carries an inner pick (e.g. a Terminator's
+   *  "Heavy weapon" slot) which the flat {@link modelWeaponSet} union would render
+   *  as an un-attributable multi-axis delta. */
+  const modelFixedSet = (model: Node): Set<string> => {
+    const ids = new Set<string>(resolveOption(model, cleanText(String(model.name ?? ""))) ?? []);
+    for (const g of nestedGroups(model)) {
+      const defaultId = g.defaultSelectionEntryId ? String(g.defaultSelectionEntryId) : undefined;
+      for (const e of [...childEntries(g), ...entryLinksOf(g)]) {
+        if (String(e.type) === "selectionEntryGroup") continue;
+        const n = entryName(e, cats);
+        const eids = n ? resolveOption(e, n) : null;
+        if (!eids) continue;
+        const isDefault =
+          !!defaultId && (String(e.id) === defaultId || String(e.targetId) === defaultId);
+        if (!isDefault) for (const id of eids) ids.delete(id);
+      }
+    }
+    return ids;
+  };
+
+  /** No-default mandatory (min ≥ 1) nested choice sub-groups as choice-lists — e.g.
+   *  a Terminator's heavy-weapon pick `[[reaper-autocannon],[heavy-flamer]]`. */
+  const modelChoiceSlots = (model: Node): string[][][] => {
+    const slots: string[][][] = [];
+    for (const g of nestedGroups(model)) {
+      if (g.defaultSelectionEntryId) continue; // defaulted → folded into the fixed set
+      if ((constraintVal(g, "min") ?? 0) < 1) continue; // optional add-on, not a slot
+      const choices = groupChoices(g);
+      if (choices.length >= 2) slots.push(choices);
+    }
+    return slots;
   };
 
   // A datasheet is a `type="unit"` entry OR a top-level `type="model"` entry that
@@ -695,10 +779,10 @@ export function extractFaction(faction: string, cats: Catalogs): FactionResult {
 
       // Decompose each variant against the base into independent axes: a single
       // weapon swapped (removed↔added) is one slot; a single weapon added (no
-      // removal) is an add-on. Variants that change >1 axis at once are redundant
-      // with the single-axis variants of a cross-product, so they're skipped.
+      // removal) is an add-on. Multi-axis variants are handled in a second pass.
       const swapSlots = new Map<string, { alts: Set<string>; max: number | undefined }>();
       const addonAlts = new Set<string>();
+      const leftover: typeof sets = [];
       for (const s of sets) {
         if (s === baseEntry) continue;
         const removed = [...baseSet].filter((id) => !s.ids.has(id));
@@ -710,9 +794,53 @@ export function extractFaction(faction: string, cats: Catalogs): FactionResult {
           swapSlots.set(removed[0], slot);
         } else if (removed.length === 0 && added.length === 1) {
           addonAlts.add(added[0]);
+        } else {
+          leftover.push(s);
         }
       }
-      if (swapSlots.size === 0 && addonAlts.size === 0) {
+      // A multi-axis variant flattens to an un-attributable delta. It is one of:
+      //   1. a variant carrying a nested mandatory sub-choice (e.g. a heavy-weapon
+      //      slot) — recover it as its own option (`replaces` the freed weapon);
+      //   2. redundant with the single-axis variants of a cross-product (every new
+      //      weapon already appears as a swap/add-on alt) — safely skipped;
+      //   3. a genuine loss — TRIAGED, never dropped silently (the bug that lost
+      //      Chaos Terminators' reaper/heavy-flamer slot).
+      const slotOptions: { replaces?: string[]; choices: string[][]; max: number | undefined }[] = [];
+      const knownAdds = new Set<string>(addonAlts);
+      for (const slot of swapSlots.values()) for (const a of slot.alts) knownAdds.add(a);
+      for (const s of leftover) {
+        const slots = modelChoiceSlots(s.node);
+        if (slots.length === 1) {
+          const fixed = modelFixedSet(s.node);
+          const fRemoved = [...baseSet].filter((id) => !fixed.has(id));
+          const fAdded = [...fixed].filter((id) => !baseSet.has(id));
+          if (fAdded.length === 0 && fRemoved.length <= 1) {
+            slotOptions.push({
+              replaces: fRemoved.length ? fRemoved : undefined,
+              choices: slots[0],
+              max: s.max,
+            });
+            continue;
+          }
+        }
+        const added = [...s.ids].filter((id) => !baseSet.has(id));
+        const removed = [...baseSet].filter((id) => !s.ids.has(id));
+        // A single weapon that frees several base weapons (a two-hander taking
+        // both hands, e.g. paired accursed weapons replacing combi-bolter +
+        // accursed weapon) is a clean multi-replace swap.
+        if (added.length === 1 && removed.length >= 1) {
+          slotOptions.push({ replaces: removed, choices: [[added[0]]], max: s.max });
+          continue;
+        }
+        if (added.length === 0) continue; // introduces no new weapon — nothing lost
+        if (added.every((id) => knownAdds.has(id))) continue; // redundant cross-product
+        report(
+          ctx,
+          `model-variant "${cleanText(String(s.node.name ?? ""))}" introduces weapons not ` +
+            `reducible to a clean swap/slot (added ${JSON.stringify(added)})`,
+        );
+      }
+      if (swapSlots.size === 0 && addonAlts.size === 0 && slotOptions.length === 0) {
         report(ctx, "model-variant group could not be decomposed into clean swaps");
         continue;
       }
@@ -746,6 +874,17 @@ export function extractFaction(faction: string, cats: Catalogs): FactionResult {
         if (alts.length === 1) opt.replacement = alts;
         else opt.replacement_choice = alts.map((a) => [a]);
         if (perModel) opt.model_constraint = { any_number: true };
+        pushOption(opt, 0);
+      }
+      // Recovered nested-choice slots (e.g. the heavy-weapon pick): each replaces
+      // the weapon its model frees, offering the choice as replacement(s).
+      for (const so of slotOptions) {
+        const opt: Omit<WargearOption, "id" | "unit_id" | "game_version"> = {};
+        if (so.replaces) opt.replaces = so.replaces;
+        if (so.choices.length === 1) opt.replacement = so.choices[0];
+        else opt.replacement_choice = so.choices;
+        const mc = capFor(so.max);
+        if (mc) opt.model_constraint = mc;
         pushOption(opt, 0);
       }
     }
@@ -914,6 +1053,28 @@ export function extractFaction(faction: string, cats: Catalogs): FactionResult {
         pushOption(opt, ptsCost(node));
       }
     }
+
+    // ── Per-model default loadouts (for unit-composition population) ──────────
+    // Each BSData model's default = its fixed loadout (nested sub-choices reduced
+    // to their default). The squad default — the group default-variant's fixed set
+    // — covers bulk composition rows whose generic name ("Chaos Terminator")
+    // matches no BSData variant. Leaders ("Terminator Champion") name-match.
+    const byModel: Record<string, string[]> = {};
+    for (const m of ownModels) {
+      const nm = normModelName(String(m.name ?? ""));
+      if (!nm || byModel[nm]) continue;
+      const ids = [...modelFixedSet(m)]; // datasheet order (set insertion order)
+      if (ids.length) byModel[nm] = ids;
+    }
+    const squadIds = new Set<string>();
+    for (const m of ownModels) {
+      if (defaultModelIds.has(String(m.id))) for (const id of modelFixedSet(m)) squadIds.add(id);
+    }
+    if (squadIds.size === 0) for (const id of unitBaseSet) squadIds.add(id);
+    if (squadIds.size === 0 && ownModels.length === 1) {
+      for (const id of modelFixedSet(ownModels[0])) squadIds.add(id);
+    }
+    res.compDefaults.push({ unitId, byModel, squadDefault: [...squadIds] });
   }
 
   // Emit only minted wargear actually referenced by a surviving option — a later
@@ -946,6 +1107,76 @@ function mergeWargear(faction: string, minted: WargearEntity[]): void {
   const byId = new Map(existing.map((w) => [w.id, w]));
   for (const w of minted) if (!byId.has(w.id)) byId.set(w.id, w);
   writeFileSync(path, JSON.stringify([...byId.values()], null, 2) + "\n");
+}
+
+/**
+ * Populate `default_weapon_ids` on a faction's unit-composition model rows from the
+ * BSData per-model defaults. Additive: only matched units are touched, only when the
+ * computed value differs, and all other fields/compositions are preserved. A bulk
+ * row whose generic name matches no BSData model falls back to the squad default.
+ */
+function mergeCompDefaults(faction: string, compDefaults: CompDefaults[]): void {
+  if (compDefaults.length === 0) return;
+  const cpath = join(CORE_DIR, faction, "unit-compositions.json");
+  if (!existsSync(cpath)) return;
+  const comps = readJSON<Record<string, unknown>[]>(cpath);
+
+  // Reachability per unit: every weapon a wargear option can swap in/out. A
+  // weapon in `weapon_ids` that is NOT reachable is an always-on base weapon
+  // (e.g. a vehicle's built-in heavy bolter / armoured tracks).
+  const upath = join(CORE_DIR, faction, "units.json");
+  const wpath = join(CORE_DIR, faction, "wargear-options.json");
+  const weaponIdsByUnit = new Map<string, string[]>(
+    (existsSync(upath) ? readJSON<{ id: string; weapon_ids?: string[] }[]>(upath) : []).map((u) => [
+      u.id,
+      u.weapon_ids ?? [],
+    ]),
+  );
+  const reachableByUnit = new Map<string, Set<string>>();
+  for (const o of existsSync(wpath) ? readJSON<WargearOption>(wpath) : []) {
+    const set = reachableByUnit.get(o.unit_id) ?? new Set<string>();
+    for (const id of o.replaces ?? []) set.add(id);
+    for (const id of o.replacement ?? []) set.add(id);
+    for (const g of o.replacement_choice ?? []) for (const id of g) set.add(id);
+    reachableByUnit.set(o.unit_id, set);
+  }
+
+  const byUnit = new Map(compDefaults.map((c) => [c.unitId, c]));
+  let changed = false;
+  for (const comp of comps) {
+    const cd = byUnit.get(String(comp.unit_id));
+    if (!cd) continue;
+    const models = (comp.models as Record<string, unknown>[]) ?? [];
+    const idsFor = (m: Record<string, unknown>): string[] =>
+      cd.byModel[normModelName(String(m.name ?? ""))] ?? cd.squadDefault;
+
+    // SAFETY GATE: only populate when the computed defaults cover every weapon
+    // that isn't reachable via an option. Otherwise writing the field would drop a
+    // real always-on weapon (the extractor's per-model resolution is incomplete for
+    // many vehicles/characters), regressing the unit — so leave it to the loadout
+    // layer's correct orphan→base derivation instead.
+    const covered = new Set<string>();
+    for (const m of models) for (const id of idsFor(m)) covered.add(id);
+    const reachable = reachableByUnit.get(String(comp.unit_id)) ?? new Set<string>();
+    const orphanWeapons = (weaponIdsByUnit.get(String(comp.unit_id)) ?? []).filter(
+      (id) => !reachable.has(id),
+    );
+    if (!orphanWeapons.every((id) => covered.has(id))) continue; // would regress → skip
+
+    for (const m of models) {
+      const ids = idsFor(m);
+      if (!ids.length) continue;
+      // Set-compare: preserve an already-correct row's order (no churn); only fill
+      // empties or fix genuine content drift.
+      const cur = Array.isArray(m.default_weapon_ids) ? (m.default_weapon_ids as string[]) : [];
+      const sameSet = cur.length === ids.length && ids.every((id) => cur.includes(id));
+      if (!sameSet) {
+        m.default_weapon_ids = ids;
+        changed = true;
+      }
+    }
+  }
+  if (changed) writeFileSync(cpath, JSON.stringify(comps, null, 2) + "\n");
 }
 
 function writeReport(faction: string, r: FactionResult): void {
@@ -990,6 +1221,7 @@ function main(): void {
       const outPath = join(CORE_DIR, faction, "wargear-options.json");
       writeFileSync(outPath, JSON.stringify(r.options, null, 2) + "\n");
       mergeWargear(faction, r.wargear);
+      mergeCompDefaults(faction, r.compDefaults);
     }
   }
   if (!write || reportOnly) {

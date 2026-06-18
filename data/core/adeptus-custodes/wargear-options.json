@@ -32,11 +32,16 @@
     "replaces": [
       "guardian-spear"
     ],
-    "replacement": [
-      "sentinel-blade"
+    "replacement_choice": [
+      [
+        "sentinel-blade"
+      ],
+      [
+        "misericordia"
+      ]
     ],
     "model_constraint": {
-      "any_number": true
+      "per_n_models": 5
     },
     "is_free": true
   },
@@ -59,7 +64,22 @@
     "is_free": true
   },
   {
-    "id": "vertus-praetors-wgo-4",
+    "id": "custodian-wardens-wgo-4",
+    "unit_id": "custodian-wardens",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "castellan-axe"
+    ],
+    "model_constraint": {
+      "any_number": true
+    },
+    "is_free": true
+  },
+  {
+    "id": "vertus-praetors-wgo-5",
     "unit_id": "vertus-praetors",
     "game_version": {
       "edition": "10th",
@@ -77,7 +97,7 @@
     "is_free": true
   },
   {
-    "id": "custodian-guard-with-adrasite-and-pyrithite-spears-wgo-5",
+    "id": "custodian-guard-with-adrasite-and-pyrithite-spears-wgo-6",
     "unit_id": "custodian-guard-with-adrasite-and-pyrithite-spears",
     "game_version": {
       "edition": "10th",
@@ -95,7 +115,7 @@
     "is_free": true
   },
   {
-    "id": "aquilon-custodians-wgo-6",
+    "id": "aquilon-custodians-wgo-7",
     "unit_id": "aquilon-custodians",
     "game_version": {
       "edition": "10th",
@@ -118,7 +138,7 @@
     "is_free": true
   },
   {
-    "id": "aquilon-custodians-wgo-7",
+    "id": "aquilon-custodians-wgo-8",
     "unit_id": "aquilon-custodians",
     "game_version": {
       "edition": "10th",
@@ -136,7 +156,7 @@
     "is_free": true
   },
   {
-    "id": "agamatus-custodians-wgo-8",
+    "id": "agamatus-custodians-wgo-9",
     "unit_id": "agamatus-custodians",
     "game_version": {
       "edition": "10th",
@@ -159,7 +179,7 @@
     "is_free": true
   },
   {
-    "id": "venatari-custodians-wgo-9",
+    "id": "venatari-custodians-wgo-10",
     "unit_id": "venatari-custodians",
     "game_version": {
       "edition": "10th",
@@ -177,7 +197,7 @@
     "is_free": true
   },
   {
-    "id": "anathema-psykana-rhino-wgo-10",
+    "id": "anathema-psykana-rhino-wgo-11",
     "unit_id": "anathema-psykana-rhino",
     "game_version": {
       "edition": "10th",
@@ -189,7 +209,7 @@
     "is_free": true
   },
   {
-    "id": "knight-centura-wgo-11",
+    "id": "knight-centura-wgo-12",
     "unit_id": "knight-centura",
     "game_version": {
       "edition": "10th",
@@ -214,7 +234,7 @@
     "is_free": true
   },
   {
-    "id": "shield-captain-wgo-12",
+    "id": "shield-captain-wgo-13",
     "unit_id": "shield-captain",
     "game_version": {
       "edition": "10th",
@@ -243,7 +263,7 @@
     "is_free": true
   },
   {
-    "id": "shield-captain-in-allarus-terminator-armour-wgo-13",
+    "id": "shield-captain-in-allarus-terminator-armour-wgo-14",
     "unit_id": "shield-captain-in-allarus-terminator-armour",
     "game_version": {
       "edition": "10th",
@@ -261,7 +281,7 @@
     "is_free": true
   },
   {
-    "id": "shield-captain-on-dawneagle-jetbike-wgo-14",
+    "id": "shield-captain-on-dawneagle-jetbike-wgo-15",
     "unit_id": "shield-captain-on-dawneagle-jetbike",
     "game_version": {
       "edition": "10th",
@@ -279,7 +299,7 @@
     "is_free": true
   },
   {
-    "id": "venerable-contemptor-dreadnought-wgo-15",
+    "id": "venerable-contemptor-dreadnought-wgo-16",
     "unit_id": "venerable-contemptor-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -297,7 +317,7 @@
     "is_free": true
   },
   {
-    "id": "venerable-land-raider-wgo-16",
+    "id": "venerable-land-raider-wgo-17",
     "unit_id": "venerable-land-raider",
     "game_version": {
       "edition": "10th",
@@ -309,7 +329,7 @@
     "is_free": true
   },
   {
-    "id": "venerable-land-raider-wgo-17",
+    "id": "venerable-land-raider-wgo-18",
     "unit_id": "venerable-land-raider",
     "game_version": {
       "edition": "10th",
@@ -321,7 +341,7 @@
     "is_free": true
   },
   {
-    "id": "contemptor-achillus-dreadnought-wgo-18",
+    "id": "contemptor-achillus-dreadnought-wgo-19",
     "unit_id": "contemptor-achillus-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -344,7 +364,7 @@
     "is_free": true
   },
   {
-    "id": "caladius-grav-tank-wgo-19",
+    "id": "caladius-grav-tank-wgo-20",
     "unit_id": "caladius-grav-tank",
     "game_version": {
       "edition": "10th",
@@ -362,7 +382,7 @@
     "is_free": true
   },
   {
-    "id": "telemon-heavy-dreadnought-wgo-20",
+    "id": "telemon-heavy-dreadnought-wgo-21",
     "unit_id": "telemon-heavy-dreadnought",
     "game_version": {
       "edition": "10th",

@@ -15,15 +15,15 @@ func TestValidateLoadoutSwapConflict(t *testing.T) {
 	opts := wd.WargearOptions()
 
 	both := map[string]int{"diabolus-heavy-stubber": 1, "havoc-multi-launcher": 1}
-	v := validateLoadout(wd.Raw, 1, opts, both)
+	v := validateLoadout(wd.Raw, 1, opts, both, nil)
 	if len(v) != 1 || v[0]["id"] != "diabolus-heavy-stubber" || v[0]["code"] != "swap-conflict" {
 		t.Fatalf("expected one swap-conflict on diabolus-heavy-stubber, got %v", v)
 	}
 
-	if got := validateLoadout(wd.Raw, 1, opts, map[string]int{"diabolus-heavy-stubber": 1}); len(got) != 0 {
+	if got := validateLoadout(wd.Raw, 1, opts, map[string]int{"diabolus-heavy-stubber": 1}, nil); len(got) != 0 {
 		t.Fatalf("keeping the stubber should be legal, got %v", got)
 	}
-	if got := validateLoadout(wd.Raw, 1, opts, map[string]int{"havoc-multi-launcher": 1}); len(got) != 0 {
+	if got := validateLoadout(wd.Raw, 1, opts, map[string]int{"havoc-multi-launcher": 1}, nil); len(got) != 0 {
 		t.Fatalf("swapping to the havoc launcher should be legal, got %v", got)
 	}
 }

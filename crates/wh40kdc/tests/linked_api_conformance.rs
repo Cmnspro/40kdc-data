@@ -89,7 +89,17 @@ fn run_query(ds: &Dataset, query: &str, args: &Value) -> Value {
                 .units
                 .get(id)
                 .unwrap_or_else(|| panic!("maximal_loadout: unknown unit {id}"));
-            let lo = wh40kdc::maximal_loadout(u, model_count, &ds.wargear_options_of(u));
+            let models = ds
+                .unit_compositions
+                .iter()
+                .find(|c| c.unit_id.as_str() == id)
+                .map(|c| wh40kdc::loadout_models(&c.models));
+            let lo = wh40kdc::maximal_loadout(
+                u,
+                model_count,
+                &ds.wargear_options_of(u),
+                models.as_deref(),
+            );
             let mut encoded: Vec<Value> = lo
                 .counts
                 .iter()

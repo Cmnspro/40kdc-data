@@ -43,7 +43,7 @@ export {
   clampWeaponCount,
   validateLoadout,
 } from "./loadout.js";
-export type { Loadout, WeaponBound, Violation } from "./loadout.js";
+export type { Loadout, WeaponBound, Violation, LoadoutModel } from "./loadout.js";
 
 // Unit point-cost maths: ordinal-aware tier selection over `points` bands.
 export { baseUnitPoints, pointsTierMissing } from "./pricing.js";

@@ -368,7 +368,8 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
         const u = ds.units.getAny(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const modelCount = Number(input.modelCount);
-        const lo = maximalLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw));
+        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const lo = maximalLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw), comp?.models);
         // Encode the id→count map as sorted "id:count" strings for set compare.
         return ok([...lo.counts].map(([id, n]) => `${id}:${n}`).sort());
       }

@@ -475,7 +475,17 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
                 );
             };
             let model_count: u64 = str_arg("modelCount").parse().unwrap_or(0);
-            let lo = wh40kdc::maximal_loadout(unit, model_count, &ds.wargear_options_of(unit));
+            let models = ds
+                .unit_compositions
+                .iter()
+                .find(|c| c.unit_id.as_str() == id)
+                .map(|c| wh40kdc::loadout_models(&c.models));
+            let lo = wh40kdc::maximal_loadout(
+                unit,
+                model_count,
+                &ds.wargear_options_of(unit),
+                models.as_deref(),
+            );
             let mut encoded: Vec<Value> = lo
                 .counts
                 .iter()

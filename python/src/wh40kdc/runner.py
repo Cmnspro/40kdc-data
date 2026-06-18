@@ -265,7 +265,15 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             # The corpus always supplies modelCount; missing coerces to 0.
             model_count = int(input_.get("modelCount") or 0)
-            lo = maximal_loadout(u.raw, model_count, ds.wargear_options_of(u.raw))
+            comp = next(
+                (c for c in ds.unit_compositions if c.get("unit_id") == unit_id), None
+            )
+            lo = maximal_loadout(
+                u.raw,
+                model_count,
+                ds.wargear_options_of(u.raw),
+                (comp or {}).get("models"),
+            )
             # Encode the id→count map as sorted "id:count" strings for set compare.
             return _ok(sorted(f"{id_}:{n}" for id_, n in lo.items()))
         if query == "phases_of":

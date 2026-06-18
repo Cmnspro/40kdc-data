@@ -138,6 +138,82 @@
       "edition": "10th",
       "dataslate": "2025-q3"
     },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement_choice": [
+      [
+        "flamer"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "grav-gun"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "tactical-squad-wgo-10",
+    "unit_id": "tactical-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement_choice": [
+      [
+        "flamer"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "grav-gun"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta"
+      ],
+      [
+        "lascannon"
+      ],
+      [
+        "missile-launcher"
+      ],
+      [
+        "plasma-cannon"
+      ],
+      [
+        "grav-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "tactical-squad-wgo-11",
+    "unit_id": "tactical-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
     "replacement": [
       "twin-lightning-claws"
     ],
@@ -147,7 +223,7 @@
     "is_free": true
   },
   {
-    "id": "scout-squad-wgo-10",
+    "id": "scout-squad-wgo-12",
     "unit_id": "scout-squad",
     "game_version": {
       "edition": "10th",
@@ -173,7 +249,30 @@
     "is_free": true
   },
   {
-    "id": "scout-squad-wgo-11",
+    "id": "scout-squad-wgo-13",
+    "unit_id": "scout-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter"
+      ],
+      [
+        "missile-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "scout-squad-wgo-14",
     "unit_id": "scout-squad",
     "game_version": {
       "edition": "10th",
@@ -188,7 +287,7 @@
     "is_free": true
   },
   {
-    "id": "reiver-squad-wgo-12",
+    "id": "reiver-squad-wgo-15",
     "unit_id": "reiver-squad",
     "game_version": {
       "edition": "10th",
@@ -203,7 +302,7 @@
     "is_free": true
   },
   {
-    "id": "reiver-squad-wgo-13",
+    "id": "reiver-squad-wgo-16",
     "unit_id": "reiver-squad",
     "game_version": {
       "edition": "10th",
@@ -218,7 +317,7 @@
     "is_free": true
   },
   {
-    "id": "reiver-squad-wgo-14",
+    "id": "reiver-squad-wgo-17",
     "unit_id": "reiver-squad",
     "game_version": {
       "edition": "10th",
@@ -233,7 +332,7 @@
     "is_free": true
   },
   {
-    "id": "aggressor-squad-wgo-15",
+    "id": "aggressor-squad-wgo-18",
     "unit_id": "aggressor-squad",
     "game_version": {
       "edition": "10th",
@@ -248,7 +347,7 @@
     "is_free": true
   },
   {
-    "id": "terminator-assault-squad-wgo-16",
+    "id": "terminator-assault-squad-wgo-19",
     "unit_id": "terminator-assault-squad",
     "game_version": {
       "edition": "10th",
@@ -263,7 +362,26 @@
     "is_free": true
   },
   {
-    "id": "outrider-squad-wgo-17",
+    "id": "terminator-assault-squad-wgo-20",
+    "unit_id": "terminator-assault-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "storm-shield",
+      "thunder-hammer"
+    ],
+    "replacement": [
+      "twin-lightning-claws"
+    ],
+    "model_constraint": {
+      "max_count": 9
+    },
+    "is_free": true
+  },
+  {
+    "id": "outrider-squad-wgo-21",
     "unit_id": "outrider-squad",
     "game_version": {
       "edition": "10th",
@@ -282,7 +400,7 @@
     "is_free": true
   },
   {
-    "id": "hellblaster-squad-wgo-18",
+    "id": "hellblaster-squad-wgo-22",
     "unit_id": "hellblaster-squad",
     "game_version": {
       "edition": "10th",
@@ -290,66 +408,6 @@
     },
     "replacement": [
       "bolt-pistol"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "eliminator-squad-wgo-19",
-    "unit_id": "eliminator-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "bolt-sniper-rifle"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "eliminator-squad-wgo-20",
-    "unit_id": "eliminator-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "las-fusil"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "eliminator-squad-wgo-21",
-    "unit_id": "eliminator-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "instigator-bolt-carbine"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "eliminator-squad-wgo-22",
-    "unit_id": "eliminator-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "las-fusil"
     ],
     "model_constraint": {
       "max_count": 1
@@ -372,7 +430,67 @@
     "is_free": true
   },
   {
-    "id": "eradicator-squad-wgo-24",
+    "id": "eliminator-squad-wgo-24",
+    "unit_id": "eliminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "las-fusil"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "eliminator-squad-wgo-25",
+    "unit_id": "eliminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "instigator-bolt-carbine"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "eliminator-squad-wgo-26",
+    "unit_id": "eliminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "las-fusil"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "eliminator-squad-wgo-27",
+    "unit_id": "eliminator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replacement": [
+      "bolt-sniper-rifle"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    },
+    "is_free": true
+  },
+  {
+    "id": "eradicator-squad-wgo-28",
     "unit_id": "eradicator-squad",
     "game_version": {
       "edition": "10th",
@@ -390,7 +508,30 @@
     "is_free": true
   },
   {
-    "id": "devastator-squad-wgo-25",
+    "id": "devastator-squad-wgo-29",
+    "unit_id": "devastator-squad",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "heavy-bolter",
+      "lascannon",
+      "grav-cannon",
+      "multi-melta",
+      "plasma-cannon",
+      "missile-launcher"
+    ],
+    "replacement": [
+      "boltgun"
+    ],
+    "model_constraint": {
+      "max_count": 9
+    },
+    "is_free": true
+  },
+  {
+    "id": "devastator-squad-wgo-30",
     "unit_id": "devastator-squad",
     "game_version": {
       "edition": "10th",
@@ -420,7 +561,7 @@
     "is_free": true
   },
   {
-    "id": "devastator-squad-wgo-26",
+    "id": "devastator-squad-wgo-31",
     "unit_id": "devastator-squad",
     "game_version": {
       "edition": "10th",
@@ -447,7 +588,7 @@
     "is_free": true
   },
   {
-    "id": "desolation-squad-wgo-27",
+    "id": "desolation-squad-wgo-32",
     "unit_id": "desolation-squad",
     "game_version": {
       "edition": "10th",
@@ -462,7 +603,7 @@
     "is_free": true
   },
   {
-    "id": "desolation-squad-wgo-28",
+    "id": "desolation-squad-wgo-33",
     "unit_id": "desolation-squad",
     "game_version": {
       "edition": "10th",
@@ -477,7 +618,7 @@
     "is_free": true
   },
   {
-    "id": "desolation-squad-wgo-29",
+    "id": "desolation-squad-wgo-34",
     "unit_id": "desolation-squad",
     "game_version": {
       "edition": "10th",
@@ -492,7 +633,7 @@
     "is_free": true
   },
   {
-    "id": "desolation-squad-wgo-30",
+    "id": "desolation-squad-wgo-35",
     "unit_id": "desolation-squad",
     "game_version": {
       "edition": "10th",
@@ -507,7 +648,7 @@
     "is_free": true
   },
   {
-    "id": "desolation-squad-wgo-31",
+    "id": "desolation-squad-wgo-36",
     "unit_id": "desolation-squad",
     "game_version": {
       "edition": "10th",
@@ -522,7 +663,7 @@
     "is_free": true
   },
   {
-    "id": "firestrike-servo-turrets-wgo-32",
+    "id": "firestrike-servo-turrets-wgo-37",
     "unit_id": "firestrike-servo-turrets",
     "game_version": {
       "edition": "10th",
@@ -540,7 +681,7 @@
     "is_free": true
   },
   {
-    "id": "assault-intercessors-with-jump-packs-wgo-33",
+    "id": "assault-intercessors-with-jump-packs-wgo-38",
     "unit_id": "assault-intercessors-with-jump-packs",
     "game_version": {
       "edition": "10th",
@@ -558,7 +699,7 @@
     "is_free": true
   },
   {
-    "id": "death-company-marines-with-jump-packs-wgo-34",
+    "id": "death-company-marines-with-jump-packs-wgo-39",
     "unit_id": "death-company-marines-with-jump-packs",
     "game_version": {
       "edition": "10th",
@@ -573,7 +714,7 @@
     "is_free": true
   },
   {
-    "id": "death-company-marines-with-jump-packs-wgo-35",
+    "id": "death-company-marines-with-jump-packs-wgo-40",
     "unit_id": "death-company-marines-with-jump-packs",
     "game_version": {
       "edition": "10th",
@@ -588,7 +729,7 @@
     "is_free": true
   },
   {
-    "id": "death-company-marines-with-jump-packs-wgo-36",
+    "id": "death-company-marines-with-jump-packs-wgo-41",
     "unit_id": "death-company-marines-with-jump-packs",
     "game_version": {
       "edition": "10th",
@@ -603,7 +744,7 @@
     "is_free": true
   },
   {
-    "id": "death-company-marines-with-jump-packs-wgo-37",
+    "id": "death-company-marines-with-jump-packs-wgo-42",
     "unit_id": "death-company-marines-with-jump-packs",
     "game_version": {
       "edition": "10th",
@@ -618,7 +759,7 @@
     "is_free": true
   },
   {
-    "id": "sanguinary-guard-wgo-38",
+    "id": "sanguinary-guard-wgo-43",
     "unit_id": "sanguinary-guard",
     "game_version": {
       "edition": "10th",
@@ -636,7 +777,7 @@
     "is_free": true
   },
   {
-    "id": "sanguinary-guard-wgo-39",
+    "id": "sanguinary-guard-wgo-44",
     "unit_id": "sanguinary-guard",
     "game_version": {
       "edition": "10th",
@@ -656,7 +797,7 @@
     "is_free": true
   },
   {
-    "id": "sanguinary-guard-wgo-40",
+    "id": "sanguinary-guard-wgo-45",
     "unit_id": "sanguinary-guard",
     "game_version": {
       "edition": "10th",
@@ -671,7 +812,26 @@
     "is_free": true
   },
   {
-    "id": "death-company-marines-with-bolt-rifles-wgo-41",
+    "id": "death-company-marines-with-bolt-rifles-wgo-46",
+    "unit_id": "death-company-marines-with-bolt-rifles",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "bolt-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "eviscerator"
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "death-company-marines-with-bolt-rifles-wgo-47",
     "unit_id": "death-company-marines-with-bolt-rifles",
     "game_version": {
       "edition": "10th",
@@ -686,7 +846,26 @@
     "is_free": true
   },
   {
-    "id": "ravenwing-command-squad-wgo-42",
+    "id": "death-company-marines-wgo-48",
+    "unit_id": "death-company-marines",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "heavy-bolt-pistol",
+      "astartes-chainsword"
+    ],
+    "replacement": [
+      "eviscerator"
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "ravenwing-command-squad-wgo-49",
     "unit_id": "ravenwing-command-squad",
     "game_version": {
       "edition": "10th",
@@ -705,7 +884,7 @@
     "is_free": true
   },
   {
-    "id": "ravenwing-command-squad-wgo-43",
+    "id": "ravenwing-command-squad-wgo-50",
     "unit_id": "ravenwing-command-squad",
     "game_version": {
       "edition": "10th",
@@ -724,7 +903,7 @@
     "is_free": true
   },
   {
-    "id": "ravenwing-command-squad-wgo-44",
+    "id": "ravenwing-command-squad-wgo-51",
     "unit_id": "ravenwing-command-squad",
     "game_version": {
       "edition": "10th",
@@ -743,7 +922,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-knights-wgo-45",
+    "id": "deathwing-knights-wgo-52",
     "unit_id": "deathwing-knights",
     "game_version": {
       "edition": "10th",
@@ -758,7 +937,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-46",
+    "id": "deathwing-terminator-squad-wgo-53",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -781,7 +960,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-47",
+    "id": "deathwing-terminator-squad-wgo-54",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -796,7 +975,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-48",
+    "id": "deathwing-terminator-squad-wgo-55",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -811,7 +990,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-49",
+    "id": "deathwing-terminator-squad-wgo-56",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -826,7 +1005,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-50",
+    "id": "deathwing-terminator-squad-wgo-57",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -841,7 +1020,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-51",
+    "id": "deathwing-terminator-squad-wgo-58",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -856,7 +1035,7 @@
     "is_free": true
   },
   {
-    "id": "deathwing-terminator-squad-wgo-52",
+    "id": "deathwing-terminator-squad-wgo-59",
     "unit_id": "deathwing-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -871,7 +1050,7 @@
     "is_free": true
   },
   {
-    "id": "deathwatch-terminator-squad-wgo-53",
+    "id": "deathwatch-terminator-squad-wgo-60",
     "unit_id": "deathwatch-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -886,7 +1065,7 @@
     "is_free": true
   },
   {
-    "id": "deathwatch-terminator-squad-wgo-54",
+    "id": "deathwatch-terminator-squad-wgo-61",
     "unit_id": "deathwatch-terminator-squad",
     "game_version": {
       "edition": "10th",
@@ -901,7 +1080,7 @@
     "is_free": true
   },
   {
-    "id": "fortis-kill-team-wgo-55",
+    "id": "fortis-kill-team-wgo-62",
     "unit_id": "fortis-kill-team",
     "game_version": {
       "edition": "10th",
@@ -928,7 +1107,7 @@
     "is_free": true
   },
   {
-    "id": "fortis-kill-team-wgo-56",
+    "id": "fortis-kill-team-wgo-63",
     "unit_id": "fortis-kill-team",
     "game_version": {
       "edition": "10th",
@@ -952,7 +1131,7 @@
     "is_free": true
   },
   {
-    "id": "fortis-kill-team-wgo-57",
+    "id": "fortis-kill-team-wgo-64",
     "unit_id": "fortis-kill-team",
     "game_version": {
       "edition": "10th",
@@ -967,7 +1146,7 @@
     "is_free": true
   },
   {
-    "id": "indomitor-kill-team-wgo-58",
+    "id": "indomitor-kill-team-wgo-65",
     "unit_id": "indomitor-kill-team",
     "game_version": {
       "edition": "10th",
@@ -990,7 +1169,7 @@
     "is_free": true
   },
   {
-    "id": "indomitor-kill-team-wgo-59",
+    "id": "indomitor-kill-team-wgo-66",
     "unit_id": "indomitor-kill-team",
     "game_version": {
       "edition": "10th",
@@ -1008,7 +1187,7 @@
     "is_free": true
   },
   {
-    "id": "spectrus-kill-team-wgo-60",
+    "id": "spectrus-kill-team-wgo-67",
     "unit_id": "spectrus-kill-team",
     "game_version": {
       "edition": "10th",
@@ -1034,7 +1213,7 @@
     "is_free": true
   },
   {
-    "id": "spectrus-kill-team-wgo-61",
+    "id": "spectrus-kill-team-wgo-68",
     "unit_id": "spectrus-kill-team",
     "game_version": {
       "edition": "10th",
@@ -1049,7 +1228,7 @@
     "is_free": true
   },
   {
-    "id": "spectrus-kill-team-wgo-62",
+    "id": "spectrus-kill-team-wgo-69",
     "unit_id": "spectrus-kill-team",
     "game_version": {
       "edition": "10th",
@@ -1064,7 +1243,7 @@
     "is_free": true
   },
   {
-    "id": "deathwatch-veterans-wgo-63",
+    "id": "deathwatch-veterans-wgo-70",
     "unit_id": "deathwatch-veterans",
     "game_version": {
       "edition": "10th",
@@ -1082,7 +1261,45 @@
     "is_free": true
   },
   {
-    "id": "deathwatch-veterans-wgo-64",
+    "id": "deathwatch-veterans-wgo-71",
+    "unit_id": "deathwatch-veterans",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun",
+      "power-weapon"
+    ],
+    "replacement": [
+      "deathwatch-thunder-hammer"
+    ],
+    "model_constraint": {
+      "max_count": 4
+    },
+    "is_free": true
+  },
+  {
+    "id": "deathwatch-veterans-wgo-72",
+    "unit_id": "deathwatch-veterans",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "boltgun",
+      "power-weapon"
+    ],
+    "replacement": [
+      "black-shield-blades"
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    },
+    "is_free": true
+  },
+  {
+    "id": "deathwatch-veterans-wgo-73",
     "unit_id": "deathwatch-veterans",
     "game_version": {
       "edition": "10th",
@@ -1100,7 +1317,7 @@
     "is_free": true
   },
   {
-    "id": "deathwatch-veterans-wgo-65",
+    "id": "deathwatch-veterans-wgo-74",
     "unit_id": "deathwatch-veterans",
     "game_version": {
       "edition": "10th",
@@ -1118,7 +1335,7 @@
     "is_free": true
   },
   {
-    "id": "talonstrike-kill-team-wgo-66",
+    "id": "talonstrike-kill-team-wgo-75",
     "unit_id": "talonstrike-kill-team",
     "game_version": {
       "edition": "10th",
@@ -1136,7 +1353,7 @@
     "is_free": true
   },
   {
-    "id": "talonstrike-kill-team-wgo-67",
+    "id": "talonstrike-kill-team-wgo-76",
     "unit_id": "talonstrike-kill-team",
     "game_version": {
       "edition": "10th",
@@ -1160,7 +1377,7 @@
     "is_free": true
   },
   {
-    "id": "wolf-guard-terminators-wgo-68",
+    "id": "wolf-guard-terminators-wgo-77",
     "unit_id": "wolf-guard-terminators",
     "game_version": {
       "edition": "10th",
@@ -1178,7 +1395,7 @@
     "is_free": true
   },
   {
-    "id": "wulfen-wgo-69",
+    "id": "wulfen-wgo-78",
     "unit_id": "wulfen",
     "game_version": {
       "edition": "10th",
@@ -1193,7 +1410,7 @@
     "is_free": true
   },
   {
-    "id": "thunderwolf-cavalry-wgo-70",
+    "id": "thunderwolf-cavalry-wgo-79",
     "unit_id": "thunderwolf-cavalry",
     "game_version": {
       "edition": "10th",
@@ -1219,7 +1436,7 @@
     "is_free": true
   },
   {
-    "id": "wulfen-with-storm-shields-wgo-71",
+    "id": "wulfen-with-storm-shields-wgo-80",
     "unit_id": "wulfen-with-storm-shields",
     "game_version": {
       "edition": "10th",
@@ -1234,7 +1451,26 @@
     "is_free": true
   },
   {
-    "id": "gladiator-lancer-wgo-72",
+    "id": "victrix-honour-guard-wgo-81",
+    "unit_id": "victrix-honour-guard",
+    "game_version": {
+      "edition": "10th",
+      "dataslate": "2025-q3"
+    },
+    "replaces": [
+      "master-crafted-power-weapon",
+      "master-crafted-bolt-carbine"
+    ],
+    "replacement": [
+      "blades-of-honour"
+    ],
+    "model_constraint": {
+      "per_n_models": 6
+    },
+    "is_free": true
+  },
+  {
+    "id": "gladiator-lancer-wgo-82",
     "unit_id": "gladiator-lancer",
     "game_version": {
       "edition": "10th",
@@ -1246,7 +1482,7 @@
     "is_free": true
   },
   {
-    "id": "gladiator-lancer-wgo-73",
+    "id": "gladiator-lancer-wgo-83",
     "unit_id": "gladiator-lancer",
     "game_version": {
       "edition": "10th",
@@ -1266,7 +1502,7 @@
     "is_free": true
   },
   {
-    "id": "gladiator-lancer-wgo-74",
+    "id": "gladiator-lancer-wgo-84",
     "unit_id": "gladiator-lancer",
     "game_version": {
       "edition": "10th",
@@ -1284,7 +1520,7 @@
     "is_free": true
   },
   {
-    "id": "gladiator-reaper-wgo-75",
+    "id": "gladiator-reaper-wgo-85",
     "unit_id": "gladiator-reaper",
     "game_version": {
       "edition": "10th",
@@ -1296,7 +1532,7 @@
     "is_free": true
   },
   {
-    "id": "gladiator-reaper-wgo-76",
+    "id": "gladiator-reaper-wgo-86",
     "unit_id": "gladiator-reaper",
     "game_version": {
       "edition": "10th",
@@ -1316,7 +1552,7 @@
     "is_free": true
   },
   {
-    "id": "gladiator-valiant-wgo-77",
+    "id": "gladiator-valiant-wgo-87",
     "unit_id": "gladiator-valiant",
     "game_version": {
       "edition": "10th",
@@ -1328,7 +1564,7 @@
     "is_free": true
   },
   {
-    "id": "gladiator-valiant-wgo-78",
+    "id": "gladiator-valiant-wgo-88",
     "unit_id": "gladiator-valiant",
     "game_version": {
       "edition": "10th",
@@ -1340,7 +1576,7 @@
     "is_free": true
   },
   {
-    "id": "impulsor-wgo-79",
+    "id": "impulsor-wgo-89",
     "unit_id": "impulsor",
     "game_version": {
       "edition": "10th",
@@ -1366,7 +1602,7 @@
     "is_free": true
   },
   {
-    "id": "impulsor-wgo-80",
+    "id": "impulsor-wgo-90",
     "unit_id": "impulsor",
     "game_version": {
       "edition": "10th",
@@ -1386,7 +1622,7 @@
     "is_free": true
   },
   {
-    "id": "impulsor-wgo-81",
+    "id": "impulsor-wgo-91",
     "unit_id": "impulsor",
     "game_version": {
       "edition": "10th",
@@ -1404,7 +1640,7 @@
     "is_free": true
   },
   {
-    "id": "repulsor-wgo-82",
+    "id": "repulsor-wgo-92",
     "unit_id": "repulsor",
     "game_version": {
       "edition": "10th",
@@ -1416,7 +1652,7 @@
     "is_free": true
   },
   {
-    "id": "repulsor-executioner-wgo-83",
+    "id": "repulsor-executioner-wgo-93",
     "unit_id": "repulsor-executioner",
     "game_version": {
       "edition": "10th",
@@ -1428,7 +1664,7 @@
     "is_free": true
   },
   {
-    "id": "repulsor-executioner-wgo-84",
+    "id": "repulsor-executioner-wgo-94",
     "unit_id": "repulsor-executioner",
     "game_version": {
       "edition": "10th",
@@ -1448,7 +1684,7 @@
     "is_free": true
   },
   {
-    "id": "castellan-wgo-85",
+    "id": "castellan-wgo-95",
     "unit_id": "castellan",
     "game_version": {
       "edition": "10th",
@@ -1466,7 +1702,7 @@
     "is_free": true
   },
   {
-    "id": "marshal-wgo-86",
+    "id": "marshal-wgo-96",
     "unit_id": "marshal",
     "game_version": {
       "edition": "10th",
@@ -1484,7 +1720,7 @@
     "is_free": true
   },
   {
-    "id": "execrator-wgo-87",
+    "id": "execrator-wgo-97",
     "unit_id": "execrator",
     "game_version": {
       "edition": "10th",
@@ -1502,7 +1738,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-crusader-wgo-88",
+    "id": "land-raider-crusader-wgo-98",
     "unit_id": "land-raider-crusader",
     "game_version": {
       "edition": "10th",
@@ -1514,7 +1750,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-crusader-wgo-89",
+    "id": "land-raider-crusader-wgo-99",
     "unit_id": "land-raider-crusader",
     "game_version": {
       "edition": "10th",
@@ -1526,7 +1762,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-crusader-wgo-90",
+    "id": "land-raider-crusader-wgo-100",
     "unit_id": "land-raider-crusader",
     "game_version": {
       "edition": "10th",
@@ -1538,7 +1774,7 @@
     "is_free": true
   },
   {
-    "id": "captain-in-terminator-armour-wgo-91",
+    "id": "captain-in-terminator-armour-wgo-101",
     "unit_id": "captain-in-terminator-armour",
     "game_version": {
       "edition": "10th",
@@ -1556,7 +1792,7 @@
     "is_free": true
   },
   {
-    "id": "captain-in-terminator-armour-wgo-92",
+    "id": "captain-in-terminator-armour-wgo-102",
     "unit_id": "captain-in-terminator-armour",
     "game_version": {
       "edition": "10th",
@@ -1574,7 +1810,7 @@
     "is_free": true
   },
   {
-    "id": "captain-with-jump-pack-wgo-93",
+    "id": "captain-with-jump-pack-wgo-103",
     "unit_id": "captain-with-jump-pack",
     "game_version": {
       "edition": "10th",
@@ -1605,7 +1841,7 @@
     "is_free": true
   },
   {
-    "id": "captain-with-jump-pack-wgo-94",
+    "id": "captain-with-jump-pack-wgo-104",
     "unit_id": "captain-with-jump-pack",
     "game_version": {
       "edition": "10th",
@@ -1628,7 +1864,7 @@
     "is_free": true
   },
   {
-    "id": "captain-with-jump-pack-wgo-95",
+    "id": "captain-with-jump-pack-wgo-105",
     "unit_id": "captain-with-jump-pack",
     "game_version": {
       "edition": "10th",
@@ -1646,7 +1882,7 @@
     "is_free": true
   },
   {
-    "id": "invictor-tactical-warsuit-wgo-96",
+    "id": "invictor-tactical-warsuit-wgo-106",
     "unit_id": "invictor-tactical-warsuit",
     "game_version": {
       "edition": "10th",
@@ -1664,7 +1900,7 @@
     "is_free": true
   },
   {
-    "id": "dreadnought-wgo-97",
+    "id": "dreadnought-wgo-107",
     "unit_id": "dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1690,7 +1926,7 @@
     "is_free": true
   },
   {
-    "id": "redemptor-dreadnought-wgo-98",
+    "id": "redemptor-dreadnought-wgo-108",
     "unit_id": "redemptor-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1702,7 +1938,7 @@
     "is_free": true
   },
   {
-    "id": "redemptor-dreadnought-wgo-99",
+    "id": "redemptor-dreadnought-wgo-109",
     "unit_id": "redemptor-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1720,7 +1956,7 @@
     "is_free": true
   },
   {
-    "id": "redemptor-dreadnought-wgo-100",
+    "id": "redemptor-dreadnought-wgo-110",
     "unit_id": "redemptor-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1738,7 +1974,7 @@
     "is_free": true
   },
   {
-    "id": "redemptor-dreadnought-wgo-101",
+    "id": "redemptor-dreadnought-wgo-111",
     "unit_id": "redemptor-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1756,7 +1992,7 @@
     "is_free": true
   },
   {
-    "id": "brutalis-dreadnought-wgo-102",
+    "id": "brutalis-dreadnought-wgo-112",
     "unit_id": "brutalis-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1775,7 +2011,7 @@
     "is_free": true
   },
   {
-    "id": "brutalis-dreadnought-wgo-103",
+    "id": "brutalis-dreadnought-wgo-113",
     "unit_id": "brutalis-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -1793,7 +2029,7 @@
     "is_free": true
   },
   {
-    "id": "invader-atv-wgo-104",
+    "id": "invader-atv-wgo-114",
     "unit_id": "invader-atv",
     "game_version": {
       "edition": "10th",
@@ -1811,7 +2047,7 @@
     "is_free": true
   },
   {
-    "id": "whirlwind-wgo-105",
+    "id": "whirlwind-wgo-115",
     "unit_id": "whirlwind",
     "game_version": {
       "edition": "10th",
@@ -1823,7 +2059,7 @@
     "is_free": true
   },
   {
-    "id": "whirlwind-wgo-106",
+    "id": "whirlwind-wgo-116",
     "unit_id": "whirlwind",
     "game_version": {
       "edition": "10th",
@@ -1835,7 +2071,7 @@
     "is_free": true
   },
   {
-    "id": "predator-destructor-wgo-107",
+    "id": "predator-destructor-wgo-117",
     "unit_id": "predator-destructor",
     "game_version": {
       "edition": "10th",
@@ -1847,7 +2083,7 @@
     "is_free": true
   },
   {
-    "id": "predator-destructor-wgo-108",
+    "id": "predator-destructor-wgo-118",
     "unit_id": "predator-destructor",
     "game_version": {
       "edition": "10th",
@@ -1859,7 +2095,7 @@
     "is_free": true
   },
   {
-    "id": "predator-destructor-wgo-109",
+    "id": "predator-destructor-wgo-119",
     "unit_id": "predator-destructor",
     "game_version": {
       "edition": "10th",
@@ -1879,7 +2115,7 @@
     "is_free": true
   },
   {
-    "id": "predator-annihilator-wgo-110",
+    "id": "predator-annihilator-wgo-120",
     "unit_id": "predator-annihilator",
     "game_version": {
       "edition": "10th",
@@ -1891,7 +2127,7 @@
     "is_free": true
   },
   {
-    "id": "predator-annihilator-wgo-111",
+    "id": "predator-annihilator-wgo-121",
     "unit_id": "predator-annihilator",
     "game_version": {
       "edition": "10th",
@@ -1903,7 +2139,7 @@
     "is_free": true
   },
   {
-    "id": "predator-annihilator-wgo-112",
+    "id": "predator-annihilator-wgo-122",
     "unit_id": "predator-annihilator",
     "game_version": {
       "edition": "10th",
@@ -1923,7 +2159,7 @@
     "is_free": true
   },
   {
-    "id": "vindicator-wgo-113",
+    "id": "vindicator-wgo-123",
     "unit_id": "vindicator",
     "game_version": {
       "edition": "10th",
@@ -1935,7 +2171,7 @@
     "is_free": true
   },
   {
-    "id": "vindicator-wgo-114",
+    "id": "vindicator-wgo-124",
     "unit_id": "vindicator",
     "game_version": {
       "edition": "10th",
@@ -1947,7 +2183,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-wgo-115",
+    "id": "land-raider-wgo-125",
     "unit_id": "land-raider",
     "game_version": {
       "edition": "10th",
@@ -1959,7 +2195,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-wgo-116",
+    "id": "land-raider-wgo-126",
     "unit_id": "land-raider",
     "game_version": {
       "edition": "10th",
@@ -1971,7 +2207,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-wgo-117",
+    "id": "land-raider-wgo-127",
     "unit_id": "land-raider",
     "game_version": {
       "edition": "10th",
@@ -1983,7 +2219,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-redeemer-wgo-118",
+    "id": "land-raider-redeemer-wgo-128",
     "unit_id": "land-raider-redeemer",
     "game_version": {
       "edition": "10th",
@@ -1995,7 +2231,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-redeemer-wgo-119",
+    "id": "land-raider-redeemer-wgo-129",
     "unit_id": "land-raider-redeemer",
     "game_version": {
       "edition": "10th",
@@ -2007,7 +2243,7 @@
     "is_free": true
   },
   {
-    "id": "land-raider-redeemer-wgo-120",
+    "id": "land-raider-redeemer-wgo-130",
     "unit_id": "land-raider-redeemer",
     "game_version": {
       "edition": "10th",
@@ -2019,7 +2255,7 @@
     "is_free": true
   },
   {
-    "id": "rhino-wgo-121",
+    "id": "rhino-wgo-131",
     "unit_id": "rhino",
     "game_version": {
       "edition": "10th",
@@ -2031,7 +2267,7 @@
     "is_free": true
   },
   {
-    "id": "razorback-wgo-122",
+    "id": "razorback-wgo-132",
     "unit_id": "razorback",
     "game_version": {
       "edition": "10th",
@@ -2043,7 +2279,7 @@
     "is_free": true
   },
   {
-    "id": "razorback-wgo-123",
+    "id": "razorback-wgo-133",
     "unit_id": "razorback",
     "game_version": {
       "edition": "10th",
@@ -2055,7 +2291,7 @@
     "is_free": true
   },
   {
-    "id": "razorback-wgo-124",
+    "id": "razorback-wgo-134",
     "unit_id": "razorback",
     "game_version": {
       "edition": "10th",
@@ -2073,7 +2309,7 @@
     "is_free": true
   },
   {
-    "id": "stormhawk-interceptor-wgo-125",
+    "id": "stormhawk-interceptor-wgo-135",
     "unit_id": "stormhawk-interceptor",
     "game_version": {
       "edition": "10th",
@@ -2091,7 +2327,7 @@
     "is_free": true
   },
   {
-    "id": "stormhawk-interceptor-wgo-126",
+    "id": "stormhawk-interceptor-wgo-136",
     "unit_id": "stormhawk-interceptor",
     "game_version": {
       "edition": "10th",
@@ -2114,7 +2350,7 @@
     "is_free": true
   },
   {
-    "id": "stormraven-gunship-wgo-127",
+    "id": "stormraven-gunship-wgo-137",
     "unit_id": "stormraven-gunship",
     "game_version": {
       "edition": "10th",
@@ -2126,7 +2362,7 @@
     "is_free": true
   },
   {
-    "id": "stormraven-gunship-wgo-128",
+    "id": "stormraven-gunship-wgo-138",
     "unit_id": "stormraven-gunship",
     "game_version": {
       "edition": "10th",
@@ -2149,7 +2385,7 @@
     "is_free": true
   },
   {
-    "id": "stormraven-gunship-wgo-129",
+    "id": "stormraven-gunship-wgo-139",
     "unit_id": "stormraven-gunship",
     "game_version": {
       "edition": "10th",
@@ -2172,7 +2408,7 @@
     "is_free": true
   },
   {
-    "id": "hammerfall-bunker-wgo-130",
+    "id": "hammerfall-bunker-wgo-140",
     "unit_id": "hammerfall-bunker",
     "game_version": {
       "edition": "10th",
@@ -2192,7 +2428,7 @@
     "is_free": true
   },
   {
-    "id": "lieutenant-wgo-131",
+    "id": "lieutenant-wgo-141",
     "unit_id": "lieutenant",
     "game_version": {
       "edition": "10th",
@@ -2210,7 +2446,7 @@
     "is_free": true
   },
   {
-    "id": "lieutenant-wgo-132",
+    "id": "lieutenant-wgo-142",
     "unit_id": "lieutenant",
     "game_version": {
       "edition": "10th",
@@ -2228,7 +2464,7 @@
     "is_free": true
   },
   {
-    "id": "librarian-in-terminator-armour-wgo-133",
+    "id": "librarian-in-terminator-armour-wgo-143",
     "unit_id": "librarian-in-terminator-armour",
     "game_version": {
       "edition": "10th",
@@ -2246,7 +2482,7 @@
     "is_free": true
   },
   {
-    "id": "chaplain-in-terminator-armour-wgo-134",
+    "id": "chaplain-in-terminator-armour-wgo-144",
     "unit_id": "chaplain-in-terminator-armour",
     "game_version": {
       "edition": "10th",
@@ -2264,7 +2500,7 @@
     "is_free": true
   },
   {
-    "id": "captain-wgo-135",
+    "id": "captain-wgo-145",
     "unit_id": "captain",
     "game_version": {
       "edition": "10th",
@@ -2290,7 +2526,7 @@
     "is_free": true
   },
   {
-    "id": "captain-wgo-136",
+    "id": "captain-wgo-146",
     "unit_id": "captain",
     "game_version": {
       "edition": "10th",
@@ -2313,7 +2549,7 @@
     "is_free": true
   },
   {
-    "id": "astraeus-wgo-137",
+    "id": "astraeus-wgo-147",
     "unit_id": "astraeus",
     "game_version": {
       "edition": "10th",
@@ -2331,7 +2567,7 @@
     "is_free": true
   },
   {
-    "id": "astraeus-wgo-138",
+    "id": "astraeus-wgo-148",
     "unit_id": "astraeus",
     "game_version": {
       "edition": "10th",
@@ -2349,7 +2585,7 @@
     "is_free": true
   },
   {
-    "id": "thunderhawk-gunship-wgo-139",
+    "id": "thunderhawk-gunship-wgo-149",
     "unit_id": "thunderhawk-gunship",
     "game_version": {
       "edition": "10th",
@@ -2367,7 +2603,7 @@
     "is_free": true
   },
   {
-    "id": "thunderhawk-gunship-wgo-140",
+    "id": "thunderhawk-gunship-wgo-150",
     "unit_id": "thunderhawk-gunship",
     "game_version": {
       "edition": "10th",
@@ -2385,7 +2621,7 @@
     "is_free": true
   },
   {
-    "id": "baal-predator-wgo-141",
+    "id": "baal-predator-wgo-151",
     "unit_id": "baal-predator",
     "game_version": {
       "edition": "10th",
@@ -2397,7 +2633,7 @@
     "is_free": true
   },
   {
-    "id": "baal-predator-wgo-142",
+    "id": "baal-predator-wgo-152",
     "unit_id": "baal-predator",
     "game_version": {
       "edition": "10th",
@@ -2409,7 +2645,7 @@
     "is_free": true
   },
   {
-    "id": "baal-predator-wgo-143",
+    "id": "baal-predator-wgo-153",
     "unit_id": "baal-predator",
     "game_version": {
       "edition": "10th",
@@ -2429,7 +2665,7 @@
     "is_free": true
   },
   {
-    "id": "baal-predator-wgo-144",
+    "id": "baal-predator-wgo-154",
     "unit_id": "baal-predator",
     "game_version": {
       "edition": "10th",
@@ -2449,7 +2685,7 @@
     "is_free": true
   },
   {
-    "id": "blood-angels-captain-wgo-145",
+    "id": "blood-angels-captain-wgo-155",
     "unit_id": "blood-angels-captain",
     "game_version": {
       "edition": "10th",
@@ -2467,7 +2703,7 @@
     "is_free": true
   },
   {
-    "id": "blood-angels-captain-wgo-146",
+    "id": "blood-angels-captain-wgo-156",
     "unit_id": "blood-angels-captain",
     "game_version": {
       "edition": "10th",
@@ -2485,7 +2721,7 @@
     "is_free": true
   },
   {
-    "id": "death-company-captain-with-jump-pack-wgo-147",
+    "id": "death-company-captain-with-jump-pack-wgo-157",
     "unit_id": "death-company-captain-with-jump-pack",
     "game_version": {
       "edition": "10th",
@@ -2503,7 +2739,7 @@
     "is_free": true
   },
   {
-    "id": "death-company-captain-with-jump-pack-wgo-148",
+    "id": "death-company-captain-with-jump-pack-wgo-158",
     "unit_id": "death-company-captain-with-jump-pack",
     "game_version": {
       "edition": "10th",
@@ -2526,7 +2762,7 @@
     "is_free": true
   },
   {
-    "id": "corvus-blackstar-wgo-149",
+    "id": "corvus-blackstar-wgo-159",
     "unit_id": "corvus-blackstar",
     "game_version": {
       "edition": "10th",
@@ -2538,7 +2774,7 @@
     "is_free": true
   },
   {
-    "id": "corvus-blackstar-wgo-150",
+    "id": "corvus-blackstar-wgo-160",
     "unit_id": "corvus-blackstar",
     "game_version": {
       "edition": "10th",
@@ -2558,7 +2794,7 @@
     "is_free": true
   },
   {
-    "id": "sammael-wgo-151",
+    "id": "sammael-wgo-161",
     "unit_id": "sammael",
     "game_version": {
       "edition": "10th",
@@ -2570,7 +2806,7 @@
     "is_free": true
   },
   {
-    "id": "nephilim-jetfighter-wgo-152",
+    "id": "nephilim-jetfighter-wgo-162",
     "unit_id": "nephilim-jetfighter",
     "game_version": {
       "edition": "10th",
@@ -2588,7 +2824,7 @@
     "is_free": true
   },
   {
-    "id": "land-speeder-vengeance-wgo-153",
+    "id": "land-speeder-vengeance-wgo-163",
     "unit_id": "land-speeder-vengeance",
     "game_version": {
       "edition": "10th",
@@ -2606,7 +2842,7 @@
     "is_free": true
   },
   {
-    "id": "ravenwing-darkshroud-wgo-154",
+    "id": "ravenwing-darkshroud-wgo-164",
     "unit_id": "ravenwing-darkshroud",
     "game_version": {
       "edition": "10th",
@@ -2624,7 +2860,7 @@
     "is_free": true
   },
   {
-    "id": "bjorn-the-fell-handed-wgo-155",
+    "id": "bjorn-the-fell-handed-wgo-165",
     "unit_id": "bjorn-the-fell-handed",
     "game_version": {
       "edition": "10th",
@@ -2647,7 +2883,7 @@
     "is_free": true
   },
   {
-    "id": "wulfen-dreadnought-wgo-156",
+    "id": "wulfen-dreadnought-wgo-166",
     "unit_id": "wulfen-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -2659,7 +2895,7 @@
     "is_free": true
   },
   {
-    "id": "venerable-dreadnought-wgo-157",
+    "id": "venerable-dreadnought-wgo-167",
     "unit_id": "venerable-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -2674,7 +2910,7 @@
     "is_free": true
   },
   {
-    "id": "venerable-dreadnought-wgo-158",
+    "id": "venerable-dreadnought-wgo-168",
     "unit_id": "venerable-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -2697,7 +2933,7 @@
     "is_free": true
   },
   {
-    "id": "venerable-dreadnought-wgo-159",
+    "id": "venerable-dreadnought-wgo-169",
     "unit_id": "venerable-dreadnought",
     "game_version": {
       "edition": "10th",
@@ -2717,7 +2953,7 @@
     "is_free": true
   },
   {
-    "id": "wolf-guard-battle-leader-wgo-160",
+    "id": "wolf-guard-battle-leader-wgo-170",
     "unit_id": "wolf-guard-battle-leader",
     "game_version": {
       "edition": "10th",

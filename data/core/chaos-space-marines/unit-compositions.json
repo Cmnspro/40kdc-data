@@ -258,8 +258,11 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "accursed-weapon",
+          "chainfist",
+          "power-fist",
           "combi-bolter",
-          "accursed-weapon"
+          "combi-weapon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -336,7 +339,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "hideous-mutations"
+        ]
       }
     ],
     "game_version": {
@@ -525,7 +531,10 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "lashing-warp-energies"
+        ]
       }
     ],
     "game_version": {
@@ -619,7 +628,12 @@
         "max": 1,
         "default_weapon_ids": [
           "bolt-pistol",
-          "accursed-weapon"
+          "plasma-pistol",
+          "boltgun",
+          "combi-weapon",
+          "accursed-weapon",
+          "power-fist",
+          "paired-accursed-weapons"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -633,6 +647,7 @@
         "max": 9,
         "default_weapon_ids": [
           "bolt-pistol",
+          "boltgun",
           "accursed-weapon"
         ],
         "is_leader_model": false,
@@ -736,7 +751,13 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "ectoplasma-cannon",
+          "hades-autocannon",
+          "forgefiend-jaws",
+          "armoured-limbs"
+        ]
       }
     ],
     "game_version": {
@@ -775,7 +796,15 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "combi-bolter",
+          "combi-weapon",
+          "exalted-weapon",
+          "chainfist",
+          "paired-accursed-weapons",
+          "power-fist"
+        ]
       }
     ],
     "game_version": {
@@ -792,8 +821,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "boltgun",
           "bolt-pistol",
-          "accursed-weapon"
+          "reavers-blade"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -807,7 +837,8 @@
         "max": 9,
         "default_weapon_ids": [
           "boltgun",
-          "close-combat-weapon"
+          "bolt-pistol",
+          "reavers-blade"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -905,7 +936,14 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "plasma-pistol",
+          "bolt-pistol",
+          "accursed-weapon",
+          "power-fist",
+          "twin-lightning-claws"
+        ]
       }
     ],
     "game_version": {
@@ -1019,7 +1057,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "warp-talon-claws"
+          "warp-claws"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1032,7 +1070,7 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "warp-talon-claws"
+          "warp-claws"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1241,7 +1279,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 80
-        }
+        },
+        "default_weapon_ids": [
+          "vashtorrs-claw",
+          "vashtorrs-hammer"
+        ]
       }
     ],
     "game_version": {
@@ -1298,7 +1340,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "talon-of-horus",
+          "drachnyen"
+        ]
       }
     ],
     "game_version": {
@@ -1353,7 +1399,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "cyphers-bolt-pistol",
+          "cyphers-plasma-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -1391,7 +1441,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "fleshmetal-weapons"
+        ]
       }
     ],
     "game_version": {

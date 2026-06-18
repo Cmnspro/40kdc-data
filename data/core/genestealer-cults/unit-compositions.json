@@ -8,8 +8,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "atalan-small-arms",
-          "atalan-power-weapon"
+          "close-combat-weapon",
+          "atalan-small-arms"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -38,8 +38,9 @@
         "min": 1,
         "max": 2,
         "default_weapon_ids": [
-          "heavy-stubber",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "atalan-small-arms",
+          "heavy-stubber"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -313,7 +314,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "sanctus-bio-dagger"
+        ]
       }
     ],
     "game_version": {
@@ -352,7 +356,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "aberrant-weapons"
+        ]
       }
     ],
     "game_version": {
@@ -539,7 +546,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "cult-claws-and-talons"
+        ]
       }
     ],
     "game_version": {

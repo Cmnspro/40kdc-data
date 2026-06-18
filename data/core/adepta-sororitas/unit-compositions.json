@@ -8,7 +8,6 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "bolt-pistol",
           "hallowed-mace"
         ],
         "is_leader_model": true,
@@ -22,7 +21,6 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "bolt-pistol",
           "hallowed-mace"
         ],
         "is_leader_model": false,
@@ -48,7 +46,15 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "twin-penitent-buzz-blades",
+          "twin-penitent-flails",
+          "penitent-buzz-blade",
+          "penitent-flail",
+          "heavy-bolter",
+          "mortifier-flamer"
+        ]
       }
     ],
     "game_version": {
@@ -183,7 +189,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "arco-flails"
+        ]
       }
     ],
     "game_version": {
@@ -201,7 +210,7 @@
         "max": 1,
         "default_weapon_ids": [
           "condemnor-bolt-pistol",
-          "blessed-sword"
+          "null-mace"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -260,7 +269,11 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "bolt-pistols",
+          "relic-weapons"
+        ]
       }
     ],
     "game_version": {
@@ -429,7 +442,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "lance-of-illumination",
+          "fidelis",
+          "paragon-missile-launcher"
+        ]
       }
     ],
     "game_version": {
@@ -655,7 +673,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "twin-ministorum-heavy-flamer",
+          "mace-of-castigation"
+        ]
       }
     ],
     "game_version": {
@@ -692,7 +714,8 @@
         "max": 1,
         "default_weapon_ids": [
           "bolt-pistol",
-          "power-weapon"
+          "power-weapon",
+          "sacred-banner"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -843,7 +866,19 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "null-rod",
+          "brazier-of-holy-fire",
+          "rod-of-office",
+          "blessed-blade",
+          "power-weapon",
+          "hallowed-chainsword",
+          "bolt-pistol",
+          "condemnor-boltgun",
+          "inferno-pistol",
+          "plasma-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -859,8 +894,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "bolt-pistol",
-          "auto-of-castigation"
+          "blade-of-vigil",
+          "bolt-pistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -873,7 +908,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "close-combat-weapon"
+          "scribes-staff"
         ],
         "is_leader_model": false,
         "base_size_mm": {
