@@ -33,10 +33,110 @@ interface UnitLike {
   id?: string;
   ability_ids?: string[];
   faction_keywords?: string[];
+  weapon_ids?: string[];
+}
+interface CompModelLike {
+  name?: string;
+  default_weapon_ids?: string[];
+}
+interface CompLike {
+  unit_id?: string;
+  models?: CompModelLike[];
 }
 interface AbilityLike {
   ability_id?: string;
 }
+
+/**
+ * Known, accepted loadout orphans — a `<faction>/<unit_id>/<weapon_id>` triple
+ * whose weapon is in the unit's `weapon_ids` but is neither a recorded
+ * `default_weapon_ids` entry nor reachable through any wargear-option. After the
+ * MFM-dump wargear ingest these are the irreducible residue: weapons the GW dump
+ * genuinely does not model as a default/option for the unit, or non-weapon
+ * wargear the dump tracks separately. Each entry is a deliberate, reviewed
+ * exception — a NEW orphan (any triple not listed) fails CI, and a listed triple
+ * that is no longer an orphan is reported as stale so the list stays minimal.
+ */
+export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([
+  // ── Stale repo weapons absent from current GW data ──
+  // The repo weapon_ids carry old/Forge-World/Legends configs the live MFM dump
+  // no longer lists for the datasheet, so there is no dump weapon to model them as
+  // a default or option. Resolving means culling these from weapon_ids (a
+  // Legends/FW judgement, share-registry-adjacent) — deferred.
+  "adeptus-astartes/venerable-dreadnought/armoured-feet",
+  "adeptus-astartes/venerable-dreadnought/dreadnought-inferno-cannon",
+  "adeptus-astartes/venerable-dreadnought/twin-autocannon",
+  "adeptus-astartes/venerable-dreadnought/twin-heavy-bolter",
+  "adeptus-astartes/venerable-dreadnought/twin-heavy-flamer",
+  "adeptus-astartes/venerable-dreadnought/twin-lascannon",
+  "adeptus-astartes/baal-predator/heavy-flamer-1",
+  "adeptus-astartes/devastator-squad/storm-bolter",
+  "imperial-knights/canis-rex/chainbreaker-multi-laser",
+  "tau-empire/the-twin-lance/fusion-eliminator",
+  "astra-militarum/gaunts-ghosts/corbecs-hot-shot-lascarbine",
+
+  // ── Collapsed single-figure miniatures ──
+  // The repo composition merges several DISTINCT named single-figure dump
+  // miniatures (each with its own fixed loadout) into one model-type, so a
+  // per-model default_weapon_ids cannot record which figure carries which weapon
+  // without forcing every model of the type to carry it (an illegal carry-all).
+  // Correct fix = restructure the composition into per-figure model rows (moves
+  // points tiers/allocation/base-sizes) — deferred.
+  "chaos-space-marines/masters-of-the-maelstrom/absolvor-bolt-pistol",
+  "chaos-space-marines/masters-of-the-maelstrom/force-stave",
+  "chaos-space-marines/masters-of-the-maelstrom/laspistol",
+  "chaos-space-marines/masters-of-the-maelstrom/mind-wrench",
+  "chaos-space-marines/masters-of-the-maelstrom/power-sabre",
+  "chaos-space-marines/masters-of-the-maelstrom/reductor-array",
+  "adeptus-astartes/wardens-of-ultramar/astropathic-blast",
+  "adeptus-astartes/wardens-of-ultramar/bolt-rifle",
+  "adeptus-astartes/wardens-of-ultramar/force-stave",
+  "adeptus-astartes/wardens-of-ultramar/power-weapon",
+  "adeptus-astartes/decimus-kill-team/xenophase-blade",
+  "adeptus-astartes/spectrus-kill-team/deathwatch-occulus-bolt-carbine",
+  "adeptus-astartes/spectrus-kill-team/paired-combat-blades",
+  "adeptus-astartes/fortis-kill-team/heavy-bolt-pistol",
+  "adeptus-astartes/fortis-kill-team/pyreblaster",
+  "adeptus-astartes/deathwing-terminator-squad/power-weapon",
+  "adeptus-astartes/victrix-honour-guard/blades-of-honour",
+  "adeptus-astartes/wolf-guard-headtakers/teeth-and-claws",
+  "adepta-sororitas/sanctifiers/burning-hands",
+  "agents-of-the-imperium/sanctifiers/burning-hands",
+  "agents-of-the-imperium/rogue-trader-entourage/dartmask",
+  "agents-of-the-imperium/rogue-trader-entourage/death-cult-power-blade",
+  "astra-militarum/krieg-command-squad/lasgun",
+  "leagues-of-votann/brokhyr-iron-master/autoch-pattern-bolt-pistol",
+  "leagues-of-votann/brokhyr-iron-master/manipulator-arms",
+  "aeldari/corsair-voidscarred/paired-hekatarii-blades",
+  // Daemon split-models (Pink→Blue→Brimstone) whose sub-figure weapons live on
+  // miniatures the repo composition doesn't list as separate model rows.
+  "chaos-daemons/pink-horrors/blue-claws",
+  "chaos-daemons/pink-horrors/coruscating-blue-flames",
+  "chaos-daemons/blue-horrors/yellow-claws",
+  "chaos-daemons/blue-horrors/coruscating-yellow-flames",
+  "chaos-daemons/flesh-hounds/burning-roar",
+
+  // ── Profile-mode / generic-label weapon ids ──
+  // The repo weapon id is a generic profile label, not a named weapon the dump
+  // exposes under a mappable name.
+  "aeldari/striking-scorpions/melee",
+
+  // ── Model-name-mismatch fixed weapons ──
+  // A weapon the GW dump carries on a specific miniature whose display name
+  // doesn't match any repo composition model row, so it lands in neither the
+  // model's default_weapon_ids nor (being unchanged across the dump's loadout
+  // choices) any swap option. Same per-figure modelling gap as above; resolving
+  // means reconciling the dump miniature names to the repo composition rows.
+  "adeptus-astartes/fortis-kill-team/castellan-launcher",
+  "adeptus-astartes/fortis-kill-team/plasma-incinerator",
+  "adeptus-astartes/indomitor-kill-team/twin-power-fists",
+  "adeptus-astartes/ravenwing-command-squad/black-knight-combat-weapon",
+  "adeptus-astartes/spectrus-kill-team/special-issue-bolt-pistol",
+  "astra-militarum/krieg-command-squad/close-combat-weapon",
+  "orks/breaka-boyz/choppa",
+  "tau-empire/kroot-carnivores/kroot-pistol",
+  "tyranids/hyperadapted-raveners/ravener-heavy-claws-and-talons",
+]);
 interface WargearOptionLike {
   id?: string;
   replaces?: string[];
@@ -213,6 +313,110 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
         result.passed++;
       }
     }
+  }
+
+  // ── Loadout coverage: no orphan weapons on a populated composition ──
+  //
+  // A unit's `weapon_id` must be either a recorded per-model default or reachable
+  // through some wargear-option (the swap/add structure). A weapon that is
+  // neither — an "orphan" — is the defect class behind the Chaos Terminators
+  // illegal-loadout bug (a special/heavy weapon the data never modeled as an
+  // option). The check is scoped to *populated* compositions (every model row
+  // carries `default_weapon_ids`); an unpopulated composition falls back to the
+  // loadout layer's derivation and is out of scope. Known, reviewed residue lives
+  // in {@link KNOWN_LOADOUT_ORPHANS}; a new orphan fails, a stale allowlist entry
+  // is reported.
+  const seenAllowed = new Set<string>();
+  const scannedFactions = new Set<string>();
+  const compFiles = await glob("core/*/unit-compositions.json", { cwd: root, absolute: true });
+  compFiles.sort();
+  for (const file of compFiles) {
+    const faction = basename(dirname(file));
+    if (faction.startsWith("_")) continue;
+    scannedFactions.add(faction);
+
+    let comps: CompLike[];
+    try {
+      comps = readArray<CompLike>(file);
+    } catch {
+      continue;
+    }
+    if (!Array.isArray(comps)) continue;
+
+    const dir = dirname(file);
+    let units: UnitLike[];
+    try {
+      units = readArray<UnitLike>(resolve(dir, "units.json"));
+    } catch {
+      continue;
+    }
+    const weaponIdsByUnit = new Map<string, string[]>(units.map((u) => [u.id ?? "", u.weapon_ids ?? []]));
+    const reachableByUnit = new Map<string, Set<string>>();
+    try {
+      for (const o of readArray<WargearOptionLike & { unit_id?: string }>(resolve(dir, "wargear-options.json"))) {
+        const set = reachableByUnit.get(o.unit_id ?? "") ?? new Set<string>();
+        for (const id of o.replaces ?? []) set.add(id);
+        for (const id of o.replacement ?? []) set.add(id);
+        for (const g of o.replacement_choice ?? []) for (const id of g) set.add(id);
+        reachableByUnit.set(o.unit_id ?? "", set);
+      }
+    } catch {
+      // no wargear-options file — every weapon must be a default then
+    }
+
+    result.totalFiles++;
+    for (let i = 0; i < comps.length; i++) {
+      const c = comps[i];
+      result.totalItems++;
+      const models = c.models ?? [];
+      // Populated = every model row carries a non-empty default loadout.
+      const populated = models.length > 0 && models.every((m) => (m.default_weapon_ids?.length ?? 0) > 0);
+      if (!populated) {
+        result.passed++;
+        continue;
+      }
+      const defaults = new Set<string>();
+      for (const m of models) for (const id of m.default_weapon_ids ?? []) defaults.add(id);
+      const reachable = reachableByUnit.get(c.unit_id ?? "") ?? new Set<string>();
+      const errs: Array<{ path: string; message: string }> = [];
+      for (const wid of weaponIdsByUnit.get(c.unit_id ?? "") ?? []) {
+        if (defaults.has(wid) || reachable.has(wid)) continue;
+        const key = `${faction}/${c.unit_id}/${wid}`;
+        if (KNOWN_LOADOUT_ORPHANS.has(key)) {
+          seenAllowed.add(key);
+          continue;
+        }
+        errs.push({
+          path: `/${i}`,
+          message: `unit "${c.unit_id}": weapon "${wid}" is an orphan — neither a default_weapon_ids entry nor reachable via a wargear-option`,
+        });
+      }
+      if (errs.length > 0) {
+        result.failed++;
+        result.errors.push({ file, index: i, errors: errs });
+      } else {
+        result.passed++;
+      }
+    }
+  }
+
+  // A stale allowlist entry (no longer an orphan) must be removed so the list
+  // can't silently mask a future regression at that triple. Only entries whose
+  // faction was actually scanned are eligible — so a partial dataset (e.g. a test
+  // fixture with no compositions for that faction) never spuriously flags them.
+  const stale = [...KNOWN_LOADOUT_ORPHANS].filter(
+    (k) => scannedFactions.has(k.split("/")[0]) && !seenAllowed.has(k),
+  );
+  if (stale.length > 0) {
+    result.failed++;
+    result.errors.push({
+      file: "tools/src/integrity.ts",
+      index: 0,
+      errors: stale.map((k) => ({
+        path: "/KNOWN_LOADOUT_ORPHANS",
+        message: `allowlist entry "${k}" is no longer an orphan — remove it`,
+      })),
+    });
   }
 
   return result;

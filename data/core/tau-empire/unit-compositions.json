@@ -34,7 +34,32 @@
         "base_size_mm": {
           "shape": "unique",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-hull",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "seeker-missile",
+          "missile-pod",
+          "missile-pod",
+          "long-barrelled-burst-cannon-array",
+          "long-barrelled-burst-cannon-array",
+          "heavy-rail-cannon",
+          "heavy-rail-cannon",
+          "ion-cannon",
+          "ion-cannon",
+          "ion-cannon",
+          "ion-cannon",
+          "ion-cannon",
+          "ion-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -53,7 +78,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "battlesuit-fists",
+          "missile-pod",
+          "plasma-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -93,8 +123,7 @@
         "max": 1,
         "default_weapon_ids": [
           "battlesuit-fists",
-          "burst-cannon",
-          "homing-beacon"
+          "burst-cannon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -135,7 +164,15 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "seeker-missile",
+          "seeker-missile",
+          "armoured-hull",
+          "missile-pod",
+          "twin-ion-rifle",
+          "twin-ion-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -167,7 +204,8 @@
         "max": 10,
         "default_weapon_ids": [
           "farstalker-firearm",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "kroot-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -205,7 +243,23 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 160
-        }
+        },
+        "default_weapon_ids": [
+          "pulse-ordnance-driver",
+          "pulse-ordnance-driver",
+          "pulse-ordnance-driver",
+          "smart-missile-system",
+          "smart-missile-system",
+          "smart-missile-system",
+          "smart-missile-system",
+          "fusion-eradicator",
+          "tri-axis-ion-cannon",
+          "burst-cannon",
+          "burst-cannon",
+          "burst-cannon",
+          "burst-cannon",
+          "crushing-feet"
+        ]
       }
     ],
     "game_version": {
@@ -222,6 +276,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "pulse-pistol",
           "pulse-carbine",
           "close-combat-weapon"
         ],
@@ -236,8 +291,9 @@
         "min": 9,
         "max": 9,
         "default_weapon_ids": [
+          "close-combat-weapon",
           "pulse-carbine",
-          "close-combat-weapon"
+          "pulse-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -262,7 +318,8 @@
         "default_weapon_ids": [
           "pulse-pistol",
           "pulse-rifle",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "support-turret"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -302,7 +359,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "ion-scattercannon",
+          "shardstorm-burst-system",
+          "xv-pulse-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -340,7 +402,17 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 160
-        }
+        },
+        "default_weapon_ids": [
+          "transport-bay",
+          "ion-cannon",
+          "ion-cannon",
+          "burst-cannon",
+          "burst-cannon",
+          "missile-pod",
+          "missile-pod",
+          "armoured-hull"
+        ]
       }
     ],
     "game_version": {
@@ -359,7 +431,8 @@
         "default_weapon_ids": [
           "pulse-blaster",
           "pulse-pistol",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "support-turret"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -400,7 +473,16 @@
           "shape": "oval",
           "width": 170,
           "length": 109
-        }
+        },
+        "default_weapon_ids": [
+          "twin-tau-flamer",
+          "pulse-driver-cannon",
+          "destroyer-missiles",
+          "cluster-rocket-system",
+          "thunderous-footfalls",
+          "twin-smart-missile-system",
+          "twin-smart-missile-system"
+        ]
       }
     ],
     "game_version": {
@@ -463,7 +545,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "honour-stave"
+        ]
       }
     ],
     "game_version": {
@@ -483,7 +568,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "twin-plasma-rifle",
+          "riptide-fists",
+          "heavy-burst-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -552,10 +642,11 @@
         },
         "default_weapon_ids": [
           "pulse-pistol",
-          "light-missile-pod",
+          "battlesuit-fists",
+          "high-energy-fusion-blaster",
           "high-energy-fusion-blaster",
           "flechette-launcher",
-          "battlesuit-fists"
+          "light-missile-pod"
         ]
       }
     ],
@@ -576,7 +667,12 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "fusion-collider",
+          "twin-tau-flamer",
+          "ghostkeel-fists"
+        ]
       }
     ],
     "game_version": {
@@ -595,7 +691,15 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 160
-        }
+        },
+        "default_weapon_ids": [
+          "twin-heavy-rail-cannon",
+          "burst-cannon",
+          "burst-cannon",
+          "armoured-hull",
+          "missile-pod",
+          "missile-pod"
+        ]
       }
     ],
     "game_version": {
@@ -617,7 +721,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-hull",
+          "twin-pulse-carbine",
+          "twin-pulse-carbine",
+          "seeker-missile-rack"
+        ]
       }
     ],
     "game_version": {
@@ -674,7 +784,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "battlesuit-fists",
+          "high-output-burst-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -693,7 +807,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "kroot-rifle",
+          "shapers-blade"
+        ]
       }
     ],
     "game_version": {
@@ -731,7 +849,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "crushing-bulk",
+          "heavy-rail-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -750,7 +872,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "burst-cannon",
+          "battlesuit-fists"
+        ]
       }
     ],
     "game_version": {
@@ -769,7 +895,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "fireblade-pulse-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -789,7 +919,14 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "accelerator-burst-cannon",
+          "seeker-missile",
+          "seeker-missile",
+          "quad-ion-turret",
+          "armoured-hull"
+        ]
       }
     ],
     "game_version": {
@@ -811,7 +948,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "twin-pulse-carbine",
+          "twin-pulse-carbine",
+          "accelerator-burst-cannon",
+          "armoured-hull"
+        ]
       }
     ],
     "game_version": {
@@ -856,7 +999,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "railgun",
+          "armoured-hull",
+          "twin-pulse-carbine",
+          "twin-pulse-carbine"
+        ]
       }
     ],
     "game_version": {
@@ -897,7 +1046,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "battlesuit-fists",
+          "fusion-blaster",
+          "fusion-blaster"
+        ]
       }
     ],
     "game_version": {
@@ -973,7 +1127,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "kroot-pistol",
+          "shapers-blade",
+          "dart-bow-and-tri-blade"
+        ]
       }
     ],
     "game_version": {
@@ -993,7 +1152,12 @@
           "shape": "oval",
           "width": 90,
           "length": 52.5
-        }
+        },
+        "default_weapon_ids": [
+          "kalamandras-bite",
+          "kroot-long-gun",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -1012,7 +1176,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "twin-ritualistic-blades",
+          "kroot-scattergun"
+        ]
       }
     ],
     "game_version": {

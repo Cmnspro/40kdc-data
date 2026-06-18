@@ -466,6 +466,34 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
                     .collect(),
             ))
         }
+        "base_loadout" => {
+            let id = str_arg("unitId");
+            let Some(unit) = ds.units.get(id) else {
+                return err_value(
+                    ErrorKind::UnknownEntity,
+                    Some(json!({ "kind": "unit", "id": id })),
+                );
+            };
+            let model_count: u64 = str_arg("modelCount").parse().unwrap_or(0);
+            let models = ds
+                .unit_compositions
+                .iter()
+                .find(|c| c.unit_id.as_str() == id)
+                .map(|c| wh40kdc::loadout_models(&c.models));
+            let lo = wh40kdc::base_loadout(
+                unit,
+                model_count,
+                &ds.wargear_options_of(unit),
+                models.as_deref(),
+            );
+            let mut encoded: Vec<Value> = lo
+                .counts
+                .iter()
+                .map(|(k, v)| Value::String(format!("{k}:{v}")))
+                .collect();
+            encoded.sort_by(|a, b| a.as_str().unwrap_or("").cmp(b.as_str().unwrap_or("")));
+            ok_value(Value::Array(encoded))
+        }
         "maximal_loadout" => {
             let id = str_arg("unitId");
             let Some(unit) = ds.units.get(id) else {

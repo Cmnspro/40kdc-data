@@ -516,5 +516,48 @@
       "winged-hive-tyrant",
       "winged-tyranid-prime"
     ]
+  },
+  {
+    "name": "base_loadout chaos-terminators @5 (legal default, no swaps)",
+    "query": "base_loadout",
+    "args": {
+      "unitId": "chaos-terminators",
+      "modelCount": "5"
+    },
+    "comparison": "set",
+    "expected": [
+      "accursed-weapon:5",
+      "combi-bolter:5"
+    ]
+  },
+  {
+    "name": "base_loadout chaos-terminators @10 scales per model",
+    "query": "base_loadout",
+    "args": {
+      "unitId": "chaos-terminators",
+      "modelCount": "10"
+    },
+    "comparison": "set",
+    "expected": [
+      "accursed-weapon:10",
+      "combi-bolter:10"
+    ]
+  },
+  {
+    "name": "base_loadout crusader-squad @10 exercises leader+bulk allocation",
+    "query": "base_loadout",
+    "args": {
+      "unitId": "crusader-squad",
+      "modelCount": "10"
+    },
+    "comparison": "set",
+    "expected": [
+      "astartes-chainsword:4",
+      "bolt-pistol:9",
+      "bolt-rifle:5",
+      "close-combat-weapon:5",
+      "heavy-bolt-pistol:1",
+      "master-crafted-power-weapon:1"
+    ]
   }
 ]

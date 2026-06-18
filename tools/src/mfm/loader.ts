@@ -113,6 +113,71 @@ export interface WargearOptionRow {
   wargearOptionGroupId: string;
 }
 
+// ── wargear / loadout tables (phase 5) ──
+export interface MiniatureRow extends DumpRow {}
+export interface WargearItemRow extends DumpRow {
+  wargearType: string; // "weapon" | "other" | ...
+}
+export interface WargearOptionGroupRow {
+  id: string;
+  displayOrder: number;
+  datasheetId: string;
+  miniatureId: string | null;
+  isStaticWargear: boolean;
+}
+export interface BaseMiniatureLoadoutRow {
+  id: string;
+  datasheetId: string;
+  miniatureId: string;
+}
+export interface BaseMiniatureLoadoutWargearOptionRow {
+  id: string;
+  count: number;
+  wargearOptionId: string;
+  baseMiniatureLoadoutId: string;
+}
+export interface LoadoutChoiceSetRow {
+  id: string;
+  limit: number;
+  allowDuplicates: boolean;
+  datasheetId: string;
+  miniatureId: string | null;
+  alternate: boolean;
+}
+export interface LoadoutChoiceRow {
+  id: string;
+  loadoutChoiceSetId: string;
+}
+export interface LoadoutChoiceWargearItemRow {
+  id: string;
+  count: number;
+  wargearItemId: string;
+  loadoutChoiceId: string;
+}
+export interface LimitedWargearChoiceSetRow {
+  id: string;
+  mandatory: boolean;
+  datasheetId: string;
+  miniatureId: string | null;
+}
+export interface LimitedWargearChoiceRow {
+  id: string;
+  limitedWargearChoiceSetId: string;
+}
+export interface LimitedWargearChoiceWargearItemRow {
+  id: string;
+  count: number;
+  wargearItemId: string;
+  limitedWargearChoiceId: string;
+}
+export interface WargearLimitRow {
+  id: string;
+  modelCount: number;
+  choiceLimit: number;
+  duplicateLimit: number | null;
+  limitedWargearChoiceSetId: string;
+}
+
 // ───────────────────────────── the loader ─────────────────────────────
 
 export class MfmDump {

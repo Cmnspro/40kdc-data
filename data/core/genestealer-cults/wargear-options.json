@@ -1,112 +1,55 @@
 [
   {
-    "id": "achilles-ridgerunners-wgo-1",
-    "unit_id": "achilles-ridgerunners",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "flare-launcher"
-    ],
-    "replacement_choice": [
-      [
-        "spotter"
-      ],
-      [
-        "survey-augur"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "achilles-ridgerunners-wgo-2",
-    "unit_id": "achilles-ridgerunners",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-mining-laser"
-    ],
-    "replacement_choice": [
-      [
-        "achilles-missile-launcher"
-      ],
-      [
-        "heavy-mortar"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "acolyte-hybrids-with-hand-flamers-wgo-3",
-    "unit_id": "acolyte-hybrids-with-hand-flamers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hand-flamer"
-    ],
-    "replacement": [
-      "cult-icon"
-    ],
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "atalan-jackals-wgo-4",
+    "id": "atalan-jackals-wgo-mfm-1",
     "unit_id": "atalan-jackals",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "close-combat-weapon",
+      "atalan-small-arms"
+    ],
+    "replacement": [
+      "atalan-power-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Atalan Jackal",
+      "per_n_models": 4
+    }
+  },
+  {
+    "id": "atalan-jackals-wgo-mfm-2",
+    "unit_id": "atalan-jackals",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
       "atalan-small-arms"
     ],
     "replacement": [
       "grenade-launcher"
     ],
     "model_constraint": {
-      "max_count": 2
-    },
-    "is_free": true
+      "model_name": "Atalan Jackal",
+      "per_n_models": 4
+    }
   },
   {
-    "id": "atalan-jackals-wgo-5",
+    "id": "atalan-jackals-wgo-mfm-3",
     "unit_id": "atalan-jackals",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement": [
-      "atalan-power-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 4
-    },
-    "is_free": true
-  },
-  {
-    "id": "atalan-jackals-wgo-6",
-    "unit_id": "atalan-jackals",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
+      "atalan-small-arms",
+      "close-combat-weapon",
       "heavy-stubber"
     ],
     "replacement_choice": [
@@ -119,40 +62,256 @@
     ],
     "model_constraint": {
       "model_name": "Atalan Wolfquad",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "hybrid-metamorphs-wgo-7",
+    "id": "neophyte-hybrids-wgo-mfm-1",
+    "unit_id": "neophyte-hybrids",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "autopistol"
+    ],
+    "replacement": [
+      "cult-icon"
+    ],
+    "model_constraint": {
+      "model_name": "Neophyte Hybrid",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "neophyte-hybrids-wgo-mfm-2",
+    "unit_id": "neophyte-hybrids",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hybrid-firearm",
+      "close-combat-weapon",
+      "autopistol"
+    ],
+    "replacement_choice": [
+      [
+        "seismic-cannon"
+      ],
+      [
+        "mining-laser"
+      ],
+      [
+        "heavy-stubber"
+      ],
+      [
+        "grenade-launcher"
+      ],
+      [
+        "flamer"
+      ],
+      [
+        "webber"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Neophyte Hybrid",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "neophyte-hybrids-wgo-mfm-3",
+    "unit_id": "neophyte-hybrids",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "autopistol",
+      "hybrid-firearm",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "power-weapon",
+        "anointed-pistol"
+      ],
+      [
+        "chainsword",
+        "anointed-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Neophyte Leader",
+      "any_number": true
+    }
+  },
+  {
+    "id": "achilles-ridgerunners-wgo-mfm-1",
+    "unit_id": "achilles-ridgerunners",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-hull",
+      "flare-launcher",
+      "heavy-mining-laser",
+      "twin-heavy-stubber"
+    ],
+    "replacement_choice": [
+      [
+        "spotter"
+      ],
+      [
+        "survey-augur"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "achilles-ridgerunners-wgo-mfm-2",
+    "unit_id": "achilles-ridgerunners",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-hull",
+      "flare-launcher",
+      "heavy-mining-laser",
+      "twin-heavy-stubber"
+    ],
+    "replacement_choice": [
+      [
+        "achilles-missile-launcher"
+      ],
+      [
+        "heavy-mortar"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sanctus-wgo-mfm-1",
+    "unit_id": "sanctus",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "sanctus-bio-dagger"
+    ],
+    "replacement": [
+      "close-combat-weapon",
+      "cult-sniper-rifle"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "acolyte-hybrids-with-autopistols-wgo-mfm-1",
+    "unit_id": "acolyte-hybrids-with-autopistols",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "cult-claws-and-knife"
+    ],
+    "replacement": [
+      "leaders-cult-weapons"
+    ],
+    "model_constraint": {
+      "model_name": "Acolyte Leader",
+      "any_number": true
+    }
+  },
+  {
+    "id": "acolyte-hybrids-with-autopistols-wgo-mfm-2",
+    "unit_id": "acolyte-hybrids-with-autopistols",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "cult-claws-and-knife",
+      "autopistol"
+    ],
+    "replacement": [
+      "heavy-mining-tool"
+    ],
+    "model_constraint": {
+      "model_name": "Acolyte Hybrid",
+      "per_n_models": 2
+    }
+  },
+  {
+    "id": "acolyte-hybrids-with-autopistols-wgo-mfm-3",
+    "unit_id": "acolyte-hybrids-with-autopistols",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "autopistol"
+    ],
+    "replacement": [
+      "cult-icon"
+    ],
+    "model_constraint": {
+      "model_name": "Acolyte Hybrid",
+      "per_n_models": 2
+    }
+  },
+  {
+    "id": "hybrid-metamorphs-wgo-mfm-1",
     "unit_id": "hybrid-metamorphs",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "autopistol"
     ],
     "replacement_choice": [
       [
-        "cult-icon"
+        "hand-flamer"
       ],
       [
-        "hand-flamer"
+        "cult-icon"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "model_name": "Hybrid Metamorph",
+      "max_count": 1
+    }
   },
   {
-    "id": "hybrid-metamorphs-wgo-8",
+    "id": "hybrid-metamorphs-wgo-mfm-2",
     "unit_id": "hybrid-metamorphs",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "autopistol"
     ],
@@ -161,267 +320,76 @@
     ],
     "model_constraint": {
       "model_name": "Metamorph Leader",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-9",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "cult-icon"
-    ],
-    "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "neophyte-hybrids-wgo-10",
-    "unit_id": "neophyte-hybrids",
+    "id": "acolyte-hybrids-with-hand-flamers-wgo-mfm-1",
+    "unit_id": "acolyte-hybrids-with-hand-flamers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hybrid-firearm"
+      "hand-flamer"
     ],
     "replacement_choice": [
       [
-        "mining-laser"
+        "demolition-charges"
       ],
       [
-        "seismic-cannon"
-      ],
-      [
-        "heavy-stubber"
+        "cult-icon"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
+      "model_name": "Acolyte Hybrid",
+      "per_n_models": 3
+    }
   },
   {
-    "id": "neophyte-hybrids-wgo-11",
-    "unit_id": "neophyte-hybrids",
+    "id": "acolyte-hybrids-with-hand-flamers-wgo-mfm-2",
+    "unit_id": "acolyte-hybrids-with-hand-flamers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hybrid-firearm"
-    ],
-    "replacement_choice": [
-      [
-        "webber"
-      ],
-      [
-        "flamer"
-      ],
-      [
-        "grenade-launcher"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-12",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hybrid-firearm",
-      "close-combat-weapon",
-      "autopistol"
-    ],
-    "replacement": [
-      "anointed-pistol",
-      "autopistol",
-      "chainsword"
-    ],
-    "model_constraint": {
-      "model_name": "Neophyte Leader",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-13",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-stubber"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-14",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "mining-laser"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-15",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "seismic-cannon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-16",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "webber"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-17",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "flamer"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "neophyte-hybrids-wgo-18",
-    "unit_id": "neophyte-hybrids",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "grenade-launcher"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "acolyte-hybrids-with-autopistols-wgo-19",
-    "unit_id": "acolyte-hybrids-with-autopistols",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "autopistol"
-    ],
-    "replacement": [
-      "cult-icon"
-    ],
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "acolyte-hybrids-with-autopistols-wgo-20",
-    "unit_id": "acolyte-hybrids-with-autopistols",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "autopistol",
       "cult-claws-and-knife"
     ],
     "replacement": [
-      "heavy-mining-tool"
+      "leaders-cult-weapons"
     ],
     "model_constraint": {
-      "max_count": 6
-    },
-    "is_free": true
+      "model_name": "Acolyte Leader",
+      "per_n_models": 3
+    }
   },
   {
-    "id": "goliath-rockgrinder-wgo-21",
+    "id": "goliath-rockgrinder-wgo-mfm-1",
     "unit_id": "goliath-rockgrinder",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "heavy-mining-laser"
+      "heavy-mining-laser",
+      "demolition-charge-cache",
+      "drilldozer-blade",
+      "heavy-stubber"
     ],
     "replacement_choice": [
       [
-        "clearance-incinerator"
+        "heavy-seismic-cannon"
       ],
       [
-        "heavy-seismic-cannon"
+        "clearance-incinerator"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sanctus-wgo-22",
-    "unit_id": "sanctus",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "sanctus-bio-dagger"
-    ],
-    "replacement": [
-      "cult-sniper-rifle",
-      "close-combat-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   }
 ]

@@ -1133,7 +1133,7 @@ function mergeCompDefaults(faction: string, compDefaults: CompDefaults[]): void 
     ]),
   );
   const reachableByUnit = new Map<string, Set<string>>();
-  for (const o of existsSync(wpath) ? readJSON<WargearOption>(wpath) : []) {
+  for (const o of existsSync(wpath) ? readJSON<WargearOption[]>(wpath) : []) {
     const set = reachableByUnit.get(o.unit_id) ?? new Set<string>();
     for (const id of o.replaces ?? []) set.add(id);
     for (const id of o.replacement ?? []) set.add(id);

@@ -1,149 +1,85 @@
 [
   {
-    "id": "armoured-sentinels-wgo-1",
-    "unit_id": "armoured-sentinels",
+    "id": "scout-sentinels-wgo-mfm-1",
+    "unit_id": "scout-sentinels",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "hunter-killer-missile"
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "multi-laser"
     ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "armoured-sentinels-wgo-2",
-    "unit_id": "armoured-sentinels",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement": [
       "sentinel-chainsaw"
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "armoured-sentinels-wgo-3",
-    "unit_id": "armoured-sentinels",
+    "id": "scout-sentinels-wgo-mfm-2",
+    "unit_id": "scout-sentinels",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "close-combat-weapon",
+      "multi-laser"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "scout-sentinels-wgo-mfm-3",
+    "unit_id": "scout-sentinels",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
       "multi-laser"
     ],
     "replacement_choice": [
       [
-        "autocannon"
+        "lascannon"
       ],
       [
-        "lascannon"
+        "plasma-cannon"
+      ],
+      [
+        "autocannon"
       ],
       [
         "heavy-flamer"
       ],
       [
         "missile-launcher"
-      ],
-      [
-        "plasma-cannon"
       ]
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "attilan-rough-riders-wgo-4",
-    "unit_id": "attilan-rough-riders",
+    "id": "cadian-castellan-wgo-mfm-1",
+    "unit_id": "cadian-castellan",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hunting-lance"
-    ],
-    "replacement": [
-      "goad-lance"
-    ],
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
-  },
-  {
-    "id": "attilan-rough-riders-wgo-5",
-    "unit_id": "attilan-rough-riders",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hunting-lance"
-    ],
-    "replacement": [
-      "goad-lance"
-    ],
-    "model_constraint": {
-      "model_name": "Rough Rider Sergeant",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "bullgryn-squad-wgo-6",
-    "unit_id": "bullgryn-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "slabshield"
-    ],
-    "replacement": [
-      "brute-shield"
-    ],
-    "model_constraint": {
-      "model_name": "Bullgryn",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "bullgryn-squad-wgo-7",
-    "unit_id": "bullgryn-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "grenadier-gauntlet"
-    ],
-    "replacement": [
-      "bullgryn-maul"
-    ],
-    "model_constraint": {
-      "model_name": "Bullgryn",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "cadian-command-squad-wgo-8",
-    "unit_id": "cadian-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
+      "chainsword",
       "laspistol"
     ],
     "replacement_choice": [
@@ -155,67 +91,731 @@
       ]
     ],
     "model_constraint": {
-      "model_name": "Cadian Commander",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "death-korps-of-krieg-wgo-9",
-    "unit_id": "death-korps-of-krieg",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "chainsword",
-      "power-weapon",
-      "laspistol",
-      "bolt-pistol",
-      "plasma-pistol"
-    ],
-    "replacement": [
-      "close-combat-weapon",
-      "boltgun"
-    ],
-    "model_constraint": {
-      "model_name": "Death Korps Watchmaster",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "death-korps-of-krieg-wgo-10",
-    "unit_id": "death-korps-of-krieg",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "chainsword",
-      "power-weapon",
-      "laspistol",
-      "bolt-pistol",
-      "plasma-pistol"
-    ],
-    "replacement": [
-      "close-combat-weapon",
-      "boltgun"
-    ],
-    "model_constraint": {
-      "model_name": "Death Korps Watchmaster",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "field-ordnance-battery-wgo-11",
+    "id": "cadian-castellan-wgo-mfm-2",
+    "unit_id": "cadian-castellan",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "chainsword",
+      "laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "power-weapon"
+      ],
+      [
+        "close-combat-weapon",
+        "boltgun"
+      ],
+      [
+        "power-fist"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "cadian-shock-troops-wgo-mfm-1",
+    "unit_id": "cadian-shock-troops",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol"
+    ],
+    "replacement": [
+      "bolt-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Shock Trooper Sergeant",
+      "any_number": true
+    }
+  },
+  {
+    "id": "cadian-shock-troops-wgo-mfm-2",
+    "unit_id": "cadian-shock-troops",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "chainsword"
+    ],
+    "replacement": [
+      "sergeants-autogun",
+      "close-combat-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Shock Trooper Sergeant",
+      "any_number": true
+    }
+  },
+  {
+    "id": "cadian-shock-troops-wgo-mfm-3",
+    "unit_id": "cadian-shock-troops",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "vox-caster"
+    ],
+    "model_constraint": {
+      "model_name": "Shock Trooper",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "cadian-shock-troops-wgo-mfm-4",
+    "unit_id": "cadian-shock-troops",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "lasgun"
+    ],
+    "replacement_choice": [
+      [
+        "flamer"
+      ],
+      [
+        "grenade-launcher"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "meltagun"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Shock Trooper",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "militarum-tempestus-command-squad-wgo-mfm-1",
+    "unit_id": "militarum-tempestus-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-lasgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "meltagun"
+      ],
+      [
+        "hot-shot-volley-gun"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "hot-shot-laspistol",
+        "master-vox"
+      ],
+      [
+        "grenade-launcher"
+      ],
+      [
+        "flamer"
+      ],
+      [
+        "hot-shot-laspistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tempestus Scion",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "militarum-tempestus-command-squad-wgo-mfm-2",
+    "unit_id": "militarum-tempestus-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "regimental-standard"
+      ],
+      [
+        "hot-shot-laspistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tempestus Scion",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "militarum-tempestus-command-squad-wgo-mfm-3",
+    "unit_id": "militarum-tempestus-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "tempestus-dagger"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-pistol"
+      ],
+      [
+        "command-rod"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tempestor Prime",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-aquilons-wgo-mfm-1",
+    "unit_id": "tempestus-aquilons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "hot-shot-long-las"
+      ],
+      [
+        "plasma-carbine"
+      ],
+      [
+        "hot-shot-lascarbine"
+      ],
+      [
+        "melta-carbine"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "tempestus-aquilons-wgo-mfm-2",
+    "unit_id": "tempestus-aquilons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-laspistol",
+      "hot-shot-laspistol"
+    ],
+    "replacement": [
+      "hot-shot-lascarbine"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-aquilons-wgo-mfm-3",
+    "unit_id": "tempestus-aquilons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "hot-shot-lascarbine",
+      "sentry-flamer"
+    ],
+    "replacement_choice": [
+      [
+        "bolt-pistol",
+        "hot-shot-laspistol"
+      ],
+      [
+        "power-weapon",
+        "bolt-pistol"
+      ],
+      [
+        "hot-shot-laspistol"
+      ],
+      [
+        "chainsword",
+        "bolt-pistol"
+      ],
+      [
+        "chainsword"
+      ],
+      [
+        "hot-shot-laspistol",
+        "hot-shot-laspistol"
+      ],
+      [
+        "power-weapon",
+        "hot-shot-laspistol"
+      ],
+      [
+        "power-weapon"
+      ],
+      [
+        "hot-shot-laspistol",
+        "chainsword"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-aquilons-wgo-mfm-4",
+    "unit_id": "tempestus-aquilons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "sentry-flamer"
+    ],
+    "replacement_choice": [
+      [
+        "bolt-pistol"
+      ],
+      [
+        "hot-shot-laspistol"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-aquilons-wgo-mfm-5",
+    "unit_id": "tempestus-aquilons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "hot-shot-lascarbine",
+      "sentry-flamer"
+    ],
+    "replacement_choice": [
+      [
+        "sentry-hot-shot-volley-gun"
+      ],
+      [
+        "sentry-grenade-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-heavy-weapons-squad-wgo-mfm-1",
+    "unit_id": "krieg-heavy-weapons-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "lascannon",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "twin-krieg-heavy-stubber"
+      ],
+      [
+        "krieg-heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Heavy Weapons Gunner",
+      "any_number": true
+    }
+  },
+  {
+    "id": "ratlings-wgo-mfm-1",
+    "unit_id": "ratlings",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "sniper-rifle"
+    ],
+    "replacement": [
+      "tankstopper-rifle"
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "ratlings-wgo-mfm-2",
+    "unit_id": "ratlings",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "sniper-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "ratling-battlemutt"
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "ratlings-wgo-mfm-3",
+    "unit_id": "ratlings",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "sniper-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "demolition-gear"
+    ],
+    "model_constraint": {
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "leman-russ-battle-tank-wgo-mfm-1",
+    "unit_id": "leman-russ-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "armoured-tracks",
+      "leman-russ-battle-cannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-battle-tank-wgo-mfm-2",
+    "unit_id": "leman-russ-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "armoured-tracks",
+      "leman-russ-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon",
+        "plasma-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-battle-tank-wgo-mfm-3",
+    "unit_id": "leman-russ-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "leman-russ-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-battle-tank-wgo-mfm-4",
+    "unit_id": "leman-russ-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "armoured-tracks",
+      "leman-russ-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormsword-wgo-mfm-1",
+    "unit_id": "stormsword",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "stormsword-siege-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-flamer",
+        "twin-heavy-flamer",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormsword-wgo-mfm-2",
+    "unit_id": "stormsword",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "armoured-tracks",
+      "stormsword-siege-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "taurox-prime-wgo-mfm-1",
+    "unit_id": "taurox-prime",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "twin-taurox-hot-shot-volley-gun",
+      "taurox-battle-cannon"
+    ],
+    "replacement": [
+      "twin-autocannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "taurox-prime-wgo-mfm-2",
+    "unit_id": "taurox-prime",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "twin-taurox-hot-shot-volley-gun",
+      "taurox-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "taurox-gatling-cannon"
+      ],
+      [
+        "taurox-missile-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "taurox-prime-wgo-mfm-3",
+    "unit_id": "taurox-prime",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "twin-taurox-hot-shot-volley-gun",
+      "taurox-battle-cannon"
+    ],
+    "replacement": [
+      "storm-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "field-ordnance-battery-wgo-mfm-1",
     "unit_id": "field-ordnance-battery",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "lasgun",
+      "laspistol",
+      "battery-close-combat-weapons",
       "malleus-rocket-launcher"
     ],
     "replacement_choice": [
@@ -228,18 +828,377 @@
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "cadian-heavy-weapons-squad-wgo-12",
+    "id": "rogal-dorn-commander-wgo-mfm-1",
+    "unit_id": "rogal-dorn-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "twin-battle-cannon",
+      "heavy-stubber",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "pulveriser-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-commander-wgo-mfm-2",
+    "unit_id": "rogal-dorn-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "twin-battle-cannon",
+      "heavy-stubber",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "coaxial-autocannon",
+      "oppressor-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-commander-wgo-mfm-3",
+    "unit_id": "rogal-dorn-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "twin-battle-cannon",
+      "heavy-stubber",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-commander-wgo-mfm-4",
+    "unit_id": "rogal-dorn-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "twin-battle-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "meltagun",
+        "meltagun"
+      ],
+      [
+        "heavy-stubber",
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-exterminator-wgo-mfm-1",
+    "unit_id": "leman-russ-exterminator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "exterminator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-exterminator-wgo-mfm-2",
+    "unit_id": "leman-russ-exterminator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "exterminator-autocannon",
+      "armoured-tracks",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-exterminator-wgo-mfm-3",
+    "unit_id": "leman-russ-exterminator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "exterminator-autocannon",
+      "armoured-tracks",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-exterminator-wgo-mfm-4",
+    "unit_id": "leman-russ-exterminator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "exterminator-autocannon",
+      "armoured-tracks",
+      "lascannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "bullgryn-squad-wgo-mfm-1",
+    "unit_id": "bullgryn-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "grenadier-gauntlet",
+      "slabshield"
+    ],
+    "replacement": [
+      "bullgryn-maul"
+    ],
+    "model_constraint": {
+      "model_name": "Bullgryn Bone ’ead",
+      "any_number": true
+    }
+  },
+  {
+    "id": "bullgryn-squad-wgo-mfm-2",
+    "unit_id": "bullgryn-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "grenadier-gauntlet",
+      "slabshield",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "bullgryn-maul"
+    ],
+    "model_constraint": {
+      "model_name": "Bullgryn",
+      "any_number": true
+    }
+  },
+  {
+    "id": "bullgryn-squad-wgo-mfm-3",
+    "unit_id": "bullgryn-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "grenadier-gauntlet",
+      "slabshield",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "brute-shield"
+    ],
+    "model_constraint": {
+      "model_name": "Bullgryn",
+      "any_number": true
+    }
+  },
+  {
+    "id": "bullgryn-squad-wgo-mfm-4",
+    "unit_id": "bullgryn-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "grenadier-gauntlet",
+      "slabshield"
+    ],
+    "replacement": [
+      "brute-shield"
+    ],
+    "model_constraint": {
+      "model_name": "Bullgryn Bone ’ead",
+      "any_number": true
+    }
+  },
+  {
+    "id": "cadian-heavy-weapons-squad-wgo-mfm-1",
     "unit_id": "cadian-heavy-weapons-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "heavy-bolter"
+      "laspistol",
+      "heavy-bolter",
+      "weapons-team-close-combat-weapons"
+    ],
+    "replacement_choice": [
+      [
+        "autocannon"
+      ],
+      [
+        "mortar"
+      ],
+      [
+        "lascannon"
+      ],
+      [
+        "missile-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "catachan-heavy-weapons-squad-wgo-mfm-1",
+    "unit_id": "catachan-heavy-weapons-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "weapons-team-close-combat-weapons",
+      "heavy-bolter",
+      "lasgun"
     ],
     "replacement_choice": [
       [
@@ -257,60 +1216,469 @@
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "kasrkin-wgo-13",
-    "unit_id": "kasrkin",
+    "id": "hellhammer-wgo-mfm-1",
+    "unit_id": "hellhammer",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hot-shot-lasgun"
+      "demolisher-cannon",
+      "coaxial-autocannon",
+      "heavy-stubber",
+      "armoured-tracks",
+      "hellhammer-cannon"
     ],
     "replacement_choice": [
       [
-        "hot-shot-marksman-rifle"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
       ],
       [
-        "hot-shot-laspistol"
+        "lascannon",
+        "lascannon",
+        "twin-heavy-flamer",
+        "twin-heavy-flamer"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "kasrkin-wgo-14",
-    "unit_id": "kasrkin",
+    "id": "hellhammer-wgo-mfm-2",
+    "unit_id": "hellhammer",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "vox-caster"
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "demolisher-cannon",
+      "coaxial-autocannon",
+      "heavy-stubber",
+      "armoured-tracks",
+      "hellhammer-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "kasrkin-wgo-15",
-    "unit_id": "kasrkin",
+    "id": "armoured-sentinels-wgo-mfm-1",
+    "unit_id": "armoured-sentinels",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hot-shot-lasgun"
+      "close-combat-weapon",
+      "multi-laser"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-cannon"
+      ],
+      [
+        "autocannon"
+      ],
+      [
+        "missile-launcher"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "armoured-sentinels-wgo-mfm-2",
+    "unit_id": "armoured-sentinels",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "multi-laser"
+    ],
+    "replacement": [
+      "sentinel-chainsaw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "armoured-sentinels-wgo-mfm-3",
+    "unit_id": "armoured-sentinels",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "multi-laser"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "commissar-wgo-mfm-1",
+    "unit_id": "commissar",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "chainsword"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "commissar-wgo-mfm-2",
+    "unit_id": "commissar",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "chainsword"
+    ],
+    "replacement": [
+      "power-weapon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "deathstrike-wgo-mfm-1",
+    "unit_id": "deathstrike",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "deathstrike-missile",
+      "armoured-tracks",
+      "heavy-bolter"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "deathstrike-wgo-mfm-2",
+    "unit_id": "deathstrike",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "deathstrike-missile",
+      "armoured-tracks",
+      "heavy-bolter"
+    ],
+    "replacement": [
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "artillery-team-wgo-mfm-1",
+    "unit_id": "artillery-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "crew-close-combat-weapons",
+      "heavy-mortar",
+      "lasgun"
+    ],
+    "replacement_choice": [
+      [
+        "multiple-rocket-launcher"
+      ],
+      [
+        "siege-cannon"
+      ],
+      [
+        "heavy-quad-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-executioner-wgo-mfm-1",
+    "unit_id": "leman-russ-executioner",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "executioner-plasma-cannon",
+      "armoured-tracks",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-flamer",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-executioner-wgo-mfm-2",
+    "unit_id": "leman-russ-executioner",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "executioner-plasma-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-executioner-wgo-mfm-3",
+    "unit_id": "leman-russ-executioner",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "executioner-plasma-cannon",
+      "armoured-tracks",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-stubber"
+      ],
+      [
+        "storm-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-executioner-wgo-mfm-4",
+    "unit_id": "leman-russ-executioner",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "executioner-plasma-cannon",
+      "armoured-tracks",
+      "lascannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-scions-wgo-mfm-1",
+    "unit_id": "tempestus-scions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-laspistol",
+      "chainsword"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-pistol"
+      ],
+      [
+        "bolt-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tempestor",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-scions-wgo-mfm-2",
+    "unit_id": "tempestus-scions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-laspistol",
+      "chainsword"
+    ],
+    "replacement_choice": [
+      [
+        "power-fist"
+      ],
+      [
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tempestor",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tempestus-scions-wgo-mfm-3",
+    "unit_id": "tempestus-scions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-lasgun",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
         "flamer"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "hot-shot-laspistol",
+        "vox-caster"
       ],
       [
         "plasma-gun"
@@ -319,26 +1687,220 @@
         "hot-shot-volley-gun"
       ],
       [
-        "meltagun"
-      ],
-      [
         "grenade-launcher"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
+      "model_name": "Tempestus Scion",
+      "per_n_models": 3
+    }
   },
   {
-    "id": "kasrkin-wgo-16",
+    "id": "stormlord-wgo-mfm-1",
+    "unit_id": "stormlord",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "vulcan-mega-bolter",
+      "armoured-tracks",
+      "heavy-stubber",
+      "heavy-stubber"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-flamer",
+        "twin-heavy-flamer",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormlord-wgo-mfm-2",
+    "unit_id": "stormlord",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "vulcan-mega-bolter",
+      "armoured-tracks",
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "heavy-stubber",
+      "heavy-stubber"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "ogryn-bodyguard-wgo-mfm-1",
+    "unit_id": "ogryn-bodyguard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "huge-knife",
+      "ripper-gun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "bullgryn-maul"
+      ],
+      [
+        "grenadier-gauntlet"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "ogryn-bodyguard-wgo-mfm-2",
+    "unit_id": "ogryn-bodyguard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "huge-knife",
+      "ripper-gun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "brute-shield"
+      ],
+      [
+        "slabshield"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "kasrkin-wgo-mfm-1",
     "unit_id": "kasrkin",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hot-shot-laspistol"
+      "hot-shot-lasgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "hot-shot-laspistol"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "grenade-launcher"
+      ],
+      [
+        "hot-shot-marksman-rifle"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "hot-shot-volley-gun"
+      ],
+      [
+        "flamer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Kasrkin",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "kasrkin-wgo-mfm-2",
+    "unit_id": "kasrkin",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "vox-caster"
+    ],
+    "model_constraint": {
+      "model_name": "Kasrkin",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "kasrkin-wgo-mfm-3",
+    "unit_id": "kasrkin",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-laspistol",
+      "chainsword"
+    ],
+    "replacement": [
+      "power-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Kasrkin Sergeant",
+      "any_number": true
+    }
+  },
+  {
+    "id": "kasrkin-wgo-mfm-4",
+    "unit_id": "kasrkin",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hot-shot-laspistol",
+      "chainsword"
     ],
     "replacement_choice": [
       [
@@ -350,403 +1912,110 @@
     ],
     "model_constraint": {
       "model_name": "Kasrkin Sergeant",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "militarum-tempestus-command-squad-wgo-17",
-    "unit_id": "militarum-tempestus-command-squad",
+    "id": "cadian-command-squad-wgo-mfm-1",
+    "unit_id": "cadian-command-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "bolt-pistol"
+      "laspistol",
+      "chainsword"
     ],
     "replacement_choice": [
-      [
-        "command-rod"
-      ],
       [
         "plasma-pistol"
+      ],
+      [
+        "bolt-pistol"
       ]
     ],
     "model_constraint": {
-      "model_name": "Tempestor Prime",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-18",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hot-shot-lasgun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-19",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "flamer"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-20",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "grenade-launcher"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-21",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "meltagun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-22",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hot-shot-volley-gun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-23",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "plasma-gun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "militarum-tempestus-command-squad-wgo-24",
-    "unit_id": "militarum-tempestus-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hot-shot-lasgun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "scout-sentinels-wgo-25",
-    "unit_id": "scout-sentinels",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "model_constraint": {
+      "model_name": "Cadian Commander",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "scout-sentinels-wgo-26",
-    "unit_id": "scout-sentinels",
+    "id": "cadian-command-squad-wgo-mfm-2",
+    "unit_id": "cadian-command-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "sentinel-chainsaw"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "scout-sentinels-wgo-27",
-    "unit_id": "scout-sentinels",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "multi-laser"
+      "laspistol",
+      "chainsword"
     ],
     "replacement_choice": [
       [
-        "autocannon"
+        "power-fist"
       ],
       [
-        "lascannon"
-      ],
-      [
-        "heavy-flamer"
-      ],
-      [
-        "missile-launcher"
-      ],
-      [
-        "plasma-cannon"
+        "power-weapon"
       ]
     ],
     "model_constraint": {
+      "model_name": "Cadian Commander",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "tempestus-scions-wgo-28",
-    "unit_id": "tempestus-scions",
+    "id": "cadian-command-squad-wgo-mfm-3",
+    "unit_id": "cadian-command-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hot-shot-lasgun"
+      "chainsword",
+      "laspistol"
     ],
     "replacement_choice": [
       [
-        "flamer"
+        "power-weapon"
       ],
       [
+        "flamer",
+        "close-combat-weapon"
+      ],
+      [
+        "close-combat-weapon",
+        "plasma-gun"
+      ],
+      [
+        "close-combat-weapon",
         "grenade-launcher"
       ],
       [
-        "hot-shot-volley-gun"
+        "meltagun",
+        "close-combat-weapon"
       ],
       [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
+        "power-fist"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
-  },
-  {
-    "id": "tempestus-scions-wgo-29",
-    "unit_id": "tempestus-scions",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hot-shot-laspistol"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Tempestor",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tempestus-aquilons-wgo-30",
-    "unit_id": "tempestus-aquilons",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hot-shot-lascarbine"
-    ],
-    "replacement_choice": [
-      [
-        "chainsword"
-      ],
-      [
-        "hot-shot-laspistol"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Tempestor Aquilon",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tempestus-aquilons-wgo-31",
-    "unit_id": "tempestus-aquilons",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "sentry-flamer"
-    ],
-    "replacement_choice": [
-      [
-        "sentry-hot-shot-volley-gun"
-      ],
-      [
-        "sentry-grenade-launcher"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Tempestor Aquilon",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "ratlings-wgo-32",
-    "unit_id": "ratlings",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "ratling-battlemutt"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "ratlings-wgo-33",
-    "unit_id": "ratlings",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "demolition-gear"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "krieg-command-squad-wgo-34",
-    "unit_id": "krieg-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "plasma-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Lord Commissar",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "krieg-command-squad-wgo-35",
-    "unit_id": "krieg-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "bolt-pistol"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "krieg-command-squad-wgo-36",
-    "unit_id": "krieg-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "plasma-pistol"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "catachan-command-squad-wgo-37",
-    "unit_id": "catachan-command-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "master-vox"
-      ],
-      [
-        "regimental-standard"
-      ]
-    ],
-    "model_constraint": {
+      "model_name": "Cadian Veteran Guardsman",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "catachan-command-squad-wgo-38",
-    "unit_id": "catachan-command-squad",
+    "id": "cadian-command-squad-wgo-mfm-4",
+    "unit_id": "cadian-command-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "regimental-standard",
       "lasgun"
     ],
     "replacement_choice": [
@@ -754,35 +2023,863 @@
         "flamer"
       ],
       [
-        "grenade-launcher"
-      ],
-      [
-        "heavy-flamer"
-      ],
-      [
         "meltagun"
       ],
       [
         "plasma-gun"
       ],
       [
-        "sniper-rifle"
+        "grenade-launcher"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
+      "model_name": "Cadian Veteran Guardsman",
+      "any_number": true
+    }
   },
   {
-    "id": "catachan-command-squad-wgo-39",
+    "id": "cadian-command-squad-wgo-mfm-5",
+    "unit_id": "cadian-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "chainsword",
+      "laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-pistol"
+      ],
+      [
+        "bolt-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Cadian Veteran Guardsman",
+      "any_number": true
+    }
+  },
+  {
+    "id": "catachan-command-squad-wgo-mfm-1",
     "unit_id": "catachan-command-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-pistol"
+      ],
+      [
+        "bolt-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Catachan Commander",
+      "any_number": true
+    }
+  },
+  {
+    "id": "catachan-command-squad-wgo-mfm-2",
+    "unit_id": "catachan-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "power-weapon"
+      ],
+      [
+        "chainsword"
+      ],
+      [
+        "boltgun"
+      ],
+      [
+        "power-fist"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Catachan Commander",
+      "any_number": true
+    }
+  },
+  {
+    "id": "catachan-command-squad-wgo-mfm-3",
+    "unit_id": "catachan-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "regimental-standard"
+      ],
+      [
+        "master-vox"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Veteran Guardsman",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "catachan-command-squad-wgo-mfm-4",
+    "unit_id": "catachan-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "lasgun",
+      "laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "grenade-launcher"
+      ],
+      [
+        "sniper-rifle"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "flamer"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-gun"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Veteran Guardsman",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "doomhammer-wgo-mfm-1",
+    "unit_id": "doomhammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "armoured-tracks",
+      "magma-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "doomhammer-wgo-mfm-2",
+    "unit_id": "doomhammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "magma-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-flamer",
+        "twin-heavy-flamer",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-battle-tank-wgo-mfm-1",
+    "unit_id": "rogal-dorn-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "heavy-stubber",
+      "armoured-tracks",
+      "twin-battle-cannon"
+    ],
+    "replacement": [
+      "pulveriser-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-battle-tank-wgo-mfm-2",
+    "unit_id": "rogal-dorn-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "armoured-tracks",
+      "twin-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "meltagun",
+        "meltagun"
+      ],
+      [
+        "heavy-stubber",
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-battle-tank-wgo-mfm-3",
+    "unit_id": "rogal-dorn-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "heavy-stubber",
+      "armoured-tracks",
+      "twin-battle-cannon"
+    ],
+    "replacement": [
+      "coaxial-autocannon",
+      "oppressor-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rogal-dorn-battle-tank-wgo-mfm-4",
+    "unit_id": "rogal-dorn-battle-tank",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "castigator-gatling-cannon",
+      "heavy-stubber",
+      "armoured-tracks",
+      "twin-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "ministorum-priest-wgo-mfm-1",
+    "unit_id": "ministorum-priest",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "zealots-vindictor"
+    ],
+    "replacement": [
+      "holy-pistol",
+      "power-weapon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "death-korps-of-krieg-wgo-mfm-1",
+    "unit_id": "death-korps-of-krieg",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lasgun",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "vox-caster"
+    ],
+    "model_constraint": {
+      "model_name": "Death Korps Trooper",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "death-korps-of-krieg-wgo-mfm-2",
+    "unit_id": "death-korps-of-krieg",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-pistol"
+      ],
+      [
+        "bolt-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Death Korps Watchmaster",
+      "any_number": true
+    }
+  },
+  {
+    "id": "death-korps-of-krieg-wgo-mfm-3",
+    "unit_id": "death-korps-of-krieg",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "chainsword"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "boltgun"
+      ],
+      [
+        "power-weapon",
+        "plasma-pistol"
+      ],
+      [
+        "bolt-pistol",
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Death Korps Watchmaster",
+      "any_number": true
+    }
+  },
+  {
+    "id": "death-korps-of-krieg-wgo-mfm-4",
+    "unit_id": "death-korps-of-krieg",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "chainsword"
+    ],
+    "replacement": [
+      "power-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Death Korps Watchmaster",
+      "any_number": true
+    }
+  },
+  {
+    "id": "death-korps-of-krieg-wgo-mfm-5",
+    "unit_id": "death-korps-of-krieg",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lasgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "meltagun"
+      ],
+      [
+        "flamer"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "grenade-launcher"
+      ],
+      [
+        "long-las"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Death Korps Trooper",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "banesword-wgo-mfm-1",
+    "unit_id": "banesword",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "quake-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-flamer",
+        "twin-heavy-flamer"
+      ],
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "banesword-wgo-mfm-2",
+    "unit_id": "banesword",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "quake-cannon",
+      "twin-heavy-flamer",
+      "twin-heavy-flamer"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "wyvern-wgo-mfm-1",
+    "unit_id": "wyvern",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "heavy-bolter",
+      "wyvern-quad-stormshard-mortar"
+    ],
+    "replacement": [
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "wyvern-wgo-mfm-2",
+    "unit_id": "wyvern",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "heavy-bolter",
+      "wyvern-quad-stormshard-mortar"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "attilan-rough-riders-wgo-mfm-1",
+    "unit_id": "attilan-rough-riders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lasgun",
+      "hunting-lance",
+      "laspistol",
+      "steeds-hooves"
+    ],
+    "replacement": [
+      "goad-lance"
+    ],
+    "model_constraint": {
+      "model_name": "Rough Rider",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "attilan-rough-riders-wgo-mfm-2",
+    "unit_id": "attilan-rough-riders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hunting-lance",
+      "steeds-hooves",
+      "lasgun",
+      "laspistol"
+    ],
+    "replacement": [
+      "goad-lance"
+    ],
+    "model_constraint": {
+      "model_name": "Rough Rider Sergeant",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "attilan-rough-riders-wgo-mfm-3",
+    "unit_id": "attilan-rough-riders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hunting-lance",
+      "steeds-hooves",
+      "lasgun",
+      "laspistol"
+    ],
+    "replacement": [
+      "power-sabre"
+    ],
+    "model_constraint": {
+      "model_name": "Rough Rider Sergeant",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "hellhound-wgo-mfm-1",
+    "unit_id": "hellhound",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-flamer",
+      "inferno-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "melta-cannon"
+      ],
+      [
+        "chem-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hellhound-wgo-mfm-2",
+    "unit_id": "hellhound",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-flamer",
+      "inferno-cannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hellhound-wgo-mfm-3",
+    "unit_id": "hellhound",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-flamer",
+      "inferno-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-punisher-wgo-mfm-1",
+    "unit_id": "leman-russ-punisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "punisher-gatling-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-punisher-wgo-mfm-2",
+    "unit_id": "leman-russ-punisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "punisher-gatling-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-punisher-wgo-mfm-3",
+    "unit_id": "leman-russ-punisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "punisher-gatling-cannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-punisher-wgo-mfm-4",
+    "unit_id": "leman-russ-punisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "punisher-gatling-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-command-squad-wgo-mfm-1",
+    "unit_id": "krieg-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "chainsword"
     ],
     "replacement_choice": [
       [
@@ -793,18 +2890,1115 @@
       ]
     ],
     "model_constraint": {
-      "model_name": "Catachan Commander",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Veteran Guardsman",
+      "any_number": true
+    }
   },
   {
-    "id": "krieg-combat-engineers-wgo-40",
+    "id": "krieg-command-squad-wgo-mfm-2",
+    "unit_id": "krieg-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "power-weapon"
+    ],
+    "replacement": [
+      "power-fist"
+    ],
+    "model_constraint": {
+      "model_name": "Lord Commissar",
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-command-squad-wgo-mfm-3",
+    "unit_id": "krieg-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-gun"
+      ],
+      [
+        "grenade-launcher"
+      ],
+      [
+        "flamer"
+      ],
+      [
+        "meltagun"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Veteran Guardsman",
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-command-squad-wgo-mfm-4",
+    "unit_id": "krieg-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "chainsword"
+    ],
+    "replacement_choice": [
+      [
+        "trench-club"
+      ],
+      [
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Veteran Guardsman",
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-command-squad-wgo-mfm-5",
+    "unit_id": "krieg-command-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "laspistol",
+      "power-weapon"
+    ],
+    "replacement": [
+      "plasma-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Lord Commissar",
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-1",
+    "unit_id": "leman-russ-demolisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "armoured-tracks",
+      "demolisher-battle-cannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-2",
+    "unit_id": "leman-russ-demolisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "armoured-tracks",
+      "demolisher-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-3",
+    "unit_id": "leman-russ-demolisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon",
+      "armoured-tracks",
+      "demolisher-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-4",
+    "unit_id": "leman-russ-demolisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "demolisher-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "taurox-wgo-mfm-1",
+    "unit_id": "taurox",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "storm-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "banehammer-wgo-mfm-1",
+    "unit_id": "banehammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tremor-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-flamer",
+        "twin-heavy-flamer",
+        "lascannon",
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "banehammer-wgo-mfm-2",
+    "unit_id": "banehammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "tremor-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "catachan-jungle-fighters-wgo-mfm-1",
+    "unit_id": "catachan-jungle-fighters",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "lasgun"
+    ],
+    "replacement": [
+      "flamer"
+    ],
+    "model_constraint": {
+      "model_name": "Jungle Fighter",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "catachan-jungle-fighters-wgo-mfm-2",
+    "unit_id": "catachan-jungle-fighters",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "vox-caster"
+    ],
+    "model_constraint": {
+      "model_name": "Jungle Fighter",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-1",
+    "unit_id": "leman-russ-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "leman-russ-battle-cannon",
+      "lascannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-2",
+    "unit_id": "leman-russ-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "leman-russ-battle-cannon",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-3",
+    "unit_id": "leman-russ-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "leman-russ-battle-cannon",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "demolisher-battle-cannon"
+      ],
+      [
+        "executioner-plasma-cannon"
+      ],
+      [
+        "eradicator-nova-cannon"
+      ],
+      [
+        "punisher-gatling-cannon"
+      ],
+      [
+        "vanquisher-battle-cannon"
+      ],
+      [
+        "exterminator-autocannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-4",
+    "unit_id": "leman-russ-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "leman-russ-battle-cannon",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-5",
+    "unit_id": "leman-russ-commander",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "leman-russ-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "valkyrie-wgo-mfm-1",
+    "unit_id": "valkyrie",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "multi-laser",
+      "armoured-hull",
+      "hellstrike-missiles"
+    ],
+    "replacement": [
+      "lascannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "valkyrie-wgo-mfm-2",
+    "unit_id": "valkyrie",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "multi-laser",
+      "armoured-hull",
+      "hellstrike-missiles"
+    ],
+    "replacement": [
+      "heavy-bolter",
+      "heavy-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "valkyrie-wgo-mfm-3",
+    "unit_id": "valkyrie",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "multi-laser",
+      "armoured-hull",
+      "hellstrike-missiles"
+    ],
+    "replacement": [
+      "multiple-rocket-pod",
+      "multiple-rocket-pod"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "shadowsword-wgo-mfm-1",
+    "unit_id": "shadowsword",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "volcano-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-flamer",
+        "twin-heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "shadowsword-wgo-mfm-2",
+    "unit_id": "shadowsword",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "volcano-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "manticore-wgo-mfm-1",
+    "unit_id": "manticore",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-eagle-rockets",
+      "heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "manticore-wgo-mfm-2",
+    "unit_id": "manticore",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-eagle-rockets",
+      "heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chimera-wgo-mfm-1",
+    "unit_id": "chimera",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "multi-laser",
+      "armoured-tracks",
+      "lasgun-array"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chimera-wgo-mfm-2",
+    "unit_id": "chimera",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "multi-laser",
+      "armoured-tracks",
+      "lasgun-array"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chimera-wgo-mfm-3",
+    "unit_id": "chimera",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "armoured-tracks",
+      "lasgun-array"
+    ],
+    "replacement": [
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chimera-wgo-mfm-4",
+    "unit_id": "chimera",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "multi-laser",
+      "armoured-tracks",
+      "lasgun-array"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chimera-wgo-mfm-5",
+    "unit_id": "chimera",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "multi-laser",
+      "armoured-tracks",
+      "lasgun-array"
+    ],
+    "replacement": [
+      "heavy-flamer",
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-vanquisher-wgo-mfm-1",
+    "unit_id": "leman-russ-vanquisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "vanquisher-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-vanquisher-wgo-mfm-2",
+    "unit_id": "leman-russ-vanquisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "vanquisher-battle-cannon",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-vanquisher-wgo-mfm-3",
+    "unit_id": "leman-russ-vanquisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "vanquisher-battle-cannon",
+      "lascannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-vanquisher-wgo-mfm-4",
+    "unit_id": "leman-russ-vanquisher",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "vanquisher-battle-cannon",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "basilisk-wgo-mfm-1",
+    "unit_id": "basilisk",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "earthshaker-cannon",
+      "heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "basilisk-wgo-mfm-2",
+    "unit_id": "basilisk",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "earthshaker-cannon",
+      "heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "baneblade-wgo-mfm-1",
+    "unit_id": "baneblade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "baneblade-cannon",
+      "heavy-stubber",
+      "demolisher-cannon",
+      "coaxial-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-flamer",
+        "twin-heavy-flamer"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "baneblade-wgo-mfm-2",
+    "unit_id": "baneblade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer",
+      "twin-heavy-flamer",
+      "baneblade-cannon",
+      "heavy-stubber",
+      "demolisher-cannon",
+      "coaxial-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-combat-engineers-wgo-mfm-1",
     "unit_id": "krieg-combat-engineers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "autopistol",
+      "trench-club"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "flamer"
+      ],
+      [
+        "combat-shotgun",
+        "close-combat-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Krieg Combat Engineer",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "krieg-combat-engineers-wgo-mfm-2",
+    "unit_id": "krieg-combat-engineers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
     "replaces": [
       "trench-club"
     ],
@@ -812,797 +4006,290 @@
       "close-combat-weapon"
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "krieg-combat-engineers-wgo-41",
-    "unit_id": "krieg-combat-engineers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hand-flamer",
-      "plasma-pistol",
-      "bolt-pistol",
-      "autopistol",
-      "chainsword",
-      "power-weapon",
-      "trench-club"
-    ],
-    "replacement": [
-      "close-combat-weapon",
-      "combat-shotgun"
-    ],
-    "model_constraint": {
-      "model_name": "Krieg Engineer Watchmaster",
+      "model_name": "Krieg Combat Engineer",
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "krieg-combat-engineers-wgo-42",
+    "id": "krieg-combat-engineers-wgo-mfm-3",
     "unit_id": "krieg-combat-engineers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "autopistol"
     ],
     "replacement_choice": [
       [
-        "hand-flamer"
-      ],
-      [
         "plasma-pistol"
       ],
       [
         "bolt-pistol"
+      ],
+      [
+        "hand-flamer"
       ]
     ],
     "model_constraint": {
       "model_name": "Krieg Engineer Watchmaster",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "krieg-combat-engineers-wgo-43",
+    "id": "krieg-combat-engineers-wgo-mfm-4",
     "unit_id": "krieg-combat-engineers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "autopistol",
       "trench-club"
-    ],
-    "replacement": [
-      "chainsword"
-    ],
-    "model_constraint": {
-      "model_name": "Krieg Engineer Watchmaster",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "catachan-heavy-weapons-squad-wgo-44",
-    "unit_id": "catachan-heavy-weapons-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-bolter"
     ],
     "replacement_choice": [
       [
-        "mortar"
+        "plasma-pistol",
+        "chainsword"
       ],
       [
-        "missile-launcher"
+        "bolt-pistol",
+        "chainsword"
       ],
       [
-        "lascannon"
+        "hand-flamer",
+        "chainsword"
       ],
       [
-        "autocannon"
+        "combat-shotgun",
+        "close-combat-weapon"
+      ],
+      [
+        "bolt-pistol",
+        "power-weapon"
+      ],
+      [
+        "power-weapon",
+        "plasma-pistol"
+      ],
+      [
+        "hand-flamer",
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Krieg Engineer Watchmaster",
+      "any_number": true
+    }
+  },
+  {
+    "id": "krieg-combat-engineers-wgo-mfm-5",
+    "unit_id": "krieg-combat-engineers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "trench-club"
+    ],
+    "replacement_choice": [
+      [
+        "chainsword"
+      ],
+      [
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Krieg Engineer Watchmaster",
+      "any_number": true
+    }
+  },
+  {
+    "id": "hydra-wgo-mfm-1",
+    "unit_id": "hydra",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hydra-autocannon",
+      "armoured-tracks",
+      "heavy-bolter"
+    ],
+    "replacement": [
+      "heavy-flamer"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hydra-wgo-mfm-2",
+    "unit_id": "hydra",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hydra-autocannon",
+      "armoured-tracks",
+      "heavy-bolter"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-eradicator-wgo-mfm-1",
+    "unit_id": "leman-russ-eradicator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks",
+      "eradicator-nova-cannon",
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-stubber"
+      ],
+      [
+        "storm-bolter"
       ]
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "krieg-heavy-weapons-squad-wgo-45",
-    "unit_id": "krieg-heavy-weapons-squad",
+    "id": "leman-russ-eradicator-wgo-mfm-2",
+    "unit_id": "leman-russ-eradicator",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "armoured-tracks",
+      "eradicator-nova-cannon",
       "lascannon"
     ],
     "replacement_choice": [
       [
-        "krieg-heavy-flamer"
-      ],
-      [
-        "twin-krieg-heavy-stubber"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 3
-    },
-    "is_free": true
-  },
-  {
-    "id": "baneblade-wgo-46",
-    "unit_id": "baneblade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "banehammer-wgo-47",
-    "unit_id": "banehammer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "banesword-wgo-48",
-    "unit_id": "banesword",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "basilisk-wgo-49",
-    "unit_id": "basilisk",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "cadian-castellan-wgo-50",
-    "unit_id": "cadian-castellan",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "laspistol"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-pistol"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "cadian-castellan-wgo-51",
-    "unit_id": "cadian-castellan",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "chainsword"
-    ],
-    "replacement": [
-      "close-combat-weapon",
-      "boltgun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chimera-wgo-52",
-    "unit_id": "chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chimera-wgo-53",
-    "unit_id": "chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-laser"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chimera-wgo-54",
-    "unit_id": "chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-bolter"
-    ],
-    "replacement": [
-      "heavy-flamer"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "commissar-wgo-55",
-    "unit_id": "commissar",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "deathstrike-wgo-56",
-    "unit_id": "deathstrike",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "doomhammer-wgo-57",
-    "unit_id": "doomhammer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "hellhammer-wgo-58",
-    "unit_id": "hellhammer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "hellhound-wgo-59",
-    "unit_id": "hellhound",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "hellhound-wgo-60",
-    "unit_id": "hellhound",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-flamer"
-    ],
-    "replacement_choice": [
-      [
-        "multi-melta"
-      ],
-      [
-        "heavy-bolter"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "hellhound-wgo-61",
-    "unit_id": "hellhound",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-cannon"
-    ],
-    "replacement_choice": [
-      [
-        "chem-cannon"
-      ],
-      [
-        "melta-cannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "hydra-wgo-62",
-    "unit_id": "hydra",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "manticore-wgo-63",
-    "unit_id": "manticore",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ogryn-bodyguard-wgo-64",
-    "unit_id": "ogryn-bodyguard",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "huge-knife"
-    ],
-    "replacement_choice": [
-      [
-        "slabshield"
-      ],
-      [
-        "brute-shield"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "shadowsword-wgo-65",
-    "unit_id": "shadowsword",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stormlord-wgo-66",
-    "unit_id": "stormlord",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stormsword-wgo-67",
-    "unit_id": "stormsword",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "lascannon",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "twin-heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "leman-russ-commander-wgo-68",
-    "unit_id": "leman-russ-commander",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "leman-russ-commander-wgo-69",
-    "unit_id": "leman-russ-commander",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "leman-russ-battle-cannon"
-    ],
-    "replacement_choice": [
-      [
-        "demolisher-battle-cannon"
-      ],
-      [
-        "vanquisher-battle-cannon"
-      ],
-      [
-        "eradicator-nova-cannon"
-      ],
-      [
-        "executioner-plasma-cannon"
-      ],
-      [
-        "punisher-gatling-cannon"
-      ],
-      [
-        "exterminator-autocannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "leman-russ-commander-wgo-70",
-    "unit_id": "leman-russ-commander",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "lascannon"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "leman-russ-commander-wgo-71",
-    "unit_id": "leman-russ-commander",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
+        "heavy-flamer",
+        "heavy-flamer",
         "heavy-flamer"
       ],
       [
-        "multi-melta"
-      ],
-      [
+        "heavy-bolter",
+        "plasma-cannon",
         "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-bolter",
+        "heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "taurox-wgo-72",
-    "unit_id": "taurox",
+    "id": "leman-russ-eradicator-wgo-mfm-3",
+    "unit_id": "leman-russ-eradicator",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "storm-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "taurox-prime-wgo-73",
-    "unit_id": "taurox-prime",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "storm-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "taurox-prime-wgo-74",
-    "unit_id": "taurox-prime",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "taurox-battle-cannon"
+      "armoured-tracks",
+      "eradicator-nova-cannon"
     ],
     "replacement_choice": [
       [
-        "taurox-gatling-cannon"
+        "heavy-flamer",
+        "heavy-flamer"
       ],
       [
-        "taurox-missile-launcher"
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "taurox-prime-wgo-75",
-    "unit_id": "taurox-prime",
+    "id": "leman-russ-eradicator-wgo-mfm-4",
+    "unit_id": "leman-russ-eradicator",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "twin-taurox-hot-shot-volley-gun"
-    ],
-    "replacement": [
-      "twin-autocannon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "valkyrie-wgo-76",
-    "unit_id": "valkyrie",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "valkyrie-wgo-77",
-    "unit_id": "valkyrie",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hellstrike-missiles"
-    ],
-    "replacement": [
-      "multiple-rocket-pod"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "valkyrie-wgo-78",
-    "unit_id": "valkyrie",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-laser"
-    ],
-    "replacement": [
+      "armoured-tracks",
+      "eradicator-nova-cannon",
       "lascannon"
     ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "wyvern-wgo-79",
-    "unit_id": "wyvern",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement": [
       "hunter-killer-missile"
     ],
-    "is_free": true
-  },
-  {
-    "id": "artillery-team-wgo-80",
-    "unit_id": "artillery-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-mortar"
-    ],
-    "replacement_choice": [
-      [
-        "siege-cannon"
-      ],
-      [
-        "multiple-rocket-launcher"
-      ],
-      [
-        "heavy-quad-launcher"
-      ]
-    ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   }
 ]

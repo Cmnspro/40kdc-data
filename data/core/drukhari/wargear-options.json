@@ -1,196 +1,17 @@
 [
   {
-    "id": "cronos-wgo-1",
-    "unit_id": "cronos",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "spirit-vortex"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "hellions-wgo-2",
-    "unit_id": "hellions",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hellglaive"
-    ],
-    "replacement": [
-      "stunclaw",
-      "splinter-pistol",
-      "hellglaive"
-    ],
-    "model_constraint": {
-      "model_name": "Heliarch",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "hellions-wgo-3",
-    "unit_id": "hellions",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "phantasm-grenade-launcher"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "incubi-wgo-4",
-    "unit_id": "incubi",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "demiklaives"
-      ],
-      [
-        "klaive"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Klaivex",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "incubi-wgo-5",
-    "unit_id": "incubi",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "incubi-shrine-token"
-    ],
-    "model_constraint": {
-      "max_count": 2
-    },
-    "is_free": true
-  },
-  {
-    "id": "kabalite-warriors-wgo-6",
-    "unit_id": "kabalite-warriors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "shredder"
-      ],
-      [
-        "blaster"
-      ],
-      [
-        "splinter-cannon"
-      ],
-      [
-        "dark-lance"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "kabalite-warriors-wgo-7",
-    "unit_id": "kabalite-warriors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "splinter-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "blast-pistol"
-      ],
-      [
-        "splinter-pistol"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "kabalite-warriors-wgo-8",
-    "unit_id": "kabalite-warriors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "phantasm-grenade-launcher"
-      ],
-      [
-        "kabalite-icon"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Sybarite",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "reavers-wgo-9",
+    "id": "reavers-wgo-mfm-1",
     "unit_id": "reavers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "splinter-rifle"
+      "splinter-rifle",
+      "bladevanes",
+      "splinter-pistol"
     ],
-    "replacement_choice": [
-      [
-        "blaster"
-      ],
-      [
-        "heat-lance"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Arena Champion",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "reavers-wgo-10",
-    "unit_id": "reavers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement_choice": [
       [
         "cluster-caltrops"
@@ -200,28 +21,333 @@
       ]
     ],
     "model_constraint": {
-      "model_name": "Arena Champion",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Reaver",
+      "per_n_models": 3
+    }
   },
   {
-    "id": "scourges-with-heavy-weapons-wgo-11",
-    "unit_id": "scourges-with-heavy-weapons",
+    "id": "reavers-wgo-mfm-2",
+    "unit_id": "reavers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "splinter-pistol",
+      "bladevanes",
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "heat-lance"
+      ],
+      [
+        "blaster"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Arena Champion",
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "reavers-wgo-mfm-3",
+    "unit_id": "reavers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-pistol",
+      "bladevanes",
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "grav-talon"
+      ],
+      [
+        "cluster-caltrops"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Arena Champion",
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "reavers-wgo-mfm-4",
+    "unit_id": "reavers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-rifle",
+      "bladevanes",
+      "splinter-pistol"
+    ],
+    "replacement_choice": [
+      [
+        "heat-lance"
+      ],
+      [
+        "blaster"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Reaver",
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "cronos-wgo-mfm-1",
+    "unit_id": "cronos",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "spirit-leech-tentacles",
+      "spirit-syphon"
+    ],
+    "replacement": [
+      "spirit-vortex"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hellions-wgo-mfm-1",
+    "unit_id": "hellions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-pods"
+    ],
+    "replacement_choice": [
+      [
+        "splinter-pistol",
+        "power-weapon"
+      ],
+      [
+        "splinter-pistol",
+        "stunclaw"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Helliarch",
+      "any_number": true
+    }
+  },
+  {
+    "id": "hellions-wgo-mfm-2",
+    "unit_id": "hellions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-pods",
+      "hellglaive"
+    ],
+    "replacement_choice": [
+      [
+        "stunclaw",
+        "splinter-pistol"
+      ],
+      [
+        "splinter-pistol",
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Helliarch",
+      "any_number": true
+    }
+  },
+  {
+    "id": "hellions-wgo-mfm-3",
+    "unit_id": "hellions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-pods",
+      "hellglaive"
+    ],
+    "replacement": [
+      "phantasm-grenade-launcher"
+    ],
+    "model_constraint": {
+      "model_name": "Helliarch",
+      "any_number": true
+    }
+  },
+  {
+    "id": "venom-wgo-mfm-1",
+    "unit_id": "venom",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-splinter-rifle"
+    ],
+    "replacement": [
       "splinter-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "scourges-with-shardcarbines-wgo-mfm-1",
+    "unit_id": "scourges-with-shardcarbines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "shardcarbine"
+    ],
+    "replacement_choice": [
+      [
+        "power-weapon",
+        "splinter-pistol"
+      ],
+      [
+        "power-weapon",
+        "blast-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Solarite",
+      "any_number": true
+    }
+  },
+  {
+    "id": "scourges-with-shardcarbines-wgo-mfm-2",
+    "unit_id": "scourges-with-shardcarbines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "shardcarbine",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
         "blaster"
       ],
       [
-        "heat-lance"
+        "shredder"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Scourge",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "kabalite-warriors-wgo-mfm-1",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "splinter-pistol"
       ],
+      [
+        "blast-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "any_number": true
+    }
+  },
+  {
+    "id": "kabalite-warriors-wgo-mfm-2",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "kabalite-icon"
+      ],
+      [
+        "phantasm-grenade-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "any_number": true
+    }
+  },
+  {
+    "id": "kabalite-warriors-wgo-mfm-3",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "splinter-rifle"
+    ],
+    "replacement": [
+      "power-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Sybarite",
+      "any_number": true
+    }
+  },
+  {
+    "id": "kabalite-warriors-wgo-mfm-4",
+    "unit_id": "kabalite-warriors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
       [
         "shredder"
       ],
@@ -229,23 +355,218 @@
         "dark-lance"
       ],
       [
+        "blaster"
+      ],
+      [
+        "splinter-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Kabalite Warrior",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "raider-wgo-mfm-1",
+    "unit_id": "raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "dark-lance",
+      "bladevanes-and-chainsnares"
+    ],
+    "replacement": [
+      "disintegrator-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "razorwing-jetfighter-wgo-mfm-1",
+    "unit_id": "razorwing-jetfighter",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bladed-wings",
+      "twin-splinter-rifle",
+      "dark-lance",
+      "dark-lance",
+      "razorwing-missiles"
+    ],
+    "replacement": [
+      "splinter-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "razorwing-jetfighter-wgo-mfm-2",
+    "unit_id": "razorwing-jetfighter",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bladed-wings",
+      "twin-splinter-rifle",
+      "dark-lance",
+      "dark-lance",
+      "razorwing-missiles"
+    ],
+    "replacement": [
+      "disintegrator-cannon",
+      "disintegrator-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "scourges-with-heavy-weapons-wgo-mfm-1",
+    "unit_id": "scourges-with-heavy-weapons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "shardcarbine"
+    ],
+    "replacement_choice": [
+      [
+        "splinter-pistol",
+        "power-weapon"
+      ],
+      [
+        "blast-pistol",
+        "power-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Solarite",
+      "any_number": true
+    }
+  },
+  {
+    "id": "scourges-with-heavy-weapons-wgo-mfm-2",
+    "unit_id": "scourges-with-heavy-weapons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-cannon",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "shredder"
+      ],
+      [
+        "heat-lance"
+      ],
+      [
+        "dark-lance"
+      ],
+      [
+        "blaster"
+      ],
+      [
         "haywire-blaster"
       ]
     ],
     "model_constraint": {
-      "model_name": "Scourge with Heavy Weapon",
+      "model_name": "Scourge",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "talos-wgo-12",
+    "id": "talos-wgo-mfm-1",
     "unit_id": "talos",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "maco-scalpel",
+      "maco-scalpel",
+      "twin-splinter-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "chain-flails",
+        "twin-liquifier-gun"
+      ],
+      [
+        "talos-ichor-injector",
+        "chain-flails"
+      ],
+      [
+        "twin-liquifier-gun",
+        "talos-gauntlet"
+      ],
+      [
+        "talos-gauntlet",
+        "talos-ichor-injector"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "talos-wgo-mfm-2",
+    "unit_id": "talos",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "maco-scalpel",
+      "twin-splinter-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "talos-ichor-injector"
+      ],
+      [
+        "twin-liquifier-gun"
+      ],
+      [
+        "chain-flails"
+      ],
+      [
+        "talos-gauntlet"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "talos-wgo-mfm-3",
+    "unit_id": "talos",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "maco-scalpel",
+      "maco-scalpel",
       "twin-splinter-cannon"
     ],
     "replacement_choice": [
@@ -253,109 +574,114 @@
         "twin-haywire-blaster"
       ],
       [
-        "twin-heat-lance"
+        "stinger-pod"
       ],
       [
-        "stinger-pod"
+        "twin-heat-lance"
       ]
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "wracks-wgo-13",
+    "id": "wracks-wgo-mfm-1",
     "unit_id": "wracks",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "twin-torturers-tools"
+    ],
     "replacement_choice": [
       [
+        "liquifier-gun",
         "torturers-tool"
       ],
       [
-        "hexrifle"
-      ],
-      [
-        "liquifier-gun"
-      ],
-      [
+        "torturers-tool",
         "ossefactor"
       ],
       [
+        "hexrifle",
+        "torturers-tool"
+      ],
+      [
+        "stinger-pistol",
+        "torturers-tool"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Wrack",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "wracks-wgo-mfm-2",
+    "unit_id": "wracks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-torturers-tools"
+    ],
+    "replacement_choice": [
+      [
+        "torturers-tool",
+        "ossefactor"
+      ],
+      [
+        "power-weapon",
+        "liquifier-gun"
+      ],
+      [
+        "torturers-tool",
+        "power-weapon"
+      ],
+      [
+        "liquifier-gun",
+        "torturers-tool"
+      ],
+      [
+        "power-weapon",
         "stinger-pistol"
+      ],
+      [
+        "ossefactor",
+        "power-weapon"
+      ],
+      [
+        "hexrifle",
+        "power-weapon"
+      ],
+      [
+        "torturers-tool",
+        "stinger-pistol"
+      ],
+      [
+        "torturers-tool",
+        "hexrifle"
       ]
     ],
     "model_constraint": {
       "model_name": "Acothyst",
-      "max_count": 1
-    },
-    "is_free": true
+      "per_n_models": 5
+    }
   },
   {
-    "id": "wracks-wgo-14",
-    "unit_id": "wracks",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "torturers-tool"
-    ],
-    "model_constraint": {
-      "model_name": "Acothyst",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "wyches-wgo-15",
-    "unit_id": "wyches",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "splinter-pistol",
-      "hekatarii-blade"
-    ],
-    "replacement": [
-      "gladiatorial-weapons"
-    ],
-    "model_constraint": {
-      "max_count": 3
-    },
-    "is_free": true
-  },
-  {
-    "id": "wyches-wgo-16",
-    "unit_id": "wyches",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "splinter-pistol"
-    ],
-    "replacement": [
-      "blast-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Hekatrix",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "archon-wgo-17",
+    "id": "archon-wgo-mfm-1",
     "unit_id": "archon",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "huskblade",
       "splinter-pistol"
     ],
     "replacement_choice": [
@@ -367,146 +693,301 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "archon-wgo-18",
+    "id": "archon-wgo-mfm-2",
     "unit_id": "archon",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "huskblade"
+      "huskblade",
+      "splinter-pistol"
     ],
-    "replacement": [
-      "agoniser"
+    "replacement_choice": [
+      [
+        "master-crafted-power-weapon"
+      ],
+      [
+        "agoniser"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "raider-wgo-19",
-    "unit_id": "raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "dark-lance"
-    ],
-    "replacement": [
-      "disintegrator-cannon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "ravager-wgo-20",
+    "id": "ravager-wgo-mfm-1",
     "unit_id": "ravager",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "bladevanes",
+      "dark-lance",
+      "dark-lance",
       "dark-lance"
     ],
     "replacement": [
       "disintegrator-cannon"
     ],
     "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "wyches-wgo-mfm-1",
+    "unit_id": "wyches",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hekatarii-blade",
+      "splinter-pistol"
+    ],
+    "replacement": [
+      "power-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Hekatrix",
+      "any_number": true
+    }
+  },
+  {
+    "id": "wyches-wgo-mfm-2",
+    "unit_id": "wyches",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "splinter-pistol",
+      "hekatarii-blade"
+    ],
+    "replacement": [
+      "gladiatorial-weapons"
+    ],
+    "model_constraint": {
+      "model_name": "Wych",
       "max_count": 3
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "razorwing-jetfighter-wgo-21",
-    "unit_id": "razorwing-jetfighter",
+    "id": "wyches-wgo-mfm-3",
+    "unit_id": "wyches",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "dark-lance"
+      "hekatarii-blade",
+      "splinter-pistol"
     ],
     "replacement": [
-      "disintegrator-cannon"
+      "blast-pistol"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Hekatrix",
+      "any_number": true
+    }
   },
   {
-    "id": "razorwing-jetfighter-wgo-22",
-    "unit_id": "razorwing-jetfighter",
+    "id": "hand-of-the-archon-wgo-mfm-1",
+    "unit_id": "hand-of-the-archon",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "twin-splinter-rifle"
+      "close-combat-weapon",
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "pain-sculptors"
+      ],
+      [
+        "stinger-pistol"
+      ],
+      [
+        "splinter-cannon"
+      ],
+      [
+        "shredder"
+      ],
+      [
+        "splinter-pistol",
+        "razorflail"
+      ],
+      [
+        "blaster"
+      ],
+      [
+        "shardcarbine"
+      ],
+      [
+        "dark-lance"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Kabalite Agents",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "hand-of-the-archon-wgo-mfm-2",
+    "unit_id": "hand-of-the-archon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "splinter-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "blast-pistol"
+      ],
+      [
+        "splinter-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Kabalite Archsybarite",
+      "any_number": true
+    }
+  },
+  {
+    "id": "hand-of-the-archon-wgo-mfm-3",
+    "unit_id": "hand-of-the-archon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon",
+      "splinter-rifle"
     ],
     "replacement": [
-      "splinter-cannon"
+      "power-weapon"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Kabalite Archsybarite",
+      "any_number": true
+    }
   },
   {
-    "id": "venom-wgo-23",
-    "unit_id": "venom",
+    "id": "hand-of-the-archon-wgo-mfm-4",
+    "unit_id": "hand-of-the-archon",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "twin-splinter-rifle"
+      "close-combat-weapon",
+      "splinter-rifle"
     ],
-    "replacement": [
-      "splinter-cannon"
+    "replacement_choice": [
+      [
+        "kabalite-icon"
+      ],
+      [
+        "phantasm-grenade-launcher"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Kabalite Archsybarite",
+      "any_number": true
+    }
   },
   {
-    "id": "voidraven-bomber-wgo-24",
+    "id": "voidraven-bomber-wgo-mfm-1",
     "unit_id": "voidraven-bomber",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "voidraven-missiles"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "voidraven-bomber-wgo-25",
-    "unit_id": "voidraven-bomber",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
+      "bladed-wings",
+      "void-lance",
       "void-lance"
     ],
     "replacement": [
+      "dark-scythe",
       "dark-scythe"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "voidraven-bomber-wgo-mfm-2",
+    "unit_id": "voidraven-bomber",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "is_free": true
+    "is_free": true,
+    "replaces": [
+      "bladed-wings",
+      "void-lance",
+      "void-lance"
+    ],
+    "replacement": [
+      "voidraven-missiles"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "incubi-wgo-mfm-1",
+    "unit_id": "incubi",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "incubi-shrine-token"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "incubi-wgo-mfm-2",
+    "unit_id": "incubi",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "klaive"
+    ],
+    "replacement": [
+      "demiklaives"
+    ],
+    "model_constraint": {
+      "model_name": "Klaivex",
+      "per_n_models": 5
+    }
   }
 ]

@@ -27,6 +27,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "weavefield-crest",
+          "exoarmour-grenade-launcher",
           "etacarn-plasma-gun",
           "concussion-gauntlet"
         ],
@@ -42,7 +44,8 @@
         "max": 9,
         "default_weapon_ids": [
           "etacarn-plasma-gun",
-          "concussion-gauntlet"
+          "concussion-gauntlet",
+          "exoarmour-grenade-launcher"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -64,8 +67,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "ancestral-wrath-witchfire",
-          "ancestral-ward-stave"
+          "ancestral-ward-stave",
+          "ancestral-wrath"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -78,6 +81,7 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
+          "autoch-pattern-bolter",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -131,8 +135,9 @@
           "diameter": 80
         },
         "default_weapon_ids": [
-          "plasma-picks",
-          "autoch-pattern-bolt-pistol"
+          "breacher-ordnance",
+          "autoch-pattern-bolt-pistol",
+          "plasma-picks"
         ]
       }
     ],
@@ -195,7 +200,15 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-bolt-cannon",
+          "twin-bolt-cannon",
+          "matr-autocannon",
+          "cyclic-ion-cannon",
+          "armoured-wheels",
+          "pan-spectral-scanner"
+        ]
       }
     ],
     "game_version": {
@@ -262,8 +275,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "plasma-torch",
-          "close-combat-weapon"
+          "plasma-torch"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -381,7 +393,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "weavefield-crest",
+          "mass-hammer",
+          "autoch-pattern-combi-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -484,7 +501,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-bolt-cannon",
+          "hylas-beam-cannon",
+          "armoured-wheels"
+        ]
       }
     ],
     "game_version": {
@@ -505,12 +527,9 @@
           "diameter": 40
         },
         "default_weapon_ids": [
+          "forgewrought-plasma-axe",
           "rampart-crest",
-          "teleport-crest",
-          "autoch-pattern-combi-bolter",
-          "volkanite-disintegrator",
-          "mass-gauntlet",
-          "forgewrought-plasma-axe"
+          "autoch-pattern-combi-bolter"
         ]
       }
     ],
@@ -529,10 +548,9 @@
         "max": 1,
         "default_weapon_ids": [
           "weavefield-crest",
-          "close-combat-weapon",
-          "theyns-melee-weapon",
+          "autoch-pattern-bolter",
           "autoch-pattern-bolt-pistol",
-          "autoch-pattern-bolter"
+          "close-combat-weapon"
         ],
         "is_leader_model": true,
         "base_size_mm": {

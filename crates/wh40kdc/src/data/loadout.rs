@@ -455,15 +455,48 @@ mod tests {
         (bz, ds.wargear_options_of(bz))
     }
 
+    /// A synthetic unit carrying only the given weapon ids — for data-independent
+    /// loadout-maths tests (dump-primary wargear data is regenerated per ingest, so
+    /// a real unit's advisory maximal would couple these tests to churning data).
+    fn syn_unit(weapon_ids: &[&str]) -> crate::generated::Unit {
+        serde_json::from_value(serde_json::json!({
+            "id": "syn-unit", "name": "Synthetic", "faction_id": "test",
+            "game_version": { "edition": "10th", "dataslate": "2025-q3" },
+            "is_legend": false, "points_provisional": false,
+            "weapon_ids": weapon_ids, "ability_ids": [], "profiles": [],
+            "points": [], "allied_points": [],
+        }))
+        .expect("synthetic unit deserializes")
+    }
+    fn syn_opt(j: serde_json::Value) -> WargearOption {
+        serde_json::from_value(j).expect("synthetic option deserializes")
+    }
+
     #[test]
-    fn maximal_loadout_berzerkers_at_10_matches_locked_numbers() {
-        let (bz, opts) = berzerkers();
-        assert_eq!(opts.len(), 4, "3 swaps + 1 add-on");
-        let lo = maximal_loadout(bz, 10, &opts, None);
+    fn maximal_loadout_applies_every_swap_at_cap_plus_addon() {
+        // 10-model squad: bolt-pistol + chainblade base, two per-5 swaps, one add-on.
+        let unit = syn_unit(&["bolt-pistol", "chainblade"]);
+        let gv = serde_json::json!({ "edition": "10th", "dataslate": "2025-q3" });
+        let opts = vec![
+            syn_opt(
+                serde_json::json!({ "id": "o1", "unit_id": "syn-unit", "game_version": gv,
+                "replaces": ["bolt-pistol"], "replacement": ["plasma-pistol"], "model_constraint": { "per_n_models": 5 } }),
+            ),
+            syn_opt(
+                serde_json::json!({ "id": "o2", "unit_id": "syn-unit", "game_version": gv,
+                "replaces": ["chainblade"], "replacement": ["khornate-eviscerator"], "model_constraint": { "per_n_models": 5 } }),
+            ),
+            syn_opt(
+                serde_json::json!({ "id": "o3", "unit_id": "syn-unit", "game_version": gv,
+                "replacement": ["icon-of-khorne"], "model_constraint": { "max_count": 1 } }),
+            ),
+        ];
+        let refs: Vec<&WargearOption> = opts.iter().collect();
+        let lo = maximal_loadout(&unit, 10, &refs, None);
         let get = |k: &str| lo.counts.get(k).copied().unwrap_or(0);
-        assert_eq!(get("bolt-pistol"), 7);
+        assert_eq!(get("bolt-pistol"), 8);
+        assert_eq!(get("plasma-pistol"), 2);
         assert_eq!(get("chainblade"), 8);
-        assert_eq!(get("plasma-pistol"), 3);
         assert_eq!(get("khornate-eviscerator"), 2);
         assert_eq!(get("icon-of-khorne"), 1);
     }
@@ -515,25 +548,30 @@ mod tests {
 
     #[test]
     fn validate_flags_swap_conflict() {
-        // War Dog Brigand swaps the diabolus heavy stubber for a havoc
-        // multi-launcher — one or the other, never both. Per-id bounds pass
-        // (each in [0,1]); only the swap-conservation check catches the conflict.
-        let ds = Dataset::embedded();
-        let wd = ds.units.get("war-dog-brigand").expect("war-dog in dataset");
-        let opts = ds.wargear_options_of(wd);
+        // A lone plain single-target swap (base → one replacement, max 1): one or
+        // the other, never both. Per-id bounds pass (each in [0,1]); only the
+        // swap-conservation check catches keeping both.
+        let unit = syn_unit(&["diabolus-heavy-stubber"]);
+        let opts = vec![syn_opt(serde_json::json!({
+            "id": "o1", "unit_id": "syn-unit",
+            "game_version": { "edition": "10th", "dataslate": "2025-q3" },
+            "replaces": ["diabolus-heavy-stubber"], "replacement": ["havoc-multi-launcher"],
+            "model_constraint": { "max_count": 1 },
+        }))];
+        let refs: Vec<&WargearOption> = opts.iter().collect();
         let mut both = HashMap::new();
         both.insert("diabolus-heavy-stubber".to_string(), 1i64);
         both.insert("havoc-multi-launcher".to_string(), 1i64);
-        let v = validate_loadout(wd, 1, &opts, &both, None);
+        let v = validate_loadout(&unit, 1, &refs, &both, None);
         assert_eq!(v.len(), 1);
         assert_eq!(v[0].id, "diabolus-heavy-stubber");
         assert_eq!(v[0].code, ViolationCode::SwapConflict);
 
         let mut keep = HashMap::new();
         keep.insert("diabolus-heavy-stubber".to_string(), 1i64);
-        assert!(validate_loadout(wd, 1, &opts, &keep, None).is_empty());
+        assert!(validate_loadout(&unit, 1, &refs, &keep, None).is_empty());
         let mut swap = HashMap::new();
         swap.insert("havoc-multi-launcher".to_string(), 1i64);
-        assert!(validate_loadout(wd, 1, &opts, &swap, None).is_empty());
+        assert!(validate_loadout(&unit, 1, &refs, &swap, None).is_empty());
     }
 }

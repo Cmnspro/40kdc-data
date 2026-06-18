@@ -80,7 +80,7 @@ fn run_query(ds: &Dataset, query: &str, args: &Value) -> Value {
                     .collect(),
             )
         }
-        "maximal_loadout" => {
+        "base_loadout" | "maximal_loadout" => {
             let id = arg_str("unitId");
             let model_count: u64 = arg_str("modelCount")
                 .parse()
@@ -88,18 +88,22 @@ fn run_query(ds: &Dataset, query: &str, args: &Value) -> Value {
             let u = ds
                 .units
                 .get(id)
-                .unwrap_or_else(|| panic!("maximal_loadout: unknown unit {id}"));
+                .unwrap_or_else(|| panic!("{query}: unknown unit {id}"));
             let models = ds
                 .unit_compositions
                 .iter()
                 .find(|c| c.unit_id.as_str() == id)
                 .map(|c| wh40kdc::loadout_models(&c.models));
-            let lo = wh40kdc::maximal_loadout(
-                u,
-                model_count,
-                &ds.wargear_options_of(u),
-                models.as_deref(),
-            );
+            let lo = if query == "base_loadout" {
+                wh40kdc::base_loadout(u, model_count, &ds.wargear_options_of(u), models.as_deref())
+            } else {
+                wh40kdc::maximal_loadout(
+                    u,
+                    model_count,
+                    &ds.wargear_options_of(u),
+                    models.as_deref(),
+                )
+            };
             let mut encoded: Vec<Value> = lo
                 .counts
                 .iter()

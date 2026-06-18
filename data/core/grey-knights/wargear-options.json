@@ -1,121 +1,384 @@
 [
   {
-    "id": "brotherhood-terminator-squad-wgo-1",
-    "unit_id": "brotherhood-terminator-squad",
+    "id": "land-raider-redeemer-wgo-mfm-1",
+    "unit_id": "land-raider-redeemer",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "storm-bolter"
+      "twin-assault-cannon",
+      "armoured-tracks",
+      "flamestorm-cannon",
+      "flamestorm-cannon"
     ],
     "replacement": [
-      "apothecarys-narthecium"
+      "storm-bolter"
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "paladin-squad-wgo-2",
-    "unit_id": "paladin-squad",
+    "id": "land-raider-redeemer-wgo-mfm-2",
+    "unit_id": "land-raider-redeemer",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "storm-bolter"
+      "twin-assault-cannon",
+      "armoured-tracks",
+      "flamestorm-cannon",
+      "flamestorm-cannon"
     ],
     "replacement": [
-      "apothecarys-narthecium"
+      "hunter-killer-missile"
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "brother-captain-wgo-3",
-    "unit_id": "brother-captain",
+    "id": "land-raider-redeemer-wgo-mfm-3",
+    "unit_id": "land-raider-redeemer",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "storm-bolter"
+      "twin-assault-cannon",
+      "armoured-tracks",
+      "flamestorm-cannon",
+      "flamestorm-cannon"
     ],
-    "replacement_choice": [
-      [
-        "incinerator"
-      ],
-      [
-        "psycannon"
-      ],
-      [
-        "psilencer"
-      ]
+    "replacement": [
+      "multi-melta"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "grand-master-wgo-4",
-    "unit_id": "grand-master",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "storm-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "incinerator"
-      ],
-      [
-        "psycannon"
-      ],
-      [
-        "psilencer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "grand-master-in-nemesis-dreadknight-wgo-5",
+    "id": "grand-master-in-nemesis-dreadknight-wgo-mfm-1",
     "unit_id": "grand-master-in-nemesis-dreadknight",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "fragstorm-grenade-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "grand-master-in-nemesis-dreadknight-wgo-6",
-    "unit_id": "grand-master-in-nemesis-dreadknight",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
       "dreadfists"
     ],
     "replacement_choice": [
       [
+        "heavy-psycannon",
+        "heavy-incinerator"
+      ],
+      [
+        "heavy-psycannon",
+        "sublimator"
+      ],
+      [
+        "sublimator",
+        "heavy-incinerator"
+      ],
+      [
+        "gatling-psilencer",
+        "heavy-psycannon"
+      ],
+      [
+        "heavy-incinerator",
+        "gatling-psilencer"
+      ],
+      [
+        "sublimator"
+      ],
+      [
+        "heavy-psycannon"
+      ],
+      [
+        "gatling-psilencer"
+      ],
+      [
+        "sublimator",
+        "gatling-psilencer"
+      ],
+      [
+        "heavy-incinerator"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "grand-master-in-nemesis-dreadknight-wgo-mfm-2",
+    "unit_id": "grand-master-in-nemesis-dreadknight",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "dreadfists"
+    ],
+    "replacement_choice": [
+      [
+        "nemesis-daemon-greathammer"
+      ],
+      [
         "nemesis-mace"
       ],
       [
-        "nemesis-flail"
+        "nemesis-greatsword"
       ],
+      [
+        "nemesis-flail"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "grand-master-in-nemesis-dreadknight-wgo-mfm-3",
+    "unit_id": "grand-master-in-nemesis-dreadknight",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "dreadfists"
+    ],
+    "replacement": [
+      "fragstorm-grenade-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "land-raider-crusader-wgo-mfm-1",
+    "unit_id": "land-raider-crusader",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hurricane-bolter",
+      "hurricane-bolter",
+      "twin-assault-cannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "multi-melta"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "land-raider-crusader-wgo-mfm-2",
+    "unit_id": "land-raider-crusader",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hurricane-bolter",
+      "hurricane-bolter",
+      "twin-assault-cannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "storm-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "land-raider-crusader-wgo-mfm-3",
+    "unit_id": "land-raider-crusader",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hurricane-bolter",
+      "hurricane-bolter",
+      "twin-assault-cannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "grand-master-wgo-mfm-1",
+    "unit_id": "grand-master",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "nemesis-force-weapon",
+      "storm-bolter"
+    ],
+    "replacement_choice": [
+      [
+        "incinerator"
+      ],
+      [
+        "psilencer"
+      ],
+      [
+        "psycannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "razorback-wgo-mfm-1",
+    "unit_id": "razorback",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "twin-lascannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "razorback-wgo-mfm-2",
+    "unit_id": "razorback",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "storm-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "razorback-wgo-mfm-3",
+    "unit_id": "razorback",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "purifier-squad-wgo-mfm-1",
+    "unit_id": "purifier-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter",
+      "purifying-flame",
+      "nemesis-force-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "psilencer"
+      ],
+      [
+        "psycannon",
+        "close-combat-weapon"
+      ],
+      [
+        "close-combat-weapon",
+        "incinerator"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Purifier",
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "nemesis-dreadknight-wgo-mfm-1",
+    "unit_id": "nemesis-dreadknight",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "dreadfists"
+    ],
+    "replacement_choice": [
+      [
+        "gatling-psilencer"
+      ],
+      [
+        "heavy-incinerator"
+      ],
+      [
+        "heavy-psycannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "nemesis-dreadknight-wgo-mfm-2",
+    "unit_id": "nemesis-dreadknight",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "dreadfists"
+    ],
+    "replacement_choice": [
       [
         "nemesis-daemon-greathammer"
       ],
@@ -124,353 +387,118 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "grand-master-in-nemesis-dreadknight-wgo-7",
-    "unit_id": "grand-master-in-nemesis-dreadknight",
+    "id": "grey-knights-thunderhawk-gunship-wgo-mfm-1",
+    "unit_id": "grey-knights-thunderhawk-gunship",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "sublimator"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "grand-master-in-nemesis-dreadknight-wgo-8",
-    "unit_id": "grand-master-in-nemesis-dreadknight",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gatling-psilencer"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "grand-master-in-nemesis-dreadknight-wgo-9",
-    "unit_id": "grand-master-in-nemesis-dreadknight",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-incinerator"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "grand-master-in-nemesis-dreadknight-wgo-10",
-    "unit_id": "grand-master-in-nemesis-dreadknight",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-psycannon"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-wgo-11",
-    "unit_id": "land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "storm-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-wgo-12",
-    "unit_id": "land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-wgo-13",
-    "unit_id": "land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "multi-melta"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-crusader-wgo-14",
-    "unit_id": "land-raider-crusader",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "storm-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-crusader-wgo-15",
-    "unit_id": "land-raider-crusader",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-crusader-wgo-16",
-    "unit_id": "land-raider-crusader",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "multi-melta"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-redeemer-wgo-17",
-    "unit_id": "land-raider-redeemer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "storm-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-redeemer-wgo-18",
-    "unit_id": "land-raider-redeemer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "land-raider-redeemer-wgo-19",
-    "unit_id": "land-raider-redeemer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "multi-melta"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "razorback-wgo-20",
-    "unit_id": "razorback",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "storm-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "razorback-wgo-21",
-    "unit_id": "razorback",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "razorback-wgo-22",
-    "unit_id": "razorback",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
+      "thunderhawk-heavy-cannon",
+      "armoured-hull",
+      "lascannon",
+      "lascannon",
+      "thunderhawk-cluster-bombs",
+      "twin-heavy-bolter",
+      "twin-heavy-bolter",
+      "twin-heavy-bolter",
       "twin-heavy-bolter"
     ],
     "replacement": [
-      "twin-lascannon"
+      "turbo-laser-destructor"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "rhino-wgo-23",
+    "id": "grey-knights-thunderhawk-gunship-wgo-mfm-2",
+    "unit_id": "grey-knights-thunderhawk-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "thunderhawk-heavy-cannon",
+      "armoured-hull",
+      "lascannon",
+      "lascannon",
+      "thunderhawk-cluster-bombs",
+      "twin-heavy-bolter",
+      "twin-heavy-bolter",
+      "twin-heavy-bolter",
+      "twin-heavy-bolter"
+    ],
+    "replacement": [
+      "hellstrike-missile-battery"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rhino-wgo-mfm-1",
     "unit_id": "rhino",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter",
+      "armoured-tracks"
+    ],
     "replacement": [
       "hunter-killer-missile"
     ],
-    "is_free": true
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "stormhawk-interceptor-wgo-24",
-    "unit_id": "stormhawk-interceptor",
+    "id": "brother-captain-wgo-mfm-1",
+    "unit_id": "brother-captain",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "skyhammer-missile-launcher"
+      "nemesis-force-weapon",
+      "storm-bolter"
     ],
     "replacement_choice": [
       [
-        "twin-heavy-bolter"
+        "incinerator"
       ],
       [
-        "typhoon-missile-launcher"
+        "psycannon"
+      ],
+      [
+        "psilencer"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "stormhawk-interceptor-wgo-25",
-    "unit_id": "stormhawk-interceptor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "las-talon"
-    ],
-    "replacement": [
-      "icarus-stormcannon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stormraven-gunship-wgo-26",
-    "unit_id": "stormraven-gunship",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hurricane-bolter"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "stormraven-gunship-wgo-27",
-    "unit_id": "stormraven-gunship",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-assault-cannon"
-    ],
-    "replacement_choice": [
-      [
-        "twin-heavy-plasma-cannon"
-      ],
-      [
-        "twin-lascannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stormraven-gunship-wgo-28",
-    "unit_id": "stormraven-gunship",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "typhoon-missile-launcher"
-    ],
-    "replacement_choice": [
-      [
-        "twin-multi-melta"
-      ],
-      [
-        "twin-heavy-bolter"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stormtalon-gunship-wgo-29",
-    "unit_id": "stormtalon-gunship",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "skyhammer-missile-launcher"
-    ],
-    "replacement_choice": [
-      [
-        "twin-lascannon"
-      ],
-      [
-        "twin-heavy-bolter"
-      ],
-      [
-        "typhoon-missile-launcher"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "venerable-dreadnought-wgo-30",
+    "id": "venerable-dreadnought-wgo-mfm-1",
     "unit_id": "venerable-dreadnought",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "dreadnought-combat-weapon",
+      "storm-bolter",
       "assault-cannon"
     ],
     "replacement_choice": [
@@ -482,123 +510,474 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "venerable-dreadnought-wgo-31",
+    "id": "venerable-dreadnought-wgo-mfm-2",
     "unit_id": "venerable-dreadnought",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "storm-bolter",
-      "dreadnought-combat-weapon"
+      "assault-cannon"
     ],
     "replacement": [
-      "heavy-flamer",
-      "dreadnought-combat-weapon"
+      "heavy-flamer"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "nemesis-dreadknight-wgo-32",
-    "unit_id": "nemesis-dreadknight",
+    "id": "strike-squad-wgo-mfm-1",
+    "unit_id": "strike-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "dreadfists"
+      "nemesis-force-weapon",
+      "storm-bolter"
     ],
     "replacement_choice": [
       [
-        "nemesis-greatsword"
+        "incinerator",
+        "close-combat-weapon"
       ],
       [
-        "nemesis-daemon-greathammer"
+        "close-combat-weapon",
+        "psycannon"
+      ],
+      [
+        "psilencer",
+        "close-combat-weapon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Grey Knight",
+      "per_n_models": 5
+    }
   },
   {
-    "id": "nemesis-dreadknight-wgo-33",
-    "unit_id": "nemesis-dreadknight",
+    "id": "brotherhood-librarian-wgo-mfm-1",
+    "unit_id": "brotherhood-librarian",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "gatling-psilencer"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "nemesis-dreadknight-wgo-34",
-    "unit_id": "nemesis-dreadknight",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-psycannon"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "nemesis-dreadknight-wgo-35",
-    "unit_id": "nemesis-dreadknight",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-incinerator"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "grey-knights-thunderhawk-gunship-wgo-36",
-    "unit_id": "grey-knights-thunderhawk-gunship",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "thunderhawk-heavy-cannon"
+      "vortex-of-doom",
+      "nemesis-force-weapon"
     ],
-    "replacement": [
-      "turbo-laser-destructor"
+    "replacement_choice": [
+      [
+        "storm-bolter"
+      ],
+      [
+        "combi-weapon"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "grey-knights-thunderhawk-gunship-wgo-37",
-    "unit_id": "grey-knights-thunderhawk-gunship",
+    "id": "purgation-squad-wgo-mfm-1",
+    "unit_id": "purgation-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "thunderhawk-cluster-bombs"
+      "nemesis-force-weapon",
+      "storm-bolter"
     ],
-    "replacement": [
-      "hellstrike-missile-battery"
+    "replacement_choice": [
+      [
+        "psycannon",
+        "close-combat-weapon"
+      ],
+      [
+        "psilencer",
+        "close-combat-weapon"
+      ],
+      [
+        "incinerator",
+        "close-combat-weapon"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "model_name": "Purgator",
+      "max_count": 4
+    }
+  },
+  {
+    "id": "stormtalon-gunship-wgo-mfm-1",
+    "unit_id": "stormtalon-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "is_free": true
+    "is_free": true,
+    "replaces": [
+      "armoured-hull",
+      "twin-assault-cannon",
+      "skyhammer-missile-launcher"
+    ],
+    "replacement_choice": [
+      [
+        "typhoon-missile-launcher"
+      ],
+      [
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "interceptor-squad-wgo-mfm-1",
+    "unit_id": "interceptor-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter",
+      "nemesis-force-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "incinerator"
+      ],
+      [
+        "psycannon",
+        "close-combat-weapon"
+      ],
+      [
+        "close-combat-weapon",
+        "psilencer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Interceptor",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "paladin-squad-wgo-mfm-1",
+    "unit_id": "paladin-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter"
+    ],
+    "replacement_choice": [
+      [
+        "incinerator"
+      ],
+      [
+        "psycannon"
+      ],
+      [
+        "psilencer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Paladin Ancient",
+      "any_number": true
+    }
+  },
+  {
+    "id": "paladin-squad-wgo-mfm-2",
+    "unit_id": "paladin-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter"
+    ],
+    "replacement_choice": [
+      [
+        "incinerator"
+      ],
+      [
+        "psycannon"
+      ],
+      [
+        "apothecarys-narthecium"
+      ],
+      [
+        "psilencer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Paladin",
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "land-raider-wgo-mfm-1",
+    "unit_id": "land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-bolter",
+      "armoured-tracks",
+      "godhammer-lascannon",
+      "godhammer-lascannon"
+    ],
+    "replacement": [
+      "storm-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "land-raider-wgo-mfm-2",
+    "unit_id": "land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-bolter",
+      "armoured-tracks",
+      "godhammer-lascannon",
+      "godhammer-lascannon"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "land-raider-wgo-mfm-3",
+    "unit_id": "land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-bolter",
+      "armoured-tracks",
+      "godhammer-lascannon",
+      "godhammer-lascannon"
+    ],
+    "replacement": [
+      "multi-melta"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "brotherhood-terminator-squad-wgo-mfm-1",
+    "unit_id": "brotherhood-terminator-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter",
+      "nemesis-force-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "psilencer"
+      ],
+      [
+        "apothecarys-narthecium"
+      ],
+      [
+        "psycannon"
+      ],
+      [
+        "incinerator"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Terminator",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "brotherhood-terminator-squad-wgo-mfm-2",
+    "unit_id": "brotherhood-terminator-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "nemesis-force-weapon",
+      "storm-bolter"
+    ],
+    "replacement_choice": [
+      [
+        "incinerator"
+      ],
+      [
+        "psilencer"
+      ],
+      [
+        "psycannon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Ancient",
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormhawk-interceptor-wgo-mfm-1",
+    "unit_id": "stormhawk-interceptor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-assault-cannon",
+      "las-talon",
+      "skyhammer-missile-launcher",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "icarus-stormcannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormhawk-interceptor-wgo-mfm-2",
+    "unit_id": "stormhawk-interceptor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-assault-cannon",
+      "las-talon",
+      "skyhammer-missile-launcher",
+      "armoured-hull"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter"
+      ],
+      [
+        "typhoon-missile-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormraven-gunship-wgo-mfm-1",
+    "unit_id": "stormraven-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "stormstrike-missile-launcher",
+      "stormstrike-missile-launcher",
+      "twin-assault-cannon",
+      "typhoon-missile-launcher",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "hurricane-bolter",
+      "hurricane-bolter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormraven-gunship-wgo-mfm-2",
+    "unit_id": "stormraven-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "stormstrike-missile-launcher",
+      "stormstrike-missile-launcher",
+      "twin-assault-cannon",
+      "typhoon-missile-launcher",
+      "armoured-hull"
+    ],
+    "replacement_choice": [
+      [
+        "twin-multi-melta"
+      ],
+      [
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "stormraven-gunship-wgo-mfm-3",
+    "unit_id": "stormraven-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "stormstrike-missile-launcher",
+      "stormstrike-missile-launcher",
+      "twin-assault-cannon",
+      "typhoon-missile-launcher",
+      "armoured-hull"
+    ],
+    "replacement_choice": [
+      [
+        "twin-lascannon"
+      ],
+      [
+        "twin-heavy-plasma-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   }
 ]
