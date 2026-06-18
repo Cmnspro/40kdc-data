@@ -97,6 +97,7 @@ The `query` enum covers the read paths on `Dataset`:
 | `abilities_of`           | `{"unitId":"<id>"}`                  | ordered list of ability ids |
 | `weapons_of`             | `{"unitId":"<id>"}`                  | ordered list of weapon ids |
 | `wargear_options_of`     | `{"unitId":"<id>"}`                  | ordered list of wargear-option ids |
+| `base_loadout`           | `{"unitId":"<id>","modelCount":"<n>"}` | sorted list of `"id:count"` strings |
 | `maximal_loadout`        | `{"unitId":"<id>","modelCount":"<n>"}` | sorted list of `"id:count"` strings |
 | `phases_of`              | `{"abilityId":"<id>"}`               | ordered list of phase enum values |
 | `faction_of`             | `{"unitId":"<id>"}`                  | faction id or null |

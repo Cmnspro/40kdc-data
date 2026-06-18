@@ -47,7 +47,10 @@ export function optionCap(option: WargearOption, modelCount: number): number {
   else if (c.per_n_models) cap = Math.floor(modelCount / c.per_n_models);
   else cap = c.max_count ?? 1;
   if (c.max_count != null) cap = Math.min(cap, c.max_count);
-  return Math.max(0, cap);
+  // A swap is per-model: at most one per model, so never more than modelCount —
+  // a `max_count` larger than the current squad size (e.g. a flat BSData cap of 6
+  // on a 5-model unit) must not drive a weapon count negative.
+  return Math.max(0, Math.min(cap, modelCount));
 }
 
 /** The ids a single option can add, given the chosen choice branch (default 0). */
@@ -66,28 +69,129 @@ function allReplacementIds(options: readonly WargearOption[]): Set<string> {
   return out;
 }
 
-/** Base (always-carried) weapon ids: in `weapon_ids`, never a replacement. */
-function baseWeaponIds(unit: Unit, options: readonly WargearOption[]): string[] {
-  const replacements = allReplacementIds(options);
-  return (unit.weapon_ids ?? []).filter((id) => !replacements.has(id));
+/** Every id that any option swaps OUT (the base weapon a swap replaces). */
+function allReplacedIds(options: readonly WargearOption[]): Set<string> {
+  const out = new Set<string>();
+  for (const o of options) for (const id of o.replaces ?? []) out.add(id);
+  return out;
 }
 
 /**
- * The base loadout: every base (always-carried) weapon on every model, with no
- * swaps applied. This is the legal default a freshly-added unit ships with —
- * each model in its out-of-the-box configuration. {@link maximalLoadout} starts
- * from this set and then applies every option at full cap.
+ * Derived base (always-carried) weapon ids — the fallback when a unit has no
+ * recorded {@link LoadoutModel.default_weapon_ids}. A `weapon_id` is base iff it
+ * is swapped out by some option (`replaces`) OR it never appears on any option's
+ * *added* side. The `replaces` clause is load-bearing: a base weapon can also be
+ * re-added inside another option's choice branch (e.g. a Chaos Terminator
+ * Champion keeps a combi-bolter while swapping its melee), and such a weapon is
+ * still base — checking only the added side would wrongly drop it. An *orphan*
+ * weapon (in `weapon_ids`, touched by no option) stays base, which is correct for
+ * a vehicle's fixed main gun.
+ */
+function baseWeaponIds(unit: Unit, options: readonly WargearOption[]): string[] {
+  const added = allReplacementIds(options);
+  const replaced = allReplacedIds(options);
+  return (unit.weapon_ids ?? []).filter((id) => replaced.has(id) || !added.has(id));
+}
+
+/**
+ * A unit-composition model row, as far as loadout maths cares: its count range,
+ * whether it is a leader (taken at a fixed small count), and the weapons every
+ * such model carries by default. Pass the unit's `unit_composition.models` here.
+ */
+export interface LoadoutModel {
+  min: number;
+  max: number;
+  default_weapon_ids?: readonly string[];
+  is_leader_model?: boolean;
+}
+
+/** True when every model row records a non-empty default loadout. */
+function hasRecordedDefaults(models: readonly LoadoutModel[] | undefined): models is LoadoutModel[] {
+  return (
+    !!models && models.length > 0 && models.every((m) => (m.default_weapon_ids?.length ?? 0) > 0)
+  );
+}
+
+/**
+ * Allocate `modelCount` models across the composition's model-types: each leader
+ * is taken at its `min` (in declared order, never exceeding the remaining count),
+ * then the non-leader "bulk" types absorb the rest — each its `min` first, then
+ * any leftover to the bulk type with the largest `max`. Deterministic; mirrored
+ * across implementations and pinned by the conformance corpus.
+ */
+function allocateModels(
+  models: readonly LoadoutModel[],
+  modelCount: number,
+): { model: LoadoutModel; count: number }[] {
+  const out = models.map((model) => ({ model, count: 0 }));
+  let remaining = Math.max(0, modelCount);
+  // Leaders first, at their declared minimum.
+  for (const row of out) {
+    if (!row.model.is_leader_model) continue;
+    const c = Math.min(row.model.min ?? 0, remaining);
+    row.count += c;
+    remaining -= c;
+  }
+  const bulk = out.filter((r) => !r.model.is_leader_model);
+  if (bulk.length === 0) {
+    // No non-leader type: pour any remainder onto the leaders (largest max first).
+    bulk.push(...out);
+  }
+  // Each bulk type takes its min, then the remainder lands on the largest-max type.
+  for (const row of bulk) {
+    const c = Math.min(row.model.min ?? 0, remaining);
+    row.count += c;
+    remaining -= c;
+  }
+  if (remaining > 0 && bulk.length > 0) {
+    const sink = bulk.reduce((a, b) => ((b.model.max ?? 0) > (a.model.max ?? 0) ? b : a));
+    sink.count += remaining;
+  }
+  return out;
+}
+
+/**
+ * The base loadout counts: id → count across the unit with no swaps applied.
+ * When the composition records per-model {@link LoadoutModel.default_weapon_ids},
+ * those are authoritative — base = Σ over model-types of (allocated count ×
+ * default weapons). Otherwise it falls back to {@link baseWeaponIds} × modelCount.
+ */
+function baseCounts(
+  unit: Unit,
+  modelCount: number,
+  options: readonly WargearOption[],
+  models?: readonly LoadoutModel[],
+): Map<string, number> {
+  const counts = new Map<string, number>();
+  if (hasRecordedDefaults(models)) {
+    for (const { model, count } of allocateModels(models, modelCount)) {
+      if (count === 0) continue;
+      for (const id of model.default_weapon_ids ?? []) {
+        counts.set(id, (counts.get(id) ?? 0) + count);
+      }
+    }
+    return counts;
+  }
+  for (const id of baseWeaponIds(unit, options)) {
+    counts.set(id, (counts.get(id) ?? 0) + modelCount);
+  }
+  return counts;
+}
+
+/**
+ * The base loadout: every model in its out-of-the-box configuration, no swaps
+ * applied. This is the legal default a freshly-added unit ships with. Reads the
+ * composition's recorded `default_weapon_ids` when present (authoritative),
+ * otherwise derives the base set. {@link maximalLoadout} starts from this set and
+ * then applies every option at full cap.
  */
 export function baseLoadout(
   unit: Unit,
   modelCount: number,
   options: readonly WargearOption[],
+  models?: readonly LoadoutModel[],
 ): Loadout {
-  const counts = new Map<string, number>();
-  for (const id of baseWeaponIds(unit, options)) {
-    counts.set(id, (counts.get(id) ?? 0) + modelCount);
-  }
-  return { counts };
+  return { counts: baseCounts(unit, modelCount, options, models) };
 }
 
 /**
@@ -99,8 +203,9 @@ export function maximalLoadout(
   unit: Unit,
   modelCount: number,
   options: readonly WargearOption[],
+  models?: readonly LoadoutModel[],
 ): Loadout {
-  const counts = baseLoadout(unit, modelCount, options).counts;
+  const counts = baseCounts(unit, modelCount, options, models);
   for (const option of options) {
     const cap = optionCap(option, modelCount);
     if (cap === 0) continue;
@@ -126,10 +231,11 @@ export function weaponBounds(
   unit: Unit,
   modelCount: number,
   options: readonly WargearOption[],
+  models?: readonly LoadoutModel[],
 ): Map<string, WeaponBound> {
   const bounds = new Map<string, WeaponBound>();
-  for (const id of baseWeaponIds(unit, options)) {
-    bounds.set(id, { min: modelCount, max: modelCount });
+  for (const [id, count] of baseCounts(unit, modelCount, options, models)) {
+    bounds.set(id, { min: count, max: count });
   }
   for (const option of options) {
     const cap = optionCap(option, modelCount);
@@ -172,8 +278,9 @@ export function validateLoadout(
   modelCount: number,
   options: readonly WargearOption[],
   counts: Map<string, number>,
+  models?: readonly LoadoutModel[],
 ): Violation[] {
-  const bounds = weaponBounds(unit, modelCount, options);
+  const bounds = weaponBounds(unit, modelCount, options, models);
   const out: Violation[] = [];
   for (const [id, n] of counts) {
     const b = bounds.get(id);
@@ -184,7 +291,7 @@ export function validateLoadout(
       out.push({ id, code: "below-min", message: `${id}: ${n} below min ${b.min}` });
     }
   }
-  out.push(...swapConflicts(unit, modelCount, options, counts));
+  out.push(...swapConflicts(unit, modelCount, options, counts, models));
   // Deterministic order so the result is stable for cross-impl comparison.
   out.sort((a, b) => (a.id === b.id ? a.code.localeCompare(b.code) : a.id.localeCompare(b.id)));
   return out;
@@ -210,8 +317,10 @@ function swapConflicts(
   modelCount: number,
   options: readonly WargearOption[],
   counts: Map<string, number>,
+  models?: readonly LoadoutModel[],
 ): Violation[] {
-  const baseIds = new Set(baseWeaponIds(unit, options));
+  const baseMap = baseCounts(unit, modelCount, options, models);
+  const baseIds = new Set(baseMap.keys());
   const addedBy = new Map<string, number>();
   for (const o of options) {
     for (const id of o.replacement ?? []) addedBy.set(id, (addedBy.get(id) ?? 0) + 1);
@@ -241,13 +350,16 @@ function swapConflicts(
       if (messy) break;
     }
     if (messy || cleanAdds.size === 0) continue;
+    // The slot can hold at most as many weapons as there are models carrying this
+    // base weapon by default — its base count (modelCount when not per-model).
+    const cap = baseMap.get(base) ?? modelCount;
     let total = counts.get(base) ?? 0;
     for (const b of cleanAdds) total += counts.get(b) ?? 0;
-    if (total > modelCount) {
+    if (total > cap) {
       out.push({
         id: base,
         code: "swap-conflict",
-        message: `${base} and its swap replacement(s) total ${total}, exceeding ${modelCount} (a model takes the base weapon or a swap, not both)`,
+        message: `${base} and its swap replacement(s) total ${total}, exceeding ${cap} (a model takes the base weapon or a swap, not both)`,
       });
     }
   }

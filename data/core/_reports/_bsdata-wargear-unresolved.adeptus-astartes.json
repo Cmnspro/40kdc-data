@@ -315,6 +315,21 @@
   "reports": [
     {
       "unit": "Crusader Squad",
+      "context": "Initiates",
+      "reason": "model-variant \"Initiate w/Chainsword & Heavy Bolt Pistol\" introduces weapons not reducible to a clean swap/slot (added [\"heavy-bolt-pistol\",\"astartes-chainsword\"])"
+    },
+    {
+      "unit": "Crusader Squad",
+      "context": "Initiates",
+      "reason": "model-variant \"Initiate w/Power Fist & Heavy Bolt Pistol\" introduces weapons not reducible to a clean swap/slot (added [\"heavy-bolt-pistol\",\"power-fist\"])"
+    },
+    {
+      "unit": "Crusader Squad",
+      "context": "Neophytes",
+      "reason": "model-variant \"Neophyte w/ Firearm\" introduces weapons not reducible to a clean swap/slot (added [\"close-combat-weapon\",\"neophyte-firearm\"])"
+    },
+    {
+      "unit": "Crusader Squad",
       "context": "Neophytes",
       "reason": "model-variant group could not be decomposed into clean swaps"
     },
@@ -361,7 +376,12 @@
     {
       "unit": "Tactical Squad",
       "context": "Tactical Marines",
-      "reason": "model-variant group could not be decomposed into clean swaps"
+      "reason": "model-variant \"Tactical Marine Sergeant\" introduces weapons not reducible to a clean swap/slot (added [\"twin-lightning-claws\",\"astartes-chainsword\",\"grav-pistol\",\"plasma-pistol\",\"power-fist\",\"thunder-hammer\",\"power-weapon\",\"storm-bolter\",\"combi-weapon\"])"
+    },
+    {
+      "unit": "Scout Squad",
+      "context": "Scouts",
+      "reason": "model-variant \"Scout Sergeant\" introduces weapons not reducible to a clean swap/slot (added [\"astartes-chainsword\",\"combat-knife\",\"astartes-shotgun\"])"
     },
     {
       "unit": "Bladeguard Veteran Squad",
@@ -419,9 +439,9 @@
       "reason": "model-variant group has no resolvable base loadout (no default model)"
     },
     {
-      "unit": "Devastator Squad",
-      "context": "Devastators",
-      "reason": "model-variant group could not be decomposed into clean swaps"
+      "unit": "Assault Intercessors with Jump Packs",
+      "context": "Assault Intercessors with Jump Packs",
+      "reason": "model-variant \"Assault Intercessor Sergeant with Jump Pack\" introduces weapons not reducible to a clean swap/slot (added [\"hand-flamer\",\"plasma-pistol\",\"power-weapon\",\"power-fist\"])"
     },
     {
       "unit": "Company Heroes",
@@ -431,17 +451,22 @@
     {
       "unit": "Death Company Marines with Jump Packs",
       "context": "Death Company Marines",
+      "reason": "model-variant \"Death Company Marine w/ alternate weapons\" introduces weapons not reducible to a clean swap/slot (added [\"plasma-pistol\",\"hand-flamer\",\"inferno-pistol\",\"power-weapon\",\"power-fist\",\"eviscerator\"])"
+    },
+    {
+      "unit": "Death Company Marines with Jump Packs",
+      "context": "Death Company Marines",
       "reason": "model-variant group could not be decomposed into clean swaps"
     },
     {
       "unit": "Death Company Marines with Bolt Rifles",
       "context": "Death Company Marines",
-      "reason": "model-variant group could not be decomposed into clean swaps"
+      "reason": "model-variant \"Death Company Marine w/ alternate weapons\" introduces weapons not reducible to a clean swap/slot (added [\"thunder-hammer\",\"power-weapon\",\"astartes-chainsword\",\"hand-flamer\",\"inferno-pistol\",\"plasma-pistol\",\"power-fist\"])"
     },
     {
       "unit": "Death Company Marines",
       "context": "Death Company Marines",
-      "reason": "model-variant group could not be decomposed into clean swaps"
+      "reason": "model-variant \"Death Company Marine w/ alternate weapons\" introduces weapons not reducible to a clean swap/slot (added [\"hand-flamer\",\"inferno-pistol\",\"plasma-pistol\",\"thunder-hammer\",\"power-weapon\",\"power-fist\"])"
     },
     {
       "unit": "Ravenwing Black Knights",
@@ -452,6 +477,11 @@
       "unit": "Deathwing Knights",
       "context": "Deathwing Knights",
       "reason": "model-variant group has no resolvable base loadout (no default model)"
+    },
+    {
+      "unit": "Deathwing Terminator Squad",
+      "context": "Squad Members",
+      "reason": "model-variant \"Deathwing Terminator w/ Heavy Weapon\" introduces weapons not reducible to a clean swap/slot (added [\"cyclone-missile-launcher\",\"plasma-cannon\",\"assault-cannon\",\"heavy-flamer\",\"chainfist\"])"
     },
     {
       "unit": "Deathwatch Terminator Squad",
@@ -476,7 +506,27 @@
     {
       "unit": "Indomitor Kill Team",
       "context": "Kill Team Heavy Intercessors w/ twin power fists",
+      "reason": "model-variant \"Kill Team Heavy Intercessor w/ power fists & auto boltstorm gauntlets\" introduces weapons not reducible to a clean swap/slot (added [\"fragstorm-grenade-launcher\",\"auto-boltstorm-gauntlets\",\"twin-power-fists\"])"
+    },
+    {
+      "unit": "Indomitor Kill Team",
+      "context": "Kill Team Heavy Intercessors w/ twin power fists",
+      "reason": "model-variant \"Kill Team Heavy Intercessor w/ power fists & flamestorm gauntlets\" introduces weapons not reducible to a clean swap/slot (added [\"flamestorm-gauntlets\",\"twin-power-fists\"])"
+    },
+    {
+      "unit": "Indomitor Kill Team",
+      "context": "Kill Team Heavy Intercessors w/ twin power fists",
       "reason": "model-variant group could not be decomposed into clean swaps"
+    },
+    {
+      "unit": "Spectrus Kill Team",
+      "context": "Squad Members",
+      "reason": "model-variant \"Kill Team Infiltrator w/ occulus bolt carbine\" introduces weapons not reducible to a clean swap/slot (added [\"deathwatch-occulus-bolt-carbine\",\"paired-combat-blades\"])"
+    },
+    {
+      "unit": "Spectrus Kill Team",
+      "context": "Squad Members",
+      "reason": "model-variant \"Kill Team Infiltrator w/ wargear\" introduces weapons not reducible to a clean swap/slot (added [\"helix-gauntlet\",\"infiltrator-comms-array\"])"
     },
     {
       "unit": "Spectrus Kill Team",
@@ -486,7 +536,62 @@
     {
       "unit": "Spectrus Kill Team",
       "context": "Kill Team Infiltrators w/ combat knives",
+      "reason": "model-variant \"Kill Team Infiltrator w/ combat knife\" introduces weapons not reducible to a clean swap/slot (added [\"special-issue-bolt-pistol\",\"combat-knife\"])"
+    },
+    {
+      "unit": "Spectrus Kill Team",
+      "context": "Kill Team Infiltrators w/ combat knives",
+      "reason": "model-variant \"Kill Team Infiltrator w/ bolt carbine\" introduces weapons not reducible to a clean swap/slot (added [\"special-issue-bolt-pistol\",\"deathwatch-bolt-carbine\"])"
+    },
+    {
+      "unit": "Spectrus Kill Team",
+      "context": "Kill Team Infiltrators w/ combat knives",
       "reason": "model-variant group could not be decomposed into clean swaps"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Squad Loadout",
+      "reason": "model-variant \"Veteran w/ frag cannon and CCW\" introduces weapons not reducible to a clean swap/slot (added [\"close-combat-weapon\",\"frag-cannon\"])"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Squad Loadout",
+      "reason": "model-variant \"Veteran w/ infernus heavy bolter and CCW\" introduces weapons not reducible to a clean swap/slot (added [\"close-combat-weapon\",\"infernus-heavy-bolter\"])"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Squad Loadout",
+      "reason": "model-variant \"Veteran w/ Astartes shield and boltgun\" introduces weapons not reducible to a clean swap/slot (added [\"astartes-shield\",\"close-combat-weapon\"])"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Squad Loadout",
+      "reason": "model-variant \"Veteran w/ stalker-pattern boltgun and CCW\" introduces weapons not reducible to a clean swap/slot (added [\"close-combat-weapon\",\"stalker-pattern-boltgun\"])"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Squad Loadout",
+      "reason": "model-variant \"Veteran w/ Deathwatch shotgun and CCW\" introduces weapons not reducible to a clean swap/slot (added [\"close-combat-weapon\",\"deathwatch-shotgun\"])"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Sergeant-specific loadouts (for others, use the above)",
+      "reason": "model-variant \"Sgt w/ Astartes shield and xenophase blade\" introduces weapons not reducible to a clean swap/slot (added [\"xenophase-blade\",\"astartes-shield\"])"
+    },
+    {
+      "unit": "Deathwatch Veterans",
+      "context": "Sergeant-specific loadouts (for others, use the above)",
+      "reason": "model-variant \"Sgt w/ Astartes shield and combi-weapon\" introduces weapons not reducible to a clean swap/slot (added [\"combi-weapon\",\"astartes-shield\"])"
+    },
+    {
+      "unit": "Talonstrike Kill Team",
+      "context": "Unit Composition",
+      "reason": "model-variant \"Heavy Intercessor w/ Jump Pack\" introduces weapons not reducible to a clean swap/slot (added [\"close-combat-weapon\",\"assault-bolters\",\"plasma-exterminators\"])"
+    },
+    {
+      "unit": "Blood Claws",
+      "context": "Blood Claws",
+      "reason": "model-variant \"Blood Claw Pack Leader\" introduces weapons not reducible to a clean swap/slot (added [\"plasma-pistol\",\"power-weapon\"])"
     },
     {
       "unit": "Blood Claws",
@@ -500,13 +605,13 @@
     },
     {
       "unit": "Wolf Guard Terminators",
-      "context": "Weapons",
-      "reason": "unresolved option \"Relic Great Axe\""
+      "context": "4-9 Terminators",
+      "reason": "model-variant \"Wolf Guard Terminator w/ Assault Cannon\" introduces weapons not reducible to a clean swap/slot (added [\"power-fist\",\"assault-cannon\"])"
     },
     {
-      "unit": "Victrix Honour Guard",
-      "context": "Victrix Honour Guard",
-      "reason": "model-variant group could not be decomposed into clean swaps"
+      "unit": "Wolf Guard Terminators",
+      "context": "Weapons",
+      "reason": "unresolved option \"Relic Great Axe\""
     },
     {
       "unit": "Repulsor",

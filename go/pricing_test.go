@@ -59,11 +59,11 @@ func TestBaseLoadoutLegalDefault(t *testing.T) {
 		t.Fatal("khorne-berzerkers not in dataset")
 	}
 	opts := bz.WargearOptions()
-	lo := baseLoadout(bz.Raw, 10, opts)
+	lo := baseLoadout(bz.Raw, 10, opts, nil)
 	if lo["bolt-pistol"] != 10 || lo["chainblade"] != 10 || len(lo) != 2 {
 		t.Fatalf("base loadout should be the no-swap set, got %v", lo)
 	}
-	if v := validateLoadout(bz.Raw, 10, opts, lo); len(v) != 0 {
+	if v := validateLoadout(bz.Raw, 10, opts, lo, nil); len(v) != 0 {
 		t.Fatalf("base loadout should validate clean, got %v", v)
 	}
 }

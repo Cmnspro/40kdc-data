@@ -28,7 +28,7 @@ from wh40kdc.compare import LoadoutLine, compare_cell, loadout_cell
 from wh40kdc.cruncher import attribute_stages, crunch
 from wh40kdc.data.base import encode_base
 from wh40kdc.data.dataset import Dataset
-from wh40kdc.data.loadout import maximal_loadout
+from wh40kdc.data.loadout import base_loadout, maximal_loadout
 from wh40kdc.data.normalize import normalize_name
 from wh40kdc.export import EXPORT_FORMATS, export_roster
 from wh40kdc.imports import import_roster, try_import_roster
@@ -259,13 +259,22 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             return _ok([x["id"] for x in u.wargear_options])
-        if query == "maximal_loadout":
+        if query in ("base_loadout", "maximal_loadout"):
             u = ds.units.get(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             # The corpus always supplies modelCount; missing coerces to 0.
             model_count = int(input_.get("modelCount") or 0)
-            lo = maximal_loadout(u.raw, model_count, ds.wargear_options_of(u.raw))
+            comp = next(
+                (c for c in ds.unit_compositions if c.get("unit_id") == unit_id), None
+            )
+            fn = base_loadout if query == "base_loadout" else maximal_loadout
+            lo = fn(
+                u.raw,
+                model_count,
+                ds.wargear_options_of(u.raw),
+                (comp or {}).get("models"),
+            )
             # Encode the id→count map as sorted "id:count" strings for set compare.
             return _ok(sorted(f"{id_}:{n}" for id_, n in lo.items()))
         if query == "phases_of":

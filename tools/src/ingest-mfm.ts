@@ -37,6 +37,7 @@ import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
+import { runWargear, buildWargearReport } from "./mfm/wargear.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
@@ -501,18 +502,45 @@ function runStratagemsCmd(dump: MfmDump, write: boolean): void {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+function runWargearCmd(dump: MfmDump, write: boolean, onlyDir?: string): void {
+  const report = runWargear(dump, write, onlyDir);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-wargear.md");
+  fs.writeFileSync(reportPath, buildWargearReport(report, write));
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Wargear report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${sum((d) => d.matched)}, options ${sum((d) => d.optionsChanged)}, ` +
+      `defaults Δ ${sum((d) => d.defaultsChanged)}, synth ${sum((d) => d.synthesizedRows)}, ` +
+      `unresolved ${sum((d) => d.unresolvedNames.length)}, ` +
+      `new-in-dump ${sum((d) => d.newInDump.length)}, repo-only ${sum((d) => d.repoOnlyFallback.length)}.`
+  );
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 function main(): void {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
   const write = argv.includes("--write");
   const dumpFlag = argv.indexOf("--dump");
   const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
+  const dirFlag = argv.indexOf("--dir");
+  const onlyDir = dirFlag >= 0 ? argv[dirFlag + 1] : undefined;
 
-  const commands = ["coverage", "dispositions", "enhancements", "points", "cull-legends", "stratagems"];
+  const commands = [
+    "coverage",
+    "dispositions",
+    "enhancements",
+    "points",
+    "cull-legends",
+    "stratagems",
+    "wargear",
+  ];
   if (!commands.includes(cmd)) {
     console.error(
-      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>]\n` +
-        `(wargear/stratagems land in later phases)`
+      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>] [--dir <faction>]`
     );
     process.exit(2);
   }
@@ -524,6 +552,7 @@ function main(): void {
   else if (cmd === "points") runPointsCmd(dump, write);
   else if (cmd === "cull-legends") runCullCmd(dump, write);
   else if (cmd === "stratagems") runStratagemsCmd(dump, write);
+  else if (cmd === "wargear") runWargearCmd(dump, write, onlyDir);
 }
 
 main();

@@ -10,7 +10,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "multi-melta",
+          "missile-launcher"
+        ]
       }
     ],
     "game_version": {
@@ -30,7 +35,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "warp-vortex",
+          "mutalith-claws",
+          "betentacled-maw"
+        ]
       }
     ],
     "game_version": {
@@ -49,7 +59,13 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-inferno-heavy-bolter",
+          "soulshatter-lascannon",
+          "soulshatter-lascannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -68,7 +84,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "baleful-devolution",
+          "force-stave"
+        ]
       }
     ],
     "game_version": {
@@ -128,7 +148,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "demolisher-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -147,7 +171,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "inferno-combi-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -166,7 +194,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "inferno-bolt-pistol",
+          "transmogrifying-blast",
+          "black-staff-of-ahriman"
+        ]
       }
     ],
     "game_version": {
@@ -183,7 +216,8 @@
         "max": 1,
         "default_weapon_ids": [
           "inferno-bolt-pistol",
-          "force-weapon"
+          "force-weapon",
+          "malefic-curse"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -222,7 +256,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "force-weapon",
+          "inferno-bolt-pistol",
+          "fires-of-the-abyss"
+        ]
       }
     ],
     "game_version": {
@@ -234,14 +273,30 @@
     "unit_id": "tzaangor-enlightened",
     "models": [
       {
+        "name": "Aviarch",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "divining-spear"
+        ]
+      },
+      {
         "name": "Enlightened",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "divining-spear"
+        ]
       }
     ],
     "game_version": {
@@ -253,14 +308,32 @@
     "unit_id": "tzaangor-enlightened-with-fatecaster-greatbows",
     "models": [
       {
+        "name": "Aviarch",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "fatecaster-greatbow",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Enlightened",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "fatecaster-greatbow",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -277,7 +350,8 @@
         "max": 1,
         "default_weapon_ids": [
           "inferno-combi-bolter",
-          "force-weapon"
+          "force-weapon",
+          "malefic-curse"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -316,7 +390,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 100
-        }
+        },
+        "default_weapon_ids": [
+          "gaze-of-magnus",
+          "blade-of-magnus",
+          "tzeentchs-firestorm"
+        ]
       }
     ],
     "game_version": {
@@ -335,7 +414,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "predator-autocannon"
+        ]
       }
     ],
     "game_version": {
@@ -373,7 +456,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "infernal-cannon",
+          "hellforged-weapons",
+          "dark-blessing"
+        ]
       }
     ],
     "game_version": {
@@ -390,7 +478,6 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "autopistol",
           "tzaangor-blades"
         ],
         "is_leader_model": true,
@@ -404,7 +491,6 @@
         "min": 9,
         "max": 19,
         "default_weapon_ids": [
-          "autopistol",
           "tzaangor-blades"
         ],
         "is_leader_model": false,
@@ -469,7 +555,11 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "maulerfiend-fists",
+          "lasher-tendrils"
+        ]
       }
     ],
     "game_version": {
@@ -488,7 +578,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "astral-blast",
+          "inferno-bolt-pistol",
+          "force-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -507,7 +602,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "inferno-combi-bolter",
+          "force-weapon",
+          "gaze-of-hate"
+        ]
       }
     ],
     "game_version": {
@@ -526,7 +626,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "predator-twin-lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -546,7 +650,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "forgefiend-jaws",
+          "hades-autocannon",
+          "hades-autocannon"
+        ]
       }
     ],
     "game_version": {
@@ -566,7 +675,11 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "heldrake-claws",
+          "hades-autocannon"
+        ]
       }
     ],
     "game_version": {
@@ -585,7 +698,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "infernal-cannon",
+          "hellforged-weapons",
+          "dark-blessing"
+        ]
       }
     ],
     "game_version": {

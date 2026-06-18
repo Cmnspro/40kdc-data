@@ -11,7 +11,16 @@
           "shape": "oval",
           "width": 170,
           "length": 109
-        }
+        },
+        "default_weapon_ids": [
+          "command-uplink",
+          "heavy-phosphor-blaster",
+          "heavy-phosphor-blaster",
+          "twin-cognis-lascannon",
+          "armoured-hull",
+          "cognis-heavy-stubber",
+          "cognis-heavy-stubber"
+        ]
       }
     ],
     "game_version": {
@@ -30,7 +39,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 130
-        }
+        },
+        "default_weapon_ids": [
+          "eradication-beamer",
+          "dunecrawler-legs"
+        ]
       }
     ],
     "game_version": {
@@ -49,7 +62,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-grav-cannon",
+          "phosphor-blaster",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -68,7 +86,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "power-fist",
+          "mechanicus-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -88,7 +110,11 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "ironstrider-feet",
+          "twin-cognis-autocannon"
+        ]
       }
     ],
     "game_version": {
@@ -107,7 +133,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "magnarail-lance",
+          "omnissian-staff"
+        ]
       }
     ],
     "game_version": {
@@ -147,7 +177,13 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "arc-scourge",
+          "cawls-omnissian-axe",
+          "mechadendrite-hive",
+          "solar-atomiser"
+        ]
       }
     ],
     "game_version": {
@@ -173,12 +209,27 @@
         }
       },
       {
-        "name": "Combat Servitor",
-        "min": 8,
-        "max": 8,
+        "name": "Gun Servitor",
+        "min": 2,
+        "max": 2,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
         "default_weapon_ids": [
+          "heavy-arc-rifle",
           "heavy-bolter",
           "servo-claw"
+        ]
+      },
+      {
+        "name": "Combat Servitor",
+        "min": 6,
+        "max": 6,
+        "default_weapon_ids": [
+          "servo-claw",
+          "phosphor-blaster"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -203,7 +254,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "electroleech-stave"
+        ]
       }
     ],
     "game_version": {
@@ -222,7 +276,15 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "disruptor-missile-launcher",
+          "cognis-heavy-stubber",
+          "cognis-heavy-stubber",
+          "cognis-heavy-stubber",
+          "armoured-hull",
+          "belleros-energy-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -241,7 +303,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "sydonian-feet",
+          "mechanicus-pistol",
+          "radium-jezzail"
+        ]
       }
     ],
     "game_version": {
@@ -299,7 +366,12 @@
           "shape": "oval",
           "width": 170,
           "length": 109
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-hull",
+          "cognis-heavy-stubber-array",
+          "command-uplink"
+        ]
       }
     ],
     "game_version": {
@@ -316,8 +388,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "mechanicus-pistol",
-          "alpha-combat-weapon"
+          "close-combat-weapon",
+          "radium-carbine"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -356,7 +428,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "volkite-blaster",
+          "macrostubber",
+          "omnissian-axe"
+        ]
       }
     ],
     "game_version": {
@@ -413,7 +490,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "arc-claw",
+          "heavy-arc-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -443,7 +524,7 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "transonic-blades-and-chordclaw"
+          "transonic-razor-and-chordclaw"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -468,7 +549,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "mechanicus-pistol",
+          "servo-arc-claw"
+        ]
       }
     ],
     "game_version": {
@@ -487,7 +572,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "electrostatic-gauntlets"
+        ]
       }
     ],
     "game_version": {
@@ -579,8 +667,10 @@
         "min": 2,
         "max": 5,
         "default_weapon_ids": [
+          "clawed-limbs",
           "sulphur-breath",
-          "clawed-limbs"
+          "phosphor-pistol",
+          "phosphor-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -606,7 +696,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "mechanicus-pistol",
+          "omnissian-axe",
+          "servo-arm"
+        ]
       }
     ],
     "game_version": {
@@ -625,7 +720,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "control-stave",
+          "mechanicus-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -644,7 +743,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "cognis-heavy-stubber-array",
+          "armoured-hull"
+        ]
       }
     ],
     "game_version": {
@@ -663,7 +766,16 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "twin-kastelan-fist",
+          "close-combat-weapon",
+          "twin-kastelan-phosphor-blaster",
+          "kastelan-fist",
+          "kastelan-phosphor-blaster",
+          "incendine-combustor",
+          "heavy-phosphor-blaster"
+        ]
       }
     ],
     "game_version": {
@@ -721,7 +833,12 @@
           "shape": "oval",
           "width": 170,
           "length": 109
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-hull",
+          "command-uplink",
+          "cognis-heavy-stubber-array"
+        ]
       }
     ],
     "game_version": {
@@ -738,8 +855,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "mechanicus-pistol",
-          "alpha-combat-weapon"
+          "close-combat-weapon",
+          "galvanic-rifle"
         ],
         "is_leader_model": true,
         "base_size_mm": {

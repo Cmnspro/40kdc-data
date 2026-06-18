@@ -1,451 +1,68 @@
 [
   {
-    "id": "ironstrider-ballistarii-wgo-1",
-    "unit_id": "ironstrider-ballistarii",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-cognis-autocannon"
-    ],
-    "replacement": [
-      "twin-cognis-lascannon"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "kastelan-robots-wgo-2",
-    "unit_id": "kastelan-robots",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-kastelan-fist"
-    ],
-    "replacement_choice": [
-      [
-        "close-combat-weapon",
-        "twin-kastelan-phosphor-blaster"
-      ],
-      [
-        "kastelan-fist",
-        "kastelan-phosphor-blaster"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "kastelan-robots-wgo-3",
-    "unit_id": "kastelan-robots",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "incendine-combustor"
-    ],
-    "replacement": [
-      "heavy-phosphor-blaster"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "kataphron-breachers-wgo-4",
-    "unit_id": "kataphron-breachers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "arc-claw"
-    ],
-    "replacement": [
-      "hydraulic-claw"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "kataphron-breachers-wgo-5",
-    "unit_id": "kataphron-breachers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-arc-rifle"
-    ],
-    "replacement": [
-      "torsion-cannon"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "kataphron-destroyers-wgo-6",
-    "unit_id": "kataphron-destroyers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "phosphor-blaster"
-    ],
-    "replacement": [
-      "cognis-flamer"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "kataphron-destroyers-wgo-7",
-    "unit_id": "kataphron-destroyers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-grav-cannon"
-    ],
-    "replacement": [
-      "kataphron-plasma-culverin"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "serberys-sulphurhounds-wgo-8",
-    "unit_id": "serberys-sulphurhounds",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "phosphor-blast-carbine"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-rangers-wgo-9",
-    "unit_id": "skitarii-rangers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "galvanic-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "transuranic-arquebus"
-      ],
-      [
-        "arc-rifle"
-      ],
-      [
-        "plasma-caliver"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-rangers-wgo-10",
-    "unit_id": "skitarii-rangers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "enhanced-data-tether"
-      ],
-      [
-        "omnispex"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-rangers-wgo-11",
-    "unit_id": "skitarii-rangers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "galvanic-rifle"
-    ],
-    "replacement": [
-      "mechanicus-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Skitarii Ranger Alpha",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-rangers-wgo-12",
-    "unit_id": "skitarii-rangers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "alpha-combat-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-vanguard-wgo-13",
-    "unit_id": "skitarii-vanguard",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "radium-carbine"
-    ],
-    "replacement_choice": [
-      [
-        "transuranic-arquebus"
-      ],
-      [
-        "arc-rifle"
-      ],
-      [
-        "plasma-caliver"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-vanguard-wgo-14",
-    "unit_id": "skitarii-vanguard",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "enhanced-data-tether"
-      ],
-      [
-        "omnispex"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-vanguard-wgo-15",
-    "unit_id": "skitarii-vanguard",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "radium-carbine"
-    ],
-    "replacement": [
-      "mechanicus-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Skitarii Vanguard Alpha",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "skitarii-vanguard-wgo-16",
-    "unit_id": "skitarii-vanguard",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "alpha-combat-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sydonian-skatros-wgo-17",
-    "unit_id": "sydonian-skatros",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "radium-jezzail"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "sydonian-skatros-wgo-18",
-    "unit_id": "sydonian-skatros",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "skatros-transuranic-arquebus"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "servitor-battleclade-wgo-19",
-    "unit_id": "servitor-battleclade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "phosphor-blaster"
-    ],
-    "replacement_choice": [
-      [
-        "incendine-igniter"
-      ],
-      [
-        "meltagun"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 3
-    },
-    "is_free": true
-  },
-  {
-    "id": "archaeopter-fusilave-wgo-20",
-    "unit_id": "archaeopter-fusilave",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "command-uplink"
-    ],
-    "replacement": [
-      "chaff-launcher"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "archaeopter-stratoraptor-wgo-21",
+    "id": "archaeopter-stratoraptor-wgo-mfm-1",
     "unit_id": "archaeopter-stratoraptor",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "cognis-heavy-stubber",
+      "cognis-heavy-stubber",
+      "heavy-phosphor-blaster",
+      "heavy-phosphor-blaster",
+      "twin-cognis-lascannon",
+      "armoured-hull",
       "command-uplink"
     ],
     "replacement": [
       "chaff-launcher"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "archaeopter-transvector-wgo-22",
-    "unit_id": "archaeopter-transvector",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "command-uplink"
-    ],
-    "replacement": [
-      "chaff-launcher"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "onager-dunecrawler-wgo-23",
+    "id": "onager-dunecrawler-wgo-mfm-1",
     "unit_id": "onager-dunecrawler",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "eradication-beamer",
+      "dunecrawler-legs"
+    ],
     "replacement": [
       "broad-spectrum-data-tether"
     ],
-    "is_free": true
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "onager-dunecrawler-wgo-24",
+    "id": "onager-dunecrawler-wgo-mfm-2",
     "unit_id": "onager-dunecrawler",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "cognis-heavy-stubber"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "onager-dunecrawler-wgo-25",
-    "unit_id": "onager-dunecrawler",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "eradication-beamer"
+      "eradication-beamer",
+      "dunecrawler-legs"
     ],
     "replacement_choice": [
       [
-        "daedalus-missile-launcher",
-        "icarus-array"
+        "neutron-laser",
+        "cognis-heavy-stubber",
+        "cognis-heavy-stubber"
+      ],
+      [
+        "cognis-heavy-stubber",
+        "twin-onager-heavy-phosphor-blaster"
       ],
       [
         "cognis-heavy-stubber",
@@ -453,83 +70,650 @@
       ],
       [
         "twin-onager-heavy-phosphor-blaster"
+      ],
+      [
+        "icarus-array",
+        "daedalus-missile-launcher",
+        "cognis-heavy-stubber"
+      ],
+      [
+        "icarus-array",
+        "daedalus-missile-launcher"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "skorpius-disintegrator-wgo-26",
-    "unit_id": "skorpius-disintegrator",
+    "id": "onager-dunecrawler-wgo-mfm-3",
+    "unit_id": "onager-dunecrawler",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "belleros-energy-cannon"
+      "dunecrawler-legs"
     ],
     "replacement": [
-      "ferrumite-cannon"
+      "cognis-heavy-stubber"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "tech-priest-dominus-wgo-27",
-    "unit_id": "tech-priest-dominus",
+    "id": "kataphron-destroyers-wgo-mfm-1",
+    "unit_id": "kataphron-destroyers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "macrostubber"
+      "heavy-grav-cannon",
+      "phosphor-blaster",
+      "close-combat-weapon"
     ],
     "replacement": [
-      "phosphor-serpenta"
+      "kataphron-plasma-culverin"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "tech-priest-dominus-wgo-28",
-    "unit_id": "tech-priest-dominus",
+    "id": "kataphron-destroyers-wgo-mfm-2",
+    "unit_id": "kataphron-destroyers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "volkite-blaster"
+      "heavy-grav-cannon",
+      "phosphor-blaster",
+      "close-combat-weapon"
     ],
     "replacement": [
-      "eradication-ray"
+      "cognis-flamer"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "tech-priest-manipulus-wgo-29",
+    "id": "ironstrider-ballistarii-wgo-mfm-1",
+    "unit_id": "ironstrider-ballistarii",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-cognis-autocannon",
+      "ironstrider-feet"
+    ],
+    "replacement": [
+      "twin-cognis-lascannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tech-priest-manipulus-wgo-mfm-1",
     "unit_id": "tech-priest-manipulus",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "magnarail-lance"
+      "magnarail-lance",
+      "omnissian-staff"
     ],
     "replacement": [
       "transonic-cannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "servitor-battleclade-wgo-mfm-1",
+    "unit_id": "servitor-battleclade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "is_free": true
+    "is_free": true,
+    "replaces": [
+      "phosphor-blaster"
+    ],
+    "replacement_choice": [
+      [
+        "meltagun"
+      ],
+      [
+        "incendine-igniter"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Combat Servitor",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "skorpius-disintegrator-wgo-mfm-1",
+    "unit_id": "skorpius-disintegrator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "belleros-energy-cannon",
+      "cognis-heavy-stubber",
+      "cognis-heavy-stubber",
+      "cognis-heavy-stubber",
+      "disruptor-missile-launcher",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "ferrumite-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sydonian-skatros-wgo-mfm-1",
+    "unit_id": "sydonian-skatros",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "mechanicus-pistol",
+      "radium-jezzail",
+      "sydonian-feet"
+    ],
+    "replacement": [
+      "skatros-transuranic-arquebus"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sicarian-infiltrators-wgo-mfm-1",
+    "unit_id": "sicarian-infiltrators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "stubcarbine",
+      "power-weapon"
+    ],
+    "replacement": [
+      "flechette-blaster",
+      "taser-goad"
+    ],
+    "model_constraint": {
+      "model_name": "Sicarian Infiltrator Princeps",
+      "any_number": true
+    }
+  },
+  {
+    "id": "sicarian-infiltrators-wgo-mfm-2",
+    "unit_id": "sicarian-infiltrators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "stubcarbine",
+      "power-weapon"
+    ],
+    "replacement": [
+      "taser-goad",
+      "flechette-blaster"
+    ],
+    "model_constraint": {
+      "model_name": "Sicarian Infiltrator",
+      "any_number": true
+    }
+  },
+  {
+    "id": "archaeopter-transvector-wgo-mfm-1",
+    "unit_id": "archaeopter-transvector",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "cognis-heavy-stubber-array",
+      "armoured-hull",
+      "command-uplink"
+    ],
+    "replacement": [
+      "chaff-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "skitarii-vanguard-wgo-mfm-1",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "radium-carbine",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "alpha-combat-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Vanguard Alpha",
+      "any_number": true
+    }
+  },
+  {
+    "id": "skitarii-vanguard-wgo-mfm-2",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "enhanced-data-tether"
+      ],
+      [
+        "omnispex"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Vanguard",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "skitarii-vanguard-wgo-mfm-3",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "radium-carbine",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "transuranic-arquebus"
+      ],
+      [
+        "plasma-caliver"
+      ],
+      [
+        "arc-rifle"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Vanguard",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "skitarii-vanguard-wgo-mfm-4",
+    "unit_id": "skitarii-vanguard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "radium-carbine",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "mechanicus-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Vanguard Alpha",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tech-priest-dominus-wgo-mfm-1",
+    "unit_id": "tech-priest-dominus",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "macrostubber",
+      "volkite-blaster",
+      "omnissian-axe"
+    ],
+    "replacement": [
+      "eradication-ray"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tech-priest-dominus-wgo-mfm-2",
+    "unit_id": "tech-priest-dominus",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "macrostubber",
+      "volkite-blaster",
+      "omnissian-axe"
+    ],
+    "replacement": [
+      "phosphor-serpenta"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "kataphron-breachers-wgo-mfm-1",
+    "unit_id": "kataphron-breachers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-arc-rifle",
+      "arc-claw"
+    ],
+    "replacement": [
+      "hydraulic-claw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "kataphron-breachers-wgo-mfm-2",
+    "unit_id": "kataphron-breachers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-arc-rifle",
+      "arc-claw"
+    ],
+    "replacement": [
+      "torsion-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sicarian-ruststalkers-wgo-mfm-1",
+    "unit_id": "sicarian-ruststalkers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "transonic-razor-and-chordclaw"
+    ],
+    "replacement": [
+      "transonic-blades"
+    ],
+    "model_constraint": {
+      "model_name": "Sicarian Ruststalker",
+      "any_number": true
+    }
+  },
+  {
+    "id": "sicarian-ruststalkers-wgo-mfm-2",
+    "unit_id": "sicarian-ruststalkers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "transonic-razor-and-chordclaw"
+    ],
+    "replacement": [
+      "transonic-blades-and-chordclaw"
+    ],
+    "model_constraint": {
+      "model_name": "Sicarian Ruststalker Princeps",
+      "any_number": true
+    }
+  },
+  {
+    "id": "serberys-raiders-wgo-mfm-1",
+    "unit_id": "serberys-raiders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "galvanic-carbine",
+      "cavalry-sabre-and-clawed-limbs"
+    ],
+    "replacement": [
+      "enhanced-data-tether"
+    ],
+    "model_constraint": {
+      "model_name": "Serberys Raider",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "serberys-sulphurhounds-wgo-mfm-1",
+    "unit_id": "serberys-sulphurhounds",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "phosphor-pistol",
+      "sulphur-breath",
+      "clawed-limbs"
+    ],
+    "replacement": [
+      "phosphor-blast-carbine"
+    ],
+    "model_constraint": {
+      "model_name": "Serberys Sulphurhound",
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "kastelan-robots-wgo-mfm-1",
+    "unit_id": "kastelan-robots",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "incendine-combustor",
+      "twin-kastelan-fist"
+    ],
+    "replacement_choice": [
+      [
+        "kastelan-phosphor-blaster",
+        "kastelan-fist"
+      ],
+      [
+        "close-combat-weapon",
+        "twin-kastelan-phosphor-blaster"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "kastelan-robots-wgo-mfm-2",
+    "unit_id": "kastelan-robots",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "incendine-combustor",
+      "twin-kastelan-fist"
+    ],
+    "replacement": [
+      "heavy-phosphor-blaster"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "archaeopter-fusilave-wgo-mfm-1",
+    "unit_id": "archaeopter-fusilave",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "cognis-heavy-stubber-array",
+      "armoured-hull",
+      "command-uplink"
+    ],
+    "replacement": [
+      "chaff-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "skitarii-rangers-wgo-mfm-1",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "galvanic-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "mechanicus-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Ranger Alpha",
+      "any_number": true
+    }
+  },
+  {
+    "id": "skitarii-rangers-wgo-mfm-2",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "galvanic-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "alpha-combat-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Ranger Alpha",
+      "any_number": true
+    }
+  },
+  {
+    "id": "skitarii-rangers-wgo-mfm-3",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "omnispex"
+      ],
+      [
+        "enhanced-data-tether"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Ranger",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "skitarii-rangers-wgo-mfm-4",
+    "unit_id": "skitarii-rangers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "galvanic-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "arc-rifle"
+      ],
+      [
+        "transuranic-arquebus"
+      ],
+      [
+        "plasma-caliver"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Skitarii Ranger",
+      "max_count": 1
+    }
   }
 ]

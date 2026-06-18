@@ -29,7 +29,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "chainsword",
+          "laspistol"
+        ]
       }
     ],
     "game_version": {
@@ -45,8 +49,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "bolt-pistol",
-          "power-sword"
+          "gaunts-chainsword",
+          "bolt-pistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -59,8 +63,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "lascarbine",
+          "mkolls-straight-silver-knife"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -74,8 +78,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "long-las",
-          "close-combat-weapon"
+          "straight-silver-knife",
+          "larkins-long-las"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -89,8 +93,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "rawnes-lascarbine",
+          "straight-silver-knife"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -99,13 +103,13 @@
         }
       },
       {
-        "name": "Brin Milo",
+        "name": "Colm Corbec",
         "profile_name": "Oan Mkoll",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "lasgun",
-          "close-combat-weapon"
+          "corbecs-hot-shot-lascarbine",
+          "straight-silver-knife"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -120,7 +124,8 @@
         "max": 1,
         "default_weapon_ids": [
           "autocannon",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "braggs-autocannon"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -145,7 +150,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "ripper-gun",
+          "huge-knife"
+        ]
       }
     ],
     "game_version": {
@@ -199,8 +208,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "hot-shot-laspistol",
-          "close-combat-weapon"
+          "bolt-pistol",
+          "tempestus-dagger"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -239,7 +248,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 80
-        }
+        },
+        "default_weapon_ids": [
+          "sols-righteous-gaze",
+          "conquest",
+          "konstantins-hooves"
+        ]
       }
     ],
     "game_version": {
@@ -270,7 +284,7 @@
         "min": 9,
         "max": 9,
         "default_weapon_ids": [
-          "hot-shot-lasgun",
+          "hot-shot-lascarbine",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -307,8 +321,9 @@
         "min": 3,
         "max": 3,
         "default_weapon_ids": [
-          "heavy-bolter",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "lascannon",
+          "laspistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -352,7 +367,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "lascannon",
+          "armoured-tracks",
+          "leman-russ-battle-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -371,7 +391,16 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "lascannon",
+          "lascannon",
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "twin-heavy-bolter",
+          "armoured-tracks",
+          "stormsword-siege-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -390,7 +419,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "twin-taurox-hot-shot-volley-gun",
+          "taurox-battle-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -409,7 +443,13 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 100
-        }
+        },
+        "default_weapon_ids": [
+          "lasgun",
+          "laspistol",
+          "battery-close-combat-weapons",
+          "malleus-rocket-launcher"
+        ]
       }
     ],
     "game_version": {
@@ -428,7 +468,10 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "cyclops-demolition-vehicle"
+        ]
       }
     ],
     "game_version": {
@@ -447,7 +490,13 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "castigator-gatling-cannon",
+          "twin-battle-cannon",
+          "heavy-stubber",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -466,7 +515,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "exterminator-autocannon",
+          "armoured-tracks",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -478,14 +532,34 @@
     "unit_id": "bullgryn-squad",
     "models": [
       {
+        "name": "Bullgryn Bone ’ead",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "grenadier-gauntlet",
+          "close-combat-weapon",
+          "slabshield"
+        ]
+      },
+      {
         "name": "Bullgryn",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "slabshield",
+          "grenadier-gauntlet"
+        ]
       }
     ],
     "game_version": {
@@ -504,7 +578,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "force-weapon",
+          "psychic-maelstrom",
+          "laspistol"
+        ]
       }
     ],
     "game_version": {
@@ -523,7 +602,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 50
-        }
+        },
+        "default_weapon_ids": [
+          "laspistol",
+          "weapons-team-close-combat-weapons",
+          "heavy-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -542,7 +626,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "weapons-team-close-combat-weapons",
+          "heavy-bolter",
+          "lasgun"
+        ]
       }
     ],
     "game_version": {
@@ -561,7 +650,19 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "demolisher-cannon",
+          "coaxial-autocannon",
+          "heavy-stubber",
+          "twin-heavy-bolter",
+          "armoured-tracks",
+          "hellhammer-cannon",
+          "lascannon",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -580,7 +681,10 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "aegis-defence-line"
+        ]
       }
     ],
     "game_version": {
@@ -618,7 +722,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "chainsword"
+        ]
       }
     ],
     "game_version": {
@@ -637,7 +745,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "deathstrike-missile",
+          "armoured-tracks",
+          "heavy-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -653,8 +766,10 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "death-rider-hunting-lance"
+          "savage-claws",
+          "frag-lance",
+          "death-rider-lascarbine",
+          "power-sabre"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -668,8 +783,10 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "laspistol",
-          "death-rider-hunting-lance"
+          "savage-claws",
+          "frag-lance",
+          "death-rider-lascarbine",
+          "power-sabre"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -695,7 +812,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 130
-        }
+        },
+        "default_weapon_ids": [
+          "crew-close-combat-weapons",
+          "heavy-mortar",
+          "lasgun"
+        ]
       }
     ],
     "game_version": {
@@ -714,7 +836,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "executioner-plasma-cannon",
+          "armoured-tracks",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -732,7 +859,7 @@
         "max": 1,
         "default_weapon_ids": [
           "hot-shot-laspistol",
-          "close-combat-weapon"
+          "chainsword"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -771,7 +898,18 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-heavy-bolter",
+          "vulcan-mega-bolter",
+          "armoured-tracks",
+          "lascannon",
+          "lascannon",
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "heavy-stubber",
+          "heavy-stubber"
+        ]
       }
     ],
     "game_version": {
@@ -790,7 +928,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "huge-knife",
+          "ripper-gun",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -808,7 +951,7 @@
         "max": 1,
         "default_weapon_ids": [
           "hot-shot-laspistol",
-          "close-combat-weapon"
+          "chainsword"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -845,7 +988,7 @@
         "max": 1,
         "default_weapon_ids": [
           "laspistol",
-          "close-combat-weapon"
+          "chainsword"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -859,6 +1002,7 @@
         "max": 4,
         "default_weapon_ids": [
           "lasgun",
+          "regimental-standard",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -895,8 +1039,9 @@
         "min": 4,
         "max": 4,
         "default_weapon_ids": [
-          "lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "laspistol",
+          "lasgun"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -921,7 +1066,16 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "twin-heavy-bolter",
+          "armoured-tracks",
+          "magma-cannon",
+          "lascannon",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -940,7 +1094,13 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "castigator-gatling-cannon",
+          "heavy-stubber",
+          "armoured-tracks",
+          "twin-battle-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -959,7 +1119,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "zealots-vindictor"
+        ]
       }
     ],
     "game_version": {
@@ -1016,7 +1179,16 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "twin-heavy-bolter",
+          "quake-cannon",
+          "lascannon",
+          "lascannon",
+          "twin-heavy-flamer",
+          "twin-heavy-flamer"
+        ]
       }
     ],
     "game_version": {
@@ -1035,7 +1207,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "heavy-bolter",
+          "wyvern-quad-stormshard-mortar"
+        ]
       }
     ],
     "game_version": {
@@ -1052,8 +1229,10 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "hunting-lance"
+          "hunting-lance",
+          "steeds-hooves",
+          "lasgun",
+          "laspistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1094,7 +1273,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-flamer",
+          "inferno-cannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1113,7 +1297,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "lascannon",
+          "punisher-gatling-cannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1130,7 +1319,7 @@
         "max": 1,
         "default_weapon_ids": [
           "laspistol",
-          "close-combat-weapon"
+          "power-weapon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1139,11 +1328,67 @@
         }
       },
       {
-        "name": "Veteran Guardsman",
-        "min": 5,
-        "max": 5,
+        "name": "Veteran Guardsman (Chainsword)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "laspistol",
+          "chainsword"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Servo-scribes)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "laspistol",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Master Vox)",
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "lasgun",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Regimental Standard)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "lasgun",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "Veteran Guardsman (Boltgun)",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "boltgun",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -1169,7 +1414,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "ripper-pistol",
+          "envenomed-blade"
+        ]
       }
     ],
     "game_version": {
@@ -1188,7 +1437,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "lascannon",
+          "armoured-tracks",
+          "demolisher-battle-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -1207,7 +1461,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-autocannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1219,14 +1477,30 @@
     "unit_id": "ogryn-squad",
     "models": [
       {
+        "name": "Ogryn Bone ’ead",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "ripper-gun"
+        ]
+      },
+      {
         "name": "Ogryn",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "ripper-gun"
+        ]
       }
     ],
     "game_version": {
@@ -1246,7 +1520,12 @@
           "shape": "oval",
           "width": 75,
           "length": 42
-        }
+        },
+        "default_weapon_ids": [
+          "laspistol",
+          "sabre-of-sacrifice",
+          "savage-claws"
+        ]
       }
     ],
     "game_version": {
@@ -1265,7 +1544,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "mechanicus-pistol",
+          "enginseer-axe",
+          "servo-arm"
+        ]
       }
     ],
     "game_version": {
@@ -1284,7 +1568,16 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "twin-heavy-bolter",
+          "tremor-cannon",
+          "lascannon",
+          "lascannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1341,7 +1634,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "leman-russ-battle-cannon",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -1361,7 +1659,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "multi-laser",
+          "armoured-hull",
+          "hellstrike-missiles"
+        ]
       }
     ],
     "game_version": {
@@ -1380,7 +1683,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "power-weapon",
+          "duty-and-vengeance"
+        ]
       }
     ],
     "game_version": {
@@ -1399,7 +1706,16 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-heavy-bolter",
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "volcano-cannon",
+          "lascannon",
+          "lascannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1418,7 +1734,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "storm-eagle-rockets",
+          "heavy-bolter",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1437,7 +1758,13 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-bolter",
+          "multi-laser",
+          "armoured-tracks",
+          "lasgun-array"
+        ]
       }
     ],
     "game_version": {
@@ -1457,7 +1784,14 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "avenger-bolt-cannon",
+          "armoured-hull",
+          "heavy-stubber",
+          "lascannon",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -1476,7 +1810,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "vanquisher-battle-cannon",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {
@@ -1495,7 +1834,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "earthshaker-cannon",
+          "heavy-bolter",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1514,7 +1858,19 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "lascannon",
+          "lascannon",
+          "twin-heavy-flamer",
+          "twin-heavy-flamer",
+          "baneblade-cannon",
+          "twin-heavy-bolter",
+          "heavy-stubber",
+          "demolisher-cannon",
+          "coaxial-autocannon",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -1530,8 +1886,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "autopistol",
+          "trench-club"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1544,8 +1900,8 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "lasgun",
-          "close-combat-weapon"
+          "autopistol",
+          "trench-club"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1570,7 +1926,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "hydra-autocannon",
+          "armoured-tracks",
+          "heavy-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -1589,7 +1950,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "armoured-tracks",
+          "eradicator-nova-cannon",
+          "lascannon"
+        ]
       }
     ],
     "game_version": {

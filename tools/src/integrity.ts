@@ -33,10 +33,36 @@ interface UnitLike {
   id?: string;
   ability_ids?: string[];
   faction_keywords?: string[];
+  weapon_ids?: string[];
+}
+interface CompModelLike {
+  name?: string;
+  default_weapon_ids?: string[];
+}
+interface CompLike {
+  unit_id?: string;
+  models?: CompModelLike[];
 }
 interface AbilityLike {
   ability_id?: string;
 }
+
+/**
+ * Known, accepted loadout orphans — a `<faction>/<unit_id>/<weapon_id>` triple
+ * whose weapon is in the unit's `weapon_ids` but is neither a recorded
+ * `default_weapon_ids` entry nor reachable through any wargear-option. Each entry
+ * is a deliberate, reviewed exception — a NEW orphan (any triple not listed) fails
+ * CI, and a listed triple that is no longer an orphan is reported as stale so the
+ * list stays minimal.
+ *
+ * This set is now EMPTY: every former orphan has been resolved by restructuring
+ * the unit composition to match the GW MFM dump's per-figure miniature rows
+ * (collapsed single-figure squads, daemon split-models, kill-team weapon variants,
+ * and same-named distinct-loadout figures). Keep the gate zero-tolerance — add a
+ * triple here only with a comment justifying why the dump genuinely cannot model
+ * the loadout, never to silence a fixable data gap.
+ */
+export const KNOWN_LOADOUT_ORPHANS: ReadonlySet<string> = new Set<string>([]);
 interface WargearOptionLike {
   id?: string;
   replaces?: string[];
@@ -112,6 +138,27 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
       continue; // structural problems are the AJV pass's job
     }
     if (!Array.isArray(units)) continue;
+
+    // No two units in a faction file may share an id. The linked API keys units
+    // by id with first-wins (`Collection`), so a duplicate silently shadows the
+    // later entry — e.g. a stale `pre-launch-provisional` points row hiding the
+    // authoritative `launch` row, so the corrected points never reach consumers.
+    // An append-instead-of-replace ingest is the recurring cause; flag any
+    // collision so it can't ship.
+    const idCounts = new Map<string, number>();
+    for (const u of units) if (u.id) idCounts.set(u.id, (idCounts.get(u.id) ?? 0) + 1);
+    const dupIds = [...idCounts].filter(([, n]) => n > 1).map(([id]) => id);
+    if (dupIds.length > 0) {
+      result.failed++;
+      result.errors.push({
+        file,
+        index: 0,
+        errors: dupIds.map((id) => ({
+          path: "/",
+          message: `duplicate unit id "${id}" appears ${idCounts.get(id)}× in ${faction}/units.json — the linked API keys by id (first-wins), so the later entry is silently shadowed; keep exactly one`,
+        })),
+      });
+    }
 
     const defined = new Set<string>(coreAbilities);
     loadAbilityIds(resolve(root, `enrichment/${faction}/abilities.json`), defined);
@@ -213,6 +260,110 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
         result.passed++;
       }
     }
+  }
+
+  // ── Loadout coverage: no orphan weapons on a populated composition ──
+  //
+  // A unit's `weapon_id` must be either a recorded per-model default or reachable
+  // through some wargear-option (the swap/add structure). A weapon that is
+  // neither — an "orphan" — is the defect class behind the Chaos Terminators
+  // illegal-loadout bug (a special/heavy weapon the data never modeled as an
+  // option). The check is scoped to *populated* compositions (every model row
+  // carries `default_weapon_ids`); an unpopulated composition falls back to the
+  // loadout layer's derivation and is out of scope. Known, reviewed residue lives
+  // in {@link KNOWN_LOADOUT_ORPHANS}; a new orphan fails, a stale allowlist entry
+  // is reported.
+  const seenAllowed = new Set<string>();
+  const scannedFactions = new Set<string>();
+  const compFiles = await glob("core/*/unit-compositions.json", { cwd: root, absolute: true });
+  compFiles.sort();
+  for (const file of compFiles) {
+    const faction = basename(dirname(file));
+    if (faction.startsWith("_")) continue;
+    scannedFactions.add(faction);
+
+    let comps: CompLike[];
+    try {
+      comps = readArray<CompLike>(file);
+    } catch {
+      continue;
+    }
+    if (!Array.isArray(comps)) continue;
+
+    const dir = dirname(file);
+    let units: UnitLike[];
+    try {
+      units = readArray<UnitLike>(resolve(dir, "units.json"));
+    } catch {
+      continue;
+    }
+    const weaponIdsByUnit = new Map<string, string[]>(units.map((u) => [u.id ?? "", u.weapon_ids ?? []]));
+    const reachableByUnit = new Map<string, Set<string>>();
+    try {
+      for (const o of readArray<WargearOptionLike & { unit_id?: string }>(resolve(dir, "wargear-options.json"))) {
+        const set = reachableByUnit.get(o.unit_id ?? "") ?? new Set<string>();
+        for (const id of o.replaces ?? []) set.add(id);
+        for (const id of o.replacement ?? []) set.add(id);
+        for (const g of o.replacement_choice ?? []) for (const id of g) set.add(id);
+        reachableByUnit.set(o.unit_id ?? "", set);
+      }
+    } catch {
+      // no wargear-options file — every weapon must be a default then
+    }
+
+    result.totalFiles++;
+    for (let i = 0; i < comps.length; i++) {
+      const c = comps[i];
+      result.totalItems++;
+      const models = c.models ?? [];
+      // Populated = every model row carries a non-empty default loadout.
+      const populated = models.length > 0 && models.every((m) => (m.default_weapon_ids?.length ?? 0) > 0);
+      if (!populated) {
+        result.passed++;
+        continue;
+      }
+      const defaults = new Set<string>();
+      for (const m of models) for (const id of m.default_weapon_ids ?? []) defaults.add(id);
+      const reachable = reachableByUnit.get(c.unit_id ?? "") ?? new Set<string>();
+      const errs: Array<{ path: string; message: string }> = [];
+      for (const wid of weaponIdsByUnit.get(c.unit_id ?? "") ?? []) {
+        if (defaults.has(wid) || reachable.has(wid)) continue;
+        const key = `${faction}/${c.unit_id}/${wid}`;
+        if (KNOWN_LOADOUT_ORPHANS.has(key)) {
+          seenAllowed.add(key);
+          continue;
+        }
+        errs.push({
+          path: `/${i}`,
+          message: `unit "${c.unit_id}": weapon "${wid}" is an orphan — neither a default_weapon_ids entry nor reachable via a wargear-option`,
+        });
+      }
+      if (errs.length > 0) {
+        result.failed++;
+        result.errors.push({ file, index: i, errors: errs });
+      } else {
+        result.passed++;
+      }
+    }
+  }
+
+  // A stale allowlist entry (no longer an orphan) must be removed so the list
+  // can't silently mask a future regression at that triple. Only entries whose
+  // faction was actually scanned are eligible — so a partial dataset (e.g. a test
+  // fixture with no compositions for that faction) never spuriously flags them.
+  const stale = [...KNOWN_LOADOUT_ORPHANS].filter(
+    (k) => scannedFactions.has(k.split("/")[0]) && !seenAllowed.has(k),
+  );
+  if (stale.length > 0) {
+    result.failed++;
+    result.errors.push({
+      file: "tools/src/integrity.ts",
+      index: 0,
+      errors: stale.map((k) => ({
+        path: "/KNOWN_LOADOUT_ORPHANS",
+        message: `allowlist entry "${k}" is no longer an orphan — remove it`,
+      })),
+    });
   }
 
   return result;

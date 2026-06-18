@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 
 import { Dataset } from "../src/data/dataset.js";
 import { normalizeName } from "../src/data/normalize.js";
-import { maximalLoadout } from "../src/data/loadout.js";
+import { baseLoadout, maximalLoadout } from "../src/data/loadout.js";
 import { exportRoster, type ExportFormat } from "../src/export/index.js";
 import {
   decodeShareToken,
@@ -498,6 +498,13 @@ function runLinkedApi(ds: Dataset, c: LinkedApiCase): string | null | string[] {
       const u = ds.units.get(c.args.unitId);
       if (!u) throw new Error(`wargear_options_of: unknown unit ${c.args.unitId}`);
       return u.wargearOptions.map((o) => o.id);
+    }
+    case "base_loadout": {
+      const u = ds.units.getAny(c.args.unitId);
+      if (!u) throw new Error(`base_loadout: unknown unit ${c.args.unitId}`);
+      const comp = ds.unitCompositions.find((x) => x.unit_id === c.args.unitId);
+      const lo = baseLoadout(u.raw, Number(c.args.modelCount), ds.wargearOptionsOf(u.raw), comp?.models);
+      return [...lo.counts].map(([id, n]) => `${id}:${n}`).sort();
     }
     case "maximal_loadout": {
       const u = ds.units.get(c.args.unitId);

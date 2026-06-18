@@ -45,7 +45,7 @@ import {
 	type BuilderState,
 	type BuilderUnit,
 } from './builder';
-import { baseLoadout, tryImportRoster } from '@alpaca-software/40kdc-data';
+import { tryImportRoster } from '@alpaca-software/40kdc-data';
 
 /** First Space Marines unit with a points table and a model-count range. */
 function sampleUnit() {
@@ -168,11 +168,16 @@ describe('builder default loadout', () => {
 		for (const [id, count] of loadout) {
 			expect(count, `${id} exceeds the 5-model count`).toBeLessThanOrEqual(5);
 		}
-		// And it is exactly the package base loadout (every option un-applied).
-		const options = wargearOptionsFor('chaos-terminators', undefined, we);
-		expect(Object.fromEntries(loadout)).toEqual(
-			Object.fromEntries(baseLoadout(raw, 5, options).counts),
-		);
+		// The legal default is each model's recorded datasheet loadout: combi-bolter
+		// + accursed weapon, no swaps — NOT the orphan heavy weapons (heavy-flamer /
+		// reaper-autocannon) the old weapon_ids inference wrongly promoted to base.
+		expect(Object.fromEntries(loadout)).toEqual({
+			'combi-bolter': 5,
+			'accursed-weapon': 5,
+		});
+		// Total ≈ modelCount × weapons-per-model (2): no model over- or under-equipped.
+		const total = [...loadout.values()].reduce((a, b) => a + b, 0);
+		expect(total).toBe(5 * 2);
 	});
 });
 
@@ -416,15 +421,19 @@ describe('builder unit clone + display', () => {
 });
 
 describe('builder loadout reconciliation', () => {
-	it('forces a fixed base weapon to its required count (Kroot pistol bug)', () => {
+	it('forces a fixed base weapon to its required count (under-recorded base weapon)', () => {
 		const u = unitRaw('kroot-carnivores');
 		if (!u) return; // dataset may not carry T'au
 		const mc = u.model_count?.min ?? 10;
-		// Simulate an import that under-records the always-on Kroot pistol.
-		const seeded = new Map<string, number>([['kroot-pistol', 3]]);
+		// The recorded default loadout is kroot-rifle + close combat weapon on every
+		// model. The close combat weapon is a *fixed* base weapon — in the default
+		// loadout and swapped by no option (the kroot-rifle, by contrast, is
+		// swappable for a tanglebomb launcher / carbine). Simulate an import that
+		// under-records that always-on weapon.
+		const seeded = new Map<string, number>([['close-combat-weapon', 3]]);
 		const fixed = reconcileLoadout('kroot-carnivores', mc, seeded);
-		// Kroot pistol is a base weapon → must equal the model count, no violation.
-		expect(fixed.get('kroot-pistol')).toBe(mc);
+		// A fixed base weapon → must be forced back to the model count, no violation.
+		expect(fixed.get('close-combat-weapon')).toBe(mc);
 		const bu: BuilderUnit = {
 			key: 'k',
 			datasheetId: 'kroot-carnivores',
@@ -437,7 +446,7 @@ describe('builder loadout reconciliation', () => {
 			...emptyBuilderState(),
 			factionId: 'tau-empire',
 			units: [bu],
-		}).filter((v) => v.unitKey === 'k' && /kroot-pistol/.test(v.message));
+		}).filter((v) => v.unitKey === 'k' && /close-combat-weapon/.test(v.message));
 		expect(issues).toHaveLength(0);
 	});
 });

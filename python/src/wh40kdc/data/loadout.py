@@ -20,6 +20,10 @@ from typing import Any
 
 WargearOption = dict[str, Any]
 Unit = dict[str, Any]
+# A unit-composition model row, as far as loadout maths cares: ``min``, ``max``,
+# optional ``default_weapon_ids`` (list, may be empty/absent), and
+# ``is_leader_model`` (bool). Pass the unit's ``unit_composition.models`` here.
+LoadoutModel = dict[str, Any]
 
 
 def option_cap(option: WargearOption, model_count: int) -> int:
@@ -41,7 +45,10 @@ def option_cap(option: WargearOption, model_count: int) -> int:
         cap = max_count if max_count is not None else 1
     if c.get("max_count") is not None:
         cap = min(cap, c["max_count"])
-    return max(0, cap)
+    # A swap is per-model: at most one per model, so never more than model_count —
+    # a max_count larger than the current squad size must not drive a weapon count
+    # negative.
+    return max(0, min(cap, model_count))
 
 
 def _added_ids(option: WargearOption, choice_index: int = 0) -> list[str]:
@@ -64,33 +71,123 @@ def _all_replacement_ids(options: list[WargearOption]) -> set[str]:
     return out
 
 
+def _all_replaced_ids(options: list[WargearOption]) -> set[str]:
+    """Every id that any option swaps OUT (the base weapon a swap replaces)."""
+    out: set[str] = set()
+    for o in options:
+        out.update(o.get("replaces") or [])
+    return out
+
+
 def _base_weapon_ids(unit: Unit, options: list[WargearOption]) -> list[str]:
-    """Base (always-carried) weapon ids: in ``weapon_ids``, never a replacement."""
-    replacements = _all_replacement_ids(options)
-    return [id_ for id_ in unit.get("weapon_ids") or [] if id_ not in replacements]
+    """Derived base (always-carried) weapon ids — the fallback when a unit has no
+    recorded ``default_weapon_ids``.
+
+    A ``weapon_id`` is base iff it is swapped out by some option (``replaces``) OR
+    it never appears on any option's *added* side. The ``replaces`` clause is
+    load-bearing: a base weapon can also be re-added inside another option's choice
+    branch and is still base. An *orphan* weapon (in ``weapon_ids``, touched by no
+    option) stays base.
+    """
+    added = _all_replacement_ids(options)
+    replaced = _all_replaced_ids(options)
+    return [id_ for id_ in unit.get("weapon_ids") or [] if id_ in replaced or id_ not in added]
+
+
+def _has_recorded_defaults(models: list[LoadoutModel] | None) -> bool:
+    """True when every model row records a non-empty default loadout."""
+    if not models:
+        return False
+    return all((m.get("default_weapon_ids") or []) for m in models)
+
+
+def _allocate_models(
+    models: list[LoadoutModel],
+    model_count: int,
+) -> list[tuple[LoadoutModel, int]]:
+    """Allocate ``model_count`` models across the composition's model-types.
+
+    Each leader is taken at its ``min`` (in declared order, never exceeding the
+    remaining count), then the non-leader "bulk" types absorb the rest — each its
+    ``min`` first, then any leftover to the bulk type with the largest ``max``.
+    Deterministic; mirrored across implementations and pinned by the conformance
+    corpus.
+    """
+    out: list[list[Any]] = [[model, 0] for model in models]
+    remaining = max(0, model_count)
+    # Leaders first, at their declared minimum.
+    for row in out:
+        if not row[0].get("is_leader_model"):
+            continue
+        c = min(row[0].get("min") or 0, remaining)
+        row[1] += c
+        remaining -= c
+    bulk = [row for row in out if not row[0].get("is_leader_model")]
+    if not bulk:
+        # No non-leader type: pour any remainder onto the leaders (largest max first).
+        bulk = list(out)
+    # Each bulk type takes its min, then the remainder lands on the largest-max type.
+    for row in bulk:
+        c = min(row[0].get("min") or 0, remaining)
+        row[1] += c
+        remaining -= c
+    if remaining > 0 and bulk:
+        sink = bulk[0]
+        for row in bulk:
+            if (row[0].get("max") or 0) > (sink[0].get("max") or 0):
+                sink = row
+        sink[1] += remaining
+    return [(row[0], row[1]) for row in out]
+
+
+def _base_counts(
+    unit: Unit,
+    model_count: int,
+    options: list[WargearOption],
+    models: list[LoadoutModel] | None = None,
+) -> dict[str, int]:
+    """The base loadout counts: id → count across the unit with no swaps applied.
+
+    When the composition records per-model ``default_weapon_ids``, those are
+    authoritative — base = Σ over model-types of (allocated count × default
+    weapons). Otherwise it falls back to :func:`_base_weapon_ids` × ``model_count``.
+    """
+    counts: dict[str, int] = {}
+    if _has_recorded_defaults(models):
+        assert models is not None
+        for model, count in _allocate_models(models, model_count):
+            if count == 0:
+                continue
+            for id_ in model.get("default_weapon_ids") or []:
+                counts[id_] = counts.get(id_, 0) + count
+        return counts
+    for id_ in _base_weapon_ids(unit, options):
+        counts[id_] = counts.get(id_, 0) + model_count
+    return counts
 
 
 def base_loadout(
     unit: Unit,
     model_count: int,
     options: list[WargearOption],
+    models: list[LoadoutModel] | None = None,
 ) -> dict[str, int]:
     """The base loadout: id → count, every base weapon on every model, no swaps.
 
     This is the legal default a freshly-added unit ships with — each model in
-    its out-of-the-box configuration. :func:`maximal_loadout` starts from this
-    set and then applies every option at full cap.
+    its out-of-the-box configuration. Reads the composition's recorded
+    ``default_weapon_ids`` when present (authoritative), otherwise derives the
+    base set. :func:`maximal_loadout` starts from this set and then applies every
+    option at full cap.
     """
-    counts: dict[str, int] = {}
-    for id_ in _base_weapon_ids(unit, options):
-        counts[id_] = counts.get(id_, 0) + model_count
-    return counts
+    return _base_counts(unit, model_count, options, models)
 
 
 def maximal_loadout(
     unit: Unit,
     model_count: int,
     options: list[WargearOption],
+    models: list[LoadoutModel] | None = None,
 ) -> dict[str, int]:
     """The maximal loadout: id → count across the unit.
 
@@ -98,7 +195,7 @@ def maximal_loadout(
     :func:`option_cap` (choices take their first branch). Swaps move count
     from the replaced id to the added id; add-ons only add.
     """
-    counts: dict[str, int] = base_loadout(unit, model_count, options)
+    counts: dict[str, int] = _base_counts(unit, model_count, options, models)
     for option in options:
         cap = option_cap(option, model_count)
         if cap == 0:
@@ -115,6 +212,7 @@ def weapon_bounds(
     unit: Unit,
     model_count: int,
     options: list[WargearOption],
+    models: list[LoadoutModel] | None = None,
 ) -> dict[str, dict[str, int]]:
     """Inclusive valid count range (``{"min", "max"}``) for each weapon/wargear id.
 
@@ -122,8 +220,8 @@ def weapon_bounds(
     optional (replacement) id ranges ``[0, Σ caps that add it]``.
     """
     bounds: dict[str, dict[str, int]] = {}
-    for id_ in _base_weapon_ids(unit, options):
-        bounds[id_] = {"min": model_count, "max": model_count}
+    for id_, count in _base_counts(unit, model_count, options, models).items():
+        bounds[id_] = {"min": count, "max": count}
     for option in options:
         cap = option_cap(option, model_count)
         for id_ in option.get("replaces") or []:
@@ -165,9 +263,10 @@ def validate_loadout(
     model_count: int,
     options: list[WargearOption],
     counts: dict[str, int],
+    models: list[LoadoutModel] | None = None,
 ) -> list[dict[str, str]]:
     """Report every weapon/wargear count that falls outside its valid range."""
-    bounds = weapon_bounds(unit, model_count, options)
+    bounds = weapon_bounds(unit, model_count, options, models)
     out: list[dict[str, str]] = []
     for id_, n in counts.items():
         b = bounds.get(id_)
@@ -181,7 +280,7 @@ def validate_loadout(
             out.append(
                 {"id": id_, "code": "below-min", "message": f"{id_}: {n} below min {b['min']}"}
             )
-    out.extend(_swap_conflicts(unit, model_count, options, counts))
+    out.extend(_swap_conflicts(unit, model_count, options, counts, models))
     # Deterministic order so the result is stable for cross-impl comparison.
     out.sort(key=lambda v: (v["id"], v["code"]))
     return out
@@ -192,17 +291,19 @@ def _swap_conflicts(
     model_count: int,
     options: list[WargearOption],
     counts: dict[str, int],
+    models: list[LoadoutModel] | None = None,
 ) -> list[dict[str, str]]:
     """Swap-conservation violations the per-id :func:`weapon_bounds` can't see.
 
     A model's replaceable slot holds the base weapon OR one of its swap
     replacements, never both, so ``count(base) + sum(count(replacements))``
-    cannot exceed ``model_count``. Enforced only for the unambiguous shape — a
+    cannot exceed its base count. Enforced only for the unambiguous shape — a
     base weapon swapped out by plain (non-choice) options that replace it alone,
     whose replacement ids are unique within this unit's option set and aren't
     themselves base weapons. Mirror of ``tools/src/data/loadout.ts``.
     """
-    base_ids = set(_base_weapon_ids(unit, options))
+    base_map = _base_counts(unit, model_count, options, models)
+    base_ids = set(base_map.keys())
     added_by: dict[str, int] = {}
     for o in options:
         for id_ in o.get("replacement") or []:
@@ -230,15 +331,19 @@ def _swap_conflicts(
                 break
         if messy or not clean_adds:
             continue
+        # The slot can hold at most as many weapons as there are models carrying
+        # this base weapon by default — its base count (model_count when not
+        # per-model).
+        cap = base_map.get(base, model_count)
         total = counts.get(base, 0) + sum(counts.get(b, 0) for b in clean_adds)
-        if total > model_count:
+        if total > cap:
             out.append(
                 {
                     "id": base,
                     "code": "swap-conflict",
                     "message": (
                         f"{base} and its swap replacement(s) total {total}, "
-                        f"exceeding {model_count} (a model takes the base weapon "
+                        f"exceeding {cap} (a model takes the base weapon "
                         f"or a swap, not both)"
                     ),
                 }

@@ -1,239 +1,1026 @@
 [
   {
-    "id": "imperial-navy-breachers-wgo-1",
-    "unit_id": "imperial-navy-breachers",
+    "id": "sanctifiers-wgo-mfm-1",
+    "unit_id": "sanctifiers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "navis-shotgun"
+      "plasma-gun",
+      "ministorum-flamer"
     ],
     "replacement": [
-      "navis-heavy-shotgun"
+      "meltagun"
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "model_name": "Missionary",
+      "any_number": true
+    }
   },
   {
-    "id": "imperial-navy-breachers-wgo-2",
-    "unit_id": "imperial-navy-breachers",
+    "id": "sanctifiers-wgo-mfm-2",
+    "unit_id": "sanctifiers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "navis-shotgun"
+      "ministorum-flamer"
     ],
     "replacement": [
-      "chainsword",
-      "autopistol"
-    ],
-    "model_constraint": {
-      "model_name": "Navis Sergeant-at-Arms",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "imperial-navy-breachers-wgo-3",
-    "unit_id": "imperial-navy-breachers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "demolition-charge"
+      "holy-fire"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Missionary",
+      "any_number": true
+    }
   },
   {
-    "id": "subductor-squad-wgo-4",
-    "unit_id": "subductor-squad",
+    "id": "sanctifiers-wgo-mfm-3",
+    "unit_id": "sanctifiers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "nuncio-aquila"
+    "is_free": true,
+    "replaces": [
+      "sanctifier-melee-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "ministorum-hand-flamer"
+      ],
+      [
+        "close-combat-weapon"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Sanctifier",
+      "any_number": true
+    }
   },
   {
-    "id": "exaction-squad-wgo-5",
-    "unit_id": "exaction-squad",
+    "id": "inquisitorial-chimera-wgo-mfm-1",
+    "unit_id": "inquisitorial-chimera",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "multi-laser",
+      "heavy-bolter",
+      "lasgun-array",
+      "armoured-tracks"
+    ],
     "replacement": [
-      "excruciator-maul"
+      "hunter-killer-missile"
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "exaction-squad-wgo-6",
-    "unit_id": "exaction-squad",
+    "id": "inquisitorial-chimera-wgo-mfm-2",
+    "unit_id": "inquisitorial-chimera",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "arbites-combat-shotgun"
+      "lasgun-array",
+      "armoured-tracks"
     ],
     "replacement_choice": [
-      [
-        "arbites-grenade-launcher"
-      ],
-      [
-        "executioner-shotgun"
-      ],
       [
         "heavy-stubber"
       ],
       [
-        "webber"
+        "storm-bolter"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "exaction-squad-wgo-7",
-    "unit_id": "exaction-squad",
+    "id": "inquisitorial-chimera-wgo-mfm-3",
+    "unit_id": "inquisitorial-chimera",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "nuncio-aquila"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "vigilant-squad-wgo-8",
-    "unit_id": "vigilant-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "arbites-combat-shotgun"
+      "multi-laser",
+      "heavy-bolter",
+      "lasgun-array",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
-        "arbites-grenade-launcher"
+        "storm-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
       ],
       [
-        "executioner-shotgun"
-      ],
-      [
+        "heavy-flamer",
+        "heavy-flamer",
         "heavy-stubber"
       ],
       [
-        "webber"
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "storm-bolter"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "vigilant-squad-wgo-9",
-    "unit_id": "vigilant-squad",
+    "id": "inquisitorial-chimera-wgo-mfm-4",
+    "unit_id": "inquisitorial-chimera",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "nuncio-aquila"
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "lasgun-array",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-stubber",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "inquisitorial-agents-wgo-10",
+    "id": "inquisitorial-chimera-wgo-mfm-5",
+    "unit_id": "inquisitorial-chimera",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "multi-laser",
+      "lasgun-array",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-stubber",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "storm-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "storm-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sisters-of-battle-immolator-wgo-mfm-1",
+    "unit_id": "sisters-of-battle-immolator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "immolation-flamers",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "twin-multi-melta"
+      ],
+      [
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sisters-of-battle-immolator-wgo-mfm-2",
+    "unit_id": "sisters-of-battle-immolator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-bolter",
+      "immolation-flamers",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "inquisitorial-agents-wgo-mfm-1",
     "unit_id": "inquisitorial-agents",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "tome-skull"
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "plasma-pistol"
+      ],
+      [
+        "mystic-stave"
+      ],
+      [
+        "eviscerator"
+      ]
     ],
     "model_constraint": {
-      "max_count": 2
-    },
-    "is_free": true
+      "model_name": "Inquisitorial Agent",
+      "per_n_models": 6
+    }
   },
   {
-    "id": "grey-knights-terminator-squad-wgo-11",
-    "unit_id": "grey-knights-terminator-squad",
+    "id": "inquisitorial-agents-wgo-mfm-2",
+    "unit_id": "inquisitorial-agents",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "storm-bolter"
+      "heavy-bolter"
     ],
-    "replacement": [
-      "narthecium"
+    "replacement_choice": [
+      [
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta"
+      ]
     ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
+      "model_name": "Gun Servitor",
+      "per_n_models": 6
+    }
   },
   {
-    "id": "grey-knights-terminator-squad-wgo-12",
+    "id": "inquisitor-wgo-mfm-1",
+    "unit_id": "inquisitor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "inquisitorial-melee-weapon",
+      "blessed-wardings"
+    ],
+    "replacement": [
+      "psychic-shock-wave",
+      "combi-weapon",
+      "force-weapon",
+      "psychic-gifts"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "inquisitor-wgo-mfm-2",
+    "unit_id": "inquisitor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inquisitorial-melee-weapon",
+      "blessed-wardings"
+    ],
+    "replacement": [
+      "psychic-gifts",
+      "psychic-shock-wave",
+      "force-weapon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "inquisitor-wgo-mfm-3",
+    "unit_id": "inquisitor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "blessed-wardings"
+    ],
+    "replacement": [
+      "psychic-gifts",
+      "combi-weapon",
+      "psychic-shock-wave"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "inquisitor-wgo-mfm-4",
+    "unit_id": "inquisitor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "blessed-wardings"
+    ],
+    "replacement": [
+      "psychic-shock-wave",
+      "psychic-gifts"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "inquisitor-wgo-mfm-5",
+    "unit_id": "inquisitor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "grey-knights-terminator-squad-wgo-mfm-1",
     "unit_id": "grey-knights-terminator-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "storm-bolter",
+      "nemesis-force-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "narthecium"
+      ],
+      [
+        "psilencer"
+      ],
+      [
+        "psycannon"
+      ],
+      [
+        "incinerator"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Grey Knights Terminators",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "grey-knights-terminator-squad-wgo-mfm-2",
+    "unit_id": "grey-knights-terminator-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "nemesis-force-weapon"
+    ],
     "replacement": [
       "ancients-banner"
     ],
     "model_constraint": {
+      "model_name": "Grey Knights Terminators",
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "sisters-of-battle-squad-wgo-13",
-    "unit_id": "sisters-of-battle-squad",
+    "id": "voidsmen-at-arms-wgo-mfm-1",
+    "unit_id": "voidsmen-at-arms",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "lasgun"
+    ],
+    "replacement": [
+      "voidsman-rotor-cannon"
+    ],
+    "model_constraint": {
+      "model_name": "Voidsman",
+      "any_number": true
+    }
+  },
+  {
+    "id": "deathwatch-kill-team-wgo-mfm-1",
+    "unit_id": "deathwatch-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "power-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "astartes-shield"
+      ],
+      [
+        "xenophase-blade"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Watch Sergeant",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "deathwatch-kill-team-wgo-mfm-2",
+    "unit_id": "deathwatch-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "power-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "close-combat-weapon",
+        "frag-cannon"
+      ],
+      [
+        "astartes-shield",
+        "xenophase-blade"
+      ],
+      [
+        "infernus-heavy-bolter",
+        "close-combat-weapon"
+      ],
+      [
+        "stalker-pattern-boltgun",
+        "close-combat-weapon"
+      ],
+      [
+        "astartes-shield",
+        "combi-weapon"
+      ],
+      [
+        "deathwatch-thunder-hammer"
+      ],
+      [
+        "deathwatch-shotgun",
+        "close-combat-weapon"
+      ],
+      [
+        "black-shield-blades"
+      ],
+      [
+        "combi-weapon",
+        "xenophase-blade"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Watch Sergeant",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "deathwatch-kill-team-wgo-mfm-3",
+    "unit_id": "deathwatch-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
     "replaces": [
       "boltgun"
     ],
     "replacement_choice": [
       [
-        "condemnor-boltgun"
+        "astartes-shield"
       ],
       [
         "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Watch Sergeant",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "deathwatch-kill-team-wgo-mfm-4",
+    "unit_id": "deathwatch-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "power-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "black-shield-blades"
+      ],
+      [
+        "close-combat-weapon",
+        "infernus-heavy-bolter"
+      ],
+      [
+        "close-combat-weapon",
+        "deathwatch-shotgun"
+      ],
+      [
+        "stalker-pattern-boltgun",
+        "close-combat-weapon"
+      ],
+      [
+        "close-combat-weapon",
+        "frag-cannon"
+      ],
+      [
+        "deathwatch-thunder-hammer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Deathwatch Veterans",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "deathwatch-kill-team-wgo-mfm-5",
+    "unit_id": "deathwatch-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement": [
+      "astartes-shield"
+    ],
+    "model_constraint": {
+      "model_name": "Deathwatch Veterans",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "deathwatch-kill-team-wgo-mfm-6",
+    "unit_id": "deathwatch-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "power-weapon"
+    ],
+    "replacement": [
+      "astartes-shield"
+    ],
+    "model_constraint": {
+      "model_name": "Deathwatch Veterans",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "imperial-rhino-wgo-mfm-1",
+    "unit_id": "imperial-rhino",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "aquila-kill-team-wgo-mfm-1",
+    "unit_id": "aquila-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "deathwatch-marksman-bolt-carbine"
+    ],
+    "replacement": [
+      "combat-knife"
+    ],
+    "model_constraint": {
+      "model_name": "Deathwatch Veteran",
+      "any_number": true
+    }
+  },
+  {
+    "id": "aquila-kill-team-wgo-mfm-2",
+    "unit_id": "aquila-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-thunder-hammer"
+    ],
+    "replacement": [
+      "power-weapon",
+      "astartes-shield"
+    ],
+    "model_constraint": {
+      "model_name": "Deathwatch Veteran",
+      "any_number": true
+    }
+  },
+  {
+    "id": "aquila-kill-team-wgo-mfm-3",
+    "unit_id": "aquila-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "stalker-bolt-rifle"
+    ],
+    "replacement": [
+      "plasma-incinerator"
+    ],
+    "model_constraint": {
+      "model_name": "Deathwatch Veteran",
+      "any_number": true
+    }
+  },
+  {
+    "id": "aquila-kill-team-wgo-mfm-4",
+    "unit_id": "aquila-kill-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "infernus-heavy-bolter"
+    ],
+    "replacement_choice": [
+      [
+        "astartes-grenade-launcher",
+        "hellstorm-bolt-rifle"
+      ],
+      [
+        "frag-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Gravis Veteran",
+      "any_number": true
+    }
+  },
+  {
+    "id": "exaction-squad-wgo-mfm-1",
+    "unit_id": "exaction-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arbites-combat-shotgun",
+      "arbites-shotpistol",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "nuncio-aquila"
+    ],
+    "model_constraint": {
+      "model_name": "Proctor-Exactant",
+      "any_number": true
+    }
+  },
+  {
+    "id": "exaction-squad-wgo-mfm-2",
+    "unit_id": "exaction-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arbites-shotpistol",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "excruciator-maul"
+    ],
+    "model_constraint": {
+      "model_name": "Exaction Vigilant",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "exaction-squad-wgo-mfm-3",
+    "unit_id": "exaction-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arbites-combat-shotgun",
+      "arbites-shotpistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "arbites-grenade-launcher"
+      ],
+      [
+        "heavy-stubber"
+      ],
+      [
+        "executioner-shotgun"
+      ],
+      [
+        "webber"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Exaction Vigilant",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "imperial-navy-breachers-wgo-mfm-1",
+    "unit_id": "imperial-navy-breachers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "navis-las-volley"
+    ],
+    "replacement_choice": [
+      [
+        "autopistol",
+        "power-weapon"
+      ],
+      [
+        "navis-heavy-shotgun"
+      ],
+      [
+        "plasma-gun"
+      ],
+      [
+        "autopistol",
+        "chainfist"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "navis-shotgun"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Navis Armsman",
+      "any_number": true
+    }
+  },
+  {
+    "id": "imperial-navy-breachers-wgo-mfm-2",
+    "unit_id": "imperial-navy-breachers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "navis-shotgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "autopistol",
+        "chainsword"
+      ],
+      [
+        "power-weapon",
+        "bolt-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Navis Sergeant-at-Arms",
+      "any_number": true
+    }
+  },
+  {
+    "id": "vigilant-squad-wgo-mfm-1",
+    "unit_id": "vigilant-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arbites-combat-shotgun",
+      "arbites-shotpistol",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "nuncio-aquila"
+    ],
+    "model_constraint": {
+      "model_name": "Proctor-Vigilant",
+      "any_number": true
+    }
+  },
+  {
+    "id": "vigilant-squad-wgo-mfm-2",
+    "unit_id": "vigilant-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arbites-combat-shotgun",
+      "arbites-shotpistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-stubber"
+      ],
+      [
+        "executioner-shotgun"
+      ],
+      [
+        "arbites-grenade-launcher"
+      ],
+      [
+        "webber"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Vigilant",
+      "max_count": 2
+    }
+  },
+  {
+    "id": "subductor-squad-wgo-mfm-1",
+    "unit_id": "subductor-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arbites-shotpistol",
+      "shock-maul"
+    ],
+    "replacement": [
+      "nuncio-aquila"
+    ],
+    "model_constraint": {
+      "model_name": "Proctor-Subductor",
+      "any_number": true
+    }
+  },
+  {
+    "id": "sisters-of-battle-squad-wgo-mfm-1",
+    "unit_id": "sisters-of-battle-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "boltgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "multi-melta"
+      ],
+      [
+        "meltagun"
+      ],
+      [
+        "ministorum-heavy-flamer"
+      ],
+      [
+        "artificer-crafted-storm-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "ministorum-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Battle Sister",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "sisters-of-battle-squad-wgo-mfm-2",
+    "unit_id": "sisters-of-battle-squad",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "bolt-pistol"
+      ],
+      [
+        "condemnor-boltgun"
       ],
       [
         "ministorum-hand-flamer"
@@ -242,368 +1029,150 @@
         "inferno-pistol"
       ],
       [
-        "plasma-pistol"
+        "combi-weapon"
       ],
       [
-        "bolt-pistol"
+        "plasma-pistol"
       ]
     ],
     "model_constraint": {
       "model_name": "Sister Superior",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "sisters-of-battle-squad-wgo-14",
+    "id": "sisters-of-battle-squad-wgo-mfm-3",
     "unit_id": "sisters-of-battle-squad",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "ministorum-flamer"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sisters-of-battle-squad-wgo-15",
-    "unit_id": "sisters-of-battle-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "heavy-bolter"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sisters-of-battle-squad-wgo-16",
-    "unit_id": "sisters-of-battle-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "artificer-crafted-storm-bolter"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sisters-of-battle-squad-wgo-17",
-    "unit_id": "sisters-of-battle-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "meltagun"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sisters-of-battle-squad-wgo-18",
-    "unit_id": "sisters-of-battle-squad",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "ministorum-flamer"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "deathwatch-kill-team-wgo-19",
-    "unit_id": "deathwatch-kill-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "power-weapon"
-    ],
-    "replacement": [
-      "astartes-shield"
-    ],
-    "model_constraint": {
-      "max_count": 4
-    },
-    "is_free": true
-  },
-  {
-    "id": "deathwatch-kill-team-wgo-20",
-    "unit_id": "deathwatch-kill-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement": [
-      "astartes-shield"
-    ],
-    "model_constraint": {
-      "max_count": 4
-    },
-    "is_free": true
-  },
-  {
-    "id": "deathwatch-kill-team-wgo-21",
-    "unit_id": "deathwatch-kill-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "boltgun"
+      "bolt-pistol",
+      "boltgun",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
-        "combi-weapon"
+        "chainsword"
       ],
       [
-        "astartes-shield"
+        "power-weapon"
       ]
     ],
     "model_constraint": {
-      "model_name": "Watch Sergeant",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Sister Superior",
+      "any_number": true
+    }
   },
   {
-    "id": "sanctifiers-wgo-22",
-    "unit_id": "sanctifiers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "plasma-gun"
-    ],
-    "replacement": [
-      "meltagun"
-    ],
-    "model_constraint": {
-      "model_name": "Missionary w/ plasma gun",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sanctifiers-wgo-23",
-    "unit_id": "sanctifiers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "holy-fire"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "inquisitor-wgo-24",
-    "unit_id": "inquisitor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inquisitorial-melee-weapon"
-    ],
-    "replacement": [
-      "force-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "inquisitor-wgo-25",
-    "unit_id": "inquisitor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "combi-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "inquisitor-wgo-26",
-    "unit_id": "inquisitor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "blessed-wardings"
-    ],
-    "replacement": [
-      "psychic-gifts"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "inquisitorial-chimera-wgo-27",
-    "unit_id": "inquisitorial-chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "inquisitorial-chimera-wgo-28",
-    "unit_id": "inquisitorial-chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "heavy-bolter"
-    ],
-    "replacement": [
-      "heavy-flamer"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "inquisitorial-chimera-wgo-29",
-    "unit_id": "inquisitorial-chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "storm-bolter"
-      ],
-      [
-        "heavy-stubber"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "inquisitorial-chimera-wgo-30",
-    "unit_id": "inquisitorial-chimera",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-laser"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "imperial-rhino-wgo-31",
-    "unit_id": "imperial-rhino",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "sisters-of-battle-immolator-wgo-32",
-    "unit_id": "sisters-of-battle-immolator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "corvus-blackstar-wgo-33",
+    "id": "corvus-blackstar-wgo-mfm-1",
     "unit_id": "corvus-blackstar",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "blackstar-rocket-launcher",
+      "blackstar-rocket-launcher",
+      "twin-assault-cannon",
+      "armoured-hull"
+    ],
+    "replacement_choice": [
+      [
+        "infernum-halo-launcher"
+      ],
+      [
+        "auspex-array"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "corvus-blackstar-wgo-mfm-2",
+    "unit_id": "corvus-blackstar",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "blackstar-rocket-launcher",
+      "blackstar-rocket-launcher",
+      "twin-assault-cannon",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "twin-lascannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "corvus-blackstar-wgo-mfm-3",
+    "unit_id": "corvus-blackstar",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "blackstar-rocket-launcher",
+      "blackstar-rocket-launcher",
+      "twin-assault-cannon",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "stormstrike-missile-launcher",
+      "stormstrike-missile-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "corvus-blackstar-wgo-mfm-4",
+    "unit_id": "corvus-blackstar",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "blackstar-rocket-launcher",
+      "blackstar-rocket-launcher",
+      "twin-assault-cannon",
+      "armoured-hull"
+    ],
     "replacement": [
       "hurricane-bolter"
     ],
-    "is_free": true
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "corvus-blackstar-wgo-34",
-    "unit_id": "corvus-blackstar",
+    "id": "ministorum-priest-wgo-mfm-1",
+    "unit_id": "ministorum-priest",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement_choice": [
-      [
-        "auspex-array"
-      ],
-      [
-        "infernum-halo-launcher"
-      ]
+    "is_free": true,
+    "replaces": [
+      "zealots-vindictor"
+    ],
+    "replacement": [
+      "power-weapon",
+      "holy-pistol"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   }
 ]

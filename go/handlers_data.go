@@ -67,13 +67,26 @@ func (s *RunnerState) handleLinkedQuery(args any) map[string]any {
 			out = append(out, getStr(o.(map[string]any), "id"))
 		}
 		return okResp(out)
-	case "maximal_loadout":
+	case "base_loadout", "maximal_loadout":
 		u, ok := ds.Units.Get(unitID)
 		if !ok {
 			return unknownUnit()
 		}
 		modelCount := asInt(in["modelCount"])
-		lo := maximalLoadout(u.Raw, modelCount, ds.wargearOptionsOf(u.Raw))
+		var models []any
+		for _, cAny := range ds.UnitCompositions {
+			c, _ := asMap(cAny)
+			if getStr(c, "unit_id") == unitID {
+				models = getList(c, "models")
+				break
+			}
+		}
+		var lo map[string]int
+		if query == "base_loadout" {
+			lo = baseLoadout(u.Raw, modelCount, ds.wargearOptionsOf(u.Raw), models)
+		} else {
+			lo = maximalLoadout(u.Raw, modelCount, ds.wargearOptionsOf(u.Raw), models)
+		}
 		strs := make([]string, 0, len(lo))
 		for id, n := range lo {
 			strs = append(strs, id+":"+itoa(n))

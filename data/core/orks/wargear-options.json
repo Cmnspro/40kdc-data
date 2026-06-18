@@ -1,11 +1,557 @@
 [
   {
-    "id": "boyz-wgo-1",
+    "id": "warbikers-wgo-mfm-1",
+    "unit_id": "warbikers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-dakkagun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "slugga"
+      ],
+      [
+        "power-klaw"
+      ],
+      [
+        "big-choppa"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob on Warbike",
+      "any_number": true
+    }
+  },
+  {
+    "id": "warbikers-wgo-mfm-2",
+    "unit_id": "warbikers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-dakkagun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "choppa"
+      ],
+      [
+        "slugga"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Warbiker",
+      "any_number": true
+    }
+  },
+  {
+    "id": "deffkoptas-wgo-mfm-1",
+    "unit_id": "deffkoptas",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kopta-rokkits",
+      "slugga",
+      "spinnin-blades"
+    ],
+    "replacement": [
+      "kustom-mega-blasta"
+    ],
+    "model_constraint": {
+      "per_n_models": 3
+    }
+  },
+  {
+    "id": "painboy-wgo-mfm-1",
+    "unit_id": "painboy",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "power-klaw",
+      "urty-syringe"
+    ],
+    "replacement": [
+      "grot-orderly"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "killa-kans-wgo-mfm-1",
+    "unit_id": "killa-kans",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kan-shoota",
+      "kan-klaw"
+    ],
+    "replacement_choice": [
+      [
+        "rokkit-launcha"
+      ],
+      [
+        "grotzooka"
+      ],
+      [
+        "skorcha"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "lootas-wgo-mfm-1",
+    "unit_id": "lootas",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "big-shoota",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "kustom-mega-blasta"
+      ],
+      [
+        "rokkit-launcha"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Spanner",
+      "any_number": true
+    }
+  },
+  {
+    "id": "big-mek-wgo-mfm-1",
+    "unit_id": "big-mek",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-mega-blasta",
+      "power-klaw"
+    ],
+    "replacement": [
+      "traktor-blasta"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "big-mek-wgo-mfm-2",
+    "unit_id": "big-mek",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-mega-blasta",
+      "power-klaw"
+    ],
+    "replacement": [
+      "drilla"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "wazbom-blastajet-wgo-mfm-1",
+    "unit_id": "wazbom-blastajet",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "smasha-gun",
+      "twin-wazbom-mega-kannon",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "twin-supa-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "wazbom-blastajet-wgo-mfm-2",
+    "unit_id": "wazbom-blastajet",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "smasha-gun",
+      "twin-wazbom-mega-kannon",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "blastajet-force-field"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "wazbom-blastajet-wgo-mfm-3",
+    "unit_id": "wazbom-blastajet",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "smasha-gun",
+      "twin-wazbom-mega-kannon",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "twin-tellyport-mega-blasta"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-1",
+    "unit_id": "battlewagon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tracks-and-wheels"
+    ],
+    "replacement_choice": [
+      [
+        "wreckin-ball"
+      ],
+      [
+        "ard-case"
+      ],
+      [
+        "grabbin-klaw"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-2",
+    "unit_id": "battlewagon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tracks-and-wheels"
+    ],
+    "replacement": [
+      "lobba"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-3",
+    "unit_id": "battlewagon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tracks-and-wheels"
+    ],
+    "replacement": [
+      "big-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-4",
+    "unit_id": "battlewagon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tracks-and-wheels"
+    ],
+    "replacement_choice": [
+      [
+        "killkannon"
+      ],
+      [
+        "kannon"
+      ],
+      [
+        "zzap-gun"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-5",
+    "unit_id": "battlewagon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tracks-and-wheels"
+    ],
+    "replacement": [
+      "deff-rolla"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "breaka-boyz-wgo-mfm-1",
+    "unit_id": "breaka-boyz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "smash-hammer"
+    ],
+    "replacement": [
+      "rokkit-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob",
+      "any_number": true
+    }
+  },
+  {
+    "id": "breaka-boyz-wgo-mfm-2",
+    "unit_id": "breaka-boyz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "smash-hammer"
+    ],
+    "replacement_choice": [
+      [
+        "knucklebustas"
+      ],
+      [
+        "tankhammer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Breaka Boy",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "biged-bossbunka-wgo-mfm-1",
+    "unit_id": "biged-bossbunka",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "gaze-of-gork"
+    ],
+    "replacement_choice": [
+      [
+        "big-shoota",
+        "big-shoota"
+      ],
+      [
+        "big-shoota",
+        "big-shoota",
+        "big-shoota"
+      ],
+      [
+        "big-shoota"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tankbustas-wgo-mfm-1",
+    "unit_id": "tankbustas",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "rokkit-pistol"
+    ],
+    "replacement": [
+      "smash-hammer"
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tankbustas-wgo-mfm-2",
+    "unit_id": "tankbustas",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "rokkit-launcha"
+    ],
+    "model_constraint": {
+      "model_name": "Tankbusta",
+      "max_count": 2
+    }
+  },
+  {
+    "id": "kommandos-wgo-mfm-1",
+    "unit_id": "kommandos",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "choppa"
+    ],
+    "replacement_choice": [
+      [
+        "kustom-shoota",
+        "close-combat-weapon"
+      ],
+      [
+        "rokkit-launcha",
+        "close-combat-weapon"
+      ],
+      [
+        "breacha-ram"
+      ],
+      [
+        "close-combat-weapon",
+        "burna"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Kommando",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "kommandos-wgo-mfm-2",
+    "unit_id": "kommandos",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "choppa"
+    ],
+    "replacement_choice": [
+      [
+        "power-klaw"
+      ],
+      [
+        "big-choppa"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob",
+      "any_number": true
+    }
+  },
+  {
+    "id": "boyz-wgo-mfm-1",
     "unit_id": "boyz",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "choppa"
+    ],
+    "replacement_choice": [
+      [
+        "shoota",
+        "close-combat-weapon"
+      ],
+      [
+        "big-shoota",
+        "close-combat-weapon"
+      ],
+      [
+        "close-combat-weapon",
+        "rokkit-launcha"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Boy",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "boyz-wgo-mfm-2",
+    "unit_id": "boyz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
     "replaces": [
       "slugga",
       "big-choppa"
@@ -16,110 +562,383 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "deffkoptas-wgo-2",
-    "unit_id": "deffkoptas",
+    "id": "boyz-wgo-mfm-3",
+    "unit_id": "boyz",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "kopta-rokkits"
+      "big-choppa"
     ],
     "replacement": [
-      "kustom-mega-blasta"
+      "power-klaw"
     ],
     "model_constraint": {
-      "per_n_models": 3
-    },
-    "is_free": true
+      "model_name": "Boss Nob",
+      "any_number": true
+    }
   },
   {
-    "id": "flash-gitz-wgo-3",
-    "unit_id": "flash-gitz",
+    "id": "trukk-wgo-mfm-1",
+    "unit_id": "trukk",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "ammo-runt"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "killa-kans-wgo-4",
-    "unit_id": "killa-kans",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "kan-shoota"
+      "big-shoota",
+      "spiked-wheels"
+    ],
+    "replacement": [
+      "wreckin-ball"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "painboss-wgo-mfm-1",
+    "unit_id": "painboss",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "beast-snagga-klaw"
+    ],
+    "replacement": [
+      "grot-orderly"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "mek-gunz-wgo-mfm-1",
+    "unit_id": "mek-gunz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "smasha-gun",
+      "grot-crew"
     ],
     "replacement_choice": [
       [
-        "grotzooka"
+        "bubblechukka"
       ],
       [
-        "rokkit-launcha"
+        "traktor-kannon"
       ],
       [
-        "skorcha"
+        "kustom-mega-kannon"
       ]
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "kommandos-wgo-5",
-    "unit_id": "kommandos",
+    "id": "stormboyz-wgo-mfm-1",
+    "unit_id": "stormboyz",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "slugga",
       "choppa"
     ],
     "replacement": [
-      "big-choppa"
+      "power-klaw"
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "kommandos-wgo-6",
-    "unit_id": "kommandos",
+    "id": "deff-dread-wgo-mfm-1",
+    "unit_id": "deff-dread",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "distraction-grot"
+    "is_free": true,
+    "replaces": [
+      "stompy-feet",
+      "big-shoota",
+      "big-shoota",
+      "dread-klaw",
+      "dread-klaw"
+    ],
+    "replacement_choice": [
+      [
+        "kustom-mega-blasta"
+      ],
+      [
+        "skorcha"
+      ],
+      [
+        "rokkit-launcha"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "meganobz-wgo-7",
+    "id": "dakkajet-wgo-mfm-1",
+    "unit_id": "dakkajet",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-hull"
+    ],
+    "replacement": [
+      "twin-supa-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "big-mek-in-mega-armour-wgo-mfm-1",
+    "unit_id": "big-mek-in-mega-armour",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-mega-blasta",
+      "power-klaw"
+    ],
+    "replacement_choice": [
+      [
+        "kombi-weapon"
+      ],
+      [
+        "killsaw"
+      ],
+      [
+        "kustom-shoota"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "big-mek-in-mega-armour-wgo-mfm-2",
+    "unit_id": "big-mek-in-mega-armour",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-mega-blasta",
+      "power-klaw"
+    ],
+    "replacement_choice": [
+      [
+        "kustom-force-field"
+      ],
+      [
+        "tellyport-blasta"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "beast-snagga-boyz-wgo-mfm-1",
+    "unit_id": "beast-snagga-boyz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "choppa"
+    ],
+    "replacement": [
+      "thump-gun",
+      "close-combat-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Beast Snagga Boy",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "mek-wgo-mfm-1",
+    "unit_id": "mek",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-mega-slugga",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "killsaw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "burna-boyz-wgo-mfm-1",
+    "unit_id": "burna-boyz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "big-shoota"
+    ],
+    "replacement_choice": [
+      [
+        "rokkit-launcha"
+      ],
+      [
+        "kustom-mega-blasta"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Spanner",
+      "any_number": true
+    }
+  },
+  {
+    "id": "nobz-wgo-mfm-1",
+    "unit_id": "nobz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "big-choppa"
+    ],
+    "replacement": [
+      "kombi-weapon",
+      "close-combat-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Nob",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "nobz-wgo-mfm-2",
+    "unit_id": "nobz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "big-choppa"
+    ],
+    "replacement": [
+      "power-klaw"
+    ],
+    "model_constraint": {
+      "model_name": "Nob",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "nobz-wgo-mfm-3",
+    "unit_id": "nobz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "big-choppa"
+    ],
+    "replacement": [
+      "power-klaw"
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "nobz-wgo-mfm-4",
+    "unit_id": "nobz",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "big-choppa"
+    ],
+    "replacement": [
+      "kombi-weapon",
+      "close-combat-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "beastboss-on-squigosaur-wgo-mfm-1",
+    "unit_id": "beastboss-on-squigosaur",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slugga",
+      "beastchoppa",
+      "squigosaurs-jaws"
+    ],
+    "replacement": [
+      "thump-gun"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "meganobz-wgo-mfm-1",
     "unit_id": "meganobz",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "kustom-shoota"
     ],
@@ -133,475 +952,62 @@
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "meganobz-wgo-8",
+    "id": "meganobz-wgo-mfm-2",
     "unit_id": "meganobz",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "kustom-shoota",
       "power-klaw"
     ],
-    "replacement": [
-      "killsaw"
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "mek-gunz-wgo-9",
-    "unit_id": "mek-gunz",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "smasha-gun"
-    ],
     "replacement_choice": [
       [
-        "bubblechukka"
+        "twin-killsaw"
       ],
       [
-        "kustom-mega-kannon"
-      ],
-      [
-        "traktor-kannon"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "nobz-wgo-10",
-    "unit_id": "nobz",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "big-choppa"
-    ],
-    "replacement": [
-      "power-klaw"
-    ],
-    "model_constraint": {
-      "max_count": 9
-    },
-    "is_free": true
-  },
-  {
-    "id": "nobz-wgo-11",
-    "unit_id": "nobz",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "big-choppa",
-      "slugga"
-    ],
-    "replacement": [
-      "kombi-weapon"
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "nobz-wgo-12",
-    "unit_id": "nobz",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "ammo-runt"
-    ],
-    "model_constraint": {
-      "max_count": 2
-    },
-    "is_free": true
-  },
-  {
-    "id": "warbikers-wgo-13",
-    "unit_id": "warbikers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "slugga"
-      ],
-      [
-        "choppa"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "warbikers-wgo-14",
-    "unit_id": "warbikers",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "slugga"
-      ],
-      [
-        "big-choppa"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob on Warbike",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "breaka-boyz-wgo-15",
-    "unit_id": "breaka-boyz",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "smash-hammer"
-    ],
-    "replacement_choice": [
-      [
-        "tankhammer"
-      ],
-      [
-        "knucklebustas"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 6
-    },
-    "is_free": true
-  },
-  {
-    "id": "breaka-boyz-wgo-16",
-    "unit_id": "breaka-boyz",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "smash-hammer"
-    ],
-    "replacement": [
-      "rokkit-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "max_count": 2
-    },
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-17",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "ard-case"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-18",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "lobba"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-19",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "wreckin-ball"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-20",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "grabbin-klaw"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-21",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "big-shoota"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-22",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "killkannon"
-      ],
-      [
-        "zzap-gun"
-      ],
-      [
-        "kannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "battlewagon-wgo-23",
-    "unit_id": "battlewagon",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "tracks-and-wheels"
-    ],
-    "replacement": [
-      "deff-rolla"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "big-mek-in-mega-armour-wgo-24",
-    "unit_id": "big-mek-in-mega-armour",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "tellyport-blasta"
-      ],
-      [
-        "kustom-force-field"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "big-mek-in-mega-armour-wgo-25",
-    "unit_id": "big-mek-in-mega-armour",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "kustom-mega-blasta"
-    ],
-    "replacement_choice": [
-      [
-        "kustom-shoota"
-      ],
-      [
+        "killsaw",
         "kombi-weapon"
-      ],
-      [
-        "killsaw"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "deff-dread-wgo-26",
-    "unit_id": "deff-dread",
+    "id": "meganobz-wgo-mfm-3",
+    "unit_id": "meganobz",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "kustom-mega-blasta"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "deff-dread-wgo-27",
-    "unit_id": "deff-dread",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "rokkit-launcha"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "deff-dread-wgo-28",
-    "unit_id": "deff-dread",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "skorcha"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "mek-wgo-29",
-    "unit_id": "mek",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "wrench"
+      "power-klaw"
     ],
     "replacement": [
       "killsaw"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "painboss-wgo-30",
-    "unit_id": "painboss",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "grot-orderly"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "painboy-wgo-31",
-    "unit_id": "painboy",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "grot-orderly"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "warboss-wgo-32",
-    "unit_id": "warboss",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "attack-squig"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "wazbom-blastajet-wgo-33",
-    "unit_id": "wazbom-blastajet",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-wazbom-mega-kannon"
-    ],
-    "replacement": [
-      "twin-tellyport-mega-blasta"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "wazbom-blastajet-wgo-34",
-    "unit_id": "wazbom-blastajet",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "blastajet-force-field"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "wazbom-blastajet-wgo-35",
-    "unit_id": "wazbom-blastajet",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "twin-supa-shoota"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "gargantuan-squiggoth-wgo-36",
+    "id": "gargantuan-squiggoth-wgo-mfm-1",
     "unit_id": "gargantuan-squiggoth",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "huge-tusks"
+    ],
     "replacement_choice": [
       [
         "supa-kannon"
@@ -611,8 +1017,67 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "burna-bommer-wgo-mfm-1",
+    "unit_id": "burna-bommer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "is_free": true
+    "is_free": true,
+    "replaces": [
+      "twin-big-shoota",
+      "twin-supa-shoota",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "skorcha-missile-rack"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "warboss-wgo-mfm-1",
+    "unit_id": "warboss",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kombi-weapon",
+      "twin-sluggas",
+      "big-choppa"
+    ],
+    "replacement": [
+      "attack-squig"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "warboss-wgo-mfm-2",
+    "unit_id": "warboss",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kombi-weapon",
+      "twin-sluggas",
+      "big-choppa"
+    ],
+    "replacement": [
+      "power-klaw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   }
 ]

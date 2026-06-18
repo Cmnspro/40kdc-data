@@ -1,136 +1,343 @@
 [
   {
-    "id": "pink-horrors-wgo-1",
-    "unit_id": "pink-horrors",
+    "id": "soul-grinder-wgo-mfm-1",
+    "unit_id": "soul-grinder",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "daemonic-icon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pink-horrors-wgo-2",
-    "unit_id": "pink-horrors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "instrument-of-chaos"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "bloodthirster-wgo-3",
-    "unit_id": "bloodthirster",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "great-axe-of-khorne"
+      "harvester-cannon",
+      "iron-claw",
+      "warpsword"
     ],
     "replacement_choice": [
       [
-        "axe-of-khorne",
-        "bloodflail"
+        "torrent-of-burning-blood"
       ],
       [
-        "axe-of-khorne",
-        "lash-of-khorne"
+        "phlegm-bombardment"
+      ],
+      [
+        "warp-gaze"
+      ],
+      [
+        "scream-of-despair"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "soul-grinder-wgo-mfm-2",
+    "unit_id": "soul-grinder",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "harvester-cannon",
+      "iron-claw",
+      "warpsword"
+    ],
+    "replacement": [
+      "warpclaw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "daemonettes-wgo-mfm-1",
+    "unit_id": "daemonettes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "slashing-claws"
+    ],
+    "replacement_choice": [
+      [
+        "daemonic-icon"
+      ],
+      [
+        "instrument-of-chaos"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Daemonette",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "pink-horrors-wgo-mfm-1",
+    "unit_id": "pink-horrors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "coruscating-pink-flames",
+      "pink-claws"
+    ],
+    "replacement_choice": [
+      [
+        "instrument-of-chaos"
+      ],
+      [
+        "daemonic-icon"
       ]
     ],
     "model_constraint": {
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "lord-of-change-wgo-4",
-    "unit_id": "lord-of-change",
+    "id": "plaguebearers-wgo-mfm-1",
+    "unit_id": "plaguebearers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "plaguesword"
+    ],
     "replacement_choice": [
       [
-        "rod-of-sorcery"
+        "instrument-of-chaos"
       ],
       [
-        "baleful-sword"
+        "daemonic-icon"
       ]
     ],
     "model_constraint": {
+      "model_name": "Plaguebearer",
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "great-unclean-one-wgo-5",
-    "unit_id": "great-unclean-one",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bilesword"
-    ],
-    "replacement": [
-      "doomsday-bell"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "great-unclean-one-wgo-6",
-    "unit_id": "great-unclean-one",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "plague-flail"
-    ],
-    "replacement": [
-      "bileblade"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "keeper-of-secrets-wgo-7",
+    "id": "keeper-of-secrets-wgo-mfm-1",
     "unit_id": "keeper-of-secrets",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "phantasmagoria",
+      "snapping-claws",
+      "witstealer-sword"
+    ],
     "replacement_choice": [
       [
-        "living-whip"
+        "ritual-knife"
       ],
       [
-        "ritual-knife"
+        "living-whip"
       ],
       [
         "shining-aegis"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "seekers-wgo-mfm-1",
+    "unit_id": "seekers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "is_free": true
+    "is_free": true,
+    "replaces": [
+      "lashing-tongue",
+      "slashing-claws"
+    ],
+    "replacement_choice": [
+      [
+        "daemonic-icon"
+      ],
+      [
+        "instrument-of-chaos"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Seeker",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "bloodletters-wgo-mfm-1",
+    "unit_id": "bloodletters",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hellblade"
+    ],
+    "replacement_choice": [
+      [
+        "instrument-of-chaos"
+      ],
+      [
+        "daemonic-icon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Bloodletter",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "lord-of-change-wgo-mfm-1",
+    "unit_id": "lord-of-change",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-of-change",
+      "staff-of-tzeentch"
+    ],
+    "replacement_choice": [
+      [
+        "baleful-sword"
+      ],
+      [
+        "rod-of-sorcery"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "great-unclean-one-wgo-mfm-1",
+    "unit_id": "great-unclean-one",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "plague-flail",
+      "putrid-vomit",
+      "bilesword"
+    ],
+    "replacement": [
+      "doomsday-bell"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "great-unclean-one-wgo-mfm-2",
+    "unit_id": "great-unclean-one",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "plague-flail",
+      "putrid-vomit",
+      "bilesword"
+    ],
+    "replacement": [
+      "bileblade"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "bloodcrushers-wgo-mfm-1",
+    "unit_id": "bloodcrushers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hellblade",
+      "juggernauts-bladed-horn"
+    ],
+    "replacement_choice": [
+      [
+        "instrument-of-chaos"
+      ],
+      [
+        "daemonic-icon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Bloodcrusher",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "plague-drones-wgo-mfm-1",
+    "unit_id": "plague-drones",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "deaths-heads",
+      "foul-mouthparts",
+      "plaguesword"
+    ],
+    "replacement_choice": [
+      [
+        "daemonic-icon"
+      ],
+      [
+        "instrument-of-chaos"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Plague Drone",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "bloodthirster-wgo-mfm-1",
+    "unit_id": "bloodthirster",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hellfire-breath",
+      "great-axe-of-khorne"
+    ],
+    "replacement_choice": [
+      [
+        "lash-of-khorne",
+        "axe-of-khorne"
+      ],
+      [
+        "bloodflail",
+        "axe-of-khorne"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   }
 ]

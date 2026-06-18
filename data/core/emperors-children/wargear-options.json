@@ -1,260 +1,542 @@
 [
   {
-    "id": "tormentors-wgo-1",
-    "unit_id": "tormentors",
+    "id": "chaos-land-raider-wgo-mfm-1",
+    "unit_id": "chaos-land-raider",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "boltgun"
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
+      "twin-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-land-raider-wgo-mfm-2",
+    "unit_id": "chaos-land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
+      "twin-heavy-bolter",
+      "armoured-tracks"
     ],
     "replacement_choice": [
       [
-        "plasma-gun"
+        "combi-weapon"
       ],
       [
-        "meltagun"
+        "combi-bolter"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "tormentors-wgo-2",
-    "unit_id": "tormentors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Obsessionist",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tormentors-wgo-3",
-    "unit_id": "tormentors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "icon-of-excess"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "infractors-wgo-4",
-    "unit_id": "infractors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Obsessionist",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "infractors-wgo-5",
-    "unit_id": "infractors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "icon-of-excess"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-terminators-wgo-6",
+    "id": "chaos-terminators-wgo-mfm-1",
     "unit_id": "chaos-terminators",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "combi-bolter",
       "accursed-weapon"
     ],
     "replacement_choice": [
       [
-        "accursed-weapon",
+        "heavy-flamer"
+      ],
+      [
+        "reaper-autocannon"
+      ],
+      [
         "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Chaos Terminator",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "chaos-terminators-wgo-mfm-2",
+    "unit_id": "chaos-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "accursed-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "chainfist"
       ],
       [
-        "chainfist",
-        "combi-bolter"
-      ],
-      [
-        "chainfist",
-        "combi-weapon"
-      ],
-      [
-        "paired-accursed-weapons"
+        "power-fist"
       ]
     ],
     "model_constraint": {
       "model_name": "Terminator Champion",
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "chaos-terminators-wgo-7",
+    "id": "chaos-terminators-wgo-mfm-3",
     "unit_id": "chaos-terminators",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "accursed-weapon"
+    ],
     "replacement": [
-      "chainfist"
+      "paired-accursed-weapons"
     ],
     "model_constraint": {
+      "model_name": "Chaos Terminator",
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "noise-marines-wgo-8",
+    "id": "chaos-terminators-wgo-mfm-4",
+    "unit_id": "chaos-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "accursed-weapon"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "chaos-terminators-wgo-mfm-5",
+    "unit_id": "chaos-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "accursed-weapon"
+    ],
+    "replacement": [
+      "paired-accursed-weapons"
+    ],
+    "model_constraint": {
+      "model_name": "Terminator Champion",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "chaos-terminators-wgo-mfm-6",
+    "unit_id": "chaos-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "accursed-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "chainfist"
+      ],
+      [
+        "power-fist"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Chaos Terminator",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "lord-exultant-wgo-mfm-1",
+    "unit_id": "lord-exultant",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "plasma-pistol",
+      "phoenix-power-spear",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "power-fist"
+      ],
+      [
+        "rapture-lash"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "lord-exultant-wgo-mfm-2",
+    "unit_id": "lord-exultant",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "plasma-pistol",
+      "phoenix-power-spear",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "screamer-pistol"
+      ],
+      [
+        "master-crafted-power-sword"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "lord-kakophonist-wgo-mfm-1",
+    "unit_id": "lord-kakophonist",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "power-sword"
+    ],
+    "replacement": [
+      "screamer-pistol",
+      "close-combat-weapon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "noise-marines-wgo-mfm-1",
     "unit_id": "noise-marines",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "sonic-blaster"
+      "sonic-blaster",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "power-sword",
+      "screamer-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Disharmonist",
+      "any_number": true
+    }
+  },
+  {
+    "id": "noise-marines-wgo-mfm-2",
+    "unit_id": "noise-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "sonic-blaster",
+      "close-combat-weapon"
     ],
     "replacement": [
       "blastmaster"
     ],
     "model_constraint": {
-      "per_n_models": 3
-    },
-    "is_free": true
+      "model_name": "Noise Marine",
+      "max_count": 2
+    }
   },
   {
-    "id": "lord-exultant-wgo-9",
-    "unit_id": "lord-exultant",
+    "id": "tormentors-wgo-mfm-1",
+    "unit_id": "tormentors",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
+      "bolt-pistol",
+      "power-sword"
+    ],
+    "replacement": [
       "plasma-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Obsessionist",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tormentors-wgo-mfm-2",
+    "unit_id": "tormentors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "icon-of-excess"
+    ],
+    "model_constraint": {
+      "model_name": "Tormentor",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "tormentors-wgo-mfm-3",
+    "unit_id": "tormentors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "meltagun"
+      ],
+      [
+        "plasma-gun"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tormentor",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "tormentors-wgo-mfm-4",
+    "unit_id": "tormentors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "power-sword"
     ],
     "replacement": [
       "rapture-lash"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Obsessionist",
+      "any_number": true
+    }
   },
   {
-    "id": "chaos-land-raider-wgo-10",
-    "unit_id": "chaos-land-raider",
+    "id": "chaos-rhino-wgo-mfm-1",
+    "unit_id": "chaos-rhino",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "havoc-launcher"
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks"
     ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-land-raider-wgo-11",
-    "unit_id": "chaos-land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement_choice": [
       [
         "combi-bolter"
+      ],
+      [
+        "havoc-launcher",
+        "combi-weapon"
+      ],
+      [
+        "havoc-launcher",
+        "combi-bolter"
+      ],
+      [
+        "havoc-launcher"
       ],
       [
         "combi-weapon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "heldrake-wgo-12",
+    "id": "chaos-rhino-wgo-mfm-2",
+    "unit_id": "chaos-rhino",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "havoc-launcher"
+      ],
+      [
+        "combi-weapon",
+        "havoc-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "heldrake-wgo-mfm-1",
     "unit_id": "heldrake",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "hades-autocannon"
+      "hades-autocannon",
+      "heldrake-claws"
     ],
     "replacement": [
       "baleflamer"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "chaos-rhino-wgo-13",
-    "unit_id": "chaos-rhino",
+    "id": "infractors-wgo-mfm-1",
+    "unit_id": "infractors",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "havoc-launcher"
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "power-sword"
     ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-rhino-wgo-14",
-    "unit_id": "chaos-rhino",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
+    "replacement": [
+      "plasma-pistol"
     ],
     "model_constraint": {
-      "max_count": 1
+      "model_name": "Obsessionist",
+      "any_number": true
+    }
+  },
+  {
+    "id": "infractors-wgo-mfm-2",
+    "unit_id": "infractors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "is_free": true
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "duelling-sabre"
+    ],
+    "replacement": [
+      "icon-of-excess"
+    ],
+    "model_constraint": {
+      "model_name": "Infractor",
+      "any_number": true
+    }
+  },
+  {
+    "id": "infractors-wgo-mfm-3",
+    "unit_id": "infractors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "bolt-pistol",
+      "power-sword"
+    ],
+    "replacement": [
+      "rapture-lash"
+    ],
+    "model_constraint": {
+      "model_name": "Obsessionist",
+      "any_number": true
+    }
+  },
+  {
+    "id": "maulerfiend-wgo-mfm-1",
+    "unit_id": "maulerfiend",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lasher-tendrils",
+      "maulerfiend-fists"
+    ],
+    "replacement": [
+      "magma-cutters",
+      "magma-cutters"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   }
 ]

@@ -1,859 +1,328 @@
 [
   {
-    "id": "strike-team-wgo-1",
-    "unit_id": "strike-team",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-1",
+    "unit_id": "crisis-fireknife-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "pulse-rifle"
+      "plasma-rifle",
+      "battlesuit-fists"
     ],
-    "replacement": [
-      "pulse-carbine"
-    ],
-    "model_constraint": {
-      "max_count": 9
-    },
-    "is_free": true
-  },
-  {
-    "id": "strike-team-wgo-2",
-    "unit_id": "strike-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "strike-team-wgo-3",
-    "unit_id": "strike-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "strike-team-wgo-4",
-    "unit_id": "strike-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "strike-team-wgo-5",
-    "unit_id": "strike-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "strike-team-wgo-6",
-    "unit_id": "strike-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement": [
       "missile-pod"
     ],
     "model_constraint": {
-      "model_name": "Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Crisis Fireknife Shas’vre",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "breacher-team-wgo-7",
-    "unit_id": "breacher-team",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-2",
+    "unit_id": "crisis-fireknife-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "missile-pod",
+      "battlesuit-fists"
+    ],
     "replacement": [
-      "gun-drone"
+      "plasma-rifle"
     ],
     "model_constraint": {
-      "model_name": "Breacher Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Crisis Fireknife Shas’vre",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "breacher-team-wgo-8",
-    "unit_id": "breacher-team",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-3",
+    "unit_id": "crisis-fireknife-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "marker-drone"
+    "is_free": true,
+    "replaces": [
+      "plasma-rifle",
+      "missile-pod",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
+      ]
     ],
     "model_constraint": {
-      "model_name": "Breacher Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Crisis Fireknife Shas’ui",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "breacher-team-wgo-9",
-    "unit_id": "breacher-team",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-4",
+    "unit_id": "crisis-fireknife-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "shield-drone"
+    "is_free": true,
+    "replaces": [
+      "plasma-rifle",
+      "missile-pod",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "gun-drone"
+      ],
+      [
+        "shield-drone"
+      ],
+      [
+        "marker-drone"
+      ]
     ],
     "model_constraint": {
-      "model_name": "Breacher Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Crisis Fireknife Shas’vre",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "breacher-team-wgo-10",
-    "unit_id": "breacher-team",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-5",
+    "unit_id": "crisis-fireknife-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "guardian-drone"
+    "is_free": true,
+    "replaces": [
+      "plasma-rifle",
+      "battlesuit-fists"
     ],
-    "model_constraint": {
-      "model_name": "Breacher Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "breacher-team-wgo-11",
-    "unit_id": "breacher-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement": [
       "missile-pod"
     ],
     "model_constraint": {
-      "model_name": "Breacher Fire Warrior Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Crisis Fireknife Shas’ui",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "kroot-carnivores-wgo-12",
-    "unit_id": "kroot-carnivores",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-6",
+    "unit_id": "crisis-fireknife-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "kroot-rifle"
+      "missile-pod",
+      "battlesuit-fists"
     ],
     "replacement": [
-      "tanglebomb-launcher"
+      "plasma-rifle"
     ],
     "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
+      "model_name": "Crisis Fireknife Shas’ui",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "kroot-carnivores-wgo-13",
-    "unit_id": "kroot-carnivores",
+    "id": "piranhas-wgo-mfm-1",
+    "unit_id": "piranhas",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "kroot-rifle"
+      "piranha-burst-cannon",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
     ],
     "replacement": [
-      "kroot-carbine"
-    ],
-    "model_constraint": {
-      "model_name": "Long-quill",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "krootox-riders-wgo-14",
-    "unit_id": "krootox-riders",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "repeater-cannon"
-    ],
-    "replacement": [
-      "tanglecannon"
+      "seeker-missile"
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "stealth-battlesuits-wgo-15",
-    "unit_id": "stealth-battlesuits",
+    "id": "piranhas-wgo-mfm-2",
+    "unit_id": "piranhas",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "burst-cannon"
+      "piranha-burst-cannon",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
     ],
     "replacement": [
-      "fusion-blaster"
+      "piranha-fusion-blaster"
     ],
     "model_constraint": {
-      "max_count": 2
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "stealth-battlesuits-wgo-16",
+    "id": "stealth-battlesuits-wgo-mfm-1",
     "unit_id": "stealth-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
     "replacement": [
       "pulse-pistol"
     ],
     "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Stealth Shas’vre",
+      "max_count": 2
+    }
   },
   {
-    "id": "stealth-battlesuits-wgo-17",
+    "id": "stealth-battlesuits-wgo-mfm-2",
     "unit_id": "stealth-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "burst-cannon"
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
+    "replacement": [
+      "homing-beacon"
+    ],
+    "model_constraint": {
+      "model_name": "Stealth Shas’ui",
+      "max_count": 2
+    }
+  },
+  {
+    "id": "stealth-battlesuits-wgo-mfm-3",
+    "unit_id": "stealth-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
     ],
     "replacement": [
       "fusion-blaster"
     ],
     "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Stealth Shas’vre",
+      "max_count": 2
+    }
   },
   {
-    "id": "stealth-battlesuits-wgo-18",
+    "id": "stealth-battlesuits-wgo-mfm-4",
     "unit_id": "stealth-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stealth-battlesuits-wgo-19",
-    "unit_id": "stealth-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stealth-battlesuits-wgo-20",
-    "unit_id": "stealth-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stealth-battlesuits-wgo-21",
-    "unit_id": "stealth-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stealth-battlesuits-wgo-22",
-    "unit_id": "stealth-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Stealth Shas'vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stealth-battlesuits-wgo-23",
-    "unit_id": "stealth-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "homing-beacon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stealth-battlesuits-wgo-24",
-    "unit_id": "stealth-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "homing-beacon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-25",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "semi-automatic-grenade-launcher"
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-26",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "grav-inhibitor-drone"
-      ],
-      [
-        "pulse-accelerator-drone"
-      ],
-      [
-        "recon-drone"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-27",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-28",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-29",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-30",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "pathfinder-team-wgo-31",
-    "unit_id": "pathfinder-team",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Pathfinder Shas'ui",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "vespid-stingwings-wgo-32",
-    "unit_id": "vespid-stingwings",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "neutron-blaster"
+      "burst-cannon",
+      "battlesuit-fists"
     ],
-    "replacement_choice": [
-      [
-        "tau-flamer"
-      ],
-      [
-        "neutron-grenade-launcher"
-      ],
-      [
-        "neutron-rail-rifle"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 10
-    },
-    "is_free": true
-  },
-  {
-    "id": "vespid-stingwings-wgo-33",
-    "unit_id": "vespid-stingwings",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement": [
-      "oversight-drone"
+      "fusion-blaster"
     ],
     "model_constraint": {
-      "model_name": "Vespid Strain Leader",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Stealth Shas’ui",
+      "max_count": 2
+    }
   },
   {
-    "id": "broadside-battlesuits-wgo-34",
-    "unit_id": "broadside-battlesuits",
+    "id": "stealth-battlesuits-wgo-mfm-5",
+    "unit_id": "stealth-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "heavy-rail-rifle"
+      "burst-cannon",
+      "battlesuit-fists"
     ],
-    "replacement": [
-      "high-yield-missile-pods"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-35",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "weapon-support-system"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-36",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "seeker-missile"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-37",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement_choice": [
       [
-        "twin-plasma-rifle"
+        "gun-drone"
       ],
       [
-        "twin-smart-missile-system"
+        "marker-drone",
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
       ]
     ],
     "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
+      "model_name": "Stealth Shas’vre",
+      "max_count": 2
+    }
   },
   {
-    "id": "broadside-battlesuits-wgo-38",
-    "unit_id": "broadside-battlesuits",
+    "id": "sun-shark-bomber-wgo-mfm-1",
+    "unit_id": "sun-shark-bomber",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-39",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-40",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-41",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-42",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "heavy-rail-rifle"
+      "missile-pod",
+      "seeker-missile",
+      "seeker-missile",
+      "twin-ion-rifle",
+      "twin-ion-rifle",
+      "armoured-hull"
     ],
     "replacement": [
-      "high-yield-missile-pods"
+      "twin-missile-pod"
     ],
     "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "broadside-battlesuits-wgo-43",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "weapon-support-system"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-44",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "seeker-missile"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-45",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "twin-plasma-rifle"
-      ],
-      [
-        "twin-smart-missile-system"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-46",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-47",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-48",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-49",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "broadside-battlesuits-wgo-50",
-    "unit_id": "broadside-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Broadside Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "kroot-farstalkers-wgo-51",
+    "id": "kroot-farstalkers-wgo-mfm-1",
     "unit_id": "kroot-farstalkers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "farstalker-firearm"
+      "farstalker-firearm",
+      "kroot-pistol",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
@@ -864,936 +333,636 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
-    },
-    "is_free": true
+      "model_name": "Kroot Farstalker",
+      "max_count": 1
+    }
   },
   {
-    "id": "kroot-farstalkers-wgo-52",
+    "id": "kroot-farstalkers-wgo-mfm-2",
     "unit_id": "kroot-farstalkers",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "farstalker-firearm"
+      "farstalker-firearm",
+      "kroot-pistol",
+      "ritual-blade"
     ],
     "replacement": [
       "tau-tech-rifle"
     ],
     "model_constraint": {
       "model_name": "Kroot Kill-broker",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-sunforge-battlesuits-wgo-53",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’ui",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "crisis-sunforge-battlesuits-wgo-54",
-    "unit_id": "crisis-sunforge-battlesuits",
+    "id": "taunar-supremacy-armour-wgo-mfm-1",
+    "unit_id": "taunar-supremacy-armour",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "missile-pod"
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "burst-cannon",
+      "burst-cannon",
+      "burst-cannon",
+      "crushing-feet",
+      "fusion-eradicator",
+      "pulse-ordnance-driver",
+      "pulse-ordnance-driver",
+      "pulse-ordnance-driver",
+      "smart-missile-system",
+      "smart-missile-system",
+      "smart-missile-system",
+      "smart-missile-system",
+      "tri-axis-ion-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "fragmentation-cluster-shell-launcher",
+        "heavy-rail-cannon-array"
+      ],
+      [
+        "nexus-missile-launcher",
+        "nexus-missile-launcher"
+      ]
     ],
     "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’ui",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "crisis-sunforge-battlesuits-wgo-55",
-    "unit_id": "crisis-sunforge-battlesuits",
+    "id": "pathfinder-team-wgo-mfm-1",
+    "unit_id": "pathfinder-team",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "marker-drone"
+    "is_free": true,
+    "replaces": [
+      "pulse-carbine",
+      "pulse-pistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "gun-drone"
+      ],
+      [
+        "shield-drone"
+      ],
+      [
+        "marker-drone"
+      ]
     ],
     "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’ui",
+      "model_name": "Pathfinder Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "pathfinder-team-wgo-mfm-2",
+    "unit_id": "pathfinder-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-carbine",
+      "pulse-pistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "rail-rifle"
+      ],
+      [
+        "ion-rifle"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Pathfinder",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "pathfinder-team-wgo-mfm-3",
+    "unit_id": "pathfinder-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-pistol",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "semi-automatic-grenade-launcher"
+    ],
+    "model_constraint": {
+      "model_name": "Pathfinder",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "pathfinder-team-wgo-mfm-4",
+    "unit_id": "pathfinder-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-pistol",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "semi-automatic-grenade-launcher"
+    ],
+    "model_constraint": {
+      "model_name": "Pathfinder Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "pathfinder-team-wgo-mfm-5",
+    "unit_id": "pathfinder-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-carbine",
+      "pulse-pistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "recon-drone"
+      ],
+      [
+        "grav-inhibitor-drone"
+      ],
+      [
+        "pulse-accelerator-drone"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Pathfinder Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "strike-team-wgo-mfm-1",
+    "unit_id": "strike-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-pistol",
+      "pulse-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "guardian-drone"
+      ],
+      [
+        "marker-drone"
+      ],
+      [
+        "gun-drone"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Fire Warrior Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "strike-team-wgo-mfm-2",
+    "unit_id": "strike-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-pistol",
+      "pulse-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "pulse-carbine"
+    ],
+    "model_constraint": {
+      "model_name": "Fire Warrior",
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "crisis-sunforge-battlesuits-wgo-56",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-sunforge-battlesuits-wgo-57",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-sunforge-battlesuits-wgo-58",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-sunforge-battlesuits-wgo-59",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-sunforge-battlesuits-wgo-60",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-sunforge-battlesuits-wgo-61",
-    "unit_id": "crisis-sunforge-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Sunforge Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-62",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "plasma-rifle"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-63",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-64",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-65",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-66",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-67",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-68",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-69",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "plasma-rifle"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-70",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-71",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-72",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-73",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-fireknife-battlesuits-wgo-74",
-    "unit_id": "crisis-fireknife-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Fireknife Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-75",
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-1",
     "unit_id": "crisis-starscythe-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "tau-flamer",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
+      ],
+      [
+        "shield-drone"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Starscythe Shas’vre",
+      "per_n_models": 1
+    }
+  },
+  {
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-2",
+    "unit_id": "crisis-starscythe-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
     "replacement": [
-      "gun-drone"
+      "tau-flamer"
     ],
     "model_constraint": {
       "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
+      "per_n_models": 1
+    }
   },
   {
-    "id": "crisis-starscythe-battlesuits-wgo-76",
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-3",
     "unit_id": "crisis-starscythe-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "missile-pod"
+    "is_free": true,
+    "replaces": [
+      "tau-flamer",
+      "battlesuit-fists"
     ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-77",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-78",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-79",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement": [
       "burst-cannon"
     ],
     "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Crisis Starscythe Shas’ui",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "crisis-starscythe-battlesuits-wgo-80",
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-4",
     "unit_id": "crisis-starscythe-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
     "replacement": [
       "tau-flamer"
     ],
     "model_constraint": {
       "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
+      "per_n_models": 1
+    }
   },
   {
-    "id": "crisis-starscythe-battlesuits-wgo-81",
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-5",
     "unit_id": "crisis-starscythe-battlesuits",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "gun-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-82",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-83",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-84",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "crisis-starscythe-battlesuits-wgo-85",
-    "unit_id": "crisis-starscythe-battlesuits",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’vre",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "commander-in-enforcer-battlesuit-wgo-86",
-    "unit_id": "commander-in-enforcer-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-enforcer-battlesuit-wgo-87",
-    "unit_id": "commander-in-enforcer-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-enforcer-battlesuit-wgo-88",
-    "unit_id": "commander-in-enforcer-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-enforcer-battlesuit-wgo-89",
-    "unit_id": "commander-in-enforcer-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-enforcer-battlesuit-wgo-90",
-    "unit_id": "commander-in-enforcer-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-coldstar-battlesuit-wgo-91",
-    "unit_id": "commander-in-coldstar-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "high-output-burst-cannon"
+      "tau-flamer",
+      "battlesuit-fists"
+    ],
+    "replacement": [
+      "burst-cannon"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Starscythe Shas’vre",
+      "per_n_models": 1
+    }
+  },
+  {
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-6",
+    "unit_id": "crisis-starscythe-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "tau-flamer",
+      "battlesuit-fists"
     ],
     "replacement_choice": [
       [
-        "battlesuit-support-system"
+        "gun-drone"
       ],
       [
-        "shield-generator"
+        "shield-drone"
       ],
       [
-        "weapon-support-system"
-      ],
-      [
-        "missile-pod"
-      ],
-      [
-        "burst-cannon"
-      ],
-      [
-        "airbursting-fragmentation-projector"
-      ],
-      [
-        "cyclic-ion-blaster"
-      ],
-      [
-        "tau-flamer"
-      ],
-      [
-        "fusion-blaster"
-      ],
-      [
-        "plasma-rifle"
+        "marker-drone"
       ]
     ],
     "model_constraint": {
-      "max_count": 4
-    },
-    "is_free": true
+      "model_name": "Crisis Starscythe Shas’ui",
+      "per_n_models": 1
+    }
   },
   {
-    "id": "commander-in-coldstar-battlesuit-wgo-92",
-    "unit_id": "commander-in-coldstar-battlesuit",
+    "id": "tiger-shark-wgo-mfm-1",
+    "unit_id": "tiger-shark",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "gun-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-coldstar-battlesuit-wgo-93",
-    "unit_id": "commander-in-coldstar-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-coldstar-battlesuit-wgo-94",
-    "unit_id": "commander-in-coldstar-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-coldstar-battlesuit-wgo-95",
-    "unit_id": "commander-in-coldstar-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "commander-in-coldstar-battlesuit-wgo-96",
-    "unit_id": "commander-in-coldstar-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "cadre-fireblade-wgo-97",
-    "unit_id": "cadre-fireblade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "cadre-fireblade-wgo-98",
-    "unit_id": "cadre-fireblade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "cadre-fireblade-wgo-99",
-    "unit_id": "cadre-fireblade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "cadre-fireblade-wgo-100",
-    "unit_id": "cadre-fireblade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "cadre-fireblade-wgo-101",
-    "unit_id": "cadre-fireblade",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ethereal-wgo-102",
-    "unit_id": "ethereal",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "gun-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ethereal-wgo-103",
-    "unit_id": "ethereal",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "marker-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ethereal-wgo-104",
-    "unit_id": "ethereal",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "shield-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ethereal-wgo-105",
-    "unit_id": "ethereal",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "guardian-drone"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ethereal-wgo-106",
-    "unit_id": "ethereal",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "missile-pod"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ghostkeel-battlesuit-wgo-107",
-    "unit_id": "ghostkeel-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "twin-tau-flamer"
+      "burst-cannon",
+      "burst-cannon",
+      "ion-cannon",
+      "ion-cannon",
+      "missile-pod",
+      "missile-pod",
+      "armoured-hull",
+      "transport-bay"
+    ],
+    "replacement_choice": [
+      [
+        "swiftstrike-railgun",
+        "swiftstrike-railgun"
+      ],
+      [
+        "swiftstrike-burst-cannon",
+        "swiftstrike-burst-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tiger-shark-wgo-mfm-2",
+    "unit_id": "tiger-shark",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "burst-cannon",
+      "ion-cannon",
+      "ion-cannon",
+      "missile-pod",
+      "missile-pod",
+      "armoured-hull",
+      "transport-bay"
+    ],
+    "replacement": [
+      "seeker-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tiger-shark-wgo-mfm-3",
+    "unit_id": "tiger-shark",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "burst-cannon",
+      "ion-cannon",
+      "ion-cannon",
+      "missile-pod",
+      "missile-pod",
+      "armoured-hull",
+      "transport-bay"
+    ],
+    "replacement": [
+      "cyclic-ion-blaster",
+      "cyclic-ion-blaster"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tiger-shark-wgo-mfm-4",
+    "unit_id": "tiger-shark",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "burst-cannon",
+      "ion-cannon",
+      "ion-cannon",
+      "missile-pod",
+      "missile-pod",
+      "armoured-hull",
+      "transport-bay"
+    ],
+    "replacement": [
+      "skyspear-missile-rack",
+      "skyspear-missile-rack"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "breacher-team-wgo-mfm-1",
+    "unit_id": "breacher-team",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pulse-blaster",
+      "pulse-pistol",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "gun-drone"
+      ],
+      [
+        "shield-drone"
+      ],
+      [
+        "guardian-drone"
+      ],
+      [
+        "marker-drone"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Breacher Fire Warrior Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "stormsurge-wgo-mfm-1",
+    "unit_id": "stormsurge",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "cluster-rocket-system",
+      "destroyer-missiles",
+      "pulse-driver-cannon",
+      "twin-smart-missile-system",
+      "twin-smart-missile-system",
+      "twin-tau-flamer",
+      "thunderous-footfalls"
     ],
     "replacement_choice": [
       [
         "twin-burst-cannon"
       ],
       [
-        "twin-fusion-blaster"
+        "twin-airbursting-fragmentation-projector"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "ghostkeel-battlesuit-wgo-108",
-    "unit_id": "ghostkeel-battlesuit",
+    "id": "stormsurge-wgo-mfm-2",
+    "unit_id": "stormsurge",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "battlesuit-support-system"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "ghostkeel-battlesuit-wgo-109",
-    "unit_id": "ghostkeel-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "fusion-collider"
+      "cluster-rocket-system",
+      "destroyer-missiles",
+      "pulse-driver-cannon",
+      "twin-smart-missile-system",
+      "twin-smart-missile-system",
+      "twin-tau-flamer",
+      "thunderous-footfalls"
     ],
     "replacement": [
-      "cyclic-ion-raker"
+      "pulse-blast-cannon"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "riptide-battlesuit-wgo-110",
+    "id": "ethereal-wgo-mfm-1",
+    "unit_id": "ethereal",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "honour-stave"
+    ],
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "marker-drone"
+      ],
+      [
+        "gun-drone"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "riptide-battlesuit-wgo-mfm-1",
     "unit_id": "riptide-battlesuit",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "heavy-burst-cannon"
+      "heavy-burst-cannon",
+      "twin-plasma-rifle",
+      "riptide-fists"
     ],
     "replacement": [
       "ion-accelerator"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "riptide-battlesuit-wgo-111",
+    "id": "riptide-battlesuit-wgo-mfm-2",
     "unit_id": "riptide-battlesuit",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "missile-pod"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "riptide-battlesuit-wgo-112",
-    "unit_id": "riptide-battlesuit",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "twin-plasma-rifle"
+      "heavy-burst-cannon",
+      "twin-plasma-rifle",
+      "riptide-fists"
     ],
     "replacement_choice": [
       [
@@ -1804,321 +973,913 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "hammerhead-gunship-wgo-113",
-    "unit_id": "hammerhead-gunship",
+    "id": "krootox-riders-wgo-mfm-1",
+    "unit_id": "krootox-riders",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "railgun"
+      "repeater-cannon"
     ],
     "replacement": [
-      "ion-cannon"
+      "tanglecannon"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "hammerhead-gunship-wgo-114",
-    "unit_id": "hammerhead-gunship",
+    "id": "ghostkeel-battlesuit-wgo-mfm-1",
+    "unit_id": "ghostkeel-battlesuit",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "seeker-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "hammerhead-gunship-wgo-115",
-    "unit_id": "hammerhead-gunship",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "twin-pulse-carbine"
+      "fusion-collider",
+      "twin-tau-flamer",
+      "ghostkeel-fists"
+    ],
+    "replacement": [
+      "battlesuit-support-system"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "ghostkeel-battlesuit-wgo-mfm-2",
+    "unit_id": "ghostkeel-battlesuit",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fusion-collider",
+      "twin-tau-flamer",
+      "ghostkeel-fists"
+    ],
+    "replacement": [
+      "cyclic-ion-raker"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "ghostkeel-battlesuit-wgo-mfm-3",
+    "unit_id": "ghostkeel-battlesuit",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fusion-collider",
+      "twin-tau-flamer",
+      "ghostkeel-fists"
     ],
     "replacement_choice": [
-      [
-        "accelerator-burst-cannon"
-      ],
-      [
-        "smart-missile-system"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "devilfish-wgo-116",
-    "unit_id": "devilfish",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-pulse-carbine"
-    ],
-    "replacement": [
-      "smart-missile-system"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "devilfish-wgo-117",
-    "unit_id": "devilfish",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "seeker-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "razorshark-strike-fighter-wgo-118",
-    "unit_id": "razorshark-strike-fighter",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "accelerator-burst-cannon"
-    ],
-    "replacement": [
-      "missile-pod"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sun-shark-bomber-wgo-119",
-    "unit_id": "sun-shark-bomber",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "missile-pod"
-    ],
-    "replacement": [
-      "twin-missile-pod"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tidewall-shieldline-wgo-120",
-    "unit_id": "tidewall-shieldline",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "tidewall-defence-platform"
-    ],
-    "additional_cost": 20,
-    "is_free": false
-  },
-  {
-    "id": "stormsurge-wgo-121",
-    "unit_id": "stormsurge",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "pulse-driver-cannon"
-    ],
-    "replacement": [
-      "pulse-blast-cannon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "stormsurge-wgo-122",
-    "unit_id": "stormsurge",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "twin-tau-flamer"
-    ],
-    "replacement_choice": [
-      [
-        "twin-airbursting-fragmentation-projector"
-      ],
       [
         "twin-burst-cannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "taunar-supremacy-armour-wgo-123",
-    "unit_id": "taunar-supremacy-armour",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "tri-axis-ion-cannon"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "taunar-supremacy-armour-wgo-124",
-    "unit_id": "taunar-supremacy-armour",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "fusion-eradicator"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "taunar-supremacy-armour-wgo-125",
-    "unit_id": "taunar-supremacy-armour",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "pulse-ordnance-driver"
-    ],
-    "replacement_choice": [
-      [
-        "nexus-missile-launcher"
       ],
       [
-        "heavy-rail-cannon-array",
-        "fragmentation-cluster-shell-launcher"
+        "twin-fusion-blaster"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "tiger-shark-wgo-126",
-    "unit_id": "tiger-shark",
+    "id": "ax-1-0-tiger-shark-wgo-mfm-1",
+    "unit_id": "ax-1-0-tiger-shark",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "burst-cannon"
+      "burst-cannon",
+      "burst-cannon",
+      "missile-pod",
+      "missile-pod",
+      "twin-heavy-rail-cannon",
+      "armoured-hull"
     ],
     "replacement": [
+      "cyclic-ion-blaster",
       "cyclic-ion-blaster"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "tiger-shark-wgo-127",
-    "unit_id": "tiger-shark",
+    "id": "ax-1-0-tiger-shark-wgo-mfm-2",
+    "unit_id": "ax-1-0-tiger-shark",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "ion-cannon"
+      "burst-cannon",
+      "burst-cannon",
+      "missile-pod",
+      "missile-pod",
+      "twin-heavy-rail-cannon",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "seeker-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sky-ray-gunship-wgo-mfm-1",
+    "unit_id": "sky-ray-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "seeker-missile-rack",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
     ],
     "replacement_choice": [
       [
-        "swiftstrike-burst-cannon"
+        "smart-missile-system",
+        "smart-missile-system"
       ],
       [
-        "swiftstrike-railgun"
+        "accelerator-burst-cannon",
+        "accelerator-burst-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "vespid-stingwings-wgo-mfm-1",
+    "unit_id": "vespid-stingwings",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "neutron-blaster",
+      "stingwing-claws"
+    ],
+    "replacement_choice": [
+      [
+        "tau-flamer"
+      ],
+      [
+        "neutron-rail-rifle"
+      ],
+      [
+        "neutron-grenade-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Vespid Stingwing",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "vespid-stingwings-wgo-mfm-2",
+    "unit_id": "vespid-stingwings",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "neutron-blaster",
+      "stingwing-claws"
+    ],
+    "replacement": [
+      "oversight-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Vespid Strain Leader",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "commander-in-coldstar-battlesuit-wgo-mfm-1",
+    "unit_id": "commander-in-coldstar-battlesuit",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "high-output-burst-cannon",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "burst-cannon"
+      ],
+      [
+        "plasma-rifle"
+      ],
+      [
+        "battlesuit-support-system"
+      ],
+      [
+        "cyclic-ion-blaster"
+      ],
+      [
+        "weapon-support-system"
+      ],
+      [
+        "fusion-blaster"
+      ],
+      [
+        "missile-pod"
+      ],
+      [
+        "shield-generator"
+      ],
+      [
+        "tau-flamer"
+      ],
+      [
+        "airbursting-fragmentation-projector"
       ]
     ],
     "model_constraint": {
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "tiger-shark-wgo-128",
-    "unit_id": "tiger-shark",
+    "id": "commander-in-coldstar-battlesuit-wgo-mfm-2",
+    "unit_id": "commander-in-coldstar-battlesuit",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
-    "replacement": [
-      "seeker-missile"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "tiger-shark-wgo-129",
-    "unit_id": "tiger-shark",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
+    "is_free": true,
     "replaces": [
-      "transport-bay"
+      "high-output-burst-cannon",
+      "battlesuit-fists"
     ],
-    "replacement": [
-      "skyspear-missile-rack"
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
+      ]
     ],
     "model_constraint": {
       "max_count": 1
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "ax-1-0-tiger-shark-wgo-130",
-    "unit_id": "ax-1-0-tiger-shark",
+    "id": "commander-in-coldstar-battlesuit-wgo-mfm-3",
+    "unit_id": "commander-in-coldstar-battlesuit",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "high-output-burst-cannon",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "airbursting-fragmentation-projector"
+      ],
+      [
+        "fusion-blaster"
+      ],
+      [
+        "cyclic-ion-blaster"
+      ],
+      [
+        "tau-flamer"
+      ],
+      [
+        "missile-pod"
+      ],
+      [
+        "weapon-support-system"
+      ],
+      [
+        "plasma-rifle"
+      ],
+      [
+        "shield-generator"
+      ],
+      [
+        "burst-cannon"
+      ],
+      [
+        "battlesuit-support-system"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "broadside-battlesuits-wgo-mfm-1",
+    "unit_id": "broadside-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-rail-rifle",
+      "crushing-bulk"
+    ],
+    "replacement": [
+      "high-yield-missile-pods"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "broadside-battlesuits-wgo-mfm-2",
+    "unit_id": "broadside-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "crushing-bulk",
+      "heavy-rail-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "broadside-battlesuits-wgo-mfm-3",
+    "unit_id": "broadside-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "crushing-bulk",
+      "heavy-rail-rifle"
+    ],
+    "replacement": [
+      "high-yield-missile-pods"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "broadside-battlesuits-wgo-mfm-4",
+    "unit_id": "broadside-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-rail-rifle",
+      "crushing-bulk"
+    ],
+    "replacement_choice": [
+      [
+        "marker-drone"
+      ],
+      [
+        "gun-drone"
+      ],
+      [
+        "shield-drone"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "broadside-battlesuits-wgo-mfm-5",
+    "unit_id": "broadside-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-rail-rifle",
+      "crushing-bulk"
+    ],
+    "replacement_choice": [
+      [
+        "twin-plasma-rifle",
+        "seeker-missile"
+      ],
+      [
+        "weapon-support-system",
+        "twin-smart-missile-system"
+      ],
+      [
+        "seeker-missile",
+        "weapon-support-system"
+      ],
+      [
+        "seeker-missile"
+      ],
+      [
+        "weapon-support-system",
+        "twin-plasma-rifle"
+      ],
+      [
+        "twin-smart-missile-system"
+      ],
+      [
+        "weapon-support-system"
+      ],
+      [
+        "twin-plasma-rifle"
+      ],
+      [
+        "seeker-missile",
+        "twin-smart-missile-system"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "broadside-battlesuits-wgo-mfm-6",
+    "unit_id": "broadside-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "crushing-bulk",
+      "heavy-rail-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "twin-smart-missile-system"
+      ],
+      [
+        "weapon-support-system"
+      ],
+      [
+        "seeker-missile",
+        "twin-smart-missile-system"
+      ],
+      [
+        "weapon-support-system",
+        "twin-smart-missile-system"
+      ],
+      [
+        "twin-plasma-rifle"
+      ],
+      [
+        "twin-plasma-rifle",
+        "weapon-support-system"
+      ],
+      [
+        "weapon-support-system",
+        "seeker-missile"
+      ],
+      [
+        "seeker-missile",
+        "twin-plasma-rifle"
+      ],
+      [
+        "seeker-missile"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "commander-in-enforcer-battlesuit-wgo-mfm-1",
+    "unit_id": "commander-in-enforcer-battlesuit",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "marker-drone"
+      ],
+      [
+        "gun-drone"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "commander-in-enforcer-battlesuit-wgo-mfm-2",
+    "unit_id": "commander-in-enforcer-battlesuit",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "tau-flamer"
+      ],
+      [
+        "cyclic-ion-blaster"
+      ],
+      [
+        "airbursting-fragmentation-projector"
+      ],
+      [
+        "weapon-support-system"
+      ],
+      [
+        "fusion-blaster"
+      ],
+      [
+        "battlesuit-support-system"
+      ],
+      [
+        "plasma-rifle"
+      ],
+      [
+        "missile-pod"
+      ],
+      [
+        "shield-generator"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "commander-in-enforcer-battlesuit-wgo-mfm-3",
+    "unit_id": "commander-in-enforcer-battlesuit",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "battlesuit-support-system"
+      ],
+      [
+        "weapon-support-system"
+      ],
+      [
+        "cyclic-ion-blaster"
+      ],
+      [
+        "missile-pod"
+      ],
+      [
+        "airbursting-fragmentation-projector"
+      ],
+      [
+        "shield-generator"
+      ],
+      [
+        "plasma-rifle"
+      ],
+      [
+        "fusion-blaster"
+      ],
+      [
+        "tau-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "cadre-fireblade-wgo-mfm-1",
+    "unit_id": "cadre-fireblade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fireblade-pulse-rifle",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
+      ],
+      [
+        "shield-drone"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "razorshark-strike-fighter-wgo-mfm-1",
+    "unit_id": "razorshark-strike-fighter",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "accelerator-burst-cannon",
+      "quad-ion-turret",
+      "seeker-missile",
+      "seeker-missile",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "missile-pod"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "devilfish-wgo-mfm-1",
+    "unit_id": "devilfish",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "accelerator-burst-cannon",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
+    ],
     "replacement": [
       "seeker-missile"
     ],
-    "is_free": true
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "kroot-war-shaper-wgo-131",
+    "id": "devilfish-wgo-mfm-2",
+    "unit_id": "devilfish",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "accelerator-burst-cannon",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "smart-missile-system",
+      "smart-missile-system"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hammerhead-gunship-wgo-mfm-1",
+    "unit_id": "hammerhead-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "railgun",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "ion-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hammerhead-gunship-wgo-mfm-2",
+    "unit_id": "hammerhead-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "railgun",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
+    ],
+    "replacement_choice": [
+      [
+        "smart-missile-system",
+        "smart-missile-system"
+      ],
+      [
+        "accelerator-burst-cannon",
+        "accelerator-burst-cannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hammerhead-gunship-wgo-mfm-3",
+    "unit_id": "hammerhead-gunship",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "railgun",
+      "twin-pulse-carbine",
+      "twin-pulse-carbine",
+      "armoured-hull"
+    ],
+    "replacement": [
+      "seeker-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "crisis-sunforge-battlesuits-wgo-mfm-1",
+    "unit_id": "crisis-sunforge-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fusion-blaster",
+      "fusion-blaster",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "shield-drone"
+      ],
+      [
+        "gun-drone"
+      ],
+      [
+        "marker-drone"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Sunforge Shas’vre",
+      "per_n_models": 1
+    }
+  },
+  {
+    "id": "crisis-sunforge-battlesuits-wgo-mfm-2",
+    "unit_id": "crisis-sunforge-battlesuits",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fusion-blaster",
+      "fusion-blaster",
+      "battlesuit-fists"
+    ],
+    "replacement_choice": [
+      [
+        "marker-drone"
+      ],
+      [
+        "shield-drone"
+      ],
+      [
+        "gun-drone"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Sunforge Shas’ui",
+      "per_n_models": 1
+    }
+  },
+  {
+    "id": "kroot-carnivores-wgo-mfm-1",
+    "unit_id": "kroot-carnivores",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kroot-rifle"
+    ],
+    "replacement": [
+      "kroot-carbine"
+    ],
+    "model_constraint": {
+      "model_name": "Long-quill",
+      "any_number": true
+    }
+  },
+  {
+    "id": "kroot-carnivores-wgo-mfm-2",
+    "unit_id": "kroot-carnivores",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "kroot-rifle"
+    ],
+    "replacement": [
+      "tanglebomb-launcher"
+    ],
+    "model_constraint": {
+      "model_name": "Kroot Carnivore",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "kroot-war-shaper-wgo-mfm-1",
     "unit_id": "kroot-war-shaper",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "dart-bow-and-tri-blade"
     ],
@@ -2126,17 +1887,17 @@
       "bladestave-and-prey-hook"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "kroot-lone-spear-wgo-132",
+    "id": "kroot-lone-spear-wgo-mfm-1",
     "unit_id": "kroot-lone-spear",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "kroot-long-gun"
     ],
@@ -2145,26 +1906,7 @@
       "hunting-javelin"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "piranhas-wgo-133",
-    "unit_id": "piranhas",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "piranha-burst-cannon"
-    ],
-    "replacement": [
-      "piranha-fusion-blaster"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   }
 ]

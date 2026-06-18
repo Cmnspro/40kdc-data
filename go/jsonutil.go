@@ -1,5 +1,7 @@
 package wh40kdc
 
+import "strconv"
+
 // Helpers for working with decoded JSON values modelled as plain Go `any`
 // (map[string]any, []any, float64, string, bool, nil) — the same dynamic shape
 // the Python port operates on as dicts. This keeps the port a near-line-by-line
@@ -35,6 +37,12 @@ func num(v any) (float64, bool) {
 func asInt(v any) int {
 	if f, ok := v.(float64); ok {
 		return int(f)
+	}
+	// The runner protocol passes numeric args (e.g. modelCount) as strings.
+	if s, ok := v.(string); ok {
+		if n, err := strconv.Atoi(s); err == nil {
+			return n
+		}
 	}
 	return 0
 }

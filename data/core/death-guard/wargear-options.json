@@ -1,15 +1,259 @@
 [
   {
-    "id": "plague-marines-wgo-1",
-    "unit_id": "plague-marines",
+    "id": "chaos-predator-annihilator-wgo-mfm-1",
+    "unit_id": "chaos-predator-annihilator",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "boltgun"
+      "predator-twin-lascannon",
+      "armoured-tracks"
     ],
     "replacement_choice": [
+      [
+        "combi-weapon"
+      ],
+      [
+        "combi-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-mfm-2",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-twin-lascannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-mfm-3",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-twin-lascannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-mfm-1",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-mfm-2",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "combi-weapon"
+      ],
+      [
+        "combi-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-mfm-3",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "plagueburst-crawler-wgo-mfm-1",
+    "unit_id": "plagueburst-crawler",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "entropy-cannon",
+      "entropy-cannon",
+      "heavy-slugger",
+      "plagueburst-mortar",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "plaguespitter",
+      "plaguespitter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "plagueburst-crawler-wgo-mfm-2",
+    "unit_id": "plagueburst-crawler",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "entropy-cannon",
+      "entropy-cannon",
+      "heavy-slugger",
+      "plagueburst-mortar",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "rothail-volley-gun"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "plague-marines-wgo-mfm-1",
+    "unit_id": "plague-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "plague-knives"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-gun"
+      ],
+      [
+        "plasma-pistol"
+      ],
+      [
+        "bolt-pistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Plague Champion",
+      "any_number": true
+    }
+  },
+  {
+    "id": "plague-marines-wgo-mfm-2",
+    "unit_id": "plague-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "plague-knives"
+    ],
+    "replacement_choice": [
+      [
+        "power-fist"
+      ],
+      [
+        "bubotic-weapons"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Plague Champion",
+      "any_number": true
+    }
+  },
+  {
+    "id": "plague-marines-wgo-mfm-3",
+    "unit_id": "plague-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun",
+      "plague-knives"
+    ],
+    "replacement_choice": [
+      [
+        "plague-spewer"
+      ],
+      [
+        "plague-belcher"
+      ],
       [
         "bubotic-weapons"
       ],
@@ -20,467 +264,479 @@
         "blight-launcher"
       ],
       [
-        "plague-spewer"
+        "plasma-gun"
+      ],
+      [
+        "meltagun"
       ]
     ],
     "model_constraint": {
-      "max_count": 4
-    },
-    "is_free": true
+      "model_name": "Plague Marine",
+      "per_n_models": 5
+    }
   },
   {
-    "id": "plague-marines-wgo-2",
-    "unit_id": "plague-marines",
+    "id": "deathshroud-terminators-wgo-mfm-1",
+    "unit_id": "deathshroud-terminators",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replacement": [
-      "icon-of-despair"
+      "plaguespurt-gauntlet"
+    ],
+    "model_constraint": {
+      "model_name": "Deathshroud Champion",
+      "any_number": true
+    }
+  },
+  {
+    "id": "foetid-bloat-drone-wgo-mfm-1",
+    "unit_id": "foetid-bloat-drone",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fleshmower",
+      "plague-probe"
+    ],
+    "replacement": [
+      "plaguespitter",
+      "plaguespitter"
     ],
     "model_constraint": {
       "any_number": true
-    },
-    "is_free": true
+    }
   },
   {
-    "id": "plague-marines-wgo-3",
-    "unit_id": "plague-marines",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "meltagun"
-      ],
-      [
-        "plasma-gun"
-      ],
-      [
-        "plague-belcher"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
-  },
-  {
-    "id": "plague-marines-wgo-4",
-    "unit_id": "plague-marines",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "plague-knives"
-    ],
-    "replacement": [
-      "bubotic-weapons"
-    ],
-    "model_constraint": {
-      "model_name": "Plague Champion",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "plague-marines-wgo-5",
-    "unit_id": "plague-marines",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "bolt-pistol"
-      ],
-      [
-        "plasma-gun"
-      ],
-      [
-        "plasma-pistol"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Plague Champion",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "deathshroud-terminators-wgo-6",
-    "unit_id": "deathshroud-terminators",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "icon-of-despair"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "blightlord-terminators-wgo-7",
-    "unit_id": "blightlord-terminators",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "combi-weapon"
-      ],
-      [
-        "blight-launcher"
-      ],
-      [
-        "reaper-autocannon"
-      ],
-      [
-        "plague-spewer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 6
-    },
-    "is_free": true
-  },
-  {
-    "id": "blightlord-terminators-wgo-8",
-    "unit_id": "blightlord-terminators",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement": [
-      "combi-weapon"
-    ],
-    "model_constraint": {
-      "model_name": "Blightlord Champion",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "helbrute-wgo-9",
+    "id": "helbrute-wgo-mfm-1",
     "unit_id": "helbrute",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "combi-bolter",
-      "helbrute-fist"
+      "multi-melta",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
-        "heavy-flamer",
+        "combi-bolter",
+        "helbrute-fist",
+        "heavy-flamer"
+      ],
+      [
+        "helbrute-hammer",
+        "combi-bolter"
+      ],
+      [
+        "combi-bolter",
+        "twin-lascannon"
+      ],
+      [
         "helbrute-fist"
       ],
       [
-        "missile-launcher"
-      ],
-      [
-        "helbrute-hammer"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "helbrute-wgo-10",
-    "unit_id": "helbrute",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "multi-melta"
-    ],
-    "replacement_choice": [
-      [
+        "combi-bolter",
         "twin-autocannon"
       ],
       [
+        "helbrute-hammer",
+        "heavy-flamer"
+      ],
+      [
+        "missile-launcher",
+        "heavy-flamer"
+      ],
+      [
+        "power-scourge",
+        "combi-bolter"
+      ],
+      [
         "heavy-flamer",
-        "helbrute-fist"
+        "twin-heavy-bolter"
+      ],
+      [
+        "power-scourge"
       ],
       [
         "combi-bolter",
         "helbrute-fist"
       ],
       [
-        "plasma-cannon"
+        "combi-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-autocannon"
+      ],
+      [
+        "combi-bolter",
+        "missile-launcher"
+      ],
+      [
+        "heavy-flamer",
+        "twin-autocannon"
       ],
       [
         "twin-heavy-bolter"
       ],
       [
-        "twin-lascannon"
-      ],
-      [
         "helbrute-hammer"
       ],
       [
+        "plasma-cannon"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "helbrute-fist"
+      ],
+      [
+        "power-scourge",
+        "heavy-flamer"
+      ],
+      [
         "missile-launcher"
+      ],
+      [
+        "twin-lascannon"
+      ],
+      [
+        "combi-bolter",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-flamer",
+        "helbrute-fist"
+      ],
+      [
+        "twin-lascannon",
+        "heavy-flamer"
+      ],
+      [
+        "combi-bolter",
+        "combi-bolter",
+        "helbrute-fist"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "foetid-bloat-drone-wgo-11",
-    "unit_id": "foetid-bloat-drone",
+    "id": "helbrute-wgo-mfm-2",
+    "unit_id": "helbrute",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "fleshmower"
+      "helbrute-fist",
+      "close-combat-weapon"
     ],
-    "replacement": [
-      "plaguespitter"
+    "replacement_choice": [
+      [
+        "missile-launcher"
+      ],
+      [
+        "power-scourge"
+      ],
+      [
+        "helbrute-hammer"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "plagueburst-crawler-wgo-12",
-    "unit_id": "plagueburst-crawler",
+    "id": "helbrute-wgo-mfm-3",
+    "unit_id": "helbrute",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "heavy-slugger"
+      "multi-melta",
+      "helbrute-fist",
+      "close-combat-weapon"
     ],
-    "replacement": [
-      "rothail-volley-gun"
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "missile-launcher"
+      ],
+      [
+        "missile-launcher",
+        "twin-autocannon"
+      ],
+      [
+        "missile-launcher",
+        "twin-lascannon"
+      ],
+      [
+        "power-scourge",
+        "twin-lascannon"
+      ],
+      [
+        "missile-launcher",
+        "power-scourge"
+      ],
+      [
+        "missile-launcher",
+        "helbrute-hammer"
+      ],
+      [
+        "plasma-cannon",
+        "power-scourge"
+      ],
+      [
+        "helbrute-hammer",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "power-scourge"
+      ],
+      [
+        "plasma-cannon",
+        "helbrute-hammer"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-hammer"
+      ],
+      [
+        "helbrute-hammer",
+        "twin-lascannon"
+      ],
+      [
+        "plasma-cannon",
+        "missile-launcher"
+      ],
+      [
+        "twin-autocannon",
+        "power-scourge"
+      ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "plagueburst-crawler-wgo-13",
-    "unit_id": "plagueburst-crawler",
+    "id": "helbrute-wgo-mfm-4",
+    "unit_id": "helbrute",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "entropy-cannon"
+      "close-combat-weapon"
     ],
-    "replacement": [
-      "plaguespitter"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-land-raider-wgo-14",
-    "unit_id": "chaos-land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-land-raider-wgo-15",
-    "unit_id": "chaos-land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement_choice": [
       [
         "combi-bolter"
       ],
       [
-        "combi-weapon"
+        "heavy-flamer"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "chaos-predator-annihilator-wgo-16",
-    "unit_id": "chaos-predator-annihilator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-annihilator-wgo-17",
-    "unit_id": "chaos-predator-annihilator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-annihilator-wgo-18",
-    "unit_id": "chaos-predator-annihilator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-destructor-wgo-19",
-    "unit_id": "chaos-predator-destructor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-destructor-wgo-20",
-    "unit_id": "chaos-predator-destructor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "combi-bolter"
-      ],
-      [
-        "combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-destructor-wgo-21",
-    "unit_id": "chaos-predator-destructor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-rhino-wgo-22",
+    "id": "chaos-rhino-wgo-mfm-1",
     "unit_id": "chaos-rhino",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "combi-bolter"
+      ],
+      [
+        "combi-weapon"
+      ],
+      [
+        "havoc-launcher"
+      ],
+      [
+        "combi-weapon",
+        "havoc-launcher"
+      ],
+      [
+        "combi-bolter",
+        "havoc-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-rhino-wgo-mfm-2",
+    "unit_id": "chaos-rhino",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "havoc-launcher"
+      ],
+      [
+        "havoc-launcher",
+        "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-land-raider-wgo-mfm-1",
+    "unit_id": "chaos-land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
+      "twin-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "combi-bolter"
+      ],
+      [
+        "combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-land-raider-wgo-mfm-2",
+    "unit_id": "chaos-land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
+      "twin-heavy-bolter",
+      "armoured-tracks"
+    ],
     "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "blightlord-terminators-wgo-mfm-1",
+    "unit_id": "blightlord-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "bubotic-blade"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Blightlord Champion",
+      "per_n_models": 2
+    }
+  },
+  {
+    "id": "blightlord-terminators-wgo-mfm-2",
+    "unit_id": "blightlord-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter",
+      "bubotic-blade"
+    ],
+    "replacement_choice": [
+      [
+        "plague-spewer",
+        "close-combat-weapon"
+      ],
+      [
+        "flail-of-corruption"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Blightlord Terminator",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "blightlord-terminators-wgo-mfm-3",
+    "unit_id": "blightlord-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
       "combi-bolter"
     ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-rhino-wgo-23",
-    "unit_id": "chaos-rhino",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-rhino-wgo-24",
-    "unit_id": "chaos-rhino",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
     "replacement_choice": [
       [
-        "combi-bolter"
+        "blight-launcher"
+      ],
+      [
+        "plague-spewer"
+      ],
+      [
+        "reaper-autocannon"
       ],
       [
         "combi-weapon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "model_name": "Blightlord Terminator",
+      "per_n_models": 5
+    }
   }
 ]

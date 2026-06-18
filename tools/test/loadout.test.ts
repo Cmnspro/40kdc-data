@@ -47,61 +47,75 @@ describe("baseLoadout — Khorne Berzerkers @ 10 (legal default)", () => {
   });
 });
 
-describe("maximalLoadout — Khorne Berzerkers @ 10 (dogfood target)", () => {
-  it("derives 7 bolt pistols, 3 plasma, 8 chainblades, 2 eviscerators, 1 icon", () => {
-    const bz = dataset.units.get("khorne-berzerkers")!;
-    const options = dataset.wargearOptionsOf(bz.raw);
-    expect(options.length).toBe(4); // 3 swaps + 1 add-on
-    const lo = maximalLoadout(bz.raw, 10, options);
+// The loadout *maths* (maximal/bounds/clamp/validate/swap-conflict) is exercised
+// with synthetic options rather than a live unit: dump-primary wargear data is
+// regenerated per ingest, so pinning a real unit's take-every-swap maximal would
+// couple these maths tests to churning data. (Base loadout — the pinned contract
+// — is still asserted against a real unit above; maximal is advisory per
+// CONFORMANCE.) A 10-model squad whose models carry bolt-pistol + chainblade,
+// with two per-5 swaps and a one-per-unit add-on.
+const SYN_UNIT = { weapon_ids: ["bolt-pistol", "chainblade"] } as never;
+const SYN_OPTS: WargearOption[] = [
+  opt({ replaces: ["bolt-pistol"], replacement: ["plasma-pistol"], model_constraint: { per_n_models: 5 } }),
+  opt({ replaces: ["chainblade"], replacement: ["khornate-eviscerator"], model_constraint: { per_n_models: 5 } }),
+  opt({ replacement: ["icon-of-khorne"], model_constraint: { max_count: 1 } }),
+];
+
+describe("maximalLoadout — synthetic dogfood target", () => {
+  it("applies every swap at its cap and the add-on once", () => {
+    const lo = maximalLoadout(SYN_UNIT, 10, SYN_OPTS);
     expect(Object.fromEntries(lo.counts)).toEqual({
-      "bolt-pistol": 7,
-      "chainblade": 8,
-      "plasma-pistol": 3,
+      "bolt-pistol": 8, // 10 base − 2 swapped to plasma
+      "plasma-pistol": 2, // per-5 cap at 10 models
+      chainblade: 8, // 10 base − 2 swapped to eviscerator
       "khornate-eviscerator": 2,
-      "icon-of-khorne": 1,
+      "icon-of-khorne": 1, // add-on, max 1
     });
   });
 });
 
 describe("weaponBounds + clampWeaponCount + validateLoadout", () => {
-  const bz = dataset.units.get("khorne-berzerkers")!;
-  const options = dataset.wargearOptionsOf(bz.raw);
-
   it("caps a replacement weapon at its max and a base weapon at model_count", () => {
-    const bounds = weaponBounds(bz.raw, 10, options);
-    // plasma pistol: champion (1) + per-5 (2) = 3 max
-    expect(bounds.get("plasma-pistol")).toEqual({ min: 0, max: 3 });
-    // bolt pistol: base 10, up to 3 swapped away
-    expect(bounds.get("bolt-pistol")).toEqual({ min: 7, max: 10 });
+    const bounds = weaponBounds(SYN_UNIT, 10, SYN_OPTS);
+    // plasma pistol: per-5 → 2 max
+    expect(bounds.get("plasma-pistol")).toEqual({ min: 0, max: 2 });
+    // bolt pistol: base 10, up to 2 swapped away
+    expect(bounds.get("bolt-pistol")).toEqual({ min: 8, max: 10 });
   });
 
   it("clamps an over-cap request down to the max", () => {
-    const bounds = weaponBounds(bz.raw, 10, options);
-    expect(clampWeaponCount(bounds, "plasma-pistol", 4)).toBe(3);
-    expect(clampWeaponCount(bounds, "plasma-pistol", 2)).toBe(2);
+    const bounds = weaponBounds(SYN_UNIT, 10, SYN_OPTS);
+    expect(clampWeaponCount(bounds, "plasma-pistol", 4)).toBe(2);
+    expect(clampWeaponCount(bounds, "plasma-pistol", 1)).toBe(1);
   });
 
   it("flags an over-cap loadout", () => {
-    const violations = validateLoadout(bz.raw, 10, options, new Map([["plasma-pistol", 4]]));
+    const violations = validateLoadout(SYN_UNIT, 10, SYN_OPTS, new Map([["plasma-pistol", 4]]));
     expect(violations).toEqual([
-      { id: "plasma-pistol", code: "exceeds-max", message: "plasma-pistol: 4 exceeds max 3" },
+      { id: "plasma-pistol", code: "exceeds-max", message: "plasma-pistol: 4 exceeds max 2" },
     ]);
   });
 
   it("accepts the maximal loadout as valid", () => {
-    const lo = maximalLoadout(bz.raw, 10, options);
-    expect(validateLoadout(bz.raw, 10, options, lo.counts)).toEqual([]);
+    const lo = maximalLoadout(SYN_UNIT, 10, SYN_OPTS);
+    expect(validateLoadout(SYN_UNIT, 10, SYN_OPTS, lo.counts)).toEqual([]);
   });
 
   it("flags a swap conflict: base weapon kept while its replacement is also taken", () => {
-    // War Dog Brigand's lone option swaps the diabolus heavy stubber for a havoc
-    // multi-launcher — a model takes one or the other, never both. Each id sits
-    // independently within [0,1], so only the swap-conservation check catches it.
-    const wd = dataset.units.get("war-dog-brigand")!;
-    const opts = dataset.wargearOptionsOf(wd.raw);
+    // A lone plain single-target swap (base weapon → one replacement, max 1): a
+    // model takes one or the other, never both. Each id sits independently within
+    // [0,1], so only the swap-conservation check catches keeping both.
+    const unit = { weapon_ids: ["diabolus-heavy-stubber"] } as never;
+    const opts = [
+      opt({
+        replaces: ["diabolus-heavy-stubber"],
+        replacement: ["havoc-multi-launcher"],
+        model_constraint: { max_count: 1 },
+      }),
+    ];
     expect(
       validateLoadout(
-        wd.raw,
+        unit,
         1,
         opts,
         new Map([
@@ -118,10 +132,8 @@ describe("weaponBounds + clampWeaponCount + validateLoadout", () => {
       },
     ]);
     // Either single choice is legal.
-    expect(
-      validateLoadout(wd.raw, 1, opts, new Map([["diabolus-heavy-stubber", 1]])),
-    ).toEqual([]);
-    expect(validateLoadout(wd.raw, 1, opts, new Map([["havoc-multi-launcher", 1]]))).toEqual([]);
+    expect(validateLoadout(unit, 1, opts, new Map([["diabolus-heavy-stubber", 1]]))).toEqual([]);
+    expect(validateLoadout(unit, 1, opts, new Map([["havoc-multi-launcher", 1]]))).toEqual([]);
   });
 });
 

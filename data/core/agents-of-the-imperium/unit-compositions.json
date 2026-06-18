@@ -8,8 +8,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "holy-fire",
-          "close-combat-weapon"
+          "plasma-gun",
+          "ministorum-flamer",
+          "sanctifier-melee-weapon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -22,8 +23,8 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
-          "ministorum-hand-flamer",
-          "close-combat-weapon"
+          "holy-fire",
+          "burning-hands"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -36,7 +37,6 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
-          "ministorum-flamer",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -63,6 +63,7 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
+          "ministorum-hand-flamer",
           "sanctifier-melee-weapon"
         ],
         "is_leader_model": false,
@@ -88,7 +89,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "hellfire-extremis",
+          "master-crafted-power-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -107,7 +112,13 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "multi-laser",
+          "heavy-bolter",
+          "lasgun-array",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -126,7 +137,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "neural-shredder",
+          "phase-sword-and-poison-blades"
+        ]
       }
     ],
     "game_version": {
@@ -145,7 +160,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "castigation",
+          "condemnor-stake",
+          "master-crafted-power-sword"
+        ]
       }
     ],
     "game_version": {
@@ -164,7 +184,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-bolter",
+          "immolation-flamers",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -177,13 +202,31 @@
     "models": [
       {
         "name": "Inquisitorial Agent",
-        "min": 6,
-        "max": 12,
+        "min": 5,
+        "max": 5,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "agent-firearm",
+          "agent-melee-weapon"
+        ]
+      },
+      {
+        "name": "Gun Servitor",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        },
+        "default_weapon_ids": [
+          "heavy-bolter",
+          "agent-melee-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -202,7 +245,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "blessed-wardings",
+          "inquisitorial-melee-weapon",
+          "bolt-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -214,14 +262,32 @@
     "unit_id": "grey-knights-terminator-squad",
     "models": [
       {
+        "name": "Terminator Justicar",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "nemesis-force-weapon"
+        ]
+      },
+      {
         "name": "Grey Knights Terminators",
-        "min": 5,
-        "max": 5,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "nemesis-force-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -238,8 +304,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "close-combat-weapon",
           "laspistol",
-          "close-combat-weapon"
+          "artificer-shotgun"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -253,6 +320,7 @@
         "min": 4,
         "max": 4,
         "default_weapon_ids": [
+          "laspistol",
           "lasgun",
           "close-combat-weapon"
         ],
@@ -267,7 +335,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "close-combat-weapon"
+          "vicious-bite"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -289,8 +357,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "boltgun",
-          "close-combat-weapon"
+          "power-weapon",
+          "boltgun"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -330,7 +398,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "executioner-pistol",
+          "power-sword-and-neuro-gauntlet"
+        ]
       }
     ],
     "game_version": {
@@ -349,7 +421,11 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "storm-bolter",
+          "armoured-tracks"
+        ]
       }
     ],
     "game_version": {
@@ -367,7 +443,8 @@
         "max": 1,
         "default_weapon_ids": [
           "boltgun",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "plasma-pistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -380,8 +457,8 @@
         "min": 2,
         "max": 7,
         "default_weapon_ids": [
-          "boltgun",
-          "close-combat-weapon"
+          "special-issue-bolt-pistol",
+          "xenophase-blade"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -394,8 +471,9 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
-          "bolt-rifle",
-          "close-combat-weapon"
+          "bolt-pistol",
+          "close-combat-weapon",
+          "infernus-heavy-bolter"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -420,7 +498,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "exitus-pistol",
+          "exitus-rifle",
+          "vindicare-combat-knife"
+        ]
       }
     ],
     "game_version": {
@@ -438,7 +521,8 @@
         "max": 1,
         "default_weapon_ids": [
           "arbites-shotpistol",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "arbites-combat-shotgun"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -453,6 +537,7 @@
         "max": 9,
         "default_weapon_ids": [
           "arbites-combat-shotgun",
+          "arbites-shotpistol",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -484,9 +569,23 @@
     "unit_id": "imperial-navy-breachers",
     "models": [
       {
+        "name": "Navis Sergeant-at-Arms",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        },
+        "default_weapon_ids": [
+          "navis-shotgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Navis Armsman",
-        "min": 10,
-        "max": 10,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -510,7 +609,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "life-draining-touch",
+          "animus-speculum"
+        ]
       }
     ],
     "game_version": {
@@ -543,6 +646,7 @@
         "max": 9,
         "default_weapon_ids": [
           "arbites-combat-shotgun",
+          "arbites-shotpistol",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -594,8 +698,8 @@
         "min": 9,
         "max": 9,
         "default_weapon_ids": [
-          "arbites-shotpistol",
-          "close-combat-weapon"
+          "shock-maul",
+          "arbites-shotpistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -633,7 +737,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "laspistol",
+          "force-orb-cane"
+        ]
       }
     ],
     "game_version": {
@@ -652,7 +760,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "dirgesinger",
+          "psychic-tempest",
+          "power-fist"
+        ]
       }
     ],
     "game_version": {
@@ -671,7 +784,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "vigil-spear"
+        ]
       }
     ],
     "game_version": {
@@ -690,7 +806,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "psychic-blast",
+          "nemesis-daemon-hammer"
+        ]
       }
     ],
     "game_version": {
@@ -702,14 +823,34 @@
     "unit_id": "sisters-of-battle-squad",
     "models": [
       {
+        "name": "Sister Superior",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "boltgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Battle Sister",
-        "min": 10,
-        "max": 10,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "boltgun",
+          "bolt-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -729,7 +870,13 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "blackstar-rocket-launcher",
+          "blackstar-rocket-launcher",
+          "armoured-hull",
+          "twin-assault-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -748,7 +895,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "zealots-vindictor"
+        ]
       }
     ],
     "game_version": {
@@ -764,8 +914,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "dartmask",
-          "close-combat-weapon"
+          "household-pistol",
+          "monomolecular-cane-rapier"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -778,6 +928,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "laspistol",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -787,12 +938,12 @@
         }
       },
       {
-        "name": "Canid",
-        "profile_name": "Rejuvenat Adept",
+        "name": "Death Cult Assassin",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "close-combat-weapon"
+          "death-cult-power-blade",
+          "dartmask"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -806,7 +957,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "voltaic-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {

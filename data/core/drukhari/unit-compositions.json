@@ -9,7 +9,8 @@
         "max": 1,
         "default_weapon_ids": [
           "splinter-pistol",
-          "bladevanes"
+          "bladevanes",
+          "splinter-rifle"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -23,6 +24,7 @@
         "min": 2,
         "max": 5,
         "default_weapon_ids": [
+          "splinter-rifle",
           "splinter-pistol",
           "bladevanes"
         ],
@@ -53,7 +55,11 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "spirit-leech-tentacles",
+          "spirit-syphon"
+        ]
       }
     ],
     "game_version": {
@@ -72,7 +78,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "archite-glaive-and-agoniser"
+        ]
       }
     ],
     "game_version": {
@@ -89,8 +98,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "stunclaw"
+          "splinter-pods",
+          "hellglaive"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -134,7 +143,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "bladevanes",
+          "twin-splinter-rifle",
+          "splinter-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -151,8 +165,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "blast-pistol",
-          "power-weapon"
+          "close-combat-weapon",
+          "shardcarbine"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -189,8 +203,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "power-weapon"
+          "close-combat-weapon",
+          "splinter-rifle"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -232,7 +246,11 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "dark-lance",
+          "bladevanes-and-chainsnares"
+        ]
       }
     ],
     "game_version": {
@@ -251,7 +269,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "leliths-blades"
+        ]
       }
     ],
     "game_version": {
@@ -271,7 +292,14 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "bladed-wings",
+          "twin-splinter-rifle",
+          "dark-lance",
+          "dark-lance",
+          "razorwing-missiles"
+        ]
       }
     ],
     "game_version": {
@@ -288,8 +316,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "blast-pistol",
-          "power-weapon"
+          "close-combat-weapon",
+          "shardcarbine"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -302,7 +330,7 @@
         "min": 4,
         "max": 4,
         "default_weapon_ids": [
-          "shardcarbine",
+          "splinter-cannon",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -331,7 +359,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "maco-scalpel",
+          "maco-scalpel",
+          "twin-splinter-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -348,8 +381,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "stinger-pistol",
-          "power-weapon"
+          "twin-torturers-tools"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -387,7 +419,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "haemonculus-tools-and-scissorhands",
+          "stinger-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -406,7 +442,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "huskblade",
+          "splinter-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -425,7 +465,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "ladys-blade",
+          "razor-fan"
+        ]
       }
     ],
     "game_version": {
@@ -447,7 +491,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "bladevanes",
+          "dark-lance",
+          "dark-lance",
+          "dark-lance"
+        ]
       }
     ],
     "game_version": {
@@ -464,8 +514,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "power-weapon"
+          "hekatarii-blade",
+          "splinter-pistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -497,14 +547,32 @@
     "unit_id": "hand-of-the-archon",
     "models": [
       {
+        "name": "Kabalite Archsybarite",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        },
+        "default_weapon_ids": [
+          "splinter-rifle",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Kabalite Agents",
-        "min": 10,
-        "max": 10,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "splinter-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -524,7 +592,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "bladed-wings",
+          "void-lance",
+          "void-lance"
+        ]
       }
     ],
     "game_version": {
@@ -543,7 +616,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "executioners-demiklaives"
+        ]
       }
     ],
     "game_version": {
@@ -559,7 +635,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "demiklaives-single-blade"
+          "klaive"
         ],
         "is_leader_model": true,
         "base_size_mm": {

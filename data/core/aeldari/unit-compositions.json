@@ -10,7 +10,13 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "cloudburst-missile-launcher",
+          "revenant-feet",
+          "revenant-pulsar",
+          "sonic-lance"
+        ]
       }
     ],
     "game_version": {
@@ -29,7 +35,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "shuriken-catapult",
+          "shadow-weaver"
+        ]
       }
     ],
     "game_version": {
@@ -45,6 +56,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "scorpions-claw",
           "scorpion-chainsword",
           "shuriken-pistol"
         ],
@@ -85,7 +97,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "mind-war",
+          "shuriken-pistol",
+          "the-staff-of-ulthamar-and-witchblade"
+        ]
       }
     ],
     "game_version": {
@@ -104,7 +121,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 60
-        }
+        },
+        "default_weapon_ids": [
+          "wraithbone-fists",
+          "shuriken-catapult",
+          "shuriken-catapult"
+        ]
       }
     ],
     "game_version": {
@@ -126,7 +148,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "wraithbone-hull",
+          "twin-shuriken-catapult",
+          "twin-shuriken-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -146,7 +173,11 @@
           "shape": "oval",
           "width": 75,
           "length": 42
-        }
+        },
+        "default_weapon_ids": [
+          "storm-of-whispers",
+          "kha-vir-the-sword-of-sorrows"
+        ]
       }
     ],
     "game_version": {
@@ -158,14 +189,80 @@
     "unit_id": "corsair-voidscarred",
     "models": [
       {
-        "name": "Way Seeker",
-        "min": 5,
-        "max": 13,
+        "name": "Voidscarred Felarch",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Corsair Voidscarred",
+        "min": 4,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Shade Runner",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "close-combat-weapon",
+          "paired-hekatarii-blades"
+        ]
+      },
+      {
+        "name": "Soul Weaver",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
+        "name": "Way Seeker",
+        "min": 0,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "executioner",
+          "close-combat-weapon",
+          "witch-staff"
+        ]
       }
     ],
     "game_version": {
@@ -187,7 +284,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "prism-cannon",
+          "twin-shuriken-catapult",
+          "wraithbone-hull"
+        ]
       }
     ],
     "game_version": {
@@ -206,7 +308,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "star-glaive",
+          "shuriken-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -222,7 +328,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "demiklaives-single-blade"
+          "klaive"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -257,7 +363,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "dragon-fusion-gun",
+          "exarchs-dragon-fusion-gun",
           "close-combat-weapon"
         ],
         "is_leader_model": true,
@@ -297,7 +403,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "sword-of-asur",
+          "bloody-twins"
+        ]
       }
     ],
     "game_version": {
@@ -313,8 +423,8 @@
         "min": 10,
         "max": 10,
         "default_weapon_ids": [
-          "shuriken-pistol",
-          "aeldari-power-sword"
+          "close-combat-weapon",
+          "shuriken-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -327,7 +437,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "shuriken-catapult"
+          "close-combat-weapon"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -352,7 +462,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "d-cannon",
+          "shuriken-catapult"
+        ]
       }
     ],
     "game_version": {
@@ -372,7 +487,13 @@
           "shape": "flying-base",
           "size": "small",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "destructor",
+          "twin-shuriken-catapult",
+          "witchblade"
+        ]
       }
     ],
     "game_version": {
@@ -391,7 +512,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "brood-twain",
+          "spiders-fangs",
+          "weaverender"
+        ]
       }
     ],
     "game_version": {
@@ -410,7 +536,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "jesters-blade",
+          "shrieker-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -429,7 +559,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "eye-of-wrath",
+          "shuriken-pistol",
+          "spear-of-twilight"
+        ]
       }
     ],
     "game_version": {
@@ -448,7 +583,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 80
-        }
+        },
+        "default_weapon_ids": [
+          "vilith-zhar",
+          "swirling-soul-energy"
+        ]
       }
     ],
     "game_version": {
@@ -468,7 +607,13 @@
           "shape": "flying-base",
           "size": "small",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "witchblade",
+          "eldritch-storm",
+          "shuriken-pistol",
+          "twin-shuriken-catapult"
+        ]
       }
     ],
     "game_version": {
@@ -487,7 +632,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "solitaire-weapons"
+        ]
       }
     ],
     "game_version": {
@@ -506,7 +654,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "maugetar"
+        ]
       }
     ],
     "game_version": {
@@ -518,14 +669,32 @@
     "unit_id": "corsair-skyreavers",
     "models": [
       {
+        "name": "Skyreaver Felarch",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "corsair-blade"
+        ]
+      },
+      {
         "name": "Skyreaver",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "corsair-blade",
+          "shuriken-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -555,7 +724,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "bright-lance"
+          "close-combat-weapon",
+          "shuriken-cannon"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -580,7 +750,14 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "voidstorm-missile-launcher",
+          "phantom-pulsar",
+          "d-bombard",
+          "phantom-feet",
+          "phantom-starcannon"
+        ]
       }
     ],
     "game_version": {
@@ -599,7 +776,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 80
-        }
+        },
+        "default_weapon_ids": [
+          "the-wailing-doom"
+        ]
       }
     ],
     "game_version": {
@@ -637,7 +817,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "dread-of-the-deep-void",
+          "waystave"
+        ]
       }
     ],
     "game_version": {
@@ -657,7 +841,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "wraithbone-hull",
+          "heavy-d-scythe",
+          "heavy-d-scythe"
+        ]
       }
     ],
     "game_version": {
@@ -677,7 +866,12 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "scattershield",
+          "titanic-feet",
+          "suncannon"
+        ]
       }
     ],
     "game_version": {
@@ -694,8 +888,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "bladevanes"
+          "bladevanes",
+          "splinter-rifle",
+          "splinter-pistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -709,8 +904,9 @@
         "min": 2,
         "max": 5,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "bladevanes"
+          "splinter-rifle",
+          "bladevanes",
+          "splinter-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -733,8 +929,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "lasblaster",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "hawks-talon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -773,7 +969,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "wraithcannon",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -792,7 +992,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "searsong",
+          "the-fire-axe"
+        ]
       }
     ],
     "game_version": {
@@ -827,8 +1031,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "twin-shuriken-catapult",
-          "laser-lance"
+          "laser-lance",
+          "twin-shuriken-catapult"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -873,7 +1077,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "asu-var"
+        ]
       }
     ],
     "game_version": {
@@ -885,14 +1092,34 @@
     "unit_id": "corsair-voidreavers",
     "models": [
       {
+        "name": "Voidreaver Felarch",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "power-sword",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Corsair Voidreaver",
-        "min": 5,
-        "max": 10,
+        "min": 4,
+        "max": 4,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "power-sword",
+          "shuriken-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -911,7 +1138,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "vibro-cannon",
+          "shuriken-catapult",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -930,7 +1162,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "miststave",
+          "shuriken-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -949,7 +1185,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "silent-death",
+          "strike"
+        ]
       }
     ],
     "game_version": {
@@ -965,8 +1205,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "death-spinner",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "exarchs-death-spinner"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1040,8 +1280,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "power-weapon"
+          "close-combat-weapon",
+          "splinter-rifle"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1083,7 +1323,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "voidweaver-haywire-cannon",
+          "close-combat-weapon",
+          "shuriken-cannon",
+          "shuriken-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -1105,7 +1351,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "shuriken-pistol",
+          "long-rifle",
+          "scatter-laser"
+        ]
       }
     ],
     "game_version": {
@@ -1124,7 +1376,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "destructor",
+          "witchblade",
+          "shuriken-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -1144,7 +1401,11 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "titanic-ghostglaive",
+          "scattershield"
+        ]
       }
     ],
     "game_version": {
@@ -1161,8 +1422,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "splinter-pistol",
-          "power-weapon"
+          "hekatarii-blade",
+          "splinter-pistol"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1201,7 +1462,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "destructor",
+          "witchblade"
+        ]
       }
     ],
     "game_version": {
@@ -1220,7 +1486,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "witchblade",
+          "eldritch-storm"
+        ]
       }
     ],
     "game_version": {
@@ -1242,7 +1513,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "doomweaver",
+          "twin-shuriken-catapult",
+          "wraithbone-hull"
+        ]
       }
     ],
     "game_version": {
@@ -1261,7 +1537,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "star-glaive"
+        ]
       }
     ],
     "game_version": {
@@ -1315,7 +1595,7 @@
         "max": 1,
         "default_weapon_ids": [
           "shuriken-pistol",
-          "power-sword"
+          "banshee-blade"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1328,8 +1608,8 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "shuriken-pistol",
-          "power-sword"
+          "banshee-blade",
+          "shuriken-pistol"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1357,7 +1637,13 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "scatter-laser",
+          "pulse-laser",
+          "twin-shuriken-catapult",
+          "wraithbone-hull"
+        ]
       }
     ],
     "game_version": {
@@ -1377,7 +1663,11 @@
           "shape": "flying-base",
           "size": "small",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "twin-shuriken-catapult"
+        ]
       }
     ],
     "game_version": {
@@ -1396,7 +1686,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "troupe-masters-blade",
+          "shuriken-pistol"
+        ]
       }
     ],
     "game_version": {
@@ -1415,7 +1709,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "shuriken-pistol",
+          "long-rifle"
+        ]
       }
     ],
     "game_version": {
@@ -1435,7 +1734,13 @@
           "shape": "oval",
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "pulse-laser",
+          "wraithbone-hull",
+          "starcannon",
+          "starcannon"
+        ]
       }
     ],
     "game_version": {
@@ -1477,7 +1782,12 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "starfang-grenade-launcher",
+          "wraithbone-hull",
+          "disintegrator-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -1499,7 +1809,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-cannon",
+          "star-bolas",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -1537,7 +1852,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "shining-blade",
+          "fury-of-the-tempest"
+        ]
       }
     ],
     "game_version": {
@@ -1556,7 +1875,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "ghostswords"
+        ]
       }
     ],
     "game_version": {
@@ -1657,7 +1979,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "shuriken-pistol",
+          "witch-staff"
+        ]
       }
     ],
     "game_version": {
@@ -1679,7 +2005,12 @@
           "draft": true,
           "width": 120,
           "length": 92
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "shuriken-cannon",
+          "shuriken-cannon"
+        ]
       }
     ],
     "game_version": {

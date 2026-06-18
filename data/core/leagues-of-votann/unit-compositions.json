@@ -10,7 +10,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "autoch-pattern-bolt-pistol",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -27,6 +31,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
+          "weavefield-crest",
+          "exoarmour-grenade-launcher",
           "etacarn-plasma-gun",
           "concussion-gauntlet"
         ],
@@ -42,7 +48,8 @@
         "max": 9,
         "default_weapon_ids": [
           "etacarn-plasma-gun",
-          "concussion-gauntlet"
+          "concussion-gauntlet",
+          "exoarmour-grenade-launcher"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -64,8 +71,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "ancestral-wrath-witchfire",
-          "ancestral-ward-stave"
+          "ancestral-ward-stave",
+          "ancestral-wrath"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -78,6 +85,7 @@
         "min": 2,
         "max": 2,
         "default_weapon_ids": [
+          "autoch-pattern-bolter",
           "close-combat-weapon"
         ],
         "is_leader_model": false,
@@ -104,7 +112,13 @@
           "shape": "oval",
           "width": 90,
           "length": 52.5
-        }
+        },
+        "default_weapon_ids": [
+          "bolt-revolver",
+          "bolt-shotgun",
+          "magna-coil-autocannon",
+          "plasma-knife"
+        ]
       }
     ],
     "game_version": {
@@ -123,7 +137,13 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 80
-        }
+        },
+        "default_weapon_ids": [
+          "autoch-pattern-bolt-pistol",
+          "autoch-pattern-bolt-pistol",
+          "breacher-ordnance",
+          "plasma-picks"
+        ]
       }
     ],
     "game_version": {
@@ -143,7 +163,12 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "magna-coil-autocannon",
+          "twin-magna-coil-autocannon",
+          "armoured-hull"
+        ]
       }
     ],
     "game_version": {
@@ -155,14 +180,32 @@
     "unit_id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
     "models": [
       {
+        "name": "Steeljack Theyn",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "heavy-volkanite-disintegrator",
+          "plasma-knife"
+        ]
+      },
+      {
         "name": "Ironkin Steeljack",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-volkanite-disintegrator",
+          "plasma-knife"
+        ]
       }
     ],
     "game_version": {
@@ -181,7 +224,15 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-bolt-cannon",
+          "twin-bolt-cannon",
+          "matr-autocannon",
+          "cyclic-ion-cannon",
+          "armoured-wheels",
+          "pan-spectral-scanner"
+        ]
       }
     ],
     "game_version": {
@@ -200,7 +251,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "autoch-pattern-bolt-pistol",
+          "bane"
+        ]
       }
     ],
     "game_version": {
@@ -227,8 +282,8 @@
       },
       {
         "name": "Ironkin Assistant",
-        "min": 3,
-        "max": 3,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "las-beam-cutter",
           "close-combat-weapon"
@@ -240,12 +295,41 @@
         }
       },
       {
-        "name": "E-COG",
+        "name": "E-COG with Autoch-pattern Bolt Pistol",
+        "profile_name": "E-COG",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "plasma-torch",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "autoch-pattern-bolt-pistol"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "E-COG with Plasma Torch",
+        "profile_name": "E-COG",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "plasma-torch"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 25
+        }
+      },
+      {
+        "name": "E-COG with Manipulator Arms",
+        "profile_name": "E-COG",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "manipulator-arms"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -270,7 +354,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "kromloks-revenge",
+          "warforge-gauntlets"
+        ]
       }
     ],
     "game_version": {
@@ -282,14 +370,32 @@
     "unit_id": "ironkin-steeljacks-with-melee-weapons",
     "models": [
       {
+        "name": "Steeljack Theyn",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "autoch-pattern-bolter",
+          "plasma-sword"
+        ]
+      },
+      {
         "name": "Ironkin Steeljack",
-        "min": 3,
-        "max": 6,
+        "min": 2,
+        "max": 2,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "autoch-pattern-bolter",
+          "plasma-sword"
+        ]
       }
     ],
     "game_version": {
@@ -308,7 +414,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "rampart-crest",
+          "volkanite-disintegrator",
+          "blade-of-the-ancestors"
+        ]
       }
     ],
     "game_version": {
@@ -320,14 +431,32 @@
     "unit_id": "hernkyn-yaegirs",
     "models": [
       {
+        "name": "Yaegir Theyn",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "bolt-shotgun",
+          "close-combat-weapon"
+        ]
+      },
+      {
         "name": "Hernkyn Yaegir",
-        "min": 10,
-        "max": 10,
+        "min": 9,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "bolt-shotgun"
+        ]
       }
     ],
     "game_version": {
@@ -346,7 +475,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "weavefield-crest",
+          "mass-hammer",
+          "autoch-pattern-combi-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -365,7 +499,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "close-combat-weapon",
+          "bolt-cannon"
+        ]
       }
     ],
     "game_version": {
@@ -384,7 +522,11 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "transmatter-inverter",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
@@ -423,7 +565,10 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-plasma-axe"
+        ]
       }
     ],
     "game_version": {
@@ -442,7 +587,12 @@
         "base_size_mm": {
           "shape": "hull",
           "draft": true
-        }
+        },
+        "default_weapon_ids": [
+          "twin-bolt-cannon",
+          "hylas-beam-cannon",
+          "armoured-wheels"
+        ]
       }
     ],
     "game_version": {
@@ -461,7 +611,12 @@
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "forgewrought-plasma-axe",
+          "rampart-crest",
+          "autoch-pattern-combi-bolter"
+        ]
       }
     ],
     "game_version": {
@@ -478,8 +633,10 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "theyns-pistol",
-          "theyns-melee-weapon"
+          "weavefield-crest",
+          "autoch-pattern-bolter",
+          "autoch-pattern-bolt-pistol",
+          "close-combat-weapon"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -493,7 +650,8 @@
         "max": 9,
         "default_weapon_ids": [
           "autoch-pattern-bolt-pistol",
-          "close-combat-weapon"
+          "close-combat-weapon",
+          "autoch-pattern-bolter"
         ],
         "is_leader_model": false,
         "base_size_mm": {

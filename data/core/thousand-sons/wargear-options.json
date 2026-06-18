@@ -1,488 +1,229 @@
 [
   {
-    "id": "rubric-marines-wgo-1",
-    "unit_id": "rubric-marines",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-boltgun"
-    ],
-    "replacement_choice": [
-      [
-        "warpflamer"
-      ],
-      [
-        "soulreaper-cannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 9
-    },
-    "is_free": true
-  },
-  {
-    "id": "rubric-marines-wgo-2",
-    "unit_id": "rubric-marines",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-bolt-pistol"
-    ],
-    "replacement": [
-      "warpflame-pistol"
-    ],
-    "model_constraint": {
-      "model_name": "Aspiring Sorcerer",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "rubric-marines-wgo-3",
-    "unit_id": "rubric-marines",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "icon-of-flame"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "scarab-occult-terminators-wgo-4",
-    "unit_id": "scarab-occult-terminators",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "heavy-warpflamer"
-      ],
-      [
-        "soulreaper-cannon"
-      ]
-    ],
-    "model_constraint": {
-      "per_n_models": 5
-    },
-    "is_free": true
-  },
-  {
-    "id": "scarab-occult-terminators-wgo-5",
-    "unit_id": "scarab-occult-terminators",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-combi-bolter"
-    ],
-    "replacement": [
-      "prosperine-khopesh"
-    ],
-    "model_constraint": {
-      "model_name": "Scarab Occult Sorcerer",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "scarab-occult-terminators-wgo-6",
-    "unit_id": "scarab-occult-terminators",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "hellfyre-missile-rack"
-    ],
-    "model_constraint": {
-      "max_count": 2
-    },
-    "is_free": true
-  },
-  {
-    "id": "tzaangor-enlightened-wgo-7",
-    "unit_id": "tzaangor-enlightened",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "divining-spear"
-    ],
-    "replacement": [
-      "autopistol",
-      "chainsword"
-    ],
-    "model_constraint": {
-      "model_name": "Aviarch",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tzaangors-wgo-8",
-    "unit_id": "tzaangors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "tzaangor-blades"
-    ],
-    "replacement": [
-      "autopistol",
-      "chainsword"
-    ],
-    "model_constraint": {
-      "model_name": "Twistbray",
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tzaangors-wgo-9",
-    "unit_id": "tzaangors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "brayhorn"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "tzaangors-wgo-10",
-    "unit_id": "tzaangors",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "herd-banner"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-land-raider-wgo-11",
-    "unit_id": "chaos-land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-land-raider-wgo-12",
-    "unit_id": "chaos-land-raider",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-annihilator-wgo-13",
-    "unit_id": "chaos-predator-annihilator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-annihilator-wgo-14",
-    "unit_id": "chaos-predator-annihilator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-annihilator-wgo-15",
-    "unit_id": "chaos-predator-annihilator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-destructor-wgo-16",
-    "unit_id": "chaos-predator-destructor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-destructor-wgo-17",
-    "unit_id": "chaos-predator-destructor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-predator-destructor-wgo-18",
-    "unit_id": "chaos-predator-destructor",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-heavy-bolter"
-      ],
-      [
-        "lascannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-rhino-wgo-19",
-    "unit_id": "chaos-rhino",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-rhino-wgo-20",
-    "unit_id": "chaos-rhino",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "chaos-vindicator-wgo-21",
-    "unit_id": "chaos-vindicator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "havoc-launcher"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "chaos-vindicator-wgo-22",
-    "unit_id": "chaos-vindicator",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement_choice": [
-      [
-        "inferno-combi-bolter"
-      ],
-      [
-        "inferno-combi-weapon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "exalted-sorcerer-wgo-23",
-    "unit_id": "exalted-sorcerer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "prosperine-khopesh"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "exalted-sorcerer-on-disc-of-tzeentch-wgo-24",
-    "unit_id": "exalted-sorcerer-on-disc-of-tzeentch",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "prosperine-khopesh"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "forgefiend-wgo-25",
-    "unit_id": "forgefiend",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "hades-autocannon"
-    ],
-    "replacement": [
-      "ectoplasma-cannon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "forgefiend-wgo-26",
-    "unit_id": "forgefiend",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "forgefiend-jaws"
-    ],
-    "replacement": [
-      "ectoplasma-cannon",
-      "forgefiend-claws"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "helbrute-wgo-27",
+    "id": "helbrute-wgo-mfm-1",
     "unit_id": "helbrute",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "missile-launcher"
+      "missile-launcher",
+      "multi-melta",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
       [
+        "helbrute-fist",
+        "helbrute-fist",
+        "inferno-combi-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "twin-lascannon",
         "inferno-combi-bolter",
         "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "twin-inferno-heavy-bolter"
+      ],
+      [
+        "power-scourge",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-hammer",
+        "heavy-flamer"
+      ],
+      [
+        "power-scourge",
+        "twin-lascannon"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-fist",
+        "inferno-combi-bolter"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-fist",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "twin-inferno-heavy-bolter",
+        "power-scourge"
+      ],
+      [
+        "helbrute-plasma-cannon",
+        "helbrute-fist",
+        "heavy-flamer"
+      ],
+      [
+        "twin-autocannon",
+        "power-scourge"
+      ],
+      [
+        "helbrute-hammer",
+        "twin-lascannon"
+      ],
+      [
+        "helbrute-hammer",
+        "inferno-combi-bolter",
+        "helbrute-fist"
+      ],
+      [
+        "twin-lascannon",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-plasma-cannon",
+        "power-scourge"
+      ],
+      [
+        "helbrute-fist",
+        "twin-lascannon",
+        "heavy-flamer"
+      ],
+      [
+        "helbrute-hammer",
+        "twin-inferno-heavy-bolter"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-plasma-cannon",
+        "helbrute-hammer"
+      ],
+      [
+        "inferno-combi-bolter",
+        "helbrute-fist",
+        "power-scourge"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-plasma-cannon"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-fist",
+        "inferno-combi-bolter"
+      ],
+      [
+        "twin-autocannon",
+        "heavy-flamer",
+        "helbrute-fist"
+      ],
+      [
+        "inferno-combi-bolter",
+        "helbrute-fist",
+        "twin-inferno-heavy-bolter"
+      ],
+      [
+        "helbrute-hammer",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-plasma-cannon",
+        "inferno-combi-bolter"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "heavy-flamer",
+        "power-scourge"
+      ],
+      [
+        "heavy-flamer",
+        "helbrute-fist",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "twin-inferno-heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-hammer"
+      ],
+      [
+        "inferno-combi-bolter",
+        "inferno-combi-bolter",
+        "helbrute-fist",
+        "helbrute-fist"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "helbrute-wgo-mfm-2",
+    "unit_id": "helbrute",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "missile-launcher",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "helbrute-hammer"
       ],
       [
         "heavy-flamer",
         "helbrute-fist"
       ],
       [
-        "helbrute-hammer"
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "inferno-combi-bolter"
+      ],
+      [
+        "power-scourge"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "helbrute-wgo-28",
+    "id": "helbrute-wgo-mfm-3",
     "unit_id": "helbrute",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
-      "multi-melta"
+      "multi-melta",
+      "close-combat-weapon"
     ],
     "replacement_choice": [
+      [
+        "twin-lascannon"
+      ],
+      [
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "inferno-combi-bolter"
+      ],
       [
         "twin-autocannon"
       ],
@@ -491,31 +232,739 @@
         "helbrute-fist"
       ],
       [
-        "inferno-combi-bolter",
-        "helbrute-fist"
-      ],
-      [
-        "helbrute-plasma-cannon"
-      ],
-      [
         "twin-inferno-heavy-bolter"
       ],
       [
-        "twin-lascannon"
+        "helbrute-plasma-cannon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   },
   {
-    "id": "heldrake-wgo-29",
+    "id": "chaos-land-raider-wgo-mfm-1",
+    "unit_id": "chaos-land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
+      "twin-inferno-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-land-raider-wgo-mfm-2",
+    "unit_id": "chaos-land-raider",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "soulshatter-lascannon",
+      "soulshatter-lascannon",
+      "twin-inferno-heavy-bolter",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "inferno-combi-bolter"
+      ],
+      [
+        "inferno-combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sorcerer-wgo-mfm-1",
+    "unit_id": "sorcerer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "pandaemonic-delusion",
+      "inferno-bolt-pistol",
+      "force-weapon"
+    ],
+    "replacement": [
+      "prosperine-khopesh"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-vindicator-wgo-mfm-1",
+    "unit_id": "chaos-vindicator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "demolisher-cannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-vindicator-wgo-mfm-2",
+    "unit_id": "chaos-vindicator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "demolisher-cannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "inferno-combi-weapon"
+      ],
+      [
+        "inferno-combi-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-rhino-wgo-mfm-1",
+    "unit_id": "chaos-rhino",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "inferno-combi-weapon"
+      ],
+      [
+        "havoc-launcher"
+      ],
+      [
+        "havoc-launcher",
+        "inferno-combi-bolter"
+      ],
+      [
+        "inferno-combi-weapon",
+        "havoc-launcher"
+      ],
+      [
+        "inferno-combi-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-rhino-wgo-mfm-2",
+    "unit_id": "chaos-rhino",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-combi-bolter",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "havoc-launcher",
+        "inferno-combi-weapon"
+      ],
+      [
+        "havoc-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "rubric-marines-wgo-mfm-1",
+    "unit_id": "rubric-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-bolt-pistol",
+      "malefic-curse",
+      "force-weapon"
+    ],
+    "replacement": [
+      "warpflame-pistol"
+    ],
+    "model_constraint": {
+      "model_name": "Aspiring Sorcerer",
+      "any_number": true
+    }
+  },
+  {
+    "id": "rubric-marines-wgo-mfm-2",
+    "unit_id": "rubric-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-boltgun",
+      "close-combat-weapon"
+    ],
+    "replacement_choice": [
+      [
+        "soulreaper-cannon"
+      ],
+      [
+        "warpflamer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Rubric Marine",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "rubric-marines-wgo-mfm-3",
+    "unit_id": "rubric-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-boltgun",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "icon-of-flame"
+    ],
+    "model_constraint": {
+      "model_name": "Rubric Marine",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "tzaangor-enlightened-wgo-mfm-1",
+    "unit_id": "tzaangor-enlightened",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "divining-spear"
+    ],
+    "replacement": [
+      "chainsword",
+      "autopistol"
+    ],
+    "model_constraint": {
+      "model_name": "Enlightened",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tzaangor-enlightened-wgo-mfm-2",
+    "unit_id": "tzaangor-enlightened",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "divining-spear"
+    ],
+    "replacement": [
+      "chainsword",
+      "autopistol"
+    ],
+    "model_constraint": {
+      "model_name": "Aviarch",
+      "any_number": true
+    }
+  },
+  {
+    "id": "scarab-occult-terminators-wgo-mfm-1",
+    "unit_id": "scarab-occult-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-combi-bolter",
+      "prosperine-khopesh"
+    ],
+    "replacement": [
+      "hellfyre-missile-rack"
+    ],
+    "model_constraint": {
+      "model_name": "Scarab Occult Terminator",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "scarab-occult-terminators-wgo-mfm-2",
+    "unit_id": "scarab-occult-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-combi-bolter",
+      "prosperine-khopesh"
+    ],
+    "replacement_choice": [
+      [
+        "soulreaper-cannon"
+      ],
+      [
+        "heavy-warpflamer"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Scarab Occult Terminator",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "scarab-occult-terminators-wgo-mfm-3",
+    "unit_id": "scarab-occult-terminators",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "inferno-combi-bolter",
+      "malefic-curse",
+      "force-weapon"
+    ],
+    "replacement": [
+      "prosperine-khopesh"
+    ],
+    "model_constraint": {
+      "model_name": "Scarab Occult Sorcerer",
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-mfm-1",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "inferno-combi-bolter"
+      ],
+      [
+        "inferno-combi-weapon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-mfm-2",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-destructor-wgo-mfm-3",
+    "unit_id": "chaos-predator-destructor",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-autocannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "inferno-heavy-bolter",
+        "inferno-heavy-bolter"
+      ],
+      [
+        "lascannon",
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "tzaangors-wgo-mfm-1",
+    "unit_id": "tzaangors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tzaangor-blades"
+    ],
+    "replacement": [
+      "chainsword",
+      "autopistol"
+    ],
+    "model_constraint": {
+      "model_name": "Twistbray",
+      "any_number": true
+    }
+  },
+  {
+    "id": "tzaangors-wgo-mfm-2",
+    "unit_id": "tzaangors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tzaangor-blades"
+    ],
+    "replacement_choice": [
+      [
+        "autopistol",
+        "chainsword"
+      ],
+      [
+        "autopistol",
+        "chainsword",
+        "brayhorn"
+      ],
+      [
+        "chainsword",
+        "herd-banner",
+        "autopistol"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tzaangor",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "tzaangors-wgo-mfm-3",
+    "unit_id": "tzaangors",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "herd-banner"
+      ],
+      [
+        "brayhorn"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Tzaangor",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "sekhetar-robots-wgo-mfm-1",
+    "unit_id": "sekhetar-robots",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "heavy-warpflamer",
+      "hellfyre-missile-rack",
+      "pyreflux-meltagun",
+      "close-combat-weapon"
+    ],
+    "replacement": [
+      "warpflame-projector",
+      "power-claw"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "exalted-sorcerer-on-disc-of-tzeentch-wgo-mfm-1",
+    "unit_id": "exalted-sorcerer-on-disc-of-tzeentch",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "arcane-fire",
+      "inferno-bolt-pistol",
+      "force-weapon"
+    ],
+    "replacement": [
+      "prosperine-khopesh"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "maulerfiend-wgo-mfm-1",
+    "unit_id": "maulerfiend",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lasher-tendrils"
+    ],
+    "replacement": [
+      "magma-cutter",
+      "magma-cutter"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "exalted-sorcerer-wgo-mfm-1",
+    "unit_id": "exalted-sorcerer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astral-blast",
+      "inferno-bolt-pistol",
+      "force-weapon"
+    ],
+    "replacement": [
+      "prosperine-khopesh"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sorcerer-in-terminator-armour-wgo-mfm-1",
+    "unit_id": "sorcerer-in-terminator-armour",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "gaze-of-hate",
+      "inferno-combi-bolter",
+      "force-weapon"
+    ],
+    "replacement": [
+      "inferno-combi-weapon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-mfm-1",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-twin-lascannon",
+      "armoured-tracks"
+    ],
+    "replacement": [
+      "havoc-launcher"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-mfm-2",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-twin-lascannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "inferno-heavy-bolter",
+        "inferno-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "chaos-predator-annihilator-wgo-mfm-3",
+    "unit_id": "chaos-predator-annihilator",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "predator-twin-lascannon",
+      "armoured-tracks"
+    ],
+    "replacement_choice": [
+      [
+        "inferno-combi-weapon"
+      ],
+      [
+        "inferno-combi-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "forgefiend-wgo-mfm-1",
+    "unit_id": "forgefiend",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hades-autocannon",
+      "hades-autocannon",
+      "forgefiend-jaws"
+    ],
+    "replacement": [
+      "ectoplasma-cannon",
+      "ectoplasma-cannon",
+      "ectoplasma-cannon",
+      "forgefiend-claws"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "forgefiend-wgo-mfm-2",
+    "unit_id": "forgefiend",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "hades-autocannon",
+      "hades-autocannon"
+    ],
+    "replacement": [
+      "ectoplasma-cannon",
+      "ectoplasma-cannon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "forgefiend-wgo-mfm-3",
+    "unit_id": "forgefiend",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "forgefiend-jaws"
+    ],
+    "replacement": [
+      "ectoplasma-cannon",
+      "forgefiend-claws"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "heldrake-wgo-mfm-1",
     "unit_id": "heldrake",
     "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
     "replaces": [
       "hades-autocannon"
     ],
@@ -523,56 +972,7 @@
       "baleflamer"
     ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "maulerfiend-wgo-30",
-    "unit_id": "maulerfiend",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "lasher-tendrils"
-    ],
-    "replacement": [
-      "magma-cutter"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
-  },
-  {
-    "id": "sorcerer-wgo-31",
-    "unit_id": "sorcerer",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replacement": [
-      "prosperine-khopesh"
-    ],
-    "is_free": true
-  },
-  {
-    "id": "sorcerer-in-terminator-armour-wgo-32",
-    "unit_id": "sorcerer-in-terminator-armour",
-    "game_version": {
-      "edition": "10th",
-      "dataslate": "2025-q3"
-    },
-    "replaces": [
-      "inferno-combi-bolter"
-    ],
-    "replacement": [
-      "inferno-combi-weapon"
-    ],
-    "model_constraint": {
-      "max_count": 1
-    },
-    "is_free": true
+      "any_number": true
+    }
   }
 ]

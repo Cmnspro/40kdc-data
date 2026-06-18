@@ -433,7 +433,7 @@ export function reconcileLoadout(
 ): Map<string, number> {
 	const unit = unitRaw(datasheetId, factionId);
 	if (!unit) return new Map(loadout);
-	const bounds = weaponBounds(unit, modelCount, ds.wargearOptionsOf(unit));
+	const bounds = weaponBounds(unit, modelCount, ds.wargearOptionsOf(unit), unitModels(unit));
 	const next = new Map(loadout);
 	for (const [id, b] of bounds) {
 		if (b.min === b.max) {
@@ -533,6 +533,16 @@ export function effectiveBattleSize(state: BuilderState): BattleSize {
 // ── Loadout ───────────────────────────────────────────────────────────────────
 
 /**
+ * The composition model rows for a unit (count ranges + recorded
+ * `default_weapon_ids`), passed to the loadout maths so the authoritative base
+ * loadout is used when present. Matched by `unit_id`; the recorded defaults are
+ * the same across a shared chassis's faction views.
+ */
+function unitModels(unit: Unit) {
+	return ds.unitCompositions.find((c) => c.unit_id === unit.id)?.models;
+}
+
+/**
  * Default loadout for a freshly-added unit: the base (legal, no-swap) set — each
  * model carries its base weapons, no options applied. The take-every-swap
  * maximal set is illegal as a default (it stacks every swap at once), so the
@@ -541,7 +551,7 @@ export function effectiveBattleSize(state: BuilderState): BattleSize {
  */
 export function defaultLoadout(unit: Unit, modelCount: number): Map<string, number> {
 	const options = ds.wargearOptionsOf(unit);
-	return baseLoadout(unit, modelCount, options).counts;
+	return baseLoadout(unit, modelCount, options, unitModels(unit)).counts;
 }
 
 /**
@@ -562,7 +572,7 @@ export function wargearOptionsFor(
 export function loadoutBounds(bu: BuilderUnit, armyFactionId?: string): Map<string, WeaponBound> {
 	const unit = buRaw(bu, armyFactionId);
 	if (!unit) return new Map();
-	return weaponBounds(unit, bu.modelCount, ds.wargearOptionsOf(unit));
+	return weaponBounds(unit, bu.modelCount, ds.wargearOptionsOf(unit), unitModels(unit));
 }
 
 /** Clamp a requested count for one weapon id into its valid range. */
@@ -583,7 +593,7 @@ export function itemName(id: string): string {
 export function loadoutViolations(bu: BuilderUnit, armyFactionId?: string) {
 	const unit = buRaw(bu, armyFactionId);
 	if (!unit) return [];
-	return validateLoadout(unit, bu.modelCount, ds.wargearOptionsOf(unit), bu.loadout);
+	return validateLoadout(unit, bu.modelCount, ds.wargearOptionsOf(unit), bu.loadout, unitModels(unit));
 }
 
 // ── Allies ("soup") ────────────────────────────────────────────────────────────
