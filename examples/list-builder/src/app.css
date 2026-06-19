@@ -162,3 +162,23 @@ summary,
 *::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* ── Mobile touch targets ─────────────────────────────────────────────────────
+   Below the builder's desktop breakpoint (1024px), grow interactive controls to
+   the ~44px recommended minimum so steppers, row actions, and form fields are
+   comfortable to tap. Desktop sizing (above) is unchanged. Checkboxes/radios are
+   left at their native size. */
+@media (max-width: 1023px) {
+  .btn {
+    min-height: 2.75rem;
+  }
+  .btn-icon {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  select,
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea {
+    min-height: 2.75rem;
+  }
+}

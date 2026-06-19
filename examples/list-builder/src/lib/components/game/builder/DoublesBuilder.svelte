@@ -100,11 +100,11 @@ async function copyShareLink(): Promise<void> {
 <div class="flex h-full flex-col gap-2">
 	<!-- Team header -->
 	<div class="flex shrink-0 flex-wrap items-end gap-2">
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Team name
 			<input
 				type="text"
-				class="bg-panel border-panel-border text-text mt-0.5 w-44 rounded border px-2 py-1 text-sm normal-case"
+				class="bg-panel border-panel-border text-text mt-0.5 w-44 rounded border px-2 py-1 text-sm normal-case max-lg:w-full"
 				placeholder="Our team"
 				bind:value={team.teamName}
 			/>
@@ -116,7 +116,7 @@ async function copyShareLink(): Promise<void> {
 			<input type="checkbox" checked onchange={toggleOff} />
 			Doubles
 		</label>
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Points / player
 			<div class="mt-0.5 flex items-center gap-1">
 				<select
@@ -149,7 +149,7 @@ async function copyShareLink(): Promise<void> {
 				{/if}
 			</div>
 		</label>
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Team disposition
 			<select
 				class="bg-panel border-panel-border text-text mt-0.5 rounded border px-1.5 py-1 text-sm"
@@ -172,7 +172,7 @@ async function copyShareLink(): Promise<void> {
 				{kind === 'unified' ? 'Unified force' : 'Force of convenience'}
 			</span>
 		{/if}
-		<div class="ml-auto text-right">
+		<div class="ml-auto text-right max-lg:w-full">
 			<div
 				class="font-heading text-lg font-bold tabular-nums {teamTotal > teamLimit ? 'text-amber-400' : 'text-text'}"
 			>
@@ -199,7 +199,7 @@ async function copyShareLink(): Promise<void> {
 		{#each [0, 1] as side (side)}
 			<button
 				type="button"
-				class="rounded-t px-3 py-1 text-xs font-semibold uppercase tracking-wider
+				class="rounded-t px-3 py-1 text-xs font-semibold uppercase tracking-wider max-lg:flex-1
 				       {tab === side ? 'bg-panel text-text' : 'text-text-muted hover:text-text'}"
 				aria-selected={tab === side}
 				role="tab"
