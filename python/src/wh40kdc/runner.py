@@ -309,6 +309,11 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
             if f is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "faction", "id": input_.get("factionId")})
             return _ok([x.id for x in f.weapons])
+        if query == "logo_url_of_faction":
+            f = ds.factions.get(input_.get("factionId") or "")
+            if f is None:
+                return _err("UNKNOWN_ENTITY", {"kind": "faction", "id": input_.get("factionId")})
+            return _ok(f.logo_url)
         if query == "units_with_keyword":
             return _ok([u.id for u in ds.units_with_keyword(input_.get("keyword") or "")])
         if query == "allies_for":

@@ -616,6 +616,19 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
                     .collect(),
             ))
         }
+        "logo_url_of_faction" => {
+            let id = str_arg("factionId");
+            let Some(faction) = ds.factions.get(id) else {
+                return err_value(
+                    ErrorKind::UnknownEntity,
+                    Some(json!({ "kind": "faction", "id": id })),
+                );
+            };
+            ok_value(match &faction.logo_url {
+                Some(url) => Value::String(url.clone()),
+                None => Value::Null,
+            })
+        }
         "units_with_keyword" => {
             let kw = str_arg("keyword");
             ok_value(Value::Array(

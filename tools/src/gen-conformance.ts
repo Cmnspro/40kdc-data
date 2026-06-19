@@ -265,6 +265,7 @@ type LinkedApiQuery =
   | { name: string; query: "faction_of"; args: { unitId: string }; comparison: "scalar" }
   | { name: string; query: "abilities_of_faction"; args: { factionId: string }; comparison: "set" }
   | { name: string; query: "weapons_of_faction"; args: { factionId: string }; comparison: "set" }
+  | { name: string; query: "logo_url_of_faction"; args: { factionId: string }; comparison: "scalar" }
   | { name: string; query: "base_size_of"; args: { unitId: string }; comparison: "scalar" }
   | { name: string; query: "model_bases_of"; args: { unitId: string }; comparison: "ordered" }
   | { name: string; query: "base_loadout"; args: { unitId: string; modelCount: string }; comparison: "set" }
@@ -301,6 +302,8 @@ const LINKED_API_QUERIES: LinkedApiQuery[] = [
   { name: "abilities_of_faction world-eaters", query: "abilities_of_faction", args: { factionId: "world-eaters" }, comparison: "set" },
   // weapons_of_faction: compared as set.
   { name: "weapons_of_faction world-eaters", query: "weapons_of_faction", args: { factionId: "world-eaters" }, comparison: "set" },
+  // logo_url_of_faction: scalar logo URL string, or null if unset.
+  { name: "logo_url_of_faction adepta-sororitas", query: "logo_url_of_faction", args: { factionId: "adepta-sororitas" }, comparison: "scalar" },
   // base_size_of(unit): scalar encoded base — round, oval, and a draft flying-base.
   { name: "base_size_of intercessor-squad", query: "base_size_of", args: { unitId: "intercessor-squad" }, comparison: "scalar" },
   { name: "base_size_of vertus-praetors", query: "base_size_of", args: { unitId: "vertus-praetors" }, comparison: "scalar" },
@@ -377,6 +380,11 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       const f = ds.factions.get(q.args.factionId);
       if (!f) throw new Error(`weapons_of_faction: unknown faction ${q.args.factionId}`);
       return f.weapons.map((w) => w.id).sort();
+    }
+    case "logo_url_of_faction": {
+      const f = ds.factions.get(q.args.factionId);
+      if (!f) throw new Error(`logo_url_of_faction: unknown faction ${q.args.factionId}`);
+      return f.logoUrl ?? null;
     }
     case "base_size_of": {
       const u = ds.units.getAny(q.args.unitId);

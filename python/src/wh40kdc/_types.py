@@ -220,6 +220,7 @@ class Faction(TypedDict):
     keywords: NotRequired[KeywordList]
     aliases: NotRequired[list[str]]
     faction_rule_id: NotRequired[EntityId | None]
+    logo_url: NotRequired[str]
 
 
 class ForceDisposition(TypedDict):

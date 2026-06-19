@@ -529,6 +529,11 @@ function runLinkedApi(ds: Dataset, c: LinkedApiCase): string | null | string[] {
       if (!f) throw new Error(`weapons_of_faction: unknown faction ${c.args.factionId}`);
       return f.weapons.map((w) => w.id);
     }
+    case "logo_url_of_faction": {
+      const f = ds.factions.get(c.args.factionId);
+      if (!f) throw new Error(`logo_url_of_faction: unknown faction ${c.args.factionId}`);
+      return f.logoUrl ?? null;
+    }
     case "base_size_of": {
       const u = ds.units.get(c.args.unitId);
       if (!u) throw new Error(`base_size_of: unknown unit ${c.args.unitId}`);
