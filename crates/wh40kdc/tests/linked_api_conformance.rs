@@ -147,6 +147,17 @@ fn run_query(ds: &Dataset, query: &str, args: &Value) -> Value {
                 .map(|w| Value::String(w.id.to_string()))
                 .collect(),
         ),
+        "logo_url_of_faction" => {
+            let id = arg_str("factionId");
+            let f = ds
+                .factions
+                .get(id)
+                .unwrap_or_else(|| panic!("logo_url_of_faction: unknown faction {id}"));
+            match &f.logo_url {
+                Some(url) => Value::String(url.clone()),
+                None => Value::Null,
+            }
+        }
         "base_size_of" => {
             let id = arg_str("unitId");
             let u = ds

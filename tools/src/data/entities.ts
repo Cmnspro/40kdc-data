@@ -337,6 +337,11 @@ export class FactionView {
     return this.raw.name;
   }
 
+  /** URL to the faction's logo/emblem image, or `undefined` if unset. */
+  get logoUrl(): string | undefined {
+    return this.raw.logo_url;
+  }
+
   /** Units whose `faction_id` is this faction (may be empty for successors). */
   get units(): UnitView[] {
     return this.ds.units.byFaction(this.raw.id);

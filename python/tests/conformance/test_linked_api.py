@@ -70,6 +70,8 @@ def run_linked_query(ds: Any, query: str, args: dict[str, Any]) -> Any:
         return [x.id for x in ds.abilities.by_faction(args["factionId"])]
     if query == "weapons_of_faction":
         return [x.id for x in ds.factions.get(args["factionId"]).weapons]
+    if query == "logo_url_of_faction":
+        return ds.factions.get(args["factionId"]).logo_url
     if query == "units_with_keyword":
         return [u.id for u in ds.units_with_keyword(args["keyword"])]
     if query == "allies_for":

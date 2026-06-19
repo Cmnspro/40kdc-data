@@ -411,6 +411,11 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
         if (!f) return err("UNKNOWN_ENTITY", { kind: "faction", id: input.factionId });
         return ok(f.weapons.map((x) => x.id));
       }
+      case "logo_url_of_faction": {
+        const f = ds.factions.get(input.factionId);
+        if (!f) return err("UNKNOWN_ENTITY", { kind: "faction", id: input.factionId });
+        return ok(f.logoUrl ?? null);
+      }
       case "units_with_keyword":
         return ok(ds.unitsWithKeyword(input.keyword ?? "").map((u) => u.id));
       case "allies_for": {

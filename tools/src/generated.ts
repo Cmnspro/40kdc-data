@@ -534,6 +534,10 @@ export interface Faction {
    * Reference to the faction-wide ability (e.g., Oath of Moment)
    */
   faction_rule_id?: EntityId | null;
+  /**
+   * URL to the faction's logo/emblem image.
+   */
+  logo_url?: string;
 }
 /**
  * A 11e strategic-intent tag granted by detachments. Players compare dispositions at game start to determine the shared mission; asymmetric primary objectives result.

@@ -4034,6 +4034,11 @@ impl<'de> ::serde::Deserialize<'de> for EntityId {
 ///    "keywords": {
 ///      "$ref": "#/$defs/keyword-list"
 ///    },
+///    "logo_url": {
+///      "description": "URL to the faction's logo/emblem image.",
+///      "type": "string",
+///      "format": "uri"
+///    },
 ///    "name": {
 ///      "type": "string",
 ///      "maxLength": 128,
@@ -4066,6 +4071,9 @@ pub struct Faction {
     pub id: EntityId,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub keywords: ::std::option::Option<KeywordList>,
+    ///URL to the faction's logo/emblem image.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub logo_url: ::std::option::Option<::std::string::String>,
     pub name: FactionName,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub parent_faction_id: ::std::option::Option<EntityId>,

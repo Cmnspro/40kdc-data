@@ -124,6 +124,9 @@ type FactionView struct {
 func (f *FactionView) ID() string   { return getStr(f.Raw, "id") }
 func (f *FactionView) Name() string { return getStr(f.Raw, "name") }
 
+// LogoURL returns the faction's logo/emblem image URL, or "" if unset.
+func (f *FactionView) LogoURL() string { return getStr(f.Raw, "logo_url") }
+
 func (f *FactionView) Units() []*UnitView {
 	return f.ds.Units.ByFaction(getStr(f.Raw, "id"))
 }

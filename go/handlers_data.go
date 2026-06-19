@@ -149,6 +149,15 @@ func (s *RunnerState) handleLinkedQuery(args any) map[string]any {
 			return errResp("UNKNOWN_ENTITY", map[string]any{"kind": "faction", "id": in["factionId"]})
 		}
 		return okResp(idsOfWeapons(f.Weapons()))
+	case "logo_url_of_faction":
+		f, ok := ds.Factions.Get(getStr(in, "factionId"))
+		if !ok {
+			return errResp("UNKNOWN_ENTITY", map[string]any{"kind": "faction", "id": in["factionId"]})
+		}
+		if url, present := f.Raw["logo_url"].(string); present {
+			return okResp(url)
+		}
+		return okResp(nil)
 	case "units_with_keyword":
 		out := []any{}
 		for _, u := range ds.unitsWithKeyword(getStr(in, "keyword")) {

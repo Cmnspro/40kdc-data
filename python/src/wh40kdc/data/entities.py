@@ -313,6 +313,11 @@ class FactionView:
         return self.raw["name"]
 
     @property
+    def logo_url(self) -> str | None:
+        """URL to the faction's logo/emblem image, or ``None`` if unset."""
+        return self.raw.get("logo_url")
+
+    @property
     def units(self) -> list[UnitView]:
         """Units whose ``faction_id`` is this faction (may be empty for successors)."""
         return self._ds.units.by_faction(self.raw["id"])
