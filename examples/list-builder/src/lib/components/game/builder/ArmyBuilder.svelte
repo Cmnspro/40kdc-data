@@ -26,6 +26,8 @@ import UnitPicker from './UnitPicker.svelte';
 import BuilderUnitRow from './BuilderUnitRow.svelte';
 import UnitDetailPanel from './UnitDetailPanel.svelte';
 import ShareModal from '../../ShareModal.svelte';
+import BottomSheet from '../../../../../../_shared/BottomSheet.svelte';
+import { viewport } from '$lib/media.svelte';
 
 interface Props {
 	/** Seed for "Edit in Builder"; omitted for a from-scratch build. */
@@ -129,6 +131,23 @@ const overDp = $derived(dpSpent > dpCap);
 const armyIssues = $derived(builderViolations(draft).filter((v) => v.unitKey === null));
 const draftGroups = $derived(groupDraftByRole(draft));
 const selected = $derived(draft.units.find((u) => u.key === selectedKey) ?? null);
+/** Display name for the mobile detail sheet's title. */
+const selectedName = $derived(
+	selected
+		? (unitRaw(selected.datasheetId, selected.factionId, draft.factionId ?? undefined)?.name ??
+				selected.datasheetId)
+		: '',
+);
+
+// Mobile bottom sheets (only mounted below the desktop breakpoint): the unit
+// picker and the selected-unit detail panel, which on desktop are the left and
+// right grid columns. `selectUnit` opens the detail sheet on mobile.
+let pickerOpen = $state(false);
+let detailOpen = $state(false);
+function selectUnit(key: string) {
+	selectedKey = key;
+	if (viewport.isMobile) detailOpen = true;
+}
 
 // Share modal: lower the draft to a canonical Roster only while the modal is open.
 let shareOpen = $state(false);
@@ -183,6 +202,9 @@ function addUnit(datasheetId: string, factionId?: string, allyRuleId?: string) {
 	};
 	draft.units = [...draft.units, bu];
 	selectedKey = bu.key;
+	// On mobile, close the picker sheet so the new unit shows in the roster
+	// underneath (no-op on desktop, where the picker is a column).
+	pickerOpen = false;
 }
 
 function cloneUnit(key: string) {
@@ -221,16 +243,16 @@ function save() {
 <div class="flex h-full flex-col gap-2">
 	<!-- Header: name, faction, detachment, battle size, disposition, points. -->
 	<div class="flex shrink-0 flex-wrap items-end gap-2">
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Name
 			<input
 				type="text"
-				class="bg-panel border-panel-border text-text mt-0.5 w-44 rounded border px-2 py-1 text-sm normal-case"
+				class="bg-panel border-panel-border text-text mt-0.5 w-44 rounded border px-2 py-1 text-sm normal-case max-lg:w-full"
 				placeholder="My list"
 				bind:value={draft.name}
 			/>
 		</label>
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Faction
 			<select
 				class="bg-panel border-panel-border text-text mt-0.5 rounded border px-1.5 py-1 text-sm"
@@ -243,7 +265,7 @@ function save() {
 				{/each}
 			</select>
 		</label>
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Detachments <span class="normal-case {overDp ? 'text-amber-400' : 'text-text-muted'}">({dpSpent}/{dpCap} DP)</span>
 			<select
 				class="bg-panel border-panel-border text-text mt-0.5 rounded border px-1.5 py-1 text-sm disabled:opacity-40"
@@ -278,7 +300,7 @@ function save() {
 			{/if}
 		</label>
 		{#if !doubles}
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Battle size
 			<select
 				class="bg-panel border-panel-border text-text mt-0.5 rounded border px-1.5 py-1 text-sm"
@@ -298,7 +320,7 @@ function save() {
 				Doubles
 			</label>
 		{/if}
-		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted">
+		<label class="flex flex-col text-xs uppercase tracking-wider text-text-muted max-lg:flex-1 max-lg:basis-[46%]">
 			Disposition
 			{#if forcedDispositions.length > 1}
 				<!-- Detachment grants several — choose within the granted set. Lock stays
@@ -338,7 +360,7 @@ function save() {
 			{/if}
 		</label>
 		{/if}
-		<div class="ml-auto text-right">
+		<div class="ml-auto text-right max-lg:w-full">
 			<div
 				class="font-heading text-lg font-bold tabular-nums {overLimit
 					? 'text-amber-400'
@@ -360,55 +382,96 @@ function save() {
 		</div>
 	{/if}
 
-	<!-- NR 3-column layout: picker (¼) | roster (½) | selected-unit detail (¼).
-	     `grid-rows-[minmax(0,1fr)]` bounds the single row to the grid height so each
-	     column's inner overflow-y-auto can scroll instead of stretching to content. -->
-	<div class="grid min-h-0 flex-1 grid-cols-[1fr_2fr_1fr] grid-rows-[minmax(0,1fr)] gap-2">
-		<div class="bg-panel border-panel-border min-h-0 overflow-hidden rounded border p-2">
-			<UnitPicker draft={draft} onadd={addUnit} />
-		</div>
+	<!-- The three builder panels live in snippets so they render once and place
+	     differently per breakpoint: a desktop 3-column grid, or — on mobile —
+	     a full-width roster with the picker and detail panels in bottom sheets. -->
+	{#snippet pickerPane()}
+		<UnitPicker draft={draft} onadd={addUnit} />
+	{/snippet}
 
-		<div class="bg-panel border-panel-border flex min-h-0 flex-col rounded border p-2">
-			{#if draft.units.length === 0}
-				<p class="text-text-dim m-auto text-sm italic">
-					{draft.factionId ? 'Add units from the left.' : 'Pick a faction to begin.'}
-				</p>
-			{:else}
-				<div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
-					{#each draftGroups as group (group.key)}
-						<div class="flex flex-col gap-1">
-							<div
-								class="text-text-muted flex items-center gap-2 border-b border-dashed border-white/10 pb-0.5 text-xs font-semibold uppercase tracking-wider"
-							>
-								<span class="flex-1">{group.label}</span>
-								<span class="text-text-muted tabular-nums">{group.units.length}</span>
-								<span class="text-text-muted tabular-nums normal-case">{group.points} pts</span>
-							</div>
-							{#each group.units as u (u.key)}
-								<BuilderUnitRow
-									unit={u}
-									draft={draft}
-									selected={u.key === selectedKey}
-									onselect={() => (selectedKey = u.key)}
-									onclone={() => cloneUnit(u.key)}
-									onremove={() => removeUnit(u.key)}
-								/>
-							{/each}
+	{#snippet rosterPane()}
+		{#if draft.units.length === 0}
+			<p class="text-text-dim m-auto text-sm italic">
+				{draft.factionId
+					? viewport.isMobile
+						? 'Tap “Add unit” to begin.'
+						: 'Add units from the left.'
+					: 'Pick a faction to begin.'}
+			</p>
+		{:else}
+			<div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+				{#each draftGroups as group (group.key)}
+					<div class="flex flex-col gap-1">
+						<div
+							class="text-text-muted flex items-center gap-2 border-b border-dashed border-white/10 pb-0.5 text-xs font-semibold uppercase tracking-wider"
+						>
+							<span class="flex-1">{group.label}</span>
+							<span class="text-text-muted tabular-nums">{group.units.length}</span>
+							<span class="text-text-muted tabular-nums normal-case">{group.points} pts</span>
 						</div>
-					{/each}
-				</div>
-			{/if}
+						{#each group.units as u (u.key)}
+							<BuilderUnitRow
+								unit={u}
+								draft={draft}
+								selected={u.key === selectedKey}
+								onselect={() => selectUnit(u.key)}
+								onclone={() => cloneUnit(u.key)}
+								onremove={() => removeUnit(u.key)}
+							/>
+						{/each}
+					</div>
+				{/each}
+			</div>
+		{/if}
+	{/snippet}
+
+	{#snippet detailPane()}
+		<UnitDetailPanel
+			unit={selected}
+			draft={draft}
+			onchange={updateUnit}
+			onwarlord={() => selected && setWarlord(selected.key)}
+		/>
+	{/snippet}
+
+	{#if viewport.isMobile}
+		<!-- Mobile: roster fills the width; picker + detail slide up as sheets.
+		     The sheet bodies are scrollable, but each panel is `h-full` with its
+		     own inner scroll, so give it a definite height to scroll within. -->
+		<button
+			type="button"
+			class="bg-accent text-accent-foreground hover:bg-accent-hover shrink-0 rounded px-4 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colors disabled:opacity-40"
+			disabled={!draft.factionId}
+			onclick={() => (pickerOpen = true)}
+		>
+			＋ Add unit
+		</button>
+		<div class="bg-panel border-panel-border flex min-h-0 flex-1 flex-col rounded border p-2">
+			{@render rosterPane()}
 		</div>
 
-		<div class="bg-panel border-panel-border flex min-h-0 flex-col rounded border p-2">
-			<UnitDetailPanel
-				unit={selected}
-				draft={draft}
-				onchange={updateUnit}
-				onwarlord={() => selected && setWarlord(selected.key)}
-			/>
+		<BottomSheet bind:open={pickerOpen} title="Add unit">
+			<div class="h-[68vh]">{@render pickerPane()}</div>
+		</BottomSheet>
+		<BottomSheet bind:open={detailOpen} title={selected ? selectedName : 'Unit'}>
+			<div class="h-[72vh]">{@render detailPane()}</div>
+		</BottomSheet>
+	{:else}
+		<!-- NR 3-column layout: picker (¼) | roster (½) | selected-unit detail (¼).
+		     `grid-rows-[minmax(0,1fr)]` bounds the single row to the grid height so each
+		     column's inner overflow-y-auto can scroll instead of stretching to content. -->
+		<div class="grid min-h-0 flex-1 grid-cols-[1fr_2fr_1fr] grid-rows-[minmax(0,1fr)] gap-2">
+			<div class="bg-panel border-panel-border min-h-0 overflow-hidden rounded border p-2">
+				{@render pickerPane()}
+			</div>
+			<div class="bg-panel border-panel-border flex min-h-0 flex-col rounded border p-2">
+				{@render rosterPane()}
+			</div>
+			<div class="bg-panel border-panel-border flex min-h-0 flex-col rounded border p-2">
+				{@render detailPane()}
+			</div>
 		</div>
-	</div>
+	{/if}
 
 	<!-- Footer. Save is never disabled — violations are advisory. A doubles
 	     army defers save/cancel/share to the team workspace. -->
