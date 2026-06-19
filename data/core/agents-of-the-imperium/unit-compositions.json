@@ -1,12 +1,13 @@
 [
   {
     "unit_id": "sanctifiers",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Missionary",
         "profile_name": "Missionary",
-        "min": 1,
-        "max": 1,
+        "min": 2,
+        "max": 2,
         "default_weapon_ids": [
           "plasma-gun",
           "ministorum-flamer",
@@ -20,8 +21,8 @@
       },
       {
         "name": "Miraculist",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "holy-fire",
           "burning-hands"
@@ -34,8 +35,8 @@
       },
       {
         "name": "Salvationist",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "close-combat-weapon"
         ],
@@ -47,8 +48,8 @@
       },
       {
         "name": "Death Cult Assassin",
-        "min": 2,
-        "max": 2,
+        "min": 1,
+        "max": 1,
         "default_weapon_ids": [
           "death-cult-blades"
         ],
@@ -60,8 +61,8 @@
       },
       {
         "name": "Sanctifier",
-        "min": 2,
-        "max": 2,
+        "min": 4,
+        "max": 4,
         "default_weapon_ids": [
           "ministorum-hand-flamer",
           "sanctifier-melee-weapon"
@@ -76,10 +77,71 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Missionary",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Miraculist",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Salvationist",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Cult Assassin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sanctifier",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Missionary",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Miraculist",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Salvationist",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Cult Assassin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sanctifier",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "watch-captain-artemis",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Watch Captain Artemis",
@@ -99,10 +161,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Watch Captain Artemis",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Watch Captain Artemis",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "inquisitorial-chimera",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Inquisitorial Chimera",
@@ -124,10 +207,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Chimera",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Chimera",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "callidus-assassin",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Callidus Assassin",
@@ -147,10 +251,40 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Callidus Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Callidus Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Callidus Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "inquisitor-greyfax",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Inquisitor Greyfax",
@@ -171,10 +305,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Inquisitor Greyfax",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitor Greyfax",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sisters-of-battle-immolator",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Sisters of Battle Immolator",
@@ -195,15 +350,36 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sisters of Battle Immolator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sisters of Battle Immolator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "inquisitorial-agents",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Inquisitorial Agent",
         "min": 5,
-        "max": 5,
+        "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -217,7 +393,7 @@
       {
         "name": "Gun Servitor",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
@@ -232,10 +408,97 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Agent",
+            "min": 5,
+            "max": 5
+          },
+          {
+            "name": "Gun Servitor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Agent",
+            "min": 6,
+            "max": 10
+          },
+          {
+            "name": "Gun Servitor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Agent",
+            "min": 10,
+            "max": 10
+          },
+          {
+            "name": "Gun Servitor",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Agent",
+            "min": 5,
+            "max": 5
+          },
+          {
+            "name": "Gun Servitor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Agent",
+            "min": 6,
+            "max": 10
+          },
+          {
+            "name": "Gun Servitor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitorial Agent",
+            "min": 10,
+            "max": 10
+          },
+          {
+            "name": "Gun Servitor",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "inquisitor",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Inquisitor",
@@ -256,10 +519,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Inquisitor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitor",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "grey-knights-terminator-squad",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Terminator Justicar",
@@ -293,10 +577,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Terminator Justicar",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Grey Knights Terminators",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Terminator Justicar",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Grey Knights Terminators",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "voidsmen-at-arms",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Voidmaster",
@@ -347,10 +662,51 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Voidmaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Voidsman",
+            "min": 4,
+            "max": 4
+          },
+          {
+            "name": "Canid",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Voidmaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Voidsman",
+            "min": 4,
+            "max": 4
+          },
+          {
+            "name": "Canid",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "deathwatch-kill-team",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Watch Sergeant",
@@ -367,7 +723,7 @@
         }
       },
       {
-        "name": "Deathwatch Veteran",
+        "name": "Deathwatch Veterans",
         "profile_name": "Deathwatch Veterans",
         "min": 4,
         "max": 9,
@@ -385,10 +741,69 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Watch Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Deathwatch Veterans",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Watch Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Deathwatch Veterans",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Watch Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Deathwatch Veterans",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Watch Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Deathwatch Veterans",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "eversor-assassin",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Eversor Assassin",
@@ -408,10 +823,40 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Eversor Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Eversor Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Eversor Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "imperial-rhino",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Imperial Rhino",
@@ -431,10 +876,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Imperial Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Imperial Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "aquila-kill-team",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Watch Sergeant",
@@ -489,6 +955,7 @@
   },
   {
     "unit_id": "vindicare-assassin",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Vindicare Assassin",
@@ -509,10 +976,40 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Vindicare Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Vindicare Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Vindicare Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "exaction-squad",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Proctor-Exactant",
@@ -563,10 +1060,51 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Proctor-Exactant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Exaction Vigilant",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "name": "Cyber-mastiff",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Proctor-Exactant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Exaction Vigilant",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "name": "Cyber-mastiff",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "imperial-navy-breachers",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Navis Sergeant-at-Arms",
@@ -596,10 +1134,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Navis Sergeant-at-Arms",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Navis Armsman",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Navis Sergeant-at-Arms",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Navis Armsman",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "culexus-assassin",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Culexus Assassin",
@@ -619,13 +1188,43 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Culexus Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Culexus Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Culexus Assassin",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "vigilant-squad",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
-        "name": "Vigilant Proctor",
+        "name": "Proctor-Vigilant",
         "profile_name": "Cyber-mastiff",
         "min": 1,
         "max": 1,
@@ -672,13 +1271,54 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Proctor-Vigilant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Vigilant",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "name": "Cyber-mastiff",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Proctor-Vigilant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Vigilant",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "name": "Cyber-mastiff",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "subductor-squad",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
-        "name": "Subductor Proctor",
+        "name": "Proctor-Subductor",
         "profile_name": "Cyber-mastiff",
         "min": 1,
         "max": 1,
@@ -724,10 +1364,51 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Proctor-Subductor",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Subductor",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "name": "Cyber-mastiff",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Proctor-Subductor",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Subductor",
+            "min": 9,
+            "max": 9
+          },
+          {
+            "name": "Cyber-mastiff",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "navigator",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Navigator",
@@ -747,10 +1428,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Navigator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Navigator",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "inquisitor-draxus",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Inquisitor Draxus",
@@ -771,10 +1473,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Inquisitor Draxus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitor Draxus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "watch-master",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Watch Master",
@@ -793,10 +1516,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Watch Master",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Watch Master",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "inquisitor-coteaz",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Inquisitor Coteaz",
@@ -817,10 +1561,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Inquisitor Coteaz",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Inquisitor Coteaz",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sisters-of-battle-squad",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Sister Superior",
@@ -856,10 +1621,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Battle Sister",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Battle Sister",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "corvus-blackstar",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Corvus Blackstar",
@@ -882,10 +1678,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Corvus Blackstar",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Corvus Blackstar",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ministorum-priest",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Ministorum Priest",
@@ -904,10 +1721,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ministorum Priest",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Ministorum Priest",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "rogue-trader-entourage",
+    "faction_id": "agents-of-the-imperium",
     "models": [
       {
         "name": "Rogue Trader",
@@ -924,7 +1762,7 @@
         }
       },
       {
-        "name": "Rejuvenat Adept",
+        "name": "Death Cult Assassin",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -938,7 +1776,7 @@
         }
       },
       {
-        "name": "Death Cult Assassin",
+        "name": "Lectro‐Maester",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
@@ -952,7 +1790,7 @@
         }
       },
       {
-        "name": "Lectro-Maester",
+        "name": "Rejuvenat Adept",
         "profile_name": "Rejuvenat Adept",
         "min": 1,
         "max": 1,
@@ -970,6 +1808,56 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Rogue Trader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Cult Assassin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Lectro‐Maester",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Rejuvenat Adept",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Rogue Trader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Cult Assassin",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Lectro‐Maester",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Rejuvenat Adept",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

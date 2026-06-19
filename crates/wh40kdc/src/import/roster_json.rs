@@ -113,6 +113,7 @@ fn lower(roster: &Roster) -> ParsedRoster {
             }
             .to_string()
         }),
+        force_disposition: roster.force_disposition.clone(),
         declared_limit: roster.points.declared_limit,
         total_reported: roster.points.total_reported,
         total_computed: roster.points.total_computed,

@@ -185,6 +185,13 @@ pub struct Roster {
     pub faction_id: Option<String>,
     pub detachments: Vec<RosterDetachment>,
     pub battle_size: Option<BattleSize>,
+    /// The selected Force Disposition id (a `force-disposition-id`), or `None`
+    /// when none has been picked. Required to be present (nullable) — picking
+    /// one is mandatory in 11e list-building, but the source formats don't yet
+    /// encode it, so imports default to `None` and the roster-legality checker
+    /// surfaces an advisory `disposition-not-picked`. Serializes as the JSON key
+    /// `force_disposition` with an explicit `null` value (never skipped).
+    pub force_disposition: Option<String>,
     pub points: RosterPoints,
     pub units: Vec<RosterUnit>,
     pub game_version: GameVersionRef,
@@ -316,6 +323,12 @@ pub struct ParsedRoster {
     pub detachment_raw_names: Vec<String>,
     /// Raw battle-size label (e.g. "2. Strike Force (2000 Point limit)").
     pub battle_size_raw: Option<String>,
+    /// Selected Force Disposition id, when the source carried one (only the
+    /// canonical roster-json round-trip does today). `None` otherwise — and
+    /// omitted from the serialized parsed stage when absent, matching the TS
+    /// optional (`force_disposition?`) field's `undefined`-elides-the-key shape.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub force_disposition: Option<String>,
     /// Points limit parsed from the battle-size label, if any.
     pub declared_limit: Option<u64>,
     /// Total points reported by the source cost block.

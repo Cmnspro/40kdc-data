@@ -13,6 +13,8 @@
  *   dispositions  (phase 2)  enhancements (phase 3)  points (phase 4)
  *   wargear       (phase 5)  stratagems/missions (phase 6)
  *   cull-legends  Drop dump-absent Legends/Forge-World units + prune refs
+ *   attachment-role  Dump-authoritative leader/support role + leader-attachments
+ *                    (supersedes the 10e known-support-10e.ts scrape)
  *
  * Every mutating subcommand is DRY RUN by default; pass --write to apply.
  *
@@ -37,7 +39,15 @@ import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
-import { runWargear, buildWargearReport } from "./mfm/wargear.js";
+import {
+  runWargear,
+  buildWargearReport,
+  runWargearBudgets,
+  runCompositionNames,
+  runCompositionTiers,
+} from "./mfm/wargear.js";
+import { runAttachmentRoles, buildAttachmentReport } from "./mfm/attachment.js";
+import { applyWrites, type StagedWrite } from "./mfm/apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
@@ -344,7 +354,7 @@ function runCoverage(dump: MfmDump): void {
     console.log(`Unmapped factions (no repo dir): ${cov.unmappedFactions.join(", ")}`);
 }
 
-function runDispositionsCmd(dump: MfmDump, write: boolean): void {
+async function runDispositionsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runDispositions(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-dispositions.md");
@@ -373,10 +383,11 @@ function runDispositionsCmd(dump: MfmDump, write: boolean): void {
       `disposition changed ${sum((d) => d.dispChanged.length)}, ` +
       `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump.length}.`
   );
+  await applyWrites(report.staged, { write, label: "dispositions" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-function runEnhancementsCmd(dump: MfmDump, write: boolean): void {
+async function runEnhancementsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runEnhancements(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-enhancements.md");
@@ -405,10 +416,11 @@ function runEnhancementsCmd(dump: MfmDump, write: boolean): void {
       `confirmed ${sum((d) => d.confirmed)}, repo-only ${sum((d) => d.unmatchedRepo.length)}, ` +
       `new-in-dump ${report.newInDump.length}.`
   );
+  await applyWrites(report.staged, { write, label: "enhancements" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-function runPointsCmd(dump: MfmDump, write: boolean): void {
+async function runPointsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runPoints(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-points.md");
@@ -443,10 +455,11 @@ function runPointsCmd(dump: MfmDump, write: boolean): void {
       `allied added ${sum((d) => d.alliedAdded.length)}, ambiguous-kept ${sum((d) => d.ambiguousSkipped.length)}, ` +
       `repo-only ${sum((d) => d.repoOnly.length)}, new-in-dump ${report.newInDump.length}.`
   );
+  await applyWrites(report.staged, { write, label: "points" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-function runCullCmd(dump: MfmDump, write: boolean): void {
+async function runCullCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runCull(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-cull-legends.md");
@@ -482,10 +495,11 @@ function runCullCmd(dump: MfmDump, write: boolean): void {
   );
   const susp = sum((d) => d.suspicious.length);
   if (susp) console.log(`⚠ ${susp} possible name-match bug(s) flagged for review (see report).`);
+  await applyWrites(report.staged, { write, label: "cull-legends" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-function runStratagemsCmd(dump: MfmDump, write: boolean): void {
+async function runStratagemsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runStratagems(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-stratagems.md");
@@ -499,10 +513,11 @@ function runStratagemsCmd(dump: MfmDump, write: boolean): void {
       `phases (review) ${sum((d) => d.phasesChanged.length)}, turn (review) ${sum((d) => d.turnChanged.length)}, ` +
       `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump}.`
   );
+  await applyWrites(report.staged, { write, label: "stratagems" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-function runWargearCmd(dump: MfmDump, write: boolean, onlyDir?: string): void {
+async function runWargearCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
   const report = runWargear(dump, write, onlyDir);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-wargear.md");
@@ -517,10 +532,80 @@ function runWargearCmd(dump: MfmDump, write: boolean, onlyDir?: string): void {
       `unresolved ${sum((d) => d.unresolvedNames.length)}, ` +
       `new-in-dump ${sum((d) => d.newInDump.length)}, repo-only ${sum((d) => d.repoOnlyFallback.length)}.`
   );
+  await applyWrites(report.staged, { write, label: "wargear" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-function main(): void {
+async function runWargearBudgetsCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
+  const report = runWargearBudgets(dump, onlyDir);
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(
+    `Wargear budgets — matched ${sum((d) => d.matched)}, ` +
+      `units with budgets ${sum((d) => d.unitsWithBudgets)}, total budgets ${sum((d) => d.budgets)}.`,
+  );
+  await applyWrites(report.staged, { write, label: "wargear-budgets" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runCompositionNamesCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
+  const report = runCompositionNames(dump, onlyDir);
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(
+    `Composition names — matched ${sum((d) => d.matched)}, rows renamed ${sum((d) => d.rowsRenamed)}, ` +
+      `skipped (structure differs) ${report.skipped.length}.`,
+  );
+  if (report.skipped.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-composition-names.json"),
+      JSON.stringify(report.skipped, null, 2) + "\n",
+    );
+  }
+  await applyWrites(report.staged, { write, label: "composition-names" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runCompositionTiersCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
+  const report = runCompositionTiers(dump, onlyDir);
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(
+    `Composition tiers — matched ${sum((d) => d.matched)}, units tiered ${sum((d) => d.unitsTiered)}, ` +
+      `model rows adjusted ${sum((d) => d.rowsAdjusted)}, model_count re-synced ${sum((d) => d.modelCountResynced)}, ` +
+      `skipped (kill-team / structure differs) ${report.skipped.length}.`,
+  );
+  if (report.skipped.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-composition-tiers.json"),
+      JSON.stringify(report.skipped, null, 2) + "\n",
+    );
+  }
+  await applyWrites(report.staged, { write, label: "composition-tiers" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runAttachmentRoleCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
+  const report = runAttachmentRoles(dump, onlyDir);
+  const reportPath = path.join(REPORT_DIR, "mfm-attachment.md");
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  fs.writeFileSync(reportPath, buildAttachmentReport(report, write));
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Attachment report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Attachment roles — matched ${sum((d) => d.matched)}, roles Δ ${sum((d) => d.rolesChanged)}, ` +
+      `leaders from dump ${sum((d) => d.leadersEmitted)}, kept ${sum((d) => d.leadersPreserved)}, ` +
+      `unresolved leaders ${sum((d) => d.unresolvedLeaders.length)}.`,
+  );
+  await applyWrites(report.staged, { write, label: "attachment-role" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
   const write = argv.includes("--write");
@@ -537,6 +622,10 @@ function main(): void {
     "cull-legends",
     "stratagems",
     "wargear",
+    "wargear-budgets",
+    "composition-names",
+    "composition-tiers",
+    "attachment-role",
   ];
   if (!commands.includes(cmd)) {
     console.error(
@@ -547,12 +636,19 @@ function main(): void {
 
   const dump = loadDump(dumpPath);
   if (cmd === "coverage") runCoverage(dump);
-  else if (cmd === "dispositions") runDispositionsCmd(dump, write);
-  else if (cmd === "enhancements") runEnhancementsCmd(dump, write);
-  else if (cmd === "points") runPointsCmd(dump, write);
-  else if (cmd === "cull-legends") runCullCmd(dump, write);
-  else if (cmd === "stratagems") runStratagemsCmd(dump, write);
-  else if (cmd === "wargear") runWargearCmd(dump, write, onlyDir);
+  else if (cmd === "dispositions") await runDispositionsCmd(dump, write);
+  else if (cmd === "enhancements") await runEnhancementsCmd(dump, write);
+  else if (cmd === "points") await runPointsCmd(dump, write);
+  else if (cmd === "cull-legends") await runCullCmd(dump, write);
+  else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
+  else if (cmd === "wargear") await runWargearCmd(dump, write, onlyDir);
+  else if (cmd === "wargear-budgets") await runWargearBudgetsCmd(dump, write, onlyDir);
+  else if (cmd === "composition-names") await runCompositionNamesCmd(dump, write, onlyDir);
+  else if (cmd === "composition-tiers") await runCompositionTiersCmd(dump, write, onlyDir);
+  else if (cmd === "attachment-role") await runAttachmentRoleCmd(dump, write, onlyDir);
 }
 
-main();
+main().catch((e) => {
+  console.error(e instanceof Error ? e.message : String(e));
+  process.exit(1);
+});

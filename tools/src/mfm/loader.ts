@@ -178,6 +178,25 @@ export interface WargearLimitRow {
   limitedWargearChoiceSetId: string;
 }
 
+// ── leader/bodyguard attachment tables (attachment-role ingest) ──
+// `datasheet_bodyguard_group.datasheetId` is the *leader* (the attaching
+// character); `bodyguardType` is its role. The eligible bodyguards are the
+// `datasheet_bodyguard_group_datasheet` rows joined by group id. `factionKeywordId`
+// is null in this dump — faction scope comes from the leader datasheet's publication.
+export interface DatasheetBodyguardGroupRow {
+  id: string;
+  datasheetId: string;
+  bodyguardType: "leader" | "support";
+  factionKeywordId: string | null;
+  excludedDetachmentId: string | null;
+  requiredDetachmentId: string | null;
+  requiresAllUnitsHaveKeywordId: string | null;
+}
+export interface DatasheetBodyguardGroupDatasheetRow {
+  datasheetBodyguardGroupId: string;
+  datasheetId: string;
+}
+
 // ───────────────────────────── the loader ─────────────────────────────
 
 export class MfmDump {

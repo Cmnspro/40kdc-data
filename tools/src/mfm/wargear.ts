@@ -46,10 +46,12 @@ import {
   type UnitCompositionMiniatureRow,
 } from "./loader.js";
 import { repoDirForFactionName, repoDirs, FACTION_ALIASES, SHARED_ROSTERS } from "./faction-map.js";
+import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+export const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const UNMATCHED_DIR = path.join(REPO_ROOT, "_private", "mfm");
-const CONFIRMED = { edition: "11th", dataslate: "launch" };
+/** The game_version stamp every dump-sourced ingest writes (authoritative, launch dataslate). */
+export const CONFIRMED = { edition: "11th", dataslate: "launch" };
 
 interface ModelConstraint {
   model_name?: string;
@@ -93,6 +95,7 @@ interface CompRecord {
 interface WargearOptionRecord {
   id: string;
   unit_id: string;
+  faction_id: string;
   game_version: { edition: string; dataslate: string };
   model_constraint?: ModelConstraint | null;
   replaces?: string[];
@@ -518,6 +521,97 @@ function bindingCap(
 }
 
 /**
+ * A limited-wargear **squad budget**: the listed items share one allowance whose
+ * size is `count` per `per_models` models — i.e. `floor(modelCount * count /
+ * per_models)` copies across the unit. Stored per unit and enforced as a sum over
+ * the final loadout (`Σ counts(items) ≤ cap`), which is robust to the dump's
+ * cross-product option representation in a way per-option caps are not.
+ */
+export interface WargearBudget {
+  items: string[];
+  count: number;
+  per_models: number;
+}
+
+/**
+ * The limited-wargear budgets for a datasheet, derived from its dump
+ * `limited_wargear_choice_set` rows — but ONLY the allowances the per-weapon
+ * bounds cannot model:
+ *
+ *   - **Shared** sets (≥2 distinct items competing for one allowance, e.g. Chaos
+ *     Terminators' `heavy flamer / reaper autocannon`, 1 per 5). The per-weapon
+ *     bound would let each hit the cap independently; the budget enforces the sum.
+ *   - **Flat** per-unit caps (a `wargear_limit` with `modelCount = 0`, e.g.
+ *     Khorne Berzerkers' `icon of Khorne`, 1 per unit). Emitted with
+ *     `per_models = 0`. The per-weapon bound inflates these — a flat item taken by
+ *     two model types (champion + trooper) sums to 2 — so the flat budget overrides.
+ *
+ * A **single-weapon per-N** set (e.g. plasma pistol: 2 on the troopers PLUS 1 on
+ * the champion = 3) is deliberately NOT a budget — the per-weapon bound already
+ * sums the weapon's capacity across the model types that may take it, which is the
+ * correct total. Forcing it into a unit-wide budget would wrongly cap that total at
+ * the troopers' ratio alone. Items resolved via `resolve`; unresolved-item budgets
+ * are dropped. The binding ratio is the smallest `choiceLimit/modelCount` across
+ * the set's `wargear_limit` rows (GW lists the same ratio at several breakpoints).
+ */
+export function limitedSetBudgets(
+  dump: MfmDump,
+  datasheetId: string,
+  resolve: (name: string) => string | null,
+): WargearBudget[] {
+  const sets =
+    dump.groupBy<LimitedWargearChoiceSetRow>("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? [];
+  const limitsBySet = dump.groupBy<WargearLimitRow>("wargear_limit", "limitedWargearChoiceSetId");
+  const choicesBySet = dump.groupBy<{ id: string; limitedWargearChoiceSetId: string }>(
+    "limited_wargear_choice",
+    "limitedWargearChoiceSetId",
+  );
+  const itemsByChoice = dump.groupBy<{ limitedWargearChoiceId: string; wargearItemId: string }>(
+    "limited_wargear_choice_wargear_item",
+    "limitedWargearChoiceId",
+  );
+  const wiName = dump.byId<WargearItemRow>("wargear_item");
+
+  const out: WargearBudget[] = [];
+  for (const s of [...sets].sort((a, b) => a.id.localeCompare(b.id))) {
+    const items = new Set<string>();
+    for (const c of choicesBySet.get(s.id) ?? []) {
+      for (const it of itemsByChoice.get(c.id) ?? []) {
+        const id = resolve(dump.enName(wiName.get(it.wargearItemId)) ?? "");
+        if (id) items.add(id);
+      }
+    }
+    if (!items.size) continue;
+
+    // A `modelCount = 0` limit is a flat per-unit cap; otherwise the smallest
+    // `choiceLimit/modelCount` ratio across the rows is binding.
+    let flat: number | null = null;
+    let ratioCount: number | null = null;
+    let ratioPer: number | null = null;
+    for (const l of limitsBySet.get(s.id) ?? []) {
+      if (l.choiceLimit <= 0) continue;
+      if (l.modelCount === 0) {
+        flat = flat == null ? l.choiceLimit : Math.min(flat, l.choiceLimit);
+      } else if (ratioCount == null || l.choiceLimit / l.modelCount < ratioCount / ratioPer!) {
+        ratioCount = l.choiceLimit;
+        ratioPer = l.modelCount;
+      }
+    }
+
+    const sorted = [...items].sort();
+    if (flat != null) {
+      // Flat per-unit cap (shared or single) — the per-weapon bound can't express it.
+      out.push({ items: sorted, count: flat, per_models: 0 });
+    } else if (ratioCount != null && ratioPer != null && items.size >= 2) {
+      // Shared ratio allowance — the per-weapon bounds need the summed constraint.
+      out.push({ items: sorted, count: ratioCount, per_models: ratioPer });
+    }
+    // Single-weapon ratio sets: intentionally no budget (per-weapon bounds suffice).
+  }
+  return out;
+}
+
+/**
  * Derive defaults + wargear-options for one datasheet. Pure over the dump + a
  * faction-scoped name resolver; the caller persists.
  */
@@ -673,6 +767,77 @@ export function dumpComposition(dump: MfmDump, datasheetId: string): DumpMini[] 
   return [...byName.values()].filter((m) => m.max > 0);
 }
 
+/** A single dump composition tier as ordered per-miniature count ranges. */
+export type DumpTier = { name: string; min: number; max: number }[];
+
+export interface AggregatedComposition {
+  /** One tier per dump `unit_composition` row, displayOrder-sorted; rows miniature-ordered. */
+  tiers: DumpTier[];
+  /** Per-miniature aggregate envelope: min-of-mins / max-of-maxes across all tiers. */
+  envelope: Map<string, { min: number; max: number }>;
+  /** Set when a tier listed a miniature name more than once (kill-team shape — do not auto-apply). */
+  skip?: "duplicate-names";
+}
+
+/**
+ * The dump's *full* set of buildable sizes for a datasheet — every
+ * `unit_composition` row (not just the default), each as a per-miniature count
+ * range, plus the aggregate envelope across them. This is the authoritative
+ * source for a unit's composition tiers and the corrected `models[]` min/max.
+ *
+ * A tier that repeats a miniature display name (the kill-team per-slot shape,
+ * e.g. several "Deathwatch Veteran" rows) cannot map onto the repo's
+ * one-row-per-name model, so {@link AggregatedComposition.skip} is set and the
+ * caller leaves the unit untouched. Rows the dump lists at max 0 (optional
+ * attachments) are dropped, matching {@link dumpComposition}.
+ */
+export function aggregateComposition(dump: MfmDump, datasheetId: string): AggregatedComposition {
+  const miniById = dump.byId<MiniatureRow & { displayOrder?: number }>("miniature");
+  const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
+  const order = (id: string) => miniById.get(id)?.displayOrder ?? 0;
+  const comps = (dump.groupBy<UnitCompositionRow>("unit_composition", "datasheetId").get(datasheetId) ?? [])
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+
+  const tiers: DumpTier[] = [];
+  const envelope = new Map<string, { min: number; max: number }>();
+  let skip: "duplicate-names" | undefined;
+  for (const c of comps) {
+    const minis = (
+      dump.groupBy<UnitCompositionMiniatureRow>("unit_composition_miniature", "unitCompositionId").get(c.id!) ?? []
+    )
+      .slice()
+      .sort((a, b) => order(a.miniatureId) - order(b.miniatureId));
+    const rows: DumpTier = [];
+    const seen = new Set<string>();
+    for (const m of minis) {
+      if (m.max <= 0) continue; // optional attachment listed at 0/0 — not a model row
+      const name = miniName(m.miniatureId);
+      if (seen.has(name)) skip = "duplicate-names";
+      seen.add(name);
+      rows.push({ name, min: m.min, max: m.max });
+    }
+    if (!rows.length) continue;
+    tiers.push(rows);
+  }
+  // Aggregate envelope: a figure absent from a tier (listed at 0/0 there) counts as
+  // 0 for that tier, so an optional figure gets envelope min 0 — min-of-mins /
+  // max-of-maxes across every tier over the union of figure names.
+  const names = new Set<string>();
+  for (const t of tiers) for (const r of t) names.add(r.name);
+  for (const name of names) {
+    let min = Infinity;
+    let max = 0;
+    for (const t of tiers) {
+      const r = t.find((x) => x.name === name);
+      min = Math.min(min, r?.min ?? 0);
+      max = Math.max(max, r?.max ?? 0);
+    }
+    envelope.set(name, { min, max });
+  }
+  return { tiers, envelope, skip };
+}
+
 interface BaseSize {
   shape: string;
   [k: string]: unknown;
@@ -777,7 +942,7 @@ export function reconcileModels(
  * datasheet must be allowed to match in the parent too. The first candidate that
  * actually contains the unit id wins (handled by the caller's matched-set guard).
  */
-function candidateDirs(dump: MfmDump, ds: DatasheetRow): string[] {
+export function candidateDirs(dump: MfmDump, ds: DatasheetRow): string[] {
   const pub = dump.byId<PublicationRow>("publication").get(ds.publicationId);
   const name = pub?.factionKeywordId
     ? dump.enName(dump.byId<FactionKeywordRow>("faction_keyword").get(pub.factionKeywordId))
@@ -799,7 +964,7 @@ function candidateDirs(dump: MfmDump, ds: DatasheetRow): string[] {
 }
 
 /** 0 when `dir` is the datasheet's own home faction dir, 1 when it's a shared-roster import. */
-function homeScore(dump: MfmDump, ds: DatasheetRow, dir: string): number {
+export function homeScore(dump: MfmDump, ds: DatasheetRow, dir: string): number {
   const pub = dump.byId<PublicationRow>("publication").get(ds.publicationId);
   const name = pub?.factionKeywordId
     ? dump.enName(dump.byId<FactionKeywordRow>("faction_keyword").get(pub.factionKeywordId))
@@ -825,6 +990,8 @@ export interface DirWargearResult {
 }
 export interface WargearReport {
   dirs: DirWargearResult[];
+  /** Projected file contents for {@link applyWrites} — populated in both modes. */
+  staged: StagedWrite[];
 }
 
 export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): WargearReport {
@@ -840,6 +1007,7 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
   }
 
   const results: DirWargearResult[] = [];
+  const staged: StagedWrite[] = [];
   for (const dir of [...dirs].sort()) {
     if (onlyDir && dir !== onlyDir) continue;
     const upath = path.join(CORE_DIR, dir, "units.json");
@@ -931,7 +1099,7 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
             const cur = Array.isArray(m.default_weapon_ids) ? m.default_weapon_ids : [];
             if (!sameMultiset(cur, ids)) {
               res.defaultsChanged++;
-              if (write) m.default_weapon_ids = ids;
+              m.default_weapon_ids = ids;
               compsChanged = true;
             }
           }
@@ -952,7 +1120,7 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
           for (const n of rec.notes) res.notes.push({ id, note: n });
           if (rec.synthesized.length) {
             res.synthesizedRows += rec.synthesized.length;
-            if (write) comp.models = rec.models;
+            comp.models = rec.models;
             compsChanged = true;
           }
         }
@@ -963,6 +1131,11 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
         const rec: WargearOptionRecord = {
           id: `${id}-wgo-mfm-${i + 1}`,
           unit_id: id,
+          // faction-scope the rebuilt option to the dir it lands in (Stage A made
+          // faction_id required + the lookup key). A shared chassis (e.g.
+          // chaos-terminators) thus gets a WE-scoped option here and an EC-scoped
+          // one when the EC dir is processed — never a merged cross-faction set.
+          faction_id: dir,
           game_version: { ...CONFIRMED },
           is_free: true,
         };
@@ -992,7 +1165,7 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
           const merged = [...cur, ...add.filter((x) => !cur.includes(x))];
           if (!sameMultiset(cur, merged)) {
             res.defaultsChanged++;
-            if (write) m.default_weapon_ids = merged;
+            m.default_weapon_ids = merged;
             compsChanged = true;
           }
         }
@@ -1000,17 +1173,19 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
     }
 
     // Dump-primary rebuild of wargear-options: replace every matched unit's
-    // options with the dump-derived set; keep options for dump-absent units.
-    if (write && optsChanged) {
+    // options with the dump-derived set; keep options for dump-absent units. Built
+    // and staged in BOTH modes so the dry-run rehearsal validates the exact array a
+    // write would persist (cross-faction id collisions, shadowing, schema breaks).
+    if (optsChanged) {
       const kept = wopts.filter((o) => !optionsByUnit.has(o.unit_id));
       const rebuilt = [...kept];
       for (const u of units) {
         const built = optionsByUnit.get(u.id);
         if (built) rebuilt.push(...built);
       }
-      fs.writeFileSync(wpath, JSON.stringify(rebuilt, null, 2) + "\n");
+      staged.push({ path: wpath, value: rebuilt });
     }
-    if (write && compsChanged) fs.writeFileSync(cpath, JSON.stringify(comps, null, 2) + "\n");
+    if (compsChanged) staged.push({ path: cpath, value: comps });
 
     const seenAuto = new Set<string>();
     for (const a of autoResolved) {
@@ -1040,7 +1215,361 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
       ) + "\n",
     );
   }
-  return { dirs: results };
+  return { dirs: results, staged };
+}
+
+export interface BudgetReport {
+  dirs: { dir: string; matched: number; unitsWithBudgets: number; budgets: number }[];
+  staged: StagedWrite[];
+}
+
+/**
+ * Backfill each unit's {@link limitedSetBudgets} onto `units.json` `wargear_budgets`,
+ * faction-scoped, **without touching its options** — the shared-allowance caps the
+ * roster checker enforces as a per-budget sum. Mirrors {@link runWargear}'s
+ * datasheet→repo-unit matching (home-faction first, shared-roster fallback) and
+ * resolver so budget item names resolve identically. Field-additive: only
+ * `wargear_budgets` changes; a unit with no limited sets has the field removed.
+ */
+export function runWargearBudgets(dump: MfmDump, onlyDir?: string): BudgetReport {
+  const dirs = repoDirs();
+  const byDir = new Map<string, DatasheetRow[]>();
+  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+    if (ds.isLegends) continue;
+    for (const dir of candidateDirs(dump, ds)) {
+      if (!dirs.has(dir)) continue;
+      (byDir.get(dir) ?? byDir.set(dir, []).get(dir)!).push(ds);
+    }
+  }
+
+  const reportDirs: BudgetReport["dirs"] = [];
+  const staged: StagedWrite[] = [];
+  for (const dir of [...dirs].sort()) {
+    if (onlyDir && dir !== onlyDir) continue;
+    const upath = path.join(CORE_DIR, dir, "units.json");
+    if (!fs.existsSync(upath)) continue;
+    const units = readJson<UnitRecord>(upath);
+    const byId = new Map(units.map((u) => [u.id, u]));
+    const wopts = readJson<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
+
+    const validIds = new Set<string>(
+      readJson<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? ""),
+    );
+    for (const u of units) for (const id of u.weapon_ids ?? []) validIds.add(id);
+    for (const o of wopts) {
+      for (const id of o.replaces ?? []) validIds.add(id);
+      for (const id of o.replacement ?? []) validIds.add(id);
+      for (const g of o.replacement_choice ?? []) for (const id of g) validIds.add(id);
+    }
+    const autoResolved: AutoResolution[] = [];
+    const resolve = makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {});
+
+    const dsList = (byDir.get(dir) ?? [])
+      .slice()
+      .sort((a, b) => homeScore(dump, a, dir) - homeScore(dump, b, dir));
+    const matchedRepoIds = new Set<string>();
+    let matched = 0;
+    let unitsWithBudgets = 0;
+    let budgetCount = 0;
+    let changed = false;
+    for (const ds of dsList) {
+      const name = dump.enName(ds);
+      if (!name) continue;
+      let id: string;
+      try {
+        id = nameToId(name);
+      } catch {
+        continue;
+      }
+      const rec = byId.get(id);
+      if (!rec || matchedRepoIds.has(id)) continue;
+      matchedRepoIds.add(id);
+      matched++;
+
+      const unitAliases = WEAPON_ALIASES_BY_UNIT[dir]?.[id];
+      const unitResolve = unitAliases
+        ? makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {}, unitAliases)
+        : resolve;
+      const budgets = limitedSetBudgets(dump, ds.id!, unitResolve);
+
+      const before = JSON.stringify(rec.wargear_budgets ?? null);
+      if (budgets.length) {
+        rec.wargear_budgets = budgets;
+        unitsWithBudgets++;
+        budgetCount += budgets.length;
+      } else {
+        delete (rec as { wargear_budgets?: unknown }).wargear_budgets;
+      }
+      if (JSON.stringify(rec.wargear_budgets ?? null) !== before) changed = true;
+    }
+    if (changed) staged.push({ path: upath, value: units });
+    reportDirs.push({ dir, matched, unitsWithBudgets, budgets: budgetCount });
+  }
+  return { dirs: reportDirs, staged };
+}
+
+export interface CompNamesReport {
+  dirs: { dir: string; matched: number; rowsRenamed: number }[];
+  skipped: { dir: string; id: string; reason: string }[];
+  staged: StagedWrite[];
+}
+
+/**
+ * Align each unit's composition row **names** to its home-faction dump view, so a
+ * shared chassis whose composition was built from another faction's view (e.g. WE
+ * Chaos Terminators carrying the Emperor's Children "Chaos Terminator" name) matches
+ * the home-view options' `model_name` — which is what the eligible-model clamp keys
+ * on. Conservative: renames only when the repo composition corresponds 1:1 to the
+ * dump view (same row count, same `min`/`max` sequence); otherwise the unit is left
+ * untouched and reported, never mangled. Only `name` changes.
+ */
+export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesReport {
+  const dirs = repoDirs();
+  const byDir = new Map<string, DatasheetRow[]>();
+  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+    if (ds.isLegends) continue;
+    for (const dir of candidateDirs(dump, ds)) {
+      if (!dirs.has(dir)) continue;
+      (byDir.get(dir) ?? byDir.set(dir, []).get(dir)!).push(ds);
+    }
+  }
+
+  const reportDirs: CompNamesReport["dirs"] = [];
+  const skipped: CompNamesReport["skipped"] = [];
+  const staged: StagedWrite[] = [];
+  for (const dir of [...dirs].sort()) {
+    if (onlyDir && dir !== onlyDir) continue;
+    const cpath = path.join(CORE_DIR, dir, "unit-compositions.json");
+    if (!fs.existsSync(cpath)) continue;
+    const comps = readJson<CompRecord>(cpath);
+    const compsByUnit = new Map<string, CompRecord[]>();
+    for (const c of comps)
+      (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
+
+    const dsList = (byDir.get(dir) ?? [])
+      .slice()
+      .sort((a, b) => homeScore(dump, a, dir) - homeScore(dump, b, dir));
+    const matchedRepoIds = new Set<string>();
+    let matched = 0;
+    let rowsRenamed = 0;
+    let changed = false;
+    for (const ds of dsList) {
+      const name = dump.enName(ds);
+      if (!name) continue;
+      let id: string;
+      try {
+        id = nameToId(name);
+      } catch {
+        continue;
+      }
+      if (matchedRepoIds.has(id) || !compsByUnit.has(id)) continue;
+      matchedRepoIds.add(id);
+      matched++;
+      const view = dumpComposition(dump, ds.id!);
+      if (!view.length) continue;
+      for (const comp of compsByUnit.get(id) ?? []) {
+        if (comp.models.length !== view.length) {
+          skipped.push({ dir, id, reason: `row count ${comp.models.length} ≠ dump ${view.length}` });
+          continue;
+        }
+        const aligns = comp.models.every((m, i) => m.min === view[i].min && m.max === view[i].max);
+        if (!aligns) {
+          skipped.push({ dir, id, reason: "min/max sequence differs from dump view" });
+          continue;
+        }
+        for (let i = 0; i < comp.models.length; i++) {
+          if (comp.models[i].name !== view[i].name) {
+            comp.models[i].name = view[i].name;
+            rowsRenamed++;
+            changed = true;
+          }
+        }
+      }
+    }
+    if (changed) staged.push({ path: cpath, value: comps });
+    reportDirs.push({ dir, matched, rowsRenamed });
+  }
+  return { dirs: reportDirs, skipped, staged };
+}
+
+export interface CompTiersReport {
+  dirs: { dir: string; matched: number; unitsTiered: number; rowsAdjusted: number; modelCountResynced: number }[];
+  skipped: { dir: string; id: string; reason: string }[];
+  notes: { dir: string; id: string; note: string }[];
+  staged: StagedWrite[];
+}
+
+/** Singular/plural- and punctuation-insensitive normal form for model-name matching. */
+function normModelName(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[’'.\-]/g, "")
+    .replace(/s\b/g, "") // drop trailing plural 's' on each word
+    .replace(/\s+/g, "");
+}
+
+/**
+ * Recover the repo→dump model-name mapping when names drift only by pluralisation
+ * or punctuation (e.g. repo "Termagants" / "Allarus Custodians" vs dump "Termagant"
+ * / "Allarus Custodian"). Returns the dump names in repo-row order iff the two name
+ * sets form a clean bijection under {@link normModelName}; `null` otherwise — a
+ * genuine GW rename ("Cadian Shock Trooper" → "Shock Trooper") or a different row
+ * count is left untouched and reported, never auto-mapped onto the wrong figure.
+ */
+function matchNamesNormalized(repoNames: string[], dumpNames: string[]): string[] | null {
+  if (repoNames.length !== dumpNames.length) return null;
+  const byNorm = new Map<string, string>();
+  for (const e of dumpNames) {
+    const k = normModelName(e);
+    if (byNorm.has(k)) return null; // ambiguous dump side
+    byNorm.set(k, e);
+  }
+  const used = new Set<string>();
+  const out: string[] = [];
+  for (const rn of repoNames) {
+    const e = byNorm.get(normModelName(rn));
+    if (!e || used.has(e)) return null;
+    used.add(e);
+    out.push(e);
+  }
+  return out;
+}
+
+/**
+ * Set each unit's discrete composition **tiers** and corrected `models[]` envelope
+ * from the GW dump's full {@link aggregateComposition} (all `unit_composition` rows,
+ * not just the default). Replaces the backed-out `points[].models` heuristic, which
+ * could not represent units whose size scales across more than one row (Neurogaunts).
+ *
+ * Conservative — mirrors {@link runCompositionNames}: a unit is touched only when
+ * the repo composition maps 1:1 to the dump tiers (same set of model-row names) and
+ * the dump has no kill-team duplicate-name shape. Per matched unit it writes
+ * `tiers[]` (rows ordered to match `models[]`), sets each `models[]` row's min/max
+ * to the aggregate envelope, and re-syncs `units.json` `model_count` to the tier
+ * span `{min: min Σtier-min, max: max Σtier-max}`. Everything else is preserved.
+ */
+export function runCompositionTiers(dump: MfmDump, onlyDir?: string): CompTiersReport {
+  const dirs = repoDirs();
+  const byDir = new Map<string, DatasheetRow[]>();
+  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+    if (ds.isLegends) continue;
+    for (const dir of candidateDirs(dump, ds)) {
+      if (!dirs.has(dir)) continue;
+      (byDir.get(dir) ?? byDir.set(dir, []).get(dir)!).push(ds);
+    }
+  }
+
+  const reportDirs: CompTiersReport["dirs"] = [];
+  const skipped: CompTiersReport["skipped"] = [];
+  const notes: CompTiersReport["notes"] = [];
+  const staged: StagedWrite[] = [];
+  for (const dir of [...dirs].sort()) {
+    if (onlyDir && dir !== onlyDir) continue;
+    const cpath = path.join(CORE_DIR, dir, "unit-compositions.json");
+    const upath = path.join(CORE_DIR, dir, "units.json");
+    if (!fs.existsSync(cpath)) continue;
+    const comps = readJson<CompRecord & { tiers?: { models: DumpTier }[] }>(cpath);
+    const compsByUnit = new Map<string, (CompRecord & { tiers?: { models: DumpTier }[] })[]>();
+    for (const c of comps)
+      (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
+    const units = readJson<UnitRecord & { model_count?: { min: number; max: number } }>(upath);
+    const unitsById = new Map(units.map((u) => [u.id, u]));
+
+    const dsList = (byDir.get(dir) ?? [])
+      .slice()
+      .sort((a, b) => homeScore(dump, a, dir) - homeScore(dump, b, dir));
+    const matchedRepoIds = new Set<string>();
+    let matched = 0;
+    let unitsTiered = 0;
+    let rowsAdjusted = 0;
+    let modelCountResynced = 0;
+    let compsChanged = false;
+    let unitsChanged = false;
+    for (const ds of dsList) {
+      const name = dump.enName(ds);
+      if (!name) continue;
+      let id: string;
+      try {
+        id = nameToId(name);
+      } catch {
+        continue;
+      }
+      if (matchedRepoIds.has(id) || !compsByUnit.has(id)) continue;
+      matchedRepoIds.add(id);
+      matched++;
+
+      const agg = aggregateComposition(dump, ds.id!);
+      if (agg.skip) {
+        skipped.push({ dir, id, reason: `dump composition has duplicate model names (kill-team shape)` });
+        continue;
+      }
+      if (!agg.tiers.length) continue;
+      const envNames = new Set(agg.envelope.keys());
+
+      for (const comp of compsByUnit.get(id) ?? []) {
+        const matches = (ns: string[]) => ns.length === envNames.size && ns.every((n) => envNames.has(n));
+        let names = comp.models.map((m) => m.name);
+        if (!matches(names)) {
+          // Drifted names: recover plural/punctuation drift via a normalized bijection.
+          const recovered = matchNamesNormalized(names, [...envNames]);
+          if (recovered && matches(recovered)) names = recovered;
+        }
+        if (!matches(names)) {
+          skipped.push({ dir, id, reason: `repo model names ≠ dump tier names (${[...new Set(comp.models.map((m) => m.name))].sort().join(", ")})` });
+          continue;
+        }
+        // Adopt the (possibly recovered) dump names so the envelope/tier keys align.
+        comp.models.forEach((m, i) => {
+          if (m.name !== names[i]) {
+            m.name = names[i];
+            rowsAdjusted++;
+            compsChanged = true;
+          }
+        });
+        // Corrected envelope on each models[] row.
+        for (const m of comp.models) {
+          const e = agg.envelope.get(m.name)!;
+          if (m.min !== e.min || m.max !== e.max) {
+            m.min = e.min;
+            m.max = e.max;
+            rowsAdjusted++;
+            compsChanged = true;
+          }
+        }
+        // Discrete tiers, each listing only the figures it contains (a tier omits a
+        // figure the dump lists at 0/0 there), ordered to match models[] order.
+        const tiers = agg.tiers.map((tier) => {
+          const byName = new Map(tier.map((r) => [r.name, r]));
+          return {
+            models: comp.models.filter((m) => byName.has(m.name)).map((m) => ({ ...byName.get(m.name)! })),
+          };
+        });
+        if (JSON.stringify(comp.tiers ?? null) !== JSON.stringify(tiers)) {
+          comp.tiers = tiers;
+          unitsTiered++;
+          compsChanged = true;
+        }
+        // Re-sync the unit's model_count to the tier span.
+        const span = {
+          min: Math.min(...agg.tiers.map((t) => t.reduce((s, r) => s + r.min, 0))),
+          max: Math.max(...agg.tiers.map((t) => t.reduce((s, r) => s + r.max, 0))),
+        };
+        const u = unitsById.get(id);
+        if (u) {
+          const before = JSON.stringify(u.model_count ?? null);
+          if (before !== JSON.stringify(span)) {
+            u.model_count = span;
+            modelCountResynced++;
+            unitsChanged = true;
+          }
+        }
+      }
+    }
+    if (compsChanged) staged.push({ path: cpath, value: comps });
+    if (unitsChanged) staged.push({ path: upath, value: units });
+    reportDirs.push({ dir, matched, unitsTiered, rowsAdjusted, modelCountResynced });
+  }
+  return { dirs: reportDirs, skipped, notes, staged };
 }
 
 export function buildWargearReport(report: WargearReport, write: boolean): string {

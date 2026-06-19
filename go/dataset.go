@@ -175,6 +175,22 @@ func (ds *Dataset) wargearOptionsOf(unit map[string]any) []any {
 	return ds.wargearOptionsByUnit[getStr(unit, "id")]
 }
 
+// unitCompositionOf returns the (models, tiers) of the unit's faction-scoped
+// composition — keyed by (faction_id, unit_id) so a shared chassis resolves the
+// right faction's composition. Both are nil when the unit has no composition.
+// Mirror of TS Dataset.unitCompositionOf.
+func (ds *Dataset) unitCompositionOf(unit map[string]any) (models, tiers []any) {
+	fid := getStr(unit, "faction_id")
+	uid := getStr(unit, "id")
+	for _, cAny := range ds.UnitCompositions {
+		c, _ := asMap(cAny)
+		if getStr(c, "unit_id") == uid && getStr(c, "faction_id") == fid {
+			return getList(c, "models"), getList(c, "tiers")
+		}
+	}
+	return nil, nil
+}
+
 // alliesFor returns allied-rules offered for an army of factionID running the
 // given detachments.
 func (ds *Dataset) alliesFor(factionID string, detachmentIDs []string) []any {

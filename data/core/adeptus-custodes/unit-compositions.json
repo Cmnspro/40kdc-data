@@ -1,6 +1,7 @@
 [
   {
     "unit_id": "telemon-heavy-dreadnought",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Telemon Heavy Dreadnought",
@@ -22,10 +23,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Telemon Heavy Dreadnought",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "contemptor-achillus-dreadnought",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Contemptor-Achillus Dreadnought",
@@ -46,10 +59,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Contemptor-Achillus Dreadnought",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "contemptor-galatus-dreadnought",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Contemptor-Galatus Dreadnought",
@@ -68,10 +93,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Contemptor-Galatus Dreadnought",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "venerable-contemptor-dreadnought",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Venerable Contemptor Dreadnought",
@@ -92,10 +129,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Venerable Contemptor Dreadnought",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "blade-champion",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Blade Champion",
@@ -114,10 +163,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Blade Champion",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "caladius-grav-tank",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Caladius Grav-tank",
@@ -139,13 +200,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Caladius Grav-tank",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "allarus-custodians",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
-        "name": "Allarus Custodians",
+        "name": "Allarus Custodian",
         "min": 2,
         "max": 6,
         "is_leader_model": false,
@@ -162,10 +235,49 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Allarus Custodian",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Allarus Custodian",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Allarus Custodian",
+            "min": 4,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Allarus Custodian",
+            "min": 6,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "shield-captain-on-dawneagle-jetbike",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Shield-Captain on Dawneagle Jetbike",
@@ -186,10 +298,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shield-Captain on Dawneagle Jetbike",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "vigilators",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Vigilator Sister Superior",
@@ -207,7 +331,7 @@
       {
         "name": "Vigilator",
         "min": 3,
-        "max": 3,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -221,13 +345,72 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Vigilator Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Vigilator",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Vigilator Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Vigilator",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Vigilator Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Vigilator",
+            "min": 5,
+            "max": 8
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Vigilator Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Vigilator",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sagittarum-custodians",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
-        "name": "Sagittarum Custodians",
+        "name": "Sagittarum Custodian",
         "min": 5,
         "max": 5,
         "is_leader_model": false,
@@ -244,10 +427,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sagittarum Custodian",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "witchseekers",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Witchseeker Sister Superior",
@@ -266,7 +461,7 @@
       {
         "name": "Witchseeker",
         "min": 3,
-        "max": 3,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -281,10 +476,69 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Witchseeker Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Witchseeker",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Witchseeker Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Witchseeker",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Witchseeker Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Witchseeker",
+            "min": 5,
+            "max": 8
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Witchseeker Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Witchseeker",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "ares-gunship",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Ares Gunship",
@@ -306,10 +560,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ares Gunship",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "custodian-guard",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Custodian Guard",
@@ -328,10 +594,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Custodian Guard",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Custodian Guard",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "orion-assault-dropship",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Orion Assault Dropship",
@@ -356,10 +643,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Orion Assault Dropship",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "knight-centura",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Knight-Centura",
@@ -378,10 +677,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Knight-Centura",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "anathema-psykana-rhino",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Anathema Psykana Rhino",
@@ -401,10 +712,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Anathema Psykana Rhino",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "aleya",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Aleya",
@@ -423,10 +746,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aleya",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "agamatus-custodians",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Agamatus Custodians",
@@ -447,10 +782,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Agamatus Custodians",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Agamatus Custodians",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "venerable-land-raider",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Venerable Land Raider",
@@ -472,13 +828,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Venerable Land Raider",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "custodian-wardens",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
-        "name": "Custodian Wardens",
+        "name": "Custodian Warden",
         "min": 4,
         "max": 5,
         "is_leader_model": false,
@@ -494,10 +862,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Custodian Warden",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Custodian Warden",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "pallas-grav-attack",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Pallas Grav-attack",
@@ -518,13 +907,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Pallas Grav-attack",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "vertus-praetors",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
-        "name": "Vertus Praetors",
+        "name": "Vertus Praetor",
         "min": 2,
         "max": 3,
         "is_leader_model": false,
@@ -542,10 +943,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Vertus Praetor",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Vertus Praetor",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "valerian",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Valerian",
@@ -564,13 +986,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Valerian",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "venatari-custodians",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
-        "name": "Venatari Custodians",
+        "name": "Venatari Custodian",
         "min": 3,
         "max": 6,
         "is_leader_model": false,
@@ -586,10 +1020,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Venatari Custodian",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Venatari Custodian",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "shield-captain-in-allarus-terminator-armour",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Shield-Captain in Allarus Terminator Armour",
@@ -609,13 +1064,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shield-Captain in Allarus Terminator Armour",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "aquilon-custodians",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
-        "name": "Aquilon Custodians",
+        "name": "Aquilon Custodian",
         "min": 3,
         "max": 6,
         "is_leader_model": false,
@@ -632,10 +1099,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aquilon Custodian",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Aquilon Custodian",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "custodian-guard-with-adrasite-and-pyrithite-spears",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Custodian Guard with Adrasite and Pyrithite Spears",
@@ -654,10 +1142,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Custodian Guard with Adrasite and Pyrithite Spears",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "coronus-grav-carrier",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Coronus Grav-carrier",
@@ -679,10 +1179,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Coronus Grav-carrier",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "prosecutors",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Prosecutor Sister Superior",
@@ -701,7 +1213,7 @@
       {
         "name": "Prosecutor",
         "min": 3,
-        "max": 3,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -716,10 +1228,69 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Prosecutor Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Prosecutor",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Prosecutor Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Prosecutor",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Prosecutor Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Prosecutor",
+            "min": 5,
+            "max": 8
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Prosecutor Sister Superior",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Prosecutor",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "shield-captain",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Shield-Captain",
@@ -738,10 +1309,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shield-Captain",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "trajann-valoris",
+    "faction_id": "adeptus-custodes",
     "models": [
       {
         "name": "Trajann Valoris",
@@ -761,6 +1344,17 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Trajann Valoris",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

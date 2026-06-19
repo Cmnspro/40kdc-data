@@ -1,0 +1,193 @@
+[
+  {
+    "name": "empty-list-all-affordable",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "units": [],
+      "candidateUnitIds": [
+        "jakhals",
+        "goremongers",
+        "chaos-spawn",
+        "chaos-terminators",
+        "daemon-prince-of-khorne"
+      ]
+    },
+    "expected": [
+      {
+        "unitId": "jakhals",
+        "nextCopyCost": 65,
+        "affordable": true
+      },
+      {
+        "unitId": "goremongers",
+        "nextCopyCost": 75,
+        "affordable": true
+      },
+      {
+        "unitId": "chaos-spawn",
+        "nextCopyCost": 95,
+        "affordable": true
+      },
+      {
+        "unitId": "chaos-terminators",
+        "nextCopyCost": 175,
+        "affordable": true
+      },
+      {
+        "unitId": "daemon-prince-of-khorne",
+        "nextCopyCost": 200,
+        "affordable": true
+      }
+    ]
+  },
+  {
+    "name": "ordinal-pricing-terminators",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "units": [
+        {
+          "unitId": "chaos-terminators",
+          "modelCount": 5
+        },
+        {
+          "unitId": "chaos-terminators",
+          "modelCount": 5
+        }
+      ],
+      "candidateUnitIds": [
+        "chaos-terminators"
+      ]
+    },
+    "expected": [
+      {
+        "unitId": "chaos-terminators",
+        "nextCopyCost": 185,
+        "affordable": true
+      }
+    ]
+  },
+  {
+    "name": "tight-budget-some-unaffordable",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "incursion",
+      "pointsLimitOverride": 120,
+      "units": [],
+      "candidateUnitIds": [
+        "jakhals",
+        "goremongers",
+        "chaos-spawn",
+        "chaos-terminators",
+        "daemon-prince-of-khorne"
+      ]
+    },
+    "expected": [
+      {
+        "unitId": "jakhals",
+        "nextCopyCost": 65,
+        "affordable": true
+      },
+      {
+        "unitId": "goremongers",
+        "nextCopyCost": 75,
+        "affordable": true
+      },
+      {
+        "unitId": "chaos-spawn",
+        "nextCopyCost": 95,
+        "affordable": true
+      },
+      {
+        "unitId": "chaos-terminators",
+        "nextCopyCost": 175,
+        "affordable": false
+      },
+      {
+        "unitId": "daemon-prince-of-khorne",
+        "nextCopyCost": 200,
+        "affordable": false
+      }
+    ]
+  },
+  {
+    "name": "enhancement-counts-against-budget",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "incursion",
+      "pointsLimitOverride": 300,
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "enhancementId": "helm-of-brazen-ire-berzerker-warband"
+        }
+      ],
+      "candidateUnitIds": [
+        "jakhals",
+        "goremongers",
+        "chaos-spawn"
+      ]
+    },
+    "expected": [
+      {
+        "unitId": "jakhals",
+        "nextCopyCost": 65,
+        "affordable": true
+      },
+      {
+        "unitId": "goremongers",
+        "nextCopyCost": 75,
+        "affordable": false
+      },
+      {
+        "unitId": "chaos-spawn",
+        "nextCopyCost": 95,
+        "affordable": false
+      }
+    ]
+  },
+  {
+    "name": "no-limit-everything-affordable",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": null,
+      "units": [],
+      "candidateUnitIds": [
+        "jakhals",
+        "goremongers",
+        "chaos-spawn",
+        "chaos-terminators",
+        "daemon-prince-of-khorne"
+      ]
+    },
+    "expected": [
+      {
+        "unitId": "jakhals",
+        "nextCopyCost": 65,
+        "affordable": true
+      },
+      {
+        "unitId": "goremongers",
+        "nextCopyCost": 75,
+        "affordable": true
+      },
+      {
+        "unitId": "chaos-spawn",
+        "nextCopyCost": 95,
+        "affordable": true
+      },
+      {
+        "unitId": "chaos-terminators",
+        "nextCopyCost": 175,
+        "affordable": true
+      },
+      {
+        "unitId": "daemon-prince-of-khorne",
+        "nextCopyCost": 200,
+        "affordable": true
+      }
+    ]
+  }
+]

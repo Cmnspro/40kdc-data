@@ -1,6 +1,7 @@
 [
   {
     "unit_id": "atalan-jackals",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Atalan Leader",
@@ -57,6 +58,7 @@
   },
   {
     "unit_id": "kelermorph",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Kelermorph",
@@ -76,10 +78,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kelermorph",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "neophyte-hybrids",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Neophyte Leader",
@@ -116,10 +130,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Neophyte Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Neophyte Hybrid",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Neophyte Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Neophyte Hybrid",
+            "min": 10,
+            "max": 19
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "clamavus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Clamavus",
@@ -139,10 +184,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Clamavus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "reductus-saboteur",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Reductus Saboteur",
@@ -164,10 +221,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Reductus Saboteur",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "patriarch",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Patriarch",
@@ -186,10 +255,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Patriarch",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "goliath-truck",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Goliath Truck",
@@ -211,10 +292,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Goliath Truck",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "biophagus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Biophagus",
@@ -235,10 +328,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Biophagus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "acolyte-iconward",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Acolyte Iconward",
@@ -258,13 +363,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Acolyte Iconward",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "achilles-ridgerunners",
+    "faction_id": "genestealer-cults",
     "models": [
       {
-        "name": "Achilles Ridgerunners",
+        "name": "Achilles Ridgerunner",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -278,10 +395,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Achilles Ridgerunner",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Achilles Ridgerunner",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "primus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Primus",
@@ -302,10 +440,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Primus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "abominant",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Abominant",
@@ -324,10 +474,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Abominant",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "nexos",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Nexos",
@@ -347,10 +509,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Nexos",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sanctus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Sanctus",
@@ -369,10 +543,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sanctus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "jackal-alphus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Jackal Alphus",
@@ -394,10 +580,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Jackal Alphus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "aberrants",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Aberrant Hypermorph",
@@ -415,7 +613,7 @@
       {
         "name": "Aberrant",
         "min": 4,
-        "max": 4,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
@@ -429,10 +627,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Aberrant Hypermorph",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Aberrant",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Aberrant Hypermorph",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Aberrant",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "acolyte-hybrids-with-autopistols",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Acolyte Leader",
@@ -467,10 +696,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Acolyte Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Acolyte Hybrid",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Acolyte Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Acolyte Hybrid",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hybrid-metamorphs",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Metamorph Leader",
@@ -505,10 +765,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Metamorph Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Hybrid Metamorph",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Metamorph Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Hybrid Metamorph",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "acolyte-hybrids-with-hand-flamers",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Acolyte Leader",
@@ -543,10 +834,41 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Acolyte Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Acolyte Hybrid",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Acolyte Leader",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Acolyte Hybrid",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "locus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Locus",
@@ -565,10 +887,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Locus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "goliath-rockgrinder",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Goliath Rockgrinder",
@@ -590,10 +924,22 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Goliath Rockgrinder",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "benefictus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Benefictus",
@@ -613,13 +959,25 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Benefictus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "purestrain-genestealers",
+    "faction_id": "genestealer-cults",
     "models": [
       {
-        "name": "Purestrain Genestealers",
+        "name": "Purestrain Genestealer",
         "min": 5,
         "max": 10,
         "is_leader_model": false,
@@ -635,10 +993,31 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Purestrain Genestealer",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Purestrain Genestealer",
+            "min": 6,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "magus",
+    "faction_id": "genestealer-cults",
     "models": [
       {
         "name": "Magus",
@@ -658,6 +1037,17 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Magus",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   }
 ]

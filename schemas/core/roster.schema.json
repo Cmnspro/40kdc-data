@@ -51,6 +51,13 @@
       ],
       "description": "Resolved battle size; null when the source value could not be mapped."
     },
+    "force_disposition": {
+      "oneOf": [
+        { "$ref": "../defs/common.schema.json#/$defs/force-disposition-id" },
+        { "type": "null" }
+      ],
+      "description": "The selected Force Disposition; null when none has been picked. 11e list-building requires a pick, but source formats don't yet encode it, so imports default to null and the roster-legality checker raises an advisory."
+    },
     "points": {
       "type": "object",
       "description": "Point totals. `total_reported` (from the source payload) and `total_computed` (summed from this roster's units) are kept distinct and never reconciled — a mismatch is surfaced as a diagnostic.",
@@ -83,7 +90,7 @@
     "game_version": { "$ref": "../defs/game-version-ref.schema.json" },
     "diagnostics": { "$ref": "#/$defs/roster-diagnostics" }
   },
-  "required": ["name", "source", "faction_id", "detachments", "battle_size", "points", "units", "game_version", "diagnostics"],
+  "required": ["name", "source", "faction_id", "detachments", "battle_size", "force_disposition", "points", "units", "game_version", "diagnostics"],
   "additionalProperties": false,
   "$defs": {
     "roster-resolved-ref": {

@@ -117,6 +117,28 @@
       "type": "array",
       "items": { "$ref": "../defs/common.schema.json#/$defs/entity-id" }
     },
+    "wargear_budgets": {
+      "type": "array",
+      "description": "Limited-wargear squad allowances the per-weapon bounds cannot express: a GW `limited_wargear_choice_set` that is either (a) SHARED across several weapons (a 'for every N models, one model can take one of A/B/C' line) or (b) a FLAT per-unit cap ('up to 1 per unit'). A loadout is legal only if the summed count of a budget's items is at most the cap: `floor(model_count * count / per_models)` for a ratio, or just `count` when `per_models` is 0 (a flat per-unit cap). Single-weapon per-N allowances are NOT budgets — the per-weapon bounds already model them (they correctly sum a weapon's capacity across the model types that may take it).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": { "$ref": "../defs/common.schema.json#/$defs/entity-id" },
+            "minItems": 1
+          },
+          "count": { "type": "integer", "minimum": 1 },
+          "per_models": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size)."
+          }
+        },
+        "required": ["items", "count", "per_models"],
+        "additionalProperties": false
+      }
+    },
     "transport_capacity": {
       "oneOf": [
         {

@@ -29,7 +29,7 @@ export interface Loadout {
 /** A loadout-rule violation. `id` is the offending weapon/wargear id. */
 export interface Violation {
   id: string;
-  code: "exceeds-max" | "below-min" | "swap-conflict";
+  code: "exceeds-max" | "below-min" | "swap-conflict" | "exceeds-allowance" | "invalid-model-count";
   message: string;
 }
 
@@ -39,7 +39,11 @@ export interface Violation {
  * `max_count ?? 1`; then clamped by `max_count` when set. A null constraint is
  * treated as unrestricted (every model). Never negative.
  */
-export function optionCap(option: WargearOption, modelCount: number): number {
+export function optionCap(
+  option: WargearOption,
+  modelCount: number,
+  models?: readonly LoadoutModel[],
+): number {
   const c = option.model_constraint;
   if (!c) return Math.max(0, modelCount);
   let cap: number;
@@ -47,10 +51,37 @@ export function optionCap(option: WargearOption, modelCount: number): number {
   else if (c.per_n_models) cap = Math.floor(modelCount / c.per_n_models);
   else cap = c.max_count ?? 1;
   if (c.max_count != null) cap = Math.min(cap, c.max_count);
+  // Eligible-model clamp: an option scoped to a named model profile can be taken by
+  // no more models than exist of that profile — a lone champion caps the swap at 1
+  // even when `per_n_models` would allow more. The composition row name is the
+  // authority (it and the option's `model_name` both come from the dump miniature);
+  // a name with no matching row leaves the cap unclamped (never over-restrict).
+  if (c.model_name && models?.length) {
+    const eligible = eligibleModelCount(models, modelCount, c.model_name);
+    if (eligible != null) cap = Math.min(cap, eligible);
+  }
   // A swap is per-model: at most one per model, so never more than modelCount —
   // a `max_count` larger than the current squad size (e.g. a flat BSData cap of 6
   // on a 5-model unit) must not drive a weapon count negative.
   return Math.max(0, Math.min(cap, modelCount));
+}
+
+/**
+ * How many models of profile `name` a unit of `modelCount` fields, per the
+ * composition allocation ({@link allocateModels}). `null` when no row carries that
+ * name — the caller then leaves the option uncapped by eligibility.
+ */
+function eligibleModelCount(
+  models: readonly LoadoutModel[],
+  modelCount: number,
+  name: string,
+): number | null {
+  if (!models.some((m) => m.name === name)) return null;
+  let n = 0;
+  for (const { model, count } of allocateModels(models, modelCount)) {
+    if (model.name === name) n += count;
+  }
+  return n;
 }
 
 /** The ids a single option can add, given the chosen choice branch (default 0). */
@@ -99,6 +130,8 @@ function baseWeaponIds(unit: Unit, options: readonly WargearOption[]): string[] 
  * such model carries by default. Pass the unit's `unit_composition.models` here.
  */
 export interface LoadoutModel {
+  /** Model-profile name; matched against an option's `model_constraint.model_name`. */
+  name?: string;
   min: number;
   max: number;
   default_weapon_ids?: readonly string[];
@@ -207,7 +240,7 @@ export function maximalLoadout(
 ): Loadout {
   const counts = baseCounts(unit, modelCount, options, models);
   for (const option of options) {
-    const cap = optionCap(option, modelCount);
+    const cap = optionCap(option, modelCount, models);
     if (cap === 0) continue;
     for (const id of option.replaces ?? []) {
       counts.set(id, (counts.get(id) ?? 0) - cap);
@@ -238,7 +271,7 @@ export function weaponBounds(
     bounds.set(id, { min: count, max: count });
   }
   for (const option of options) {
-    const cap = optionCap(option, modelCount);
+    const cap = optionCap(option, modelCount, models);
     for (const id of option.replaces ?? []) {
       const b = bounds.get(id) ?? { min: 0, max: 0 };
       bounds.set(id, { min: Math.max(0, b.min - cap), max: b.max });
@@ -282,7 +315,15 @@ export function validateLoadout(
 ): Violation[] {
   const bounds = weaponBounds(unit, modelCount, options, models);
   const out: Violation[] = [];
+  // Items governed by a shared-allowance budget are policed solely by
+  // `budgetViolations` (the GW `limited_wargear_choice_set` cap). Their per-id
+  // `weaponBounds` max is derived from the dump's cross-product loadout branches
+  // — the unreliable signal the budget exists to replace (a weapon in several
+  // option branches sums an inflated bound) — so skip the per-id check for them.
+  const budgeted = new Set<string>();
+  for (const b of unit.wargear_budgets ?? []) for (const id of b.items ?? []) budgeted.add(id);
   for (const [id, n] of counts) {
+    if (budgeted.has(id)) continue;
     const b = bounds.get(id);
     if (!b) continue;
     if (n > b.max) {
@@ -292,9 +333,120 @@ export function validateLoadout(
     }
   }
   out.push(...swapConflicts(unit, modelCount, options, counts, models));
+  out.push(...budgetViolations(unit, modelCount, counts));
   // Deterministic order so the result is stable for cross-impl comparison.
   out.sort((a, b) => (a.id === b.id ? a.code.localeCompare(b.code) : a.id.localeCompare(b.id)));
   return out;
+}
+
+/**
+ * Shared-allowance violations: each {@link Unit.wargear_budgets} entry lets its
+ * listed items take at most `floor(modelCount * count / per_models)` copies between
+ * them (a GW "for every N models, X can take one of …" line). Summing the final
+ * counts is robust to *how* the items are equipped — unlike per-option caps, which
+ * the dump's cross-product loadout branches defeat. The violation `id` is the
+ * budget's sorted items joined by `+`, so it is stable and identifies the group.
+ */
+function budgetViolations(
+  unit: Unit,
+  modelCount: number,
+  counts: Map<string, number>,
+): Violation[] {
+  const out: Violation[] = [];
+  for (const budget of unit.wargear_budgets ?? []) {
+    const items = budget.items ?? [];
+    if (!items.length) continue;
+    const used = items.reduce((sum, id) => sum + (counts.get(id) ?? 0), 0);
+    // `per_models === 0` is a flat per-unit cap of `count`; otherwise a ratio.
+    const cap = budget.per_models
+      ? Math.floor((modelCount * budget.count) / budget.per_models)
+      : budget.count;
+    if (used > cap) {
+      const id = [...items].sort().join("+");
+      const limit = budget.per_models
+        ? `${budget.count} per ${budget.per_models} models`
+        : `${budget.count} per unit`;
+      out.push({
+        id,
+        code: "exceeds-allowance",
+        message: `${id}: ${used} exceeds shared allowance ${cap} (${limit})`,
+      });
+    }
+  }
+  return out;
+}
+
+/** One discrete buildable squad size: a per-model count range, keyed by model name. */
+export interface LoadoutTier {
+  models: readonly { name?: string; min: number; max: number }[];
+}
+
+/**
+ * Merge a tier's per-model count ranges onto the composition's `models[]` metadata
+ * (default weapons, leader flag, base) by name, producing the {@link LoadoutModel}
+ * list the loadout maths consume for that tier. A tier row with no matching base
+ * model keeps just its name/min/max.
+ */
+function tierModels(tier: LoadoutTier, base: readonly LoadoutModel[]): LoadoutModel[] {
+  const byName = new Map(base.map((m) => [m.name, m]));
+  return tier.models.map((tm) => {
+    const b = tm.name != null ? byName.get(tm.name) : undefined;
+    return { ...(b ?? {}), name: tm.name, min: tm.min, max: tm.max };
+  });
+}
+
+/**
+ * Whole-unit legality, tier-aware — the building block for a roster check. GW
+ * models a datasheet's buildable sizes as discrete tiers (e.g. Neurogaunts: 1
+ * Nodebeast + 10, or 1 + 11–20, or 2 + 20). A roster records only the *total*
+ * `modelCount`, so we select every tier whose total range `[Σmin, Σmax]` contains
+ * it and run {@link validateLoadout} against each tier's per-model allocation. The
+ * unit is legal iff **some** containing tier validates clean — that's the faithful
+ * "does a legal build exist" semantics, and it lets the maths allocate (say) 2
+ * Nodebeasts at 22 models, which the single-envelope allocation cannot.
+ *
+ * Deterministic reporting (stable for cross-impl conformance): return the empty
+ * result of the first clean tier (in tier order); else the violations of the first
+ * containing tier. When `modelCount` falls in no tier, a single
+ * `invalid-model-count` violation. When no `tiers` are supplied, falls back to a
+ * plain {@link validateLoadout} (no size check) — preserving behaviour for units
+ * the tier ingest didn't populate. Mirror of `crates/wh40kdc/src/data/loadout.rs`.
+ */
+export function checkUnitLegality(
+  unit: Unit,
+  modelCount: number,
+  options: readonly WargearOption[],
+  counts: Map<string, number>,
+  models?: readonly LoadoutModel[],
+  tiers?: readonly LoadoutTier[],
+): Violation[] {
+  if (!tiers?.length) {
+    return validateLoadout(unit, modelCount, options, counts, models);
+  }
+  const base = models ?? [];
+  const candidates: LoadoutModel[][] = [];
+  for (const tier of tiers) {
+    const tm = tierModels(tier, base);
+    const min = tm.reduce((s, m) => s + (m.min ?? 0), 0);
+    const max = tm.reduce((s, m) => s + (m.max ?? 0), 0);
+    if (modelCount >= min && modelCount <= max) candidates.push(tm);
+  }
+  if (candidates.length === 0) {
+    return [
+      {
+        id: unit.id,
+        code: "invalid-model-count",
+        message: `${unit.id}: ${modelCount} models matches no composition tier`,
+      },
+    ];
+  }
+  let firstViolations: Violation[] | null = null;
+  for (const tm of candidates) {
+    const violations = validateLoadout(unit, modelCount, options, counts, tm);
+    if (violations.length === 0) return [];
+    if (firstViolations === null) firstViolations = violations;
+  }
+  return firstViolations ?? [];
 }
 
 /**

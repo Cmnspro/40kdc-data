@@ -9,6 +9,8 @@ import {
 	allyPointsLimit,
 	effectiveBattleSize,
 	groupAlliesByGod,
+	nextCopyCost,
+	canAfford,
 	type BuilderState,
 } from '$lib/data/builder';
 import type { Unit } from '@alpaca-software/40kdc-data';
@@ -23,6 +25,8 @@ let { draft, onadd }: Props = $props();
 let query = $state('');
 /** Active unit-type facet (Infantry/Vehicle/…); null = no type filter. */
 let facet = $state<string | null>(null);
+/** Catalog sort: by name (default) or by cheapest next-copy cost first. */
+let sortMode = $state<'name' | 'cheapest'>('name');
 /** Per-section collapse state (section id → collapsed?). */
 let collapsed = $state<Record<string, boolean>>({});
 
@@ -53,6 +57,17 @@ function fromPoints(u: Unit): number {
 	return Math.min(...tiers.map((t) => baseUnitPoints(u, t.models)));
 }
 
+/**
+ * Order a group's units for display: alphabetical (default) or cheapest
+ * next-copy first (ordinal-aware against the current draft), name as tiebreak.
+ */
+function sortUnits(us: Unit[]): Unit[] {
+	if (sortMode !== 'cheapest') return us;
+	return [...us].sort(
+		(a, b) => nextCopyCost(draft, a) - nextCopyCost(draft, b) || a.name.localeCompare(b.name),
+	);
+}
+
 function toggle(key: string) {
 	collapsed = { ...collapsed, [key]: !collapsed[key] };
 }
@@ -66,6 +81,22 @@ function toggle(key: string) {
 		disabled={!draft.factionId}
 		bind:value={query}
 	/>
+
+	{#if draft.factionId}
+		<!-- Sort toggle: by name, or cheapest next-copy first (ordinal-aware). -->
+		<div class="mb-1.5 flex items-center gap-1 text-xs">
+			<span class="text-text-muted">Sort</span>
+			{#each [{ id: 'name', label: 'Name' }, { id: 'cheapest', label: 'Cheapest' }] as opt (opt.id)}
+				<button
+					class="rounded border px-2 py-0.5 transition-colors {sortMode === opt.id
+						? 'border-accent bg-accent/15 text-accent'
+						: 'border-panel-border text-text-muted hover:text-text'}"
+					aria-pressed={sortMode === opt.id}
+					onclick={() => (sortMode = opt.id as 'name' | 'cheapest')}>{opt.label}</button
+				>
+			{/each}
+		</div>
+	{/if}
 
 	{#if draft.factionId && facets.length > 0}
 		<!-- Unit-type facet chips (Infantry/Vehicle/…). Toggle to filter; click again to clear. -->
@@ -104,10 +135,16 @@ function toggle(key: string) {
 						</button>
 						{#if !collapsed[group.key]}
 							<ul class="flex flex-col gap-0.5 pl-1">
-								{#each group.units as u (u.id)}
+								{#each sortUnits(group.units) as u (u.id)}
+									{@const affordable = canAfford(draft, u)}
 									<li>
+										<!-- Over-limit is advisory in this builder, so an unaffordable unit is
+										     greyed (title explains) but stays clickable. -->
 										<button
-											class="hover:bg-panel-hover flex w-full items-center gap-2 rounded px-1.5 py-1 text-left"
+											class="hover:bg-panel-hover flex w-full items-center gap-2 rounded px-1.5 py-1 text-left {affordable
+												? ''
+												: 'opacity-40'}"
+											title={affordable ? undefined : 'Over the points limit at its cheapest size'}
 											onclick={() => onadd(u.id)}
 										>
 											<span class="text-text flex-1 truncate text-sm">{u.name}</span>

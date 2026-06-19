@@ -1,0 +1,471 @@
+[
+  {
+    "name": "legal-berzerker-warband",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": []
+  },
+  {
+    "name": "no-warlord",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|no-warlord:roster"
+    ]
+  },
+  {
+    "name": "multiple-warlords",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|multiple-warlords:roster"
+    ]
+  },
+  {
+    "name": "points-over-limit",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|points-over-limit:roster"
+    ]
+  },
+  {
+    "name": "detachment-points-over",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "incursion",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|detachment-points-over:roster"
+    ]
+  },
+  {
+    "name": "enhancement-wrong-detachment",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "brazen-engines"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": "helm-of-brazen-ire-berzerker-warband",
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "u0|error|enhancement-wrong-detachment:helm-of-brazen-ire-berzerker-warband"
+    ]
+  },
+  {
+    "name": "enhancement-on-non-character",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "chaos-spawn",
+          "modelCount": 2,
+          "isWarlord": false,
+          "enhancementId": "battle-lust-berzerker-warband",
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "u1|error|enhancement-on-non-character:battle-lust-berzerker-warband"
+    ]
+  },
+  {
+    "name": "enhancement-over-max-targets",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": "helm-of-brazen-ire-berzerker-warband",
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": "helm-of-brazen-ire-berzerker-warband",
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|enhancement-over-max-targets:helm-of-brazen-ire-berzerker-warband"
+    ]
+  },
+  {
+    "name": "leader-must-attach",
+    "args": {
+      "factionId": "chaos-space-marines",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "murdertalon-raiders"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "master-of-executions",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "u0|error|leader-must-attach:master-of-executions"
+    ]
+  },
+  {
+    "name": "leader-attachment-illegal",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": "khorne-berzerkers",
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "u0|error|leader-attachment-illegal:daemon-prince-of-khorne"
+    ]
+  },
+  {
+    "name": "disposition-not-picked-warn",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": null,
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|warn|disposition-not-picked:roster"
+    ]
+  },
+  {
+    "name": "disposition-invalid-warn",
+    "args": {
+      "factionId": "world-eaters",
+      "battleSize": "strike-force",
+      "forceDisposition": "reconnaissance",
+      "detachments": [
+        {
+          "id": "berzerker-warband"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "daemon-prince-of-khorne",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|warn|disposition-invalid:reconnaissance"
+    ]
+  },
+  {
+    "name": "detachment-tag-conflict",
+    "args": {
+      "factionId": "chaos-space-marines",
+      "battleSize": null,
+      "forceDisposition": "priority-assets",
+      "detachments": [
+        {
+          "id": "devotees-of-destruction"
+        },
+        {
+          "id": "murdertalon-raiders"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "chaos-spawn",
+          "modelCount": 2,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|detachment-tag-conflict:nightmare"
+    ]
+  },
+  {
+    "name": "unit-minimum-unmet",
+    "args": {
+      "factionId": "chaos-knights",
+      "battleSize": "strike-force",
+      "forceDisposition": "reconnaissance",
+      "detachments": [
+        {
+          "id": "houndpack-lance"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "war-dog-huntsman",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|unit-minimum-unmet:War Dog"
+    ]
+  }
+]

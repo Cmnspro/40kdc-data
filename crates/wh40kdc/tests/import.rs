@@ -191,8 +191,52 @@ fn reports_clean_diagnostics_for_fully_resolved_list() {
     assert_eq!(roster.diagnostics.unresolved_weapons, 0);
 }
 
+// A "support" character (dump-sourced attachment_role) cannot be fielded solo,
+// so it is auto-attached to an eligible bodyguard in the roster. A Painboy joins
+// a Boyz mob. (A solo-capable "leader" is NOT auto-attached — see the next test.)
+fn support_attachment_payload() -> serde_json::Value {
+    serde_json::json!({
+        "name": "Leader Test",
+        "generatedBy": "List Forge",
+        "roster": {
+            "name": "Leader Test",
+            "costs": [{ "name": "pts", "value": 0 }],
+            "forces": [{
+                "id": "f1",
+                "name": "Army Roster",
+                "selections": [
+                    {
+                        "id": "u-painboy", "name": "Painboy", "type": "model", "number": 1,
+                        "categories": [{ "name": "Faction: Orks" }, { "name": "Character", "primary": true }]
+                    },
+                    {
+                        "id": "u-boyz", "name": "Boyz", "type": "unit", "number": 10,
+                        "categories": [{ "name": "Faction: Orks" }, { "name": "Infantry", "primary": true }]
+                    }
+                ]
+            }]
+        }
+    })
+}
+
 #[test]
 fn infers_a_provisional_leader_attachment() {
+    let roster = import_roster(&support_attachment_payload(), Dataset::embedded()).unwrap();
+    let pb = unit_by_id(&roster, "painboy").unwrap();
+    let attachment = pb.leader_attachment.as_ref().expect("attachment inferred");
+    assert_eq!(attachment.bodyguard_ref.id.as_deref(), Some("boyz"));
+    assert!(attachment.provisional);
+    assert!(roster
+        .diagnostics
+        .warnings
+        .iter()
+        .any(|w| w.code == wh40kdc::import::WarningCode::LeaderAttachmentInferred));
+}
+
+#[test]
+fn does_not_auto_attach_a_solo_capable_leader() {
+    // Grand Master's dump-sourced attachment_role is "leader" (solo-capable), so
+    // the importer leaves it unattached even with an eligible bodyguard present.
     let payload = serde_json::json!({
         "name": "Leader Test",
         "generatedBy": "List Forge",
@@ -217,13 +261,8 @@ fn infers_a_provisional_leader_attachment() {
     });
     let roster = import_roster(&payload, Dataset::embedded()).unwrap();
     let gm = unit_by_id(&roster, "grand-master").unwrap();
-    let attachment = gm.leader_attachment.as_ref().expect("attachment inferred");
-    assert_eq!(
-        attachment.bodyguard_ref.id.as_deref(),
-        Some("paladin-squad")
-    );
-    assert!(attachment.provisional);
-    assert!(roster
+    assert!(gm.leader_attachment.is_none());
+    assert!(!roster
         .diagnostics
         .warnings
         .iter()
@@ -232,82 +271,38 @@ fn infers_a_provisional_leader_attachment() {
 
 #[test]
 fn attached_leader_for_looks_up_by_body_unit() {
-    let payload = serde_json::json!({
-        "name": "Leader Test",
-        "generatedBy": "List Forge",
-        "roster": {
-            "name": "Leader Test",
-            "costs": [{ "name": "pts", "value": 0 }],
-            "forces": [{
-                "id": "f1",
-                "name": "Army Roster",
-                "selections": [
-                    {
-                        "id": "u-gm", "name": "Grand Master", "type": "model", "number": 1,
-                        "categories": [{ "name": "Faction: Grey Knights" }, { "name": "Character", "primary": true }]
-                    },
-                    {
-                        "id": "u-paladins", "name": "Paladin Squad", "type": "unit", "number": 1,
-                        "categories": [{ "name": "Faction: Grey Knights" }, { "name": "Infantry", "primary": true }]
-                    }
-                ]
-            }]
-        }
-    });
-    let roster = import_roster(&payload, Dataset::embedded()).unwrap();
+    let roster = import_roster(&support_attachment_payload(), Dataset::embedded()).unwrap();
 
     // The body unit resolves to the leader attached to it.
     let leader = roster
-        .attached_leader_for("paladin-squad")
+        .attached_leader_for("boyz")
         .expect("leader attached to the body unit");
-    assert_eq!(leader.ref_.id.as_deref(), Some("grand-master"));
+    assert_eq!(leader.ref_.id.as_deref(), Some("painboy"));
 
     // The leader itself has nothing attached to it, and unknown ids miss.
-    assert!(roster.attached_leader_for("grand-master").is_none());
+    assert!(roster.attached_leader_for("painboy").is_none());
     assert!(roster.attached_leader_for("no-such-unit").is_none());
 }
 
 #[test]
 fn attachment_partners_for_resolves_from_either_end() {
-    let payload = serde_json::json!({
-        "name": "Leader Test",
-        "generatedBy": "List Forge",
-        "roster": {
-            "name": "Leader Test",
-            "costs": [{ "name": "pts", "value": 0 }],
-            "forces": [{
-                "id": "f1",
-                "name": "Army Roster",
-                "selections": [
-                    {
-                        "id": "u-gm", "name": "Grand Master", "type": "model", "number": 1,
-                        "categories": [{ "name": "Faction: Grey Knights" }, { "name": "Character", "primary": true }]
-                    },
-                    {
-                        "id": "u-paladins", "name": "Paladin Squad", "type": "unit", "number": 1,
-                        "categories": [{ "name": "Faction: Grey Knights" }, { "name": "Infantry", "primary": true }]
-                    }
-                ]
-            }]
-        }
-    });
-    let roster = import_roster(&payload, Dataset::embedded()).unwrap();
+    let roster = import_roster(&support_attachment_payload(), Dataset::embedded()).unwrap();
 
     // From the bodyguard's end → the attached leader.
     let from_body: Vec<&str> = roster
-        .attachment_partners_for("paladin-squad")
+        .attachment_partners_for("boyz")
         .iter()
         .filter_map(|u| u.ref_.id.as_deref())
         .collect();
-    assert_eq!(from_body, vec!["grand-master"]);
+    assert_eq!(from_body, vec!["painboy"]);
 
     // From the leader's end → the bodyguard it joined.
     let from_leader: Vec<&str> = roster
-        .attachment_partners_for("grand-master")
+        .attachment_partners_for("painboy")
         .iter()
         .filter_map(|u| u.ref_.id.as_deref())
         .collect();
-    assert_eq!(from_leader, vec!["paladin-squad"]);
+    assert_eq!(from_leader, vec!["boyz"]);
 
     // A unit in no attachment yields nothing.
     assert!(roster.attachment_partners_for("no-such-unit").is_empty());

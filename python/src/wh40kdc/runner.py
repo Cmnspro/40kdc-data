@@ -26,10 +26,12 @@ from wh40kdc._spec import SPEC_VERSION
 from wh40kdc._version import __version__ as IMPL_VERSION
 from wh40kdc.compare import LoadoutLine, compare_cell, loadout_cell
 from wh40kdc.cruncher import attribute_stages, crunch
+from wh40kdc.data.affordability import candidate_affordability
 from wh40kdc.data.base import encode_base
 from wh40kdc.data.dataset import Dataset
-from wh40kdc.data.loadout import base_loadout, maximal_loadout
+from wh40kdc.data.loadout import base_loadout, check_unit_legality, maximal_loadout
 from wh40kdc.data.normalize import normalize_name
+from wh40kdc.data.roster import validate_roster_core
 from wh40kdc.export import EXPORT_FORMATS, export_roster
 from wh40kdc.imports import import_roster, try_import_roster
 from wh40kdc.scope import unit_matches_applies_to
@@ -218,6 +220,139 @@ def _handle_share_decode(args: Any) -> Response:
         return _err("INVALID_INPUT", {"detail": "share_decode.token must be a string"})
     # A malformed/stale token is a normal result (the inner ``ok`` carries it).
     return _ok(decode_share_token(args["token"]))
+
+
+def _handle_check_unit_legality(state: RunnerState, args: Any) -> Response:
+    """Whole-unit loadout legality (tier-aware) — mirror of the TS runner op.
+
+    Returns sorted ``"code:id"`` strings.
+    """
+    if not isinstance(args, dict):
+        return _err("INVALID_INPUT", {"detail": "check_unit_legality args must be an object"})
+    unit_id = args.get("unitId")
+    model_count = args.get("modelCount")
+    if not isinstance(unit_id, str) or not isinstance(model_count, int):
+        return _err("INVALID_INPUT", {"detail": "check_unit_legality.unitId/modelCount required"})
+    faction_id = args.get("factionId")
+    ds = state.dataset()
+    u = (
+        ds.units.get_in_faction(unit_id, faction_id)
+        if isinstance(faction_id, str)
+        else ds.units.get(unit_id)
+    )
+    if u is None:
+        return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": unit_id})
+    comp = next(
+        (
+            c
+            for c in ds.unit_compositions
+            if c.get("unit_id") == unit_id and c.get("faction_id") == u.raw.get("faction_id")
+        ),
+        None,
+    )
+    counts = {k: int(v) for k, v in (args.get("counts") or {}).items()}
+    violations = check_unit_legality(
+        u.raw,
+        model_count,
+        ds.wargear_options_of(u.raw),
+        counts,
+        (comp or {}).get("models"),
+        (comp or {}).get("tiers"),
+    )
+    return _ok(sorted(f"{v['code']}:{v['id']}" for v in violations))
+
+
+def _handle_check_roster_legality(state: RunnerState, args: Any) -> Response:
+    """Whole-army legality over a compact roster spec — mirror of the TS runner op.
+
+    Returns the sorted union of per-unit loadout and army violations as
+    ``"<scope>|<severity>|<code>:<id>"`` strings.
+    """
+    if not isinstance(args, dict):
+        return _err("INVALID_INPUT", {"detail": "check_roster_legality args must be an object"})
+    if not isinstance(args.get("units"), list):
+        return _err("INVALID_INPUT", {"detail": "check_roster_legality.units must be an array"})
+    faction_id = args.get("factionId")
+    battle_size = args.get("battleSize")
+    force_disposition = args.get("forceDisposition")
+    spec = {
+        "faction_id": faction_id if isinstance(faction_id, str) else None,
+        "battle_size": battle_size if isinstance(battle_size, str) else None,
+        "force_disposition": force_disposition if isinstance(force_disposition, str) else None,
+        "detachment_ids": [
+            d["id"]
+            for d in (args.get("detachments") or [])
+            if isinstance(d, dict) and isinstance(d.get("id"), str)
+        ],
+        "units": [
+            {
+                "unit_id": u.get("unitId") if isinstance(u.get("unitId"), str) else "",
+                "model_count": u.get("modelCount") if _is_number(u.get("modelCount")) else 0,
+                "is_warlord": u.get("isWarlord") is True,
+                "enhancement_id": (
+                    u.get("enhancementId") if isinstance(u.get("enhancementId"), str) else None
+                ),
+                "leader_bodyguard_id": (
+                    u.get("leaderBodyguardId")
+                    if isinstance(u.get("leaderBodyguardId"), str)
+                    else None
+                ),
+                "counts": {k: int(v) for k, v in (u.get("counts") or {}).items()},
+            }
+            for u in args["units"]
+        ],
+    }
+    result = validate_roster_core(spec, state.dataset())
+    lines = [
+        f"u{u['unitIndex']}|error|{v['code']}:{v['id']}"
+        for u in result["units"]
+        for v in u["violations"]
+    ]
+    lines += [
+        f"{'army' if v['unitIndex'] is None else 'u' + str(v['unitIndex'])}"
+        f"|{v['severity']}|{v['code']}:{v['id']}"
+        for v in result["army"]
+    ]
+    return _ok(sorted(lines))
+
+
+def _handle_candidate_affordability(state: RunnerState, args: Any) -> Response:
+    """Cheapest-next-copy pricing + affordability — mirror of the TS runner op.
+
+    Returns ``[{unitId, nextCopyCost, affordable}]`` sorted ascending by
+    ``(nextCopyCost, unitId)``.
+    """
+    if not isinstance(args, dict):
+        return _err("INVALID_INPUT", {"detail": "candidate_affordability args must be an object"})
+    if not isinstance(args.get("units"), list):
+        return _err("INVALID_INPUT", {"detail": "candidate_affordability.units must be an array"})
+    faction_id = args.get("factionId")
+    battle_size = args.get("battleSize")
+    points_limit_override = args.get("pointsLimitOverride")
+    candidate_unit_ids = args.get("candidateUnitIds")
+    spec = {
+        "faction_id": faction_id if isinstance(faction_id, str) else None,
+        "battle_size": battle_size if isinstance(battle_size, str) else None,
+        "points_limit_override": (
+            points_limit_override if _is_number(points_limit_override) else None
+        ),
+        "units": [
+            {
+                "unit_id": u.get("unitId") if isinstance(u.get("unitId"), str) else "",
+                "model_count": u.get("modelCount") if _is_number(u.get("modelCount")) else 0,
+                "enhancement_id": (
+                    u.get("enhancementId") if isinstance(u.get("enhancementId"), str) else None
+                ),
+            }
+            for u in args["units"]
+        ],
+        "candidate_unit_ids": (
+            [c for c in candidate_unit_ids if isinstance(c, str)]
+            if isinstance(candidate_unit_ids, list)
+            else None
+        ),
+    }
+    return _ok(candidate_affordability(spec, state.dataset()))
 
 
 def _handle_linked_query(state: RunnerState, args: Any) -> Response:
@@ -758,6 +893,12 @@ def dispatch(state: RunnerState, req: dict[str, Any]) -> Response:
         return _handle_export(args)
     if op == "linked_query":
         return _handle_linked_query(state, args)
+    if op == "check_unit_legality":
+        return _handle_check_unit_legality(state, args)
+    if op == "check_roster_legality":
+        return _handle_check_roster_legality(state, args)
+    if op == "candidate_affordability":
+        return _handle_candidate_affordability(state, args)
     if op == "validate":
         return _handle_validate(state, args)
     if op == "crunch":

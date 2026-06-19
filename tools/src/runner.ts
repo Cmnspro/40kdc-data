@@ -22,7 +22,10 @@ import process from "node:process";
 
 import { Dataset } from "./data/dataset.js";
 import { normalizeName } from "./data/normalize.js";
-import { baseLoadout, maximalLoadout } from "./data/loadout.js";
+import { baseLoadout, maximalLoadout, checkUnitLegality } from "./data/loadout.js";
+import { validateRosterCore, type NormRoster } from "./data/roster-resolve.js";
+import { candidateAffordability, type AffordabilitySpec } from "./data/affordability.js";
+import type { BattleSize } from "./import/types.js";
 import { exportRoster, type ExportFormat } from "./export/index.js";
 import { decodeShareToken, encodeShareToken, type ShareList } from "./share/index.js";
 import { importRoster, tryImportRoster, REGISTERED_ADAPTERS } from "./import/import-roster.js";
@@ -329,6 +332,138 @@ export function encodeBase(
   return parts.join(":");
 }
 
+/**
+ * Whole-unit loadout legality (tier-aware) — the cross-impl pin for
+ * {@link checkUnitLegality}. Args: `{ unitId, factionId?, modelCount, counts }`
+ * where `counts` maps weapon/wargear id → count. Returns the violation list as
+ * sorted `"code:id"` strings (the maths already sorts deterministically; the
+ * extra sort keeps the wire result stable across the small encoding).
+ */
+function handleCheckUnitLegality(state: RunnerState, args: unknown): RunnerResponse {
+  if (typeof args !== "object" || args === null) {
+    return err("INVALID_INPUT", { detail: "check_unit_legality args must be an object" });
+  }
+  const a = args as {
+    unitId?: unknown;
+    factionId?: unknown;
+    modelCount?: unknown;
+    counts?: Record<string, number>;
+  };
+  if (typeof a.unitId !== "string" || typeof a.modelCount !== "number") {
+    return err("INVALID_INPUT", { detail: "check_unit_legality.unitId/modelCount required" });
+  }
+  const ds = getDataset(state);
+  const unit =
+    typeof a.factionId === "string"
+      ? ds.units.getInFaction(a.unitId, a.factionId)
+      : ds.units.getAny(a.unitId);
+  if (!unit) return err("UNKNOWN_ENTITY", { kind: "unit", id: a.unitId });
+  const options = ds.wargearOptionsOf(unit.raw);
+  const composition = ds.unitCompositionOf(unit.raw);
+  const counts = new Map<string, number>(Object.entries(a.counts ?? {}));
+  const violations = checkUnitLegality(
+    unit.raw,
+    a.modelCount,
+    options,
+    counts,
+    composition?.models,
+    composition?.tiers,
+  );
+  return ok(violations.map((v) => `${v.code}:${v.id}`).sort());
+}
+
+/**
+ * Whole-army legality over a compact roster spec via {@link validateRosterCore}.
+ * Args: `{ factionId, battleSize?, forceDisposition?, detachments: [{id}],
+ * units: [{ unitId, modelCount, isWarlord?, enhancementId?, leaderBodyguardId?,
+ * counts? }] }`. The response `value` is the sorted union of per-unit loadout
+ * and army violations as `"<scope>|<severity>|<code>:<id>"` strings, where
+ * `scope` is `army` or `u<index>` and `severity` is `error|warn`.
+ */
+function handleCheckRosterLegality(state: RunnerState, args: unknown): RunnerResponse {
+  if (typeof args !== "object" || args === null) {
+    return err("INVALID_INPUT", { detail: "check_roster_legality args must be an object" });
+  }
+  const a = args as {
+    factionId?: unknown;
+    battleSize?: unknown;
+    forceDisposition?: unknown;
+    detachments?: { id?: unknown }[];
+    units?: {
+      unitId?: unknown;
+      modelCount?: unknown;
+      isWarlord?: unknown;
+      enhancementId?: unknown;
+      leaderBodyguardId?: unknown;
+      counts?: Record<string, number>;
+    }[];
+  };
+  if (!Array.isArray(a.units)) {
+    return err("INVALID_INPUT", { detail: "check_roster_legality.units must be an array" });
+  }
+  const spec: NormRoster = {
+    factionId: typeof a.factionId === "string" ? a.factionId : null,
+    battleSize: typeof a.battleSize === "string" ? (a.battleSize as BattleSize) : null,
+    forceDisposition: typeof a.forceDisposition === "string" ? a.forceDisposition : null,
+    detachmentIds: (a.detachments ?? [])
+      .map((d) => d.id)
+      .filter((id): id is string => typeof id === "string"),
+    units: a.units.map((u) => ({
+      unitId: typeof u.unitId === "string" ? u.unitId : "",
+      modelCount: typeof u.modelCount === "number" ? u.modelCount : 0,
+      isWarlord: u.isWarlord === true,
+      enhancementId: typeof u.enhancementId === "string" ? u.enhancementId : null,
+      leaderBodyguardId: typeof u.leaderBodyguardId === "string" ? u.leaderBodyguardId : null,
+      counts: new Map<string, number>(Object.entries(u.counts ?? {})),
+    })),
+  };
+  const result = validateRosterCore(spec, getDataset(state));
+  const lines = [
+    ...result.units.flatMap((u) =>
+      u.violations.map((v) => `u${u.unitIndex}|error|${v.code}:${v.id}`),
+    ),
+    ...result.army.map(
+      (v) => `${v.unitIndex === null ? "army" : `u${v.unitIndex}`}|${v.severity}|${v.code}:${v.id}`,
+    ),
+  ];
+  return ok(lines.sort());
+}
+
+/**
+ * Cheapest-next-copy pricing + affordability for a set of candidate units, via
+ * {@link candidateAffordability}. Returns `[{ unitId, nextCopyCost, affordable }]`
+ * sorted ascending by `(nextCopyCost, unitId)`.
+ */
+function handleCandidateAffordability(state: RunnerState, args: unknown): RunnerResponse {
+  if (typeof args !== "object" || args === null) {
+    return err("INVALID_INPUT", { detail: "candidate_affordability args must be an object" });
+  }
+  const a = args as {
+    factionId?: unknown;
+    battleSize?: unknown;
+    pointsLimitOverride?: unknown;
+    units?: { unitId?: unknown; modelCount?: unknown; enhancementId?: unknown }[];
+    candidateUnitIds?: unknown;
+  };
+  if (!Array.isArray(a.units)) {
+    return err("INVALID_INPUT", { detail: "candidate_affordability.units must be an array" });
+  }
+  const spec: AffordabilitySpec = {
+    factionId: typeof a.factionId === "string" ? a.factionId : null,
+    battleSize: typeof a.battleSize === "string" ? (a.battleSize as BattleSize) : null,
+    pointsLimitOverride: typeof a.pointsLimitOverride === "number" ? a.pointsLimitOverride : null,
+    units: a.units.map((u) => ({
+      unitId: typeof u.unitId === "string" ? u.unitId : "",
+      modelCount: typeof u.modelCount === "number" ? u.modelCount : 0,
+      enhancementId: typeof u.enhancementId === "string" ? u.enhancementId : null,
+    })),
+    candidateUnitIds: Array.isArray(a.candidateUnitIds)
+      ? a.candidateUnitIds.filter((id): id is string => typeof id === "string")
+      : null,
+  };
+  return ok(candidateAffordability(spec, getDataset(state)));
+}
+
 function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
   if (typeof args !== "object" || args === null) {
     return err("INVALID_INPUT", { detail: "linked_query args must be an object" });
@@ -339,6 +474,11 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
   }
   const ds = getDataset(state);
   const input = (a.input ?? {}) as Record<string, string>;
+  // A shared chassis (same unit id in several factions) diverges per faction in
+  // its options/composition/profiles; when the case pins `factionId`, resolve
+  // that faction's copy, else fall back to first-wins `getAny` (back-compat).
+  const resolveUnit = (id: string) =>
+    input.factionId ? ds.units.getInFaction(id, input.factionId) : ds.units.getAny(id);
   try {
     switch (a.query) {
       case "find_unit":
@@ -350,34 +490,34 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
       case "find_ability":
         return ok(ds.abilities.find(input.query ?? "")?.id ?? null);
       case "abilities_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.abilities.map((x) => x.id));
       }
       case "weapons_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.weapons.map((x) => x.id));
       }
       case "wargear_options_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.wargearOptions.map((x) => x.id));
       }
       case "base_loadout": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const modelCount = Number(input.modelCount);
-        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const comp = ds.unitCompositionOf(u.raw);
         const lo = baseLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw), comp?.models);
         // Encode the id→count map as sorted "id:count" strings for set compare.
         return ok([...lo.counts].map(([id, n]) => `${id}:${n}`).sort());
       }
       case "maximal_loadout": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         const modelCount = Number(input.modelCount);
-        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const comp = ds.unitCompositionOf(u.raw);
         const lo = maximalLoadout(u.raw, modelCount, ds.wargearOptionsOf(u.raw), comp?.models);
         // Encode the id→count map as sorted "id:count" strings for set compare.
         return ok([...lo.counts].map(([id, n]) => `${id}:${n}`).sort());
@@ -388,19 +528,19 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
         return ok([...ab.phases]);
       }
       case "faction_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(u.faction?.id ?? null);
       }
       case "base_size_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
         return ok(encodeBase(u.raw.base_size_mm));
       }
       case "model_bases_of": {
-        const u = ds.units.getAny(input.unitId);
+        const u = resolveUnit(input.unitId);
         if (!u) return err("UNKNOWN_ENTITY", { kind: "unit", id: input.unitId });
-        const comp = ds.unitCompositions.find((c) => c.unit_id === input.unitId);
+        const comp = ds.unitCompositionOf(u.raw);
         // Ordered "modelName=encodedBase" pairs in declared model order.
         return ok((comp?.models ?? []).map((m) => `${m.name}=${encodeBase(m.base_size_mm) ?? "none"}`));
       }
@@ -992,6 +1132,12 @@ export function dispatch(state: RunnerState, req: { op: string; args?: unknown }
       return handleExport(req.args);
     case "linked_query":
       return handleLinkedQuery(state, req.args);
+    case "check_unit_legality":
+      return handleCheckUnitLegality(state, req.args);
+    case "check_roster_legality":
+      return handleCheckRosterLegality(state, req.args);
+    case "candidate_affordability":
+      return handleCandidateAffordability(state, req.args);
     case "validate":
       return handleValidate(state, req.args);
     case "crunch":

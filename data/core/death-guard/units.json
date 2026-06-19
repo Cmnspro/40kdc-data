@@ -252,7 +252,7 @@
     },
     "is_legend": false,
     "points_provisional": false,
-    "attachment_role": "support"
+    "attachment_role": "leader"
   },
   {
     "id": "poxwalkers",
@@ -698,7 +698,7 @@
     },
     "is_legend": false,
     "points_provisional": false,
-    "attachment_role": "support"
+    "attachment_role": "leader"
   },
   {
     "id": "plague-marines",
@@ -773,7 +773,18 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "wargear_budgets": [
+      {
+        "items": [
+          "meltagun",
+          "plague-belcher",
+          "plasma-gun"
+        ],
+        "count": 2,
+        "per_models": 10
+      }
+    ]
   },
   {
     "id": "plague-surgeon",
@@ -831,7 +842,7 @@
     },
     "is_legend": false,
     "points_provisional": false,
-    "attachment_role": "support"
+    "attachment_role": "leader"
   },
   {
     "id": "daemon-prince-of-nurgle",
@@ -1145,7 +1156,7 @@
     },
     "is_legend": false,
     "points_provisional": false,
-    "attachment_role": "support"
+    "attachment_role": "leader"
   },
   {
     "id": "daemon-prince-of-nurgle-with-wings",
@@ -1710,7 +1721,7 @@
     },
     "is_legend": false,
     "points_provisional": false,
-    "attachment_role": "support"
+    "attachment_role": "leader"
   },
   {
     "id": "icon-bearer",
@@ -1769,7 +1780,7 @@
     },
     "is_legend": false,
     "points_provisional": false,
-    "attachment_role": "support"
+    "attachment_role": "leader"
   },
   {
     "id": "typhus",
@@ -1897,6 +1908,16 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "wargear_budgets": [
+      {
+        "items": [
+          "close-combat-weapon",
+          "plague-spewer"
+        ],
+        "count": 1,
+        "per_models": 3
+      }
+    ]
   }
 ]

@@ -12444,6 +12444,37 @@ impl ::std::convert::TryFrom<::std::string::String> for TimingFlagTiming {
 ///        }
 ///      ]
 ///    },
+///    "wargear_budgets": {
+///      "description": "Limited-wargear squad allowances the per-weapon bounds cannot express: a GW `limited_wargear_choice_set` that is either (a) SHARED across several weapons (a 'for every N models, one model can take one of A/B/C' line) or (b) a FLAT per-unit cap ('up to 1 per unit'). A loadout is legal only if the summed count of a budget's items is at most the cap: `floor(model_count * count / per_models)` for a ratio, or just `count` when `per_models` is 0 (a flat per-unit cap). Single-weapon per-N allowances are NOT budgets — the per-weapon bounds already model them (they correctly sum a weapon's capacity across the model types that may take it).",
+///      "type": "array",
+///      "items": {
+///        "type": "object",
+///        "required": [
+///          "count",
+///          "items",
+///          "per_models"
+///        ],
+///        "properties": {
+///          "count": {
+///            "type": "integer",
+///            "minimum": 1.0
+///          },
+///          "items": {
+///            "type": "array",
+///            "items": {
+///              "$ref": "#/$defs/entity-id"
+///            },
+///            "minItems": 1
+///          },
+///          "per_models": {
+///            "description": "Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).",
+///            "type": "integer",
+///            "minimum": 0.0
+///          }
+///        },
+///        "additionalProperties": false
+///      }
+///    },
 ///    "weapon_ids": {
 ///      "type": "array",
 ///      "items": {
@@ -12492,6 +12523,9 @@ pub struct Unit {
     pub role: ::std::option::Option<UnitRole>,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub transport_capacity: ::std::option::Option<UnitTransportCapacity>,
+    ///Limited-wargear squad allowances the per-weapon bounds cannot express: a GW `limited_wargear_choice_set` that is either (a) SHARED across several weapons (a 'for every N models, one model can take one of A/B/C' line) or (b) a FLAT per-unit cap ('up to 1 per unit'). A loadout is legal only if the summed count of a budget's items is at most the cap: `floor(model_count * count / per_models)` for a ratio, or just `count` when `per_models` is 0 (a flat per-unit cap). Single-weapon per-N allowances are NOT budgets — the per-weapon bounds already model them (they correctly sum a weapon's capacity across the model types that may take it).
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub wargear_budgets: ::std::vec::Vec<UnitWargearBudgetsItem>,
     #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
     pub weapon_ids: ::std::vec::Vec<EntityId>,
 }
@@ -12637,11 +12671,16 @@ impl ::std::convert::TryFrom<::std::string::String> for UnitAttachmentRole {
 ///  "description": "Describes the internal model-type breakdown of a unit.",
 ///  "type": "object",
 ///  "required": [
+///    "faction_id",
 ///    "game_version",
 ///    "models",
 ///    "unit_id"
 ///  ],
 ///  "properties": {
+///    "faction_id": {
+///      "description": "Owning faction. A chassis shared across factions has a distinct composition per faction under the same `unit_id`, so compositions are keyed by (faction_id, unit_id).",
+///      "$ref": "#/$defs/entity-id"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -12708,6 +12747,48 @@ impl ::std::convert::TryFrom<::std::string::String> for UnitAttachmentRole {
 ///      },
 ///      "minItems": 1
 ///    },
+///    "tiers": {
+///      "description": "The discrete buildable squad sizes (GW's per-datasheet unit-composition rows). Each tier gives a per-model count range; a legal squad must match exactly one tier. When absent, the squad is treated as a single implicit tier equal to `models[]`. The top-level `models[]` min/max are the aggregate envelope (min-of-mins / max-of-maxes) across the tiers, so consumers that read only `models[]` still see the full range.",
+///      "type": "array",
+///      "items": {
+///        "type": "object",
+///        "required": [
+///          "models"
+///        ],
+///        "properties": {
+///          "models": {
+///            "description": "One entry per top-level `models[]` row, matched by `name`, giving this tier's count range for that model type.",
+///            "type": "array",
+///            "items": {
+///              "type": "object",
+///              "required": [
+///                "max",
+///                "min",
+///                "name"
+///              ],
+///              "properties": {
+///                "max": {
+///                  "type": "integer",
+///                  "minimum": 1.0
+///                },
+///                "min": {
+///                  "type": "integer",
+///                  "minimum": 0.0
+///                },
+///                "name": {
+///                  "type": "string",
+///                  "minLength": 1
+///                }
+///              },
+///              "additionalProperties": false
+///            },
+///            "minItems": 1
+///          }
+///        },
+///        "additionalProperties": false
+///      },
+///      "minItems": 1
+///    },
 ///    "unit_id": {
 ///      "$ref": "#/$defs/entity-id"
 ///    }
@@ -12719,8 +12800,13 @@ impl ::std::convert::TryFrom<::std::string::String> for UnitAttachmentRole {
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct UnitComposition {
+    ///Owning faction. A chassis shared across factions has a distinct composition per faction under the same `unit_id`, so compositions are keyed by (faction_id, unit_id).
+    pub faction_id: EntityId,
     pub game_version: GameVersionRef,
     pub models: ::std::vec::Vec<UnitCompositionModelsItem>,
+    ///The discrete buildable squad sizes (GW's per-datasheet unit-composition rows). Each tier gives a per-model count range; a legal squad must match exactly one tier. When absent, the squad is treated as a single implicit tier equal to `models[]`. The top-level `models[]` min/max are the aggregate envelope (min-of-mins / max-of-maxes) across the tiers, so consumers that read only `models[]` still see the full range.
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub tiers: ::std::vec::Vec<UnitCompositionTiersItem>,
     pub unit_id: EntityId,
 }
 ///`UnitCompositionModelsItem`
@@ -12944,6 +13030,168 @@ for UnitCompositionModelsItemProfileName {
     }
 }
 impl<'de> ::serde::Deserialize<'de> for UnitCompositionModelsItemProfileName {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        ::std::string::String::deserialize(deserializer)?
+            .parse()
+            .map_err(|e: self::error::ConversionError| {
+                <D::Error as ::serde::de::Error>::custom(e.to_string())
+            })
+    }
+}
+///`UnitCompositionTiersItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "models"
+///  ],
+///  "properties": {
+///    "models": {
+///      "description": "One entry per top-level `models[]` row, matched by `name`, giving this tier's count range for that model type.",
+///      "type": "array",
+///      "items": {
+///        "type": "object",
+///        "required": [
+///          "max",
+///          "min",
+///          "name"
+///        ],
+///        "properties": {
+///          "max": {
+///            "type": "integer",
+///            "minimum": 1.0
+///          },
+///          "min": {
+///            "type": "integer",
+///            "minimum": 0.0
+///          },
+///          "name": {
+///            "type": "string",
+///            "minLength": 1
+///          }
+///        },
+///        "additionalProperties": false
+///      },
+///      "minItems": 1
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct UnitCompositionTiersItem {
+    ///One entry per top-level `models[]` row, matched by `name`, giving this tier's count range for that model type.
+    pub models: ::std::vec::Vec<UnitCompositionTiersItemModelsItem>,
+}
+///`UnitCompositionTiersItemModelsItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "max",
+///    "min",
+///    "name"
+///  ],
+///  "properties": {
+///    "max": {
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
+///    "min": {
+///      "type": "integer",
+///      "minimum": 0.0
+///    },
+///    "name": {
+///      "type": "string",
+///      "minLength": 1
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct UnitCompositionTiersItemModelsItem {
+    pub max: ::std::num::NonZeroU64,
+    pub min: u64,
+    pub name: UnitCompositionTiersItemModelsItemName,
+}
+///`UnitCompositionTiersItemModelsItemName`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "string",
+///  "minLength": 1
+///}
+/// ```
+/// </details>
+#[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+#[serde(transparent)]
+pub struct UnitCompositionTiersItemModelsItemName(::std::string::String);
+impl ::std::ops::Deref for UnitCompositionTiersItemModelsItemName {
+    type Target = ::std::string::String;
+    fn deref(&self) -> &::std::string::String {
+        &self.0
+    }
+}
+impl ::std::convert::From<UnitCompositionTiersItemModelsItemName>
+for ::std::string::String {
+    fn from(value: UnitCompositionTiersItemModelsItemName) -> Self {
+        value.0
+    }
+}
+impl ::std::str::FromStr for UnitCompositionTiersItemModelsItemName {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        if value.chars().count() < 1usize {
+            return Err("shorter than 1 characters".into());
+        }
+        Ok(Self(value.to_string()))
+    }
+}
+impl ::std::convert::TryFrom<&str> for UnitCompositionTiersItemModelsItemName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String>
+for UnitCompositionTiersItemModelsItemName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String>
+for UnitCompositionTiersItemModelsItemName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl<'de> ::serde::Deserialize<'de> for UnitCompositionTiersItemModelsItemName {
     fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
     where
         D: ::serde::Deserializer<'de>,
@@ -13586,6 +13834,48 @@ pub struct UnitTransportCapacity {
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub keyword_restrictions: ::std::option::Option<KeywordList>,
 }
+///`UnitWargearBudgetsItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "count",
+///    "items",
+///    "per_models"
+///  ],
+///  "properties": {
+///    "count": {
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
+///    "items": {
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/entity-id"
+///      },
+///      "minItems": 1
+///    },
+///    "per_models": {
+///      "description": "Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).",
+///      "type": "integer",
+///      "minimum": 0.0
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct UnitWargearBudgetsItem {
+    pub count: ::std::num::NonZeroU64,
+    pub items: ::std::vec::Vec<EntityId>,
+    ///Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).
+    pub per_models: u64,
+}
 ///A 2D point in board inches. Origin at a board corner; JSON uses y-down (downstream renderers may flip to y-up).
 ///
 /// <details><summary>JSON schema</summary>
@@ -13827,6 +14117,7 @@ impl<'de> ::serde::Deserialize<'de> for WargearName {
 ///  "description": "A wargear option available to models within a unit: a weapon/wargear swap, a pure add-on, or a choice between alternatives. Models start with the unit's base loadout; an option modifies that loadout for the number of models its `model_constraint` permits.",
 ///  "type": "object",
 ///  "required": [
+///    "faction_id",
 ///    "game_version",
 ///    "id",
 ///    "unit_id"
@@ -13842,6 +14133,10 @@ impl<'de> ::serde::Deserialize<'de> for WargearName {
 ///          "type": "null"
 ///        }
 ///      ]
+///    },
+///    "faction_id": {
+///      "description": "Owning faction. A chassis shared across factions reuses the same `id` for different option sets (e.g. `chaos-terminators-wgo-mfm-4` differs in World Eaters vs Emperors Children), so the option is keyed by (faction_id, unit_id, id) — `id` is unique only within a faction.",
+///      "$ref": "#/$defs/entity-id"
 ///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
@@ -13925,6 +14220,8 @@ impl<'de> ::serde::Deserialize<'de> for WargearName {
 pub struct WargearOption {
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub additional_cost: ::std::option::Option<u64>,
+    ///Owning faction. A chassis shared across factions reuses the same `id` for different option sets (e.g. `chaos-terminators-wgo-mfm-4` differs in World Eaters vs Emperors Children), so the option is keyed by (faction_id, unit_id, id) — `id` is unique only within a faction.
+    pub faction_id: EntityId,
     pub game_version: GameVersionRef,
     pub id: EntityId,
     #[serde(default = "defaults::default_bool::<true>")]

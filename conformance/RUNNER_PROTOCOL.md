@@ -107,6 +107,30 @@ The `query` enum covers the read paths on `Dataset`:
 
 Ordering semantics for each query are documented per-area in `CONFORMANCE.md`. The runner protocol itself is opaque to whether the order is load-bearing — it simply emits whatever the implementation's public API returns.
 
+### `check_unit_legality`
+
+```json
+{"op":"check_unit_legality","args":{"unitId":"chaos-terminators","factionId":"world-eaters","modelCount":10,"counts":{"reaper-autocannon":2}}}
+```
+
+Tier-aware whole-unit loadout legality (the `roster_legality` corpus). `unitId` is resolved in `factionId` when supplied (shared chassis diverge per faction), else first-wins; the unit's faction-scoped composition supplies the `models` envelope and the discrete `tiers`. `counts` maps weapon/wargear id → count. The response `value` is the violation list as **sorted `"code:id"` strings** (codes: `exceeds-max`, `below-min`, `swap-conflict`, `exceeds-allowance`, `invalid-model-count`); an empty array means legal.
+
+### `check_roster_legality`
+
+```json
+{"op":"check_roster_legality","args":{"factionId":"world-eaters","battleSize":"strike-force","forceDisposition":"purge-the-foe","detachments":[{"id":"berzerker-warband"}],"units":[{"unitId":"daemon-prince-of-khorne","modelCount":1,"isWarlord":true,"enhancementId":null,"leaderBodyguardId":null,"counts":{}}]}}
+```
+
+Whole-army legality over a compact roster spec (the `roster_validation` corpus). Points and detachment-point costs are looked up from the dataset (not caller-supplied). Each unit carries `unitId`, `modelCount`, `isWarlord`, `enhancementId` (or null), `leaderBodyguardId` (or null), and `counts` (weapon/wargear id → count, fed to the per-unit loadout check). The response `value` is **sorted `"<scope>|<severity>|<code>:<id>"` strings**: `scope` is `army` for army-wide violations or `u<index>` (0-based into `units`) for unit-scoped ones; `severity` is `error` or `warn`. A roster is **legal iff it has no `error` entries** (a warn-only result is legal). Codes — per-unit loadout (as above, all `error`); army-construction `error`: `enhancement-wrong-detachment`, `enhancement-on-non-character`, `enhancement-keyword-mismatch`, `enhancement-excluded-keyword`, `enhancement-over-max-targets`, `leader-attachment-illegal`, `leader-must-attach`, `points-over-limit`, `detachment-points-over`, `detachment-tag-conflict`, `detachment-restriction-required`, `detachment-restriction-excluded`, `no-warlord`, `multiple-warlords`, `unit-minimum-unmet`; and `warn` (advisory — provisional 11e Force-Disposition data): `disposition-not-picked`, `disposition-invalid`.
+
+### `candidate_affordability`
+
+```json
+{"op":"candidate_affordability","args":{"factionId":"world-eaters","battleSize":"strike-force","pointsLimitOverride":null,"units":[{"unitId":"chaos-terminators","modelCount":5}],"candidateUnitIds":["jakhals","chaos-terminators"]}}
+```
+
+Cheapest-next-copy pricing + affordability for a set of candidate units (the `affordability` corpus). The points limit is `pointsLimitOverride` when set, else the battle-size default; `remaining = limit − Σ baseUnitPoints(current, ordinal) − Σ enhancement cost`. For each candidate, `nextCopyCost` is the ordinal-aware cheapest entry cost (the minimum over its points tiers of `baseUnitPoints(unit, tier.models, nextOrdinal)`, where `nextOrdinal` counts existing copies of that datasheet + 1), and `affordable = nextCopyCost ≤ remaining`. `candidateUnitIds` defaults to every unit in `factionId` when omitted. The response `value` is `[{ "unitId", "nextCopyCost", "affordable" }]` sorted ascending by `(nextCopyCost, unitId)`.
+
 ### `validate`
 
 ```json

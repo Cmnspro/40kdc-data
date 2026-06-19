@@ -431,9 +431,21 @@ class Model(TypedDict):
     hull_shape_id: NotRequired[EntityId | None]
 
 
+class Model1(TypedDict):
+    name: str
+    min: int
+    max: int
+
+
+class Tier(TypedDict):
+    models: list[Model1]
+
+
 class UnitComposition(TypedDict):
     unit_id: EntityId
+    faction_id: EntityId
     models: list[Model]
+    tiers: NotRequired[list[Tier]]
     game_version: GameVersionRef
 
 
@@ -468,6 +480,12 @@ class ModelCount(TypedDict):
     max: int
 
 
+class WargearBudget(TypedDict):
+    items: list[EntityId]
+    count: int
+    per_models: int
+
+
 class TransportCapacity(TypedDict):
     capacity: int
     keyword_restrictions: NotRequired[KeywordList | None]
@@ -494,6 +512,7 @@ class Unit(TypedDict):
     model_count: NotRequired[ModelCount]
     weapon_ids: NotRequired[list[EntityId]]
     ability_ids: NotRequired[list[EntityId]]
+    wargear_budgets: NotRequired[list[WargearBudget]]
     transport_capacity: NotRequired[TransportCapacity | None]
     game_version: GameVersionRef
     is_legend: NotRequired[bool]
@@ -512,6 +531,7 @@ ReplacementChoiceItem: TypeAlias = list[EntityId]
 class WargearOption(TypedDict):
     id: EntityId
     unit_id: EntityId
+    faction_id: EntityId
     model_constraint: NotRequired[ModelConstraint | None]
     replaces: NotRequired[list[EntityId]]
     replacement: NotRequired[list[EntityId]]

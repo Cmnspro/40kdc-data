@@ -2,6 +2,7 @@
   {
     "id": "berzerkers-swap-champ",
     "unit_id": "khorne-berzerkers",
+    "faction_id": "world-eaters",
     "model_constraint": { "model_name": "Khorne Berzerker Champion", "max_count": 1 },
     "replaces": ["bolt-pistol"],
     "replacement": ["plasma-pistol"],
@@ -11,6 +12,7 @@
   {
     "id": "berzerkers-swap-ratio",
     "unit_id": "khorne-berzerkers",
+    "faction_id": "world-eaters",
     "model_constraint": { "model_name": "Khorne Berzerker", "per_n_models": 5 },
     "replaces": ["chainblade"],
     "replacement": ["khornate-eviscerator"],
@@ -20,6 +22,7 @@
   {
     "id": "berzerkers-icon-addon",
     "unit_id": "khorne-berzerkers",
+    "faction_id": "world-eaters",
     "model_constraint": { "max_count": 1 },
     "replacement": ["icon-of-khorne"],
     "is_free": true,
@@ -28,6 +31,7 @@
   {
     "id": "boyz-any-number",
     "unit_id": "ork-boyz",
+    "faction_id": "orks",
     "model_constraint": { "any_number": true },
     "replaces": ["slugga", "choppa"],
     "replacement": ["shoota", "close-combat-weapon"],
@@ -37,6 +41,7 @@
   {
     "id": "boyz-choice",
     "unit_id": "ork-boyz",
+    "faction_id": "orks",
     "model_constraint": { "per_n_models": 10, "max_count": 1 },
     "replaces": ["choppa"],
     "replacement_choice": [

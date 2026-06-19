@@ -185,7 +185,7 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
     units = [_resolve_unit(u, faction_id, detachment_ids, ds, diag) for u in parsed["units"]]
 
     # --- Leader attachments (second pass: needs all resolved unit ids). -------
-    _infer_leader_attachments(parsed["units"], units, ds, diag)
+    _infer_leader_attachments(parsed["units"], units, ds, faction_id, diag)
 
     # --- Points reconciliation (reported vs computed kept distinct). ----------
     if parsed["total_reported"] is not None and parsed["total_reported"] != parsed[
@@ -203,6 +203,10 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
         "faction_id": faction_id,
         "detachments": detachments,
         "battle_size": battle_size,
+        # Only the canonical roster-json round-trip carries a picked Force
+        # Disposition; other source formats don't encode it yet, so it defaults
+        # to None and the roster-legality checker flags it (advisory).
+        "force_disposition": parsed.get("force_disposition"),
         "points": {
             "declared_limit": parsed["declared_limit"],
             "detachment_cap": detachment_cap,
@@ -313,6 +317,7 @@ def _infer_leader_attachments(
     parsed_units: list[dict[str, Any]],
     units: list[dict[str, Any]],
     ds: Dataset,
+    faction_id: str | None,
     diag: _DiagnosticsBuilder,
 ) -> None:
     """Infer leader→bodyguard attachments.
@@ -332,6 +337,22 @@ def _infer_leader_attachments(
         if not unit["ref"]["id"] or not parsed_units[i]["is_character"]:
             continue
         leader_id = unit["ref"]["id"]
+        # Only `support` characters are auto-attached: per the GW datasheet
+        # bodyguard-group data they cannot operate alone, so attaching to an
+        # eligible bodyguard present in the roster is certain. A `leader` (or a
+        # character with no attachment_role) MAY be solo — the source doesn't
+        # encode the attachment, so we don't guess one. attachment_role is
+        # faction-specific (e.g. the World Eaters Master of Executions is a
+        # leader while the Chaos Space Marines one is support), so resolve
+        # faction-scoped.
+        resolved_unit = (
+            (ds.units.get_in_faction(leader_id, faction_id) or ds.units.get(leader_id))
+            if faction_id
+            else ds.units.get(leader_id)
+        )
+        if resolved_unit is None or resolved_unit.raw.get("attachment_role") != "support":
+            continue
+
         attachment = next(
             (la for la in ds.leader_attachments if la.get("leader_id") == leader_id), None
         )
@@ -354,6 +375,7 @@ def _infer_leader_attachments(
         }
         diag.warn(
             "leader-attachment-inferred",
-            "Leader attachment was inferred from leader-attachment data and is provisional.",
+            "Support character attached to an eligible bodyguard (it cannot "
+            "operate alone); provisional.",
             unit["ref"]["raw_name"],
         )

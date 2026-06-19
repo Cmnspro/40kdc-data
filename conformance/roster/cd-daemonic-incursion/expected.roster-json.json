@@ -17,6 +17,7 @@
     }
   ],
   "battle_size": "strike-force",
+  "force_disposition": null,
   "points": {
     "declared_limit": 1995,
     "detachment_cap": 3,
@@ -129,15 +130,7 @@
           "count": 1
         }
       ],
-      "leader_attachment": {
-        "bodyguard_ref": {
-          "id": "bloodletters",
-          "raw_name": "Bloodletters",
-          "resolved": true,
-          "candidates": []
-        },
-        "provisional": true
-      }
+      "leader_attachment": null
     },
     {
       "ref": {
@@ -255,11 +248,6 @@
         "code": "weapon-unresolved",
         "message": "Weapon name did not match any 40kdc weapon.",
         "raw_name": "Collar of Khorne"
-      },
-      {
-        "code": "leader-attachment-inferred",
-        "message": "Leader attachment was inferred from leader-attachment data and is provisional.",
-        "raw_name": "Bloodmaster"
       },
       {
         "code": "points-mismatch",

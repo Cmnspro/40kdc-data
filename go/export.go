@@ -179,6 +179,7 @@ func rosterToOmap(r map[string]any) *omap {
 		set("faction_id", r["faction_id"]).
 		set("detachments", detachments).
 		set("battle_size", r["battle_size"]).
+		set("force_disposition", r["force_disposition"]).
 		set("points", newOmap().
 			set("declared_limit", pts["declared_limit"]).
 			set("detachment_cap", pts["detachment_cap"]).

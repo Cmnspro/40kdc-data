@@ -26,7 +26,11 @@ Unit = dict[str, Any]
 LoadoutModel = dict[str, Any]
 
 
-def option_cap(option: WargearOption, model_count: int) -> int:
+def option_cap(
+    option: WargearOption,
+    model_count: int,
+    models: list[LoadoutModel] | None = None,
+) -> int:
     """Maximum number of models that may take ``option`` in a unit of ``model_count``.
 
     ``any_number`` → all models; else ``per_n_models`` → floor(n / per); else
@@ -45,10 +49,34 @@ def option_cap(option: WargearOption, model_count: int) -> int:
         cap = max_count if max_count is not None else 1
     if c.get("max_count") is not None:
         cap = min(cap, c["max_count"])
+    # Eligible-model clamp: an option scoped to a named model profile can be taken by
+    # no more models than exist of that profile — a lone champion caps the swap at 1
+    # even when per_n_models would allow more. A name with no matching row leaves the
+    # cap unclamped.
+    if c.get("model_name") and models:
+        eligible = _eligible_model_count(models, model_count, c["model_name"])
+        if eligible is not None:
+            cap = min(cap, eligible)
     # A swap is per-model: at most one per model, so never more than model_count —
     # a max_count larger than the current squad size must not drive a weapon count
     # negative.
     return max(0, min(cap, model_count))
+
+
+def _eligible_model_count(
+    models: list[LoadoutModel],
+    model_count: int,
+    name: str,
+) -> int | None:
+    """How many models of profile ``name`` a unit of ``model_count`` fields, per
+    :func:`_allocate_models`. ``None`` when no row carries that name."""
+    if not any(m.get("name") == name for m in models):
+        return None
+    n = 0
+    for model, count in _allocate_models(models, model_count):
+        if model.get("name") == name:
+            n += count
+    return n
 
 
 def _added_ids(option: WargearOption, choice_index: int = 0) -> list[str]:
@@ -197,7 +225,7 @@ def maximal_loadout(
     """
     counts: dict[str, int] = _base_counts(unit, model_count, options, models)
     for option in options:
-        cap = option_cap(option, model_count)
+        cap = option_cap(option, model_count, models)
         if cap == 0:
             continue
         for id_ in option.get("replaces") or []:
@@ -223,7 +251,7 @@ def weapon_bounds(
     for id_, count in _base_counts(unit, model_count, options, models).items():
         bounds[id_] = {"min": count, "max": count}
     for option in options:
-        cap = option_cap(option, model_count)
+        cap = option_cap(option, model_count, models)
         for id_ in option.get("replaces") or []:
             b = bounds.get(id_, {"min": 0, "max": 0})
             bounds[id_] = {"min": max(0, b["min"] - cap), "max": b["max"]}
@@ -268,7 +296,16 @@ def validate_loadout(
     """Report every weapon/wargear count that falls outside its valid range."""
     bounds = weapon_bounds(unit, model_count, options, models)
     out: list[dict[str, str]] = []
+    # Items governed by a shared-allowance budget are policed solely by
+    # :func:`_budget_violations`; their per-id ``weapon_bounds`` max is derived
+    # from the dump's cross-product loadout branches (the unreliable signal the
+    # budget replaces), so skip the per-id check for them.
+    budgeted: set[str] = set()
+    for b in unit.get("wargear_budgets") or []:
+        budgeted.update(b.get("items") or [])
     for id_, n in counts.items():
+        if id_ in budgeted:
+            continue
         b = bounds.get(id_)
         if b is None:
             continue
@@ -281,9 +318,108 @@ def validate_loadout(
                 {"id": id_, "code": "below-min", "message": f"{id_}: {n} below min {b['min']}"}
             )
     out.extend(_swap_conflicts(unit, model_count, options, counts, models))
+    out.extend(_budget_violations(unit, model_count, counts))
     # Deterministic order so the result is stable for cross-impl comparison.
     out.sort(key=lambda v: (v["id"], v["code"]))
     return out
+
+
+def _budget_violations(
+    unit: Unit,
+    model_count: int,
+    counts: dict[str, int],
+) -> list[dict[str, str]]:
+    """Shared-allowance violations: each ``wargear_budgets`` entry lets its listed
+    items take at most ``floor(model_count * count / per_models)`` copies between
+    them (``per_models == 0`` is a flat per-unit cap of ``count``). The violation
+    ``id`` is the budget's sorted items joined by ``+``. Mirror of the TS reference.
+    """
+    out: list[dict[str, str]] = []
+    for budget in unit.get("wargear_budgets") or []:
+        items = budget.get("items") or []
+        if not items:
+            continue
+        used = sum(counts.get(id_, 0) for id_ in items)
+        per_models = budget.get("per_models") or 0
+        count = budget.get("count")
+        if per_models:
+            cap = math.floor(model_count * count / per_models)
+            limit = f"{count} per {per_models} models"
+        else:
+            cap = count
+            limit = f"{count} per unit"
+        if used > cap:
+            id_ = "+".join(sorted(items))
+            out.append(
+                {
+                    "id": id_,
+                    "code": "exceeds-allowance",
+                    "message": f"{id_}: {used} exceeds shared allowance {cap} ({limit})",
+                }
+            )
+    return out
+
+
+def _tier_models(tier: dict[str, Any], base: list[LoadoutModel]) -> list[LoadoutModel]:
+    """Merge a tier's per-model count ranges onto the composition's ``models``
+    metadata by name, producing the model list the loadout maths consume."""
+    by_name = {m.get("name"): m for m in base}
+    out: list[LoadoutModel] = []
+    for tm in tier.get("models") or []:
+        b = by_name.get(tm.get("name"))
+        merged = dict(b) if b else {}
+        merged["name"] = tm.get("name")
+        merged["min"] = tm.get("min")
+        merged["max"] = tm.get("max")
+        out.append(merged)
+    return out
+
+
+def check_unit_legality(
+    unit: Unit,
+    model_count: int,
+    options: list[WargearOption],
+    counts: dict[str, int],
+    models: list[LoadoutModel] | None = None,
+    tiers: list[dict[str, Any]] | None = None,
+) -> list[dict[str, str]]:
+    """Whole-unit legality, tier-aware — the building block for a roster check.
+
+    A roster records only the *total* ``model_count``, so select every tier whose
+    total range ``[Σmin, Σmax]`` contains it and run :func:`validate_loadout`
+    against each tier's allocation; the unit is legal iff **some** containing tier
+    validates clean. Deterministic reporting: the empty result of the first clean
+    tier (in tier order), else the violations of the first containing tier; an
+    ``invalid-model-count`` violation when the size matches no tier. With no tiers
+    it falls back to a plain :func:`validate_loadout`. Mirror of the TS reference.
+    """
+    if not tiers:
+        return validate_loadout(unit, model_count, options, counts, models)
+    base = models or []
+    candidates: list[list[LoadoutModel]] = []
+    for tier in tiers:
+        tm = _tier_models(tier, base)
+        lo = sum((m.get("min") or 0) for m in tm)
+        hi = sum((m.get("max") or 0) for m in tm)
+        if lo <= model_count <= hi:
+            candidates.append(tm)
+    if not candidates:
+        uid = unit["id"]
+        return [
+            {
+                "id": uid,
+                "code": "invalid-model-count",
+                "message": f"{uid}: {model_count} models matches no composition tier",
+            }
+        ]
+    first: list[dict[str, str]] | None = None
+    for tm in candidates:
+        violations = validate_loadout(unit, model_count, options, counts, tm)
+        if not violations:
+            return []
+        if first is None:
+            first = violations
+    return first or []
 
 
 def _swap_conflicts(

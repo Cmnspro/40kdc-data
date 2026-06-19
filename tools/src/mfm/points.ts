@@ -35,6 +35,7 @@ import {
   type DatasheetPointsStepRow,
 } from "./loader.js";
 import { repoDirForFactionName, repoDirs } from "./faction-map.js";
+import type { StagedWrite } from "./apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const CONFIRMED = { edition: "11th", dataslate: "launch" };
@@ -189,6 +190,7 @@ export interface DirPointsResult {
 export interface PointsReport {
   dirs: DirPointsResult[];
   newInDump: { dir: string; id: string }[];
+  staged: StagedWrite[];
 }
 
 export function runPoints(dump: MfmDump, write: boolean): PointsReport {
@@ -207,6 +209,7 @@ export function runPoints(dump: MfmDump, write: boolean): PointsReport {
   }
 
   const results: DirPointsResult[] = [];
+  const staged: StagedWrite[] = [];
   const newInDump: { dir: string; id: string }[] = [];
 
   for (const dir of [...dirs].sort()) {
@@ -278,23 +281,26 @@ export function runPoints(dump: MfmDump, write: boolean): PointsReport {
       if (alliedClean.length && normAllied(rec.allied_points) !== normAllied(alliedClean)) {
         res.alliedAdded.push({ id, allied: alliedClean });
       }
-      if (write) {
-        rec.points = nativeClean;
-        if (alliedClean.length) rec.allied_points = alliedClean;
-        rec.points_provisional = false;
-        if (rec.game_version) {
-          rec.game_version.edition = CONFIRMED.edition;
-          rec.game_version.dataslate = CONFIRMED.dataslate;
-        }
+      // Mutate in-memory in BOTH modes; the dry-run rehearsal validates the result.
+      rec.points = nativeClean;
+      if (alliedClean.length) rec.allied_points = alliedClean;
+      rec.points_provisional = false;
+      if (rec.game_version) {
+        rec.game_version.edition = CONFIRMED.edition;
+        rec.game_version.dataslate = CONFIRMED.dataslate;
       }
     }
 
     for (const u of units) if (!matchedRepoIds.has(u.id)) res.repoOnly.push(u.id);
     res.repoOnly.sort();
-    if (write) fs.writeFileSync(p, JSON.stringify(units, null, 2) + "\n");
+    // Stage every processed dir unconditionally — matching the prior `--write`
+    // semantics, which rewrote units.json for each dir regardless of a tracked diff
+    // (the provisional/game_version bumps above are not counter-tracked). A byte
+    // -identical rewrite is a no-op to jj; applyWrites validates before persisting.
+    staged.push({ path: p, value: units });
     results.push(res);
   }
-  return { dirs: results, newInDump };
+  return { dirs: results, newInDump, staged };
 }
 
 export function buildPointsReport(report: PointsReport, write: boolean): string {

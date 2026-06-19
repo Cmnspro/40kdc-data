@@ -455,6 +455,7 @@ fn parse_with(text: &str, full: bool, format_id: &str) -> Result<ParsedRoster, P
         faction_raw_name: header.faction_raw_name,
         detachment_raw_names: header.detachment_raw_name.into_iter().collect(),
         battle_size_raw: header.battle_size_raw,
+        force_disposition: None,
         declared_limit: header.declared_limit,
         total_reported: header.total_reported,
         total_computed,

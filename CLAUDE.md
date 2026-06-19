@@ -71,6 +71,18 @@ tools/              TypeScript package @alpaca-software/40kdc-data:
 
 ## Validation
 
+**The one pre-push gate is `just preflight`** (root `Justfile`, or `npm run
+preflight` from `tools/`). It reproduces locally every check
+`.github/workflows/validate.yml` fails on — for the data/library/parity jobs:
+it regenerates all four-language artifacts in order, formats Rust/Go, runs the
+TS/Rust/Python/Go suites + conformance, then gates on `git diff` of the
+generated artifacts and on the four-file version lockstep. A green preflight
+means a green CI. (It does **not** run CI's `examples`/`sync-worker` app jobs —
+run those with their own workspace commands when you touch those apps. It needs
+node, cargo, python3 + the `.[dev]` extras, and go on PATH.)
+
+For quick inner-loop checks:
+
 ```bash
 cd tools
 npm install
@@ -82,7 +94,8 @@ CI runs on every push and PR via `.github/workflows/validate.yml`.
 
 `npm test`/`npm run validate` are **not** sufficient before pushing — CI also
 diff-checks committed generated artifacts and Rust formatting, which those
-commands don't touch. Regenerate after the matching kind of change:
+commands don't touch. `just preflight` covers all of it; the per-change
+regen commands below are the manual equivalents:
 
 - **Changed anything under `data/`** → regenerate the embedded bundles, or the
   `Validate Data` job's "artifacts up to date" steps fail:
@@ -204,13 +217,28 @@ across implementations by the `conformance/share/` corpus.
   missions). **Authoritative** for the live game; supersedes army-assist →
   convert-faction as the upstream for mechanical data. Run
   `npx tsx tools/src/ingest-mfm.ts <subcommand>` (coverage / dispositions /
-  enhancements / points / wargear / stratagems / missions / cull-legends) — dry
+  enhancements / points / wargear / wargear-budgets / composition-names /
+  composition-tiers / attachment-role / stratagems / missions / cull-legends) — dry
   run + `_reports/mfm-*.md` report by default, `--write` to apply, unmatched rows
-  to `_private/mfm/`. The loader/faction-map live in `tools/src/mfm/`. Models 11e
+  to `_private/mfm/`. Both modes apply the same in-memory mutations and route the
+  projected file contents through `mfm/apply.ts` `applyWrites`, which validates
+  the whole projected dataset (AJV + `integrity.ts`, the same checks as
+  `npm run validate`) and **throws on any failure in either mode** — so a clean
+  dry run guarantees a clean `--write`, and `--write` persists atomically
+  (all-or-nothing) only after validation passes. The loader/faction-map live in
+  `tools/src/mfm/`. Models 11e
   per-army-ordinal pricing via `unit_count_min`/`unit_count_max` on unit `points`.
   Numeric/structural fields land in the repo; GW prose routes to the out-of-repo
   store. NB: unrelated to the NewRecruit roster-builder import/export feature
-  (`tools/src/{import,export}/newrecruit-*`), which keeps that name.
+  (`tools/src/{import,export}/newrecruit-*`), which keeps that name. The
+  `attachment-role` subcommand (`mfm/attachment.ts`) is the **authoritative**
+  source for unit `attachment_role` (leader/support) and `leader-attachments.json`
+  eligibility, read from the dump's `datasheet_bodyguard_group` — it supersedes the
+  10e `known-support-10e.ts` scrape (kept only as the fallback for dump-absent
+  units). Leader-wins for the handful of datasheets the dump marks both
+  leader+support (their support rows are detachment-scoped, which the flat
+  `attachment_role` can't model); eligibility is merged by `leader_id` so the dump
+  wins where it speaks and hand-curated records survive where it is silent.
 
 ## Ability ids, the raw-text store, and share tokens
 

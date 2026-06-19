@@ -22,6 +22,7 @@ import {
   type EnhancementRow,
 } from "./loader.js";
 import { repoDirs } from "./faction-map.js";
+import type { StagedWrite } from "./apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const CONFIRMED = { edition: "11th", dataslate: "launch" };
@@ -46,6 +47,7 @@ export interface DirEnhResult {
 export interface EnhReport {
   dirs: DirEnhResult[];
   newInDump: string[];
+  staged: StagedWrite[];
 }
 
 function readJson<T>(p: string): T[] {
@@ -81,6 +83,7 @@ export function runEnhancements(dump: MfmDump, write: boolean): EnhReport {
   const canon = buildEnhCanon(dump);
   const matchedIds = new Set<string>();
   const dirs: DirEnhResult[] = [];
+  const staged: StagedWrite[] = [];
 
   for (const dir of [...repoDirs()].sort()) {
     const p = path.join(CORE_DIR, dir, "enhancements.json");
@@ -101,21 +104,20 @@ export function runEnhancements(dump: MfmDump, write: boolean): EnhReport {
         e.game_version?.dataslate !== CONFIRMED.dataslate ||
         e.game_version?.edition !== CONFIRMED.edition;
       if (needsConfirm) res.confirmed++;
-      if (write) {
-        e.cost = cost;
-        e.points_provisional = false;
-        if (e.game_version) {
-          e.game_version.edition = CONFIRMED.edition;
-          e.game_version.dataslate = CONFIRMED.dataslate;
-        }
+      // Mutate in-memory in BOTH modes; the dry-run rehearsal validates the result.
+      e.cost = cost;
+      e.points_provisional = false;
+      if (e.game_version) {
+        e.game_version.edition = CONFIRMED.edition;
+        e.game_version.dataslate = CONFIRMED.dataslate;
       }
     }
-    if (write) fs.writeFileSync(p, JSON.stringify(enhs, null, 2) + "\n");
+    staged.push({ path: p, value: enhs });
     dirs.push(res);
   }
 
   const newInDump = [...canon.keys()].filter((id) => !matchedIds.has(id)).sort();
-  return { dirs, newInDump };
+  return { dirs, newInDump, staged };
 }
 
 export function buildEnhReport(report: EnhReport, write: boolean): string {

@@ -394,6 +394,248 @@ fn handle_share_decode(args: &Value) -> Value {
     }
 }
 
+/// Whole-unit loadout legality (tier-aware) — mirror of the TS
+/// `check_unit_legality` runner op. Returns sorted `"code:id"` strings.
+fn handle_check_unit_legality(state: &mut RunnerState, args: &Value) -> Value {
+    let Some(unit_id) = args.get("unitId").and_then(Value::as_str) else {
+        return err_value(
+            ErrorKind::InvalidInput,
+            Some(json!({ "detail": "check_unit_legality.unitId required" })),
+        );
+    };
+    let Some(model_count) = args.get("modelCount").and_then(Value::as_u64) else {
+        return err_value(
+            ErrorKind::InvalidInput,
+            Some(json!({ "detail": "check_unit_legality.modelCount required" })),
+        );
+    };
+    let faction_id = args.get("factionId").and_then(Value::as_str);
+    let ds = state.dataset();
+    // Resolve the unit in its faction when pinned (shared chassis diverge per
+    // faction in options/composition); else first-wins by id.
+    let unit = match faction_id {
+        Some(fid) => ds
+            .units
+            .by_faction(fid)
+            .into_iter()
+            .find(|u| u.id.as_str() == unit_id),
+        None => ds.units.get(unit_id),
+    };
+    let Some(unit) = unit else {
+        return err_value(
+            ErrorKind::UnknownEntity,
+            Some(json!({ "kind": "unit", "id": unit_id })),
+        );
+    };
+    let comp = ds.unit_compositions.iter().find(|c| {
+        c.unit_id.as_str() == unit_id && c.faction_id.as_str() == unit.faction_id.as_str()
+    });
+    let models = comp.map(|c| wh40kdc::loadout_models(&c.models));
+    let tiers = comp.map(|c| wh40kdc::loadout_tiers(&c.tiers));
+    let mut counts: std::collections::HashMap<String, i64> = std::collections::HashMap::new();
+    if let Some(obj) = args.get("counts").and_then(Value::as_object) {
+        for (k, v) in obj {
+            if let Some(n) = v.as_i64() {
+                counts.insert(k.clone(), n);
+            }
+        }
+    }
+    let violations = wh40kdc::check_unit_legality(
+        unit,
+        model_count,
+        &ds.wargear_options_of(unit),
+        &counts,
+        models.as_deref(),
+        tiers.as_deref(),
+    );
+    let mut encoded: Vec<Value> = violations
+        .iter()
+        .map(|v| Value::String(format!("{}:{}", v.code.as_str(), v.id)))
+        .collect();
+    encoded.sort_by(|a, b| a.as_str().unwrap_or("").cmp(b.as_str().unwrap_or("")));
+    ok_value(Value::Array(encoded))
+}
+
+/// Parse a battle-size label into the importer's [`BattleSize`]; `None` for an
+/// absent or unrecognised value (matches the TS `battleSize as BattleSize | null`).
+fn parse_battle_size(args: &Value, key: &str) -> Option<wh40kdc::import::BattleSize> {
+    match args.get(key).and_then(Value::as_str) {
+        Some("strike-force") => Some(wh40kdc::import::BattleSize::StrikeForce),
+        Some("incursion") => Some(wh40kdc::import::BattleSize::Incursion),
+        _ => None,
+    }
+}
+
+/// Whole-army legality over a compact roster spec — mirror of the TS
+/// `check_roster_legality` runner op. Returns the sorted union of per-unit
+/// loadout and army violations as `"<scope>|<severity>|<code>:<id>"` strings.
+fn handle_check_roster_legality(state: &mut RunnerState, args: &Value) -> Value {
+    if !args.is_object() {
+        return err_value(
+            ErrorKind::InvalidInput,
+            Some(json!({ "detail": "check_roster_legality args must be an object" })),
+        );
+    }
+    let Some(units_in) = args.get("units").and_then(Value::as_array) else {
+        return err_value(
+            ErrorKind::InvalidInput,
+            Some(json!({ "detail": "check_roster_legality.units must be an array" })),
+        );
+    };
+
+    let detachment_ids: Vec<String> = args
+        .get("detachments")
+        .and_then(Value::as_array)
+        .map(|ds| {
+            ds.iter()
+                .filter_map(|d| d.get("id").and_then(Value::as_str).map(str::to_string))
+                .collect()
+        })
+        .unwrap_or_default();
+
+    let units: Vec<wh40kdc::NormUnit> = units_in
+        .iter()
+        .map(|u| {
+            let mut counts: std::collections::HashMap<String, i64> =
+                std::collections::HashMap::new();
+            if let Some(obj) = u.get("counts").and_then(Value::as_object) {
+                for (k, v) in obj {
+                    if let Some(n) = v.as_i64() {
+                        counts.insert(k.clone(), n);
+                    }
+                }
+            }
+            wh40kdc::NormUnit {
+                unit_id: u
+                    .get("unitId")
+                    .and_then(Value::as_str)
+                    .unwrap_or("")
+                    .to_string(),
+                model_count: u.get("modelCount").and_then(Value::as_u64).unwrap_or(0),
+                is_warlord: u.get("isWarlord").and_then(Value::as_bool).unwrap_or(false),
+                enhancement_id: u
+                    .get("enhancementId")
+                    .and_then(Value::as_str)
+                    .map(str::to_string),
+                leader_bodyguard_id: u
+                    .get("leaderBodyguardId")
+                    .and_then(Value::as_str)
+                    .map(str::to_string),
+                counts,
+            }
+        })
+        .collect();
+
+    let spec = wh40kdc::NormRoster {
+        faction_id: args
+            .get("factionId")
+            .and_then(Value::as_str)
+            .map(str::to_string),
+        battle_size: parse_battle_size(args, "battleSize"),
+        force_disposition: args
+            .get("forceDisposition")
+            .and_then(Value::as_str)
+            .map(str::to_string),
+        detachment_ids,
+        units,
+    };
+
+    let result = wh40kdc::validate_roster_core(&spec, state.dataset());
+    let mut lines: Vec<String> = Vec::new();
+    for u in &result.units {
+        for v in &u.violations {
+            lines.push(format!(
+                "u{}|error|{}:{}",
+                u.unit_index,
+                v.code.as_str(),
+                v.id
+            ));
+        }
+    }
+    for v in &result.army {
+        let scope = match v.unit_index {
+            Some(i) => format!("u{i}"),
+            None => "army".to_string(),
+        };
+        lines.push(format!(
+            "{}|{}|{}:{}",
+            scope,
+            v.severity.as_str(),
+            v.code.as_str(),
+            v.id
+        ));
+    }
+    lines.sort();
+    ok_value(Value::Array(lines.into_iter().map(Value::String).collect()))
+}
+
+/// Cheapest-next-copy pricing + affordability for a set of candidate units —
+/// mirror of the TS `candidate_affordability` runner op. Returns
+/// `[{unitId, nextCopyCost, affordable}]` sorted ascending by `(nextCopyCost, unitId)`.
+fn handle_candidate_affordability(state: &mut RunnerState, args: &Value) -> Value {
+    if !args.is_object() {
+        return err_value(
+            ErrorKind::InvalidInput,
+            Some(json!({ "detail": "candidate_affordability args must be an object" })),
+        );
+    }
+    let Some(units_in) = args.get("units").and_then(Value::as_array) else {
+        return err_value(
+            ErrorKind::InvalidInput,
+            Some(json!({ "detail": "candidate_affordability.units must be an array" })),
+        );
+    };
+
+    let units: Vec<wh40kdc::AffordabilityUnit> = units_in
+        .iter()
+        .map(|u| wh40kdc::AffordabilityUnit {
+            unit_id: u
+                .get("unitId")
+                .and_then(Value::as_str)
+                .unwrap_or("")
+                .to_string(),
+            model_count: u.get("modelCount").and_then(Value::as_u64).unwrap_or(0),
+            enhancement_id: u
+                .get("enhancementId")
+                .and_then(Value::as_str)
+                .map(str::to_string),
+        })
+        .collect();
+
+    let candidate_unit_ids: Option<Vec<String>> = args
+        .get("candidateUnitIds")
+        .and_then(Value::as_array)
+        .map(|ids| {
+            ids.iter()
+                .filter_map(|v| v.as_str().map(str::to_string))
+                .collect()
+        });
+
+    let spec = wh40kdc::AffordabilitySpec {
+        faction_id: args
+            .get("factionId")
+            .and_then(Value::as_str)
+            .map(str::to_string),
+        battle_size: parse_battle_size(args, "battleSize"),
+        points_limit_override: args.get("pointsLimitOverride").and_then(Value::as_u64),
+        units,
+        candidate_unit_ids,
+    };
+
+    let out = wh40kdc::candidate_affordability(&spec, state.dataset());
+    let arr: Vec<Value> = out
+        .into_iter()
+        .map(|c| {
+            json!({
+                "unitId": c.unit_id,
+                "nextCopyCost": c.next_copy_cost,
+                "affordable": c.affordable,
+            })
+        })
+        .collect();
+    ok_value(Value::Array(arr))
+}
+
 fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
     let Some(query) = args.get("query").and_then(Value::as_str) else {
         return err_value(
@@ -1303,6 +1545,9 @@ fn dispatch(state: &mut RunnerState, op: &str, args: &Value) -> Value {
         "try_import" => handle_try_import(state, args),
         "export" => handle_export(state, args),
         "linked_query" => handle_linked_query(state, args),
+        "check_unit_legality" => handle_check_unit_legality(state, args),
+        "check_roster_legality" => handle_check_roster_legality(state, args),
+        "candidate_affordability" => handle_candidate_affordability(state, args),
         "validate" => handle_validate(args),
         "crunch" => handle_crunch(state, args),
         "attribution" => handle_attribution(state, args),
