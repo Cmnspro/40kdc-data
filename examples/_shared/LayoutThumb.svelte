@@ -88,8 +88,12 @@
     fill: oklch(0.68 0.15 62 / 0.55);
     stroke: oklch(0.5 0.16 58);
   }
-  .piece.feature.light {
+  .piece.feature.dense {
     fill: oklch(0.70 0.14 145 / 0.45);
     stroke: oklch(0.52 0.15 145);
+  }
+  .piece.feature.light {
+    fill: oklch(0.68 0.15 62 / 0.55);
+    stroke: oklch(0.5 0.16 58);
   }
 </style>

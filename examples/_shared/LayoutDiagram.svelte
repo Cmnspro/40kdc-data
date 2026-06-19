@@ -128,9 +128,13 @@
     fill: oklch(0.74 0.14 75 / 0.5);
     stroke: oklch(0.74 0.15 75);
   }
-  .piece.feature.light {
+  .piece.feature.dense {
     fill: oklch(0.70 0.14 145 / 0.45);
     stroke: oklch(0.52 0.15 145);
+  }
+  .piece.feature.light {
+    fill: oklch(0.74 0.14 75 / 0.5);
+    stroke: oklch(0.74 0.15 75);
   }
   .obj-ring {
     fill: none;
