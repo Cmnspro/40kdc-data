@@ -77,7 +77,10 @@ input:focus, select:focus, textarea:focus {
       "footer footer";
     height: 100vh;
   }
-  .sidebar, .main { overflow-y: auto; }
+  /* min-height:0 lets these grid items shrink below their content so the
+     1fr track stays viewport-bounded and overflow-y actually scrolls (without
+     it, min-height:auto grows the track to content height and nothing scrolls). */
+  .sidebar, .main { overflow-y: auto; min-height: 0; }
 }
 
 header.app-header { grid-area: header; }
