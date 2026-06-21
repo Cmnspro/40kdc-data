@@ -406,3 +406,65 @@ table.weapons td.name { font-family: inherit; }
   flex-wrap: wrap;
 }
 .toolbar .grow { flex: 1; }
+
+/* ── Detachments section ──────────────────────────────────────────────── */
+.detach-block { max-width: 920px; display: flex; flex-direction: column; gap: var(--space-2); }
+.detach-head { display: flex; align-items: baseline; gap: var(--space-2); }
+.detach-head h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--muted);
+}
+.detach-count { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--dim); }
+
+.detach-card {
+  background: var(--panel);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.detach-card > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-3);
+  background: var(--panel-surface);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.detach-card > summary::-webkit-details-marker { display: none; }
+.detach-card[open] > summary { border-bottom: 1px solid var(--border); }
+.detach-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+.detach-summary-meta { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.detach-pts { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--accent); white-space: nowrap; }
+.detach-counts { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--dim); white-space: nowrap; }
+
+.detach-body { display: flex; flex-direction: column; }
+
+.meta-inline {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--dim);
+  font-weight: 400;
+  text-transform: none;
+}
+.ab-restrict { color: var(--dim); font-size: var(--text-2xs); margin-top: 1px; }
+.strat-name { text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+
+.disp-list { display: flex; flex-direction: column; gap: var(--space-1); }
+.disp { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.disp-text { color: var(--muted); font-size: var(--text-xs); }

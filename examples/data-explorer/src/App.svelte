@@ -6,6 +6,7 @@
   import { explorer, sortedFactions } from "./lib/store.svelte.js";
   import { notes } from "./lib/notes.svelte.js";
   import Datacard from "./lib/datacard.svelte";
+  import Detachments from "./lib/detachments.svelte";
   import Roundtrip from "./lib/roundtrip.svelte";
 
   // Units of the selected faction, name-filtered, sorted.
@@ -113,6 +114,9 @@
         <Datacard unit={selectedUnit} />
       {:else}
         <div class="empty-state">Pick a faction and unit to see its datacard.</div>
+      {/if}
+      {#if explorer.factionId}
+        <Detachments factionId={explorer.factionId} />
       {/if}
     {:else}
       <Roundtrip />
