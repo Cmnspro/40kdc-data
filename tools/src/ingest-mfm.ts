@@ -14,9 +14,18 @@
  *   wargear       (phase 5)  stratagems (phase 6)
  *   missions      Reconcile mission scoring-card numbers (vp/vp_max/cumulative)
  *                 + exclusive_group guard, for secondary + generic primary cards
+ *   chapter-scope Reconcile Space Marine chapter access in the shared
+ *                 adeptus-astartes pool: collapse Black Templars exclude-and-replace
+ *                 twins to generic faction_keywords (#36) + stamp
+ *                 excluded_faction_keywords for genuine chapter bars (e.g. Librarians)
  *   cull-legends  Drop dump-absent Legends/Forge-World units + prune refs
  *   attachment-role  Dump-authoritative leader/support role + leader-attachments
  *                    (supersedes the 10e known-support-10e.ts scrape)
+ *   seed-units    Create skeleton units for dump datasheets with no repo entity
+ *                 (stats/points/keywords/role/model_count). The other subcommands
+ *                 only reconcile existing units; this is the one that adds new ones.
+ *                 Combat-Patrol-only datasheets are held back unless
+ *                 --include-combat-patrol is passed.
  *
  * Every mutating subcommand is DRY RUN by default; pass --write to apply.
  *
@@ -42,6 +51,7 @@ import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
 import { runMissions, buildMissionsReport } from "./mfm/missions.js";
+import { runChapterScope, buildChapterScopeReport } from "./mfm/chapter-scope.js";
 import {
   runWargear,
   buildWargearReport,
@@ -50,6 +60,7 @@ import {
   runCompositionTiers,
 } from "./mfm/wargear.js";
 import { runAttachmentRoles, buildAttachmentReport } from "./mfm/attachment.js";
+import { runSeedUnits, buildSeedUnitsReport } from "./mfm/seed-units.js";
 import { applyWrites, type StagedWrite } from "./mfm/apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
@@ -554,6 +565,30 @@ async function runMissionsCmd(dump: MfmDump, write: boolean): Promise<void> {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runChapterScopeCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runChapterScope(dump, write);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-chapter-scope.md");
+  fs.writeFileSync(reportPath, buildChapterScopeReport(report, write));
+
+  if (report.repoOnly.length || report.dumpOnly.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-chapter-scope.json"),
+      JSON.stringify({ repoOnly: report.repoOnly, dumpOnly: report.dumpOnly }, null, 2) + "\n"
+    );
+  }
+
+  console.log(`Chapter-scope report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${report.matched}, faction_keywords collapsed ${report.factionKeywordsChanged.length}, ` +
+      `excluded_faction_keywords set ${report.excludedChanged.length}, ` +
+      `repo-only ${report.repoOnly.length}, dump-only ${report.dumpOnly.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "chapter-scope" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runWargearCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
   const report = runWargear(dump, write, onlyDir);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -642,6 +677,45 @@ async function runAttachmentRoleCmd(dump: MfmDump, write: boolean, onlyDir?: str
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runSeedUnitsCmd(
+  dump: MfmDump,
+  write: boolean,
+  onlyDir?: string,
+  includeCombatPatrol = false,
+): Promise<void> {
+  const report = runSeedUnits(dump, { onlyDir, includeCombatPatrol });
+  const reportPath = path.join(REPORT_DIR, "mfm-seed-units.md");
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  fs.writeFileSync(reportPath, buildSeedUnitsReport(report, write));
+
+  const created = report.dirs.reduce((a, d) => a + d.created.length, 0);
+  const cpExcluded = report.dirs.reduce((a, d) => a + d.cpExcluded.length, 0);
+  const skipped = report.dirs.reduce((a, d) => a + d.skipped.length, 0);
+  if (skipped || cpExcluded) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-seed-units.json"),
+      JSON.stringify(
+        {
+          skipped: report.dirs.flatMap((d) => d.skipped.map((s) => ({ dir: d.dir, ...s }))),
+          combatPatrolExcluded: report.dirs.flatMap((d) =>
+            d.cpExcluded.map((c) => ({ dir: d.routedTo ?? d.dir, ...c })),
+          ),
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+  }
+  console.log(`Seed-units report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Seed-units — created ${created} skeleton unit(s), ` +
+      `held back ${cpExcluded} Combat-Patrol-only, skipped ${skipped}.`,
+  );
+  await applyWrites(report.staged, { write, label: "seed-units" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
@@ -650,6 +724,7 @@ async function main(): Promise<void> {
   const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
   const dirFlag = argv.indexOf("--dir");
   const onlyDir = dirFlag >= 0 ? argv[dirFlag + 1] : undefined;
+  const includeCombatPatrol = argv.includes("--include-combat-patrol");
 
   const commands = [
     "coverage",
@@ -659,15 +734,17 @@ async function main(): Promise<void> {
     "cull-legends",
     "stratagems",
     "missions",
+    "chapter-scope",
     "wargear",
     "wargear-budgets",
     "composition-names",
     "composition-tiers",
     "attachment-role",
+    "seed-units",
   ];
   if (!commands.includes(cmd)) {
     console.error(
-      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>] [--dir <faction>]`
+      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>] [--dir <faction>] [--include-combat-patrol]`
     );
     process.exit(2);
   }
@@ -680,11 +757,14 @@ async function main(): Promise<void> {
   else if (cmd === "cull-legends") await runCullCmd(dump, write);
   else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
   else if (cmd === "missions") await runMissionsCmd(dump, write);
+  else if (cmd === "chapter-scope") await runChapterScopeCmd(dump, write);
   else if (cmd === "wargear") await runWargearCmd(dump, write, onlyDir);
   else if (cmd === "wargear-budgets") await runWargearBudgetsCmd(dump, write, onlyDir);
   else if (cmd === "composition-names") await runCompositionNamesCmd(dump, write, onlyDir);
   else if (cmd === "composition-tiers") await runCompositionTiersCmd(dump, write, onlyDir);
   else if (cmd === "attachment-role") await runAttachmentRoleCmd(dump, write, onlyDir);
+  else if (cmd === "seed-units")
+    await runSeedUnitsCmd(dump, write, onlyDir, includeCombatPatrol);
 }
 
 main().catch((e) => {
