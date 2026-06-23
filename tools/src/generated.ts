@@ -302,6 +302,19 @@ export type AbilityEffect1 =
 export type AbilityCondition4 = SimpleCondition | CompoundCondition;
 /**
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "rule-state-core-rule-slug".
+ */
+export type RuleStateCoreRuleSlug =
+  | "benefit-of-cover"
+  | "fall-back"
+  | "ordered-retreat"
+  | "advance"
+  | "charge"
+  | "fire-overwatch"
+  | "overwatch-against-bearer"
+  | "desperate-escape";
+/**
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
  * via the `definition` "effect".
  */
 export type AbilityEffect2 =
@@ -998,7 +1011,8 @@ export interface SimpleCondition {
     | "made-ingress-move-this-turn"
     | "disembarked-from-transport"
     | "faction-rule-active"
-    | "battle-round";
+    | "battle-round"
+    | "token-count-at-or-above";
   parameters?: {
     [k: string]: unknown;
   };
@@ -1060,7 +1074,10 @@ export interface SingleEffect {
     | "unit-keyword-grant"
     | "auto-result"
     | "firing-deck"
-    | "disembark-after-move";
+    | "disembark-after-move"
+    | "rule-state"
+    | "pool-add-die"
+    | "replace-roll-from-pool";
   target:
     | "self"
     | "bearer"

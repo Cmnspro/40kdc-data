@@ -193,7 +193,9 @@
       "terminator-squad",
       "lion-eljonson",
       "terminator-assault-squad",
-      "dreadnought-drop-pod"
+      "dreadnought-drop-pod",
+      "drop-pod",
+      "land-speeder"
     ],
     "ability_type": "core",
     "behavior": "activated"
@@ -235,10 +237,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "rule-state",
       "target": "enemy-within-aura",
       "modifier": {
-        "restriction": "anti-fallback"
+        "direction": "suppressed",
+        "rule_kind": "core-rule",
+        "rule": "fall-back"
       }
     },
     "scope": {
@@ -362,10 +366,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "rule-state",
       "target": "enemy-within-aura",
       "modifier": {
-        "restriction": "anti-fallback"
+        "direction": "suppressed",
+        "rule_kind": "core-rule",
+        "rule": "fall-back"
       }
     },
     "scope": {
@@ -3211,10 +3217,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "rule-state",
       "target": "enemy-within-aura",
       "modifier": {
-        "restriction": "anti-fallback"
+        "direction": "suppressed",
+        "rule_kind": "core-rule",
+        "rule": "fall-back"
       }
     },
     "scope": {
@@ -4071,10 +4079,12 @@
             }
           },
           {
-            "type": "attack-restriction",
+            "type": "rule-state",
             "target": "unit",
             "modifier": {
-              "restriction": "cannot-charge"
+              "direction": "suppressed",
+              "rule_kind": "core-rule",
+              "rule": "charge"
             }
           }
         ]
@@ -4503,26 +4513,30 @@
         "type": "sequence",
         "steps": [
           {
-            "type": "keyword-grant",
+            "type": "rule-state",
             "target": "unit",
             "modifier": {
-              "keywords": [
-                "CAPTAIN"
-              ]
+              "direction": "granted",
+              "rule_kind": "keyword",
+              "rule": "captain"
             }
           },
           {
-            "type": "ability-grant",
+            "type": "rule-state",
             "target": "unit",
             "modifier": {
-              "grant_type": "remove-chapter-master-keyword"
+              "direction": "suppressed",
+              "rule_kind": "keyword",
+              "rule": "chapter-master"
             }
           },
           {
-            "type": "ability-grant",
+            "type": "rule-state",
             "target": "unit",
             "modifier": {
-              "grant_type": "remove-lone-operative"
+              "direction": "suppressed",
+              "rule_kind": "ability",
+              "rule": "lone-operative"
             }
           }
         ]
@@ -4795,7 +4809,8 @@
     "unit_ids": [
       "dreadnought",
       "dreadnought-drop-pod",
-      "chaplain-venerable-dreadnought"
+      "chaplain-venerable-dreadnought",
+      "drop-pod"
     ],
     "ability_type": "core",
     "behavior": "reactive"
@@ -8594,20 +8609,54 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "target-has-keyword",
+                "parameters": {
+                  "keyword": "MONSTER"
+                }
+              }
+            ]
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "target-has-keyword",
+                "parameters": {
+                  "keyword": "VEHICLE"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "objective-control-modifier",
+        "target": "enemy-within-aura",
+        "modifier": {
+          "operation": "add",
+          "value": -1
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-custom",
+      "range_inches": 3,
       "duration": "permanent"
     },
     "unit_ids": [
       "reiver-squad"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "aura",
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "reiver-grav-chute",
@@ -11106,10 +11155,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "rule-state",
       "target": "enemy-within-aura",
       "modifier": {
-        "restriction": "anti-fallback"
+        "direction": "suppressed",
+        "rule_kind": "core-rule",
+        "rule": "fall-back"
       }
     },
     "scope": {
@@ -11376,7 +11427,10 @@
       "land-raider-achilles",
       "land-raider-excelsior",
       "spartan",
-      "tarantula-sentry-battery"
+      "tarantula-sentry-battery",
+      "drop-pod",
+      "eradicator-squad-with-heavy-bolters",
+      "land-speeder"
     ]
   },
   {
@@ -11636,19 +11690,35 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "attack-stat-compare",
+        "parameters": {
+          "attacker_stat": "S",
+          "comparison": "greater-than",
+          "target_stat": "T"
+        }
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "self",
+        "modifier": {
+          "roll": "wound",
+          "operation": "subtract",
+          "value": 1
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
       "lion-eljonson"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "reactive",
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "dark-angels-bodyguard",
@@ -11729,17 +11799,49 @@
     "faction_id": "adeptus-astartes",
     "detachment_id": "1st-company-task-force",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "command"
+        }
+      },
+      "effect": {
+        "type": "conditional",
+        "condition": {
+          "operator": "and",
+          "operands": [
+            {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "Oath of Moment"
+              }
+            },
+            {
+              "type": "target-has-keyword",
+              "parameters": {
+                "keyword": "Oath of Moment target"
+              }
+            }
+          ]
+        },
+        "effect": {
+          "type": "re-roll",
+          "target": "attacker",
+          "modifier": {
+            "roll": "wound",
+            "subset": "all-failures"
+          }
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "one-use"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "combat-doctrines",
@@ -11783,15 +11885,26 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "ADEPTUS ASTARTES"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "charge-after-advance-fallback"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "psychic-disciplines",
@@ -11807,17 +11920,121 @@
     "faction_id": "adeptus-astartes",
     "detachment_id": "librarius-conclave",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "start-of-battle-round"
+        }
+      },
+      "effect": {
+        "type": "conditional",
+        "condition": {
+          "operator": "and",
+          "operands": [
+            {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "ADEPTUS ASTARTES"
+              }
+            },
+            {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "PSYKER"
+              }
+            }
+          ]
+        },
+        "effect": {
+          "type": "choice",
+          "choice_label": "Psychic Discipline",
+          "options": [
+            {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "M",
+                "operation": "add",
+                "value": 2
+              }
+            },
+            {
+              "type": "sequence",
+              "steps": [
+                {
+                  "type": "re-roll",
+                  "target": "unit",
+                  "modifier": {
+                    "roll": "hit",
+                    "subset": "ones"
+                  }
+                },
+                {
+                  "type": "re-roll",
+                  "target": "unit",
+                  "modifier": {
+                    "roll": "wound",
+                    "subset": "ones"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "conditional",
+              "condition": {
+                "type": "opponent-unit-within-range",
+                "parameters": {
+                  "range_inches": 12
+                }
+              },
+              "effect": {
+                "type": "stat-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "AP",
+                  "operation": "add",
+                  "value": 1,
+                  "attack_type": "ranged"
+                }
+              }
+            },
+            {
+              "type": "conditional",
+              "condition": {
+                "type": "attack-is-type",
+                "parameters": {
+                  "attack_type": "ranged"
+                }
+              },
+              "effect": {
+                "type": "stat-modifier",
+                "target": "attacker",
+                "modifier": {
+                  "stat": "S",
+                  "operation": "subtract",
+                  "value": 1
+                }
+              }
+            },
+            {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "ignore-characteristic-and-roll-modifiers"
+              }
+            }
+          ]
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle-round"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "shadow-masters",
@@ -11833,17 +12050,52 @@
     "faction_id": "adeptus-astartes",
     "detachment_id": "vanguard-spearhead",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "ADEPTUS ASTARTES"
+            }
+          },
+          {
+            "type": "attack-is-type",
+            "parameters": {
+              "attack_type": "ranged"
+            }
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "opponent-unit-within-range",
+                "parameters": {
+                  "range_inches": 12
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "save",
+          "operation": "add",
+          "value": 1
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "rapid-drop-deployment",
@@ -12043,15 +12295,71 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "advanced-this-turn"
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "movement-modifier",
+                "target": "unit",
+                "modifier": {
+                  "move_type": "advance",
+                  "distance": 6
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "unit",
+                "modifier": {
+                  "grant_type": "no-advance-roll"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "phase-is",
+                "parameters": {
+                  "phase": "shooting"
+                }
+              },
+              {
+                "operator": "not",
+                "operands": [
+                  {
+                    "type": "advanced-this-turn"
+                  }
+                ]
+              }
+            ]
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "attacker",
+            "modifier": {
+              "roll": "damage",
+              "subset": "all-failures"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "skystrike",
@@ -12069,6 +12377,172 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "LAND SPEEDER"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "STORM SPEEDER HAILSTRIKE"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "STORM SPEEDER HAMMERSTRIKE"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "STORM SPEEDER THUNDERSTRIKE"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "SPEEDER"
+              ]
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "SPEEDER"
+                }
+              },
+              {
+                "type": "phase-is",
+                "parameters": {
+                  "phase": "movement"
+                }
+              },
+              {
+                "type": "player-turn-is",
+                "parameters": {
+                  "turn": 1
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "ingress-move"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "one-use"
+    },
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+  },
+  {
+    "ability_id": "overlapping-detonations",
+    "name": "Overlapping Detonations",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "selected-to-shoot"
+            }
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "target-has-keyword",
+                "parameters": {
+                  "keyword": "MONSTER"
+                }
+              }
+            ]
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "target-has-keyword",
+                "parameters": {
+                  "keyword": "VEHICLE"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "self",
+        "modifier": {
+          "keywords": [
+            "Blast 1"
+          ],
+          "weapon_name": "heavy bolter"
+        }
+      }
+    },
+    "scope": {
+      "range": "any-visible",
+      "duration": "phase"
+    },
+    "unit_ids": [
+      "eradicator-squad-with-heavy-bolters"
+    ],
+    "ability_type": "unit",
+    "behavior": "activated",
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+  },
+  {
+    "ability_id": "purgation-run",
+    "name": "Purgation Run",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "effect": {
       "type": "stat-modifier",
       "target": "unit",
       "modifier": {}
@@ -12077,6 +12551,10 @@
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "unit_ids": [
+      "land-speeder"
+    ],
+    "ability_type": "unit",
+    "behavior": "passive"
   }
 ]

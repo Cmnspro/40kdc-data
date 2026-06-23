@@ -1,7 +1,11 @@
 import { factions } from "@alpaca-software/40kdc-data";
 import { DEFAULT_SOURCE } from "./source-store.js";
+import type { VeracityIndex } from "./veracity-store.js";
 
 export type ExplorerView = "browse" | "roundtrip";
+/** Roundtrip collation order: `reading` = datasheet type groups; `veracity` =
+ *  flat, weakest-embedding-score first (only meaningful once a report loads). */
+export type RoundtripSort = "reading" | "veracity";
 
 const LS_SOURCE = "data-explorer:source-spec";
 
@@ -27,7 +31,18 @@ class ExplorerStore {
   unitFilter = $state("");
   /** Ability selected for the roundtrip view (set from the datacard or the list). */
   abilityId = $state<string | null>(null);
+  /** Roundtrip collation scope: true = every ability of the faction; false = the
+   *  selected unit's abilities only. */
+  roundtripAll = $state(true);
+  /** Name/id filter applied to the roundtrip collation. Lives on the store so it
+   *  survives switching views. */
+  abilitySearch = $state("");
   sourceSpec = $state<string>(loadSourceSpec());
+  /** Loaded embedding-veracity report, or null. Session-only and never persisted:
+   *  the report is GW-prose-derived, so it must not be written to localStorage. */
+  veracity = $state<VeracityIndex | null>(null);
+  /** Collation order for the roundtrip view. */
+  roundtripSort = $state<RoundtripSort>("reading");
 
   setSource(spec: string): void {
     this.sourceSpec = spec;
@@ -38,9 +53,20 @@ class ExplorerStore {
     }
   }
 
-  /** Jump to the roundtrip view focused on a specific ability. */
+  /** Load (or clear) the veracity report. Loading one is an explicit "rank for me"
+   *  signal, so flip to veracity sort; clearing returns to reading order. */
+  setVeracity(idx: VeracityIndex | null): void {
+    this.veracity = idx;
+    this.roundtripSort = idx ? "veracity" : "reading";
+  }
+
+  /** Jump to the roundtrip view focused on a specific ability. Widen the scope to
+   *  the whole faction so the ability is guaranteed to be in the collation, and
+   *  clear the search so it isn't filtered out. */
   inspect(abilityId: string): void {
     this.abilityId = abilityId;
+    this.roundtripAll = true;
+    this.abilitySearch = "";
     this.view = "roundtrip";
   }
 }

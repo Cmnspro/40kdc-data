@@ -190,10 +190,47 @@ func pronoun(subj string) string {
 	return "its"
 }
 
+// resurrectionPlacement renders a resurrection placement modifier
+// ("using its Deep Strike ability" / "at a battlefield edge").
+func resurrectionPlacement(placement any) string {
+	if placement == nil {
+		return ""
+	}
+	switch ejstr(placement) {
+	case "deep-strike":
+		return "using its Deep Strike ability"
+	case "battlefield-edge":
+		return "at a battlefield edge"
+	case "closest-to-destruction":
+		return "as close as possible to where it was destroyed"
+	case "unengaged":
+		return "not within Engagement Range of any enemy units"
+	default:
+		return "via " + dekebab(ejstr(placement))
+	}
+}
+
+// resurrectionTiming renders a resurrection timing modifier ("when it is set up").
+func resurrectionTiming(timing any) string {
+	if timing == nil {
+		return ""
+	}
+	switch ejstr(timing) {
+	case "next-movement-phase":
+		return "in your next Movement phase"
+	case "end-of-phase":
+		return "at the end of the phase"
+	default:
+		return dekebab(ejstr(timing))
+	}
+}
+
 func subject(target any, ctx map[string]any) string {
 	within := " nearby"
 	if ri := ctx["range_inches"]; ri != nil {
 		within = " within " + ejstr(ri) + "\""
+	} else if ctx["engagement_range"] == true {
+		within = " within Engagement Range"
 	}
 	switch target {
 	case "self", "bearer":
@@ -306,10 +343,48 @@ func negatedTargetKeywords(keywords []string) string {
 	return "against a unit that is not a " + strings.Join(keywords, " or ")
 }
 
-// joinAndLeadIns joins the operands of an `and` lead-in. A run of consecutive
-// negated target-has-keyword exclusions collapses into one "against a unit that is
-// not a X or Y" clause, which attaches to the preceding clause with a space; all
-// other operands join with ", ".
+// capWord capitalizes the first character and lowercases the rest (MONSTER -> Monster).
+func capWord(s string) string {
+	if s == "" {
+		return s
+	}
+	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
+}
+
+// notWrappedTargetKeyword returns the keyword of a `not`-wrapping-a-single-
+// `target-has-keyword` operand, else "", false. The aura-subject exclusion
+// encoding, distinct from the bare negated form.
+func notWrappedTargetKeyword(op map[string]any) (string, bool) {
+	if op["operator"] != "not" {
+		return "", false
+	}
+	operands, ok := asList(op["operands"])
+	if !ok || len(operands) != 1 {
+		return "", false
+	}
+	inner, _ := asMap(operands[0])
+	if inner["type"] != "target-has-keyword" || inner["negated"] == true {
+		return "", false
+	}
+	mp, _ := getMap(inner, "parameters")
+	return ejstr(mp["keyword"]), true
+}
+
+// excludedTargetKeywords renders "(excluding Monster or Vehicle units)" from a run
+// of `not`-wrapped target-keyword exclusions.
+func excludedTargetKeywords(keywords []string) string {
+	capped := make([]string, len(keywords))
+	for i, k := range keywords {
+		capped[i] = capWord(k)
+	}
+	return "(excluding " + strings.Join(capped, " or ") + " units)"
+}
+
+// joinAndLeadIns joins the operands of an `and` lead-in. Two exclusion encodings
+// collapse: a run of bare-negated target-has-keyword becomes "against a unit that
+// is not a X or Y", and a run of `not`-wrapped target-has-keyword becomes
+// "(excluding X or Y units)". Either attaches to the preceding clause with a
+// space; all other operands join with ", ".
 func joinAndLeadIns(operands []any) string {
 	var parts []string
 	for i := 0; i < len(operands); {
@@ -329,6 +404,21 @@ func joinAndLeadIns(operands []any) string {
 			parts = append(parts, negatedTargetKeywords(kws))
 			continue
 		}
+		if kw, ok := notWrappedTargetKeyword(om); ok {
+			kws := []string{kw}
+			i++
+			for i < len(operands) {
+				m, _ := asMap(operands[i])
+				if k2, ok2 := notWrappedTargetKeyword(m); ok2 {
+					kws = append(kws, k2)
+					i++
+				} else {
+					break
+				}
+			}
+			parts = append(parts, excludedTargetKeywords(kws))
+			continue
+		}
 		parts = append(parts, conditionLeadIn(om))
 		i++
 	}
@@ -337,7 +427,7 @@ func joinAndLeadIns(operands []any) string {
 		switch {
 		case acc == "":
 			acc = part
-		case strings.HasPrefix(part, "against "):
+		case strings.HasPrefix(part, "against ") || strings.HasPrefix(part, "(excluding "):
 			acc = acc + " " + part
 		default:
 			acc = acc + ", " + part
@@ -417,6 +507,8 @@ func conditionLeadIn(c map[string]any) string {
 		return "while the " + titleCase(ejstr(p["rule"])) + " is active"
 	case "battle-round":
 		return "during the first " + ejstr(p["max"]) + " battle rounds"
+	case "token-count-at-or-above":
+		return "while the unit has " + ejstr(p["threshold"]) + "+ " + poolName(p["pool_id"])
 	case "remained-stationary":
 		return "if the unit Remained Stationary"
 	case "target-has-keyword":
@@ -483,6 +575,96 @@ func conditionLeadIn(c map[string]any) string {
 		return "while the unit has the Fights First ability"
 	}
 	return "if " + describeCondition(c)
+}
+
+// describeRuleState renders a `rule-state` effect: a named rule switched on/off
+// for the subject. The faction-rule + suppressed path reproduces the legacy
+// `forgo-faction-rule` wording verbatim; core-rule slugs get natural
+// action/benefit phrasing; keyword/ability kinds fall back to a regular
+// gains/loses-the-X clause. Pinned across the four ports by conformance.
+func describeRuleState(m map[string]any, subj string) string {
+	direction := ejstr(m["direction"])
+	kind := ejstr(m["rule_kind"])
+	rule := ejstr(m["rule"])
+	granted := direction == "granted"
+
+	if kind == "faction-rule" && !granted {
+		scope := ""
+		if m["scope"] != nil {
+			scope = " this " + dekebab(ejstr(m["scope"]))
+		}
+		cost := ""
+		if c, ok := m["cost"].(map[string]any); ok && c["dice"] != nil {
+			frm := ""
+			if c["from"] != nil {
+				if ejstr(c["from"]) == rule {
+					frm = " from that roll"
+				} else {
+					frm = " from the " + titleCase(ejstr(c["from"])) + " roll"
+				}
+			}
+			cost = ", using a " + dekebab(ejstr(c["dice"])) + frm
+		}
+		return "forgo activating " + titleCase(rule) + scope + cost
+	}
+	if kind == "faction-rule" {
+		return subj + " " + ev(subj, "gains") + " " + titleCase(rule)
+	}
+
+	switch rule {
+	case "benefit-of-cover":
+		if granted {
+			return subj + " " + ev(subj, "has") + " the Benefit of Cover"
+		}
+		return subj + " cannot benefit from Cover"
+	case "charge":
+		if granted {
+			return subj + " can charge"
+		}
+		return subj + " cannot charge"
+	case "advance":
+		if granted {
+			return subj + " can Advance"
+		}
+		return subj + " cannot Advance"
+	case "fall-back":
+		if granted {
+			return subj + " can Fall Back"
+		}
+		return subj + " cannot Fall Back"
+	case "ordered-retreat":
+		// GW frames this lever by its effect on Desperate Escape tests: suppressing
+		// Ordered Retreat forces the tests; granting it (e.g. while Battle-shocked)
+		// exempts the unit. Mirrors the `desperate-escape` slug wording.
+		if granted {
+			return subj + " " + ev(subj, "is") + " not affected by Desperate Escape tests"
+		}
+		return subj + " must take Desperate Escape tests"
+	case "fire-overwatch":
+		if granted {
+			return subj + " can fire Overwatch"
+		}
+		return subj + " cannot fire Overwatch"
+	case "overwatch-against-bearer":
+		if granted {
+			return "your opponent can target " + subj + " with Overwatch"
+		}
+		return "your opponent cannot target " + subj + " with Overwatch"
+	case "desperate-escape":
+		if granted {
+			return subj + " must take Desperate Escape tests"
+		}
+		return subj + " " + ev(subj, "is") + " not affected by Desperate Escape tests"
+	}
+
+	noun := "ability"
+	if kind == "keyword" {
+		noun = "keyword"
+	}
+	if granted {
+		return subj + " " + ev(subj, "gains") + " the " + titleCase(rule) + " " + noun
+	}
+	return subj + " " + ev(subj, "loses") + " the " + titleCase(rule) + " " + noun
 }
 
 func describeAttackRestriction(m map[string]any, subj string) string {
@@ -602,6 +784,18 @@ func andList(items []string) string {
 		return items[0] + " and " + items[1]
 	}
 	return strings.Join(items[:len(items)-1], ", ") + " and " + items[len(items)-1]
+}
+
+func orList(items []string) string {
+	switch len(items) {
+	case 0:
+		return ""
+	case 1:
+		return items[0]
+	case 2:
+		return items[0] + " or " + items[1]
+	}
+	return strings.Join(items[:len(items)-1], ", ") + " or " + items[len(items)-1]
 }
 
 // inchClause renders a trailing inches clause for a movement distance (int or
@@ -974,15 +1168,30 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if m["count"] != nil {
 			count = diceCase(m["count"])
 		}
-		noun := "destroyed models"
-		if count == "1" {
-			noun = "destroyed model"
-		}
 		var w any = "full"
 		if m["wounds_remaining"] != nil {
 			w = m["wounds_remaining"]
 		}
-		return "return " + count + " " + noun + " to " + subj + " with " + ejstr(w) + " wounds"
+		var parts []string
+		if p := resurrectionPlacement(m["placement"]); p != "" {
+			parts = append(parts, p)
+		}
+		if t := resurrectionTiming(m["timing"]); t != "" {
+			parts = append(parts, t)
+		}
+		tailClause := ""
+		if len(parts) > 0 {
+			tailClause = " " + strings.Join(parts, " ")
+		}
+		// A self/bearer resurrection reads as the model returning, not "returning a model to itself".
+		if e["target"] == "self" || e["target"] == "bearer" {
+			return subj + " " + ev(subj, "is") + " set up again" + tailClause + " with " + ejstr(w) + " wounds remaining"
+		}
+		noun := "destroyed models"
+		if count == "1" {
+			noun = "destroyed model"
+		}
+		return "return " + count + " " + noun + " to " + subj + " with " + ejstr(w) + " wounds" + tailClause
 	case "model-destruction":
 		count := "1"
 		if m["count"] != nil {
@@ -993,6 +1202,30 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			noun = "model"
 		}
 		return "destroy " + count + " " + noun + " in " + subj
+	case "rule-state":
+		return describeRuleState(m, subj)
+	case "pool-add-die":
+		val := "the highest result"
+		if m["value"] != "highest" {
+			val = ejstr(m["value"])
+		}
+		cnt := "1"
+		if m["count"] != nil {
+			cnt = diceCase(m["count"])
+		}
+		dice := "a die"
+		if cnt != "1" {
+			dice = cnt + " dice"
+		}
+		return "add " + dice + " showing " + val + " to your " + poolName(m["pool_id"])
+	case "replace-roll-from-pool":
+		var rolls []string
+		if arr, ok := m["rolls"].([]any); ok {
+			for _, r := range arr {
+				rolls = append(rolls, dekebab(ejstr(r)))
+			}
+		}
+		return "discard a die from your " + poolName(m["pool_id"]) + " and substitute its value for a " + orList(rolls) + " roll"
 	case "cp-gain":
 		var a any = float64(1)
 		if m["amount"] != nil {
@@ -1024,7 +1257,11 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if pool == nil {
 			pool = m["resource"]
 		}
-		return "spend " + ejstr(amount) + " " + poolName(pool)
+		base := "spend " + ejstr(amount) + " " + poolName(pool)
+		if capm, ok := m["cap"].(map[string]any); ok && capm["count"] != nil && capm["per"] != nil {
+			return base + " (no more than " + ejstr(capm["count"]) + " per " + ejstr(capm["per"]) + ")"
+		}
+		return base
 	case "leadership-modifier":
 		hasTest := m["test"] != nil
 		if hasTest && m["operation"] == nil {
@@ -1470,7 +1707,10 @@ func auraRadius(scope map[string]any) any {
 }
 
 func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any, trigger map[string]any) string {
-	ctx := map[string]any{"range_inches": auraRadius(scope)}
+	ctx := map[string]any{
+		"range_inches":     auraRadius(scope),
+		"engagement_range": scope["range"] == "engagement-range",
+	}
 	durLead, trail := durationClauses(scope["duration"])
 	// An explicit usage limit supersedes the duration's coarse "once per battle" lead.
 	lead := durLead

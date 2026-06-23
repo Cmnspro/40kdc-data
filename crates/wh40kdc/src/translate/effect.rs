@@ -22,6 +22,8 @@ use crate::generated::{
 #[derive(Default, Clone, Copy)]
 struct Ctx {
     range_inches: Option<f64>,
+    /// True when the ability scope is `engagement-range`, so within-aura subjects read "within Engagement Range".
+    engagement_range: bool,
 }
 
 /// JS-template stringification (`String(v)`; numbers print without `.0`, null → `?`).
@@ -284,6 +286,7 @@ fn pronoun(subj: &str) -> &'static str {
 fn subject(target: &str, ctx: &Ctx) -> String {
     let within = match ctx.range_inches {
         Some(r) => format!(" within {}\"", fmt_num(r)),
+        None if ctx.engagement_range => " within Engagement Range".to_string(),
         None => " nearby".to_string(),
     };
     match target {
@@ -377,10 +380,47 @@ fn negated_target_keywords(keywords: &[String]) -> String {
     format!("against a unit that is not a {}", keywords.join(" or "))
 }
 
-/// Join the operands of an `and` lead-in. A run of consecutive negated
-/// `target-has-keyword` exclusions collapses into one "against a unit that is not
-/// a X or Y" clause, which attaches to the preceding clause with a space; all
-/// other operands join with ", ".
+/// Capitalize the first character and lowercase the rest (`MONSTER` -> `Monster`).
+fn cap_word(s: &str) -> String {
+    let mut chars = s.chars();
+    match chars.next() {
+        Some(first) => first.to_uppercase().collect::<String>() + &chars.as_str().to_lowercase(),
+        None => String::new(),
+    }
+}
+
+/// The keyword of a `not`-wrapping-a-single-`target-has-keyword` operand, else None.
+/// The aura-subject exclusion encoding, distinct from the bare negated form.
+fn not_wrapped_target_keyword(n: &ConditionNode) -> Option<String> {
+    if let ConditionNode::CompoundCondition(c) = n {
+        if matches!(c.operator, CompoundConditionOperator::Not) && c.operands.len() == 1 {
+            if let ConditionNode::SimpleCondition(s) = &c.operands[0] {
+                if s.type_ == SimpleConditionType::TargetHasKeyword && !s.negated {
+                    return Some(jv(&s.parameters, "keyword"));
+                }
+            }
+        }
+    }
+    None
+}
+
+/// "(excluding Monster or Vehicle units)" from a run of `not`-wrapped exclusions.
+fn excluded_target_keywords(keywords: &[String]) -> String {
+    format!(
+        "(excluding {} units)",
+        keywords
+            .iter()
+            .map(|k| cap_word(k))
+            .collect::<Vec<_>>()
+            .join(" or ")
+    )
+}
+
+/// Join the operands of an `and` lead-in. Two exclusion encodings collapse: a run
+/// of bare-negated `target-has-keyword` becomes "against a unit that is not a X or
+/// Y", and a run of `not`-wrapped `target-has-keyword` becomes "(excluding X or Y
+/// units)". Either attaches to the preceding clause with a space; all other
+/// operands join with ", ".
 fn join_and_lead_ins(operands: &[ConditionNode]) -> String {
     let mut parts: Vec<String> = Vec::new();
     let mut i = 0;
@@ -403,6 +443,20 @@ fn join_and_lead_ins(operands: &[ConditionNode]) -> String {
                 continue;
             }
         }
+        if not_wrapped_target_keyword(&operands[i]).is_some() {
+            let mut kws: Vec<String> = Vec::new();
+            while i < operands.len() {
+                match not_wrapped_target_keyword(&operands[i]) {
+                    Some(kw) => {
+                        kws.push(kw);
+                        i += 1;
+                    }
+                    None => break,
+                }
+            }
+            parts.push(excluded_target_keywords(&kws));
+            continue;
+        }
         parts.push(condition_lead_in(&operands[i]));
         i += 1;
     }
@@ -410,7 +464,7 @@ fn join_and_lead_ins(operands: &[ConditionNode]) -> String {
     for part in parts {
         if acc.is_empty() {
             acc = part;
-        } else if part.starts_with("against ") {
+        } else if part.starts_with("against ") || part.starts_with("(excluding ") {
             acc = format!("{acc} {part}");
         } else {
             acc = format!("{acc}, {part}");
@@ -486,6 +540,13 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                 T::BattleRound => {
                     format!("during the first {} battle rounds", jv(p, "max"))
                 }
+                T::TokenCountAtOrAbove => format!(
+                    "while the unit has {}+ {}",
+                    jv(p, "threshold"),
+                    p.get("pool_id")
+                        .map(pool_name)
+                        .unwrap_or_else(|| "?".to_string())
+                ),
                 T::RemainedStationary => "if the unit Remained Stationary".to_string(),
                 T::TargetHasKeyword => format!("against {} targets", jv(p, "keyword")),
                 T::UnitHasKeyword => format!("if the unit has the {} keyword", jv(p, "keyword")),
@@ -555,6 +616,132 @@ fn condition_lead_in(n: &ConditionNode) -> String {
 }
 
 /// Per-slug GW-prose for `attack-restriction` (reads `restriction` or `restriction_type`).
+/// `rule-state`: a named rule switched on/off for the subject. The faction-rule
+/// + suppressed path reproduces the legacy `forgo-faction-rule` wording verbatim;
+/// core-rule slugs get natural action/benefit phrasing; keyword/ability kinds fall
+/// back to a regular gains/loses-the-X clause. Pinned across the four ports by
+/// the conformance corpus.
+fn describe_rule_state(m: &Map<String, Value>, subj: &str) -> String {
+    let direction = jv(m, "direction");
+    let kind = jv(m, "rule_kind");
+    let rule = jv(m, "rule");
+    let granted = direction == "granted";
+
+    if kind == "faction-rule" && !granted {
+        let scope = if notnull(m, "scope") {
+            format!(" this {}", dekebab(&jv(m, "scope")))
+        } else {
+            String::new()
+        };
+        let cost = match m.get("cost") {
+            Some(Value::Object(c)) if !c.get("dice").map(Value::is_null).unwrap_or(true) => {
+                let from = match c.get("from") {
+                    None | Some(Value::Null) => String::new(),
+                    Some(v) if jval(v) == rule => " from that roll".to_string(),
+                    Some(v) => format!(" from the {} roll", title_case(&jval(v))),
+                };
+                format!(
+                    ", using a {}{from}",
+                    dekebab(&c.get("dice").map(jval).unwrap_or_default())
+                )
+            }
+            _ => String::new(),
+        };
+        return format!("forgo activating {}{scope}{cost}", title_case(&rule));
+    }
+    if kind == "faction-rule" {
+        return format!("{subj} {} {}", agree(subj, "gains"), title_case(&rule));
+    }
+
+    match rule.as_str() {
+        "benefit-of-cover" => {
+            if granted {
+                format!("{subj} {} the Benefit of Cover", agree(subj, "has"))
+            } else {
+                format!("{subj} cannot benefit from Cover")
+            }
+        }
+        "charge" => {
+            if granted {
+                format!("{subj} can charge")
+            } else {
+                format!("{subj} cannot charge")
+            }
+        }
+        "advance" => {
+            if granted {
+                format!("{subj} can Advance")
+            } else {
+                format!("{subj} cannot Advance")
+            }
+        }
+        "fall-back" => {
+            if granted {
+                format!("{subj} can Fall Back")
+            } else {
+                format!("{subj} cannot Fall Back")
+            }
+        }
+        "ordered-retreat" => {
+            // GW frames this lever by its effect on Desperate Escape tests: suppressing
+            // Ordered Retreat forces the tests; granting it (e.g. while Battle-shocked)
+            // exempts the unit. Mirrors the `desperate-escape` slug wording.
+            if granted {
+                format!(
+                    "{subj} {} not affected by Desperate Escape tests",
+                    agree(subj, "is")
+                )
+            } else {
+                format!("{subj} must take Desperate Escape tests")
+            }
+        }
+        "fire-overwatch" => {
+            if granted {
+                format!("{subj} can fire Overwatch")
+            } else {
+                format!("{subj} cannot fire Overwatch")
+            }
+        }
+        "overwatch-against-bearer" => {
+            if granted {
+                format!("your opponent can target {subj} with Overwatch")
+            } else {
+                format!("your opponent cannot target {subj} with Overwatch")
+            }
+        }
+        "desperate-escape" => {
+            if granted {
+                format!("{subj} must take Desperate Escape tests")
+            } else {
+                format!(
+                    "{subj} {} not affected by Desperate Escape tests",
+                    agree(subj, "is")
+                )
+            }
+        }
+        _ => {
+            let noun = if kind == "keyword" {
+                "keyword"
+            } else {
+                "ability"
+            };
+            if granted {
+                format!(
+                    "{subj} {} the {} {noun}",
+                    agree(subj, "gains"),
+                    title_case(&rule)
+                )
+            } else {
+                format!(
+                    "{subj} {} the {} {noun}",
+                    agree(subj, "loses"),
+                    title_case(&rule)
+                )
+            }
+        }
+    }
+}
+
 fn describe_attack_restriction(m: &Map<String, Value>, subj: &str) -> String {
     if !notnull(m, "restriction") && !notnull(m, "restriction_type") && notnull(m, "attack_type") {
         return format!("{subj} cannot {}", jv(m, "attack_type"));
@@ -633,6 +820,15 @@ fn and_list(items: &[String]) -> String {
         1 => items[0].clone(),
         2 => format!("{} and {}", items[0], items[1]),
         n => format!("{} and {}", items[..n - 1].join(", "), items[n - 1]),
+    }
+}
+
+fn or_list(items: &[String]) -> String {
+    match items.len() {
+        0 => String::new(),
+        1 => items[0].clone(),
+        2 => format!("{} or {}", items[0], items[1]),
+        n => format!("{} or {}", items[..n - 1].join(", "), items[n - 1]),
     }
 }
 
@@ -833,6 +1029,34 @@ fn aura_clause(e: &AuraEffect, ctx: &Ctx) -> String {
     match &m.effect {
         Some(inner) => format!("{within} {}", inline(inner, ctx)),
         None => format!("{within} is affected"),
+    }
+}
+
+/// Resurrection `placement` modifier → a "where it is set up" clause.
+fn resurrection_placement(placement: Option<&Value>) -> String {
+    match placement {
+        None | Some(Value::Null) => String::new(),
+        Some(v) => match jval(v).as_str() {
+            "deep-strike" => "using its Deep Strike ability".to_string(),
+            "battlefield-edge" => "at a battlefield edge".to_string(),
+            "closest-to-destruction" => {
+                "as close as possible to where it was destroyed".to_string()
+            }
+            "unengaged" => "not within Engagement Range of any enemy units".to_string(),
+            other => format!("via {}", dekebab(other)),
+        },
+    }
+}
+
+/// Resurrection `timing` modifier → a "when it is set up" clause.
+fn resurrection_timing(timing: Option<&Value>) -> String {
+    match timing {
+        None | Some(Value::Null) => String::new(),
+        Some(v) => match jval(v).as_str() {
+            "next-movement-phase" => "in your next Movement phase".to_string(),
+            "end-of-phase" => "at the end of the phase".to_string(),
+            other => dekebab(other),
+        },
     }
 }
 
@@ -1087,15 +1311,35 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             let count = first(m, &["count"])
                 .map(dice_case)
                 .unwrap_or_else(|| "1".to_string());
+            let wounds = first(m, &["wounds_remaining"])
+                .map(jval)
+                .unwrap_or_else(|| "full".to_string());
+            let place = resurrection_placement(m.get("placement"));
+            let when = resurrection_timing(m.get("timing"));
+            let tail = [place, when]
+                .into_iter()
+                .filter(|s| !s.is_empty())
+                .collect::<Vec<_>>()
+                .join(" ");
+            let tail_clause = if tail.is_empty() {
+                String::new()
+            } else {
+                format!(" {tail}")
+            };
+            // A self/bearer resurrection reads as the model returning, not "returning a model to itself".
+            let tgt = e.target.to_string();
+            if tgt == "self" || tgt == "bearer" {
+                return format!(
+                    "{subj} {} set up again{tail_clause} with {wounds} wounds remaining",
+                    agree(&subj, "is")
+                );
+            }
             let noun = if count == "1" {
                 "destroyed model"
             } else {
                 "destroyed models"
             };
-            let wounds = first(m, &["wounds_remaining"])
-                .map(jval)
-                .unwrap_or_else(|| "full".to_string());
-            format!("return {count} {noun} to {subj} with {wounds} wounds")
+            format!("return {count} {noun} to {subj} with {wounds} wounds{tail_clause}")
         }
         T::ModelDestruction => {
             let count = first(m, &["count"])
@@ -1103,6 +1347,42 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 .unwrap_or_else(|| "1".to_string());
             let noun = if count == "1" { "model" } else { "models" };
             format!("destroy {count} {noun} in {subj}")
+        }
+        T::RuleState => describe_rule_state(m, &subj),
+        T::PoolAddDie => {
+            let val = match m.get("value") {
+                Some(Value::String(s)) if s == "highest" => "the highest result".to_string(),
+                Some(v) => jval(v),
+                None => "?".to_string(),
+            };
+            let cnt = m
+                .get("count")
+                .map(dice_case)
+                .unwrap_or_else(|| "1".to_string());
+            let dice = if cnt == "1" {
+                "a die".to_string()
+            } else {
+                format!("{cnt} dice")
+            };
+            let pool = m
+                .get("pool_id")
+                .map(pool_name)
+                .unwrap_or_else(|| "?".to_string());
+            format!("add {dice} showing {val} to your {pool}")
+        }
+        T::ReplaceRollFromPool => {
+            let rolls: Vec<String> = match m.get("rolls") {
+                Some(Value::Array(a)) => a.iter().map(|r| dekebab(&jval(r))).collect(),
+                _ => Vec::new(),
+            };
+            let pool = m
+                .get("pool_id")
+                .map(pool_name)
+                .unwrap_or_else(|| "?".to_string());
+            format!(
+                "discard a die from your {pool} and substitute its value for a {} roll",
+                or_list(&rolls)
+            )
         }
         T::CpGain => {
             let amount = first(m, &["amount"])
@@ -1134,7 +1414,20 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             let pool = first(m, &["pool_id", "resource"])
                 .map(pool_name)
                 .unwrap_or_else(|| "?".to_string());
-            format!("spend {amount} {pool}")
+            let base = format!("spend {amount} {pool}");
+            match m.get("cap") {
+                Some(Value::Object(cap))
+                    if cap.get("count").is_some_and(|v| !v.is_null())
+                        && cap.get("per").is_some_and(|v| !v.is_null()) =>
+                {
+                    format!(
+                        "{base} (no more than {} per {})",
+                        jv(cap, "count"),
+                        jv(cap, "per")
+                    )
+                }
+                _ => base,
+            }
         }
         T::LeadershipModifier => {
             let has_test = notnull(m, "test");
@@ -1679,6 +1972,9 @@ fn render_top_level(
 ) -> String {
     let ctx = Ctx {
         range_inches: aura_radius(scope),
+        engagement_range: scope
+            .map(|s| matches!(s.range, ScopeRange::EngagementRange))
+            .unwrap_or(false),
     };
     let duration = scope.map(|s| s.duration.to_string()).unwrap_or_default();
     let (dur_lead, trail) = duration_clauses(&duration);

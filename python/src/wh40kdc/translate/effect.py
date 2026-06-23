@@ -190,7 +190,12 @@ def _pronoun(subj: str) -> str:
 
 def _subject(target: str | None, ctx: Ctx) -> str:
     ri = ctx.get("range_inches")
-    within = f' within {_jstr(ri)}"' if ri is not None else " nearby"
+    if ri is not None:
+        within = f' within {_jstr(ri)}"'
+    elif ctx.get("engagement_range"):
+        within = " within Engagement Range"
+    else:
+        within = " nearby"
     if target in ("self", "bearer"):
         return "this model"
     if target == "unit":
@@ -334,10 +339,35 @@ def _negated_target_keywords(keywords: list[str]) -> str:
     return "against a unit that is not a " + " or ".join(keywords)
 
 
+def _cap_word(s: str) -> str:
+    """Capitalize the first character and lowercase the rest (`MONSTER` -> `Monster`)."""
+    return s[:1].upper() + s[1:].lower() if s else s
+
+
+def _not_wrapped_target_keyword(op: Condition) -> str | None:
+    """The keyword of a `not`-wrapping-a-single-`target-has-keyword` operand, else None.
+    The aura-subject exclusion encoding, distinct from the bare negated form."""
+    if op.get("operator") != "not":
+        return None
+    operands = op.get("operands")
+    if not operands or len(operands) != 1:
+        return None
+    inner = operands[0]
+    if inner.get("type") != "target-has-keyword" or inner.get("negated"):
+        return None
+    return _jstr((inner.get("parameters") or {}).get("keyword"))
+
+
+def _excluded_target_keywords(keywords: list[str]) -> str:
+    """"(excluding Monster or Vehicle units)" from a run of `not`-wrapped exclusions."""
+    return "(excluding " + " or ".join(_cap_word(k) for k in keywords) + " units)"
+
+
 def _join_and_lead_ins(operands: list[Condition]) -> str:
-    """Join `and` operands. A run of negated target-has-keyword exclusions collapses
-    into one "against a unit that is not a X or Y" clause, which attaches to the
-    preceding clause with a space; all other operands join with ", "."""
+    """Join `and` operands. Two exclusion encodings collapse: a run of bare-negated
+    target-has-keyword becomes "against a unit that is not a X or Y", and a run of
+    `not`-wrapped target-has-keyword becomes "(excluding X or Y units)". Either
+    attaches to the preceding clause with a space; all other operands join with ", "."""
     parts: list[str] = []
     i = 0
     while i < len(operands):
@@ -353,13 +383,23 @@ def _join_and_lead_ins(operands: list[Condition]) -> str:
                 i += 1
             parts.append(_negated_target_keywords(kws))
             continue
+        if _not_wrapped_target_keyword(op) is not None:
+            kws = []
+            while i < len(operands):
+                kw = _not_wrapped_target_keyword(operands[i])
+                if kw is None:
+                    break
+                kws.append(kw)
+                i += 1
+            parts.append(_excluded_target_keywords(kws))
+            continue
         parts.append(_condition_lead_in(op))
         i += 1
     acc = ""
     for part in parts:
         if acc == "":
             acc = part
-        elif part.startswith("against "):
+        elif part.startswith("against ") or part.startswith("(excluding "):
             acc = f"{acc} {part}"
         else:
             acc = f"{acc}, {part}"
@@ -413,6 +453,8 @@ def _condition_lead_in(c: Condition) -> str:
         return f"while the {_title_case(_jstr(p.get('rule')))} is active"
     if ctype == "battle-round":
         return f"during the first {_jstr(p.get('max'))} battle rounds"
+    if ctype == "token-count-at-or-above":
+        return f"while the unit has {_jstr(p.get('threshold'))}+ {_pool_name(p.get('pool_id'))}"
     if ctype == "remained-stationary":
         return "if the unit Remained Stationary"
     if ctype == "target-has-keyword":
@@ -469,6 +511,74 @@ def _condition_lead_in(c: Condition) -> str:
     if ctype == "fights-first":
         return "while the unit has the Fights First ability"
     return f"if {describe_condition(c)}"
+
+
+def _describe_rule_state(m: dict[str, Any], subj: str) -> str:
+    """``rule-state``: a named rule switched on/off for the subject. The
+    ``faction-rule`` + ``suppressed`` path reproduces the legacy
+    ``forgo-faction-rule`` wording verbatim; core-rule slugs get natural
+    action/benefit phrasing; keyword/ability kinds fall back to a regular
+    gains/loses-the-X clause. Pinned across the four ports by conformance."""
+    direction = _jstr(m.get("direction"))
+    kind = _jstr(m.get("rule_kind"))
+    rule = _jstr(m.get("rule"))
+    granted = direction == "granted"
+
+    if kind == "faction-rule" and not granted:
+        scope = f" this {dekebab(_jstr(m.get('scope')))}" if m.get("scope") is not None else ""
+        cost = ""
+        c = m.get("cost")
+        if isinstance(c, dict) and c.get("dice") is not None:
+            cfrom = c.get("from")
+            if cfrom is None:
+                frm = ""
+            elif _jstr(cfrom) == rule:
+                frm = " from that roll"
+            else:
+                frm = f" from the {_title_case(_jstr(cfrom))} roll"
+            cost = f", using a {dekebab(_jstr(c.get('dice')))}{frm}"
+        return f"forgo activating {_title_case(rule)}{scope}{cost}"
+    if kind == "faction-rule":
+        return f"{subj} {_v(subj, 'gains')} {_title_case(rule)}"
+
+    if rule == "benefit-of-cover":
+        if granted:
+            return f"{subj} {_v(subj, 'has')} the Benefit of Cover"
+        return f"{subj} cannot benefit from Cover"
+    if rule == "charge":
+        return f"{subj} can charge" if granted else f"{subj} cannot charge"
+    if rule == "advance":
+        return f"{subj} can Advance" if granted else f"{subj} cannot Advance"
+    if rule == "fall-back":
+        return f"{subj} can Fall Back" if granted else f"{subj} cannot Fall Back"
+    if rule == "ordered-retreat":
+        # GW frames this lever by its effect on Desperate Escape tests: suppressing
+        # Ordered Retreat forces the tests; granting it (e.g. while Battle-shocked)
+        # exempts the unit. Mirrors the `desperate-escape` slug wording.
+        return (
+            f"{subj} {_v(subj, 'is')} not affected by Desperate Escape tests"
+            if granted
+            else f"{subj} must take Desperate Escape tests"
+        )
+    if rule == "fire-overwatch":
+        return f"{subj} can fire Overwatch" if granted else f"{subj} cannot fire Overwatch"
+    if rule == "overwatch-against-bearer":
+        return (
+            f"your opponent can target {subj} with Overwatch"
+            if granted
+            else f"your opponent cannot target {subj} with Overwatch"
+        )
+    if rule == "desperate-escape":
+        return (
+            f"{subj} must take Desperate Escape tests"
+            if granted
+            else f"{subj} {_v(subj, 'is')} not affected by Desperate Escape tests"
+        )
+
+    noun = "keyword" if kind == "keyword" else "ability"
+    if granted:
+        return f"{subj} {_v(subj, 'gains')} the {_title_case(rule)} {noun}"
+    return f"{subj} {_v(subj, 'loses')} the {_title_case(rule)} {noun}"
 
 
 def _describe_attack_restriction(m: dict[str, Any], subj: str) -> str:
@@ -560,6 +670,15 @@ def _and_list(items: list[str]) -> str:
     if len(items) == 2:
         return f"{items[0]} and {items[1]}"
     return f"{', '.join(items[:-1])} and {items[-1]}"
+
+
+def _or_list(items: list[str]) -> str:
+    """Oxford-free disjunction list ("a", "a or b", "a, b or c")."""
+    if len(items) <= 1:
+        return items[0] if items else ""
+    if len(items) == 2:
+        return f"{items[0]} or {items[1]}"
+    return f"{', '.join(items[:-1])} or {items[-1]}"
 
 
 def _inch_clause(dist: Any) -> str:
@@ -697,6 +816,34 @@ def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
     base = _describe_effect_inline_base(e, ctx)
     scaling = e.get("scaling")
     return f"{base} {_scaling_clause(scaling)}" if scaling else base
+
+
+def _resurrection_placement(placement: Any) -> str:
+    """Resurrection ``placement`` modifier → a "where it is set up" clause."""
+    if placement is None:
+        return ""
+    p = _jstr(placement)
+    if p == "deep-strike":
+        return "using its Deep Strike ability"
+    if p == "battlefield-edge":
+        return "at a battlefield edge"
+    if p == "closest-to-destruction":
+        return "as close as possible to where it was destroyed"
+    if p == "unengaged":
+        return "not within Engagement Range of any enemy units"
+    return f"via {dekebab(p)}"
+
+
+def _resurrection_timing(timing: Any) -> str:
+    """Resurrection ``timing`` modifier → a "when it is set up" clause."""
+    if timing is None:
+        return ""
+    t = _jstr(timing)
+    if t == "next-movement-phase":
+        return "in your next Movement phase"
+    if t == "end-of-phase":
+        return "at the end of the phase"
+    return dekebab(t)
 
 
 def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
@@ -846,14 +993,35 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         return f"each time an attack targets {subj}, {how}"
     if etype == "resurrection":
         count = _dice_case(m.get("count")) if m.get("count") is not None else "1"
-        noun = "destroyed model" if count == "1" else "destroyed models"
         wounds = m.get("wounds_remaining")
         w = _jstr(wounds if wounds is not None else "full")
-        return f"return {count} {noun} to {subj} with {w} wounds"
+        place = _resurrection_placement(m.get("placement"))
+        when = _resurrection_timing(m.get("timing"))
+        tail = " ".join(p for p in (place, when) if p)
+        tail_clause = f" {tail}" if tail else ""
+        # Self/bearer resurrection reads as the model returning, not a model returned to itself.
+        if e.get("target") in ("self", "bearer"):
+            return f"{subj} {_v(subj, 'is')} set up again{tail_clause} with {w} wounds remaining"
+        noun = "destroyed model" if count == "1" else "destroyed models"
+        return f"return {count} {noun} to {subj} with {w} wounds{tail_clause}"
     if etype == "model-destruction":
         count = _dice_case(m.get("count")) if m.get("count") is not None else "1"
         noun = "model" if count == "1" else "models"
         return f"destroy {count} {noun} in {subj}"
+    if etype == "rule-state":
+        return _describe_rule_state(m, subj)
+    if etype == "pool-add-die":
+        val = "the highest result" if m.get("value") == "highest" else _jstr(m.get("value"))
+        cnt = _dice_case(m.get("count")) if m.get("count") is not None else "1"
+        dice = "a die" if cnt == "1" else f"{cnt} dice"
+        return f"add {dice} showing {val} to your {_pool_name(m.get('pool_id'))}"
+    if etype == "replace-roll-from-pool":
+        raw_rolls = m.get("rolls")
+        rolls = [dekebab(_jstr(r)) for r in raw_rolls] if isinstance(raw_rolls, list) else []
+        return (
+            f"discard a die from your {_pool_name(m.get('pool_id'))} "
+            f"and substitute its value for a {_or_list(rolls)} roll"
+        )
     if etype == "cp-gain":
         return f"you gain {_jstr(m.get('amount') if m.get('amount') is not None else 1)}CP"
     if etype == "cp-refund":
@@ -869,7 +1037,17 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
     if etype == "resource-spend":
         amount = m.get("amount") if m.get("amount") is not None else m.get("value")
         pool = m.get("pool_id") if m.get("pool_id") is not None else m.get("resource")
-        return f"spend {_jstr(amount)} {_pool_name(pool)}"
+        base = f"spend {_jstr(amount)} {_pool_name(pool)}"
+        cap_obj = m.get("cap")
+        if (
+            isinstance(cap_obj, dict)
+            and cap_obj.get("count") is not None
+            and cap_obj.get("per") is not None
+        ):
+            count = _jstr(cap_obj.get("count"))
+            per = _jstr(cap_obj.get("per"))
+            return f"{base} (no more than {count} per {per})"
+        return base
     if etype == "leadership-modifier":
         test = f"{_test_name(m.get('test'))} test" if m.get("test") is not None else None
         if test is not None and m.get("operation") is None:
@@ -1124,7 +1302,10 @@ def _render_top_level(
     usage: dict[str, Any] | None = None,
     trigger: dict[str, Any] | None = None,
 ) -> str:
-    ctx: Ctx = {"range_inches": _aura_radius(scope)}
+    ctx: Ctx = {
+        "range_inches": _aura_radius(scope),
+        "engagement_range": (scope or {}).get("range") == "engagement-range",
+    }
     dur_lead, trail = _duration_clauses((scope or {}).get("duration"))
     # An explicit usage limit supersedes the duration's coarse "once per battle" lead.
     lead = _usage_clause(usage) if usage and usage.get("frequency") is not None else dur_lead

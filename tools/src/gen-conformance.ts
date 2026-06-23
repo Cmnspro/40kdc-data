@@ -176,6 +176,13 @@ const TEXT_FORMATS: { format: ExportFormat; inputName: string; goldenName: strin
   },
 ];
 
+// Export-only text formats — no importer exists, so they get an `expected.*.txt`
+// byte-equality golden but never a derived `input.*.txt` round-trip seed.
+const EXPORT_ONLY_TEXT_FORMATS: { format: ExportFormat; goldenName: string }[] = [
+  { format: "atc-2026-compact", goldenName: "expected.atc-2026-compact.txt" },
+  { format: "atc-2026-full", goldenName: "expected.atc-2026-full.txt" },
+];
+
 function genRosters(): void {
   const ds = Dataset.embedded();
   const rosterDir = join(CONFORMANCE, "roster");
@@ -218,6 +225,11 @@ function genRosters(): void {
       if (textRoundTrippable) {
         writeText(join(caseDir, inputName), out);
       }
+    }
+
+    // Export-only text formats (ATC 2026) — golden only, never a round-trip input.
+    for (const { format, goldenName } of EXPORT_ONLY_TEXT_FORMATS) {
+      writeText(join(caseDir, goldenName), exportRoster(seed, format));
     }
 
     // Rosterizer JSON export + a derived round-trip input. The exporter is
@@ -1241,6 +1253,82 @@ function genEffectTranslation(): void {
     },
   ];
   for (const fc of FORCED_DESCRIBER_CASES) {
+    cases.push({
+      caseId: `${fc.id}#${cases.length}`,
+      effect: fc.effect,
+      scope: fc.scope,
+      expected: { text: describeAbility({ effect: fc.effect as Effect, scope: fc.scope }) },
+    });
+  }
+  // rule-state: the auto-sample caps each node type at 5, so alphabetically-late
+  // abilities (Angron's reborn-in-blood faction-rule forgo) and the no-enrichment
+  // branches (faction-rule granted, keyword kind, desperate-escape, advance) fall
+  // out. Force-include one exemplar per distinct describer branch — most
+  // importantly the faction-rule + suppressed path, which reproduces the retired
+  // forgo-faction-rule wording (scope + cost) verbatim. Expected text comes from
+  // the reference describer, so a second impl must reproduce it.
+  const FORCED_RULE_STATE_CASES: { id: string; effect: Record<string, unknown>; scope: Record<string, unknown> }[] = [
+    {
+      id: "rule-state-forgo-faction-rule",
+      effect: { type: "rule-state", target: "self", modifier: { direction: "suppressed", rule_kind: "faction-rule", rule: "blessings-of-khorne", scope: "battle-round", cost: { dice: "triple-6", from: "blessings-of-khorne" } } },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "rule-state-faction-rule-granted",
+      effect: { type: "rule-state", target: "self", modifier: { direction: "granted", rule_kind: "faction-rule", rule: "oath-of-moment" } },
+      scope: { range: "self", duration: "phase" },
+    },
+    {
+      id: "rule-state-cover-granted",
+      effect: { type: "rule-state", target: "self", modifier: { direction: "granted", rule_kind: "core-rule", rule: "benefit-of-cover" } },
+      scope: { range: "self", duration: "phase" },
+    },
+    {
+      id: "rule-state-advance-suppressed",
+      effect: { type: "rule-state", target: "unit", modifier: { direction: "suppressed", rule_kind: "core-rule", rule: "advance" } },
+      scope: { range: "unit", duration: "turn" },
+    },
+    {
+      id: "rule-state-overwatch-against-bearer",
+      effect: { type: "rule-state", target: "unit", modifier: { direction: "suppressed", rule_kind: "core-rule", rule: "overwatch-against-bearer" } },
+      scope: { range: "unit", duration: "phase" },
+    },
+    {
+      id: "rule-state-desperate-escape-granted",
+      effect: { type: "rule-state", target: "all-enemy", modifier: { direction: "granted", rule_kind: "core-rule", rule: "desperate-escape" } },
+      scope: { range: "engagement-range", duration: "phase" },
+    },
+    {
+      id: "rule-state-desperate-escape-suppressed",
+      effect: { type: "rule-state", target: "self", modifier: { direction: "suppressed", rule_kind: "core-rule", rule: "desperate-escape" } },
+      scope: { range: "self", duration: "turn" },
+    },
+    {
+      id: "rule-state-ability-granted",
+      effect: { type: "rule-state", target: "unit", modifier: { direction: "granted", rule_kind: "ability", rule: "lone-operative" } },
+      scope: { range: "unit", duration: "permanent" },
+    },
+    {
+      id: "rule-state-keyword-suppressed",
+      effect: { type: "rule-state", target: "unit", modifier: { direction: "suppressed", rule_kind: "keyword", rule: "infantry" } },
+      scope: { range: "unit", duration: "phase" },
+    },
+    {
+      // ordered-retreat: the lever the 11e Fall-Back move (09.07) actually
+      // toggles. Suppressed (force Desperate Escape) carried on an aura target so
+      // the range-threaded subject is also pinned; granted (Orks "ignore
+      // Desperate Escape while battle-shocked") on a plain unit target.
+      id: "rule-state-ordered-retreat-suppressed",
+      effect: { type: "rule-state", target: "enemy-within-aura", modifier: { direction: "suppressed", rule_kind: "core-rule", rule: "ordered-retreat" } },
+      scope: { range: "aura-9", duration: "permanent" },
+    },
+    {
+      id: "rule-state-ordered-retreat-granted",
+      effect: { type: "rule-state", target: "unit", modifier: { direction: "granted", rule_kind: "core-rule", rule: "ordered-retreat" } },
+      scope: { range: "unit", duration: "phase" },
+    },
+  ];
+  for (const fc of FORCED_RULE_STATE_CASES) {
     cases.push({
       caseId: `${fc.id}#${cases.length}`,
       effect: fc.effect,

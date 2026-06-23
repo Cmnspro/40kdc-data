@@ -725,6 +725,7 @@ class SimpleCondition(TypedDict):
         "disembarked-from-transport",
         "faction-rule-active",
         "battle-round",
+        "token-count-at-or-above",
     ]
     parameters: NotRequired[dict[str, Any]]
     negated: NotRequired[bool]
@@ -742,6 +743,18 @@ class Scaling(TypedDict):
     within_inches: NotRequired[float]
     round: NotRequired[Literal["down", "up"]]
     max_value: NotRequired[int]
+
+
+RuleStateCoreRuleSlug: TypeAlias = Literal[
+    "benefit-of-cover",
+    "fall-back",
+    "ordered-retreat",
+    "advance",
+    "charge",
+    "fire-overwatch",
+    "overwatch-against-bearer",
+    "desperate-escape",
+]
 
 
 class SingleEffect(TypedDict):
@@ -784,6 +797,9 @@ class SingleEffect(TypedDict):
         "auto-result",
         "firing-deck",
         "disembark-after-move",
+        "rule-state",
+        "pool-add-die",
+        "replace-roll-from-pool",
     ]
     target: Literal[
         "self",

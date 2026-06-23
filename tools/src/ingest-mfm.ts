@@ -368,8 +368,12 @@ function runCoverage(dump: MfmDump): void {
     console.log(`Unmapped factions (no repo dir): ${cov.unmappedFactions.join(", ")}`);
 }
 
-async function runDispositionsCmd(dump: MfmDump, write: boolean): Promise<void> {
-  const report = runDispositions(dump, write);
+async function runDispositionsCmd(
+  dump: MfmDump,
+  write: boolean,
+  includeCombatPatrol = false
+): Promise<void> {
+  const report = runDispositions(dump, write, { includeCombatPatrol });
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-dispositions.md");
   fs.writeFileSync(reportPath, buildDispReport(report, write));
@@ -380,6 +384,7 @@ async function runDispositionsCmd(dump: MfmDump, write: boolean): Promise<void> 
     JSON.stringify(
       {
         newInDump: report.newInDump,
+        combatPatrolExcluded: report.cpExcluded,
         repoOnly: report.dirs
           .filter((d) => d.unmatchedRepo.length)
           .map((d) => ({ dir: d.dir, ids: d.unmatchedRepo })),
@@ -395,14 +400,19 @@ async function runDispositionsCmd(dump: MfmDump, write: boolean): Promise<void> 
   console.log(
     `Matched ${sum((d) => d.matched)}, DP changed ${sum((d) => d.dpChanged.length)}, ` +
       `disposition changed ${sum((d) => d.dispChanged.length)}, ` +
-      `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump.length}.`
+      `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump.length}, ` +
+      `held back ${report.cpExcluded.length} Combat-Patrol.`
   );
   await applyWrites(report.staged, { write, label: "dispositions" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-async function runEnhancementsCmd(dump: MfmDump, write: boolean): Promise<void> {
-  const report = runEnhancements(dump, write);
+async function runEnhancementsCmd(
+  dump: MfmDump,
+  write: boolean,
+  includeCombatPatrol = false
+): Promise<void> {
+  const report = runEnhancements(dump, write, { includeCombatPatrol });
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-enhancements.md");
   fs.writeFileSync(reportPath, buildEnhReport(report, write));
@@ -413,6 +423,7 @@ async function runEnhancementsCmd(dump: MfmDump, write: boolean): Promise<void> 
     JSON.stringify(
       {
         newInDump: report.newInDump,
+        combatPatrolExcluded: report.cpExcluded,
         repoOnly: report.dirs
           .filter((d) => d.unmatchedRepo.length)
           .map((d) => ({ dir: d.dir, ids: d.unmatchedRepo })),
@@ -428,7 +439,7 @@ async function runEnhancementsCmd(dump: MfmDump, write: boolean): Promise<void> 
   console.log(
     `Matched ${sum((d) => d.matched)}, cost changed ${sum((d) => d.costChanged.length)}, ` +
       `confirmed ${sum((d) => d.confirmed)}, repo-only ${sum((d) => d.unmatchedRepo.length)}, ` +
-      `new-in-dump ${report.newInDump.length}.`
+      `new-in-dump ${report.newInDump.length}, held back ${report.cpExcluded.length} Combat-Patrol.`
   );
   await applyWrites(report.staged, { write, label: "enhancements" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
@@ -713,7 +724,25 @@ async function runSeedUnitsCmd(
       `held back ${cpExcluded} Combat-Patrol-only, skipped ${skipped}.`,
   );
   await applyWrites(report.staged, { write, label: "seed-units" });
-  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+  if (!write) {
+    console.log("DRY RUN — no files written. Re-run with --write to apply.");
+  } else if (created > 0) {
+    // seed-units emits skeletons only (no weapon_ids/ability_ids/composition).
+    // The wargear/composition reconcile passes skip a datasheet whose unit did
+    // not yet exist when they ran, so a freshly-seeded unit keeps an empty
+    // loadout until those passes are re-run now that it exists. Prompt that
+    // follow-through here so a seeded skeleton is not silently shipped (the gap
+    // is also tracked by `npm run audit:loadout-coverage`).
+    const createdIds = report.dirs.flatMap((d) => d.created.map((c) => c.id));
+    console.log(
+      "\nNext: these skeletons have NO loadout/abilities yet. Re-run the reconcile\n" +
+        "passes now that the units exist, then author abilities:\n" +
+        "  npx tsx tools/src/ingest-mfm.ts wargear --write\n" +
+        "  npx tsx tools/src/ingest-mfm.ts composition-tiers --write\n" +
+        "  (then author ability_ids; verify with `npm run audit:loadout-coverage`)\n" +
+        `Seeded ids: ${createdIds.join(", ")}`,
+    );
+  }
 }
 
 async function main(): Promise<void> {
@@ -751,8 +780,8 @@ async function main(): Promise<void> {
 
   const dump = loadDump(dumpPath);
   if (cmd === "coverage") runCoverage(dump);
-  else if (cmd === "dispositions") await runDispositionsCmd(dump, write);
-  else if (cmd === "enhancements") await runEnhancementsCmd(dump, write);
+  else if (cmd === "dispositions") await runDispositionsCmd(dump, write, includeCombatPatrol);
+  else if (cmd === "enhancements") await runEnhancementsCmd(dump, write, includeCombatPatrol);
   else if (cmd === "points") await runPointsCmd(dump, write);
   else if (cmd === "cull-legends") await runCullCmd(dump, write);
   else if (cmd === "stratagems") await runStratagemsCmd(dump, write);

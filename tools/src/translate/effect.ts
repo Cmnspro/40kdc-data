@@ -96,6 +96,8 @@ export interface AbilityLike {
 interface Ctx {
   /** Aura/blast radius in inches, for `*-within-aura` targets and within-range effects. */
   rangeInches?: number;
+  /** True when the ability scope is `engagement-range`, so within-aura subjects read "within Engagement Range". */
+  engagementRange?: boolean;
 }
 
 const CONTAINER_TYPES = new Set([
@@ -315,7 +317,12 @@ function formatComparison(comp: string, threshold: unknown): string {
  * noun phrase in GW datasheet voice.
  */
 function subject(target: string | undefined, ctx: Ctx): string {
-  const within = ctx.rangeInches != null ? ` within ${jstr(ctx.rangeInches)}"` : " nearby";
+  const within =
+    ctx.rangeInches != null
+      ? ` within ${jstr(ctx.rangeInches)}"`
+      : ctx.engagementRange
+        ? " within Engagement Range"
+        : " nearby";
   switch (target) {
     case "self":
     case "bearer":
@@ -430,13 +437,35 @@ function negatedTargetKeywords(keywords: string[]): string {
   return `against a unit that is not a ${keywords.join(" or ")}`;
 }
 
+/** Capitalize the first character and lowercase the rest (`MONSTER` -> `Monster`). */
+function capWord(s: string): string {
+  return s.length === 0 ? s : s[0].toUpperCase() + s.slice(1).toLowerCase();
+}
+
 /**
- * Join the operands of an `and` lead-in. A run of consecutive negated
- * `target-has-keyword` exclusions collapses into one "against a unit that is
- * not a X or Y" clause, and such a clause attaches to the preceding clause with
- * a space ("while making melee attacks" + exclusion reads "while making melee
- * attacks against a unit that is not a Monster or Vehicle"); all other operands
- * join with ", ".
+ * The keyword of a `not`-wrapping-a-single-`target-has-keyword` operand, else
+ * `null`. This is the aura-subject exclusion encoding (`not[target-has-keyword X]`),
+ * distinct from the bare `{negated:true, type:"target-has-keyword"}` form.
+ */
+function notWrappedTargetKeyword(op: Condition): string | null {
+  if (op.operator !== "not" || !op.operands || op.operands.length !== 1) return null;
+  const inner = op.operands[0];
+  if (inner.type !== "target-has-keyword" || inner.negated) return null;
+  return jstr((inner.parameters ?? {}).keyword);
+}
+
+/** "(excluding Monster or Vehicle units)" from a run of `not`-wrapped target-keyword exclusions. */
+function excludedTargetKeywords(keywords: string[]): string {
+  return `(excluding ${keywords.map(capWord).join(" or ")} units)`;
+}
+
+/**
+ * Join the operands of an `and` lead-in. Two exclusion encodings collapse into a
+ * single clause: a run of bare-negated `target-has-keyword` becomes "against a
+ * unit that is not a X or Y" (attack-context voice), and a run of `not`-wrapped
+ * `target-has-keyword` becomes "(excluding X or Y units)" (aura-subject voice,
+ * matching the `applies_to` "(excluding …)" idiom). Either collapsed clause
+ * attaches to the preceding clause with a space; all other operands join with ", ".
  */
 function joinAndLeadIns(operands: Condition[]): string {
   const parts: string[] = [];
@@ -451,11 +480,26 @@ function joinAndLeadIns(operands: Condition[]): string {
       parts.push(negatedTargetKeywords(kws));
       continue;
     }
+    if (notWrappedTargetKeyword(op) != null) {
+      const kws: string[] = [];
+      let kw: string | null;
+      while (i < operands.length && (kw = notWrappedTargetKeyword(operands[i])) != null) {
+        kws.push(kw);
+        i++;
+      }
+      parts.push(excludedTargetKeywords(kws));
+      continue;
+    }
     parts.push(conditionLeadIn(op));
     i++;
   }
   return parts.reduce(
-    (acc, part) => (acc === "" ? part : part.startsWith("against ") ? `${acc} ${part}` : `${acc}, ${part}`),
+    (acc, part) =>
+      acc === ""
+        ? part
+        : part.startsWith("against ") || part.startsWith("(excluding ")
+          ? `${acc} ${part}`
+          : `${acc}, ${part}`,
     ""
   );
 }
@@ -504,6 +548,8 @@ function conditionLeadIn(c: Condition): string {
       return `while the ${titleCase(jstr(p.rule))} is active`;
     case "battle-round":
       return `during the first ${jstr(p.max)} battle rounds`;
+    case "token-count-at-or-above":
+      return `while the unit has ${jstr(p.threshold)}+ ${poolName(p.pool_id)}`;
     case "remained-stationary":
       return "if the unit Remained Stationary";
     case "target-has-keyword":
@@ -599,6 +645,12 @@ function andList(items: string[]): string {
   if (items.length <= 1) return items[0] ?? "";
   if (items.length === 2) return `${items[0]} and ${items[1]}`;
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
+function orList(items: string[]): string {
+  if (items.length <= 1) return items[0] ?? "";
+  if (items.length === 2) return `${items[0]} or ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}`;
 }
 
 /** Trailing inches clause for a movement distance (int or dice string); "" when absent/zero. */
@@ -714,6 +766,36 @@ function auraClause(e: Effect, m: Record<string, unknown>, ctx: Ctx): string {
 export function describeEffectInline(e: Effect, ctx: Ctx = {}): string {
   const base = describeEffectInlineBase(e, ctx);
   return e.scaling ? `${base} ${scalingClause(e.scaling)}` : base;
+}
+
+/** Resurrection `placement` modifier → a "where it is set up" clause. */
+function resurrectionPlacement(placement: unknown): string {
+  if (placement == null) return "";
+  switch (jstr(placement)) {
+    case "deep-strike":
+      return "using its Deep Strike ability";
+    case "battlefield-edge":
+      return "at a battlefield edge";
+    case "closest-to-destruction":
+      return "as close as possible to where it was destroyed";
+    case "unengaged":
+      return "not within Engagement Range of any enemy units";
+    default:
+      return `via ${dekebab(jstr(placement))}`;
+  }
+}
+
+/** Resurrection `timing` modifier → a "when it is set up" clause. */
+function resurrectionTiming(timing: unknown): string {
+  if (timing == null) return "";
+  switch (jstr(timing)) {
+    case "next-movement-phase":
+      return "in your next Movement phase";
+    case "end-of-phase":
+      return "at the end of the phase";
+    default:
+      return dekebab(jstr(timing));
+  }
 }
 
 /** The leaf/container switch; {@link describeEffectInline} wraps it to append scaling. */
@@ -840,15 +922,25 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "resurrection": {
       const count = m.count != null ? diceCase(m.count) : "1";
-      const noun = count === "1" ? "destroyed model" : "destroyed models";
       const wounds = m.wounds_remaining ?? "full";
-      return `return ${count} ${noun} to ${subj} with ${jstr(wounds)} wounds`;
+      const place = resurrectionPlacement(m.placement);
+      const when = resurrectionTiming(m.timing);
+      const tail = [place, when].filter((s) => s.length > 0).join(" ");
+      const tailClause = tail ? ` ${tail}` : "";
+      // A self/bearer resurrection reads as the model returning, not "returning a model to itself".
+      if (e.target === "self" || e.target === "bearer") {
+        return `${subj} ${v(subj, "is")} set up again${tailClause} with ${jstr(wounds)} wounds remaining`;
+      }
+      const noun = count === "1" ? "destroyed model" : "destroyed models";
+      return `return ${count} ${noun} to ${subj} with ${jstr(wounds)} wounds${tailClause}`;
     }
     case "model-destruction": {
       const count = m.count != null ? diceCase(m.count) : "1";
       const noun = count === "1" ? "model" : "models";
       return `destroy ${count} ${noun} in ${subj}`;
     }
+    case "rule-state":
+      return describeRuleState(m, subj);
     case "cp-gain":
       return `you gain ${jstr(m.amount ?? 1)}CP`;
     case "cp-refund": {
@@ -857,8 +949,23 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "resource-gain":
       return `you gain ${jstr(m.amount ?? m.value)} ${poolName(m.pool_id ?? m.resource)}`;
-    case "resource-spend":
-      return `spend ${jstr(m.amount ?? m.value)} ${poolName(m.pool_id ?? m.resource)}`;
+    case "resource-spend": {
+      const base = `spend ${jstr(m.amount ?? m.value)} ${poolName(m.pool_id ?? m.resource)}`;
+      const cap = m.cap as Record<string, unknown> | undefined;
+      if (cap != null && cap.count != null && cap.per != null)
+        return `${base} (no more than ${jstr(cap.count)} per ${jstr(cap.per)})`;
+      return base;
+    }
+    case "pool-add-die": {
+      const val = m.value === "highest" ? "the highest result" : jstr(m.value);
+      const cnt = m.count != null ? diceCase(m.count) : "1";
+      const dice = cnt === "1" ? "a die" : `${cnt} dice`;
+      return `add ${dice} showing ${val} to your ${poolName(m.pool_id)}`;
+    }
+    case "replace-roll-from-pool": {
+      const rolls = Array.isArray(m.rolls) ? (m.rolls as unknown[]).map((r) => dekebab(jstr(r))) : [];
+      return `discard a die from your ${poolName(m.pool_id)} and substitute its value for a ${orList(rolls)} roll`;
+    }
     case "leadership-modifier": {
       const test = m.test != null ? `${testName(m.test)} test` : null;
       if (test != null && m.operation == null) return `${subj} must take a ${test}`;
@@ -970,6 +1077,73 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
 }
 
 /** Per-slug GW-prose for `attack-restriction` (reads `restriction` or `restriction_type`). */
+/**
+ * `rule-state`: a named rule switched on/off for the subject. The `faction-rule`
+ * + `suppressed` path reproduces the legacy `forgo-faction-rule` phrasing
+ * verbatim (Angron "Reborn in Blood"); the core-rule slugs get natural
+ * action/benefit phrasing; keyword/ability kinds fall back to a regular
+ * gains/loses-the-X clause. Phrasing is pinned byte-for-byte across the four
+ * language ports by the conformance corpus.
+ */
+function describeRuleState(m: Record<string, unknown>, subj: string): string {
+  const dir = jstr(m.direction);
+  const kind = jstr(m.rule_kind);
+  const rule = jstr(m.rule);
+  const granted = dir === "granted";
+
+  // Faction-rule suppression keeps the original "forgo activating …" wording.
+  if (kind === "faction-rule" && !granted) {
+    const scope = m.scope != null ? ` this ${dekebab(jstr(m.scope))}` : "";
+    let cost = "";
+    const c = m.cost;
+    if (c != null && typeof c === "object" && (c as Record<string, unknown>).dice != null) {
+      const cc = c as Record<string, unknown>;
+      const from =
+        cc.from == null
+          ? ""
+          : jstr(cc.from) === rule
+            ? " from that roll"
+            : ` from the ${titleCase(jstr(cc.from))} roll`;
+      cost = `, using a ${dekebab(jstr(cc.dice))}${from}`;
+    }
+    return `forgo activating ${titleCase(rule)}${scope}${cost}`;
+  }
+  if (kind === "faction-rule") return `${subj} ${v(subj, "gains")} ${titleCase(rule)}`;
+
+  // Natural phrasing for the closed core-rule slug vocabulary.
+  switch (rule) {
+    case "benefit-of-cover":
+      return granted ? `${subj} ${v(subj, "has")} the Benefit of Cover` : `${subj} cannot benefit from Cover`;
+    case "charge":
+      return granted ? `${subj} can charge` : `${subj} cannot charge`;
+    case "advance":
+      return granted ? `${subj} can Advance` : `${subj} cannot Advance`;
+    case "fall-back":
+      return granted ? `${subj} can Fall Back` : `${subj} cannot Fall Back`;
+    case "ordered-retreat":
+      // GW frames this lever by its effect on Desperate Escape tests: suppressing
+      // Ordered Retreat forces the tests; granting it (e.g. while Battle-shocked)
+      // exempts the unit. Mirrors the `desperate-escape` slug wording.
+      return granted
+        ? `${subj} ${v(subj, "is")} not affected by Desperate Escape tests`
+        : `${subj} must take Desperate Escape tests`;
+    case "fire-overwatch":
+      return granted ? `${subj} can fire Overwatch` : `${subj} cannot fire Overwatch`;
+    case "overwatch-against-bearer":
+      return granted ? `your opponent can target ${subj} with Overwatch` : `your opponent cannot target ${subj} with Overwatch`;
+    case "desperate-escape":
+      return granted
+        ? `${subj} must take Desperate Escape tests`
+        : `${subj} ${v(subj, "is")} not affected by Desperate Escape tests`;
+  }
+
+  // Ability / keyword kinds (every core-rule slug is cased above): regular clause.
+  const noun = kind === "keyword" ? "keyword" : "ability";
+  return granted
+    ? `${subj} ${v(subj, "gains")} the ${titleCase(rule)} ${noun}`
+    : `${subj} ${v(subj, "loses")} the ${titleCase(rule)} ${noun}`;
+}
+
 function describeAttackRestriction(m: Record<string, unknown>, subj: string): string {
   // Some entries express the restriction as a forbidden action (`attack_type: charge`).
   if (m.restriction == null && m.restriction_type == null && m.attack_type != null)
@@ -1122,7 +1296,7 @@ function renderTopLevel(
   usage?: AbilityUsage | null,
   trigger?: AbilityTrigger | null,
 ): string {
-  const ctx: Ctx = { rangeInches: auraRadius(scope) };
+  const ctx: Ctx = { rangeInches: auraRadius(scope), engagementRange: scope?.range === "engagement-range" };
   const { lead: durLead, trail } = durationClauses(scope?.duration);
   // An explicit usage limit supersedes the duration's coarse "once per battle" lead.
   const lead = usage && usage.frequency != null ? usageClause(usage) : durLead;
