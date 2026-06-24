@@ -65,6 +65,18 @@ export interface RosterWargear {
   count: number;
 }
 
+/**
+ * A set of identically-equipped models within a unit — `count` models of model-type
+ * `model_name`, each carrying `wargear` (counts are *per model*). Summed across a
+ * unit's groups, the weapons equal {@link RosterUnit.wargear}. Present only when the
+ * loadout decomposes exactly; consumers fall back to `wargear` when absent.
+ */
+export interface RosterLoadoutGroup {
+  model_name: string | null;
+  count: number;
+  wargear: RosterWargear[];
+}
+
 /** One detachment on the roster, paired with its resolved DP cost. */
 export interface RosterDetachment {
   ref: ResolvedRef;
@@ -96,6 +108,12 @@ export interface RosterUnit {
   /** Points cost of the enhancement when the source reported one; null otherwise. */
   enhancement_points: number | null;
   wargear: RosterWargear[];
+  /**
+   * Optional per-model-type loadout breakdown for grouped rendering ("Nx <model>:
+   * <loadout>"). Omitted when the loadout doesn't decompose exactly; consumers must
+   * fall back to {@link wargear}.
+   */
+  loadout_groups?: RosterLoadoutGroup[];
   leader_attachment: RosterLeaderAttachment | null;
 }
 
@@ -180,6 +198,20 @@ export interface ParsedWargear {
   count: number;
 }
 
+/**
+ * An explicit leader→bodyguard attachment carried verbatim from a source that
+ * encodes one unambiguously (only the canonical roster-json round-trip does
+ * today). When present, {@link resolve} reconstructs the attachment exactly
+ * instead of re-inferring it; when absent, the `support`-only inference runs.
+ */
+export interface ParsedLeaderAttachment {
+  /** The bodyguard unit's raw display name (re-resolved against the dataset). */
+  bodyguard_raw_name: string;
+  /** Role of the attaching character relative to the bodyguard unit. */
+  role: "leader" | "support";
+  provisional: boolean;
+}
+
 /** A unit selection before id resolution. */
 export interface ParsedUnit {
   raw_name: string;
@@ -193,6 +225,12 @@ export interface ParsedUnit {
   /** Points cost of the enhancement when the source reported one; null otherwise. */
   enhancement_points: number | null;
   wargear: ParsedWargear[];
+  /**
+   * Explicit leader→bodyguard attachment, when the source encoded one (only the
+   * canonical roster-json round-trip does). Absent/null otherwise, in which case
+   * {@link resolve} falls back to `support`-only inference.
+   */
+  leader_attachment?: ParsedLeaderAttachment | null;
 }
 
 /**

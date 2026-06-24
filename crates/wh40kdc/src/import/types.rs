@@ -95,6 +95,17 @@ pub struct RosterWargear {
     pub count: u64,
 }
 
+/// A set of identically-equipped models within a unit: `count` models of model-type
+/// `model_name`, each carrying `wargear` (counts are *per model*). Summed across a
+/// unit's groups the weapons equal [`RosterUnit::wargear`]. Present only when the
+/// loadout decomposes exactly; consumers fall back to `wargear` when absent.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RosterLoadoutGroup {
+    pub model_name: Option<String>,
+    pub count: u64,
+    pub wargear: Vec<RosterWargear>,
+}
+
 /// One detachment on the roster, paired with its resolved DP cost.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct RosterDetachment {
@@ -140,6 +151,11 @@ pub struct RosterUnit {
     /// enhancements as a separate `+N pts` line.
     pub enhancement_points: Option<u64>,
     pub wargear: Vec<RosterWargear>,
+    /// Optional per-model-type loadout breakdown for grouped rendering ("Nx
+    /// <model>: <loadout>"). Omitted (not serialized) when the loadout doesn't
+    /// decompose exactly; consumers fall back to [`RosterUnit::wargear`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub loadout_groups: Option<Vec<RosterLoadoutGroup>>,
     pub leader_attachment: Option<RosterLeaderAttachment>,
 }
 
@@ -319,6 +335,26 @@ pub struct ParsedUnit {
     /// otherwise.
     pub enhancement_points: Option<u64>,
     pub wargear: Vec<ParsedWargear>,
+    /// Explicit leader→bodyguard attachment, when the source encoded one (only
+    /// the canonical roster-json round-trip does). `None`/omitted otherwise, in
+    /// which case [`resolve`](super::resolve) falls back to `support`-only
+    /// inference. Elided from the serialized parsed stage when absent, matching
+    /// every other adapter (which never sets it).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub leader_attachment: Option<ParsedLeaderAttachment>,
+}
+
+/// An explicit leader→bodyguard attachment carried verbatim from a source that
+/// encodes one unambiguously (only the canonical roster-json round-trip does
+/// today). When present, [`resolve`](super::resolve) reconstructs the attachment
+/// exactly instead of re-inferring it.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct ParsedLeaderAttachment {
+    /// The bodyguard unit's raw display name (re-resolved against the dataset).
+    pub bodyguard_raw_name: String,
+    /// Role of the attaching character relative to the bodyguard unit.
+    pub role: AttachmentRole,
+    pub provisional: bool,
 }
 
 /// The format-agnostic intermediate. A [`FormatAdapter`](super::FormatAdapter)

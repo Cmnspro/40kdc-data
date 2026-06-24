@@ -17,6 +17,7 @@
 import type { Dataset } from "../data/dataset.js";
 import type { UnitView } from "../data/entities.js";
 import { detachmentCapForBattleSize } from "../data/battle-sizes.js";
+import { groupLoadout } from "../data/loadout.js";
 import { normalizeName } from "../data/normalize.js";
 import type {
   BattleSize,
@@ -28,6 +29,7 @@ import type {
   Roster,
   RosterDetachment,
   RosterFormat,
+  RosterLoadoutGroup,
   RosterUnit,
   Warning,
   WarningCode,
@@ -158,7 +160,7 @@ export function resolve(
   const units = parsed.units.map((u) => resolveUnit(u, faction_id, detachmentIds, ds, diag));
 
   // --- Leader attachments (second pass: needs all resolved unit ids). -------
-  inferLeaderAttachments(parsed.units, units, ds, faction_id, diag);
+  applyLeaderAttachments(parsed.units, units, ds, faction_id, diag);
 
   // --- Points reconciliation (reported vs computed kept distinct). ----------
   if (parsed.total_reported !== null && parsed.total_reported !== parsed.total_computed) {
@@ -283,6 +285,13 @@ function resolveUnit(
     return { ref: unresolved(w.raw_name, toCandidates(hits)), count: w.count };
   });
 
+  // Reconstruct the per-model-type loadout groups deterministically from the
+  // resolved unit, so a re-export reproduces the same grouped lines the exporter
+  // emits (round-trip), without the text parsers having to understand model-name
+  // labels. Only when the unit and every weapon resolved and the loadout
+  // decomposes exactly (groupLoadout returns null otherwise).
+  const loadout_groups = buildLoadoutGroups(hit, parsed.model_count, wargear, ds);
+
   return {
     ref,
     model_count: parsed.model_count,
@@ -291,8 +300,45 @@ function resolveUnit(
     enhancement,
     enhancement_points,
     wargear,
+    ...(loadout_groups ? { loadout_groups } : {}),
     leader_attachment: null,
   };
+}
+
+/**
+ * Recompute a unit's {@link RosterUnit.loadout_groups} from its resolved wargear via
+ * {@link groupLoadout} — the same maths the exporter uses, so an import→export
+ * round-trip is stable. Returns `undefined` when the unit is unresolved, any weapon
+ * is unresolved (the aggregate would be incomplete), or the loadout doesn't
+ * decompose exactly.
+ */
+function buildLoadoutGroups(
+  hit: UnitView | undefined,
+  modelCount: number,
+  wargear: { ref: ResolvedRef; count: number }[],
+  ds: Dataset,
+): RosterLoadoutGroup[] | undefined {
+  if (!hit) return undefined;
+  const refById = new Map<string, ResolvedRef>();
+  const counts = new Map<string, number>();
+  for (const w of wargear) {
+    if (!w.ref.id) return undefined; // incomplete aggregate → can't group faithfully
+    refById.set(w.ref.id, w.ref);
+    counts.set(w.ref.id, (counts.get(w.ref.id) ?? 0) + w.count);
+  }
+  const groups = groupLoadout(
+    hit.raw,
+    modelCount,
+    ds.wargearOptionsOf(hit.raw),
+    ds.unitCompositionOf(hit.raw)?.models,
+    counts,
+  );
+  if (!groups) return undefined;
+  return groups.map((g) => ({
+    model_name: g.model_name,
+    count: g.count,
+    wargear: g.weapons.map((w) => ({ ref: refById.get(w.id)!, count: w.count })),
+  }));
 }
 
 function resolveEnhancement(
@@ -322,23 +368,50 @@ function resolveEnhancement(
 }
 
 /**
- * Infer leader→bodyguard attachments. The source format does not encode an
- * unambiguous attachment, so each inferred link is marked provisional: we match
- * a resolved character unit against a resolved non-character unit in the same
- * roster using the dataset's leader-attachment data.
+ * Resolve leader→bodyguard attachments in two passes.
+ *
+ * 1. **Explicit** attachments carried verbatim from the source (only the
+ *    canonical roster-json round-trip encodes one) are reconstructed exactly —
+ *    the bodyguard id is re-resolved against the current dataset, but the role
+ *    and provisional flag are preserved. This makes the round-trip lossless,
+ *    including `leader`-role attachments that inference never produces.
+ * 2. For every other character, the source does not encode an unambiguous
+ *    attachment, so each **inferred** link is marked provisional: a resolved
+ *    `support` character (which cannot operate alone) is matched against a
+ *    resolved bodyguard present in the roster using the dataset's
+ *    leader-attachment data.
  */
-function inferLeaderAttachments(
+function applyLeaderAttachments(
   parsedUnits: ParsedUnit[],
   units: RosterUnit[],
   ds: Dataset,
   factionId: string | null,
   diag: DiagnosticsBuilder,
 ): void {
+  // --- Pass 1: explicit attachments (lossless). ----------------------------
+  units.forEach((unit, i) => {
+    const explicit = parsedUnits[i].leader_attachment;
+    if (explicit == null) return;
+    const key = normalizeName(explicit.bodyguard_raw_name);
+    const bodyguard = units.find((u) => normalizeName(u.ref.raw_name) === key);
+    if (!bodyguard) return;
+    unit.leader_attachment = {
+      bodyguard_ref:
+        bodyguard.ref.id != null
+          ? resolved(bodyguard.ref.id, bodyguard.ref.raw_name)
+          : unresolved(bodyguard.ref.raw_name),
+      role: explicit.role,
+      provisional: explicit.provisional,
+    };
+  });
+
+  // --- Pass 2: inference for characters without an explicit attachment. -----
   const bodyguardIds = new Set(
     units.filter((u, i) => u.ref.id && !parsedUnits[i].is_character).map((u) => u.ref.id as string),
   );
 
   units.forEach((unit, i) => {
+    if (parsedUnits[i].leader_attachment != null) return; // explicit already applied
     if (!unit.ref.id || !parsedUnits[i].is_character) return;
     const leaderId = unit.ref.id;
     // Only `support` characters are auto-attached: per the GW datasheet

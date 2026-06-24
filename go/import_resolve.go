@@ -206,7 +206,7 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		pu := puAny.(map[string]any)
 		units = append(units, resolveUnit(pu, factionIDStr, detachmentIDs, ds, diag))
 	}
-	inferLeaderAttachments(parsedUnits, units, ds, factionIDStr, diag)
+	applyLeaderAttachments(parsedUnits, units, ds, factionIDStr, diag)
 
 	tr := parsed["total_reported"]
 	tc := parsed["total_computed"]
@@ -374,7 +374,7 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		}
 	}
 
-	return map[string]any{
+	result := map[string]any{
 		"ref":                ref,
 		"model_count":        parsed["model_count"],
 		"points":             parsed["points"],
@@ -384,6 +384,58 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		"wargear":            wargear,
 		"leader_attachment":  nil,
 	}
+	// Reconstruct the per-model-type loadout groups deterministically from the
+	// resolved unit, so a re-export reproduces the same grouped lines the exporter
+	// emits (round-trip), without the text parsers understanding model-name labels.
+	// Omitted (key absent) when it can't decompose exactly, to match the other impls.
+	if lg := buildLoadoutGroups(hit, asInt(parsed["model_count"]), wargear, ds); lg != nil {
+		result["loadout_groups"] = lg
+	}
+	return result
+}
+
+// buildLoadoutGroups recomputes a unit's loadout_groups from its resolved wargear
+// via GroupLoadout — the same maths the exporter uses, so an import→export
+// round-trip is stable. nil when the unit is unresolved, any weapon is unresolved,
+// or the loadout doesn't decompose exactly. Mirror of the TS buildLoadoutGroups.
+func buildLoadoutGroups(hit *UnitView, modelCount int, wargear []any, ds *Dataset) []any {
+	if hit == nil {
+		return nil
+	}
+	refByID := map[string]any{}
+	counts := map[string]int{}
+	for _, wAny := range wargear {
+		w := wAny.(map[string]any)
+		ref := w["ref"].(map[string]any)
+		id, ok := ref["id"].(string)
+		if !ok || id == "" {
+			return nil // incomplete aggregate → can't group faithfully
+		}
+		refByID[id] = ref
+		counts[id] += asInt(w["count"])
+	}
+	options := ds.wargearOptionsOf(hit.Raw)
+	models, _ := ds.unitCompositionOf(hit.Raw)
+	groups := GroupLoadout(hit.Raw, modelCount, options, models, counts)
+	if groups == nil {
+		return nil
+	}
+	out := []any{}
+	for _, gAny := range groups {
+		g := gAny.(map[string]any)
+		gw := []any{}
+		for _, wAny := range g["weapons"].([]any) {
+			w := wAny.(map[string]any)
+			id := w["id"].(string)
+			gw = append(gw, map[string]any{"ref": refByID[id], "count": w["count"]})
+		}
+		out = append(out, map[string]any{
+			"model_name": g["model_name"],
+			"count":      g["count"],
+			"wargear":    gw,
+		})
+	}
+	return out
 }
 
 func resolveEnhancement(rawName string, detachmentIDs []string, ds *Dataset, diag *diagBuilder) map[string]any {
@@ -412,7 +464,54 @@ func resolveEnhancement(rawName string, detachmentIDs []string, ds *Dataset, dia
 	return refUnresolved(rawName, candFromRaw(ds.Enhancements.FindAll(rawName)))
 }
 
-func inferLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, factionID string, diag *diagBuilder) {
+// applyLeaderAttachments resolves leader→bodyguard attachments in two passes
+// (mirror of the TS applyLeaderAttachments):
+//
+//  1. Explicit attachments carried verbatim from the source (only the canonical
+//     roster-json round-trip encodes one) are reconstructed exactly — the
+//     bodyguard id is re-resolved against the current dataset, but the role and
+//     provisional flag are preserved (lossless, incl. leader-role attachments
+//     inference never produces).
+//  2. For every other character, the source does not encode an unambiguous
+//     attachment, so each inferred link is marked provisional: only `support`
+//     characters (which cannot operate alone) are auto-attached.
+func applyLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, factionID string, diag *diagBuilder) {
+	// --- Pass 1: explicit attachments (lossless). ----------------------------
+	for i, uAny := range units {
+		pu := parsedUnits[i].(map[string]any)
+		explicit, ok := pu["leader_attachment"].(map[string]any)
+		if !ok {
+			continue
+		}
+		key := NormalizeName(getStr(explicit, "bodyguard_raw_name"))
+		var bodyguard map[string]any
+		for _, bAny := range units {
+			b := bAny.(map[string]any)
+			bref := b["ref"].(map[string]any)
+			if NormalizeName(getStr(bref, "raw_name")) == key {
+				bodyguard = b
+				break
+			}
+		}
+		if bodyguard == nil {
+			continue
+		}
+		bref := bodyguard["ref"].(map[string]any)
+		var bodyguardRef map[string]any
+		if id, ok := bref["id"].(string); ok && id != "" {
+			bodyguardRef = refResolved(id, bref["raw_name"])
+		} else {
+			bodyguardRef = refUnresolved(bref["raw_name"], nil)
+		}
+		unit := uAny.(map[string]any)
+		unit["leader_attachment"] = map[string]any{
+			"bodyguard_ref": bodyguardRef,
+			"role":          explicit["role"],
+			"provisional":   explicit["provisional"],
+		}
+	}
+
+	// --- Pass 2: inference for characters without an explicit attachment. -----
 	bodyguardIDs := map[string]bool{}
 	for i, uAny := range units {
 		u := uAny.(map[string]any)
@@ -426,6 +525,9 @@ func inferLeaderAttachments(parsedUnits []any, units []any, ds *Dataset, faction
 		unit := uAny.(map[string]any)
 		ref := unit["ref"].(map[string]any)
 		pu := parsedUnits[i].(map[string]any)
+		if _, has := pu["leader_attachment"].(map[string]any); has {
+			continue // explicit already applied in pass 1
+		}
 		leaderID, ok := ref["id"].(string)
 		if !ok || leaderID == "" || pu["is_character"] != true {
 			continue

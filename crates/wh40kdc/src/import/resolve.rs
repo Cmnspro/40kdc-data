@@ -13,12 +13,14 @@
 //!
 //! Rust mirror of `tools/src/import/resolve.ts`.
 
-use crate::data::{normalize_name, Dataset};
+use std::collections::{BTreeMap, HashMap};
+
+use crate::data::{group_loadout, loadout_models, normalize_name, Dataset};
 
 use super::types::{
     AttachmentRole, BattleSize, Candidate, Diagnostics, ParsedRoster, ParsedUnit, ResolvedRef,
-    Roster, RosterDetachment, RosterFormat, RosterLeaderAttachment, RosterPoints, RosterSource,
-    RosterUnit, RosterWargear, Warning, WarningCode,
+    Roster, RosterDetachment, RosterFormat, RosterLeaderAttachment, RosterLoadoutGroup,
+    RosterPoints, RosterSource, RosterUnit, RosterWargear, Warning, WarningCode,
 };
 
 /// The dataset edition/dataslate stamped onto an imported roster.
@@ -221,7 +223,7 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
         .collect();
 
     // --- Leader attachments (second pass: needs all resolved unit ids). -----
-    infer_leader_attachments(
+    apply_leader_attachments(
         &parsed.units,
         &mut units,
         ds,
@@ -372,7 +374,7 @@ fn resolve_unit(
         None
     };
 
-    let wargear = parsed
+    let wargear: Vec<RosterWargear> = parsed
         .wargear
         .iter()
         .map(|w| {
@@ -398,6 +400,11 @@ fn resolve_unit(
         })
         .collect();
 
+    // Reconstruct the per-model-type loadout groups deterministically from the
+    // resolved unit, so a re-export reproduces the same grouped lines the exporter
+    // emits (round-trip) without the text parsers understanding model-name labels.
+    let loadout_groups = build_loadout_groups(hit, parsed.model_count, &wargear, ds);
+
     RosterUnit {
         ref_,
         model_count: parsed.model_count,
@@ -406,8 +413,56 @@ fn resolve_unit(
         enhancement,
         enhancement_points,
         wargear,
+        loadout_groups,
         leader_attachment: None,
     }
+}
+
+/// Recompute a unit's [`RosterUnit::loadout_groups`] from its resolved wargear via
+/// [`group_loadout`] — the same maths the exporter uses, so an import→export
+/// round-trip is stable. `None` when the unit is unresolved, any weapon is
+/// unresolved (the aggregate would be incomplete), or the loadout doesn't decompose
+/// exactly. Mirror of the TS `buildLoadoutGroups`.
+fn build_loadout_groups(
+    hit: Option<&crate::Unit>,
+    model_count: u64,
+    wargear: &[RosterWargear],
+    ds: &Dataset,
+) -> Option<Vec<RosterLoadoutGroup>> {
+    let unit = hit?;
+    let mut ref_by_id: HashMap<String, ResolvedRef> = HashMap::new();
+    let mut counts: BTreeMap<String, i64> = BTreeMap::new();
+    for w in wargear {
+        let id = w.ref_.id.as_ref()?; // incomplete aggregate → can't group faithfully
+        ref_by_id.insert(id.clone(), w.ref_.clone());
+        *counts.entry(id.clone()).or_insert(0) += w.count as i64;
+    }
+    let options = ds.wargear_options_of(unit);
+    let comp = ds.unit_compositions.iter().find(|c| {
+        c.unit_id.as_str() == unit.id.as_str() && c.faction_id.as_str() == unit.faction_id.as_str()
+    });
+    let models = comp.map(|c| loadout_models(&c.models));
+    let groups = group_loadout(unit, model_count, &options, models.as_deref(), &counts)?;
+    Some(
+        groups
+            .into_iter()
+            .map(|g| RosterLoadoutGroup {
+                model_name: g.model_name,
+                count: g.count,
+                wargear: g
+                    .weapons
+                    .into_iter()
+                    .map(|w| RosterWargear {
+                        ref_: ref_by_id
+                            .get(&w.id)
+                            .cloned()
+                            .expect("group weapon id is a subset of the aggregate counts"),
+                        count: w.count,
+                    })
+                    .collect(),
+            })
+            .collect(),
+    )
 }
 
 fn resolve_enhancement(
@@ -449,20 +504,24 @@ fn resolve_enhancement(
     unresolved(raw_name, candidates)
 }
 
-/// Infer leader→bodyguard attachments. The source format does not encode an
-/// unambiguous attachment, so each inferred link is marked provisional: a
-/// resolved character unit is matched against a resolved non-character unit in
-/// the same roster using the dataset's leader-attachment data.
+/// Resolve leader→bodyguard attachments in two passes (mirror of the TS
+/// `applyLeaderAttachments`).
 ///
-/// Only `support` characters are auto-attached: per the GW datasheet
-/// bodyguard-group data they cannot operate alone, so attaching to an eligible
-/// bodyguard present in the roster is certain. A `leader` (or a character with
-/// no `attachment_role`) MAY be solo — the source doesn't encode the
-/// attachment, so we don't guess one. `attachment_role` is faction-specific
-/// (e.g. the World Eaters Master of Executions is a leader while the Chaos
-/// Space Marines one is support), so resolve faction-scoped. Mirror of the TS
-/// `inferLeaderAttachments`.
-fn infer_leader_attachments(
+/// 1. **Explicit** attachments carried verbatim from the source (only the
+///    canonical roster-json round-trip encodes one) are reconstructed exactly —
+///    the bodyguard id is re-resolved against the current dataset, but the role
+///    and provisional flag are preserved. This makes the round-trip lossless,
+///    including `leader`-role attachments inference never produces.
+/// 2. For every other character, the source does not encode an unambiguous
+///    attachment, so each **inferred** link is marked provisional. Only
+///    `support` characters are auto-attached: per the GW datasheet
+///    bodyguard-group data they cannot operate alone, so attaching to an
+///    eligible bodyguard present in the roster is certain. A `leader` (or a
+///    character with no `attachment_role`) MAY be solo — the source doesn't
+///    encode the attachment, so we don't guess one. `attachment_role` is
+///    faction-specific (e.g. the World Eaters Master of Executions is a leader
+///    while the Chaos Space Marines one is support), so resolve faction-scoped.
+fn apply_leader_attachments(
     parsed_units: &[ParsedUnit],
     units: &mut [RosterUnit],
     ds: &Dataset,
@@ -471,6 +530,35 @@ fn infer_leader_attachments(
 ) {
     use crate::generated::UnitAttachmentRole;
 
+    // --- Pass 1: explicit attachments (lossless). ----------------------------
+    // Compute first (immutable borrow), then apply (mutable) to avoid overlap.
+    let mut explicit: Vec<(usize, ResolvedRef, AttachmentRole, bool)> = Vec::new();
+    for (i, parsed) in parsed_units.iter().enumerate() {
+        let Some(att) = &parsed.leader_attachment else {
+            continue;
+        };
+        let key = normalize_name(&att.bodyguard_raw_name);
+        let Some(bodyguard) = units
+            .iter()
+            .find(|u| normalize_name(&u.ref_.raw_name) == key)
+        else {
+            continue;
+        };
+        let bodyguard_ref = match &bodyguard.ref_.id {
+            Some(id) => resolved(id, &bodyguard.ref_.raw_name),
+            None => unresolved(&bodyguard.ref_.raw_name, Vec::new()),
+        };
+        explicit.push((i, bodyguard_ref, att.role, att.provisional));
+    }
+    for (idx, bodyguard_ref, role, provisional) in explicit {
+        units[idx].leader_attachment = Some(RosterLeaderAttachment {
+            bodyguard_ref,
+            role,
+            provisional,
+        });
+    }
+
+    // --- Pass 2: inference for characters without an explicit attachment. -----
     let bodyguard_ids: std::collections::HashSet<String> = units
         .iter()
         .zip(parsed_units)
@@ -495,6 +583,9 @@ fn infer_leader_attachments(
     // them (mutable borrow) to avoid overlapping borrows.
     let mut planned: Vec<(usize, String, String)> = Vec::new(); // (leader idx, bodyguard id, bodyguard raw name)
     for (i, (unit, parsed)) in units.iter().zip(parsed_units).enumerate() {
+        if parsed.leader_attachment.is_some() {
+            continue; // explicit already applied in pass 1
+        }
         let Some(leader_id) = &unit.ref_.id else {
             continue;
         };

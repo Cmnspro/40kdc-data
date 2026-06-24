@@ -175,16 +175,45 @@
             "additionalProperties": false
           }
         },
+        "loadout_groups": {
+          "description": "Optional per-model-type breakdown of the unit's loadout: each group is a set of identically-equipped models, letting an exporter render \"Nx <model>: <loadout>\" lines instead of one unit-wide bag. Summed across groups the weapons equal `wargear`. Present only when the loadout decomposes exactly (omitted for single-model units, units with no recorded per-model defaults, or loadouts that don't partition cleanly); consumers must fall back to `wargear` when it is absent. `wargear[].count` here is per model in the group.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "model_name": {
+                "oneOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }],
+                "description": "Model-type name from the unit composition (e.g. \"Blood Herald\"); null when the partition carries no name."
+              },
+              "count": { "type": "integer", "minimum": 1, "description": "Number of models in this group." },
+              "wargear": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ref": { "$ref": "#/$defs/roster-resolved-ref" },
+                    "count": { "type": "integer", "minimum": 1 }
+                  },
+                  "required": ["ref", "count"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["model_name", "count", "wargear"],
+            "additionalProperties": false
+          }
+        },
         "leader_attachment": {
           "oneOf": [
             {
               "type": "object",
-              "description": "Inferred leader→bodyguard attachment. Always provisional: the source format does not encode attachment unambiguously, so this is a heuristic match against leader-attachment data.",
+              "description": "A leader→bodyguard attachment. May be explicit (a builder export sets provisional=false) or inferred on import (provisional=true: the source format does not encode the attachment unambiguously, so it is a heuristic match against leader-attachment data). `role` distinguishes a leader leading a bodyguard from a support character that cannot operate alone.",
               "properties": {
                 "bodyguard_ref": { "$ref": "#/$defs/roster-resolved-ref" },
+                "role": { "enum": ["leader", "support"] },
                 "provisional": { "type": "boolean" }
               },
-              "required": ["bodyguard_ref", "provisional"],
+              "required": ["bodyguard_ref", "role", "provisional"],
               "additionalProperties": false
             },
             { "type": "null" }
