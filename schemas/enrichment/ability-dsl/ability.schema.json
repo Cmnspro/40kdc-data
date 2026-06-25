@@ -39,34 +39,11 @@
     },
     "effect": { "$ref": "effect.schema.json" },
     "trigger": {
-      "description": "For reactive abilities: the game event this ability fires on, plus structured guards an event-driven consumer evaluates against game state (no prose parsing). `event` is the closed dispatch key; `subject` names whose action triggered it; `proximity` is the spatial gate in inches; `condition` is an optional extra gate reusing the condition tree. `optional` marks 'you can' reactions, `cost` a stratagem-style CP cost, `window` how long the granted reaction stays open.",
-      "type": "object",
-      "properties": {
-        "event": { "$ref": "../../defs/common.schema.json#/$defs/game-event" },
-        "subject": {
-          "type": "string",
-          "enum": ["self", "bearer", "friendly-unit", "enemy-unit", "any-unit", "model-in-bearer"]
-        },
-        "proximity": {
-          "type": "object",
-          "properties": {
-            "of": { "type": "string", "enum": ["self", "bearer", "attached-unit"] },
-            "range": { "type": "number", "exclusiveMinimum": 0 }
-          },
-          "required": ["range"],
-          "additionalProperties": false
-        },
-        "condition": { "$ref": "condition.schema.json" },
-        "optional": { "type": "boolean", "default": false },
-        "cost": {
-          "type": "object",
-          "properties": { "cp": { "type": "integer", "minimum": 0 } },
-          "additionalProperties": false
-        },
-        "window": { "type": "string" }
-      },
-      "required": ["event"],
-      "additionalProperties": false
+      "description": "For reactive abilities: the game event(s) this ability fires on, plus structured guards. One trigger object, OR an array of trigger objects — the ability fires on ANY listed trigger (models multi-event reactions like 'set up OR ends a move'). See `$defs/trigger`.",
+      "oneOf": [
+        { "$ref": "#/$defs/trigger" },
+        { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/trigger" } }
+      ]
     },
     "scope": { "$ref": "scope.schema.json" },
     "usage": {
@@ -114,5 +91,43 @@
     "community_notes": { "type": "string" }
   },
   "required": ["ability_id", "name", "authored_by", "game_version", "effect", "scope"],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "trigger": {
+      "description": "A single reactive trigger: the game `event` (closed dispatch key), `subject` (whose action triggered it), `proximity` (spatial gate in inches), optional `move_types` (restricts a move event to given move kinds), `condition` (extra gate reusing the condition tree), `optional` ('you can' reactions), `cost` (stratagem-style CP), and `window` (how long the granted reaction stays open).",
+      "type": "object",
+      "properties": {
+        "event": { "$ref": "../../defs/common.schema.json#/$defs/game-event" },
+        "subject": {
+          "type": "string",
+          "enum": ["self", "bearer", "friendly-unit", "enemy-unit", "any-unit", "model-in-bearer"]
+        },
+        "proximity": {
+          "type": "object",
+          "properties": {
+            "of": { "type": "string", "enum": ["self", "bearer", "attached-unit"] },
+            "range": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "required": ["range"],
+          "additionalProperties": false
+        },
+        "move_types": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "enum": ["normal", "advance", "fall-back", "charge"] },
+          "description": "Restricts a move-related event (e.g. enemy-unit-ended-move) to these move kinds — e.g. [normal, advance, fall-back] for 'a Normal, Advance or Fall Back move'."
+        },
+        "condition": { "$ref": "condition.schema.json" },
+        "optional": { "type": "boolean", "default": false },
+        "cost": {
+          "type": "object",
+          "properties": { "cp": { "type": "integer", "minimum": 0 } },
+          "additionalProperties": false
+        },
+        "window": { "type": "string" }
+      },
+      "required": ["event"],
+      "additionalProperties": false
+    }
+  }
 }

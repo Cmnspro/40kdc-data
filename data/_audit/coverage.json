@@ -80,8 +80,8 @@
     {
       "faction": "astra-militarum",
       "total": 205,
-      "offensive": 46,
-      "defensive": 16,
+      "offensive": 45,
+      "defensive": 17,
       "inert": 146,
       "stub": 6,
       "stubStructural": 6,
@@ -223,9 +223,9 @@
     {
       "faction": "tau-empire",
       "total": 129,
-      "offensive": 33,
+      "offensive": 32,
       "defensive": 7,
-      "inert": 92,
+      "inert": 93,
       "stub": 4,
       "stubStructural": 3,
       "gwTextLeak": 0,
@@ -267,9 +267,9 @@
   ],
   "totals": {
     "total": 3121,
-    "offensive": 746,
-    "defensive": 264,
-    "inert": 2200,
+    "offensive": 744,
+    "defensive": 265,
+    "inert": 2201,
     "stub": 216,
     "stubStructural": 190,
     "gwTextLeak": 0,
@@ -298,7 +298,7 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 81
+      "count": 80
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
@@ -385,11 +385,11 @@
       "count": 9
     },
     {
-      "reason": "dice-gated effect: stochastic; not expressible as a buff",
-      "count": 9
+      "reason": "conditional: cannot evaluate condition \"advanced-this-turn\" against current context",
+      "count": 8
     },
     {
-      "reason": "conditional: cannot evaluate condition \"advanced-this-turn\" against current context",
+      "reason": "dice-gated effect: stochastic; not expressible as a buff",
       "count": 8
     },
     {
@@ -537,6 +537,10 @@
       "count": 2
     },
     {
+      "reason": "conditional: cannot evaluate condition \"battle-round\" against current context",
+      "count": 2
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"terrain-area-control\" against current context",
       "count": 2
     },
@@ -609,7 +613,15 @@
       "count": 1
     },
     {
+      "reason": "effect type \"battle-shock-test\" is not modelled by the buff layer",
+      "count": 1
+    },
+    {
       "reason": "stat-modifier on \"blessings-dice\" is outside the damage path",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"flyover\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -4990,7 +5002,7 @@
       "faction": "adeptus-astartes",
       "ability_id": "oath-of-moment",
       "name": "Oath of Moment",
-      "shape": "sequence",
+      "shape": "designate-target",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -6880,7 +6892,7 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "doctrina-imperatives",
       "name": "Doctrina Imperatives",
-      "shape": "conditional",
+      "shape": "stance-select",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -11890,10 +11902,10 @@
       "faction": "astra-militarum",
       "ability_id": "voice-of-command",
       "name": "Voice of Command",
-      "shape": "choice",
+      "shape": "issue-orders",
       "stub": false,
-      "offensive": true,
-      "defensive": false,
+      "offensive": false,
+      "defensive": true,
       "gap": null
     },
     {
@@ -16990,7 +17002,7 @@
       "faction": "chaos-space-marines",
       "ability_id": "dark-pacts",
       "name": "Dark Pacts",
-      "shape": "choice",
+      "shape": "risk-reward",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -28012,9 +28024,9 @@
       "name": "Killing Blow",
       "shape": "sequence",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "conditional: cannot evaluate condition \"battle-round\" against current context"
     },
     {
       "faction": "tau-empire",
@@ -28054,7 +28066,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+      "gap": "conditional: cannot evaluate condition \"battle-round\" against current context"
     },
     {
       "faction": "tau-empire",
@@ -30240,11 +30252,11 @@
       "faction": "tyranids",
       "ability_id": "synapse",
       "name": "Synapse",
-      "shape": "conditional",
+      "shape": "sequence",
       "stub": false,
       "offensive": true,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"battle-shock-test\" is not modelled by the buff layer"
     },
     {
       "faction": "tyranids",
@@ -30870,11 +30882,11 @@
       "faction": "world-eaters",
       "ability_id": "swooping-predator",
       "name": "Swooping Predator",
-      "shape": "conditional",
+      "shape": "flyover",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "dice-gated effect: stochastic; not expressible as a buff"
+      "gap": "effect type \"flyover\" is not modelled by the buff layer"
     },
     {
       "faction": "world-eaters",

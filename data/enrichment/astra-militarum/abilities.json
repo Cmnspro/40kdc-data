@@ -4933,45 +4933,104 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "choice",
+      "type": "issue-orders",
+      "range": 6,
       "options": [
         {
-          "type": "roll-modifier",
-          "target": "unit",
-          "modifier": {
-            "roll": "hit",
-            "operation": "add",
-            "value": 1
+          "name": "Move! Move! Move!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 3
+            }
           }
         },
         {
-          "type": "stat-modifier",
-          "target": "unit",
-          "modifier": {
-            "stat": "A",
-            "operation": "add",
-            "value": 1
+          "name": "Fix Bayonets!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "WS",
+              "operation": "improve",
+              "value": 1,
+              "attack_type": "melee"
+            }
           }
         },
         {
-          "type": "stat-modifier",
-          "target": "unit",
-          "modifier": {
-            "stat": "M",
-            "operation": "add",
-            "value": 3
+          "name": "Take Aim!",
+          "effect": {
+            "type": "bs-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "First Rank, Fire! Second Rank, Fire!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "A",
+              "operation": "improve",
+              "value": 1,
+              "weapon_keyword": "Rapid Fire"
+            }
+          }
+        },
+        {
+          "name": "Take Cover!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "Sv",
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "Duty and Honour!",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "leadership-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "improve",
+                  "value": 1
+                }
+              },
+              {
+                "type": "objective-control-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "add",
+                  "value": 1
+                }
+              }
+            ]
           }
         }
       ]
     },
     "scope": {
-      "range": "aura-6",
+      "range": "unit",
       "duration": "until-next-command-phase"
     },
     "faction_id": "astra-militarum",
     "ability_type": "faction",
     "behavior": "activated",
-    "community_notes": "Models 3 offensive Orders as a choice: Take Aim (+1 BS), First Rank Fire (+1A on Rapid Fire), Move Move Move (+3M). Hill-climbing selects Take Aim (+1 hit) as universally best. Fix Bayonets (+1 WS) omitted as it's equivalent to Take Aim for melee phase.",
+    "community_notes": "Each OFFICER datasheet specifies how many Orders it can issue per battle round and which units are eligible; Orders are issued in your Command phase (and at the end of a phase in which the OFFICER disembarked from a TRANSPORT or was set up). A unit can be affected by only one Order at a time. TAKE COVER! cannot improve a Save to better than 3+. Only ASTRA MILITARUM models benefit from an Order.",
     "unit_ids": [
       "gaunts-ghosts",
       "death-rider-commissar",

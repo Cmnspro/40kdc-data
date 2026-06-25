@@ -13,7 +13,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | adeptus-mechanicus | 111 | 25 | 11 | 78 | 4 | 3 | 0 | 2 |
 | aeldari | 180 | 38 | 13 | 134 | 12 | 16 | 0 | 5 |
 | agents-of-the-imperium | 133 | 27 | 10 | 98 | 31 | 6 | 0 | 2 |
-| astra-militarum | 205 | 46 | 16 | 146 | 6 | 6 | 0 | 5 |
+| astra-militarum | 205 | 45 | 17 | 146 | 6 | 6 | 0 | 5 |
 | chaos-daemons | 157 | 40 | 14 | 109 | 5 | 9 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 4 | 3 | 0 | 0 |
 | chaos-space-marines | 236 | 63 | 17 | 163 | 15 | 27 | 0 | 6 |
@@ -26,11 +26,11 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | leagues-of-votann | 76 | 20 | 7 | 51 | 4 | 2 | 0 | 1 |
 | necrons | 157 | 26 | 23 | 116 | 13 | 12 | 0 | 1 |
 | orks | 159 | 33 | 13 | 118 | 14 | 11 | 0 | 3 |
-| tau-empire | 129 | 33 | 7 | 92 | 3 | 4 | 0 | 3 |
+| tau-empire | 129 | 32 | 7 | 93 | 3 | 4 | 0 | 3 |
 | thousand-sons | 130 | 31 | 9 | 95 | 16 | 19 | 0 | 2 |
 | tyranids | 114 | 22 | 8 | 87 | 6 | 8 | 0 | 6 |
 | world-eaters | 133 | 21 | 9 | 104 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **3121** | **746** | **264** | **2200** | **190** | **216** | **0** | **59** |
+| **TOTAL** | **3121** | **744** | **265** | **2201** | **190** | **216** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
@@ -41,7 +41,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `149` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
 - `81` — effect type "attack-restriction" is not modelled by the buff layer
-- `81` — conditional: cannot evaluate condition "undefined" against current context
+- `80` — conditional: cannot evaluate condition "undefined" against current context
 - `79` — effect type "leadership-modifier" is not modelled by the buff layer
 - `56` — effect type "resurrection" is not modelled by the buff layer
 - `51` — effect type "objective-control-modifier" is not modelled by the buff layer
@@ -63,8 +63,8 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `12` — stat-modifier on "D" is outside the damage path
 - `10` — conditional: cannot evaluate condition "unit-within-range-of" against current context
 - `9` — stat-modifier T: defender-side stat; applies when the buffed unit is the target
-- `9` — dice-gated effect: stochastic; not expressible as a buff
 - `8` — conditional: cannot evaluate condition "advanced-this-turn" against current context
+- `8` — dice-gated effect: stochastic; not expressible as a buff
 - `7` — roll-modifier: operation "crit-on" not supported
 - `7` — conditional: cannot evaluate condition "is-battle-shocked" against current context
 - `6` — conditional: cannot evaluate condition "unit-below-half-strength" against current context
@@ -101,6 +101,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `2` — conditional: cannot evaluate condition "within-range-of-objective" against current context
 - `2` — stat-modifier: narrows by "weapon_name" which the cruncher can't resolve here
 - `2` — conditional: cannot evaluate condition "disembarked-from-transport" against current context
+- `2` — conditional: cannot evaluate condition "battle-round" against current context
 - `2` — conditional: cannot evaluate condition "terrain-area-control" against current context
 - `1` — effect type "replace-roll-from-pool" is not modelled by the buff layer
 - `1` — stat-modifier: operation "improve-vs-D1" not supported
@@ -119,7 +120,9 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `1` — stat-modifier AP: operation "set-on-crit-wound" not supported
 - `1` — stat-modifier on "R" is outside the damage path
 - `1` — stat-modifier on "BS" is outside the damage path
+- `1` — effect type "battle-shock-test" is not modelled by the buff layer
 - `1` — stat-modifier on "blessings-dice" is outside the damage path
+- `1` — effect type "flyover" is not modelled by the buff layer
 - `1` — re-roll on "blessings" (subset …) is outside the damage path
 - `1` — roll-modifier: operation "undefined" not supported
 - `1` — effect type "disembark" is not modelled by the buff layer

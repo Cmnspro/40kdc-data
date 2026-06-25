@@ -13,7 +13,11 @@
         { "$ref": "#/$defs/dice-pool-allocation-effect" },
         { "$ref": "#/$defs/select-units-effect" },
         { "$ref": "#/$defs/movement-modifier-effect" },
-        { "$ref": "#/$defs/aura-effect" }
+        { "$ref": "#/$defs/aura-effect" },
+        { "$ref": "#/$defs/designate-target-effect" },
+        { "$ref": "#/$defs/stance-select-effect" },
+        { "$ref": "#/$defs/risk-reward-effect" },
+        { "$ref": "#/$defs/issue-orders-effect" }
       ]
     },
     "scaling": {
@@ -97,7 +101,8 @@
             "unit-keyword-grant",
             "auto-result", "firing-deck", "disembark-after-move", "disembark",
             "rule-state",
-            "pool-add-die", "replace-roll-from-pool"
+            "pool-add-die", "replace-roll-from-pool",
+            "flyover", "cp-on-destroy", "battle-shock-test"
           ]
         },
         "target": {
@@ -281,6 +286,66 @@
                   "distance": { "type": "integer", "minimum": 1 },
                   "allow_engagement_range": { "type": "boolean" }
                 }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "`flyover`: a model that ends a move over an enemy unit rolls `dice`; each result at or above `threshold` inflicts `mortal_wounds` on the moved-over enemy. Models flyover/strafing mortal wounds (target is the moved-over enemy, named via the ability's trigger).",
+          "if": {
+            "properties": { "type": { "const": "flyover" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "dice": { "type": "string", "minLength": 1 },
+                  "threshold": { "type": "integer", "minimum": 1, "maximum": 6 },
+                  "mortal_wounds": { "type": "integer", "minimum": 1 }
+                },
+                "required": ["dice", "threshold", "mortal_wounds"]
+              }
+            },
+            "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`cp-on-destroy`: gain `amount` CP each time the bearer's unit destroys an enemy model; optional `enemy_keyword` gates on the destroyed model's keyword (e.g. CHARACTER); `per` ('model'|'unit') is the granularity of the count.",
+          "if": {
+            "properties": { "type": { "const": "cp-on-destroy" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "integer", "minimum": 1 },
+                  "enemy_keyword": { "type": "string", "minLength": 1 },
+                  "per": { "type": "string", "enum": ["model", "unit"] }
+                },
+                "required": ["amount"]
+              }
+            },
+            "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`battle-shock-test`: the target takes Battle-shock tests on the given `dice` expression instead of the default 2D6 (e.g. '3D6' for Tyranid Synapse).",
+          "if": {
+            "properties": { "type": { "const": "battle-shock-test" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "dice": { "type": "string", "minLength": 1 }
+                },
+                "required": ["dice"]
               }
             },
             "required": ["modifier"]
@@ -494,6 +559,114 @@
         }
       },
       "required": ["type", "target", "modifier"]
+    },
+    "designate-target-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Nominate one enemy unit (the designation/mark) and apply `applies.effect` keyed to it. `applies.to` decides the beneficiary: 'target' debuffs the marked unit itself (cover-strip, suppression); 'attackers-of-target' buffs every friendly attack made against it (Oath of Moment, Tau spotting). Supersedes the ad-hoc `context: vs-selected-keyword`/`vs-marked` workaround. `select.timing` is when the mark is chosen; `duration` how long it lasts.",
+      "properties": {
+        "type": { "const": "designate-target" },
+        "designation": { "type": "string", "minLength": 1 },
+        "select": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scope": { "type": "string", "enum": ["enemy-unit", "friendly-unit"] },
+            "count": { "type": "integer", "minimum": 1 },
+            "timing": { "type": "string" }
+          },
+          "required": ["scope"]
+        },
+        "applies": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "to": { "type": "string", "enum": ["target", "attackers-of-target"] },
+            "effect": { "$ref": "#/$defs/effect-node" }
+          },
+          "required": ["to", "effect"]
+        },
+        "duration": {
+          "type": "string",
+          "enum": ["phase", "turn", "battle-round", "battle", "until-next-command-phase"]
+        }
+      },
+      "required": ["type", "designation", "select", "applies"]
+    },
+    "stance-select-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Pick exactly one option from a menu of modal buffs — the dice-pool-allocation shape minus the dice. `mode`: 're-selectable' re-picks each window with no depletion (Admech Doctrina Imperatives); 'consumable' spends each option once per battle (Gladius Combat Doctrines). `scope` is who the active option applies to; `select` names when the pick is made. Each option carries a `name` and a bundle `effect` (often a sequence).",
+      "properties": {
+        "type": { "const": "stance-select" },
+        "mode": { "type": "string", "enum": ["re-selectable", "consumable"] },
+        "scope": { "type": "string", "enum": ["army", "unit"] },
+        "select": { "type": "string" },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "effect": { "$ref": "#/$defs/effect-node" }
+            },
+            "required": ["name", "effect"]
+          }
+        }
+      },
+      "required": ["type", "mode", "options"]
+    },
+    "risk-reward-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "An activated buff (`reward`) that can backfire: resolve a `risk` test and, on failure, apply `risk.on_fail` to the bearer (the Hazardous-keyword pattern lifted to abilities — Chaos Dark Pacts). `risk.test` names the test taken (e.g. 'leadership').",
+      "properties": {
+        "type": { "const": "risk-reward" },
+        "reward": { "$ref": "#/$defs/effect-node" },
+        "risk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "test": { "type": "string", "minLength": 1 },
+            "on_fail": { "$ref": "#/$defs/effect-node" }
+          },
+          "required": ["test", "on_fail"]
+        }
+      },
+      "required": ["type", "reward", "risk"]
+    },
+    "issue-orders-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "An officer issues up to `count` Orders per round to eligible friendly units within `range` inches, each a pick from the `options` menu (Astra Militarum Voice of Command). `count`/`eligible` are typically per-officer-datasheet; the shared menu lives on the army rule. Each option carries a `name` and the `effect` the chosen Order applies to the receiving unit.",
+      "properties": {
+        "type": { "const": "issue-orders" },
+        "count": { "type": "integer", "minimum": 1 },
+        "range": { "type": "number", "exclusiveMinimum": 0 },
+        "eligible": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyword": { "type": "string", "minLength": 1 }
+          }
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "effect": { "$ref": "#/$defs/effect-node" }
+            },
+            "required": ["name", "effect"]
+          }
+        }
+      },
+      "required": ["type", "options"]
     }
   },
   "$ref": "#/$defs/effect-node"

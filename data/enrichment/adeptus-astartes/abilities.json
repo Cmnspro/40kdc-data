@@ -11378,30 +11378,31 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "sequence",
-      "steps": [
-        {
+      "type": "designate-target",
+      "designation": "oath-of-moment",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-command-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
           "type": "re-roll",
           "target": "unit",
           "modifier": {
             "roll": "hit",
             "subset": "all-failures"
           }
-        },
-        {
-          "type": "re-roll",
-          "target": "unit",
-          "modifier": {
-            "roll": "wound",
-            "subset": "all-failures"
-          }
         }
-      ]
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
       "range": "any-on-battlefield",
       "duration": "until-next-command-phase"
     },
+    "community_notes": "Additionally add 1 to the Wound roll against the Oath of Moment target IF you are using a Codex: Space Marines Detachment and your army includes no BLACK TEMPLARS, BLOOD ANGELS, DARK ANGELS, DEATHWATCH or SPACE WOLVES units (an army-composition precondition not expressible in the runtime DSL).",
     "faction_id": "adeptus-astartes",
     "ability_type": "faction",
     "behavior": "activated",

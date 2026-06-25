@@ -2375,30 +2375,133 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "fight"
+      "type": "stance-select",
+      "mode": "re-selectable",
+      "scope": "army",
+      "select": "start-of-battle-round",
+      "options": [
+        {
+          "name": "Protector Imperative",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "keyword-grant",
+                "target": "unit",
+                "modifier": {
+                  "keyword": "Heavy",
+                  "weapon_type": "ranged"
+                }
+              },
+              {
+                "type": "bs-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "improve",
+                  "value": 1
+                }
+              },
+              {
+                "type": "conditional",
+                "condition": {
+                  "operator": "or",
+                  "operands": [
+                    {
+                      "type": "unit-has-keyword",
+                      "parameters": {
+                        "keyword": "Battleline"
+                      }
+                    },
+                    {
+                      "type": "unit-within-range-of",
+                      "parameters": {
+                        "range": 6,
+                        "target_type": "friendly-keyword",
+                        "keyword": "Adeptus Mechanicus Battleline"
+                      }
+                    }
+                  ]
+                },
+                "effect": {
+                  "type": "roll-modifier",
+                  "target": "attacker",
+                  "modifier": {
+                    "roll": "hit",
+                    "operation": "subtract",
+                    "value": 1,
+                    "context": "melee"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Conqueror Imperative",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "keyword-grant",
+                "target": "unit",
+                "modifier": {
+                  "keyword": "Assault",
+                  "weapon_type": "ranged"
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "WS",
+                  "operation": "improve",
+                  "value": 1,
+                  "attack_type": "melee"
+                }
+              },
+              {
+                "type": "conditional",
+                "condition": {
+                  "operator": "or",
+                  "operands": [
+                    {
+                      "type": "unit-has-keyword",
+                      "parameters": {
+                        "keyword": "Battleline"
+                      }
+                    },
+                    {
+                      "type": "unit-within-range-of",
+                      "parameters": {
+                        "range": 6,
+                        "target_type": "friendly-keyword",
+                        "keyword": "Adeptus Mechanicus Battleline"
+                      }
+                    }
+                  ]
+                },
+                "effect": {
+                  "type": "stat-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "stat": "AP",
+                    "operation": "add",
+                    "value": -1
+                  }
+                }
+              }
+            ]
+          }
         }
-      },
-      "effect": {
-        "type": "stat-modifier",
-        "target": "unit",
-        "modifier": {
-          "stat": "AP",
-          "operation": "add",
-          "value": -1
-        }
-      }
+      ]
     },
     "scope": {
-      "range": "aura-6",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle-round"
     },
     "faction_id": "adeptus-mechanicus",
     "ability_type": "faction",
-    "behavior": "reactive",
+    "behavior": "activated",
     "unit_ids": [
       "hastarii-exterminators",
       "hastarii-fusiliers",

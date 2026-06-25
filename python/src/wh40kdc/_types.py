@@ -814,6 +814,9 @@ class SingleEffect(TypedDict):
         "rule-state",
         "pool-add-die",
         "replace-roll-from-pool",
+        "flyover",
+        "cp-on-destroy",
+        "battle-shock-test",
     ]
     target: Literal[
         "self",
@@ -851,6 +854,16 @@ class Marker(TypedDict):
 
 
 RangeItem: TypeAlias = int
+
+
+class Select(TypedDict):
+    scope: Literal["enemy-unit", "friendly-unit"]
+    count: NotRequired[int]
+    timing: NotRequired[str]
+
+
+class Eligible(TypedDict):
+    keyword: NotRequired[str]
 
 
 class Scope(TypedDict):
@@ -974,6 +987,7 @@ class Trigger(TypedDict):
         Literal["self", "bearer", "friendly-unit", "enemy-unit", "any-unit", "model-in-bearer"]
     ]
     proximity: NotRequired[Proximity]
+    move_types: NotRequired[list[Literal["normal", "advance", "fall-back", "charge"]]]
     condition: NotRequired[Condition]
     optional: NotRequired[bool]
     cost: NotRequired[Cost]
@@ -995,7 +1009,7 @@ class Ability(TypedDict):
     ]
     behavior: NotRequired[Literal["passive", "activated", "reactive", "aura"]]
     effect: Effect
-    trigger: NotRequired[Trigger]
+    trigger: NotRequired[Trigger | list[Trigger]]
     scope: Scope
     usage: NotRequired[Usage]
     applies_to: NotRequired[AppliesTo | None]
@@ -1026,6 +1040,10 @@ EffectNode: TypeAlias = Union[
     "SelectUnitsEffect",
     "MovementModifierEffect",
     "AuraEffect",
+    "DesignateTargetEffect",
+    "StanceSelectEffect",
+    "RiskRewardEffect",
+    "IssueOrdersEffect",
 ]
 
 
@@ -1143,6 +1161,53 @@ class AuraEffect(TypedDict):
     type: Literal["aura"]
     target: Literal["enemy-within-aura", "friendly-within-aura"]
     modifier: Modifier1
+
+
+class Applies(TypedDict):
+    to: Literal["target", "attackers-of-target"]
+    effect: EffectNode
+
+
+class DesignateTargetEffect(TypedDict):
+    type: Literal["designate-target"]
+    designation: str
+    select: Select
+    applies: Applies
+    duration: NotRequired[
+        Literal["phase", "turn", "battle-round", "battle", "until-next-command-phase"]
+    ]
+
+
+class Option1(TypedDict):
+    name: str
+    effect: EffectNode
+
+
+class StanceSelectEffect(TypedDict):
+    type: Literal["stance-select"]
+    mode: Literal["re-selectable", "consumable"]
+    scope: NotRequired[Literal["army", "unit"]]
+    select: NotRequired[str]
+    options: list[Option1]
+
+
+class Risk(TypedDict):
+    test: str
+    on_fail: EffectNode
+
+
+class RiskRewardEffect(TypedDict):
+    type: Literal["risk-reward"]
+    reward: EffectNode
+    risk: Risk
+
+
+class IssueOrdersEffect(TypedDict):
+    type: Literal["issue-orders"]
+    count: NotRequired[int]
+    range: NotRequired[float]
+    eligible: NotRequired[Eligible]
+    options: list[Option1]
 
 
 Effect: TypeAlias = EffectNode

@@ -1239,12 +1239,6 @@
           {
             "type": "opponent-unit-within-range",
             "parameters": {
-              "range": 8
-            }
-          },
-          {
-            "type": "opponent-unit-within-range",
-            "parameters": {
               "range": "engagement"
             },
             "negated": true
@@ -1255,7 +1249,7 @@
         "type": "movement-modifier",
         "target": "unit",
         "modifier": {
-          "move_type": "reactive",
+          "move_type": "normal",
           "distance": "D6"
         }
       }
@@ -1264,10 +1258,14 @@
       "range": "unit",
       "duration": "phase"
     },
+    "usage": {
+      "frequency": "once-per-turn"
+    },
     "trigger": {
-      "event": "end-of-phase",
+      "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true,
+      "move_types": ["normal", "advance", "fall-back"],
       "proximity": {
         "of": "bearer",
         "range": 9
@@ -1356,14 +1354,6 @@
     "scope": {
       "range": "self",
       "duration": "permanent"
-    },
-    "trigger": {
-      "event": "start-of-phase",
-      "subject": "self",
-      "proximity": {
-        "of": "self",
-        "range": 3
-      }
     }
   },
   {
@@ -1809,37 +1799,17 @@
     "ability_type": "unit",
     "behavior": "activated",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "movement"
-        }
-      },
-      "effect": {
-        "type": "dice-gated",
+      "type": "flyover",
+      "target": "defender",
+      "modifier": {
         "dice": "6D6",
         "threshold": 4,
-        "comparison": "gte",
-        "on_success": {
-          "type": "mortal-wounds",
-          "target": "defender",
-          "modifier": {
-            "amount": 1,
-            "per_success": true
-          }
-        },
-        "on_fail": null
+        "mortal_wounds": 1
       }
     },
     "scope": {
       "range": "any-visible",
       "duration": "phase"
-    },
-    "trigger": {
-      "event": "end-of-phase",
-      "subject": "bearer",
-      "optional": true
     }
   },
   {
@@ -2335,11 +2305,11 @@
             }
           },
           {
-            "type": "cp-gain",
+            "type": "cp-on-destroy",
             "target": "self",
             "modifier": {
               "amount": 1,
-              "trigger": "destroy-character"
+              "enemy_keyword": "Character"
             }
           }
         ]
@@ -2388,36 +2358,39 @@
             "parameters": {
               "turn": "opponent-turn"
             }
-          },
-          {
-            "type": "opponent-unit-within-range",
-            "parameters": {
-              "range": 8
-            }
           }
         ]
       },
       "effect": {
-        "type": "ability-grant",
-        "target": "unit",
-        "modifier": {
-          "grant_type": "reactive-disembark"
-        }
+        "type": "disembark",
+        "target": "unit"
       }
     },
     "scope": {
       "range": "unit",
       "duration": "phase"
     },
-    "trigger": {
-      "event": "end-of-phase",
-      "subject": "enemy-unit",
-      "optional": true,
-      "proximity": {
-        "of": "bearer",
-        "range": 9
+    "trigger": [
+      {
+        "event": "unit-set-up",
+        "subject": "enemy-unit",
+        "optional": true,
+        "proximity": {
+          "of": "bearer",
+          "range": 9
+        }
+      },
+      {
+        "event": "enemy-unit-ended-move",
+        "subject": "enemy-unit",
+        "optional": true,
+        "move_types": ["normal", "advance", "fall-back"],
+        "proximity": {
+          "of": "bearer",
+          "range": 9
+        }
       }
-    }
+    ]
   },
   {
     "ability_id": "unleash-wrath",
@@ -5631,7 +5604,8 @@
     "scope": {
       "range": "self",
       "duration": "permanent"
-    }
+    },
+    "community_notes": "MAULERFIEND unit only. This unit's Maulerfiend Fists have [CLEAVE 2]."
   },
   {
     "ability_id": "murder-forged-entity-brazen-engines",

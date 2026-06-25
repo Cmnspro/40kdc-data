@@ -6077,33 +6077,58 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "choice",
-      "choice_label": "Dark Pact ability",
-      "options": [
-        {
-          "type": "keyword-grant",
-          "target": "unit",
-          "modifier": {
-            "keywords": [
-              "Lethal Hits"
-            ]
+      "type": "risk-reward",
+      "reward": {
+        "type": "choice",
+        "choice_label": "Dark Pact ability",
+        "options": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Lethal Hits"
+              ]
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1"
+              ]
+            }
           }
-        },
-        {
-          "type": "keyword-grant",
-          "target": "unit",
+        ]
+      },
+      "risk": {
+        "test": "leadership",
+        "on_fail": {
+          "type": "mortal-wounds",
+          "target": "self",
           "modifier": {
-            "keywords": [
-              "Sustained Hits 1"
-            ]
+            "count": "d3"
           }
         }
-      ]
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "phase"
     },
+    "trigger": [
+      {
+        "event": "selected-to-shoot",
+        "subject": "self",
+        "optional": true
+      },
+      {
+        "event": "selected-to-fight",
+        "subject": "self",
+        "optional": true
+      }
+    ],
     "faction_id": "chaos-space-marines",
     "ability_type": "faction",
     "behavior": "activated",

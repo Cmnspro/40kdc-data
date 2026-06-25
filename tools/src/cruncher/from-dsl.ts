@@ -194,6 +194,34 @@ function walk(
       // Targeting wrapper — the selected units receive the nested effect.
       walk(node.effect, source, opts, out);
       return;
+    case "designate-target": {
+      // Mark an enemy unit; when `to: attackers-of-target` the nested effect is
+      // a buff every friendly attack against that unit receives (Oath of Moment).
+      // A `to: target` debuff lands on the enemy, not the bearer, so it is not a
+      // buff in this perspective.
+      const applies = isObject(node.applies) ? node.applies : {};
+      if (applies.to === "attackers-of-target") {
+        walk(applies.effect, source, opts, out);
+      } else {
+        out.unsupported.push({
+          reason: "designate-target debuff on the marked unit: not a buff on the bearer",
+          effectFragment: node,
+        });
+      }
+      return;
+    }
+    case "risk-reward":
+      // The reward is the buff; the risk (self-damage on a failed test) is not.
+      walk(node.reward, source, opts, out);
+      return;
+    case "stance-select":
+      // Pick-one modal buff — each option is an opt-in lever (pick one).
+      enumerateNamedOptions(node, source, opts, out, `${opts.abilityId}?stance`, 1);
+      return;
+    case "issue-orders":
+      // Officer issues one Order from the menu — each is an opt-in lever.
+      enumerateNamedOptions(node, source, opts, out, `${opts.abilityId}?order`, 1);
+      return;
     default:
       // Unknown effect — record it. Covers ability-grant, deep-strike,
       // mortal-wounds, cp-gain, movement-modifier, etc.; the buff layer
@@ -801,6 +829,31 @@ function enumerateDicePool(
       label: name,
       buffs,
       group: { id: opts.abilityId, maxActivations },
+    });
+  }
+}
+
+/** Emit one opt-in lever per buff-bearing named option (stance-select / issue-orders). */
+function enumerateNamedOptions(
+  node: Record<string, unknown>,
+  source: BuffSource,
+  opts: WalkOpts,
+  out: EffectTranslation,
+  groupId: string,
+  maxActivations: number,
+): void {
+  const options = Array.isArray(node.options) ? node.options : [];
+  for (const opt of options) {
+    if (!isObject(opt)) continue;
+    const buffs: Buff[] = [];
+    collectGatedBuffs(opt.effect, source, opts, {}, buffs);
+    if (buffs.length === 0) continue;
+    const name = typeof opt.name === "string" && opt.name ? opt.name : labelForBuffs(buffs);
+    out.activatable.push({
+      id: `${opts.abilityId}#${name}`,
+      label: name,
+      buffs,
+      group: { id: groupId, maxActivations },
     });
   }
 }
