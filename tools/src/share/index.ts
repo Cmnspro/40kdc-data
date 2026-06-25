@@ -16,8 +16,10 @@
  * @packageDocumentation
  */
 import { decodeShareList, encodeShareList, type DecodeResult, type ShareList } from "./codec.js";
+import { rosterToShareList as rosterToShareListImpl } from "./from-roster.js";
 import { SHARE_REGISTRY } from "./registry.generated.js";
 import { ShareRegistryIndex } from "./registry.js";
+import type { Roster } from "../import/types.js";
 
 export { SHARE_FORMAT_VERSION } from "./codec.js";
 export type {
@@ -45,4 +47,14 @@ export function encodeShareToken(list: ShareList): string {
 /** Decode a `share-v1` token using the embedded registry. */
 export function decodeShareToken(token: string): DecodeResult {
   return decodeShareList(token, embeddedIndex);
+}
+
+/**
+ * Adapt an imported {@link Roster} to a {@link ShareList} against the embedded
+ * registry, keeping only resolved, registry-known ids. Pair with
+ * {@link encodeShareToken} (inside a try/catch) to turn a parsed list into a
+ * share link; see {@link rosterToShareListImpl} for the partial-mapping contract.
+ */
+export function rosterToShareList(roster: Roster): ShareList {
+  return rosterToShareListImpl(roster, embeddedIndex);
 }

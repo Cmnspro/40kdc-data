@@ -1,44 +1,48 @@
 /**
- * Threat-matrix vocabulary. A matrix is, per opposing team, a table of THEIR
- * players (rows) × configurable threat/priority axes (columns) — a triage tool
- * for "who do we most want to kill / avoid / answer" before the structured
- * pairing dance the Pairings-practice tab simulates.
+ * Threat-matrix vocabulary. The matrix is a **matchup grid**: OUR team's players
+ * (rows) × the selected opposing team's players (columns). Each cell holds a
+ * single matchup verdict — Good / So-so / Bad — the captain's read on how that
+ * one of our players fares into that one opponent, before the structured pairing
+ * dance the Pairings-practice tab simulates.
  *
- * Axes are editable and synced, so the default set below is only a starting
- * point the captain can rename / add to / drop around the TV.
+ * "So-so" is the default and is stored *implicitly*: an absent cell reads as
+ * soso (yellow), so only explicit good/bad verdicts ride the synced doc.
  */
 import type { ForceDispositionId } from "@alpaca-software/40kdc-data";
 
-/** How a cell under an axis is entered (and therefore rendered + colored). */
-export type AxisKind = "rating" | "tier" | "flag" | "text";
+/** A cell's *stored* verdict. The third state, "so-so" (yellow), is the absence
+ *  of an entry in `cellsById` — see {@link nextVerdict}. */
+export type Verdict = "good" | "bad";
 
-export interface ThreatAxis {
-  id: string;
-  label: string;
-  kind: AxisKind;
+/** Cell colors: good=green (success), so-so=amber (warning), bad=red (danger).
+ *  Hardcoded rather than CSS vars so they work in inline `style` on the buttons,
+ *  matching the existing token values in `src/app.css`. */
+export const VERDICT_HUE = {
+  good: "#22c55e",
+  soso: "#f59e0b",
+  bad: "#ef4444",
+} as const;
+
+/**
+ * Triple-toggle order: soso (null) → good → bad → soso. `null` is the so-so
+ * default, so cycling off "bad" returns to an unset (yellow) cell.
+ */
+export function nextVerdict(current: Verdict | null): Verdict | null {
+  if (current === null) return "good";
+  if (current === "good") return "bad";
+  return null;
 }
 
-/** A cell's stored value. Shape follows the axis kind:
- *   rating → 0..3 (number)   tier → "low"|"med"|"high"   flag → boolean   text → string
- *  An unset cell has no entry in `cellsById` (reads as null). */
-export type CellValue = number | string | boolean | null;
+/** A light OUR-team row carried in the synced doc — a snapshot of a plan player
+ *  (its stable `Player.id` is reused so cells key off it). */
+export interface MatrixOurPlayer {
+  id: string;
+  name: string;
+  /** Faction ids the player may bring (snapshot of the plan's `factionIds`). */
+  factionIds: string[];
+}
 
-/** Ordered tier levels for `tier` axes (index = severity). */
-export const TIER_VALUES = ["low", "med", "high"] as const;
-export type TierValue = (typeof TIER_VALUES)[number];
-
-/** Max stars for a `rating` axis. */
-export const RATING_MAX = 3;
-
-/** The starting axis set — mirrors the captain's usual triage columns. */
-export const DEFAULT_AXES: ThreatAxis[] = [
-  { id: "kill-priority", label: "Kill priority", kind: "rating" },
-  { id: "threat", label: "Threat", kind: "tier" },
-  { id: "avoid", label: "Avoid", kind: "flag" },
-  { id: "notes", label: "Notes", kind: "text" },
-];
-
-/** A light opponent row carried in the synced doc (no list text — that stays
+/** A light opponent column carried in the synced doc (no list text — that stays
  *  local). `disposition` is the chosen Force Disposition id when known. */
 export interface MatrixPlayer {
   id: string;

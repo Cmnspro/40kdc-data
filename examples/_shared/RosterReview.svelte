@@ -6,12 +6,15 @@
    * when a list can't be parsed (image-only submissions, odd formats) so a list
    * is never unreadable — just less structured.
    */
-  import type { Roster, RosterUnit } from "@alpaca-software/40kdc-data";
+  import type { Dataset, Roster, RosterUnit } from "@alpaca-software/40kdc-data";
   import { parsePlayerRoster, splitBcpList, type OpponentPlayer } from "./opponents";
 
-  let { player, large = false }: { player: OpponentPlayer; large?: boolean } = $props();
+  // `dataset` is injected (rather than imported as a singleton) so this lives in
+  // _shared without coupling to any one app's dataset module.
+  let { player, dataset, large = false }: { player: OpponentPlayer; dataset: Dataset; large?: boolean } =
+    $props();
 
-  const parsed = $derived(parsePlayerRoster(player));
+  const parsed = $derived(parsePlayerRoster(player, dataset));
   const header = $derived(player.armyListText ? splitBcpList(player.armyListText).header : {});
   const roster = $derived(parsed?.ok ? parsed.roster : null);
   let showRaw = $state(false);

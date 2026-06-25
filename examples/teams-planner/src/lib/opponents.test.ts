@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { dispositionId, loadOpponents, parsePlayerRoster, splitBcpList } from "./opponents";
+import {
+  dispositionId,
+  loadOpponents,
+  parsePlayerRoster,
+  splitBcpList,
+} from "../../../_shared/opponents";
+import { ds } from "./dataset";
 
 describe("splitBcpList", () => {
   it("splits the ++++ header fields from the GW body", () => {
@@ -64,15 +70,18 @@ describe("loadOpponents", () => {
 
 describe("parsePlayerRoster", () => {
   it("returns null when the player has no list text", () => {
-    expect(parsePlayerRoster({ id: "p", name: "x", faction: null, armyListText: null })).toBeNull();
+    expect(parsePlayerRoster({ id: "p", name: "x", faction: null, armyListText: null }, ds)).toBeNull();
   });
   it("returns an import result for a list with text", () => {
-    const r = parsePlayerRoster({
-      id: "p",
-      name: "x",
-      faction: "World Eaters",
-      armyListText: "++++\nFactions Used: World Eaters\n++++\n\nWorld Eaters\nStrike Force (2000 points)\n\nAngron (435 points)\n",
-    });
+    const r = parsePlayerRoster(
+      {
+        id: "p",
+        name: "x",
+        faction: "World Eaters",
+        armyListText: "++++\nFactions Used: World Eaters\n++++\n\nWorld Eaters\nStrike Force (2000 points)\n\nAngron (435 points)\n",
+      },
+      ds,
+    );
     expect(r).not.toBeNull();
     expect(typeof r!.ok).toBe("boolean");
   });

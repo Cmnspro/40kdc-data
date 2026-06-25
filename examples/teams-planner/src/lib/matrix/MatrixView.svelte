@@ -7,11 +7,13 @@
    * one place.
    */
   import ThreatMatrix from "./ThreatMatrix.svelte";
-  import { loadOpponents, type OpponentData } from "../opponents";
+  import { loadOpponents, type OpponentData } from "../../../../_shared/opponents";
+  import type { TeamPlan } from "../coverage";
   import type { MatrixDoc } from "./matrix-doc";
 
   let {
     doc,
+    plan,
     opponents = null,
     showGoLive = false,
     onChange,
@@ -20,6 +22,7 @@
     onFlash,
   }: {
     doc: MatrixDoc;
+    plan: TeamPlan;
     opponents?: OpponentData | null;
     showGoLive?: boolean;
     onChange: (next: MatrixDoc) => void;
@@ -80,5 +83,5 @@
     {/if}
   </div>
 
-  <ThreatMatrix {doc} {opponents} {onChange} />
+  <ThreatMatrix {doc} {plan} {opponents} {onChange} />
 </div>

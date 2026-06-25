@@ -14,8 +14,10 @@ import {
   SHARE_FORMAT_VERSION,
   type ShareList,
 } from "../src/share/codec.js";
+import { rosterToShareList } from "../src/share/from-roster.js";
 import { ShareRegistryIndex } from "../src/share/registry.js";
 import { SHARE_REGISTRY } from "../src/share/registry.generated.js";
+import type { ResolvedRef, Roster, RosterUnit } from "../src/import/types.js";
 
 const index = new ShareRegistryIndex(SHARE_REGISTRY);
 
@@ -196,5 +198,157 @@ describe("share-v1 codec", () => {
     const decoded = decodeShareList(encodeShareList(list, aliased), aliased);
     expect(decoded.ok).toBe(true);
     if (decoded.ok) expect(decoded.list.factionId).toBe("new-faction");
+  });
+});
+
+// ── rosterToShareList (importer → share-token bridge) ────────────────────────
+
+const ref = (id: string | null, raw_name = id ?? "Unknown"): ResolvedRef => ({
+  id,
+  raw_name,
+  resolved: id !== null,
+  candidates: [],
+});
+
+function rosterUnit(over: Partial<RosterUnit> & { ref: ResolvedRef }): RosterUnit {
+  return {
+    model_count: 1,
+    points: 100,
+    is_warlord: false,
+    enhancement: null,
+    enhancement_points: null,
+    wargear: [],
+    leader_attachment: null,
+    ...over,
+  };
+}
+
+function roster(over: Partial<Roster>): Roster {
+  return {
+    name: "Test list",
+    source: { format: "roster-json", generated_by: null },
+    faction_id: null,
+    detachments: [],
+    battle_size: "strike-force",
+    force_disposition: null,
+    points: { declared_limit: 2000, detachment_cap: 3, total_reported: null, total_computed: 0 },
+    units: [],
+    game_version: { edition: "11th", dataslate: "pre-launch-provisional" },
+    diagnostics: {
+      resolved_units: 0,
+      unresolved_units: 0,
+      resolved_weapons: 0,
+      unresolved_weapons: 0,
+      warnings: [],
+    },
+    ...over,
+  };
+}
+
+describe("rosterToShareList", () => {
+  const faction = "adeptus-astartes";
+  const units = dataset.units.byFaction(faction);
+  const unitA = units[0].id;
+  const unitB = units[1].id;
+  const [w0, w1] = dataset.weapons.all.map((w) => w.id);
+  const detId = dataset.detachments.all.find((d) => d.faction_id === faction)!.id;
+  const enhId =
+    dataset.enhancements.all.find((e) => (e as { faction_id?: string }).faction_id === faction)
+      ?.id ?? dataset.enhancements.all[0].id;
+  const disposition = dataset.forceDispositions.all[0]?.id ?? null;
+
+  it("maps fields and round-trips a fully-resolved roster", () => {
+    const r = roster({
+      name: "Strike Force 🔨",
+      faction_id: faction,
+      detachments: [{ ref: ref(detId), dp_cost: 3 }],
+      battle_size: "strike-force",
+      force_disposition: disposition,
+      units: [
+        rosterUnit({
+          ref: ref(unitA),
+          model_count: 5,
+          is_warlord: true,
+          enhancement: ref(enhId),
+          wargear: [
+            { ref: ref(w0), count: 2 },
+            { ref: ref(w1), count: 1 },
+          ],
+        }),
+        rosterUnit({
+          ref: ref(unitB),
+          // A leader attaching to the first unit by bodyguard ref.
+          leader_attachment: { bodyguard_ref: ref(unitA), role: "leader", provisional: false },
+        }),
+      ],
+    });
+
+    const share = rosterToShareList(r, index);
+    expect(share.units).toHaveLength(2);
+    expect(share.factionId).toBe(faction);
+    expect(share.detachmentIds).toEqual([detId]);
+    expect(share.disposition).toBe(disposition);
+    expect(share.units[0]).toMatchObject({
+      datasheetId: unitA,
+      modelCount: 5,
+      isWarlord: true,
+      enhancementId: enhId,
+      loadout: [
+        [w0, 2],
+        [w1, 1],
+      ],
+    });
+    // The leader's attachedToOrdinal points at unitA's ordinal in the share list.
+    expect(share.units[1].attachedToOrdinal).toBe(0);
+
+    // Full round-trip through the real codec.
+    const decoded = decodeShareList(encodeShareList(share, index), index);
+    expect(decoded.ok).toBe(true);
+    if (decoded.ok) expect(decoded.list).toEqual(share);
+  });
+
+  it("defaults a null battle size to strike-force", () => {
+    const share = rosterToShareList(roster({ battle_size: null }), index);
+    expect(share.battleSize).toBe("strike-force");
+  });
+
+  it("drops unresolved units and keeps attachment ordinals in the emitted list", () => {
+    const r = roster({
+      units: [
+        rosterUnit({ ref: ref(null, "Mystery Unit") }), // unresolved → dropped
+        rosterUnit({ ref: ref(unitA) }), // emitted ordinal 0
+        rosterUnit({
+          ref: ref(unitB), // emitted ordinal 1
+          leader_attachment: { bodyguard_ref: ref(unitA), role: "leader", provisional: false },
+        }),
+      ],
+    });
+    const share = rosterToShareList(r, index);
+    expect(share.units.map((u) => u.datasheetId)).toEqual([unitA, unitB]);
+    // unitA is emitted at index 0 even though it was second in the roster.
+    expect(share.units[1].attachedToOrdinal).toBe(0);
+  });
+
+  it("drops resolved ids the registry doesn't know", () => {
+    const r = roster({
+      faction_id: "totally-made-up-faction",
+      detachments: [{ ref: ref("totally-made-up-detachment"), dp_cost: 3 }],
+      units: [
+        rosterUnit({ ref: ref("totally-made-up-unit") }),
+        rosterUnit({
+          ref: ref(unitA),
+          enhancement: ref("totally-made-up-enhancement"),
+          wargear: [{ ref: ref("totally-made-up-weapon"), count: 1 }],
+        }),
+      ],
+    });
+    const share = rosterToShareList(r, index);
+    expect(share.factionId).toBeNull();
+    expect(share.detachmentIds).toEqual([]);
+    expect(share.units.map((u) => u.datasheetId)).toEqual([unitA]);
+    expect(share.units[0].enhancementId).toBeNull();
+    expect(share.units[0].loadout).toEqual([]);
+    // Whatever survives must still encode cleanly.
+    expect(() => encodeShareList(share, index)).not.toThrow();
   });
 });

@@ -4,55 +4,69 @@
  * is already id-keyed for concurrency, so `adopt` is the identity and the
  * push-diff compares two docs directly.
  *
- * Why id-keyed (the same reasoning as session-doc.ts): two captains scoring two
- * different cells on the TV become `set` ops on disjoint paths
- * (`["cellsById","p1:threat"]` vs `["cellsById","p2:avoid"]`), so they commute
- * under the server's total order. Array-index ops would land on the wrong cell
- * after a concurrent axis insert/remove. Team/axis order are whole-array LWW:
- * losing an ordering race is benign, losing a score is not.
+ * The matrix is a matchup grid: OUR players (rows, snapshotted from the team
+ * plan) × the selected opposing team's players (columns). Why id-keyed (the
+ * same reasoning as session-doc.ts): two captains scoring two different cells
+ * on the TV become `set` ops on disjoint paths
+ * (`["cellsById","ours1:theirs1"]` vs `["cellsById","ours2:theirs2"]`), so they
+ * commute under the server's total order. Array-index ops would land on the
+ * wrong cell after a concurrent row/column change. `ourPlayers` and the team
+ * order are whole-array LWW: losing an ordering/roster race is benign, losing a
+ * verdict is not.
  */
 import type { DocOp } from "../../../../_shared/doc-protocol";
-import { DEFAULT_AXES, type CellValue, type MatrixTeam, type ThreatAxis } from "./types";
-import { dispositionId, splitBcpList, type OpponentData } from "../opponents";
+import type { MatrixOurPlayer, MatrixTeam, Verdict } from "./types";
+import { dispositionId, splitBcpList, type OpponentData } from "../../../../_shared/opponents";
+import type { TeamPlan } from "../coverage";
 
 export interface MatrixDoc {
   eventName: string | null;
-  /** Which team is "us" (rendered muted, never scored). Null until picked. */
+  /** Which opposing team is "us" (excluded from the opponent dropdown). Null
+   *  until picked. Our rows come from `ourPlayers`, not from this team. */
   ourTeamId: string | null;
+  /** Snapshot of the plan's team name (top-left header cell). */
+  ourTeamName: string | null;
+  /** OUR rows — snapshot of the team plan's players. */
+  ourPlayers: MatrixOurPlayer[];
   teamsById: Record<string, MatrixTeam>;
   teamOrder: string[];
-  axesById: Record<string, ThreatAxis>;
-  axisOrder: string[];
-  /** Keyed `"<playerId>:<axisId>"`. Absent key = unset. */
-  cellsById: Record<string, CellValue>;
+  /** Keyed `"<ourPlayerId>:<opponentPlayerId>"`. Absent key = so-so (yellow). */
+  cellsById: Record<string, Verdict>;
 }
 
-export function cellKey(playerId: string, axisId: string): string {
-  return `${playerId}:${axisId}`;
+export function cellKey(ourPlayerId: string, opponentPlayerId: string): string {
+  return `${ourPlayerId}:${opponentPlayerId}`;
 }
 
 export function emptyMatrixDoc(): MatrixDoc {
-  const axesById: Record<string, ThreatAxis> = {};
-  for (const a of DEFAULT_AXES) axesById[a.id] = { ...a };
   return {
     eventName: null,
     ourTeamId: null,
+    ourTeamName: null,
+    ourPlayers: [],
     teamsById: {},
     teamOrder: [],
-    axesById,
-    axisOrder: DEFAULT_AXES.map((a) => a.id),
     cellsById: {},
   };
 }
 
+/** Snapshot the plan's players into light matrix rows (id reused so cells key
+ *  off the stable plan `Player.id`). */
+export function seedOurPlayers(plan: TeamPlan): MatrixOurPlayer[] {
+  return plan.players.map((p) => ({ id: p.id, name: p.name, factionIds: [...p.factionIds] }));
+}
+
 /**
- * Build a fresh matrix from a loaded BCP event: a light row per player (name +
- * faction + parsed disposition) and the default axes. List text is deliberately
- * dropped — it stays in the local OpponentData for review and never syncs.
+ * Build a fresh matrix from a loaded BCP event + the current team plan: a light
+ * column per opponent player (name + faction + parsed disposition), and OUR
+ * rows snapshotted from the plan. List text is deliberately dropped — it stays
+ * in the local OpponentData for review and never syncs.
  */
-export function seedMatrixDoc(data: OpponentData): MatrixDoc {
+export function seedMatrixDoc(data: OpponentData, plan: TeamPlan): MatrixDoc {
   const doc = emptyMatrixDoc();
   doc.eventName = data.event.name;
+  doc.ourTeamName = plan.teamName || null;
+  doc.ourPlayers = seedOurPlayers(plan);
   for (const team of data.teams) {
     doc.teamsById[team.id] = {
       id: team.id,
@@ -70,25 +84,32 @@ export function seedMatrixDoc(data: OpponentData): MatrixDoc {
 }
 
 /** Structural predicate: tells a matrix welcome/payload apart from a team-plan
- *  one (which carries `playersById`). Used to route the shared doc-session. */
+ *  one (which carries `playersById`). Used to route the shared doc-session. The
+ *  matrix carries `cellsById` + `teamsById`; the plan carries `playersById`. */
 export function isMatrixShaped(payload: unknown): payload is MatrixDoc {
   return (
     typeof payload === "object" &&
     payload !== null &&
     "cellsById" in payload &&
-    "axesById" in payload &&
-    typeof (payload as { axesById: unknown }).axesById === "object"
+    "teamsById" in payload &&
+    typeof (payload as { teamsById: unknown }).teamsById === "object"
   );
 }
 
 /** Heal a possibly-partial doc (older save, LWW artifact) into a complete one
  *  without dropping data: missing containers default, dangling order ids drop,
- *  present-but-unordered entries append. Deterministic, so peers converge. */
+ *  present-but-unordered entries append. Deterministic, so peers converge.
+ *
+ *  Migration: a legacy doc from the original threat-axis design carries
+ *  `axesById` and cells keyed `<player>:<axisId>` — meaningless under the new
+ *  `<ours>:<theirs>` key scheme, so its verdicts are dropped rather than
+ *  mis-rendered. The feature shipped one release earlier, so this clears at
+ *  most a single event's in-progress scores. */
 export function normalizeMatrixDoc(doc: Partial<MatrixDoc> | null | undefined): MatrixDoc {
   const base = emptyMatrixDoc();
   if (!doc) return base;
+  const legacy = "axesById" in doc;
   const teamsById = { ...(doc.teamsById ?? {}) };
-  const axesById = Object.keys(doc.axesById ?? {}).length ? { ...doc.axesById } as Record<string, ThreatAxis> : base.axesById;
   const order = (ids: string[] | undefined, by: Record<string, unknown>): string[] => {
     const seen = new Set<string>();
     const out: string[] = [];
@@ -99,30 +120,30 @@ export function normalizeMatrixDoc(doc: Partial<MatrixDoc> | null | undefined): 
   return {
     eventName: doc.eventName ?? null,
     ourTeamId: doc.ourTeamId ?? null,
+    ourTeamName: doc.ourTeamName ?? null,
+    ourPlayers: Array.isArray(doc.ourPlayers) ? doc.ourPlayers : [],
     teamsById,
     teamOrder: order(doc.teamOrder, teamsById),
-    axesById,
-    axisOrder: order(doc.axisOrder, axesById),
-    cellsById: { ...(doc.cellsById ?? {}) },
+    cellsById: legacy ? {} : { ...(doc.cellsById ?? {}) },
   };
 }
 
 /** Minimal op batch turning `prev` into `next`: per-key set/del on disjoint id
- *  paths for the three maps, whole-value sets for scalars and the order arrays. */
+ *  paths for the two maps, whole-value sets for scalars and the LWW arrays. */
 export function diffMatrixDocs(prev: MatrixDoc, next: MatrixDoc): DocOp[] {
   const ops: DocOp[] = [];
   if (prev.eventName !== next.eventName) ops.push({ o: "set", p: ["eventName"], v: next.eventName });
   if (prev.ourTeamId !== next.ourTeamId) ops.push({ o: "set", p: ["ourTeamId"], v: next.ourTeamId });
+  if (prev.ourTeamName !== next.ourTeamName) ops.push({ o: "set", p: ["ourTeamName"], v: next.ourTeamName });
 
   diffMap(ops, "teamsById", prev.teamsById, next.teamsById);
-  diffMap(ops, "axesById", prev.axesById, next.axesById);
   diffMap(ops, "cellsById", prev.cellsById, next.cellsById);
 
+  if (JSON.stringify(prev.ourPlayers) !== JSON.stringify(next.ourPlayers)) {
+    ops.push({ o: "set", p: ["ourPlayers"], v: next.ourPlayers });
+  }
   if (JSON.stringify(prev.teamOrder) !== JSON.stringify(next.teamOrder)) {
     ops.push({ o: "set", p: ["teamOrder"], v: next.teamOrder });
-  }
-  if (JSON.stringify(prev.axisOrder) !== JSON.stringify(next.axisOrder)) {
-    ops.push({ o: "set", p: ["axisOrder"], v: next.axisOrder });
   }
   return ops;
 }

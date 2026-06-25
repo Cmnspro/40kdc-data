@@ -1,12 +1,10 @@
 /**
- * Opponent data ingest — the LOCAL half of the ATC prep flow.
+ * BCP opponent-list ingest — shared by the example apps that consume a BCP
+ * event pull (teams-planner's prep flow, atc-viewer's public browser).
  *
- * The companion script `scripts/fetch-bcp-event.ts` pulls a BCP event into a
- * sanitized JSON (`{ event, teams: [{ id, name, players: [{ id, name, faction,
- * armyListText }] }] }`). That file is loaded here, on whichever device has it;
- * it never rides the live sync (a 32-team event is ~1 MB of list text, far over
- * the 256 KB doc cap). The matrix sync carries only the light rows + scores
- * (see `matrix/matrix-doc.ts`).
+ * The data is a sanitized JSON of the shape `{ event, teams: [{ id, name,
+ * players: [{ id, name, faction, armyListText }] }] }` (teams-planner pulls it
+ * live via `scripts/fetch-bcp-event.ts`; atc-viewer ships a committed snapshot).
  *
  * BCP's `armyListText` wraps a standard GW-app list in a `++++` header preamble
  * (Player/Team/Factions/Disposition/Detachment). Parsing the raw text misfires
@@ -15,8 +13,12 @@
  * Disposition, which the GW body parse drops), and the body alone feeds
  * `tryImportRoster` cleanly.
  */
-import { tryImportRoster, type ForceDispositionId, type ImportResult } from "@alpaca-software/40kdc-data";
-import { ds } from "./dataset";
+import {
+  tryImportRoster,
+  type Dataset,
+  type ForceDispositionId,
+  type ImportResult,
+} from "@alpaca-software/40kdc-data";
 
 export interface OpponentPlayer {
   id: string;
@@ -121,10 +123,12 @@ export function dispositionId(prose: string | undefined | null): ForceDispositio
 /**
  * Parse a player's list for review. Strips the BCP header first (see module
  * doc) and runs the body through the auto-detecting importer. Returns null when
- * the player has no text list (e.g. an image-only submission).
+ * the player has no text list (e.g. an image-only submission). The dataset is
+ * injected so this module stays app-agnostic (each app passes its own
+ * `Dataset.embedded()` singleton).
  */
-export function parsePlayerRoster(player: OpponentPlayer): ImportResult | null {
+export function parsePlayerRoster(player: OpponentPlayer, dataset: Dataset): ImportResult | null {
   if (!player.armyListText || !player.armyListText.trim()) return null;
   const { body } = splitBcpList(player.armyListText);
-  return tryImportRoster(body || player.armyListText, { dataset: ds });
+  return tryImportRoster(body || player.armyListText, { dataset });
 }

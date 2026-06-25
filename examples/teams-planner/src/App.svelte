@@ -16,7 +16,7 @@
     seedMatrixDoc,
     type MatrixDoc,
   } from "./lib/matrix/matrix-doc";
-  import { loadOpponents, type OpponentData } from "./lib/opponents";
+  import { loadOpponents, type OpponentData } from "../../_shared/opponents";
   import AppHeader from "../../_shared/AppHeader.svelte";
   import AppFooter from "../../_shared/AppFooter.svelte";
   import PwaInstallPrompt from "../../_shared/PwaInstallPrompt.svelte";
@@ -300,7 +300,7 @@
     if (hasWork && !confirm("Replace the current matrix with this event's teams? Your scores will be cleared.")) {
       return;
     }
-    matrixDoc = seedMatrixDoc(data);
+    matrixDoc = seedMatrixDoc(data, plan);
   }
 
   // A refused create (no/lapsed entitlement) opens the gate.
@@ -508,6 +508,7 @@
     {:else if entitlement.connected}
       <MatrixView
         doc={matrixDoc}
+        {plan}
         {opponents}
         showGoLive={docSession.status === "idle"}
         onChange={onMatrixChange}

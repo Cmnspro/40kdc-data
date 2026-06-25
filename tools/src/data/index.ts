@@ -78,6 +78,7 @@ export * from "../abilities-resolver/index.js";
 export {
   encodeShareToken,
   decodeShareToken,
+  rosterToShareList,
   shareRegistryVersion,
   ShareRegistryIndex,
   SHARE_FORMAT_VERSION,
