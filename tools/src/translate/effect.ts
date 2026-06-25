@@ -50,6 +50,21 @@ export interface Effect {
     round?: string;
     max_value?: number;
   };
+  // designate-target
+  designation?: string;
+  select?: string | { scope?: string; count?: number; timing?: string };
+  applies?: { to?: string; effect?: Effect };
+  duration?: string;
+  // stance-select
+  mode?: string;
+  scope?: string;
+  // risk-reward
+  reward?: Effect;
+  risk?: { test?: string; on_fail?: Effect };
+  // issue-orders
+  count?: number;
+  range?: number;
+  eligible?: { keyword?: string };
 }
 
 /** Ability scope, as carried on enrichment ability entries. */
@@ -77,10 +92,21 @@ export interface AbilityTrigger {
   event?: string;
   subject?: string;
   proximity?: { of?: string; range?: number };
+  /** Restricts a move event (e.g. enemy-unit-ended-move) to these move kinds. */
+  move_types?: string[];
   condition?: Condition;
   optional?: boolean;
   cost?: { cp?: number };
   window?: string;
+}
+
+/** A trigger is one object, or an array (the ability fires on ANY listed trigger). */
+export type AbilityTriggerSpec = AbilityTrigger | AbilityTrigger[];
+
+/** Normalize the polymorphic trigger field to a flat list (empty when absent). */
+function normalizeTriggers(t?: AbilityTriggerSpec | null): AbilityTrigger[] {
+  if (t == null) return [];
+  return Array.isArray(t) ? t : [t];
 }
 
 /** Minimal ability view for `describeAbility`. */
@@ -88,7 +114,7 @@ export interface AbilityLike {
   name?: string;
   effect?: Effect;
   scope?: AbilityScope;
-  trigger?: AbilityTrigger | null;
+  trigger?: AbilityTriggerSpec | null;
   usage?: AbilityUsage | null;
   applies_to?: AbilityAppliesTo | null;
 }
@@ -107,6 +133,10 @@ const CONTAINER_TYPES = new Set([
   "dice-gated",
   "dice-pool-allocation",
   "select-units",
+  "designate-target",
+  "stance-select",
+  "risk-reward",
+  "issue-orders",
 ]);
 
 /** "up to 3 friendly Orks Vehicle units" — the `select-units` selector phrase. */
@@ -337,7 +367,8 @@ function subject(target: string | undefined, ctx: Ctx): string {
     case "attacker":
       return "the attacking unit";
     case "defender":
-      return "your unit";
+      // The defending unit in an attack is the enemy from the bearer's view.
+      return "the target";
     case "all-friendly":
       return "all friendly units";
     case "all-enemy":
@@ -388,6 +419,12 @@ function durationClauses(duration: string | undefined): { lead: string; trail: s
 /** Reactive trigger → front-of-sentence lead clause ("an enemy unit ends a move within 9\" of this model"). */
 function describeTrigger(t: AbilityTrigger): string {
   let s = eventClause(t.event);
+  // Narrow a move event to its move kinds: "ends a move" → "ends a Normal,
+  // Advance or Fall Back move".
+  if (t.move_types?.length) {
+    const kinds = orList(t.move_types.map((mt) => (mt === "fall-back" ? "Fall Back" : capWord(mt))));
+    s = s.replace(/\bmove\b/, `${kinds} move`);
+  }
   if (t.proximity?.range != null) {
     const of =
       t.proximity.of === "attached-unit"
@@ -547,8 +584,17 @@ function conditionLeadIn(c: Condition): string {
       return "if the unit disembarked from a Transport this turn";
     case "faction-rule-active":
       return `while the ${titleCase(jstr(p.rule))} is active`;
-    case "battle-round":
-      return `during the first ${jstr(p.max)} battle rounds`;
+    case "battle-round": {
+      const bMin = p.min != null ? Number(p.min) : undefined;
+      const bMax = p.max != null ? Number(p.max) : undefined;
+      const bOrd = (n: number): string =>
+        ["zeroth", "first", "second", "third", "fourth", "fifth"][n] ?? `${n}th`;
+      if (bMin != null && bMax != null)
+        return bMin === bMax ? `during the ${bOrd(bMin)} battle round` : `during battle rounds ${bMin}-${bMax}`;
+      if (bMin != null) return `from the ${bOrd(bMin)} battle round onward`;
+      if (bMax != null) return `during the first ${bMax} battle rounds`;
+      return "during the battle round";
+    }
     case "token-count-at-or-above":
       return `while the unit has ${jstr(p.threshold)}+ ${poolName(p.pool_id)}`;
     case "remained-stationary":
@@ -959,6 +1005,19 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       return describeRuleState(m, subj);
     case "cp-gain":
       return `you gain ${jstr(m.amount ?? 1)}CP`;
+    case "cp-on-destroy": {
+      const kw = m.enemy_keyword != null ? `${jstr(m.enemy_keyword)} model` : "enemy model";
+      const who = subj === "this model" ? "this model's unit" : subj;
+      return `each time ${who} destroys a ${kw}, you gain ${jstr(m.amount ?? 1)}CP`;
+    }
+    case "battle-shock-test":
+      return `${subj} ${v(subj, "takes")} Battle-shock tests on ${diceCase(m.dice)} instead of 2D6`;
+    case "flyover": {
+      const hit = poolThreshold(jstr(m.comparison ?? "gte"), m.threshold);
+      const per = jstr(m.mortal_wounds ?? 1);
+      const perNoun = per === "1" ? "mortal wound" : "mortal wounds";
+      return `each time this model ends a Normal move, select one enemy unit it moved over and roll ${diceCase(m.dice)}: for each ${hit}, that unit suffers ${per} ${perNoun}`;
+    }
     case "cp-refund": {
       const strat = m.stratagem != null ? `the ${titleCase(jstr(m.stratagem))} Stratagem` : "one Stratagem";
       return `you can use ${strat} on ${subj} for 0CP`;
@@ -1091,6 +1150,18 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "select-units":
       return `select ${selectUnitsSubject(e.selector)}: ${describeEffectInline(e.effect ?? {}, ctx)}`;
+    case "designate-target": {
+      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as { scope?: string };
+      const scopeNoun = sel.scope === "friendly-unit" ? "friendly" : "enemy";
+      const when = e.applies?.to === "target" ? "while it is your target" : "each time a friendly unit attacks it";
+      return `select one ${scopeNoun} unit; ${when}, ${describeEffectInline(e.applies?.effect ?? {}, ctx)}`;
+    }
+    case "stance-select":
+      return `select one: ${(e.options ?? []).map((o) => `${jstr(o.name)} (${describeEffectInline(o.effect ?? {}, ctx)})`).join(" / ")}`;
+    case "risk-reward":
+      return `take a ${testName(e.risk?.test)} test (on a failure, ${e.risk?.on_fail ? describeEffectInline(e.risk.on_fail, ctx) : "suffer a consequence"}), then ${describeEffectInline(e.reward ?? {}, ctx)}`;
+    case "issue-orders":
+      return `issue Orders, each one of: ${(e.options ?? []).map((o) => jstr(o.name)).join(" / ")}`;
 
     default:
       return `[${e.type ?? "unknown"}]`;
@@ -1244,6 +1315,47 @@ export function describeEffect(e: Effect, depth: number = 0, ctx: Ctx = {}): str
       }
       return `${indent}${arrow}${lead}: ${describeEffectInline(inner, ctx)}.`;
     }
+    case "designate-target": {
+      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as { scope?: string };
+      const scopeNoun = sel.scope === "friendly-unit" ? "friendly" : "enemy";
+      const desig = e.designation ? ` (your ${dekebab(jstr(e.designation))})` : "";
+      const applies = e.applies ?? {};
+      const inner = applies.effect ?? {};
+      const when =
+        applies.to === "target"
+          ? "While it is your target"
+          : "Each time a friendly unit makes an attack against it";
+      const head = `${indent}${arrow}Select one ${scopeNoun} unit${desig}. ${when}`;
+      if (CONTAINER_TYPES.has(inner.type ?? "")) {
+        return `${head}:\n` + describeEffect(inner, depth + 1, ctx);
+      }
+      return `${head}, ${describeEffectInline(inner, ctx)}.`;
+    }
+    case "stance-select": {
+      const when = typeof e.select === "string" ? capitalize(eventClause(e.select)) : "At the start of your turn";
+      const consum = e.mode === "consumable" ? " (each may be chosen once per battle)" : "";
+      const lines = [`${indent}${arrow}${when}, select one${consum}:`];
+      for (const opt of e.options ?? []) {
+        lines.push(`${indent}  - ${jstr(opt.name)}: ${describeEffectInline(opt.effect ?? {}, ctx)}.`);
+      }
+      return lines.join("\n");
+    }
+    case "risk-reward": {
+      const risk = e.risk ?? {};
+      const onFail = risk.on_fail ? describeEffectInline(risk.on_fail, ctx) : "there is a consequence";
+      const reward = describeEffectInline(e.reward ?? {}, ctx);
+      return `${indent}${arrow}First take a ${testName(risk.test)} test — on a failure, ${onFail}; then ${reward}.`;
+    }
+    case "issue-orders": {
+      const n = e.count != null ? jstr(e.count) : "one or more";
+      const rng = e.range != null ? ` within ${jstr(e.range)}"` : "";
+      const elig = e.eligible?.keyword ? ` ${jstr(e.eligible.keyword)}` : "";
+      const lines = [`${indent}${arrow}Issue up to ${n} Orders to eligible friendly${elig} units${rng}, each one of:`];
+      for (const opt of e.options ?? []) {
+        lines.push(`${indent}  - ${jstr(opt.name)}: ${describeEffectInline(opt.effect ?? {}, ctx)}.`);
+      }
+      return lines.join("\n");
+    }
     default:
       // Leaf at block position — render as a single capitalized sentence.
       return `${indent}${arrow}${capitalize(describeEffectInline(e, ctx))}.`;
@@ -1311,22 +1423,48 @@ function auraRadius(scope?: AbilityScope): number | undefined {
   return m ? Number(m[1]) : undefined;
 }
 
+/** The timing value of a bare `timing-is` condition, else undefined. */
+function timingOfCondition(c?: Condition): string | undefined {
+  return c?.type === "timing-is" ? jstr((c.parameters ?? {}).timing) : undefined;
+}
+
+/** The numeric range of a top-level within-range condition, else undefined. */
+function conditionWithinRange(c?: Condition): number | undefined {
+  if (c?.type !== "unit-within-range-of" && c?.type !== "opponent-unit-within-range") return undefined;
+  const r = (c.parameters ?? {}).range;
+  return typeof r === "number" ? r : undefined;
+}
+
 function renderTopLevel(
   e: Effect,
   scope?: AbilityScope,
   usage?: AbilityUsage | null,
-  trigger?: AbilityTrigger | null,
+  trigger?: AbilityTriggerSpec | null,
 ): string {
   const ctx: Ctx = { rangeInches: auraRadius(scope), engagementRange: scope?.range === "engagement-range" };
   const { lead: durLead, trail } = durationClauses(scope?.duration);
   // An explicit usage limit supersedes the duration's coarse "once per battle" lead.
   const lead = usage && usage.frequency != null ? usageClause(usage) : durLead;
-  // A reactive trigger opens the sentence ("Each time …").
-  const trig = trigger && trigger.event != null ? describeTrigger(trigger) : "";
+
+  // A reactive trigger (or several — the ability fires on any) opens the
+  // sentence ("Each time …"). B2: when a trigger's proximity just restates a
+  // within-range condition on the effect, render the range once (drop it here).
+  const triggers = normalizeTriggers(trigger).filter((t) => t.event != null);
+  const triggerEvents = new Set(triggers.map((t) => t.event));
+  const condRange = conditionWithinRange(e.type === "conditional" ? e.condition : undefined);
+  const trig = triggers
+    .map((t) =>
+      describeTrigger(condRange != null && t.proximity?.range === condRange ? { ...t, proximity: undefined } : t),
+    )
+    .filter((s) => s.length > 0)
+    .join(" or ");
 
   if (e.type === "conditional") {
     const inner = e.effect ?? {};
-    const leadIn = conditionLeadIn(e.condition ?? {});
+    // B1: drop the condition lead-in when it merely restates a trigger's timing
+    // (e.g. trigger start-of-phase + condition timing-is start-of-phase).
+    const condTiming = timingOfCondition(e.condition);
+    const leadIn = condTiming != null && triggerEvents.has(condTiming) ? "" : conditionLeadIn(e.condition ?? {});
     if (CONTAINER_TYPES.has(inner.type ?? "")) {
       // Block: "<trigger>[, <lead-in>][, <duration>]:" then the indented container.
       const header = [trig, lead, leadIn, trail].filter((p) => p.length > 0).join(", ");

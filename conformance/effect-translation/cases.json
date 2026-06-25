@@ -2285,7 +2285,7 @@
       "duration": "battle-round"
     },
     "expected": {
-      "text": "During the Shooting phase, when the unit is selected to shoot, until the end of the battle round:\n  -> This model: single target only.\n  If the target was hit by an attack this phase:\n    Against assailed targets:\n      -> Your unit's Move characteristic is reduced by 2\".\n      -> Your unit gets -2 to Charge rolls.\n    -> Your unit's weapons gain [ASSAILED]."
+      "text": "During the Shooting phase, when the unit is selected to shoot, until the end of the battle round:\n  -> This model: single target only.\n  If the target was hit by an attack this phase:\n    Against assailed targets:\n      -> The target's Move characteristic is reduced by 2\".\n      -> The target gets -2 to Charge rolls.\n    -> The target's weapons gain [ASSAILED]."
     }
   },
   {
@@ -2734,7 +2734,7 @@
       "subject": "self"
     },
     "expected": {
-      "text": "When the unit is destroyed, once per battle, when the unit is destroyed:\n  -> Roll one D6: on a 2+, this model is set up again as close as possible to where it was destroyed at the end of the phase with 3 wounds remaining."
+      "text": "When the unit is destroyed, once per battle:\n  -> Roll one D6: on a 2+, this model is set up again as close as possible to where it was destroyed at the end of the phase with 3 wounds remaining."
     }
   },
   {
@@ -2885,7 +2885,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "During the Shooting phase, your unit suffers d3 mortal wounds."
+      "text": "During the Shooting phase, the target suffers d3 mortal wounds."
     }
   },
   {
@@ -2954,7 +2954,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "Your unit suffers 1 mortal wound."
+      "text": "The target suffers 1 mortal wound."
     }
   },
   {
@@ -3305,7 +3305,7 @@
       "event": "start-of-phase"
     },
     "expected": {
-      "text": "At the start of the phase, at the start of the phase, until the end of the battle round:\n  -> Roll 8D6 (max 2 activations):\n    - Unbridled Bloodlust: need pair of 1+ -> all friendly units get +1 to Charge rolls\n    - Rage-Fuelled Invigoration: need pair of 2+ -> all friendly units can Consolidate up to 6\"\n    - Total Carnage: need pair of 3+ -> when destroyed by a melee attack, if not has fought this phase, roll one D6: on a 4+, each time this model is destroyed, it can fight before being removed from play\n    - Martial Excellence: need pair of 4+ or triple of 1+ -> all friendly units' melee weapons gain [SUSTAINED HITS 1]\n    - Warp Blades: need pair of 5+ or triple of 2+ -> all friendly units' melee weapons gain [LETHAL HITS]\n    - Decapitating Strikes: need pair of 6+ or triple of 3+ -> against Infantry targets, while making melee attacks, all friendly units' weapons gain [DEVASTATING WOUNDS]"
+      "text": "At the start of the phase, until the end of the battle round:\n  -> Roll 8D6 (max 2 activations):\n    - Unbridled Bloodlust: need pair of 1+ -> all friendly units get +1 to Charge rolls\n    - Rage-Fuelled Invigoration: need pair of 2+ -> all friendly units can Consolidate up to 6\"\n    - Total Carnage: need pair of 3+ -> when destroyed by a melee attack, if not has fought this phase, roll one D6: on a 4+, each time this model is destroyed, it can fight before being removed from play\n    - Martial Excellence: need pair of 4+ or triple of 1+ -> all friendly units' melee weapons gain [SUSTAINED HITS 1]\n    - Warp Blades: need pair of 5+ or triple of 2+ -> all friendly units' melee weapons gain [LETHAL HITS]\n    - Decapitating Strikes: need pair of 6+ or triple of 3+ -> against Infantry targets, while making melee attacks, all friendly units' weapons gain [DEVASTATING WOUNDS]"
     }
   },
   {
@@ -3439,7 +3439,7 @@
       "subject": "any-unit"
     },
     "expected": {
-      "text": "When the unit is destroyed, when the unit is destroyed, for the rest of the battle:\n  -> Roll one D6: on a 3+, you gain 1 Blood Tithe Pool."
+      "text": "When the unit is destroyed, for the rest of the battle:\n  -> Roll one D6: on a 3+, you gain 1 Blood Tithe Pool."
     }
   },
   {
@@ -3469,7 +3469,7 @@
       "event": "start-of-phase"
     },
     "expected": {
-      "text": "At the start of the phase, at the start of the phase, until the end of the phase, modify enemy units within Engagement Range's Leadership characteristic."
+      "text": "At the start of the phase, until the end of the phase, modify enemy units within Engagement Range's Leadership characteristic."
     }
   },
   {
@@ -4851,35 +4851,60 @@
   {
     "caseId": "dark-pacts#157",
     "effect": {
-      "type": "choice",
-      "choice_label": "Dark Pact ability",
-      "options": [
-        {
-          "type": "keyword-grant",
-          "target": "unit",
-          "modifier": {
-            "keywords": [
-              "Lethal Hits"
-            ]
+      "type": "risk-reward",
+      "reward": {
+        "type": "choice",
+        "choice_label": "Dark Pact ability",
+        "options": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Lethal Hits"
+              ]
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1"
+              ]
+            }
           }
-        },
-        {
-          "type": "keyword-grant",
-          "target": "unit",
+        ]
+      },
+      "risk": {
+        "test": "leadership",
+        "on_fail": {
+          "type": "mortal-wounds",
+          "target": "self",
           "modifier": {
-            "keywords": [
-              "Sustained Hits 1"
-            ]
+            "count": "d3"
           }
         }
-      ]
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "phase"
     },
+    "trigger": [
+      {
+        "event": "selected-to-shoot",
+        "subject": "self",
+        "optional": true
+      },
+      {
+        "event": "selected-to-fight",
+        "subject": "self",
+        "optional": true
+      }
+    ],
     "expected": {
-      "text": "Until the end of the phase:\nSelect one of the following (Dark Pact Ability):\n  - The unit's weapons gain [LETHAL HITS].\n  - The unit's weapons gain [SUSTAINED HITS 1]."
+      "text": "When the unit is selected to shoot or when the unit is selected to fight, until the end of the phase:\nFirst take a Leadership test — on a failure, this model suffers d3 mortal wounds; then select one of the following (Dark Pact Ability): the unit's weapons gain [LETHAL HITS] / the unit's weapons gain [SUSTAINED HITS 1]."
     }
   },
   {
@@ -5245,7 +5270,7 @@
       }
     },
     "expected": {
-      "text": "At the start of the phase within 12\" of this model, if within 12\" of a friendly unit, until the end of the battle round, you can use one Stratagem on this model for 0CP."
+      "text": "At the start of the phase, if within 12\" of a friendly unit, until the end of the battle round, you can use one Stratagem on this model for 0CP."
     }
   },
   {
@@ -5339,7 +5364,138 @@
     }
   },
   {
-    "caseId": "dread-foe#170",
+    "caseId": "doctrina-imperatives#170",
+    "effect": {
+      "type": "stance-select",
+      "mode": "re-selectable",
+      "scope": "army",
+      "select": "start-of-battle-round",
+      "options": [
+        {
+          "name": "Protector Imperative",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "keyword-grant",
+                "target": "unit",
+                "modifier": {
+                  "keyword": "Heavy",
+                  "weapon_type": "ranged"
+                }
+              },
+              {
+                "type": "bs-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "improve",
+                  "value": 1
+                }
+              },
+              {
+                "type": "conditional",
+                "condition": {
+                  "operator": "or",
+                  "operands": [
+                    {
+                      "type": "unit-has-keyword",
+                      "parameters": {
+                        "keyword": "Battleline"
+                      }
+                    },
+                    {
+                      "type": "unit-within-range-of",
+                      "parameters": {
+                        "range": 6,
+                        "target_type": "friendly-keyword",
+                        "keyword": "Adeptus Mechanicus Battleline"
+                      }
+                    }
+                  ]
+                },
+                "effect": {
+                  "type": "roll-modifier",
+                  "target": "attacker",
+                  "modifier": {
+                    "roll": "hit",
+                    "operation": "subtract",
+                    "value": 1,
+                    "context": "melee"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Conqueror Imperative",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "keyword-grant",
+                "target": "unit",
+                "modifier": {
+                  "keyword": "Assault",
+                  "weapon_type": "ranged"
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "WS",
+                  "operation": "improve",
+                  "value": 1,
+                  "attack_type": "melee"
+                }
+              },
+              {
+                "type": "conditional",
+                "condition": {
+                  "operator": "or",
+                  "operands": [
+                    {
+                      "type": "unit-has-keyword",
+                      "parameters": {
+                        "keyword": "Battleline"
+                      }
+                    },
+                    {
+                      "type": "unit-within-range-of",
+                      "parameters": {
+                        "range": 6,
+                        "target_type": "friendly-keyword",
+                        "keyword": "Adeptus Mechanicus Battleline"
+                      }
+                    }
+                  ]
+                },
+                "effect": {
+                  "type": "stat-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "stat": "AP",
+                    "operation": "add",
+                    "value": -1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle-round"
+    },
+    "expected": {
+      "text": "Until the end of the battle round:\nAt the start of the battle round, select one:\n  - Protector Imperative: the unit's ranged weapons gain [HEAVY]; the unit gets +1 to Ballistic Skill; if the unit has the Battleline keyword or if within 6\" of a friendly Adeptus Mechanicus Battleline unit, the attacking unit gets -1 to Hit rolls (melee).\n  - Conqueror Imperative: the unit's ranged weapons gain [ASSAULT]; add 1 to the unit's Weapon Skill characteristic (melee); if the unit has the Battleline keyword or if within 6\" of a friendly Adeptus Mechanicus Battleline unit, subtract 1 from the unit's Armour Penetration characteristic."
+    }
+  },
+  {
+    "caseId": "dread-foe#171",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5358,11 +5514,11 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "If the unit charged this turn, your unit suffers d3 mortal wounds."
+      "text": "If the unit charged this turn, the target suffers d3 mortal wounds."
     }
   },
   {
-    "caseId": "driven-by-hatred#171",
+    "caseId": "driven-by-hatred#172",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5399,7 +5555,7 @@
     }
   },
   {
-    "caseId": "eager-for-the-fight#172",
+    "caseId": "eager-for-the-fight#173",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5437,7 +5593,7 @@
     }
   },
   {
-    "caseId": "eager-to-kill#173",
+    "caseId": "eager-to-kill#174",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5470,7 +5626,7 @@
     }
   },
   {
-    "caseId": "earthshaker-rounds#174",
+    "caseId": "earthshaker-rounds#175",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5530,11 +5686,11 @@
       "duration": "turn"
     },
     "expected": {
-      "text": "During the Shooting phase against INFANTRY targets, while making ranged attacks, until the end of the turn:\n  -> Your unit gains the Shaken Status ability.\n  -> Your unit's Move characteristic is reduced by 2\".\n  -> Your unit gets -2 to Charge rolls."
+      "text": "During the Shooting phase against INFANTRY targets, while making ranged attacks, until the end of the turn:\n  -> The target gains the Shaken Status ability.\n  -> The target's Move characteristic is reduced by 2\".\n  -> The target gets -2 to Charge rolls."
     }
   },
   {
-    "caseId": "efficient-aggression-tharanatoi-hammerblow#175",
+    "caseId": "efficient-aggression-tharanatoi-hammerblow#176",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5564,7 +5720,7 @@
     }
   },
   {
-    "caseId": "eldritch-suppression-path-of-the-outcast#176",
+    "caseId": "eldritch-suppression-path-of-the-outcast#177",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5622,11 +5778,11 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "During the Shooting phase, if the target was hit by a ranged attack this phase, until the end of the phase:\n  -> Modify your unit's Leadership characteristic.\n  -> When destroyed by a ranged attack, subtract 1 from the Battle-shock test of your unit."
+      "text": "During the Shooting phase, if the target was hit by a ranged attack this phase, until the end of the phase:\n  -> Modify the target's Leadership characteristic.\n  -> When destroyed by a ranged attack, subtract 1 from the Battle-shock test of the target."
     }
   },
   {
-    "caseId": "empowered-manifestation-hexwarp-thrallband#177",
+    "caseId": "empowered-manifestation-hexwarp-thrallband#178",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5664,7 +5820,7 @@
     }
   },
   {
-    "caseId": "enfeebling-miasma#178",
+    "caseId": "enfeebling-miasma#179",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5734,7 +5890,7 @@
     }
   },
   {
-    "caseId": "enraged-abjuration#179",
+    "caseId": "enraged-abjuration#180",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5769,7 +5925,67 @@
     }
   },
   {
-    "caseId": "explosive-blight#180",
+    "caseId": "etheric-emergence#181",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "movement"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Deep Strike"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "choice",
+        "choice_label": "etheric-emergence",
+        "options": [
+          {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "deep-strike",
+                "target": "self",
+                "modifier": {
+                  "placement_restriction": "more-than-6-horizontally-from-all-enemy-units"
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "self",
+                "modifier": {
+                  "grant_type": "charge-ineligible"
+                }
+              }
+            ]
+          },
+          {
+            "type": "deep-strike",
+            "target": "self",
+            "modifier": {}
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "turn"
+    },
+    "expected": {
+      "text": "During the Movement phase, if the unit has the Deep Strike keyword, until the end of the turn:\n  Select one of the following (Etheric Emergence):\n    - This model has the Deep Strike ability; this model gains the Charge Ineligible ability.\n    - This model has the Deep Strike ability."
+    }
+  },
+  {
+    "caseId": "explosive-blight#182",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5855,7 +6071,7 @@
     }
   },
   {
-    "caseId": "fail-not-the-blood-god-cult-of-blood#181",
+    "caseId": "fail-not-the-blood-god-cult-of-blood#183",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5902,7 +6118,7 @@
     }
   },
   {
-    "caseId": "fear-incarnate-aura#182",
+    "caseId": "fear-incarnate-aura#184",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5925,7 +6141,7 @@
     }
   },
   {
-    "caseId": "final-duty#183",
+    "caseId": "final-duty#185",
     "effect": {
       "type": "shoot-on-death",
       "target": "self",
@@ -5940,7 +6156,7 @@
     }
   },
   {
-    "caseId": "first-prince-of-chaos#184",
+    "caseId": "first-prince-of-chaos#186",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -6113,7 +6329,7 @@
     }
   },
   {
-    "caseId": "flawless-construction-might-of-the-moritoi#185",
+    "caseId": "flawless-construction-might-of-the-moritoi#187",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6147,7 +6363,7 @@
     }
   },
   {
-    "caseId": "flush-the-quarry-helhunt-lance#186",
+    "caseId": "flush-the-quarry-helhunt-lance#188",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6203,7 +6419,7 @@
     }
   },
   {
-    "caseId": "for-the-chapter#187",
+    "caseId": "for-the-chapter#189",
     "effect": {
       "type": "shoot-on-death",
       "target": "self",
@@ -6218,7 +6434,7 @@
     }
   },
   {
-    "caseId": "formless-horror#188",
+    "caseId": "formless-horror#190",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -6255,7 +6471,7 @@
     }
   },
   {
-    "caseId": "frantic-focus#189",
+    "caseId": "frantic-focus#191",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6289,7 +6505,7 @@
     }
   },
   {
-    "caseId": "frenzon#190",
+    "caseId": "frenzon#192",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6313,7 +6529,7 @@
     }
   },
   {
-    "caseId": "gateways-to-glory-vessels-of-wrath#191",
+    "caseId": "gateways-to-glory-vessels-of-wrath#193",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -6346,7 +6562,7 @@
     }
   },
   {
-    "caseId": "gift-of-poxes#192",
+    "caseId": "gift-of-poxes#194",
     "effect": {
       "type": "aura",
       "target": "enemy-within-aura",
@@ -6364,7 +6580,7 @@
     }
   },
   {
-    "caseId": "gnarlskin-experimentor-tools-of-torment#193",
+    "caseId": "gnarlskin-experimentor-tools-of-torment#195",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6390,11 +6606,11 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "If the attack's S is greater than the target's T, until the end of the phase, your unit gets -1 to Wound rolls."
+      "text": "If the attack's S is greater than the target's T, until the end of the phase, the target gets -1 to Wound rolls."
     }
   },
   {
-    "caseId": "hagiomnifex-sanctified-orators#194",
+    "caseId": "hagiomnifex-sanctified-orators#196",
     "effect": {
       "type": "choice",
       "choice_label": "hagiomnifex-sermon",
@@ -6463,7 +6679,7 @@
     }
   },
   {
-    "caseId": "hallowed-ground#195",
+    "caseId": "hallowed-ground#197",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -6584,7 +6800,7 @@
     }
   },
   {
-    "caseId": "harbingers-of-dread#196",
+    "caseId": "harbingers-of-dread#198",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -6672,7 +6888,7 @@
     }
   },
   {
-    "caseId": "headlong-destruction#197",
+    "caseId": "headlong-destruction#199",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6700,7 +6916,7 @@
     }
   },
   {
-    "caseId": "hover#198",
+    "caseId": "hover#200",
     "effect": {
       "type": "unit-keyword",
       "target": "self",
@@ -6717,7 +6933,7 @@
     }
   },
   {
-    "caseId": "imperious-advance-traitoris-lance#199",
+    "caseId": "imperious-advance-traitoris-lance#201",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6785,7 +7001,7 @@
     }
   },
   {
-    "caseId": "impervious-blitz-brigade#200",
+    "caseId": "impervious-blitz-brigade#202",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6815,7 +7031,7 @@
     }
   },
   {
-    "caseId": "inevitable-death#201",
+    "caseId": "inevitable-death#203",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6879,7 +7095,7 @@
     }
   },
   {
-    "caseId": "infiltrators#202",
+    "caseId": "infiltrators#204",
     "effect": {
       "type": "unit-keyword",
       "target": "unit",
@@ -6896,7 +7112,7 @@
     }
   },
   {
-    "caseId": "inspirational-battle-canticles-chorus-of-condemnation#203",
+    "caseId": "inspirational-battle-canticles-chorus-of-condemnation#205",
     "effect": {
       "type": "unit-tag",
       "target": "unit",
@@ -6919,7 +7135,71 @@
     }
   },
   {
-    "caseId": "martial-leverage#204",
+    "caseId": "killing-blow#206",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "battle-round",
+            "parameters": {
+              "max": 3
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Assault"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "battle-round",
+                "parameters": {
+                  "max": 3
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "Guided"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Lethal Hits"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle-round"
+    },
+    "expected": {
+      "text": "Until the end of the battle round:\nDuring the first 3 battle rounds, the unit's ranged weapons gain [ASSAULT].\nDuring the first 3 battle rounds, if the unit has the Guided keyword, the unit's ranged weapons gain [LETHAL HITS]."
+    }
+  },
+  {
+    "caseId": "martial-leverage#207",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -6948,7 +7228,7 @@
     }
   },
   {
-    "caseId": "murderous-imperative#205",
+    "caseId": "murderous-imperative#208",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7002,7 +7282,7 @@
     }
   },
   {
-    "caseId": "neurostatic-interference-aura#206",
+    "caseId": "neurostatic-interference-aura#209",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7047,7 +7327,7 @@
     }
   },
   {
-    "caseId": "noospheric-recon#207",
+    "caseId": "noospheric-recon#210",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7102,7 +7382,38 @@
     }
   },
   {
-    "caseId": "omnicogitator-eradication-cohort#208",
+    "caseId": "oath-of-moment#211",
+    "effect": {
+      "type": "designate-target",
+      "designation": "oath-of-moment",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-command-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "all-failures"
+          }
+        }
+      },
+      "duration": "until-next-command-phase"
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
+    },
+    "expected": {
+      "text": "Until your next Command phase:\nSelect one enemy unit (your oath of moment). Each time a friendly unit makes an attack against it, you can re-roll the Hit roll."
+    }
+  },
+  {
+    "caseId": "omnicogitator-eradication-cohort#212",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7136,7 +7447,7 @@
     }
   },
   {
-    "caseId": "pact-of-destruction-devotees-of-destruction#209",
+    "caseId": "pact-of-destruction-devotees-of-destruction#213",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7183,7 +7494,7 @@
     }
   },
   {
-    "caseId": "parasitic-woe-reaper-contagion-engines#210",
+    "caseId": "parasitic-woe-reaper-contagion-engines#214",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7213,34 +7524,18 @@
     }
   },
   {
-    "caseId": "patient-hunter#211",
+    "caseId": "patient-hunter#215",
     "effect": {
       "type": "sequence",
       "steps": [
         {
           "type": "conditional",
           "condition": {
-            "operator": "or",
-            "operands": [
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 3
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 4
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 5
-                }
-              }
-            ]
+            "type": "battle-round",
+            "parameters": {
+              "min": 3,
+              "max": 5
+            }
           },
           "effect": {
             "type": "keyword-grant",
@@ -7259,27 +7554,11 @@
             "operator": "and",
             "operands": [
               {
-                "operator": "or",
-                "operands": [
-                  {
-                    "type": "player-turn-is",
-                    "parameters": {
-                      "turn": 3
-                    }
-                  },
-                  {
-                    "type": "player-turn-is",
-                    "parameters": {
-                      "turn": 4
-                    }
-                  },
-                  {
-                    "type": "player-turn-is",
-                    "parameters": {
-                      "turn": 5
-                    }
-                  }
-                ]
+                "type": "battle-round",
+                "parameters": {
+                  "min": 3,
+                  "max": 5
+                }
               },
               {
                 "type": "unit-has-keyword",
@@ -7329,11 +7608,11 @@
       "duration": "battle"
     },
     "expected": {
-      "text": "For the rest of the battle:\nIn either player's turn or in either player's turn or in either player's turn, the unit's ranged weapons gain [SUSTAINED HITS 1].\nIn either player's turn or in either player's turn or in either player's turn, if the unit has the GUIDED keyword, while making ranged attacks against SPOTTED targets:\n  -> This model gets -? to Ballistic Skill.\n  -> Ignore modifiers this model's Hit rolls."
+      "text": "For the rest of the battle:\nDuring battle rounds 3-5, the unit's ranged weapons gain [SUSTAINED HITS 1].\nDuring battle rounds 3-5, if the unit has the GUIDED keyword, while making ranged attacks against SPOTTED targets:\n  -> This model gets -? to Ballistic Skill.\n  -> Ignore modifiers this model's Hit rolls."
     }
   },
   {
-    "caseId": "pledges-to-the-dark-prince#212",
+    "caseId": "pledges-to-the-dark-prince#216",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7432,7 +7711,7 @@
     }
   },
   {
-    "caseId": "power-matrix#213",
+    "caseId": "power-matrix#217",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7492,7 +7771,7 @@
     }
   },
   {
-    "caseId": "psychic-disciplines#214",
+    "caseId": "psychic-disciplines#218",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7611,7 +7890,7 @@
     }
   },
   {
-    "caseId": "quantum-invader#215",
+    "caseId": "quantum-invader#219",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7651,7 +7930,7 @@
     }
   },
   {
-    "caseId": "raiders-and-reavers#216",
+    "caseId": "raiders-and-reavers#220",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7695,7 +7974,7 @@
     }
   },
   {
-    "caseId": "rearm-reload-fire#217",
+    "caseId": "rearm-reload-fire#221",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7720,7 +7999,7 @@
     }
   },
   {
-    "caseId": "runnin-boots-blitz-brigade#218",
+    "caseId": "runnin-boots-blitz-brigade#222",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7745,7 +8024,7 @@
     }
   },
   {
-    "caseId": "saturation-fire#219",
+    "caseId": "saturation-fire#223",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7771,7 +8050,7 @@
     }
   },
   {
-    "caseId": "seed-the-garden-of-nurgle#220",
+    "caseId": "seed-the-garden-of-nurgle#224",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7820,7 +8099,7 @@
     }
   },
   {
-    "caseId": "shadow-of-khorne-aura#221",
+    "caseId": "shadow-of-khorne-aura#225",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7870,7 +8149,7 @@
     }
   },
   {
-    "caseId": "shokk-boosta#222",
+    "caseId": "shokk-boosta#226",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -7931,7 +8210,7 @@
     }
   },
   {
-    "caseId": "shudderblink#223",
+    "caseId": "shudderblink#227",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -7985,7 +8264,7 @@
     }
   },
   {
-    "caseId": "solemn-procession#224",
+    "caseId": "solemn-procession#228",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8012,7 +8291,7 @@
     }
   },
   {
-    "caseId": "stitchflesh-abominations#225",
+    "caseId": "stitchflesh-abominations#229",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8038,11 +8317,11 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "If the attack's S is greater than the target's T, until the end of the phase, your unit gets -1 to Wound rolls."
+      "text": "If the attack's S is greater than the target's T, until the end of the phase, the target gets -1 to Wound rolls."
     }
   },
   {
-    "caseId": "super-heavy-walker#226",
+    "caseId": "super-heavy-walker#230",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8121,7 +8400,7 @@
     }
   },
   {
-    "caseId": "swooping-descent#227",
+    "caseId": "swooping-descent#231",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8178,7 +8457,58 @@
     }
   },
   {
-    "caseId": "target-sighted#228",
+    "caseId": "swooping-predator#232",
+    "effect": {
+      "type": "flyover",
+      "target": "defender",
+      "modifier": {
+        "dice": "6D6",
+        "threshold": 4,
+        "mortal_wounds": 1
+      }
+    },
+    "scope": {
+      "range": "any-visible",
+      "duration": "phase"
+    },
+    "expected": {
+      "text": "Until the end of the phase, each time this model ends a Normal move, select one enemy unit it moved over and roll 6D6: for each 4+, that unit suffers 1 mortal wound."
+    }
+  },
+  {
+    "caseId": "synapse#233",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "battle-shock-test",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "dice": "3D6"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "melee"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "Friendly units within 6\" take Battle-shock tests on 3D6 instead of 2D6.\nAdd 1 to friendly units within 6\"'s Strength characteristic (melee)."
+    }
+  },
+  {
+    "caseId": "target-sighted#234",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -8249,7 +8579,7 @@
     }
   },
   {
-    "caseId": "the-betrayer#229",
+    "caseId": "the-betrayer#235",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8320,7 +8650,7 @@
     }
   },
   {
-    "caseId": "the-dark-master-aura#230",
+    "caseId": "the-dark-master-aura#236",
     "effect": {
       "type": "terrain-area-tag",
       "target": "self",
@@ -8337,7 +8667,7 @@
     }
   },
   {
-    "caseId": "the-emperors-shield#231",
+    "caseId": "the-emperors-shield#237",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8367,7 +8697,7 @@
     }
   },
   {
-    "caseId": "thundering-wagons#232",
+    "caseId": "thundering-wagons#238",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -8429,7 +8759,7 @@
     }
   },
   {
-    "caseId": "titanic-agility#233",
+    "caseId": "titanic-agility#239",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -8461,7 +8791,7 @@
     }
   },
   {
-    "caseId": "torture-device#234",
+    "caseId": "torture-device#240",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8490,7 +8820,7 @@
     }
   },
   {
-    "caseId": "triarchal-menhirs#235",
+    "caseId": "triarchal-menhirs#241",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8527,7 +8857,7 @@
     }
   },
   {
-    "caseId": "tuff-git-blitz-brigade#236",
+    "caseId": "tuff-git-blitz-brigade#242",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8558,7 +8888,108 @@
     }
   },
   {
-    "caseId": "warp-tainted-warpstrike-champions#237",
+    "caseId": "voice-of-command#243",
+    "effect": {
+      "type": "issue-orders",
+      "range": 6,
+      "options": [
+        {
+          "name": "Move! Move! Move!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 3
+            }
+          }
+        },
+        {
+          "name": "Fix Bayonets!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "WS",
+              "operation": "improve",
+              "value": 1,
+              "attack_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Take Aim!",
+          "effect": {
+            "type": "bs-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "First Rank, Fire! Second Rank, Fire!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "A",
+              "operation": "improve",
+              "value": 1,
+              "weapon_keyword": "Rapid Fire"
+            }
+          }
+        },
+        {
+          "name": "Take Cover!",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "Sv",
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "Duty and Honour!",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "leadership-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "improve",
+                  "value": 1
+                }
+              },
+              {
+                "type": "objective-control-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "add",
+                  "value": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "until-next-command-phase"
+    },
+    "expected": {
+      "text": "Until your next Command phase:\nIssue up to one or more Orders to eligible friendly units within 6\", each one of:\n  - Move! Move! Move!: add 3 to the unit's Move characteristic.\n  - Fix Bayonets!: add 1 to the unit's Weapon Skill characteristic (melee).\n  - Take Aim!: the unit gets +1 to Ballistic Skill.\n  - First Rank, Fire! Second Rank, Fire!: add 1 to the unit's Attacks characteristic.\n  - Take Cover!: add 1 to the unit's Save characteristic.\n  - Duty and Honour!: add 1 to the Leadership characteristic of the unit; the unit gets +1 to its Objective Control characteristic."
+    }
+  },
+  {
+    "caseId": "warp-tainted-warpstrike-champions#244",
     "effect": {
       "type": "objective-tag",
       "target": "unit",
@@ -8582,7 +9013,7 @@
     }
   },
   {
-    "caseId": "movement-modifier-scouts#238",
+    "caseId": "movement-modifier-scouts#245",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -8600,7 +9031,7 @@
     }
   },
   {
-    "caseId": "grant-label-charge-after-disembark#239",
+    "caseId": "grant-label-charge-after-disembark#246",
     "effect": {
       "type": "ability-grant",
       "target": "unit",
@@ -8617,7 +9048,7 @@
     }
   },
   {
-    "caseId": "grant-label-charge-after-fallback#240",
+    "caseId": "grant-label-charge-after-fallback#247",
     "effect": {
       "type": "ability-grant",
       "target": "self",
@@ -8634,7 +9065,7 @@
     }
   },
   {
-    "caseId": "engagement-state-engaged#241",
+    "caseId": "engagement-state-engaged#248",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8657,7 +9088,7 @@
     }
   },
   {
-    "caseId": "engagement-state-on-battlefield#242",
+    "caseId": "engagement-state-on-battlefield#249",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8680,7 +9111,7 @@
     }
   },
   {
-    "caseId": "engagement-state-embarked#243",
+    "caseId": "engagement-state-embarked#250",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8703,7 +9134,7 @@
     }
   },
   {
-    "caseId": "engagement-state-empty#244",
+    "caseId": "engagement-state-empty#251",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8724,7 +9155,7 @@
     }
   },
   {
-    "caseId": "engagement-state-negated#245",
+    "caseId": "engagement-state-negated#252",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8748,7 +9179,7 @@
     }
   },
   {
-    "caseId": "disposition-matches-reserves#246",
+    "caseId": "disposition-matches-reserves#253",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8771,7 +9202,7 @@
     }
   },
   {
-    "caseId": "disposition-matches-enemy#247",
+    "caseId": "disposition-matches-enemy#254",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8794,7 +9225,7 @@
     }
   },
   {
-    "caseId": "fights-first-cond#248",
+    "caseId": "fights-first-cond#255",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8820,7 +9251,7 @@
     }
   },
   {
-    "caseId": "scaling-attacks-per-models#249",
+    "caseId": "scaling-attacks-per-models#256",
     "effect": {
       "type": "stat-modifier",
       "target": "unit",
@@ -8844,7 +9275,7 @@
     }
   },
   {
-    "caseId": "scaling-strength-wounds-lost#250",
+    "caseId": "scaling-strength-wounds-lost#257",
     "effect": {
       "type": "stat-modifier",
       "target": "self",
@@ -8869,7 +9300,7 @@
     }
   },
   {
-    "caseId": "dice-pool-inline-label#251",
+    "caseId": "dice-pool-inline-label#258",
     "effect": {
       "type": "choice",
       "options": [
@@ -8912,7 +9343,7 @@
     }
   },
   {
-    "caseId": "unit-within-range-closest-eligible#252",
+    "caseId": "unit-within-range-closest-eligible#259",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -8940,7 +9371,7 @@
     }
   },
   {
-    "caseId": "dice-pool-requirement-anyof#253",
+    "caseId": "dice-pool-requirement-anyof#260",
     "effect": {
       "type": "dice-pool-allocation",
       "pool": {
@@ -8983,7 +9414,7 @@
     }
   },
   {
-    "caseId": "rule-state-forgo-faction-rule#254",
+    "caseId": "rule-state-forgo-faction-rule#261",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -9007,7 +9438,7 @@
     }
   },
   {
-    "caseId": "rule-state-faction-rule-granted#255",
+    "caseId": "rule-state-faction-rule-granted#262",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -9026,7 +9457,7 @@
     }
   },
   {
-    "caseId": "rule-state-cover-granted#256",
+    "caseId": "rule-state-cover-granted#263",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -9045,7 +9476,7 @@
     }
   },
   {
-    "caseId": "rule-state-advance-suppressed#257",
+    "caseId": "rule-state-advance-suppressed#264",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -9064,7 +9495,7 @@
     }
   },
   {
-    "caseId": "rule-state-overwatch-against-bearer#258",
+    "caseId": "rule-state-overwatch-against-bearer#265",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -9083,7 +9514,7 @@
     }
   },
   {
-    "caseId": "rule-state-desperate-escape-granted#259",
+    "caseId": "rule-state-desperate-escape-granted#266",
     "effect": {
       "type": "rule-state",
       "target": "all-enemy",
@@ -9102,7 +9533,7 @@
     }
   },
   {
-    "caseId": "rule-state-desperate-escape-suppressed#260",
+    "caseId": "rule-state-desperate-escape-suppressed#267",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -9121,7 +9552,7 @@
     }
   },
   {
-    "caseId": "rule-state-ability-granted#261",
+    "caseId": "rule-state-ability-granted#268",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -9140,7 +9571,7 @@
     }
   },
   {
-    "caseId": "rule-state-keyword-suppressed#262",
+    "caseId": "rule-state-keyword-suppressed#269",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -9159,7 +9590,7 @@
     }
   },
   {
-    "caseId": "rule-state-ordered-retreat-suppressed#263",
+    "caseId": "rule-state-ordered-retreat-suppressed#270",
     "effect": {
       "type": "rule-state",
       "target": "enemy-within-aura",
@@ -9178,7 +9609,7 @@
     }
   },
   {
-    "caseId": "rule-state-ordered-retreat-granted#264",
+    "caseId": "rule-state-ordered-retreat-granted#271",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -9197,7 +9628,7 @@
     }
   },
   {
-    "caseId": "keyword-grant-anti-string#265",
+    "caseId": "keyword-grant-anti-string#272",
     "effect": {
       "type": "keyword-grant",
       "target": "unit",
@@ -9214,7 +9645,7 @@
     }
   },
   {
-    "caseId": "keyword-grant-anti-structured#266",
+    "caseId": "keyword-grant-anti-structured#273",
     "effect": {
       "type": "keyword-grant",
       "target": "unit",
@@ -9232,7 +9663,7 @@
     }
   },
   {
-    "caseId": "keyword-grant-rated-value#267",
+    "caseId": "keyword-grant-rated-value#274",
     "effect": {
       "type": "keyword-grant",
       "target": "unit",
@@ -9250,7 +9681,7 @@
     }
   },
   {
-    "caseId": "auto-result-battle-shock-pass#268",
+    "caseId": "auto-result-battle-shock-pass#275",
     "effect": {
       "type": "auto-result",
       "target": "unit",
@@ -9268,7 +9699,7 @@
     }
   },
   {
-    "caseId": "auto-result-hit-six#269",
+    "caseId": "auto-result-hit-six#276",
     "effect": {
       "type": "auto-result",
       "target": "unit",
@@ -9286,7 +9717,7 @@
     }
   },
   {
-    "caseId": "firing-deck#270",
+    "caseId": "firing-deck#277",
     "effect": {
       "type": "firing-deck",
       "target": "self",
@@ -9303,7 +9734,7 @@
     }
   },
   {
-    "caseId": "disembark-after-move#271",
+    "caseId": "disembark-after-move#278",
     "effect": {
       "type": "disembark-after-move",
       "target": "self",
@@ -9318,7 +9749,7 @@
     }
   },
   {
-    "caseId": "usage-once-per-turn#272",
+    "caseId": "usage-once-per-turn#279",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -9338,7 +9769,7 @@
     }
   },
   {
-    "caseId": "usage-n-per-battle-per-unit#273",
+    "caseId": "usage-n-per-battle-per-unit#280",
     "effect": {
       "type": "stat-modifier",
       "target": "unit",
@@ -9362,7 +9793,7 @@
     }
   },
   {
-    "caseId": "trigger-enemy-ended-move#274",
+    "caseId": "trigger-enemy-ended-move#281",
     "effect": {
       "type": "movement-modifier",
       "target": "self",
@@ -9388,7 +9819,7 @@
     }
   },
   {
-    "caseId": "trigger-on-model-destroyed#275",
+    "caseId": "trigger-on-model-destroyed#282",
     "effect": {
       "type": "mortal-wounds",
       "target": "all-enemy",
@@ -9409,7 +9840,7 @@
     }
   },
   {
-    "caseId": "trigger-before-save-with-condition#276",
+    "caseId": "trigger-before-save-with-condition#283",
     "effect": {
       "type": "re-roll",
       "target": "unit",
@@ -9434,7 +9865,7 @@
     }
   },
   {
-    "caseId": "move-passthrough-models-terrain#277",
+    "caseId": "move-passthrough-models-terrain#284",
     "effect": {
       "type": "movement-modifier",
       "target": "self",
@@ -9454,7 +9885,7 @@
     }
   },
   {
-    "caseId": "move-passthrough-applies-excludes#278",
+    "caseId": "move-passthrough-applies-excludes#285",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9480,7 +9911,7 @@
     }
   },
   {
-    "caseId": "move-ignore-vertical#279",
+    "caseId": "move-ignore-vertical#286",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9497,7 +9928,7 @@
     }
   },
   {
-    "caseId": "move-normal-applies#280",
+    "caseId": "move-normal-applies#287",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9520,7 +9951,7 @@
     }
   },
   {
-    "caseId": "move-normal-negative#281",
+    "caseId": "move-normal-negative#288",
     "effect": {
       "type": "movement-modifier",
       "target": "defender",
@@ -9534,11 +9965,11 @@
       "duration": "turn"
     },
     "expected": {
-      "text": "Until the end of the turn, your unit's Move characteristic is reduced by 2\"."
+      "text": "Until the end of the turn, the target's Move characteristic is reduced by 2\"."
     }
   },
   {
-    "caseId": "move-advance-bonus#282",
+    "caseId": "move-advance-bonus#289",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9556,7 +9987,7 @@
     }
   },
   {
-    "caseId": "move-pile-in#283",
+    "caseId": "move-pile-in#290",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9575,7 +10006,7 @@
     }
   },
   {
-    "caseId": "move-consolidation#284",
+    "caseId": "move-consolidation#291",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9594,7 +10025,7 @@
     }
   },
   {
-    "caseId": "move-surge#285",
+    "caseId": "move-surge#292",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9612,7 +10043,7 @@
     }
   },
   {
-    "caseId": "move-shoot-and-scoot#286",
+    "caseId": "move-shoot-and-scoot#293",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9630,7 +10061,7 @@
     }
   },
   {
-    "caseId": "move-redeploy-reserves-max#287",
+    "caseId": "move-redeploy-reserves-max#294",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9649,7 +10080,7 @@
     }
   },
   {
-    "caseId": "move-redeploy-marker#288",
+    "caseId": "move-redeploy-marker#295",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9670,7 +10101,7 @@
     }
   },
   {
-    "caseId": "move-redeploy-placement#289",
+    "caseId": "move-redeploy-placement#296",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9691,7 +10122,7 @@
     }
   },
   {
-    "caseId": "move-infiltrate#290",
+    "caseId": "move-infiltrate#297",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -9708,7 +10139,7 @@
     }
   },
   {
-    "caseId": "aura-range-bonus#291",
+    "caseId": "aura-range-bonus#298",
     "effect": {
       "type": "aura",
       "target": "enemy-within-aura",
@@ -9726,7 +10157,7 @@
     }
   },
   {
-    "caseId": "aura-tiered-effect#292",
+    "caseId": "aura-tiered-effect#299",
     "effect": {
       "type": "aura",
       "target": "enemy-within-aura",
@@ -9756,7 +10187,7 @@
     }
   },
   {
-    "caseId": "rehome-deep-strike-min-distance#293",
+    "caseId": "rehome-deep-strike-min-distance#300",
     "effect": {
       "type": "deep-strike",
       "target": "unit",
@@ -9774,7 +10205,7 @@
     }
   },
   {
-    "caseId": "rehome-engagement-no-end#294",
+    "caseId": "rehome-engagement-no-end#301",
     "effect": {
       "type": "engagement-passthrough",
       "target": "self",

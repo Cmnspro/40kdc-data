@@ -1,0 +1,33 @@
+[
+  {
+    "id": "miracle-dice-pool",
+    "name": "Miracle Dice Pool",
+    "faction_id": "adepta-sororitas",
+    "pool_type": "dice-pool",
+    "generation": [
+      {
+        "condition": {
+          "type": "timing-is",
+          "parameters": {
+            "timing": "start-of-battle-round"
+          }
+        },
+        "amount": 1
+      },
+      {
+        "condition": {
+          "type": "timing-is",
+          "parameters": {
+            "timing": "on-unit-destroyed"
+          }
+        },
+        "amount": 1
+      }
+    ],
+    "max_size": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  }
+]

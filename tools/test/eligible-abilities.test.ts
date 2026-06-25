@@ -89,24 +89,26 @@ describe("Dataset.eligibleAbilities", () => {
 });
 
 describe("Dataset.buffsFor (M2 — abilities)", () => {
-  it("Oath of Moment contributes hit and wound rerolls", () => {
+  it("Oath of Moment contributes a hit reroll", () => {
     const intercessor = ds.units.find("Intercessor Squad")!;
     const buffs = ds.buffsFor(
       { unitId: intercessor.id, factionId: "adeptus-astartes" },
       { phase: "shooting" },
     );
-    // Oath of Moment is a sequence of two re-rolls.
+    // Oath of Moment marks one enemy unit; attacks against it re-roll the Hit
+    // roll. (The +1 to Wound is a mono-codex roster precondition, carried in
+    // community_notes rather than the runtime buff layer.)
     const rerolls = buffs.filter((b) => b.contribution.type === "reroll");
     const rerollTypes = rerolls.map((b) =>
       b.contribution.type === "reroll" ? b.contribution.roll : null,
     );
     expect(rerollTypes).toContain("hit");
-    expect(rerollTypes).toContain("wound");
-    // And they're tagged as army-source.
+    expect(rerollTypes).not.toContain("wound");
+    // And it's tagged as army-source.
     const oathSourced = rerolls.filter(
       (b) => b.source.kind === "ability" && b.source.abilityId === "oath-of-moment",
     );
-    expect(oathSourced.length).toBe(2);
+    expect(oathSourced.length).toBe(1);
   });
 
   it("respects optedInStratagemIds — stratagems are excluded by default", () => {

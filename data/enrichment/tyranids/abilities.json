@@ -2988,22 +2988,26 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "fight"
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "battle-shock-test",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "dice": "3D6"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "melee"
+          }
         }
-      },
-      "effect": {
-        "type": "stat-modifier",
-        "target": "unit",
-        "modifier": {
-          "stat": "S",
-          "operation": "add",
-          "value": 1
-        }
-      }
+      ]
     },
     "scope": {
       "range": "aura-6",

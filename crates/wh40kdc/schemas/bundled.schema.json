@@ -2905,6 +2905,85 @@
       ],
       "additionalProperties": false
     },
+    "trigger": {
+      "description": "A single reactive trigger: the game `event` (closed dispatch key), `subject` (whose action triggered it), `proximity` (spatial gate in inches), optional `move_types` (restricts a move event to given move kinds), `condition` (extra gate reusing the condition tree), `optional` ('you can' reactions), `cost` (stratagem-style CP), and `window` (how long the granted reaction stays open).",
+      "type": "object",
+      "properties": {
+        "event": {
+          "$ref": "#/$defs/game-event"
+        },
+        "subject": {
+          "type": "string",
+          "enum": [
+            "self",
+            "bearer",
+            "friendly-unit",
+            "enemy-unit",
+            "any-unit",
+            "model-in-bearer"
+          ]
+        },
+        "proximity": {
+          "type": "object",
+          "properties": {
+            "of": {
+              "type": "string",
+              "enum": [
+                "self",
+                "bearer",
+                "attached-unit"
+              ]
+            },
+            "range": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "range"
+          ],
+          "additionalProperties": false
+        },
+        "move_types": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "advance",
+              "fall-back",
+              "charge"
+            ]
+          },
+          "description": "Restricts a move-related event (e.g. enemy-unit-ended-move) to these move kinds — e.g. [normal, advance, fall-back] for 'a Normal, Advance or Fall Back move'."
+        },
+        "condition": {
+          "$ref": "#/$defs/condition"
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        },
+        "cost": {
+          "type": "object",
+          "properties": {
+            "cp": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "window": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "additionalProperties": false
+    },
     "ability": {
       "title": "Ability DSL Entry",
       "description": "Community-authored structured representation of what a game ability does. NOT GW text.",
@@ -2988,69 +3067,19 @@
           "$ref": "#/$defs/effect"
         },
         "trigger": {
-          "description": "For reactive abilities: the game event this ability fires on, plus structured guards an event-driven consumer evaluates against game state (no prose parsing). `event` is the closed dispatch key; `subject` names whose action triggered it; `proximity` is the spatial gate in inches; `condition` is an optional extra gate reusing the condition tree. `optional` marks 'you can' reactions, `cost` a stratagem-style CP cost, `window` how long the granted reaction stays open.",
-          "type": "object",
-          "properties": {
-            "event": {
-              "$ref": "#/$defs/game-event"
+          "description": "For reactive abilities: the game event(s) this ability fires on, plus structured guards. One trigger object, OR an array of trigger objects — the ability fires on ANY listed trigger (models multi-event reactions like 'set up OR ends a move'). See `$defs/trigger`.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/trigger"
             },
-            "subject": {
-              "type": "string",
-              "enum": [
-                "self",
-                "bearer",
-                "friendly-unit",
-                "enemy-unit",
-                "any-unit",
-                "model-in-bearer"
-              ]
-            },
-            "proximity": {
-              "type": "object",
-              "properties": {
-                "of": {
-                  "type": "string",
-                  "enum": [
-                    "self",
-                    "bearer",
-                    "attached-unit"
-                  ]
-                },
-                "range": {
-                  "type": "number",
-                  "exclusiveMinimum": 0
-                }
-              },
-              "required": [
-                "range"
-              ],
-              "additionalProperties": false
-            },
-            "condition": {
-              "$ref": "#/$defs/condition"
-            },
-            "optional": {
-              "type": "boolean",
-              "default": false
-            },
-            "cost": {
-              "type": "object",
-              "properties": {
-                "cp": {
-                  "type": "integer",
-                  "minimum": 0
-                }
-              },
-              "additionalProperties": false
-            },
-            "window": {
-              "type": "string"
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/trigger"
+              }
             }
-          },
-          "required": [
-            "event"
-          ],
-          "additionalProperties": false
+          ]
         },
         "scope": {
           "$ref": "#/$defs/scope"
@@ -3292,6 +3321,18 @@
         },
         {
           "$ref": "#/$defs/aura-effect"
+        },
+        {
+          "$ref": "#/$defs/designate-target-effect"
+        },
+        {
+          "$ref": "#/$defs/stance-select-effect"
+        },
+        {
+          "$ref": "#/$defs/risk-reward-effect"
+        },
+        {
+          "$ref": "#/$defs/issue-orders-effect"
         }
       ]
     },
@@ -3444,7 +3485,10 @@
             "disembark",
             "rule-state",
             "pool-add-die",
-            "replace-roll-from-pool"
+            "replace-roll-from-pool",
+            "flyover",
+            "cp-on-destroy",
+            "battle-shock-test"
           ]
         },
         "target": {
@@ -3475,7 +3519,18 @@
         "type",
         "target"
       ],
-      "$comment": "Optional weapon narrowing on cruncher-interpreted modifiers (stat-modifier/roll-modifier/re-roll/keyword-grant): `weapon_type` ('melee'|'ranged'), `weapon_name` (one named weapon), or `weapon_keyword` (a weapon ability such as 'Torrent'|'Blast'|'Pistol' — restricts the effect to weapons carrying that keyword). When `type` is `re-roll`, `modifier` must carry `roll` (string) and `subset` (`ones` | `all-failures`). Rerolls always target failures; the subset decides whether only 1s are rerolled or every failed die. The constraint is enforced by AJV at validation time and stripped from the codegen bundle (typify can't model if/then/else) — the generated TS/Rust types therefore see `modifier` as an open object, matching its other-`type` callers. When `type` is `feel-no-pain`, `modifier` carries `threshold` (the FNP save target) and optionally `scope` ∈ {`all`, `mortal`}; an absent scope defaults to `all` (fires on every unsaved wound). The two scopes compose independently against the mortal-wound stream. Tag effects (`terrain-area-tag`, `objective-tag`, `unit-tag`) set a transient marker on the named subject; `modifier` carries `tag` (string) and optionally `source` ('this-action'|'destroying-unit') and `clears_on` ('turn-rollover'|'never'). `target` for tag effects names the kind of entity the tag is applied to ('unit', 'self') — a placeholder, since the marker target is the objective/terrain/unit specified by the action context, not a combat target. Parameterized weapon keywords on `keyword-grant`/`unit-keyword-grant`: a granted keyword may carry its rating either baked into the `keyword` string ('Sustained Hits 1') or structurally via `value` (Sustained Hits/Rapid Fire/Melta N); Anti-X keywords may use `anti_keyword` + `anti_threshold` (rendered '[ANTI-INFANTRY 4+]'). When `type` is `auto-result`, `modifier` carries `result` (`pass`|`fail`, or an integer the named roll counts as) plus `test` (e.g. 'battle-shock') or `roll` (e.g. 'hit'). When `type` is `firing-deck`, `modifier` carries `value` (the Firing Deck rating). `disembark-after-move` needs no modifier. When `type` is `rule-state`, a named rule is switched on/off for `target`: `modifier` carries `direction` (`suppressed` | `granted`), `rule_kind` (`core-rule` | `keyword` | `ability` | `faction-rule`), `rule` (the rule slug — constrained to the closed core-rule vocabulary when `rule_kind` is `core-rule`; a free slug resolved by integrity.ts against the matching ability/faction-rule entity when `rule_kind` is `ability`/`faction-rule`; a free string when `rule_kind` is `keyword`), and — carried over from `forgo-faction-rule` — optional `scope` and `cost`. `target` names whose printed datasheet line the rule is a property OF (the rule-text attachment point), not a buff/debuff stance: a self-immunity is `self`, an aura debuff projected onto enemies is `enemy-within-aura`. `forgo-faction-rule` is exactly `rule-state` with `direction: suppressed`, `rule_kind: faction-rule`. Pooled-resource economy (shape #1): `resource-gain`/`resource-spend` move plain COUNT tokens (Pain tokens, Yield Points) by `amount` from a free-string `pool_id`; `resource-spend` may additionally carry a `cap` ({ `count` (int), `per` ('turn'|'phase'|'battle') }) bounding how often the bearer may spend from that pool. For pools whose tokens carry a FIXED FACE VALUE (Adepta Sororitas Miracle dice), two dedicated effects apply: `pool-add-die` adds a die SHOWING a value to the pool — `modifier` carries `pool_id` (free string), `value` (integer 1-6, or the string 'highest' for 'the highest result you could roll'), and optional `count` (integer or dice-expression string, default 1); and `replace-roll-from-pool` discards a die from the pool to substitute its value for a roll — `modifier` carries `pool_id` and `rolls` (array of roll names the substitution may apply to, e.g. ['hit','wound','save','advance','charge','desperate-escape','hazardous','leadership']). `replace-roll-from-pool` revives the dice-substitution sub-shape retired at v1.0.0; the cruncher leaves both pool effects unsupported (fail-safe) since pool state is not tracked by the buff layer. When `type` is `disembark`, `modifier` carries `distance` (inches the disembarking unit may be set up wholly within of the transport, extending the default 3\") and `allow_engagement_range` (boolean — removes the core restriction against disembarking within Engagement Range of enemies); deployment mechanic, left unsupported by the cruncher like `disembark-after-move`/`deep-strike`."
+      "$comment": "Optional weapon narrowing on cruncher-interpreted modifiers (stat-modifier/roll-modifier/re-roll/keyword-grant): `weapon_type` ('melee'|'ranged'), `weapon_name` (one named weapon), or `weapon_keyword` (a weapon ability such as 'Torrent'|'Blast'|'Pistol' — restricts the effect to weapons carrying that keyword). When `type` is `re-roll`, `modifier` must carry `roll` (string) and `subset` (`ones` | `all-failures`). Rerolls always target failures; the subset decides whether only 1s are rerolled or every failed die. The constraint is enforced by AJV at validation time and stripped from the codegen bundle (typify can't model if/then/else) — the generated TS/Rust types therefore see `modifier` as an open object, matching its other-`type` callers. When `type` is `feel-no-pain`, `modifier` carries `threshold` (the FNP save target) and optionally `scope` ∈ {`all`, `mortal`}; an absent scope defaults to `all` (fires on every unsaved wound). The two scopes compose independently against the mortal-wound stream. Tag effects (`terrain-area-tag`, `objective-tag`, `unit-tag`) set a transient marker on the named subject; `modifier` carries `tag` (string) and optionally `source` ('this-action'|'destroying-unit') and `clears_on` ('turn-rollover'|'never'). `target` for tag effects names the kind of entity the tag is applied to ('unit', 'self') — a placeholder, since the marker target is the objective/terrain/unit specified by the action context, not a combat target. Parameterized weapon keywords on `keyword-grant`/`unit-keyword-grant`: a granted keyword may carry its rating either baked into the `keyword` string ('Sustained Hits 1') or structurally via `value` (Sustained Hits/Rapid Fire/Melta N); Anti-X keywords may use `anti_keyword` + `anti_threshold` (rendered '[ANTI-INFANTRY 4+]'). When `type` is `auto-result`, `modifier` carries `result` (`pass`|`fail`, or an integer the named roll counts as) plus `test` (e.g. 'battle-shock') or `roll` (e.g. 'hit'). When `type` is `firing-deck`, `modifier` carries `value` (the Firing Deck rating). `disembark-after-move` needs no modifier. When `type` is `rule-state`, a named rule is switched on/off for `target`: `modifier` carries `direction` (`suppressed` | `granted`), `rule_kind` (`core-rule` | `keyword` | `ability` | `faction-rule`), `rule` (the rule slug — constrained to the closed core-rule vocabulary when `rule_kind` is `core-rule`; a free slug resolved by integrity.ts against the matching ability/faction-rule entity when `rule_kind` is `ability`/`faction-rule`; a free string when `rule_kind` is `keyword`), and — carried over from `forgo-faction-rule` — optional `scope` and `cost`. `target` names whose printed datasheet line the rule is a property OF (the rule-text attachment point), not a buff/debuff stance: a self-immunity is `self`, an aura debuff projected onto enemies is `enemy-within-aura`. `forgo-faction-rule` is exactly `rule-state` with `direction: suppressed`, `rule_kind: faction-rule`. Pooled-resource economy (shape #1): `resource-gain`/`resource-spend` move plain COUNT tokens (Pain tokens, Yield Points) by `amount` from a free-string `pool_id`; `resource-spend` may additionally carry a `cap` ({ `count` (int), `per` ('turn'|'phase'|'battle') }) bounding how often the bearer may spend from that pool. For pools whose tokens carry a FIXED FACE VALUE (Adepta Sororitas Miracle dice), two dedicated effects apply: `pool-add-die` adds a die SHOWING a value to the pool — `modifier` carries `pool_id` (free string), `value` (integer 1-6, or the string 'highest' for 'the highest result you could roll'), and optional `count` (integer or dice-expression string, default 1); and `replace-roll-from-pool` discards a die from the pool to substitute its value for a roll — `modifier` carries `pool_id` and `rolls` (array of roll names the substitution may apply to, e.g. ['hit','wound','save','advance','charge','desperate-escape','hazardous','leadership']). `replace-roll-from-pool` revives the dice-substitution sub-shape retired at v1.0.0; the cruncher leaves both pool effects unsupported (fail-safe) since pool state is not tracked by the buff layer. When `type` is `disembark`, `modifier` carries `distance` (inches the disembarking unit may be set up wholly within of the transport, extending the default 3\") and `allow_engagement_range` (boolean — removes the core restriction against disembarking within Engagement Range of enemies); deployment mechanic, left unsupported by the cruncher like `disembark-after-move`/`deep-strike`.",
+      "allOf": [
+        {
+          "$comment": "`flyover`: a model that ends a move over an enemy unit rolls `dice`; each result at or above `threshold` inflicts `mortal_wounds` on the moved-over enemy. Models flyover/strafing mortal wounds (target is the moved-over enemy, named via the ability's trigger)."
+        },
+        {
+          "$comment": "`cp-on-destroy`: gain `amount` CP each time the bearer's unit destroys an enemy model; optional `enemy_keyword` gates on the destroyed model's keyword (e.g. CHARACTER); `per` ('model'|'unit') is the granularity of the count."
+        },
+        {
+          "$comment": "`battle-shock-test`: the target takes Battle-shock tests on the given `dice` expression instead of the default 2D6 (e.g. '3D6' for Tyranid Synapse)."
+        }
+      ]
     },
     "choice-effect": {
       "type": "object",
@@ -3888,6 +3943,220 @@
         "type",
         "target",
         "modifier"
+      ]
+    },
+    "designate-target-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Nominate one enemy unit (the designation/mark) and apply `applies.effect` keyed to it. `applies.to` decides the beneficiary: 'target' debuffs the marked unit itself (cover-strip, suppression); 'attackers-of-target' buffs every friendly attack made against it (Oath of Moment, Tau spotting). Supersedes the ad-hoc `context: vs-selected-keyword`/`vs-marked` workaround. `select.timing` is when the mark is chosen; `duration` how long it lasts.",
+      "properties": {
+        "type": {
+          "const": "designate-target"
+        },
+        "designation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "select": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "enemy-unit",
+                "friendly-unit"
+              ]
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "timing": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "scope"
+          ]
+        },
+        "applies": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "to": {
+              "type": "string",
+              "enum": [
+                "target",
+                "attackers-of-target"
+              ]
+            },
+            "effect": {
+              "$ref": "#/$defs/effect-node"
+            }
+          },
+          "required": [
+            "to",
+            "effect"
+          ]
+        },
+        "duration": {
+          "type": "string",
+          "enum": [
+            "phase",
+            "turn",
+            "battle-round",
+            "battle",
+            "until-next-command-phase"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "designation",
+        "select",
+        "applies"
+      ]
+    },
+    "stance-select-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Pick exactly one option from a menu of modal buffs — the dice-pool-allocation shape minus the dice. `mode`: 're-selectable' re-picks each window with no depletion (Admech Doctrina Imperatives); 'consumable' spends each option once per battle (Gladius Combat Doctrines). `scope` is who the active option applies to; `select` names when the pick is made. Each option carries a `name` and a bundle `effect` (often a sequence).",
+      "properties": {
+        "type": {
+          "const": "stance-select"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "re-selectable",
+            "consumable"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "army",
+            "unit"
+          ]
+        },
+        "select": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "effect": {
+                "$ref": "#/$defs/effect-node"
+              }
+            },
+            "required": [
+              "name",
+              "effect"
+            ]
+          }
+        }
+      },
+      "required": [
+        "type",
+        "mode",
+        "options"
+      ]
+    },
+    "risk-reward-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "An activated buff (`reward`) that can backfire: resolve a `risk` test and, on failure, apply `risk.on_fail` to the bearer (the Hazardous-keyword pattern lifted to abilities — Chaos Dark Pacts). `risk.test` names the test taken (e.g. 'leadership').",
+      "properties": {
+        "type": {
+          "const": "risk-reward"
+        },
+        "reward": {
+          "$ref": "#/$defs/effect-node"
+        },
+        "risk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "test": {
+              "type": "string",
+              "minLength": 1
+            },
+            "on_fail": {
+              "$ref": "#/$defs/effect-node"
+            }
+          },
+          "required": [
+            "test",
+            "on_fail"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "reward",
+        "risk"
+      ]
+    },
+    "issue-orders-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "An officer issues up to `count` Orders per round to eligible friendly units within `range` inches, each a pick from the `options` menu (Astra Militarum Voice of Command). `count`/`eligible` are typically per-officer-datasheet; the shared menu lives on the army rule. Each option carries a `name` and the `effect` the chosen Order applies to the receiving unit.",
+      "properties": {
+        "type": {
+          "const": "issue-orders"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "range": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "eligible": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "effect": {
+                "$ref": "#/$defs/effect-node"
+              }
+            },
+            "required": [
+              "name",
+              "effect"
+            ]
+          }
+        }
+      },
+      "required": [
+        "type",
+        "options"
       ]
     },
     "effect": {

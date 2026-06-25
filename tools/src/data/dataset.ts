@@ -282,10 +282,16 @@ export class Dataset {
   reactiveTriggers(): ReactiveTrigger[] {
     const out: ReactiveTrigger[] = [];
     for (const a of this.abilities.all) {
-      const trigger = a.raw.trigger;
-      if (!trigger) continue;
+      const raw = a.raw.trigger;
+      if (!raw) continue;
+      // `trigger` may be a single object or an array (the ability fires on any);
+      // emit one ReactiveTrigger per event so the dispatch index keys them all.
+      const triggers = Array.isArray(raw) ? raw : [raw];
       const unitIds = (this.unitsByAbility.get(a.id) ?? []).map((u) => u.id).sort();
-      out.push({ abilityId: a.id, event: trigger.event, unitIds, trigger });
+      for (const trigger of triggers) {
+        if (trigger?.event == null) continue;
+        out.push({ abilityId: a.id, event: trigger.event, unitIds, trigger });
+      }
     }
     out.sort((x, y) => (x.abilityId < y.abilityId ? -1 : x.abilityId > y.abilityId ? 1 : 0));
     return out;

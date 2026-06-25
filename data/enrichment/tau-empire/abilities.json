@@ -4156,27 +4156,10 @@
         {
           "type": "conditional",
           "condition": {
-            "operator": "or",
-            "operands": [
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "battle-round-1"
-                }
-              },
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "battle-round-2"
-                }
-              },
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "battle-round-3"
-                }
-              }
-            ]
+            "type": "battle-round",
+            "parameters": {
+              "max": 3
+            }
           },
           "effect": {
             "type": "keyword-grant",
@@ -4195,27 +4178,10 @@
             "operator": "and",
             "operands": [
               {
-                "operator": "or",
-                "operands": [
-                  {
-                    "type": "timing-is",
-                    "parameters": {
-                      "timing": "battle-round-1"
-                    }
-                  },
-                  {
-                    "type": "timing-is",
-                    "parameters": {
-                      "timing": "battle-round-2"
-                    }
-                  },
-                  {
-                    "type": "timing-is",
-                    "parameters": {
-                      "timing": "battle-round-3"
-                    }
-                  }
-                ]
+                "type": "battle-round",
+                "parameters": {
+                  "max": 3
+                }
               },
               {
                 "type": "unit-has-keyword",
@@ -4410,27 +4376,11 @@
         {
           "type": "conditional",
           "condition": {
-            "operator": "or",
-            "operands": [
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 3
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 4
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 5
-                }
-              }
-            ]
+            "type": "battle-round",
+            "parameters": {
+              "min": 3,
+              "max": 5
+            }
           },
           "effect": {
             "type": "keyword-grant",
@@ -4449,27 +4399,11 @@
             "operator": "and",
             "operands": [
               {
-                "operator": "or",
-                "operands": [
-                  {
-                    "type": "player-turn-is",
-                    "parameters": {
-                      "turn": 3
-                    }
-                  },
-                  {
-                    "type": "player-turn-is",
-                    "parameters": {
-                      "turn": 4
-                    }
-                  },
-                  {
-                    "type": "player-turn-is",
-                    "parameters": {
-                      "turn": 5
-                    }
-                  }
-                ]
+                "type": "battle-round",
+                "parameters": {
+                  "min": 3,
+                  "max": 5
+                }
               },
               {
                 "type": "unit-has-keyword",

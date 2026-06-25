@@ -387,6 +387,19 @@ export function describeCondition(c: Condition): string {
       return `${negate}you are engaged on ${str(p.count_min ?? 1)}+ fronts`;
     case "token-count-at-or-above":
       return `${negate}the unit has ${str(p.threshold)}+ ${dekebab(str(p.pool_id))}`;
+    case "battle-round": {
+      const min = p.min != null ? Number(p.min) : undefined;
+      const max = p.max != null ? Number(p.max) : undefined;
+      const ord = (n: number): string =>
+        ["zeroth", "first", "second", "third", "fourth", "fifth"][n] ?? `${n}th`;
+      let where: string;
+      if (min != null && max != null)
+        where = min === max ? `the ${ord(min)} battle round` : `battle rounds ${min}-${max}`;
+      else if (min != null) where = `the ${ord(min)} battle round onward`;
+      else if (max != null) where = `the first ${max} battle rounds`;
+      else where = "the battle round";
+      return `${negate}during ${where}`;
+    }
 
     default:
       return `${negate}${dekebab(c.type ?? "unknown")}`;
