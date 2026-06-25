@@ -368,7 +368,9 @@ function save() {
 			>
 				{total} / {limit}
 			</div>
-			<div class="text-text-muted text-xs uppercase tracking-wider">points</div>
+			<div class="text-xs tabular-nums {overLimit ? 'text-amber-400' : 'text-text-muted'}">
+				{overLimit ? `${total - limit} over` : `${limit - total} remaining`}
+			</div>
 		</div>
 	</div>
 

@@ -169,9 +169,11 @@ func (ds *Dataset) unitsWithKeyword(keyword string) []*UnitView {
 }
 
 // wargearOptionsOf returns wargear options authored for the unit, declared
-// order preserved.
+// order preserved. Scoped to the unit's own faction ((faction_id, unit_id)): a
+// chassis shared across factions reuses the same option ids for different swaps,
+// so the lookup never unions across factions. Mirror of TS Dataset.wargearOptionsOf.
 func (ds *Dataset) wargearOptionsOf(unit map[string]any) []any {
-	return ds.wargearOptionsByUnit[getStr(unit, "id")]
+	return ds.wargearOptionsByUnit[getStr(unit, "faction_id")+"::"+getStr(unit, "id")]
 }
 
 // unitCompositionOf returns the (models, tiers) of the unit's faction-scoped
@@ -377,8 +379,10 @@ func (ds *Dataset) buildIndexes(raw rawData) {
 	}
 	for _, optAny := range raw["wargear_options"] {
 		opt := optAny.(map[string]any)
-		uid := getStr(opt, "unit_id")
-		ds.wargearOptionsByUnit[uid] = append(ds.wargearOptionsByUnit[uid], opt)
+		// Faction-scoped: a chassis shared across factions reuses the same option
+		// ids for different swaps, so key on (faction_id, unit_id). Mirror of TS.
+		key := getStr(opt, "faction_id") + "::" + getStr(opt, "unit_id")
+		ds.wargearOptionsByUnit[key] = append(ds.wargearOptionsByUnit[key], opt)
 	}
 	seenByKeyword := map[string]map[string]struct{}{}
 	for _, weaponAny := range raw["weapons"] {

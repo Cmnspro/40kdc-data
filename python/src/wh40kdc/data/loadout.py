@@ -341,73 +341,133 @@ def _assign_row_counts(
     return out
 
 
-def _group_holds(group: dict[str, Any], replaces: list[str]) -> bool:
-    return group["count"] > 0 and all(group["weapons"].get(id_, 0) >= 1 for id_ in replaces)
+def _multiset_key(m: dict[str, int]) -> str:
+    """A stable key for a weapon multiset: ``count:id`` parts in id order, joined by
+    ``|``; zero/negative entries dropped. Mirror of the TS ``multisetKey``."""
+    return "|".join(f"{c}:{id_}" for id_, c in sorted(m.items()) if c > 0)
 
 
-def _find_source(
-    groups: list[dict[str, Any]],
-    scoped_name: str | None,
-    replaces: list[str],
-) -> int | None:
-    if scoped_name is not None:
-        for i, g in enumerate(groups):
-            if _group_holds(g, replaces) and g["model_name"] == scoped_name:
-                return i
-        for i, g in enumerate(groups):
-            if _group_holds(g, replaces):
-                return i
-        return None
-    for i, g in enumerate(groups):
-        if _group_holds(g, replaces):
-            return i
-    return None
-
-
-def _apply_swaps(
-    groups: list[dict[str, Any]],
-    models: list[LoadoutModel],
+def _enumerate_row_candidates(
+    base: dict[str, int],
+    row_name: str | None,
     options: list[WargearOption],
-    model_count: int,
-    remaining: dict[str, int],
-) -> None:
-    """Explain leftover weapon counts as option swaps, peeling a variant sub-group
-    off the base group of the model-type each option is scoped to. Mirror of the TS
-    ``applySwaps``."""
-    for option in options:
-        cap = option_cap(option, model_count, models)
-        if cap <= 0:
-            continue
-        replaces = list(option.get("replaces") or [])
+) -> list[dict[str, Any]]:
+    """Enumerate every legal single-model loadout for one composition row: from the
+    row's base defaults, apply any compatible subset of the options scoping to this
+    row (unscoped, or matching ``row_name``). An option applies only when all its
+    ``replaces`` weapons are present (a slot swapped at most once), used at most once
+    per model; each ``replacement_choice`` branch is a distinct transformation. Caps
+    are charged globally by the assignment search, so two derivations of the same
+    weapon set with different option usage are kept distinct. Mirror of the TS
+    ``enumerateRowCandidates``."""
+    applicable: list[int] = []
+    for i, option in enumerate(options):
         c = option.get("model_constraint")
-        scoped_name = c.get("model_name") if c else None
-        for bundle in _option_bundles(option):
-            if not bundle:
+        name = c.get("model_name") if c else None
+        if name is None or name == row_name:
+            applicable.append(i)
+
+    def state_key(w: dict[str, int], used: list[int]) -> str:
+        return f"{_multiset_key(w)}#{','.join(str(u) for u in used)}"
+
+    result: list[dict[str, Any]] = []
+    seen: set[str] = {state_key(base, [])}
+    queue: list[tuple[dict[str, int], list[int]]] = [(dict(base), [])]
+    head = 0
+    while head < len(queue):
+        weapons, used = queue[head]
+        head += 1
+        result.append(
+            {"weapons": weapons, "used_options": used, "key": _multiset_key(weapons)}
+        )
+        for oi in applicable:
+            if oi in used:
                 continue
-            add_m = _to_multiset(bundle)
-            k = cap
-            for id_, mult in add_m.items():
-                k = min(k, max(0, remaining.get(id_, 0)) // mult)
-            if k <= 0:
+            replaces = list(options[oi].get("replaces") or [])
+            if not all(weapons.get(id_, 0) >= 1 for id_ in replaces):
                 continue
-            idx = _find_source(groups, scoped_name, replaces)
-            if idx is None:
-                continue
-            take = min(k, groups[idx]["count"])
-            if take <= 0:
-                continue
-            w = dict(groups[idx]["weapons"])
-            for id_ in replaces:
-                w[id_] = w.get(id_, 0) - 1
-            for id_, mult in add_m.items():
-                w[id_] = w.get(id_, 0) + mult
-            w = {id_: n for id_, n in w.items() if n > 0}
-            groups[idx]["count"] -= take
-            groups.append({"model_name": groups[idx]["model_name"], "count": take, "weapons": w})
-            for id_, mult in add_m.items():
-                remaining[id_] = remaining.get(id_, 0) - mult * take
-            for id_ in replaces:
-                remaining[id_] = remaining.get(id_, 0) + take
+            for bundle in _option_bundles(options[oi]):
+                if not bundle:
+                    continue
+                w = dict(weapons)
+                for id_ in replaces:
+                    w[id_] = w.get(id_, 0) - 1
+                for id_ in bundle:
+                    w[id_] = w.get(id_, 0) + 1
+                w = {id_: n for id_, n in w.items() if n > 0}
+                new_used = sorted([*used, oi])
+                k = state_key(w, new_used)
+                if k in seen:
+                    continue
+                seen.add(k)
+                queue.append((w, new_used))
+    return result
+
+
+def _solve_assignment(
+    rows: list[dict[str, Any]],
+    bag: dict[str, int],
+    option_caps: list[int],
+) -> list[dict[str, Any]] | None:
+    """A complete, deterministic exact-cover search: distribute each row's models
+    across its candidate loadouts so the chosen weapons sum to ``bag`` exactly without
+    exceeding any option's cap. Rows in order; within a row, candidates in their
+    pre-sorted order, trying the largest feasible count first; residual + usage prune
+    dead branches. Returns the first solution found (so identical inputs yield
+    identical groupings everywhere) as per-candidate picks, or ``None`` when no exact
+    partition exists. Mirror of the TS ``solveAssignment``."""
+    residual = dict(bag)
+    usage = [0] * len(option_caps)
+    picks: list[tuple[int, int, int]] = []
+
+    def assign_row(ri: int) -> bool:
+        if ri == len(rows):
+            return all(c == 0 for c in residual.values())
+        return distribute(ri, 0, rows[ri]["count"])
+
+    def distribute(ri: int, ci: int, left: int) -> bool:
+        row = rows[ri]
+        cands = row["candidates"]
+        if ci == len(cands):
+            return left == 0 and assign_row(ri + 1)
+        cand = cands[ci]
+        weapons = cand["weapons"]
+        used = cand["used_options"]
+        hi = left
+        for id_, per in weapons.items():
+            if per > 0:
+                hi = min(hi, residual.get(id_, 0) // per)
+        for oi in used:
+            hi = min(hi, option_caps[oi] - usage[oi])
+        hi = max(0, hi)
+        for take in range(hi, -1, -1):
+            for id_, per in weapons.items():
+                residual[id_] = residual.get(id_, 0) - per * take
+            for oi in used:
+                usage[oi] += take
+            if take > 0:
+                picks.append((ri, ci, take))
+            if distribute(ri, ci + 1, left - take):
+                return True
+            if take > 0:
+                picks.pop()
+            for oi in used:
+                usage[oi] -= take
+            for id_, per in weapons.items():
+                residual[id_] = residual.get(id_, 0) + per * take
+        return False
+
+    if not assign_row(0):
+        return None
+    return [
+        {
+            "ri": ri,
+            "name": rows[ri]["name"],
+            "weapons": rows[ri]["candidates"][ci]["weapons"],
+            "count": count,
+        }
+        for ri, ci, count in picks
+    ]
 
 
 def group_loadout(
@@ -417,37 +477,69 @@ def group_loadout(
     models: list[LoadoutModel] | None,
     counts: dict[str, int],
 ) -> list[LoadoutGroup] | None:
-    """Decompose a unit's flat loadout into per-model-type groups, reusing
-    :func:`_allocate_models`'s partition and per-model-type option scoping.
+    """Decompose a unit's flat loadout into per-model-type groups.
 
-    Returns ``None`` when the decomposition is not *exact* (single model, no
-    recorded per-model defaults, or leftover counts no swap explains) so callers
-    omit ``loadout_groups`` and renderers keep their unit-wide rendering. Mirror of
-    the TS ``groupLoadout``.
+    :func:`_assign_row_counts` fixes each row's model count; :func:`_solve_assignment`
+    then searches, completely and deterministically, for an assignment of each row's
+    models to legal per-model loadouts (:func:`_enumerate_row_candidates`) whose
+    weapons sum to ``counts`` exactly while respecting every option's
+    :func:`option_cap`. Returns ``None`` only when no such exact partition exists
+    (single model, no recorded per-model defaults, or a genuinely indivisible bag) so
+    callers omit ``loadout_groups`` and renderers keep their unit-wide rendering.
+    Mirror of the TS ``groupLoadout``.
     """
     if model_count <= 1 or not _has_recorded_defaults(models):
         return None
     assert models is not None
-    remaining = {id_: c for id_, c in counts.items() if c > 0}
-    row_n = _assign_row_counts(models, model_count, remaining)
-    groups: list[dict[str, Any]] = []
+
+    bag = {id_: c for id_, c in counts.items() if c > 0}
+    row_n = _assign_row_counts(models, model_count, bag)
+    option_caps = [option_cap(o, model_count, models) for o in options]
+
+    rows: list[dict[str, Any]] = []
     for i, model in enumerate(models):
         k = row_n[i]
         if k == 0:
             continue
-        def_ = _to_multiset(model.get("default_weapon_ids") or [])
-        for id_, c in def_.items():
-            remaining[id_] = remaining.get(id_, 0) - c * k
-        groups.append({"model_name": model.get("name"), "count": k, "weapons": dict(def_)})
-    _apply_swaps(groups, models, options, model_count, remaining)
-    if any(n != 0 for n in remaining.values()):
+        base = _to_multiset(model.get("default_weapon_ids") or [])
+        candidates = _enumerate_row_candidates(base, model.get("name"), options)
+        candidates.sort(
+            key=lambda cand: (
+                cand["key"],
+                len(cand["used_options"]),
+                ",".join(str(u) for u in cand["used_options"]),
+            )
+        )
+        rows.append({"name": model.get("name"), "count": k, "candidates": candidates})
+
+    solution = _solve_assignment(rows, bag, option_caps)
+    if solution is None:
         return None
-    live = [g for g in groups if g["count"] > 0]
+
+    # Merge identical (model-type, loadout) picks, then order deterministically: by
+    # row (leaders lead), then larger groups before smaller, then by canonical key.
+    by_group: dict[str, dict[str, Any]] = {}
+    for s in solution:
+        key = _multiset_key(s["weapons"])
+        gkey = f"{s['name'] or ''}##{key}"
+        cur = by_group.get(gkey)
+        if cur is not None:
+            cur["count"] += s["count"]
+        else:
+            by_group[gkey] = {
+                "ri": s["ri"],
+                "name": s["name"],
+                "weapons": s["weapons"],
+                "count": s["count"],
+                "key": key,
+            }
+    live = [g for g in by_group.values() if g["count"] > 0]
+    live.sort(key=lambda g: (g["ri"], -g["count"], g["key"]))
     if not live:
         return None
     return [
         {
-            "model_name": g["model_name"],
+            "model_name": g["name"],
             "count": g["count"],
             "weapons": _sorted_group_weapons(g["weapons"]),
         }

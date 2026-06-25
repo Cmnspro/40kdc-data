@@ -285,8 +285,25 @@ impl Dataset {
             |s| s.id.to_string(),
             |s| Some(s.name.as_str()),
         );
-        let wargear_options =
-            id_name_collection(raw.wargear_options, |w| w.id.to_string(), |_| None);
+        // Option ids are unique only within a faction — a chassis shared across
+        // factions (e.g. `chaos-terminators`) reuses ids like
+        // `chaos-terminators-wgo-mfm-4` for different swaps. Dedupe on the full
+        // `(faction_id, unit_id, id)` so every faction's copy is retained; the
+        // `(faction_id, unit_id)` index in `wargear_options_of` then keeps them apart.
+        let wargear_options = Collection::build(
+            raw.wargear_options,
+            |w| w.id.to_string(),
+            |_| None,
+            |_| None,
+            |w| {
+                format!(
+                    "{}::{}::{}",
+                    w.faction_id.as_str(),
+                    w.unit_id.as_str(),
+                    w.id.as_str()
+                )
+            },
+        );
         let wargear =
             id_name_collection(raw.wargear, |w| w.id.to_string(), |w| Some(w.name.as_str()));
         let missions = id_name_collection(
@@ -337,10 +354,18 @@ impl Dataset {
 
         let phase_index = build_phase_index(&raw.phase_mappings);
         let (units_by_ability, units_by_weapon, units_by_keyword) = build_reverse_indexes(&units);
+        // Faction-scoped: a chassis shared across factions (e.g. `chaos-terminators`
+        // in World Eaters *and* Emperors Children) reuses the same option ids for
+        // different swaps, so the key is `(faction_id, unit_id)` — never the union
+        // across factions. Mirror of the TS `wargearOptionsByUnit`.
         let mut wargear_options_by_unit: HashMap<String, Vec<usize>> = HashMap::new();
         for (idx, option) in wargear_options.all().iter().enumerate() {
             wargear_options_by_unit
-                .entry(option.unit_id.to_string())
+                .entry(format!(
+                    "{}::{}",
+                    option.faction_id.as_str(),
+                    option.unit_id.as_str()
+                ))
                 .or_default()
                 .push(idx);
         }
@@ -452,11 +477,18 @@ impl Dataset {
             .collect()
     }
 
-    /// Wargear options authored for the given unit, in declared order. Mirror of
-    /// TS `Dataset.wargearOptionsOf`. Empty for a unit with no options.
+    /// Wargear options authored for the given unit, in declared order. Scoped to the
+    /// unit's own faction (`(faction_id, unit_id)`): a chassis shared across factions
+    /// reuses the same option ids for different swaps, so the lookup never unions
+    /// across factions. Mirror of TS `Dataset.wargearOptionsOf`. Empty for a unit with
+    /// no options.
     pub fn wargear_options_of(&self, unit: &Unit) -> Vec<&WargearOption> {
         self.wargear_options_by_unit
-            .get(unit.id.as_str())
+            .get(&format!(
+                "{}::{}",
+                unit.faction_id.as_str(),
+                unit.id.as_str()
+            ))
             .map(|idxs| idxs.iter().map(|&i| self.wargear_options.at(i)).collect())
             .unwrap_or_default()
     }

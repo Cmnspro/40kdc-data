@@ -3,6 +3,8 @@ package wh40kdc
 import (
 	"math"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 // Wargear-loadout maths shared by every consumer of the dataset. Go mirror of
@@ -386,166 +388,329 @@ func assignRowCounts(models []any, modelCount int, counts map[string]int) []int 
 	return out
 }
 
-type mutGroup struct {
-	modelName any
-	count     int
-	weapons   map[string]int
+// multisetKey is a stable key for a weapon multiset: "count:id" parts in id
+// order, joined by "|"; zero/negative entries dropped. Mirror of TS multisetKey.
+func multisetKey(m map[string]int) string {
+	ids := make([]string, 0, len(m))
+	for id, c := range m {
+		if c > 0 {
+			ids = append(ids, id)
+		}
+	}
+	sort.Strings(ids)
+	parts := make([]string, len(ids))
+	for i, id := range ids {
+		parts[i] = strconv.Itoa(m[id]) + ":" + id
+	}
+	return strings.Join(parts, "|")
 }
 
-func groupHolds(g *mutGroup, replaces []string) bool {
-	if g.count <= 0 {
+// rowCandidate is one legal single-model loadout for a composition row: the
+// weapons a model can carry plus the global option indices that produced it
+// (each at most once), so the assignment search can charge per-option caps. key
+// is multisetKey(weapons). Mirror of the TS RowCandidate.
+type rowCandidate struct {
+	weapons     map[string]int
+	usedOptions []int
+	key         string
+}
+
+type solverRow struct {
+	name       any
+	count      int
+	candidates []rowCandidate
+}
+
+func joinInts(v []int) string {
+	parts := make([]string, len(v))
+	for i, n := range v {
+		parts[i] = strconv.Itoa(n)
+	}
+	return strings.Join(parts, ",")
+}
+
+// enumerateRowCandidates enumerates every legal single-model loadout for one
+// composition row: from the row's base defaults, apply any compatible subset of
+// the options scoping to this row (unscoped, or matching rowName). An option
+// applies only when all its replaces weapons are present (a slot swapped at most
+// once), used at most once per model; each replacement_choice branch is a
+// distinct transformation. Caps are charged globally by the assignment search.
+// Mirror of the TS enumerateRowCandidates.
+func enumerateRowCandidates(base map[string]int, rowName any, options []any) []rowCandidate {
+	var applicable []int
+	rowNameStr, rowNameOk := rowName.(string)
+	for i, oAny := range options {
+		o, _ := asMap(oAny)
+		var name any
+		if c, ok := getMap(o, "model_constraint"); ok {
+			name = c["model_name"]
+		}
+		ns, ok := name.(string)
+		if !ok || (rowNameOk && ns == rowNameStr) {
+			applicable = append(applicable, i)
+		}
+	}
+
+	stateKey := func(w map[string]int, used []int) string {
+		return multisetKey(w) + "#" + joinInts(used)
+	}
+
+	type qItem struct {
+		weapons map[string]int
+		used    []int
+	}
+	var result []rowCandidate
+	seen := map[string]struct{}{stateKey(base, nil): {}}
+	queue := []qItem{{weapons: cloneCounts(base), used: nil}}
+	for head := 0; head < len(queue); head++ {
+		cur := queue[head]
+		result = append(result, rowCandidate{
+			weapons:     cur.weapons,
+			usedOptions: cur.used,
+			key:         multisetKey(cur.weapons),
+		})
+		for _, oi := range applicable {
+			if containsInt(cur.used, oi) {
+				continue
+			}
+			o, _ := asMap(options[oi])
+			replaces := getStrList(o, "replaces")
+			ok := true
+			for _, id := range replaces {
+				if cur.weapons[id] < 1 {
+					ok = false
+					break
+				}
+			}
+			if !ok {
+				continue
+			}
+			for _, bundle := range optionBundles(o) {
+				if len(bundle) == 0 {
+					continue
+				}
+				w := cloneCounts(cur.weapons)
+				for _, id := range replaces {
+					w[id]--
+				}
+				for _, id := range bundle {
+					w[id]++
+				}
+				for id, c := range w {
+					if c <= 0 {
+						delete(w, id)
+					}
+				}
+				used := make([]int, len(cur.used), len(cur.used)+1)
+				copy(used, cur.used)
+				used = append(used, oi)
+				sort.Ints(used)
+				k := stateKey(w, used)
+				if _, dup := seen[k]; dup {
+					continue
+				}
+				seen[k] = struct{}{}
+				queue = append(queue, qItem{weapons: w, used: used})
+			}
+		}
+	}
+	return result
+}
+
+func cloneCounts(m map[string]int) map[string]int {
+	out := make(map[string]int, len(m))
+	for id, c := range m {
+		out[id] = c
+	}
+	return out
+}
+
+func containsInt(v []int, n int) bool {
+	for _, x := range v {
+		if x == n {
+			return true
+		}
+	}
+	return false
+}
+
+type pick struct{ ri, ci, count int }
+
+// solveAssignment is a complete, deterministic exact-cover search: distribute
+// each row's models across its candidate loadouts so the chosen weapons sum to
+// bag exactly without exceeding any option's cap. Rows in order; within a row,
+// candidates in their pre-sorted order, trying the largest feasible count first;
+// residual + usage prune dead branches. Returns the first solution found (so
+// identical inputs yield identical groupings everywhere), or nil when no exact
+// partition exists. Mirror of the TS solveAssignment.
+func solveAssignment(rows []solverRow, bag map[string]int, optionCaps []int) []pick {
+	residual := cloneCounts(bag)
+	usage := make([]int, len(optionCaps))
+	var picks []pick
+
+	var assignRow func(ri int) bool
+	var distribute func(ri, ci, left int) bool
+
+	assignRow = func(ri int) bool {
+		if ri == len(rows) {
+			for _, c := range residual {
+				if c != 0 {
+					return false
+				}
+			}
+			return true
+		}
+		return distribute(ri, 0, rows[ri].count)
+	}
+
+	distribute = func(ri, ci, left int) bool {
+		cands := rows[ri].candidates
+		if ci == len(cands) {
+			return left == 0 && assignRow(ri+1)
+		}
+		cand := cands[ci]
+		hi := left
+		for id, per := range cand.weapons {
+			if per > 0 {
+				hi = minInt(hi, residual[id]/per)
+			}
+		}
+		for _, oi := range cand.usedOptions {
+			hi = minInt(hi, optionCaps[oi]-usage[oi])
+		}
+		if hi < 0 {
+			hi = 0
+		}
+		for take := hi; take >= 0; take-- {
+			for id, per := range cand.weapons {
+				residual[id] -= per * take
+			}
+			for _, oi := range cand.usedOptions {
+				usage[oi] += take
+			}
+			if take > 0 {
+				picks = append(picks, pick{ri, ci, take})
+			}
+			if distribute(ri, ci+1, left-take) {
+				return true
+			}
+			if take > 0 {
+				picks = picks[:len(picks)-1]
+			}
+			for _, oi := range cand.usedOptions {
+				usage[oi] -= take
+			}
+			for id, per := range cand.weapons {
+				residual[id] += per * take
+			}
+		}
 		return false
 	}
-	for _, id := range replaces {
-		if g.weapons[id] < 1 {
-			return false
-		}
+
+	if !assignRow(0) {
+		return nil
 	}
-	return true
+	return picks
 }
 
-func findSource(groups []*mutGroup, scopedName any, replaces []string) int {
-	if name, ok := scopedName.(string); ok {
-		for i, g := range groups {
-			if groupHolds(g, replaces) {
-				if gn, _ := g.modelName.(string); gn == name {
-					return i
-				}
-			}
-		}
-		for i, g := range groups {
-			if groupHolds(g, replaces) {
-				return i
-			}
-		}
-		return -1
-	}
-	for i, g := range groups {
-		if groupHolds(g, replaces) {
-			return i
-		}
-	}
-	return -1
-}
-
-// applySwaps explains leftover weapon counts as option swaps, peeling a variant
-// sub-group off the base group of the model-type each option is scoped to. Mirror
-// of the TS applySwaps.
-func applySwaps(groups *[]*mutGroup, models []any, options []any, modelCount int, remaining map[string]int) {
-	for _, oAny := range options {
-		o, _ := asMap(oAny)
-		capN := optionCap(o, modelCount, models)
-		if capN <= 0 {
-			continue
-		}
-		replaces := getStrList(o, "replaces")
-		var scopedName any
-		if c, ok := getMap(o, "model_constraint"); ok {
-			scopedName = c["model_name"]
-		}
-		for _, bundle := range optionBundles(o) {
-			if len(bundle) == 0 {
-				continue
-			}
-			addM := toMultiset(bundle)
-			k := capN
-			for id, mult := range addM {
-				avail := remaining[id]
-				if avail < 0 {
-					avail = 0
-				}
-				k = minInt(k, avail/mult)
-			}
-			if k <= 0 {
-				continue
-			}
-			idx := findSource(*groups, scopedName, replaces)
-			if idx < 0 {
-				continue
-			}
-			take := minInt(k, (*groups)[idx].count)
-			if take <= 0 {
-				continue
-			}
-			w := map[string]int{}
-			for id, c := range (*groups)[idx].weapons {
-				w[id] = c
-			}
-			for _, id := range replaces {
-				w[id]--
-			}
-			for id, mult := range addM {
-				w[id] += mult
-			}
-			for id, c := range w {
-				if c <= 0 {
-					delete(w, id)
-				}
-			}
-			(*groups)[idx].count -= take
-			*groups = append(*groups, &mutGroup{modelName: (*groups)[idx].modelName, count: take, weapons: w})
-			for id, mult := range addM {
-				remaining[id] -= mult * take
-			}
-			for _, id := range replaces {
-				remaining[id] += take
-			}
-		}
-	}
-}
-
-// GroupLoadout decomposes a unit's flat loadout into per-model-type groups,
-// reusing allocateModels's partition and per-model-type option scoping. Returns
-// nil when the decomposition is not exact (single model, no recorded per-model
-// defaults, or leftover counts no swap explains) so callers omit loadout_groups
-// and renderers keep their unit-wide rendering. Mirror of the TS groupLoadout.
+// GroupLoadout decomposes a unit's flat loadout into per-model-type groups.
+// assignRowCounts fixes each row's model count; solveAssignment then searches,
+// completely and deterministically, for an assignment of each row's models to
+// legal per-model loadouts (enumerateRowCandidates) whose weapons sum to counts
+// exactly while respecting every option's optionCap. Returns nil only when no
+// such exact partition exists (single model, no recorded per-model defaults, or
+// a genuinely indivisible bag) so callers omit loadout_groups and renderers keep
+// their unit-wide rendering. Mirror of the TS groupLoadout.
 func GroupLoadout(unit map[string]any, modelCount int, options []any, models []any, counts map[string]int) []any {
 	if modelCount <= 1 || !hasRecordedDefaults(models) {
 		return nil
 	}
-	remaining := map[string]int{}
+	bag := map[string]int{}
 	for id, c := range counts {
 		if c > 0 {
-			remaining[id] = c
+			bag[id] = c
 		}
 	}
-	rowN := assignRowCounts(models, modelCount, remaining)
-	groups := []*mutGroup{}
+	rowN := assignRowCounts(models, modelCount, bag)
+	optionCaps := make([]int, len(options))
+	for i, oAny := range options {
+		o, _ := asMap(oAny)
+		optionCaps[i] = optionCap(o, modelCount, models)
+	}
+
+	var rows []solverRow
 	for i, mAny := range models {
 		k := rowN[i]
 		if k == 0 {
 			continue
 		}
 		m, _ := asMap(mAny)
-		def := toMultiset(getStrList(m, "default_weapon_ids"))
-		for id, c := range def {
-			remaining[id] -= c * k
-		}
-		weapons := map[string]int{}
-		for id, c := range def {
-			weapons[id] = c
-		}
-		groups = append(groups, &mutGroup{modelName: m["name"], count: k, weapons: weapons})
+		base := toMultiset(getStrList(m, "default_weapon_ids"))
+		cands := enumerateRowCandidates(base, m["name"], options)
+		sort.SliceStable(cands, func(a, b int) bool {
+			if cands[a].key != cands[b].key {
+				return cands[a].key < cands[b].key
+			}
+			if len(cands[a].usedOptions) != len(cands[b].usedOptions) {
+				return len(cands[a].usedOptions) < len(cands[b].usedOptions)
+			}
+			return joinInts(cands[a].usedOptions) < joinInts(cands[b].usedOptions)
+		})
+		rows = append(rows, solverRow{name: m["name"], count: k, candidates: cands})
 	}
-	applySwaps(&groups, models, options, modelCount, remaining)
-	for _, c := range remaining {
-		if c != 0 {
-			return nil
+
+	picks := solveAssignment(rows, bag, optionCaps)
+	if picks == nil {
+		return nil
+	}
+
+	// Merge identical (model-type, loadout) picks, then order deterministically:
+	// by row (leaders lead), then larger groups before smaller, then by key.
+	type grp struct {
+		ri      int
+		name    any
+		weapons map[string]int
+		count   int
+		key     string
+	}
+	byGroup := map[string]*grp{}
+	var order []string
+	for _, p := range picks {
+		cand := rows[p.ri].candidates[p.ci]
+		nameStr, _ := rows[p.ri].name.(string)
+		gkey := nameStr + "##" + cand.key
+		if g, ok := byGroup[gkey]; ok {
+			g.count += p.count
+		} else {
+			byGroup[gkey] = &grp{ri: p.ri, name: rows[p.ri].name, weapons: cand.weapons, count: p.count, key: cand.key}
+			order = append(order, gkey)
 		}
 	}
-	out := []any{}
-	for _, g := range groups {
-		if g.count <= 0 {
-			continue
+	live := make([]*grp, 0, len(order))
+	for _, k := range order {
+		if byGroup[k].count > 0 {
+			live = append(live, byGroup[k])
 		}
+	}
+	sort.SliceStable(live, func(a, b int) bool {
+		if live[a].ri != live[b].ri {
+			return live[a].ri < live[b].ri
+		}
+		if live[a].count != live[b].count {
+			return live[a].count > live[b].count
+		}
+		return live[a].key < live[b].key
+	})
+	if len(live) == 0 {
+		return nil
+	}
+	out := make([]any, 0, len(live))
+	for _, g := range live {
 		out = append(out, map[string]any{
-			"model_name": g.modelName,
+			"model_name": g.name,
 			"count":      g.count,
 			"weapons":    sortedGroupWeapons(g.weapons),
 		})
-	}
-	if len(out) == 0 {
-		return nil
 	}
 	return out
 }

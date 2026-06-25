@@ -318,9 +318,13 @@ class Dataset:
     def wargear_options_of(self, unit: dict[str, Any]) -> list[dict[str, Any]]:
         """Wargear options authored for the given unit, in declared order.
 
-        Empty for a unit with no options.
+        Scoped to the unit's own faction (``(faction_id, unit_id)``): a chassis
+        shared across factions reuses the same option ids for different swaps, so the
+        lookup never unions across factions. Empty for a unit with no options.
         """
-        return self._wargear_options_by_unit.get(unit["id"], [])
+        return self._wargear_options_by_unit.get(
+            f"{unit['faction_id']}::{unit['id']}", []
+        )
 
     def unit_composition_of(self, unit: dict[str, Any]) -> dict[str, Any] | None:
         """The unit-composition row for the given unit, faction-scoped.
@@ -533,7 +537,10 @@ class Dataset:
                 seen_kw.add(key)
                 self._units_by_keyword.setdefault(key, []).append(unit)
         for option in raw["wargear_options"]:
-            self._wargear_options_by_unit.setdefault(option["unit_id"], []).append(option)
+            # Faction-scoped: a chassis shared across factions reuses the same option
+            # ids for different swaps, so key on (faction_id, unit_id). Mirrors TS.
+            key = f"{option['faction_id']}::{option['unit_id']}"
+            self._wargear_options_by_unit.setdefault(key, []).append(option)
         seen_by_keyword: dict[str, set[str]] = {}
         for weapon in raw["weapons"]:
             for profile in weapon["profiles"]:

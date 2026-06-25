@@ -352,4 +352,29 @@ describe("groupLoadout", () => {
       "9x World Eaters Terminator: 1:accursed-weapon,1:combi-bolter",
     ]);
   });
+
+  it("decomposes a mixed-loadout 10-model unit a greedy peeler dead-ends on", () => {
+    // 10 Chaos Terminators with two Paired (both-slot) models plus an assortment of
+    // ranged/melee swaps. A valid partition exists; the old greedy mis-committed
+    // combi-weapons and bailed. The complete solver must find an exact partition.
+    const term = dataset.units.getInFaction("chaos-terminators", "world-eaters")!.raw;
+    const tOpts = dataset.wargearOptionsOf(term);
+    const tModels = dataset.unitCompositionOf(term)?.models;
+    const counts = new Map([
+      ["reaper-autocannon", 2],
+      ["power-fist", 6],
+      ["paired-accursed-weapons", 2],
+      ["chainfist", 2],
+      ["combi-weapon", 6],
+    ]);
+    const groups = groupLoadout(term, 10, tOpts, tModels, counts);
+    expect(groups).not.toBeNull();
+    // Exactly 10 models, and the per-group weapons sum back to the input bag.
+    expect(groups!.reduce((n, g) => n + g.count, 0)).toBe(10);
+    const totals = new Map<string, number>();
+    for (const g of groups!) {
+      for (const w of g.weapons) totals.set(w.id, (totals.get(w.id) ?? 0) + w.count * g.count);
+    }
+    expect(totals).toEqual(counts);
+  });
 });
