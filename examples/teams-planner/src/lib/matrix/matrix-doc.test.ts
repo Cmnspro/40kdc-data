@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   cellKey,
   diffMatrixDocs,
+  effectiveDisposition,
   emptyMatrixDoc,
   isMatrixShaped,
   normalizeMatrixDoc,
@@ -53,6 +54,8 @@ describe("seedMatrixDoc", () => {
     // no armyListText leaks into the synced doc
     expect(JSON.stringify(doc)).not.toContain("body");
     expect(doc.cellsById).toEqual({});
+    expect(doc.leadOffByTeam).toEqual({});
+    expect(doc.dispositionsById).toEqual({});
   });
 
   it("parses the BCP-header disposition onto the opponent column", () => {
@@ -66,6 +69,24 @@ describe("seedMatrixDoc", () => {
       { id: "us1", name: "Cal", factionIds: ["aeldari"] },
       { id: "us2", name: "Dot", factionIds: ["orks", "necrons"] },
     ]);
+  });
+});
+
+describe("effectiveDisposition", () => {
+  it("prefers the hand-entered override over the parsed default", () => {
+    const doc = seedMatrixDoc(SAMPLE, PLAN); // p1 parsed as purge-the-foe
+    const p1 = doc.teamsById.t1.players[0];
+    expect(effectiveDisposition(doc, p1)).toBe("purge-the-foe");
+    const overridden: MatrixDoc = { ...doc, dispositionsById: { p1: "take-and-hold" } };
+    expect(effectiveDisposition(overridden, p1)).toBe("take-and-hold");
+  });
+
+  it("falls back to the parsed default, then null, when no override exists", () => {
+    const doc = seedMatrixDoc(SAMPLE, PLAN);
+    const p2 = doc.teamsById.t1.players[1]; // no parsed disposition
+    expect(effectiveDisposition(doc, p2)).toBe(null);
+    const set: MatrixDoc = { ...doc, dispositionsById: { p2: "reconnaissance" } };
+    expect(effectiveDisposition(set, p2)).toBe("reconnaissance");
   });
 });
 
@@ -121,6 +142,32 @@ describe("diffMatrixDocs", () => {
     expect(ops).toContainEqual({ o: "set", p: ["ourPlayers"], v: b.ourPlayers });
   });
 
+  it("a lead-off pick rides as a disjoint set op per opponent team", () => {
+    const a = seedMatrixDoc(SAMPLE, PLAN);
+    const b: MatrixDoc = { ...a, leadOffByTeam: { t1: "us1" } };
+    expect(diffMatrixDocs(a, b)).toEqual([{ o: "set", p: ["leadOffByTeam", "t1"], v: "us1" }]);
+  });
+
+  it("clearing a lead-off pick emits a del op", () => {
+    const a: MatrixDoc = { ...emptyMatrixDoc(), leadOffByTeam: { t1: "us1" } };
+    const b: MatrixDoc = { ...a, leadOffByTeam: {} };
+    expect(diffMatrixDocs(a, b)).toEqual([{ o: "del", p: ["leadOffByTeam", "t1"] }]);
+  });
+
+  it("a hand-entered disposition rides as a disjoint set op per opponent player", () => {
+    const a = seedMatrixDoc(SAMPLE, PLAN);
+    const b: MatrixDoc = { ...a, dispositionsById: { p2: "take-and-hold" } };
+    expect(diffMatrixDocs(a, b)).toEqual([
+      { o: "set", p: ["dispositionsById", "p2"], v: "take-and-hold" },
+    ]);
+  });
+
+  it("clearing a disposition override emits a del op", () => {
+    const a: MatrixDoc = { ...emptyMatrixDoc(), dispositionsById: { p2: "disruption" } };
+    const b: MatrixDoc = { ...a, dispositionsById: {} };
+    expect(diffMatrixDocs(a, b)).toEqual([{ o: "del", p: ["dispositionsById", "p2"] }]);
+  });
+
   it("identical docs diff to nothing (self-stabilizing)", () => {
     const a = seedMatrixDoc(SAMPLE, PLAN);
     expect(diffMatrixDocs(a, a)).toEqual([]);
@@ -134,6 +181,26 @@ describe("normalizeMatrixDoc", () => {
     expect(n.ourPlayers).toEqual([]);
     expect(n.ourTeamName).toBe(null);
     expect(n.cellsById).toEqual({});
+    expect(n.leadOffByTeam).toEqual({});
+    expect(n.dispositionsById).toEqual({});
+  });
+
+  it("drops a disposition override whose opponent player is gone", () => {
+    const n = normalizeMatrixDoc({
+      teamsById: { t1: { id: "t1", name: "R", players: [{ id: "p1", name: "Ann", faction: null, disposition: null }] } },
+      teamOrder: ["t1"],
+      dispositionsById: { p1: "disruption", ghost: "take-and-hold" },
+    } as Partial<MatrixDoc>);
+    expect(n.dispositionsById).toEqual({ p1: "disruption" });
+  });
+
+  it("drops a lead-off pick whose opposing team is gone", () => {
+    const n = normalizeMatrixDoc({
+      teamsById: { real: { id: "real", name: "R", players: [] } },
+      teamOrder: ["real"],
+      leadOffByTeam: { real: "us1", ghost: "us2" },
+    } as Partial<MatrixDoc>);
+    expect(n.leadOffByTeam).toEqual({ real: "us1" });
   });
 
   it("drops dangling order ids and appends unordered entries", () => {
@@ -142,6 +209,16 @@ describe("normalizeMatrixDoc", () => {
       teamOrder: ["ghost", "real"],
     } as Partial<MatrixDoc>);
     expect(n.teamOrder).toEqual(["real"]);
+  });
+
+  it("carries disposition overrides through, keeping only live opponent ids", () => {
+    const n = normalizeMatrixDoc({
+      ...emptyMatrixDoc(),
+      teamsById: { t1: { id: "t1", name: "R", players: [{ id: "p1", name: "Ann", faction: null, disposition: null }] } },
+      teamOrder: ["t1"],
+      dispositionsById: { p1: "reconnaissance" },
+    });
+    expect(n.dispositionsById).toEqual({ p1: "reconnaissance" });
   });
 
   it("migrates a legacy axis-keyed doc by clearing its now-meaningless cells", () => {

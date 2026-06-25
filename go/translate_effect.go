@@ -12,6 +12,7 @@ import (
 
 var containerTypes = map[string]bool{
 	"sequence": true, "choice": true, "dice-gated": true, "dice-pool-allocation": true, "select-units": true,
+	"designate-target": true, "stance-select": true, "risk-reward": true, "issue-orders": true,
 }
 
 // selectUnitsSubject renders "up to 3 friendly Orks Vehicle units" for select-units.
@@ -244,7 +245,8 @@ func subject(target any, ctx map[string]any) string {
 	case "attacker":
 		return "the attacking unit"
 	case "defender":
-		return "your unit"
+		// The defending unit in an attack is the enemy from the bearer's view.
+		return "the target"
 	case "all-friendly":
 		return "all friendly units"
 	case "all-enemy":
@@ -506,7 +508,20 @@ func conditionLeadIn(c map[string]any) string {
 	case "faction-rule-active":
 		return "while the " + titleCase(ejstr(p["rule"])) + " is active"
 	case "battle-round":
-		return "during the first " + ejstr(p["max"]) + " battle rounds"
+		bMin, hasMin := parseNumber(p["min"])
+		bMax, hasMax := parseNumber(p["max"])
+		switch {
+		case hasMin && hasMax:
+			if bMin == bMax {
+				return "during the " + bordinal(bMin) + " battle round"
+			}
+			return "during battle rounds " + numStr(bMin) + "-" + numStr(bMax)
+		case hasMin:
+			return "from the " + bordinal(bMin) + " battle round onward"
+		case hasMax:
+			return "during the first " + numStr(bMax) + " battle rounds"
+		}
+		return "during the battle round"
 	case "token-count-at-or-above":
 		return "while the unit has " + ejstr(p["threshold"]) + "+ " + poolName(p["pool_id"])
 	case "remained-stationary":
@@ -825,6 +840,17 @@ func parseNumber(v any) (float64, bool) {
 		return f, true
 	}
 	return 0, false
+}
+
+// battleRoundOrdinals indexes a battle-round number to its ordinal word; out of
+// range falls back to "<n>th" (mirrors the bOrd helper in effect.ts/condition.ts).
+var battleRoundOrdinals = []string{"zeroth", "first", "second", "third", "fourth", "fifth"}
+
+func bordinal(n float64) string {
+	if n >= 0 && n == float64(int(n)) && int(n) < len(battleRoundOrdinals) {
+		return battleRoundOrdinals[int(n)]
+	}
+	return numStr(n) + "th"
 }
 
 // movementClause renders a closed movement-modifier `modifier` as one
@@ -1232,6 +1258,38 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			a = m["amount"]
 		}
 		return "you gain " + ejstr(a) + "CP"
+	case "cp-on-destroy":
+		kw := "enemy model"
+		if m["enemy_keyword"] != nil {
+			kw = ejstr(m["enemy_keyword"]) + " model"
+		}
+		who := subj
+		if subj == "this model" {
+			who = "this model's unit"
+		}
+		var amount any = float64(1)
+		if m["amount"] != nil {
+			amount = m["amount"]
+		}
+		return "each time " + who + " destroys a " + kw + ", you gain " + ejstr(amount) + "CP"
+	case "battle-shock-test":
+		return subj + " " + ev(subj, "takes") + " Battle-shock tests on " + diceCase(m["dice"]) + " instead of 2D6"
+	case "flyover":
+		comp := "gte"
+		if c, ok := m["comparison"].(string); ok && c != "" {
+			comp = c
+		}
+		hit := poolThreshold(comp, m["threshold"])
+		var per any = float64(1)
+		if m["mortal_wounds"] != nil {
+			per = m["mortal_wounds"]
+		}
+		perStr := ejstr(per)
+		perNoun := "mortal wounds"
+		if perStr == "1" {
+			perNoun = "mortal wound"
+		}
+		return "each time this model ends a Normal move, select one enemy unit it moved over and roll " + diceCase(m["dice"]) + ": for each " + hit + ", that unit suffers " + perStr + " " + perNoun
 	case "cp-refund":
 		strat := "one Stratagem"
 		if m["stratagem"] != nil {
@@ -1412,6 +1470,42 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		sel, _ := getMap(e, "selector")
 		inner, _ := getMap(e, "effect")
 		return "select " + selectUnitsSubject(sel) + ": " + describeEffectInline(inner, ctx)
+	case "designate-target":
+		sel, _ := asMap(e["select"])
+		scopeNoun := "enemy"
+		if sel["scope"] == "friendly-unit" {
+			scopeNoun = "friendly"
+		}
+		applies, _ := getMap(e, "applies")
+		when := "each time a friendly unit attacks it"
+		if applies["to"] == "target" {
+			when = "while it is your target"
+		}
+		appEff, _ := getMap(applies, "effect")
+		return "select one " + scopeNoun + " unit; " + when + ", " + describeEffectInline(appEff, ctx)
+	case "stance-select":
+		var opts []string
+		for _, o := range getList(e, "options") {
+			om, _ := asMap(o)
+			oe, _ := getMap(om, "effect")
+			opts = append(opts, ejstr(om["name"])+" ("+describeEffectInline(oe, ctx)+")")
+		}
+		return "select one: " + strings.Join(opts, " / ")
+	case "risk-reward":
+		risk, _ := getMap(e, "risk")
+		onFail := "suffer a consequence"
+		if rf, ok := getMap(risk, "on_fail"); ok && rf != nil {
+			onFail = describeEffectInline(rf, ctx)
+		}
+		reward, _ := getMap(e, "reward")
+		return "take a " + testName(risk["test"]) + " test (on a failure, " + onFail + "), then " + describeEffectInline(reward, ctx)
+	case "issue-orders":
+		var names []string
+		for _, o := range getList(e, "options") {
+			om, _ := asMap(o)
+			names = append(names, ejstr(om["name"]))
+		}
+		return "issue Orders, each one of: " + strings.Join(names, " / ")
 	}
 	t := "unknown"
 	if e["type"] != nil {
@@ -1611,6 +1705,71 @@ func describeEffect(e map[string]any, depth int, ctx map[string]any) string {
 			return indent + arrow + lead + ":\n" + describeEffect(inner, depth+1, ctx)
 		}
 		return indent + arrow + lead + ": " + describeEffectInline(inner, ctx) + "."
+	case "designate-target":
+		sel, _ := asMap(e["select"])
+		scopeNoun := "enemy"
+		if sel["scope"] == "friendly-unit" {
+			scopeNoun = "friendly"
+		}
+		desig := ""
+		if truthy(e["designation"]) {
+			desig = " (your " + dekebab(ejstr(e["designation"])) + ")"
+		}
+		applies, _ := getMap(e, "applies")
+		inner, _ := getMap(applies, "effect")
+		when := "Each time a friendly unit makes an attack against it"
+		if applies["to"] == "target" {
+			when = "While it is your target"
+		}
+		head := indent + arrow + "Select one " + scopeNoun + " unit" + desig + ". " + when
+		if inner != nil && containerTypes[getStr(inner, "type")] {
+			return head + ":\n" + describeEffect(inner, depth+1, ctx)
+		}
+		return head + ", " + describeEffectInline(inner, ctx) + "."
+	case "stance-select":
+		when := "At the start of your turn"
+		if s, ok := e["select"].(string); ok {
+			when = capitalize(eventClause(s))
+		}
+		consum := ""
+		if e["mode"] == "consumable" {
+			consum = " (each may be chosen once per battle)"
+		}
+		lines := []string{indent + arrow + when + ", select one" + consum + ":"}
+		for _, o := range getList(e, "options") {
+			om, _ := asMap(o)
+			oe, _ := getMap(om, "effect")
+			lines = append(lines, indent+"  - "+ejstr(om["name"])+": "+describeEffectInline(oe, ctx)+".")
+		}
+		return strings.Join(lines, "\n")
+	case "risk-reward":
+		risk, _ := getMap(e, "risk")
+		onFail := "there is a consequence"
+		if rf, ok := getMap(risk, "on_fail"); ok && rf != nil {
+			onFail = describeEffectInline(rf, ctx)
+		}
+		reward, _ := getMap(e, "reward")
+		return indent + arrow + "First take a " + testName(risk["test"]) + " test — on a failure, " + onFail + "; then " + describeEffectInline(reward, ctx) + "."
+	case "issue-orders":
+		n := "one or more"
+		if e["count"] != nil {
+			n = ejstr(e["count"])
+		}
+		rng := ""
+		if e["range"] != nil {
+			rng = " within " + ejstr(e["range"]) + "\""
+		}
+		elig := ""
+		if eg, ok := getMap(e, "eligible"); ok && truthy(eg["keyword"]) {
+			elig = " " + ejstr(eg["keyword"])
+		}
+		lines := []string{indent + arrow + "Issue up to " + n + " Orders to eligible friendly" + elig + " units" + rng + ", each one of:"}
+		for _, o := range getList(e, "options") {
+			om, _ := asMap(o)
+			oe, _ := getMap(om, "effect")
+			lines = append(lines, indent+"  - "+ejstr(om["name"])+": "+describeEffectInline(oe, ctx)+".")
+		}
+		return strings.Join(lines, "\n")
 	}
 	return indent + arrow + capitalize(describeEffectInline(e, ctx)) + "."
 }
@@ -1696,8 +1855,26 @@ func usageClause(u map[string]any) string {
 // describeReactiveTrigger renders a reactive ability trigger as a front-of-sentence
 // lead clause ("an enemy unit ends a move within 9\" of this model"). Distinct from
 // the scoring-card describeTrigger (different shape; same package).
+var moveWordRe = regexp.MustCompile(`\bmove\b`)
+
 func describeReactiveTrigger(t map[string]any) string {
 	s := eventClause(t["event"])
+	// Narrow a move event to its move kinds: "ends a move" -> "ends a Normal,
+	// Advance or Fall Back move".
+	if mts := getStrList(t, "move_types"); len(mts) > 0 {
+		kinds := make([]string, len(mts))
+		for i, mt := range mts {
+			if mt == "fall-back" {
+				kinds[i] = "Fall Back"
+			} else {
+				kinds[i] = capWord(mt)
+			}
+		}
+		repl := orList(kinds) + " move"
+		if loc := moveWordRe.FindStringIndex(s); loc != nil {
+			s = s[:loc[0]] + repl + s[loc[1]:]
+		}
+	}
 	if prox, _ := getMap(t, "proximity"); prox != nil && prox["range"] != nil {
 		of := "this unit"
 		switch prox["of"] {
@@ -1735,7 +1912,51 @@ func auraRadius(scope map[string]any) any {
 	return nil
 }
 
-func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any, trigger map[string]any) string {
+// normalizeTriggers flattens the polymorphic trigger field (one object, an
+// array, or nil) to a flat list of trigger maps (the ability fires on ANY).
+func normalizeTriggers(t any) []map[string]any {
+	if t == nil {
+		return nil
+	}
+	if list, ok := asList(t); ok {
+		out := make([]map[string]any, 0, len(list))
+		for _, e := range list {
+			if m, ok := asMap(e); ok {
+				out = append(out, m)
+			}
+		}
+		return out
+	}
+	if m, ok := asMap(t); ok {
+		return []map[string]any{m}
+	}
+	return nil
+}
+
+// timingOfCondition returns the timing value of a bare `timing-is` condition,
+// and whether the condition is of that type.
+func timingOfCondition(c map[string]any) (string, bool) {
+	if c != nil && c["type"] == "timing-is" {
+		p, _ := getMap(c, "parameters")
+		return ejstr(p["timing"]), true
+	}
+	return "", false
+}
+
+// conditionWithinRange returns the numeric range of a top-level within-range
+// condition, and whether one is present.
+func conditionWithinRange(c map[string]any) (float64, bool) {
+	if c == nil {
+		return 0, false
+	}
+	if c["type"] != "unit-within-range-of" && c["type"] != "opponent-unit-within-range" {
+		return 0, false
+	}
+	p, _ := getMap(c, "parameters")
+	return num(p["range"])
+}
+
+func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any, trigger any) string {
 	ctx := map[string]any{
 		"range_inches":     auraRadius(scope),
 		"engagement_range": scope["range"] == "engagement-range",
@@ -1746,15 +1967,50 @@ func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any
 	if usage != nil && usage["frequency"] != nil {
 		lead = usageClause(usage)
 	}
-	// A reactive trigger opens the sentence ("Each time …").
-	trig := ""
-	if trigger != nil && trigger["event"] != nil {
-		trig = describeReactiveTrigger(trigger)
+	// A reactive trigger (or several — the ability fires on any) opens the
+	// sentence ("Each time …"). B2: when a trigger's proximity just restates a
+	// within-range condition on the effect, render the range once (drop it here).
+	var triggers []map[string]any
+	triggerEvents := map[string]bool{}
+	for _, t := range normalizeTriggers(trigger) {
+		if t["event"] != nil {
+			triggers = append(triggers, t)
+			if ev, ok := t["event"].(string); ok {
+				triggerEvents[ev] = true
+			}
+		}
 	}
+	var condForRange map[string]any
+	if e["type"] == "conditional" {
+		condForRange, _ = getMap(e, "condition")
+	}
+	condRange, hasCondRange := conditionWithinRange(condForRange)
+	var trigParts []string
+	for _, t := range triggers {
+		tt := t
+		if hasCondRange {
+			if prox, _ := getMap(t, "proximity"); prox != nil {
+				if pr, ok := num(prox["range"]); ok && pr == condRange {
+					tt = cloneMap(t)
+					delete(tt, "proximity")
+				}
+			}
+		}
+		if desc := describeReactiveTrigger(tt); desc != "" {
+			trigParts = append(trigParts, desc)
+		}
+	}
+	trig := strings.Join(trigParts, " or ")
+
 	if e["type"] == "conditional" {
 		inner, _ := getMap(e, "effect")
 		cond, _ := getMap(e, "condition")
+		// B1: drop the condition lead-in when it merely restates a trigger's timing
+		// (e.g. trigger start-of-phase + condition timing-is start-of-phase).
 		leadIn := conditionLeadIn(cond)
+		if condTiming, isTiming := timingOfCondition(cond); isTiming && triggerEvents[condTiming] {
+			leadIn = ""
+		}
 		if inner != nil && containerTypes[getStr(inner, "type")] {
 			header := joinNonEmpty([]string{trig, lead, leadIn, trail}, ", ")
 			return capitalize(header) + ":\n" + describeEffect(inner, 1, ctx)
@@ -1796,8 +2052,7 @@ func describeAbility(a map[string]any) string {
 			scope = map[string]any{}
 		}
 		usage, _ := getMap(a, "usage")
-		trigger, _ := getMap(a, "trigger")
-		core = renderTopLevel(eff, scope, usage, trigger)
+		core = renderTopLevel(eff, scope, usage, a["trigger"])
 	}
 	at, _ := getMap(a, "applies_to")
 	applies := describeAppliesTo(at)

@@ -1179,32 +1179,37 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "shooting"
+      "type": "designate-target",
+      "designation": "suppressed",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "subtract",
+            "value": 1
+          }
         }
       },
-      "effect": {
-        "type": "roll-modifier",
-        "target": "attacker",
-        "modifier": {
-          "roll": "hit",
-          "operation": "subtract",
-          "value": 1
-        }
-      }
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-visible",
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "chaos-predator-destructor"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "MONSTER and VEHICLE units cannot be suppressed."
   },
   {
     "ability_id": "explosive-blight",

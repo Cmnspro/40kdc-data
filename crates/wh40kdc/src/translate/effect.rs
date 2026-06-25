@@ -8,15 +8,18 @@
 
 use serde_json::{Map, Value};
 
-use super::{dekebab, describe_node, describe_timing, event_clause};
+use super::{
+    battle_round_ordinal, dekebab, describe_node, describe_timing, event_clause, num_param,
+};
 use crate::generated::{
-    Ability, AbilityAppliesTo, AbilityTrigger, AbilityTriggerProximityOf, AbilityUsage,
-    AbilityUsageFrequency, AuraEffect, AuraEffectModifierRange, AuraEffectTarget,
-    CompoundConditionOperator, ConditionNode, DiceGatedEffect, DiceGatedEffectComparison,
-    DiceGatedEffectThreshold, DicePoolAllocationEffect, DiceRequirementSpec, EffectNode,
-    MovementModifierEffect, Scaling, ScalingOf, ScalingRound, Scope, ScopeRange,
-    SelectUnitsEffectSelector, SelectUnitsEffectSelectorOwner, SimpleConditionType, SingleEffect,
-    SingleEffectType,
+    Ability, AbilityAppliesTo, AbilityTrigger, AbilityUsage, AbilityUsageFrequency, AuraEffect,
+    AuraEffectModifierRange, AuraEffectTarget, CompoundConditionOperator, ConditionNode,
+    DesignateTargetEffectAppliesTo, DesignateTargetEffectSelectScope, DiceGatedEffect,
+    DiceGatedEffectComparison, DiceGatedEffectThreshold, DicePoolAllocationEffect,
+    DiceRequirementSpec, EffectNode, MovementModifierEffect, Scaling, ScalingOf, ScalingRound,
+    Scope, ScopeRange, SelectUnitsEffectSelector, SelectUnitsEffectSelectorOwner,
+    SimpleConditionType, SingleEffect, SingleEffectType, StanceSelectEffectMode, Trigger,
+    TriggerMoveTypesItem, TriggerProximityOf,
 };
 
 /// Rendering context threaded from the ability (scope info the leaf needs).
@@ -296,7 +299,7 @@ fn subject(target: &str, ctx: &Ctx) -> String {
         "attached-unit" => "the unit this model leads".to_string(),
         "target" => "the target".to_string(),
         "attacker" => "the attacking unit".to_string(),
-        "defender" => "your unit".to_string(),
+        "defender" => "the target".to_string(),
         "all-friendly" => "all friendly units".to_string(),
         "all-enemy" => "all enemy units".to_string(),
         "friendly-within-aura" => format!("friendly units{within}"),
@@ -538,9 +541,20 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                 T::FactionRuleActive => {
                     format!("while the {} is active", title_case(&jv(p, "rule")))
                 }
-                T::BattleRound => {
-                    format!("during the first {} battle rounds", jv(p, "max"))
-                }
+                T::BattleRound => match (num_param(p, "min"), num_param(p, "max")) {
+                    (Some(min), Some(max)) => {
+                        if min == max {
+                            format!("during the {} battle round", battle_round_ordinal(min))
+                        } else {
+                            format!("during battle rounds {min}-{max}")
+                        }
+                    }
+                    (Some(min), None) => {
+                        format!("from the {} battle round onward", battle_round_ordinal(min))
+                    }
+                    (None, Some(max)) => format!("during the first {max} battle rounds"),
+                    (None, None) => "during the battle round".to_string(),
+                },
                 T::TokenCountAtOrAbove => format!(
                     "while the unit has {}+ {}",
                     jv(p, "threshold"),
@@ -1391,6 +1405,43 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 .unwrap_or_else(|| "1".to_string());
             format!("you gain {amount}CP")
         }
+        T::CpOnDestroy => {
+            let kw = if notnull(m, "enemy_keyword") {
+                format!("{} model", jv(m, "enemy_keyword"))
+            } else {
+                "enemy model".to_string()
+            };
+            let who = if subj == "this model" {
+                "this model's unit".to_string()
+            } else {
+                subj.clone()
+            };
+            let amount = first(m, &["amount"])
+                .map(jval)
+                .unwrap_or_else(|| "1".to_string());
+            format!("each time {who} destroys a {kw}, you gain {amount}CP")
+        }
+        T::BattleShockTest => format!(
+            "{subj} {} Battle-shock tests on {} instead of 2D6",
+            agree(&subj, "takes"),
+            dice_case(m.get("dice").unwrap_or(&Value::Null))
+        ),
+        T::Flyover => {
+            let comp = nstr(m, "comparison").unwrap_or("gte");
+            let hit = pool_threshold(comp, m.get("threshold"));
+            let per = first(m, &["mortal_wounds"])
+                .map(jval)
+                .unwrap_or_else(|| "1".to_string());
+            let per_noun = if per == "1" {
+                "mortal wound"
+            } else {
+                "mortal wounds"
+            };
+            let die = dice_case(m.get("dice").unwrap_or(&Value::Null));
+            format!(
+                "each time this model ends a Normal move, select one enemy unit it moved over and roll {die}: for each {hit}, that unit suffers {per} {per_noun}"
+            )
+        }
         T::CpRefund => {
             let strat = if notnull(m, "stratagem") {
                 format!("the {} Stratagem", title_case(&jv(m, "stratagem")))
@@ -1708,6 +1759,46 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             select_units_subject(&s.selector),
             inline(&s.effect, ctx)
         ),
+        EffectNode::DesignateTargetEffect(d) => {
+            let scope_noun = match d.select.scope {
+                DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
+                DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
+            };
+            let when = match d.applies.to {
+                DesignateTargetEffectAppliesTo::Target => "while it is your target",
+                DesignateTargetEffectAppliesTo::AttackersOfTarget => {
+                    "each time a friendly unit attacks it"
+                }
+            };
+            format!(
+                "select one {scope_noun} unit; {when}, {}",
+                inline(&d.applies.effect, ctx)
+            )
+        }
+        EffectNode::StanceSelectEffect(s) => {
+            let opts = s
+                .options
+                .iter()
+                .map(|o| format!("{} ({})", o.name.as_str(), inline(&o.effect, ctx)))
+                .collect::<Vec<_>>()
+                .join(" / ");
+            format!("select one: {opts}")
+        }
+        EffectNode::RiskRewardEffect(r) => format!(
+            "take a {} test (on a failure, {}), then {}",
+            test_name(&Value::String(r.risk.test.to_string())),
+            inline(&r.risk.on_fail, ctx),
+            inline(&r.reward, ctx)
+        ),
+        EffectNode::IssueOrdersEffect(i) => {
+            let names = i
+                .options
+                .iter()
+                .map(|o| o.name.as_str().to_string())
+                .collect::<Vec<_>>()
+                .join(" / ");
+            format!("issue Orders, each one of: {names}")
+        }
         EffectNode::MovementModifierEffect(mm) => {
             let subj = subject(&mm.target.to_string(), ctx);
             movement_clause(&movement_modifier_map(mm), &subj)
@@ -1829,6 +1920,10 @@ fn is_container(e: &EffectNode) -> bool {
             | EffectNode::DiceGatedEffect(_)
             | EffectNode::DicePoolAllocationEffect(_)
             | EffectNode::SelectUnitsEffect(_)
+            | EffectNode::DesignateTargetEffect(_)
+            | EffectNode::StanceSelectEffect(_)
+            | EffectNode::RiskRewardEffect(_)
+            | EffectNode::IssueOrdersEffect(_)
     )
 }
 
@@ -1919,6 +2014,82 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
                 format!("{indent}{arrow}{lead}: {}.", inline(inner, ctx))
             }
         }
+        EffectNode::DesignateTargetEffect(d) => {
+            let scope_noun = match d.select.scope {
+                DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
+                DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
+            };
+            let desig = if d.designation.as_str().is_empty() {
+                String::new()
+            } else {
+                format!(" (your {})", dekebab(d.designation.as_str()))
+            };
+            let when = match d.applies.to {
+                DesignateTargetEffectAppliesTo::Target => "While it is your target",
+                DesignateTargetEffectAppliesTo::AttackersOfTarget => {
+                    "Each time a friendly unit makes an attack against it"
+                }
+            };
+            let inner = &*d.applies.effect;
+            let head = format!("{indent}{arrow}Select one {scope_noun} unit{desig}. {when}");
+            if is_container(inner) {
+                format!("{head}:\n{}", block(inner, depth + 1, ctx))
+            } else {
+                format!("{head}, {}.", inline(inner, ctx))
+            }
+        }
+        EffectNode::StanceSelectEffect(s) => {
+            let when = match &s.select {
+                Some(sel) => capitalize(&event_clause(sel)),
+                None => "At the start of your turn".to_string(),
+            };
+            let consum = match s.mode {
+                StanceSelectEffectMode::Consumable => " (each may be chosen once per battle)",
+                StanceSelectEffectMode::ReSelectable => "",
+            };
+            let mut lines = vec![format!("{indent}{arrow}{when}, select one{consum}:")];
+            for opt in &s.options {
+                lines.push(format!(
+                    "{indent}  - {}: {}.",
+                    opt.name.as_str(),
+                    inline(&opt.effect, ctx)
+                ));
+            }
+            lines.join("\n")
+        }
+        EffectNode::RiskRewardEffect(r) => {
+            let on_fail = inline(&r.risk.on_fail, ctx);
+            let reward = inline(&r.reward, ctx);
+            format!(
+                "{indent}{arrow}First take a {} test \u{2014} on a failure, {on_fail}; then {reward}.",
+                test_name(&Value::String(r.risk.test.to_string()))
+            )
+        }
+        EffectNode::IssueOrdersEffect(i) => {
+            let n = match &i.count {
+                Some(c) => c.get().to_string(),
+                None => "one or more".to_string(),
+            };
+            let rng = match i.range {
+                Some(r) => format!(" within {}\"", fmt_num(r)),
+                None => String::new(),
+            };
+            let elig = match i.eligible.as_ref().and_then(|e| e.keyword.as_ref()) {
+                Some(k) => format!(" {}", k.as_str()),
+                None => String::new(),
+            };
+            let mut lines = vec![format!(
+                "{indent}{arrow}Issue up to {n} Orders to eligible friendly{elig} units{rng}, each one of:"
+            )];
+            for opt in &i.options {
+                lines.push(format!(
+                    "{indent}  - {}: {}.",
+                    opt.name.as_str(),
+                    inline(&opt.effect, ctx)
+                ));
+            }
+            lines.join("\n")
+        }
         EffectNode::SingleEffect(_)
         | EffectNode::MovementModifierEffect(_)
         | EffectNode::AuraEffect(_) => {
@@ -1946,16 +2117,52 @@ fn assemble_sentence(parts: &[String]) -> String {
     format!("{}{period}", capitalize(&body))
 }
 
+/// Is `b` a JS regex `\w` character (used for the `\bmove\b` word boundary)?
+fn is_word_byte(b: u8) -> bool {
+    b.is_ascii_alphanumeric() || b == b'_'
+}
+
+/// Replace the first whole-word occurrence of `word` in `haystack` with
+/// `replacement` — the Rust equivalent of JS `s.replace(/\bword\b/, replacement)`
+/// (single replacement, ASCII word boundaries).
+fn replace_first_word(haystack: &str, word: &str, replacement: &str) -> String {
+    let bytes = haystack.as_bytes();
+    let mut from = 0;
+    while let Some(rel) = haystack[from..].find(word) {
+        let start = from + rel;
+        let end = start + word.len();
+        let before_ok = start == 0 || !is_word_byte(bytes[start - 1]);
+        let after_ok = end == bytes.len() || !is_word_byte(bytes[end]);
+        if before_ok && after_ok {
+            return format!("{}{}{}", &haystack[..start], replacement, &haystack[end..]);
+        }
+        from = start + 1;
+    }
+    haystack.to_string()
+}
+
 /// Reactive-trigger opener ("an enemy unit ends a move within 9" of this model,
 /// if ..."). Mirrors `describeTrigger` for ability `trigger` blocks.
-fn describe_ability_trigger(t: &AbilityTrigger) -> String {
+fn describe_ability_trigger(t: &Trigger) -> String {
     let mut s = event_clause(&t.event.to_string());
+    // Narrow a move event to its move kinds: "ends a move" → "ends a Normal,
+    // Advance or Fall Back move".
+    if !t.move_types.is_empty() {
+        let kinds = or_list(
+            &t.move_types
+                .iter()
+                .map(|mt| match mt {
+                    TriggerMoveTypesItem::FallBack => "Fall Back".to_string(),
+                    other => cap_word(&other.to_string()),
+                })
+                .collect::<Vec<_>>(),
+        );
+        s = replace_first_word(&s, "move", &format!("{kinds} move"));
+    }
     if let Some(prox) = &t.proximity {
         let of = match prox.of {
-            Some(AbilityTriggerProximityOf::AttachedUnit) => "the unit this model leads",
-            Some(AbilityTriggerProximityOf::Self_) | Some(AbilityTriggerProximityOf::Bearer) => {
-                "this model"
-            }
+            Some(TriggerProximityOf::AttachedUnit) => "the unit this model leads",
+            Some(TriggerProximityOf::Self_) | Some(TriggerProximityOf::Bearer) => "this model",
             None => "this unit",
         };
         s.push_str(&format!(" within {}\" of {of}", fmt_num(prox.range)));
@@ -1964,6 +2171,44 @@ fn describe_ability_trigger(t: &AbilityTrigger) -> String {
         s.push_str(&format!(", if {}", describe_node(&cond.0)));
     }
     s
+}
+
+/// Flatten the polymorphic `trigger` field to a list (empty when absent).
+/// Mirrors `normalizeTriggers`.
+fn normalize_triggers(trigger: Option<&AbilityTrigger>) -> Vec<&Trigger> {
+    match trigger {
+        None => Vec::new(),
+        Some(AbilityTrigger::Trigger(t)) => vec![t],
+        Some(AbilityTrigger::Array(ts)) => ts.iter().collect(),
+    }
+}
+
+/// The timing value of a bare `timing-is` condition, else `None`. Mirrors `timingOfCondition`.
+fn timing_of_condition(c: &ConditionNode) -> Option<String> {
+    match c {
+        ConditionNode::SimpleCondition(s) if matches!(s.type_, SimpleConditionType::TimingIs) => {
+            Some(jv(&s.parameters, "timing"))
+        }
+        _ => None,
+    }
+}
+
+/// The numeric range of a top-level within-range condition, else `None`. Mirrors
+/// `conditionWithinRange`.
+fn condition_within_range(c: &ConditionNode) -> Option<f64> {
+    let s = match c {
+        ConditionNode::SimpleCondition(s)
+            if matches!(
+                s.type_,
+                SimpleConditionType::UnitWithinRangeOf
+                    | SimpleConditionType::OpponentUnitWithinRange
+            ) =>
+        {
+            s
+        }
+        _ => return None,
+    };
+    s.parameters.get("range").and_then(Value::as_f64)
 }
 
 /// Usage limit → front-of-sentence lead clause ("once per turn", "twice per
@@ -2031,16 +2276,44 @@ fn render_top_level(
         Some(u) => usage_clause(u),
         None => dur_lead,
     };
-    // A reactive trigger opens the sentence, ahead of the usage/duration lead.
-    let trig = match trigger {
-        Some(t) => describe_ability_trigger(t),
-        None => String::new(),
+
+    // A reactive trigger (or several — the ability fires on any) opens the
+    // sentence ("Each time ..."). B2: when a trigger's proximity just restates a
+    // within-range condition on the effect, render the range once (drop it here).
+    let triggers = normalize_triggers(trigger);
+    let trigger_events: std::collections::HashSet<String> =
+        triggers.iter().map(|t| t.event.to_string()).collect();
+    let cond_range = match e {
+        EffectNode::ConditionalEffect(c) => condition_within_range(&c.condition.0),
+        _ => None,
     };
+    let trig = triggers
+        .iter()
+        .map(|t| {
+            let drop_prox =
+                cond_range.is_some() && t.proximity.as_ref().map(|p| p.range) == cond_range;
+            if drop_prox {
+                let mut t2 = (*t).clone();
+                t2.proximity = None;
+                describe_ability_trigger(&t2)
+            } else {
+                describe_ability_trigger(t)
+            }
+        })
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>()
+        .join(" or ");
 
     match e {
         EffectNode::ConditionalEffect(c) => {
             let inner = &*c.effect;
-            let lead_in = condition_lead_in(&c.condition.0);
+            // B1: drop the condition lead-in when it merely restates a trigger's
+            // timing (trigger start-of-phase + condition timing-is start-of-phase).
+            let cond_timing = timing_of_condition(&c.condition.0);
+            let lead_in = match &cond_timing {
+                Some(ct) if trigger_events.contains(ct) => String::new(),
+                _ => condition_lead_in(&c.condition.0),
+            };
             if is_container(inner) {
                 let header = [trig, lead, lead_in, trail]
                     .into_iter()

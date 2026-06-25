@@ -25,9 +25,9 @@
     {
       "faction": "adeptus-astartes",
       "total": 364,
-      "offensive": 110,
-      "defensive": 39,
-      "inert": 230,
+      "offensive": 109,
+      "defensive": 38,
+      "inert": 231,
       "stub": 26,
       "stubStructural": 13,
       "gwTextLeak": 0,
@@ -80,9 +80,9 @@
     {
       "faction": "astra-militarum",
       "total": 205,
-      "offensive": 45,
-      "defensive": 17,
-      "inert": 146,
+      "offensive": 44,
+      "defensive": 16,
+      "inert": 147,
       "stub": 6,
       "stubStructural": 6,
       "gwTextLeak": 0,
@@ -113,9 +113,9 @@
     {
       "faction": "chaos-space-marines",
       "total": 236,
-      "offensive": 63,
-      "defensive": 17,
-      "inert": 163,
+      "offensive": 62,
+      "defensive": 16,
+      "inert": 164,
       "stub": 27,
       "stubStructural": 15,
       "gwTextLeak": 0,
@@ -124,9 +124,9 @@
     {
       "faction": "death-guard",
       "total": 119,
-      "offensive": 25,
-      "defensive": 7,
-      "inert": 90,
+      "offensive": 24,
+      "defensive": 6,
+      "inert": 91,
       "stub": 7,
       "stubStructural": 5,
       "gwTextLeak": 0,
@@ -135,9 +135,9 @@
     {
       "faction": "drukhari",
       "total": 100,
-      "offensive": 24,
-      "defensive": 7,
-      "inert": 71,
+      "offensive": 23,
+      "defensive": 6,
+      "inert": 72,
       "stub": 11,
       "stubStructural": 8,
       "gwTextLeak": 0,
@@ -179,9 +179,9 @@
     {
       "faction": "imperial-knights",
       "total": 76,
-      "offensive": 30,
-      "defensive": 7,
-      "inert": 42,
+      "offensive": 29,
+      "defensive": 6,
+      "inert": 43,
       "stub": 6,
       "stubStructural": 2,
       "gwTextLeak": 0,
@@ -223,9 +223,9 @@
     {
       "faction": "tau-empire",
       "total": 129,
-      "offensive": 32,
-      "defensive": 7,
-      "inert": 93,
+      "offensive": 31,
+      "defensive": 6,
+      "inert": 94,
       "stub": 4,
       "stubStructural": 3,
       "gwTextLeak": 0,
@@ -234,9 +234,9 @@
     {
       "faction": "thousand-sons",
       "total": 130,
-      "offensive": 31,
-      "defensive": 9,
-      "inert": 95,
+      "offensive": 30,
+      "defensive": 8,
+      "inert": 96,
       "stub": 19,
       "stubStructural": 16,
       "gwTextLeak": 0,
@@ -267,9 +267,9 @@
   ],
   "totals": {
     "total": 3121,
-    "offensive": 744,
-    "defensive": 265,
-    "inert": 2201,
+    "offensive": 736,
+    "defensive": 257,
+    "inert": 2209,
     "stub": 216,
     "stubStructural": 190,
     "gwTextLeak": 0,
@@ -297,11 +297,11 @@
       "count": 81
     },
     {
-      "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 80
+      "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
+      "count": 79
     },
     {
-      "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
+      "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
       "count": 79
     },
     {
@@ -379,6 +379,10 @@
     {
       "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
       "count": 10
+    },
+    {
+      "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
+      "count": 9
     },
     {
       "reason": "stat-modifier T: defender-side stat; applies when the buffed unit is the target",
@@ -3312,11 +3316,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "suppression-fire",
       "name": "Suppression Fire",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "adeptus-astartes",
@@ -8632,7 +8636,7 @@
       "faction": "aeldari",
       "ability_id": "spirit-mark",
       "name": "Spirit Mark",
-      "shape": "keyword-grant",
+      "shape": "designate-target",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -11272,11 +11276,11 @@
       "faction": "astra-militarum",
       "ability_id": "suppression-bombardment",
       "name": "Suppression Bombardment",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "astra-militarum",
@@ -14772,7 +14776,7 @@
       "faction": "chaos-knights",
       "ability_id": "titanic-duel-lords-of-dread",
       "name": "Titanic Duel",
-      "shape": "sequence",
+      "shape": "designate-target",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -14982,7 +14986,7 @@
       "faction": "chaos-knights",
       "ability_id": "marked-prey",
       "name": "Marked Prey",
-      "shape": "keyword-grant",
+      "shape": "designate-target",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -15912,11 +15916,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "punishing-suppression",
       "name": "Punishing Suppression",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "chaos-space-marines",
@@ -17892,11 +17896,11 @@
       "faction": "death-guard",
       "ability_id": "punishing-suppression",
       "name": "Punishing Suppression",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "death-guard",
@@ -19282,11 +19286,11 @@
       "faction": "drukhari",
       "ability_id": "agonising-suppression",
       "name": "Agonising Suppression",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "drukhari",
@@ -21062,7 +21066,7 @@
       "faction": "genestealer-cults",
       "ability_id": "priority-target",
       "name": "Priority Target",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -22462,11 +22466,11 @@
       "faction": "imperial-knights",
       "ability_id": "suppression-protocols",
       "name": "Suppression Protocols",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "imperial-knights",
@@ -27062,11 +27066,11 @@
       "faction": "tau-empire",
       "ability_id": "suppression-volley",
       "name": "Suppression Volley",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "tau-empire",
@@ -28602,11 +28606,11 @@
       "faction": "thousand-sons",
       "ability_id": "punishing-suppression",
       "name": "Punishing Suppression",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
-      "defensive": true,
-      "gap": null
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "thousand-sons",
@@ -30842,11 +30846,11 @@
       "faction": "world-eaters",
       "ability_id": "punishing-suppression",
       "name": "Punishing Suppression",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "world-eaters",

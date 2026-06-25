@@ -14,8 +14,9 @@
  * order are whole-array LWW: losing an ordering/roster race is benign, losing a
  * verdict is not.
  */
+import type { ForceDispositionId } from "@alpaca-software/40kdc-data";
 import type { DocOp } from "../../../../_shared/doc-protocol";
-import type { MatrixOurPlayer, MatrixTeam, Verdict } from "./types";
+import type { MatrixOurPlayer, MatrixPlayer, MatrixTeam, Verdict } from "./types";
 import { dispositionId, splitBcpList, type OpponentData } from "../../../../_shared/opponents";
 import type { TeamPlan } from "../coverage";
 
@@ -32,6 +33,28 @@ export interface MatrixDoc {
   teamOrder: string[];
   /** Keyed `"<ourPlayerId>:<opponentPlayerId>"`. Absent key = so-so (yellow). */
   cellsById: Record<string, Verdict>;
+  /** Keyed `<opponentTeamId>` → our player id chosen as lead-off defender into
+   *  that team. Absent key = no pick. Per-team because the matrix spans a whole
+   *  event and you lead off differently into each roster — id-keyed like
+   *  `cellsById` so concurrent picks on different teams commute under sync. */
+  leadOffByTeam: Record<string, string>;
+  /** Keyed `<opponentPlayerId>` → the captain's hand-entered Force Disposition
+   *  for that opponent. Overlays the seed-time parsed value on `MatrixPlayer`
+   *  (an absent key falls back to it — see {@link effectiveDisposition}). Most
+   *  BCP rows arrive without a parsed disposition, so this is how a captain
+   *  records what each opponent is bringing. Id-keyed like `cellsById` so two
+   *  captains entering different opponents commute under sync (a whole-`teamsById`
+   *  set would clobber). */
+  dispositionsById: Record<string, ForceDispositionId>;
+}
+
+/** The disposition to show/use for an opponent: the captain's hand-entered
+ *  override if present, else the seed-time parsed value, else null. */
+export function effectiveDisposition(
+  doc: MatrixDoc,
+  player: MatrixPlayer,
+): ForceDispositionId | null {
+  return doc.dispositionsById[player.id] ?? player.disposition;
 }
 
 export function cellKey(ourPlayerId: string, opponentPlayerId: string): string {
@@ -47,6 +70,8 @@ export function emptyMatrixDoc(): MatrixDoc {
     teamsById: {},
     teamOrder: [],
     cellsById: {},
+    leadOffByTeam: {},
+    dispositionsById: {},
   };
 }
 
@@ -117,6 +142,12 @@ export function normalizeMatrixDoc(doc: Partial<MatrixDoc> | null | undefined): 
     for (const id of Object.keys(by)) if (!seen.has(id)) out.push(id);
     return out;
   };
+  // Every opponent player id present across the loaded teams — used to drop
+  // dangling disposition overrides whose player is gone.
+  const opponentIds = new Set<string>();
+  for (const team of Object.values(teamsById)) {
+    for (const p of team?.players ?? []) opponentIds.add(p.id);
+  }
   return {
     eventName: doc.eventName ?? null,
     ourTeamId: doc.ourTeamId ?? null,
@@ -125,6 +156,14 @@ export function normalizeMatrixDoc(doc: Partial<MatrixDoc> | null | undefined): 
     teamsById,
     teamOrder: order(doc.teamOrder, teamsById),
     cellsById: legacy ? {} : { ...(doc.cellsById ?? {}) },
+    // Drop picks whose opposing team is gone (deterministic, so peers converge).
+    leadOffByTeam: Object.fromEntries(
+      Object.entries(doc.leadOffByTeam ?? {}).filter(([teamId]) => teamId in teamsById),
+    ),
+    // Drop overrides whose opponent player is gone (deterministic, like above).
+    dispositionsById: Object.fromEntries(
+      Object.entries(doc.dispositionsById ?? {}).filter(([playerId]) => opponentIds.has(playerId)),
+    ),
   };
 }
 
@@ -138,6 +177,8 @@ export function diffMatrixDocs(prev: MatrixDoc, next: MatrixDoc): DocOp[] {
 
   diffMap(ops, "teamsById", prev.teamsById, next.teamsById);
   diffMap(ops, "cellsById", prev.cellsById, next.cellsById);
+  diffMap(ops, "leadOffByTeam", prev.leadOffByTeam, next.leadOffByTeam);
+  diffMap(ops, "dispositionsById", prev.dispositionsById, next.dispositionsById);
 
   if (JSON.stringify(prev.ourPlayers) !== JSON.stringify(next.ourPlayers)) {
     ops.push({ o: "set", p: ["ourPlayers"], v: next.ourPlayers });

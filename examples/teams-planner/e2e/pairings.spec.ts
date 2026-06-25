@@ -165,6 +165,81 @@ test("reroll changes the opposing team; restart returns to setup", async ({ page
   await expect(page.getByRole("button", { name: "Start pairings" })).toBeVisible();
 });
 
+/** A scouted 5-player opponent team, as it lives in the threat-matrix doc, with
+ *  every disposition hand-entered (the override map the matrix UI writes). */
+const SCOUTED_MATRIX = {
+  eventName: "ATC Practice",
+  ourTeamId: null,
+  ourTeamName: "E2E Crew",
+  ourPlayers: [],
+  teamsById: {
+    rivals: {
+      id: "rivals",
+      name: "Rival Squad",
+      players: [
+        { id: "o1", name: "Zara", faction: "orks", disposition: null },
+        { id: "o2", name: "Yann", faction: "aeldari", disposition: null },
+        { id: "o3", name: "Xil", faction: "necrons", disposition: null },
+        { id: "o4", name: "Wen", faction: "tau-empire", disposition: null },
+        { id: "o5", name: "Vic", faction: "chaos-knights", disposition: null },
+      ],
+    },
+  },
+  teamOrder: ["rivals"],
+  cellsById: {},
+  leadOffByTeam: {},
+  dispositionsById: {
+    o1: "take-and-hold",
+    o2: "disruption",
+    o3: "purge-the-foe",
+    o4: "priority-assets",
+    o5: "reconnaissance",
+  },
+};
+
+test("entitled user imports a scouted matrix team as the opponent", async ({ page }) => {
+  // Seed the matrix doc + a client-decodable entitlement token (claims are only
+  // base64url-encoded, not signed-for-the-client — see entitlement-core).
+  await page.addInitScript((matrix) => {
+    localStorage.setItem("teams-planner.matrix.v1", JSON.stringify(matrix));
+    const claims = { v: 2, sub: "e2e-import", exp: Date.now() + 315_360_000_000 }; // +10y
+    const b64 = btoa(JSON.stringify(claims))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+    localStorage.setItem("alpacasoft.entitlement", `${b64}.sig`);
+  }, SCOUTED_MATRIX);
+
+  await page.goto("/#sim");
+  const cpuSection = page.locator("section", { hasText: "Opposing team" });
+  // Default is the random roll — no scouted names, no team picker.
+  await expect(cpuSection.getByRole("img")).toHaveCount(5);
+  await expect(cpuSection.getByLabel(/Zara/)).toHaveCount(0);
+
+  // Switch the opponent source to the threat-matrix import.
+  await cpuSection.getByRole("button", { name: "From threat matrix" }).click();
+  await expect(cpuSection.getByRole("combobox", { name: "Scouted opponent team" })).toBeVisible();
+  // The 5 scouted opponents now stand in as the opposing team.
+  await expect(cpuSection.getByLabel(/Zara/)).toBeVisible();
+  await expect(cpuSection.getByLabel(/Vic/)).toBeVisible();
+
+  // And the sim runs against them.
+  await page.getByRole("button", { name: "Start pairings" }).click();
+  await expect(page.getByText("1. Initial Skirmish")).toBeVisible();
+});
+
+test("non-entitled user sees no import toggle, only the random roll", async ({ page }) => {
+  // Matrix seeded but NO entitlement token → the import affordance stays hidden.
+  await page.addInitScript((matrix) => {
+    localStorage.setItem("teams-planner.matrix.v1", JSON.stringify(matrix));
+  }, SCOUTED_MATRIX);
+
+  await page.goto("/#sim");
+  const cpuSection = page.locator("section", { hasText: "Opposing team" });
+  await expect(cpuSection.getByRole("button", { name: "↻ Reroll" })).toBeVisible();
+  await expect(cpuSection.getByRole("button", { name: "From threat matrix" })).toHaveCount(0);
+});
+
 test("setup bench: removing a player moves their card to the bench", async ({ page }) => {
   await page.goto("/#sim");
   const roster = page.getByRole("list", { name: "Playing this round" });

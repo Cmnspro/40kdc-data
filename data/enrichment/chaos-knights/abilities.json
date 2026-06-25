@@ -2529,33 +2529,44 @@
     "ability_type": "stratagem",
     "behavior": "activated",
     "effect": {
-      "type": "sequence",
-      "steps": [
-        {
-          "type": "re-roll",
-          "target": "unit",
-          "modifier": {
-            "roll": "hit",
-            "subset": "ones",
-            "context": "vs-selected-keyword"
-          }
-        },
-        {
-          "type": "re-roll",
-          "target": "unit",
-          "modifier": {
-            "roll": "wound",
-            "subset": "ones",
-            "context": "vs-selected-keyword"
-          }
+      "type": "designate-target",
+      "designation": "titanic-duel-target",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "shooting-or-fight-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "re-roll",
+              "target": "unit",
+              "modifier": {
+                "roll": "hit",
+                "subset": "ones"
+              }
+            },
+            {
+              "type": "re-roll",
+              "target": "unit",
+              "modifier": {
+                "roll": "wound",
+                "subset": "ones"
+              }
+            }
+          ]
         }
-      ]
-    },
-    "scope": {
-      "range": "unit",
+      },
       "duration": "phase"
     },
-    "community_notes": "1CP. Your Shooting or Fight phase. Vs one enemy MONSTER or VEHICLE: re-roll Hit and Wound rolls of 1 (full re-rolls if that unit is TITANIC)."
+    "scope": {
+      "range": "any-visible",
+      "duration": "phase"
+    },
+    "community_notes": "1CP Stratagem, used in your Shooting or Fight phase against one enemy MONSTER or VEHICLE unit. If the chosen unit is TITANIC, make full re-rolls of Hit and Wound rolls instead of only 1s."
   },
   {
     "ability_id": "trophy-hunter-lords-of-dread",
@@ -3268,20 +3279,32 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "keyword-grant",
-      "target": "unit",
-      "modifier": {
-        "keywords": [
-          "Sustained Hits 1"
-        ],
-        "context": "vs-marked-enemy"
-      }
-    },
-    "scope": {
-      "range": "unit",
+      "type": "designate-target",
+      "designation": "marked-prey",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-command-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ]
+          }
+        }
+      },
       "duration": "until-next-command-phase"
     },
-    "community_notes": "At the start of your Command phase, mark one enemy unit. Until your next Command phase, WAR DOG attacks targeting that visible enemy unit have [SUSTAINED HITS 1]."
+    "scope": {
+      "range": "any-visible",
+      "duration": "until-next-command-phase"
+    },
+    "community_notes": "Only WAR DOG models' attacks benefit, and only while the marked unit is visible to the attacker."
   },
   {
     "ability_id": "hungry-for-combat-houndpack-lance",

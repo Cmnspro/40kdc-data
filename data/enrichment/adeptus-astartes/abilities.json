@@ -5715,32 +5715,37 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "shooting"
+      "type": "designate-target",
+      "designation": "suppressed",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "subtract",
+            "value": 1
+          }
         }
       },
-      "effect": {
-        "type": "roll-modifier",
-        "target": "attacker",
-        "modifier": {
-          "roll": "hit",
-          "operation": "subtract",
-          "value": 1
-        }
-      }
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-visible",
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "suppressor-squad"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "Suppression is applied to one enemy unit hit by this model's twin macro-accelerator cannon, and lasts only while this model remains on the battlefield."
   },
   {
     "ability_id": "veil-of-time-psychic",

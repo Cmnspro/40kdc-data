@@ -549,6 +549,25 @@ func describeCondition(c map[string]any) string {
 		return negate + "you are engaged on " + n + "+ fronts"
 	case "token-count-at-or-above":
 		return negate + "the unit has " + cstr(p["threshold"]) + "+ " + dekebab(cstr(p["pool_id"]))
+	case "battle-round":
+		min, hasMin := parseNumber(p["min"])
+		max, hasMax := parseNumber(p["max"])
+		var where string
+		switch {
+		case hasMin && hasMax:
+			if min == max {
+				where = "the " + bordinal(min) + " battle round"
+			} else {
+				where = "battle rounds " + numStr(min) + "-" + numStr(max)
+			}
+		case hasMin:
+			where = "the " + bordinal(min) + " battle round onward"
+		case hasMax:
+			where = "the first " + numStr(max) + " battle rounds"
+		default:
+			where = "the battle round"
+		}
+		return negate + "during " + where
 	}
 	t := "unknown"
 	if ctype != "" {

@@ -311,9 +311,23 @@ type ReactiveTrigger struct {
 func (ds *Dataset) ReactiveTriggers() []ReactiveTrigger {
 	var out []ReactiveTrigger
 	for _, ability := range ds.Abilities.All() {
-		trigger, ok := getMap(ability.Raw, "trigger")
-		if !ok || trigger == nil {
+		raw := ability.Raw["trigger"]
+		if raw == nil {
 			continue
+		}
+		// `trigger` may be a single object or an array (the ability fires on
+		// any); emit one ReactiveTrigger per event so the dispatch index keys
+		// them all. Mirror of TS reactiveTriggers.
+		var triggers []map[string]any
+		switch t := raw.(type) {
+		case []any:
+			for _, e := range t {
+				if m, ok := asMap(e); ok {
+					triggers = append(triggers, m)
+				}
+			}
+		case map[string]any:
+			triggers = append(triggers, t)
 		}
 		abilityID := ability.ID()
 		unitIDs := []string{}
@@ -322,12 +336,17 @@ func (ds *Dataset) ReactiveTriggers() []ReactiveTrigger {
 			unitIDs = append(unitIDs, getStr(unit, "id"))
 		}
 		sort.Strings(unitIDs)
-		out = append(out, ReactiveTrigger{
-			AbilityID: abilityID,
-			Event:     getStr(trigger, "event"),
-			UnitIDs:   unitIDs,
-			Trigger:   trigger,
-		})
+		for _, trigger := range triggers {
+			if trigger["event"] == nil {
+				continue
+			}
+			out = append(out, ReactiveTrigger{
+				AbilityID: abilityID,
+				Event:     getStr(trigger, "event"),
+				UnitIDs:   unitIDs,
+				Trigger:   trigger,
+			})
+		}
 	}
 	sort.SliceStable(out, func(i, j int) bool {
 		return out[i].AbilityID < out[j].AbilityID

@@ -15,8 +15,8 @@ use crate::generated::{
     Ability, AbilityTrigger, AlliedRule, DeploymentPattern, Detachment, Enhancement, Faction,
     ForceDisposition, GameVersion, HullShape, InteractionFlag, KeywordList, LeaderAttachment,
     Mission, MissionMatchup, Phase, PhaseMapping, ResourcePool, SecondaryCard, Stratagem,
-    TargetProfile, TerrainLayout, TerrainTemplate, Unit, UnitComposition, UnitKeyword, Wargear,
-    WargearOption, Weapon, WeaponKeyword,
+    TargetProfile, TerrainLayout, TerrainTemplate, Trigger, Unit, UnitComposition, UnitKeyword,
+    Wargear, WargearOption, Weapon, WeaponKeyword,
 };
 
 use super::collection::Collection;
@@ -111,8 +111,10 @@ pub struct ReactiveTrigger<'a> {
     /// Ids of units that list the ability, sorted ascending. Empty for
     /// faction / detachment-rule abilities that no unit references.
     pub unit_ids: Vec<String>,
-    /// The trigger block itself, borrowed from the owning [`Ability`].
-    pub trigger: &'a AbilityTrigger,
+    /// The trigger block itself, borrowed from the owning [`Ability`]. A single
+    /// [`Trigger`] even when the ability's `trigger` field is an array — one
+    /// [`ReactiveTrigger`] is emitted per event.
+    pub trigger: &'a Trigger,
 }
 
 /// The whole dataset, with linked accessors over every entity collection.
@@ -531,27 +533,33 @@ impl Dataset {
     /// ascending; empty for faction / detachment-rule abilities). Mirror of TS
     /// `Dataset.reactiveTriggers`.
     pub fn reactive_triggers(&self) -> Vec<ReactiveTrigger<'_>> {
-        let mut out: Vec<ReactiveTrigger<'_>> = self
-            .abilities
-            .all()
-            .iter()
-            .filter_map(|ability| {
-                ability.trigger.as_ref().map(|trigger| {
-                    let mut unit_ids: Vec<String> = self
-                        .units_with_ability(ability.ability_id.as_str())
-                        .into_iter()
-                        .map(|u| u.id.to_string())
-                        .collect();
-                    unit_ids.sort();
-                    ReactiveTrigger {
-                        ability_id: ability.ability_id.to_string(),
-                        event: trigger.event.to_string(),
-                        unit_ids,
-                        trigger,
-                    }
-                })
-            })
-            .collect();
+        let mut out: Vec<ReactiveTrigger<'_>> = Vec::new();
+        for ability in self.abilities.all() {
+            let Some(raw) = ability.trigger.as_ref() else {
+                continue;
+            };
+            // `trigger` may be a single object or an array (the ability fires on
+            // any); emit one ReactiveTrigger per event so the dispatch index
+            // keys them all. Mirror of TS `Dataset.reactiveTriggers`.
+            let triggers: Vec<&Trigger> = match raw {
+                AbilityTrigger::Trigger(t) => vec![t],
+                AbilityTrigger::Array(ts) => ts.iter().collect(),
+            };
+            let mut unit_ids: Vec<String> = self
+                .units_with_ability(ability.ability_id.as_str())
+                .into_iter()
+                .map(|u| u.id.to_string())
+                .collect();
+            unit_ids.sort();
+            for trigger in triggers {
+                out.push(ReactiveTrigger {
+                    ability_id: ability.ability_id.to_string(),
+                    event: trigger.event.to_string(),
+                    unit_ids: unit_ids.clone(),
+                    trigger,
+                });
+            }
+        }
         out.sort_by(|a, b| a.ability_id.cmp(&b.ability_id));
         out
     }

@@ -671,7 +671,9 @@ def _handle_translate_effect(args: Any) -> Response:
         ability["scope"] = args["scope"]
     if isinstance(args.get("usage"), dict):
         ability["usage"] = args["usage"]
-    if isinstance(args.get("trigger"), dict):
+    # A trigger may be a single object or an array (fire on any). Mirror the TS
+    # runner's `typeof === "object" && !== null` check, which accepts both.
+    if isinstance(args.get("trigger"), (dict, list)):
         ability["trigger"] = args["trigger"]
     if isinstance(args.get("applies_to"), dict):
         ability["applies_to"] = args["applies_to"]

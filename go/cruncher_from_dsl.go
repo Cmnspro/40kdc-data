@@ -85,6 +85,26 @@ func dslWalk(node any, source map[string]any, opts dslOpts, out *effectTranslati
 	case "select-units":
 		// Targeting wrapper — the selected units receive the nested effect.
 		dslWalk(n["effect"], source, opts, out)
+	case "designate-target":
+		// Mark an enemy unit; when `to: attackers-of-target` the nested effect is
+		// a buff every friendly attack against that unit receives (Oath of Moment).
+		// A `to: target` debuff lands on the enemy, not the bearer, so it is not a
+		// buff in this perspective.
+		applies, _ := getMap(n, "applies")
+		if applies["to"] == "attackers-of-target" {
+			dslWalk(applies["effect"], source, opts, out)
+		} else {
+			out.unsupported = append(out.unsupported, unsup("designate-target debuff on the marked unit: not a buff on the bearer", n))
+		}
+	case "risk-reward":
+		// The reward is the buff; the risk (self-damage on a failed test) is not.
+		dslWalk(n["reward"], source, opts, out)
+	case "stance-select":
+		// Pick-one modal buff — each option is an opt-in lever (pick one).
+		enumerateNamedOptions(n, source, opts, out, opts.abilityID+"?stance", 1)
+	case "issue-orders":
+		// Officer issues one Order from the menu — each is an opt-in lever.
+		enumerateNamedOptions(n, source, opts, out, opts.abilityID+"?order", 1)
 	default:
 		out.unsupported = append(out.unsupported, unsup("effect type \""+jsStr(n["type"])+"\" is not modelled by the buff layer", n))
 	}
@@ -530,6 +550,33 @@ func enumerateDicePool(node, source map[string]any, opts dslOpts, out *effectTra
 			"label": name,
 			"buffs": buffs,
 			"group": map[string]any{"id": opts.abilityID, "maxActivations": maxActivations},
+		})
+	}
+}
+
+// enumerateNamedOptions emits one opt-in lever per buff-bearing named option
+// (stance-select / issue-orders), grouped under groupID with maxActivations.
+func enumerateNamedOptions(node, source map[string]any, opts dslOpts, out *effectTranslation, groupID string, maxActivations float64) {
+	options, _ := asList(node["options"])
+	for _, optAny := range options {
+		opt, ok := asMap(optAny)
+		if !ok {
+			continue
+		}
+		var buffs []any
+		collectGatedBuffs(opt["effect"], source, opts, map[string]any{}, &buffs)
+		if len(buffs) == 0 {
+			continue
+		}
+		name, _ := opt["name"].(string)
+		if name == "" {
+			name = labelForBuffs(buffs)
+		}
+		out.activatable = append(out.activatable, map[string]any{
+			"id":    opts.abilityID + "#" + name,
+			"label": name,
+			"buffs": buffs,
+			"group": map[string]any{"id": groupID, "maxActivations": maxActivations},
 		})
 	}
 }

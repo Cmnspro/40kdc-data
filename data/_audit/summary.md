@@ -8,29 +8,29 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
 | _core | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | adepta-sororitas | 100 | 28 | 10 | 65 | 2 | 9 | 0 | 1 |
-| adeptus-astartes | 364 | 110 | 39 | 230 | 13 | 26 | 0 | 7 |
+| adeptus-astartes | 364 | 109 | 38 | 231 | 13 | 26 | 0 | 7 |
 | adeptus-custodes | 90 | 20 | 12 | 62 | 3 | 6 | 0 | 3 |
 | adeptus-mechanicus | 111 | 25 | 11 | 78 | 4 | 3 | 0 | 2 |
 | aeldari | 180 | 38 | 13 | 134 | 12 | 16 | 0 | 5 |
 | agents-of-the-imperium | 133 | 27 | 10 | 98 | 31 | 6 | 0 | 2 |
-| astra-militarum | 205 | 45 | 17 | 146 | 6 | 6 | 0 | 5 |
+| astra-militarum | 205 | 44 | 16 | 147 | 6 | 6 | 0 | 5 |
 | chaos-daemons | 157 | 40 | 14 | 109 | 5 | 9 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 4 | 3 | 0 | 0 |
-| chaos-space-marines | 236 | 63 | 17 | 163 | 15 | 27 | 0 | 6 |
-| death-guard | 119 | 25 | 7 | 90 | 5 | 7 | 0 | 3 |
-| drukhari | 100 | 24 | 7 | 71 | 8 | 11 | 0 | 1 |
+| chaos-space-marines | 236 | 62 | 16 | 164 | 15 | 27 | 0 | 6 |
+| death-guard | 119 | 24 | 6 | 91 | 5 | 7 | 0 | 3 |
+| drukhari | 100 | 23 | 6 | 72 | 8 | 11 | 0 | 1 |
 | emperors-children | 87 | 23 | 3 | 62 | 7 | 12 | 0 | 1 |
 | genestealer-cults | 88 | 17 | 7 | 67 | 12 | 7 | 0 | 1 |
 | grey-knights | 61 | 15 | 5 | 42 | 5 | 6 | 0 | 1 |
-| imperial-knights | 76 | 30 | 7 | 42 | 2 | 6 | 0 | 1 |
+| imperial-knights | 76 | 29 | 6 | 43 | 2 | 6 | 0 | 1 |
 | leagues-of-votann | 76 | 20 | 7 | 51 | 4 | 2 | 0 | 1 |
 | necrons | 157 | 26 | 23 | 116 | 13 | 12 | 0 | 1 |
 | orks | 159 | 33 | 13 | 118 | 14 | 11 | 0 | 3 |
-| tau-empire | 129 | 32 | 7 | 93 | 3 | 4 | 0 | 3 |
-| thousand-sons | 130 | 31 | 9 | 95 | 16 | 19 | 0 | 2 |
+| tau-empire | 129 | 31 | 6 | 94 | 3 | 4 | 0 | 3 |
+| thousand-sons | 130 | 30 | 8 | 96 | 16 | 19 | 0 | 2 |
 | tyranids | 114 | 22 | 8 | 87 | 6 | 8 | 0 | 6 |
 | world-eaters | 133 | 21 | 9 | 104 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **3121** | **744** | **265** | **2201** | **190** | **216** | **0** | **59** |
+| **TOTAL** | **3121** | **736** | **257** | **2209** | **190** | **216** | **0** | **59** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
@@ -41,8 +41,8 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `149` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
 - `81` — effect type "attack-restriction" is not modelled by the buff layer
-- `80` — conditional: cannot evaluate condition "undefined" against current context
 - `79` — effect type "leadership-modifier" is not modelled by the buff layer
+- `79` — conditional: cannot evaluate condition "undefined" against current context
 - `56` — effect type "resurrection" is not modelled by the buff layer
 - `51` — effect type "objective-control-modifier" is not modelled by the buff layer
 - `49` — effect type "cp-refund" is not modelled by the buff layer
@@ -62,6 +62,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `12` — roll-modifier on "charge" is outside the damage path
 - `12` — stat-modifier on "D" is outside the damage path
 - `10` — conditional: cannot evaluate condition "unit-within-range-of" against current context
+- `9` — designate-target debuff on the marked unit: not a buff on the bearer
 - `9` — stat-modifier T: defender-side stat; applies when the buffed unit is the target
 - `8` — conditional: cannot evaluate condition "advanced-this-turn" against current context
 - `8` — dice-gated effect: stochastic; not expressible as a buff

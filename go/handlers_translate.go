@@ -44,8 +44,15 @@ func (s *RunnerState) handleTranslateEffect(args any) map[string]any {
 	if usage, ok := getMap(a, "usage"); ok {
 		ability["usage"] = usage
 	}
-	if trigger, ok := getMap(a, "trigger"); ok {
-		ability["trigger"] = trigger
+	// A trigger may be a single object or an array (fire on any). Mirror the TS
+	// runner's `typeof === "object"` check, which passes both through; the array
+	// is flattened by normalizeTriggers in describeAbility.
+	if t := a["trigger"]; t != nil {
+		if _, isMap := asMap(t); isMap {
+			ability["trigger"] = t
+		} else if _, isList := asList(t); isList {
+			ability["trigger"] = t
+		}
 	}
 	return okResp(map[string]any{"text": describeAbility(ability)})
 }
