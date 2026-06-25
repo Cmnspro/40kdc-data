@@ -1,12 +1,12 @@
 /**
- * BCP opponent-list ingest — shared by the example apps that consume a BCP
- * event pull (teams-planner's prep flow, atc-viewer's public browser).
+ * Opponent-list ingest — shared by the example apps that consume an event
+ * pull (teams-planner's prep flow, atc-viewer's public browser).
  *
  * The data is a sanitized JSON of the shape `{ event, teams: [{ id, name,
  * players: [{ id, name, faction, armyListText }] }] }` (teams-planner pulls it
- * live via `scripts/fetch-bcp-event.ts`; atc-viewer ships a committed snapshot).
+ * live via its event-fetch script; atc-viewer ships a committed snapshot).
  *
- * BCP's `armyListText` wraps a standard GW-app list in a `++++` header preamble
+ * `armyListText` wraps a standard GW-app list in a `++++` header preamble
  * (Player/Team/Factions/Disposition/Detachment). Parsing the raw text misfires
  * (the header lines look like a detachment + a phantom unit), so we split the
  * header off: its fields are a clean structured source (esp. the chosen
@@ -38,7 +38,7 @@ export interface OpponentData {
   teams: OpponentTeam[];
 }
 
-/** Validate a parsed BCP-pull JSON into OpponentData, or null if it isn't one. */
+/** Validate a parsed event-pull JSON into OpponentData, or null if it isn't one. */
 export function loadOpponents(json: unknown): OpponentData | null {
   if (typeof json !== "object" || json === null) return null;
   const obj = json as Record<string, unknown>;
@@ -79,11 +79,11 @@ export function loadOpponents(json: unknown): OpponentData | null {
 
 const PLUS_LINE = /^\++\s*$/;
 
-/** The parsed key→value fields of a BCP `++++` header block (lowercased keys). */
+/** The parsed key→value fields of a `++++` header block (lowercased keys). */
 export type BcpHeader = Record<string, string>;
 
 /**
- * Split BCP's `armyListText` into the header field map and the GW-format body.
+ * Split `armyListText` into the header field map and the GW-format body.
  * If no `++++…++++` header is present, the whole text is the body and the
  * header is empty.
  */
@@ -121,7 +121,7 @@ export function dispositionId(prose: string | undefined | null): ForceDispositio
 }
 
 /**
- * Parse a player's list for review. Strips the BCP header first (see module
+ * Parse a player's list for review. Strips the event-export header first (see module
  * doc) and runs the body through the auto-detecting importer. Returns null when
  * the player has no text list (e.g. an image-only submission). The dataset is
  * injected so this module stays app-agnostic (each app passes its own

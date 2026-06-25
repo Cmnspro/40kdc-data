@@ -3,11 +3,22 @@
   import AppFooter from "../../_shared/AppFooter.svelte";
   import type { OpponentPlayer, OpponentTeam } from "../../_shared/opponents";
   import { atcData } from "./lib/atc-data";
+  import { reveal } from "./lib/me.svelte";
   import Hero from "./lib/Hero.svelte";
   import SearchBar from "./lib/SearchBar.svelte";
   import TeamGroup from "./lib/TeamGroup.svelte";
 
   let query = $state("");
+
+  // "Come say Hi!" clears any active filter first, so the author's own card is in
+  // the DOM before its PlayerCard scrolls to it. Skip the initial run (token 0).
+  let revealSeen = 0;
+  $effect(() => {
+    const t = reveal.token;
+    if (t === 0 || t === revealSeen) return;
+    revealSeen = t;
+    query = "";
+  });
 
   const norm = (s: string | null | undefined) => (s ?? "").toLowerCase();
   const totalPlayers = atcData.teams.reduce((n, t) => n + t.players.length, 0);

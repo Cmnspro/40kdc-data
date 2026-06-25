@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Tailwind v4 auto-detects sources from the Vite root (this app), so utility
+   classes used only in the shared component library (../../_shared, e.g.
+   RosterReview's raw-text <pre>, indentation, dividers) are never generated.
+   Register the dir explicitly so those classes ship. */
+@source "../../_shared";
+
 /* Shadowboxing dialect — industrial near-black, teal accent, inset rim-lit
    elevation. Tokens are the Tailwind v4 `@theme` form, so utilities (bg-bg,
    text-text, bg-accent, font-heading, shadow-md, ...) generate straight from
