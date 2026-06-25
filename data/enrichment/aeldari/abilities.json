@@ -4539,23 +4539,37 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "keyword-grant",
-      "target": "unit",
-      "modifier": {
-        "keywords": [
-          "Sustained Hits 1"
-        ]
-      }
+      "type": "designate-target",
+      "designation": "spirit-mark",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "this-model-starts-or-ends-a-move"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ]
+          }
+        }
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "aura-6",
-      "duration": "permanent"
+      "range": "any-visible",
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "spiritseer"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "Once per turn, in your Movement phase, when this model starts or ends a move. The benefit applies only to one selected friendly WRAITH CONSTRUCT unit within 6\" of this model (the shape models it as all attackers of the marked unit). Lasts until the start of your next Movement phase."
   },
   {
     "ability_id": "tears-of-isha-psychic",

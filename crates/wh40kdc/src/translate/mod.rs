@@ -51,6 +51,25 @@ fn count(n: u64, noun: &str) -> String {
     format!("{n}+ {noun}s")
 }
 
+/// `Number(p.key)` for a battle-round window bound: present-and-not-null integer,
+/// else `None`. Mirrors the TS `p.min/p.max != null ? Number(...) : undefined`.
+pub(super) fn num_param(p: &Map<String, Value>, k: &str) -> Option<i64> {
+    p.get(k)
+        .filter(|v| !v.is_null())
+        .and_then(|v| v.as_i64().or_else(|| v.as_f64().map(|f| f as i64)))
+}
+
+/// Battle-round ordinal: `["zeroth","first",...,"fifth"][n] ?? "{n}th"`. Out of
+/// range (incl. negative) degrades to `<n>th`, matching the TS `bOrd`/`ord` helper.
+pub(super) fn battle_round_ordinal(n: i64) -> String {
+    let table = ["zeroth", "first", "second", "third", "fourth", "fifth"];
+    usize::try_from(n)
+        .ok()
+        .and_then(|i| table.get(i))
+        .map(|s| s.to_string())
+        .unwrap_or_else(|| format!("{n}th"))
+}
+
 /// `EVENT_PHRASES` lookup: a canonical `GameEvent` token → its fixed phrase, or
 /// `None` when unmapped. The single source of truth shared by [`event_clause`]
 /// (reactive triggers) and [`describe_timing`] (canonicalized `timing-is`).
@@ -346,7 +365,23 @@ fn describe_simple(s: &SimpleCondition) -> String {
             format!("{negate}the unit disembarked from a Transport this turn")
         }
         T::FactionRuleActive => format!("{negate}the {} is active", pj(p, "rule")),
-        T::BattleRound => format!("{negate}during the first {} battle rounds", pj(p, "max")),
+        T::BattleRound => {
+            let where_ = match (num_param(p, "min"), num_param(p, "max")) {
+                (Some(min), Some(max)) => {
+                    if min == max {
+                        format!("the {} battle round", battle_round_ordinal(min))
+                    } else {
+                        format!("battle rounds {min}-{max}")
+                    }
+                }
+                (Some(min), None) => {
+                    format!("the {} battle round onward", battle_round_ordinal(min))
+                }
+                (None, Some(max)) => format!("the first {max} battle rounds"),
+                (None, None) => "the battle round".to_string(),
+            };
+            format!("{negate}during {where_}")
+        }
         T::RemainedStationary => format!("{negate}the unit remained stationary"),
         T::UnitBelowStartingStrength => format!("{negate}the unit is below starting strength"),
         T::UnitBelowHalfStrength => {

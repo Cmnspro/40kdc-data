@@ -12,8 +12,12 @@
     type TeamPlan,
     type TeamSize,
   } from "../coverage";
+  import { entitlement } from "../../../../_shared/entitlement.svelte";
   import { ds } from "../dataset";
+  import type { MatrixDoc } from "../matrix/matrix-doc";
+  import type { MatrixTeam } from "../matrix/types";
   import { generateCpuTeam } from "./archetypes";
+  import { matrixTeamToSimPlayers } from "./from-matrix";
   import CardRow from "./CardRow.svelte";
   import FactionCard from "./FactionCard.svelte";
   import { CARD_MS, receiveCard, sendCard } from "./transitions";
@@ -28,9 +32,13 @@
    */
   let {
     plan,
+    matrixDoc,
     onstart,
   }: {
     plan: TeamPlan;
+    /** Threat-matrix doc — source for importing a scouted opponent team as the
+     *  opposing side. Only surfaced to entitled users (matrix-tab gate). */
+    matrixDoc: MatrixDoc;
     onstart: (user: SimPlayer[], cpu: SimPlayer[], size: TeamSize, round: Round) => void;
   } = $props();
 
@@ -42,8 +50,14 @@
   let included = $state<Set<string>>(new Set(plan.players.slice(0, plan.size).map((p) => p.id)));
   /** Each included player's disposition for the round. */
   let fdByPlayer = $state<Record<string, ForceDispositionId>>(seedFds());
-  let cpuTeam = $state<SimPlayer[]>([]);
+  /** Where the opposing team comes from: a random archetype roll, or a scouted
+   *  team imported from the threat matrix. */
+  let opponentSource = $state<"random" | "matrix">("random");
+  /** The randomly-rolled opposing team (used in "random" mode). */
+  let randomTeam = $state<SimPlayer[]>([]);
   let cpuError = $state<string | null>(null);
+  /** Which scouted team is selected for import (used in "matrix" mode). */
+  let selectedMatrixTeamId = $state<string | null>(null);
 
   /** Default each player to their best-tier covered disposition, spreading
    *  across the five before repeating. */
@@ -78,6 +92,33 @@
   const bench = $derived(plan.players.filter((p) => !included.has(p.id)));
   const size = $derived(sanitizeTeamSize(selected.length));
   const sizeOk = $derived(selected.length >= 3 && selected.length <= 8);
+
+  // ── Opponent import (threat matrix) ─────────────────────────────────────────
+  // Scouted opponent teams loaded in the matrix, minus our own. Entitled users
+  // only — the matrix is gated, so non-patrons never see the import affordance.
+  const matrixOpponentTeams = $derived<MatrixTeam[]>(
+    entitlement.connected
+      ? matrixDoc.teamOrder
+          .map((id) => matrixDoc.teamsById[id])
+          .filter((t): t is MatrixTeam => !!t && t.id !== matrixDoc.ourTeamId)
+      : [],
+  );
+  const canImport = $derived(matrixOpponentTeams.length > 0);
+  // Both sides must be equal, so only teams whose player count matches the
+  // chosen roster size are importable.
+  const importableTeams = $derived(matrixOpponentTeams.filter((t) => t.players.length === size));
+  const selectedMatrixTeam = $derived(
+    importableTeams.find((t) => t.id === selectedMatrixTeamId) ?? importableTeams[0] ?? null,
+  );
+  /** The opposing team fed to the sim: the scouted import in matrix mode, else
+   *  the random roll. */
+  const cpuTeam = $derived<SimPlayer[]>(
+    opponentSource === "matrix"
+      ? selectedMatrixTeam
+        ? matrixTeamToSimPlayers(selectedMatrixTeam, matrixDoc)
+        : []
+      : randomTeam,
+  );
 
   /** A plan player as a sim card (factionless players go neutral). */
   function asSimPlayer(p: Player, i: number): SimPlayer {
@@ -115,18 +156,19 @@
   function reroll() {
     if (!sizeOk) return;
     try {
-      cpuTeam = generateCpuTeam(size);
+      randomTeam = generateCpuTeam(size);
       cpuError = null;
     } catch (e) {
-      cpuTeam = [];
+      randomTeam = [];
       cpuError = e instanceof Error ? e.message : String(e);
     }
   }
 
-  // Roll an opposing team whenever the size changes (and on first render).
+  // Roll an opposing team whenever the size changes (and on first render), but
+  // only in random mode — an imported scouted team must never be clobbered.
   $effect(() => {
     void size;
-    reroll();
+    if (opponentSource === "random") reroll();
   });
 
   function start() {
@@ -223,20 +265,71 @@
   </section>
 
   <section class="rounded-md border border-panel-border bg-panel-surface p-3">
-    <div class="mb-2 flex items-center justify-between">
+    <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
       <h2 class="font-heading text-sm font-bold uppercase tracking-wider text-text-muted">
         Opposing team
       </h2>
-      <button
-        type="button"
-        class="focus-ring rounded border border-border-strong px-2 py-1 text-xs uppercase tracking-wide text-text-muted hover:border-accent hover:text-accent"
-        onclick={reroll}
-        disabled={!sizeOk}
-      >
-        ↻ Reroll
-      </button>
+      <div class="flex items-center gap-2">
+        {#if canImport}
+          <!-- Entitled users can rehearse a real ATC matchup by importing a
+               scouted team from the threat matrix instead of a random roll. -->
+          <div class="flex overflow-hidden rounded border border-border-strong text-xs" role="group" aria-label="Opponent source">
+            <button
+              type="button"
+              class="focus-ring px-2 py-1 uppercase tracking-wide
+                     {opponentSource === 'random' ? 'bg-accent text-accent-foreground' : 'text-text-muted hover:text-text'}"
+              aria-pressed={opponentSource === "random"}
+              onclick={() => (opponentSource = "random")}
+            >⟳ Random</button>
+            <button
+              type="button"
+              class="focus-ring px-2 py-1 uppercase tracking-wide
+                     {opponentSource === 'matrix' ? 'bg-accent text-accent-foreground' : 'text-text-muted hover:text-text'}"
+              aria-pressed={opponentSource === "matrix"}
+              onclick={() => (opponentSource = "matrix")}
+            >📋 From threat matrix</button>
+          </div>
+        {/if}
+        {#if opponentSource === "random"}
+          <button
+            type="button"
+            class="focus-ring rounded border border-border-strong px-2 py-1 text-xs uppercase tracking-wide text-text-muted hover:border-accent hover:text-accent"
+            onclick={reroll}
+            disabled={!sizeOk}
+          >
+            ↻ Reroll
+          </button>
+        {/if}
+      </div>
     </div>
-    {#if cpuError}
+
+    {#if opponentSource === "matrix"}
+      {#if !sizeOk}
+        <p class="text-sm text-text-dim">Select 3–8 players first.</p>
+      {:else if importableTeams.length === 0}
+        <p class="text-sm text-text-dim">
+          No scouted team has {size} players. Adjust your roster size, or load the event and set
+          rosters on the <strong>Threat matrix</strong> tab.
+        </p>
+      {:else}
+        <label class="mb-2 flex flex-col gap-1">
+          <span class="font-heading text-[10px] font-bold uppercase tracking-wider text-text-dim">
+            Scouted team
+          </span>
+          <select
+            class="focus-ring rounded border border-border-strong bg-panel px-2 py-1.5 text-sm text-text"
+            value={selectedMatrixTeam?.id ?? ""}
+            aria-label="Scouted opponent team"
+            onchange={(e) => (selectedMatrixTeamId = (e.currentTarget as HTMLSelectElement).value)}
+          >
+            {#each importableTeams as t (t.id)}
+              <option value={t.id}>{t.name}</option>
+            {/each}
+          </select>
+        </label>
+        <CardRow label="" players={cpuTeam} size="md" />
+      {/if}
+    {:else if cpuError}
       <p class="text-sm text-danger">{cpuError}</p>
     {:else if cpuTeam.length === 0}
       <p class="text-sm text-text-dim">Select 3–8 players to roll an opposing team.</p>

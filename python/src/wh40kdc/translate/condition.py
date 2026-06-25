@@ -41,6 +41,25 @@ def _count(n: Any, noun: str) -> str:
     return f"{_str(n)}+ {noun}s"
 
 
+def _round_number(v: Any) -> float | int | None:
+    """JS ``Number(v)`` collapsing integral floats to int; None on non-numeric."""
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return int(f) if f.is_integer() else f
+
+
+_BATTLE_ROUND_ORDS = ["zeroth", "first", "second", "third", "fourth", "fifth"]
+
+
+def _battle_round_ord(n: float | int) -> str:
+    """Ordinal name for a battle round (``["zeroth"..."fifth"][n] ?? "<n>th"``)."""
+    if isinstance(n, int) and 0 <= n < len(_BATTLE_ROUND_ORDS):
+        return _BATTLE_ROUND_ORDS[n]
+    return f"{_str(n)}th"
+
+
 # Legacy ``timing-is`` tokens → canonical ``game-event`` keys. The alias map keeps
 # un-migrated strings rendering identically through the one vocabulary
 # (``event_clause`` / ``_EVENT_PHRASES``). Mirrors TS TIMING_ALIASES.
@@ -451,5 +470,21 @@ def describe_condition(c: Condition) -> str:
         return f"{negate}you are engaged on {_str(n)}+ fronts"
     if ctype == "token-count-at-or-above":
         return f"{negate}the unit has {_str(p.get('threshold'))}+ {dekebab(_str(p.get('pool_id')))}"
+    if ctype == "battle-round":
+        b_min = _round_number(p.get("min")) if p.get("min") is not None else None
+        b_max = _round_number(p.get("max")) if p.get("max") is not None else None
+        if b_min is not None and b_max is not None:
+            where = (
+                f"the {_battle_round_ord(b_min)} battle round"
+                if b_min == b_max
+                else f"battle rounds {_str(b_min)}-{_str(b_max)}"
+            )
+        elif b_min is not None:
+            where = f"the {_battle_round_ord(b_min)} battle round onward"
+        elif b_max is not None:
+            where = f"the first {_str(b_max)} battle rounds"
+        else:
+            where = "the battle round"
+        return f"{negate}during {where}"
 
     return f"{negate}{dekebab(ctype if ctype is not None else 'unknown')}"

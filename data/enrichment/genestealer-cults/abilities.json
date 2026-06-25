@@ -1436,31 +1436,36 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "shooting"
+      "type": "designate-target",
+      "designation": "priority-target",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "ones"
+          }
         }
       },
-      "effect": {
-        "type": "re-roll",
-        "target": "unit",
-        "modifier": {
-          "roll": "hit",
-          "subset": "ones"
-        }
-      }
+      "duration": "phase"
     },
     "scope": {
-      "range": "unit",
+      "range": "any-visible",
       "duration": "phase"
     },
     "unit_ids": [
       "jackal-alphus"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "Selected via cult sniper rifle hits; only friendly Genestealer Cults models' attacks against the marked unit benefit."
   },
   {
     "ability_id": "master-outrider",

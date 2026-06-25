@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { TeamPlan, TeamSize } from "../coverage";
+  import type { MatrixDoc } from "../matrix/matrix-doc";
   import { createSim, randomStrategy, roundLayout } from "./engine";
   import PairingMat from "./PairingMat.svelte";
   import RosterSetup from "./RosterSetup.svelte";
@@ -11,8 +12,11 @@
    * roster picker and never writes back — sim state is local and ephemeral
    * (deliberately outside the shared/synced plan doc), so a remote plan edit
    * mid-walkthrough can't yank the table out from under the exercise.
+   *
+   * `matrixDoc` is read-only here: it lets an entitled captain import a scouted
+   * opponent team from the threat matrix as the opposing side (see RosterSetup).
    */
-  let { plan }: { plan: TeamPlan } = $props();
+  let { plan, matrixDoc }: { plan: TeamPlan; matrixDoc: MatrixDoc } = $props();
 
   const cpu = randomStrategy(Math.random);
 
@@ -32,7 +36,7 @@
 
 <div class="flex flex-col gap-4">
   {#if !sim}
-    <RosterSetup {plan} onstart={start} />
+    <RosterSetup {plan} {matrixDoc} onstart={start} />
   {:else}
     <!-- Module progress strip -->
     <ol class="flex flex-wrap gap-1.5">

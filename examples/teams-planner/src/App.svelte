@@ -504,7 +504,7 @@
         onLoadExample={loadExample}
       />
     {:else if view === "sim"}
-      <PairingsSimulator {plan} />
+      <PairingsSimulator {plan} {matrixDoc} />
     {:else if entitlement.connected}
       <MatrixView
         doc={matrixDoc}

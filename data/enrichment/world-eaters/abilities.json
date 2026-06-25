@@ -1265,7 +1265,11 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true,
-      "move_types": ["normal", "advance", "fall-back"],
+      "move_types": [
+        "normal",
+        "advance",
+        "fall-back"
+      ],
       "proximity": {
         "of": "bearer",
         "range": 9
@@ -1565,42 +1569,32 @@
     "ability_type": "unit",
     "behavior": "activated",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "operator": "and",
-        "operands": [
-          {
-            "type": "phase-is",
-            "parameters": {
-              "phase": "shooting"
-            }
-          },
-          {
-            "type": "player-turn-is",
-            "parameters": {
-              "turn": "your-turn"
-            }
-          }
-        ]
+      "type": "designate-target",
+      "designation": "suppressed",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
       },
-      "effect": {
-        "type": "roll-modifier",
-        "target": "defender",
-        "modifier": {
-          "roll": "hit",
-          "operation": "subtract",
-          "value": 1
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "subtract",
+            "value": 1
+          }
         }
-      }
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
       "range": "any-visible",
       "duration": "until-next-command-phase"
     },
-    "trigger": {
-      "event": "end-of-phase",
-      "subject": "bearer"
-    }
+    "community_notes": "MONSTER and VEHICLE units cannot be suppressed."
   },
   {
     "ability_id": "blood-surge",
@@ -2384,7 +2378,11 @@
         "event": "enemy-unit-ended-move",
         "subject": "enemy-unit",
         "optional": true,
-        "move_types": ["normal", "advance", "fall-back"],
+        "move_types": [
+          "normal",
+          "advance",
+          "fall-back"
+        ],
         "proximity": {
           "of": "bearer",
           "range": 9

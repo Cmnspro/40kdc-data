@@ -8,13 +8,15 @@
    * (exactly like the team plan). Cells are keyed `<ourPlayerId>:<opponentId>`
    * so concurrent edits commute under the sync server.
    */
+  import type { ForceDispositionId } from "@alpaca-software/40kdc-data";
   import Modal from "../../../../_shared/Modal.svelte";
   import RosterReview from "../../../../_shared/RosterReview.svelte";
+  import { DISPOSITION_LABELS, DISPOSITIONS } from "../../../../_shared/matchup-grid.js";
   import { DISPOSITION_COLORS } from "../dispositions";
   import { factionOptions, type TeamPlan } from "../coverage";
   import type { OpponentData, OpponentPlayer } from "../../../../_shared/opponents";
   import { ds } from "../dataset";
-  import { cellKey, seedOurPlayers, type MatrixDoc } from "./matrix-doc";
+  import { cellKey, effectiveDisposition, seedOurPlayers, type MatrixDoc } from "./matrix-doc";
   import { nextVerdict, VERDICT_HUE, type Verdict } from "./types";
 
   let {
@@ -41,6 +43,8 @@
   const selectedTeam = $derived(
     teams.find((t) => t.id === selectedTeamId) ?? teams.find((t) => t.id !== doc.ourTeamId) ?? teams[0] ?? null,
   );
+  /** Our player chosen as the lead-off defender into the *selected* opponent. */
+  const leadOffId = $derived(selectedTeam ? (doc.leadOffByTeam[selectedTeam.id] ?? null) : null);
 
   const allFactions = factionOptions();
   const factionName = (id: string) => allFactions.find((f) => f.id === id)?.name ?? id;
@@ -60,6 +64,25 @@
 
   function setOurTeam(id: string | null): void {
     onChange({ ...doc, ourTeamId: id });
+  }
+
+  /** Hand-enter (or clear, with "") an opponent's Force Disposition. Stored as an
+   *  id-keyed override; clearing falls the cell back to the parsed default. */
+  function setDisposition(opponentId: string, value: string): void {
+    const next = { ...doc.dispositionsById };
+    if (value === "") delete next[opponentId];
+    else next[opponentId] = value as ForceDispositionId;
+    onChange({ ...doc, dispositionsById: next });
+  }
+
+  /** Mark (or, if re-clicked, clear) our lead-off defender vs the selected team.
+   *  Radio-like: at most one lead-off per opponent team. */
+  function setLeadOff(ourId: string): void {
+    if (!selectedTeam) return;
+    const next = { ...doc.leadOffByTeam };
+    if (next[selectedTeam.id] === ourId) delete next[selectedTeam.id];
+    else next[selectedTeam.id] = ourId;
+    onChange({ ...doc, leadOffByTeam: next });
   }
 
   /** Re-snapshot our rows from the live plan (the plan isn't carried over the
@@ -157,13 +180,26 @@
                 {doc.ourTeamName || "Our team"}
               </th>
               {#each selectedTeam.players as opp (opp.id)}
+                {@const eff = effectiveDisposition(doc, opp)}
                 <th class="px-3 py-2 text-center align-top font-normal">
                   <div class="flex flex-col items-center gap-0.5">
                     <span class="font-medium text-text">{opp.name}</span>
                     {#if opp.faction}<span class="text-xs text-text-dim">{opp.faction}</span>{/if}
-                    {#if opp.disposition}
-                      <span class="rounded px-1 text-xs" style="color:{DISPOSITION_COLORS[opp.disposition]}">●&nbsp;{opp.disposition.replace(/-/g, " ")}</span>
+                    {#if eff}
+                      <span class="rounded px-1 text-xs" style="color:{DISPOSITION_COLORS[eff]}">●&nbsp;{eff.replace(/-/g, " ")}</span>
                     {/if}
+                    <select
+                      class="focus-ring mt-0.5 max-w-[8rem] rounded border border-panel-border bg-panel px-1 py-0.5 text-xs text-text-muted"
+                      value={eff ?? ""}
+                      aria-label="Force Disposition for {opp.name}"
+                      title="Record this opponent's Force Disposition"
+                      onchange={(e) => setDisposition(opp.id, (e.currentTarget as HTMLSelectElement).value)}
+                    >
+                      <option value="">— disposition —</option>
+                      {#each DISPOSITIONS as d (d)}
+                        <option value={d}>{DISPOSITION_LABELS[d]}</option>
+                      {/each}
+                    </select>
                     <button
                       type="button"
                       class="focus-ring mt-0.5 rounded border border-panel-border px-1.5 py-0.5 text-xs text-text-dim hover:text-text disabled:cursor-default disabled:opacity-50"
@@ -178,12 +214,39 @@
           </thead>
           <tbody>
             {#each doc.ourPlayers as our (our.id)}
-              <tr class="border-t border-panel-border/60 hover:bg-panel-hover/40">
-                <th scope="row" class="sticky left-0 z-10 bg-panel px-3 py-2 text-left font-normal">
-                  <div class="font-medium text-text">{our.name || "—"}</div>
-                  {#if our.factionIds.length > 0}
-                    <div class="text-xs text-text-dim">{our.factionIds.map(factionName).join(", ")}</div>
-                  {/if}
+              {@const isLeadOff = our.id === leadOffId}
+              <tr class="border-t border-panel-border/60 hover:bg-panel-hover/40 {isLeadOff ? 'bg-accent-dim/20' : ''}">
+                <th
+                  scope="row"
+                  class="sticky left-0 z-10 px-3 py-2 text-left font-normal {isLeadOff ? 'border-l-4 border-accent bg-accent-dim/40' : 'bg-panel'}"
+                >
+                  <div class="flex items-start gap-1.5">
+                    <button
+                      type="button"
+                      class="focus-ring mt-0.5 shrink-0 rounded leading-none {present ? 'text-xl' : 'text-base'} {isLeadOff ? 'opacity-100' : 'opacity-40 hover:opacity-90'}"
+                      aria-pressed={isLeadOff}
+                      onclick={() => setLeadOff(our.id)}
+                      title={isLeadOff
+                        ? `${our.name || "our player"} is our lead-off defender vs ${selectedTeam.name} — click to clear`
+                        : `Set ${our.name || "our player"} as lead-off defender vs ${selectedTeam.name}`}
+                      aria-label={isLeadOff
+                        ? `${our.name || "our player"} is the lead-off defender vs ${selectedTeam.name}; click to clear`
+                        : `Set ${our.name || "our player"} as lead-off defender vs ${selectedTeam.name}`}
+                    >🛡</button>
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-medium text-text">{our.name || "—"}</span>
+                        {#if isLeadOff}
+                          <span
+                            class="rounded bg-accent px-1 py-0.5 font-bold uppercase leading-none tracking-wider text-white {present ? 'text-xs' : 'text-[0.6rem]'}"
+                          >Lead off</span>
+                        {/if}
+                      </div>
+                      {#if our.factionIds.length > 0}
+                        <div class="text-xs text-text-dim">{our.factionIds.map(factionName).join(", ")}</div>
+                      {/if}
+                    </div>
+                  </div>
                 </th>
 
                 {#each selectedTeam.players as opp (opp.id)}

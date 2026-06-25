@@ -97,6 +97,34 @@ def _walk(node: Any, source: BuffSource, opts: dict[str, Any], out: EffectTransl
     elif node_type == "select-units":
         # Targeting wrapper — the selected units receive the nested effect.
         _walk(node.get("effect"), source, opts, out)
+    elif node_type == "designate-target":
+        # Mark an enemy unit; when `to: attackers-of-target` the nested effect is
+        # a buff every friendly attack against that unit receives (Oath of Moment).
+        # A `to: target` debuff lands on the enemy, not the bearer, so it is not a
+        # buff in this perspective.
+        applies_raw = node.get("applies")
+        applies = applies_raw if isinstance(applies_raw, dict) else {}
+        if applies.get("to") == "attackers-of-target":
+            _walk(applies.get("effect"), source, opts, out)
+        else:
+            out["unsupported"].append(
+                {
+                    "reason": (
+                        "designate-target debuff on the marked unit: "
+                        "not a buff on the bearer"
+                    ),
+                    "effectFragment": node,
+                }
+            )
+    elif node_type == "risk-reward":
+        # The reward is the buff; the risk (self-damage on a failed test) is not.
+        _walk(node.get("reward"), source, opts, out)
+    elif node_type == "stance-select":
+        # Pick-one modal buff — each option is an opt-in lever (pick one).
+        _enumerate_named_options(node, source, opts, out, f"{opts['abilityId']}?stance", 1)
+    elif node_type == "issue-orders":
+        # Officer issues one Order from the menu — each is an opt-in lever.
+        _enumerate_named_options(node, source, opts, out, f"{opts['abilityId']}?order", 1)
     else:
         # Unknown effect — record it. Covers ability-grant, deep-strike,
         # mortal-wounds, cp-gain, movement-modifier, etc.
@@ -714,6 +742,38 @@ def _enumerate_dice_pool(
                 "label": name,
                 "buffs": buffs,
                 "group": {"id": opts["abilityId"], "maxActivations": max_activations},
+            }
+        )
+
+
+def _enumerate_named_options(
+    node: dict[str, Any],
+    source: BuffSource,
+    opts: dict[str, Any],
+    out: EffectTranslation,
+    group_id: str,
+    max_activations: int,
+) -> None:
+    """Emit one opt-in lever per buff-bearing named option (stance-select /
+    issue-orders)."""
+    options = node.get("options")
+    if not isinstance(options, list):
+        options = []
+    for opt in options:
+        if not _is_object(opt):
+            continue
+        buffs: list[Buff] = []
+        _collect_gated_buffs(opt.get("effect"), source, opts, {}, buffs)
+        if not buffs:
+            continue
+        opt_name = opt.get("name")
+        name = opt_name if isinstance(opt_name, str) and opt_name else _label_for_buffs(buffs)
+        out["activatable"].append(
+            {
+                "id": f"{opts['abilityId']}#{name}",
+                "label": name,
+                "buffs": buffs,
+                "group": {"id": group_id, "maxActivations": max_activations},
             }
         )
 

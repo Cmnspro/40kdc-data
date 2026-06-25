@@ -201,18 +201,25 @@ class Dataset:
         """
         out: list[ReactiveTrigger] = []
         for a in self.abilities.all:
-            trigger = a.raw.get("trigger")
-            if not trigger:
+            raw = a.raw.get("trigger")
+            if not raw:
                 continue
+            # `trigger` may be a single object or an array (the ability fires on
+            # any); emit one ReactiveTrigger per event so the dispatch index keys
+            # them all. Mirror of TS reactiveTriggers.
+            triggers = raw if isinstance(raw, list) else [raw]
             unit_ids = sorted(u["id"] for u in self._units_by_ability.get(a.id, []))
-            out.append(
-                ReactiveTrigger(
-                    ability_id=a.id,
-                    event=trigger["event"],
-                    unit_ids=unit_ids,
-                    trigger=trigger,
+            for trigger in triggers:
+                if not isinstance(trigger, dict) or trigger.get("event") is None:
+                    continue
+                out.append(
+                    ReactiveTrigger(
+                        ability_id=a.id,
+                        event=trigger["event"],
+                        unit_ids=unit_ids,
+                        trigger=trigger,
+                    )
                 )
-            )
         out.sort(key=lambda rt: rt["ability_id"])
         return out
 

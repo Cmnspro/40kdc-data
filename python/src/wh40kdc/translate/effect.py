@@ -26,7 +26,17 @@ from wh40kdc.translate.condition import (
 Effect = dict[str, Any]
 Ctx = dict[str, Any]
 
-_CONTAINER_TYPES = {"sequence", "choice", "dice-gated", "dice-pool-allocation", "select-units"}
+_CONTAINER_TYPES = {
+    "sequence",
+    "choice",
+    "dice-gated",
+    "dice-pool-allocation",
+    "select-units",
+    "designate-target",
+    "stance-select",
+    "risk-reward",
+    "issue-orders",
+}
 
 
 def _select_units_subject(sel: Any) -> str:
@@ -52,6 +62,25 @@ def _jstr(v: Any) -> str:
     if isinstance(v, float) and v.is_integer():
         return str(int(v))
     return str(v)
+
+
+def _round_number(v: Any) -> float | int | None:
+    """JS ``Number(v)`` collapsing integral floats to int; None on non-numeric."""
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return int(f) if f.is_integer() else f
+
+
+_BATTLE_ROUND_ORDS = ["zeroth", "first", "second", "third", "fourth", "fifth"]
+
+
+def _battle_round_ord(n: float | int) -> str:
+    """Ordinal name for a battle round (``["zeroth"..."fifth"][n] ?? "<n>th"``)."""
+    if isinstance(n, int) and 0 <= n < len(_BATTLE_ROUND_ORDS):
+        return _BATTLE_ROUND_ORDS[n]
+    return f"{_jstr(n)}th"
 
 
 def _capitalize(s: str) -> str:
@@ -207,7 +236,8 @@ def _subject(target: str | None, ctx: Ctx) -> str:
     if target == "attacker":
         return "the attacking unit"
     if target == "defender":
-        return "your unit"
+        # The defending unit in an attack is the enemy from the bearer's view.
+        return "the target"
     if target == "all-friendly":
         return "all friendly units"
     if target == "all-enemy":
@@ -334,6 +364,14 @@ def _describe_trigger(t: dict[str, Any]) -> str:
     """Reactive trigger -> front-of-sentence lead clause
     ("an enemy unit ends a move within 9\" of this model")."""
     s = event_clause(t.get("event"))
+    # Narrow a move event to its move kinds: "ends a move" -> "ends a Normal,
+    # Advance or Fall Back move".
+    move_types = t.get("move_types")
+    if isinstance(move_types, list) and move_types:
+        kinds = _or_list(
+            ["Fall Back" if mt == "fall-back" else _cap_word(_jstr(mt)) for mt in move_types]
+        )
+        s = re.sub(r"\bmove\b", lambda _m: f"{kinds} move", s, count=1)
     prox = t.get("proximity") or {}
     if prox.get("range") is not None:
         of_kind = prox.get("of")
@@ -467,7 +505,17 @@ def _condition_lead_in(c: Condition) -> str:
     if ctype == "faction-rule-active":
         return f"while the {_title_case(_jstr(p.get('rule')))} is active"
     if ctype == "battle-round":
-        return f"during the first {_jstr(p.get('max'))} battle rounds"
+        b_min = _round_number(p.get("min")) if p.get("min") is not None else None
+        b_max = _round_number(p.get("max")) if p.get("max") is not None else None
+        if b_min is not None and b_max is not None:
+            if b_min == b_max:
+                return f"during the {_battle_round_ord(b_min)} battle round"
+            return f"during battle rounds {_jstr(b_min)}-{_jstr(b_max)}"
+        if b_min is not None:
+            return f"from the {_battle_round_ord(b_min)} battle round onward"
+        if b_max is not None:
+            return f"during the first {_jstr(b_max)} battle rounds"
+        return "during the battle round"
     if ctype == "token-count-at-or-above":
         return f"while the unit has {_jstr(p.get('threshold'))}+ {_pool_name(p.get('pool_id'))}"
     if ctype == "remained-stationary":
@@ -1039,6 +1087,27 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         )
     if etype == "cp-gain":
         return f"you gain {_jstr(m.get('amount') if m.get('amount') is not None else 1)}CP"
+    if etype == "cp-on-destroy":
+        kw = (
+            f"{_jstr(m['enemy_keyword'])} model"
+            if m.get("enemy_keyword") is not None
+            else "enemy model"
+        )
+        who = "this model's unit" if subj == "this model" else subj
+        amount = m.get("amount") if m.get("amount") is not None else 1
+        return f"each time {who} destroys a {kw}, you gain {_jstr(amount)}CP"
+    if etype == "battle-shock-test":
+        die = _dice_case(m.get("dice"))
+        return f"{subj} {_v(subj, 'takes')} Battle-shock tests on {die} instead of 2D6"
+    if etype == "flyover":
+        hit = _pool_threshold(_jstr(m.get("comparison") or "gte"), m.get("threshold"))
+        per = _jstr(m.get("mortal_wounds") if m.get("mortal_wounds") is not None else 1)
+        per_noun = "mortal wound" if per == "1" else "mortal wounds"
+        return (
+            f"each time this model ends a Normal move, select one enemy unit it moved over "
+            f"and roll {_dice_case(m.get('dice'))}: for each {hit}, that unit suffers "
+            f"{per} {per_noun}"
+        )
     if etype == "cp-refund":
         if m.get("stratagem") is not None:
             strat = f"the {_title_case(_jstr(m.get('stratagem')))} Stratagem"
@@ -1218,6 +1287,36 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             f"select {_select_units_subject(e.get('selector'))}: "
             f"{describe_effect_inline(e.get('effect') or {}, ctx)}"
         )
+    if etype == "designate-target":
+        sel_raw = e.get("select")
+        sel = sel_raw if isinstance(sel_raw, dict) else {}
+        scope_noun = "friendly" if sel.get("scope") == "friendly-unit" else "enemy"
+        applies = e.get("applies") or {}
+        when = (
+            "while it is your target"
+            if applies.get("to") == "target"
+            else "each time a friendly unit attacks it"
+        )
+        inner = describe_effect_inline(applies.get("effect") or {}, ctx)
+        return f"select one {scope_noun} unit; {when}, {inner}"
+    if etype == "stance-select":
+        opts = " / ".join(
+            f"{_jstr(o.get('name'))} ({describe_effect_inline(o.get('effect') or {}, ctx)})"
+            for o in e.get("options") or []
+        )
+        return f"select one: {opts}"
+    if etype == "risk-reward":
+        risk = e.get("risk") or {}
+        on_fail = risk.get("on_fail")
+        fail_txt = describe_effect_inline(on_fail, ctx) if on_fail else "suffer a consequence"
+        reward = describe_effect_inline(e.get("reward") or {}, ctx)
+        return (
+            f"take a {_test_name(risk.get('test'))} test (on a failure, {fail_txt}), "
+            f"then {reward}"
+        )
+    if etype == "issue-orders":
+        names = " / ".join(_jstr(o.get("name")) for o in e.get("options") or [])
+        return f"issue Orders, each one of: {names}"
 
     return f"[{etype if etype is not None else 'unknown'}]"
 
@@ -1273,6 +1372,61 @@ def describe_effect(e: Effect, depth: int = 0, ctx: Ctx | None = None) -> str:
         if inner.get("type") in _CONTAINER_TYPES:
             return f"{indent}{arrow}{lead}:\n" + describe_effect(inner, depth + 1, ctx)
         return f"{indent}{arrow}{lead}: {describe_effect_inline(inner, ctx)}."
+    if etype == "designate-target":
+        sel_raw = e.get("select")
+        sel = sel_raw if isinstance(sel_raw, dict) else {}
+        scope_noun = "friendly" if sel.get("scope") == "friendly-unit" else "enemy"
+        desig = f" (your {dekebab(_jstr(e['designation']))})" if e.get("designation") else ""
+        applies = e.get("applies") or {}
+        inner = applies.get("effect") or {}
+        when = (
+            "While it is your target"
+            if applies.get("to") == "target"
+            else "Each time a friendly unit makes an attack against it"
+        )
+        head = f"{indent}{arrow}Select one {scope_noun} unit{desig}. {when}"
+        if inner.get("type") in _CONTAINER_TYPES:
+            return f"{head}:\n" + describe_effect(inner, depth + 1, ctx)
+        return f"{head}, {describe_effect_inline(inner, ctx)}."
+    if etype == "stance-select":
+        select = e.get("select")
+        when = (
+            _capitalize(event_clause(select))
+            if isinstance(select, str)
+            else "At the start of your turn"
+        )
+        consum = " (each may be chosen once per battle)" if e.get("mode") == "consumable" else ""
+        lines = [f"{indent}{arrow}{when}, select one{consum}:"]
+        for opt in e.get("options") or []:
+            lines.append(
+                f"{indent}  - {_jstr(opt.get('name'))}: "
+                f"{describe_effect_inline(opt.get('effect') or {}, ctx)}."
+            )
+        return "\n".join(lines)
+    if etype == "risk-reward":
+        risk = e.get("risk") or {}
+        on_fail = risk.get("on_fail")
+        on_fail_txt = describe_effect_inline(on_fail, ctx) if on_fail else "there is a consequence"
+        reward = describe_effect_inline(e.get("reward") or {}, ctx)
+        return (
+            f"{indent}{arrow}First take a {_test_name(risk.get('test'))} test — "
+            f"on a failure, {on_fail_txt}; then {reward}."
+        )
+    if etype == "issue-orders":
+        n = _jstr(e.get("count")) if e.get("count") is not None else "one or more"
+        rng = f' within {_jstr(e["range"])}"' if e.get("range") is not None else ""
+        eligible = e.get("eligible") or {}
+        elig = f" {_jstr(eligible['keyword'])}" if eligible.get("keyword") else ""
+        lines = [
+            f"{indent}{arrow}Issue up to {n} Orders to eligible friendly{elig} units{rng}, "
+            "each one of:"
+        ]
+        for opt in e.get("options") or []:
+            lines.append(
+                f"{indent}  - {_jstr(opt.get('name'))}: "
+                f"{describe_effect_inline(opt.get('effect') or {}, ctx)}."
+            )
+        return "\n".join(lines)
     # Leaf at block position — a single capitalized sentence.
     return f"{indent}{arrow}{_capitalize(describe_effect_inline(e, ctx))}."
 
@@ -1321,11 +1475,33 @@ def _aura_radius(scope: dict[str, Any] | None) -> float | int | None:
     return int(m.group(1)) if m else None
 
 
+def _normalize_triggers(t: Any) -> list[dict[str, Any]]:
+    """Normalize the polymorphic trigger field to a flat list (empty when absent)."""
+    if t is None:
+        return []
+    return list(t) if isinstance(t, list) else [t]
+
+
+def _timing_of_condition(c: dict[str, Any] | None) -> str | None:
+    """The timing value of a bare ``timing-is`` condition, else None."""
+    if c and c.get("type") == "timing-is":
+        return _jstr((c.get("parameters") or {}).get("timing"))
+    return None
+
+
+def _condition_within_range(c: dict[str, Any] | None) -> float | int | None:
+    """The numeric range of a top-level within-range condition, else None."""
+    if not c or c.get("type") not in ("unit-within-range-of", "opponent-unit-within-range"):
+        return None
+    r = (c.get("parameters") or {}).get("range")
+    return r if isinstance(r, (int, float)) and not isinstance(r, bool) else None
+
+
 def _render_top_level(
     e: Effect,
     scope: dict[str, Any] | None,
     usage: dict[str, Any] | None = None,
-    trigger: dict[str, Any] | None = None,
+    trigger: Any = None,
 ) -> str:
     ctx: Ctx = {
         "range_inches": _aura_radius(scope),
@@ -1334,12 +1510,37 @@ def _render_top_level(
     dur_lead, trail = _duration_clauses((scope or {}).get("duration"))
     # An explicit usage limit supersedes the duration's coarse "once per battle" lead.
     lead = _usage_clause(usage) if usage and usage.get("frequency") is not None else dur_lead
-    # A reactive trigger opens the sentence ("Each time ...").
-    trig = _describe_trigger(trigger) if trigger and trigger.get("event") is not None else ""
+
+    # A reactive trigger (or several — the ability fires on any) opens the
+    # sentence ("Each time ..."). B2: when a trigger's proximity just restates a
+    # within-range condition on the effect, render the range once (drop it here).
+    triggers = [t for t in _normalize_triggers(trigger) if t.get("event") is not None]
+    trigger_events = {t.get("event") for t in triggers}
+    cond_range = _condition_within_range(
+        e.get("condition") if e.get("type") == "conditional" else None
+    )
+    trig_parts: list[str] = []
+    for t in triggers:
+        prox = t.get("proximity") or {}
+        if cond_range is not None and prox.get("range") == cond_range:
+            t_render = {k: val for k, val in t.items() if k != "proximity"}
+        else:
+            t_render = t
+        s = _describe_trigger(t_render)
+        if s:
+            trig_parts.append(s)
+    trig = " or ".join(trig_parts)
 
     if e.get("type") == "conditional":
         inner = e.get("effect") or {}
-        lead_in = _condition_lead_in(e.get("condition") or {})
+        # B1: drop the condition lead-in when it merely restates a trigger's timing
+        # (e.g. trigger start-of-phase + condition timing-is start-of-phase).
+        cond_timing = _timing_of_condition(e.get("condition"))
+        lead_in = (
+            ""
+            if (cond_timing is not None and cond_timing in trigger_events)
+            else _condition_lead_in(e.get("condition") or {})
+        )
         if inner.get("type") in _CONTAINER_TYPES:
             header = ", ".join(part for part in (trig, lead, lead_in, trail) if part)
             return _capitalize(header) + ":\n" + describe_effect(inner, 1, ctx)
