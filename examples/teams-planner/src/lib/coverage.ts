@@ -127,7 +127,7 @@ export function dispositionCap(size: TeamSize): number {
 
 /** Detachment-point cost of one detachment (0 when unassigned/unknown). */
 export function detachmentPointCost(detachmentId: string): number {
-  return ds.detachments.get(detachmentId)?.detachment_points ?? 0;
+  return ds.detachments.getAny(detachmentId)?.detachment_points ?? 0;
 }
 
 /** Total DP of an army's combo. Soft-capped at 3 in the UI, not enforced here. */
@@ -139,7 +139,7 @@ export function armyDetachmentPoints(army: Army): number {
 export function armyDispositions(army: Army): Set<ForceDispositionId> {
   const out = new Set<ForceDispositionId>();
   for (const id of army.detachmentIds) {
-    for (const fd of ds.detachments.get(id)?.force_dispositions ?? []) {
+    for (const fd of ds.detachments.getAny(id)?.force_dispositions ?? []) {
       out.add(fd as ForceDispositionId);
     }
   }
@@ -445,12 +445,12 @@ export function detachmentsByFaction(factionIds: string[]): FactionDetachments[]
 
 /** Detachment display name (falls back to the id when unknown). */
 export function detachmentName(id: string): string {
-  return ds.detachments.get(id)?.name ?? id;
+  return ds.detachments.getAny(id)?.name ?? id;
 }
 
 /** The force dispositions a single detachment grants. */
 export function detachmentDispositions(id: string): ForceDispositionId[] {
-  return (ds.detachments.get(id)?.force_dispositions ?? []) as ForceDispositionId[];
+  return (ds.detachments.getAny(id)?.force_dispositions ?? []) as ForceDispositionId[];
 }
 
 /**
@@ -460,7 +460,7 @@ export function detachmentDispositions(id: string): ForceDispositionId[] {
  * faction context is known, prefer {@link factionFieldsDetachment}.
  */
 export function detachmentFaction(id: string): string | null {
-  return ds.detachments.get(id)?.faction_id ?? null;
+  return ds.detachments.getAny(id)?.faction_id ?? null;
 }
 
 /** Whether `factionId` can field detachment `id` (its per-faction view holds it). */
@@ -497,5 +497,5 @@ export function isKnownFaction(id: string): boolean {
 
 /** True iff the detachment id resolves in the dataset. */
 export function isKnownDetachment(id: string): boolean {
-  return ds.detachments.get(id) != null;
+  return ds.detachments.getAny(id) != null;
 }

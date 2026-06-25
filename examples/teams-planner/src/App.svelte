@@ -7,6 +7,16 @@
   import PlanView from "./lib/PlanView.svelte";
   import SharePlanModal from "./lib/SharePlanModal.svelte";
   import PairingsSimulator from "./lib/pairings/PairingsSimulator.svelte";
+  import MatrixView from "./lib/matrix/MatrixView.svelte";
+  import {
+    diffMatrixDocs,
+    emptyMatrixDoc,
+    isMatrixShaped,
+    normalizeMatrixDoc,
+    seedMatrixDoc,
+    type MatrixDoc,
+  } from "./lib/matrix/matrix-doc";
+  import { loadOpponents, type OpponentData } from "./lib/opponents";
   import AppHeader from "../../_shared/AppHeader.svelte";
   import AppFooter from "../../_shared/AppFooter.svelte";
   import PwaInstallPrompt from "../../_shared/PwaInstallPrompt.svelte";
@@ -16,7 +26,7 @@
   import LiveSessionWidget from "../../_shared/LiveSessionWidget.svelte";
   import ShareLinksModal from "../../_shared/ShareLinksModal.svelte";
   import Modal from "../../_shared/Modal.svelte";
-  import { maybeCaptureEntitlement } from "../../_shared/entitlement.svelte";
+  import { entitlement, maybeCaptureEntitlement } from "../../_shared/entitlement.svelte";
   import { parseDocInvite, resolveLink, type DocMeta } from "../../_shared/sync-api";
   import {
     docSession,
@@ -69,9 +79,40 @@
   }
 
   let plan = $state<TeamPlan>(loadPlan());
-  /** Plan vs pairings-simulator tab, mirrored to `#sim` so a refresh sticks.
-   *  Sim state itself is local to the simulator component (never synced). */
-  let view = $state<"plan" | "sim">(location.hash === "#sim" ? "sim" : "plan");
+
+  // ── Threat matrix (opponent triage) ────────────────────────────────────────
+  // The matrix doc (light opponent rows + axes + scores) is small and syncs; the
+  // full opponents (with list text, ~1 MB for a 32-team event) stay local and
+  // never ride the wire — see lib/opponents.ts. Both persist to localStorage so
+  // a refresh keeps the loaded event.
+  const MATRIX_KEY = "teams-planner.matrix.v1";
+  const OPPONENTS_KEY = "teams-planner.opponents.v1";
+
+  function loadMatrix(): MatrixDoc {
+    try {
+      const raw = localStorage.getItem(MATRIX_KEY);
+      return raw ? normalizeMatrixDoc(JSON.parse(raw)) : emptyMatrixDoc();
+    } catch {
+      return emptyMatrixDoc();
+    }
+  }
+  function loadStoredOpponents(): OpponentData | null {
+    try {
+      const raw = localStorage.getItem(OPPONENTS_KEY);
+      return raw ? loadOpponents(JSON.parse(raw)) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  let matrixDoc = $state<MatrixDoc>(loadMatrix());
+  let opponents = $state<OpponentData | null>(loadStoredOpponents());
+
+  /** Plan / pairings-sim / threat-matrix tab, mirrored to the hash so a refresh
+   *  sticks. Sim state is local to the simulator component (never synced). */
+  let view = $state<"plan" | "sim" | "matrix">(
+    location.hash === "#sim" ? "sim" : location.hash === "#matrix" ? "matrix" : "plan",
+  );
   /**
    * Arrived via a shared plan / live invite / shortlink: the user is mid-task
    * (often joining someone's session on a phone), so the PWA install nudge
@@ -112,60 +153,91 @@
   }
 
   // ── Live shared session (patron-created, free to join) ─────────────────────
-  // The plan replicates as an id-keyed SessionDoc; `lastSessionDoc` is the
-  // last state this client knows the server has. Local edits diff against it
-  // (id-disjoint set/del ops); remote ops/welcomes update it and replace the
-  // local plan. The loop is self-stabilizing: after adopting remote state the
-  // diff is empty, so nothing echoes.
-  let lastSessionDoc: SessionDoc | null = null;
+  // ONE docSession singleton carries either the team plan OR the threat matrix
+  // (never both at once — they're separate activities). The single global
+  // callback therefore DISPATCHES by document shape: a matrix welcome (cellsById)
+  // must never fall through to the plan adopter, which would `sendOps` an empty
+  // plan over the matrix doc and wipe it. `activeSync` records which model the
+  // current room edits so onRemoteOps (which carries no shape) routes correctly;
+  // it's set authoritatively from each welcome's shape, so any entry path — own
+  // goLive or an inbound ?d= link — lands on the right handler.
+  let activeSync = $state<"plan" | "matrix">("plan");
+  let lastSessionDoc: SessionDoc | null = null; // plan wire-state
+  let lastMatrixDoc: MatrixDoc | null = null; // matrix wire-state
+
+  function adoptPlanDoc(doc: unknown): void {
+    if (isSessionShaped(doc)) {
+      lastSessionDoc = doc;
+    } else {
+      // A storage-shaped doc (uploaded snapshot opened live): bridge it to the
+      // id-keyed session shape. An editor replaces the room's doc so the session
+      // proper runs id-keyed; the conversion is deterministic, so two editors
+      // racing the replace is benign. Viewers just convert locally.
+      const sanitized = sanitizePlan(doc);
+      lastSessionDoc = planToSessionDoc(sanitized ? sanitized.plan : emptyPlan());
+      if (docSession.role === "editor") sendOps([{ o: "set", p: [], v: lastSessionDoc }]);
+    }
+    // Adopt losslessly and re-derive lastSessionDoc from the adopted plan so
+    // render-state and wire-state stay identical — otherwise the push $effect
+    // would diff a normalized plan against the raw doc and echo a deletion back
+    // to peers (a just-added army would vanish on its sender).
+    const adopted = adoptSessionDoc(lastSessionDoc);
+    plan = adopted.plan;
+    lastSessionDoc = adopted.lastSessionDoc;
+  }
+
+  function adoptMatrixDoc(doc: unknown): void {
+    // The matrix doc IS the model (already id-keyed, no storage/runtime divide),
+    // so adoption is lossless: render-state and wire-state are the same object,
+    // making the next push diff empty. normalize heals partial/legacy docs.
+    const normalized = normalizeMatrixDoc(doc as Partial<MatrixDoc>);
+    matrixDoc = normalized;
+    lastMatrixDoc = normalized;
+  }
 
   registerDocSession({
     onDoc(doc) {
-      if (isSessionShaped(doc)) {
-        lastSessionDoc = doc;
+      if (isMatrixShaped(doc)) {
+        activeSync = "matrix";
+        // A teammate who opened a shared matrix link lands on the default tab;
+        // surface the matrix they joined (the entitlement gate still applies).
+        if (view !== "matrix") setView("matrix");
+        adoptMatrixDoc(doc);
       } else {
-        // A storage-shaped doc (uploaded snapshot opened live): bridge it to
-        // the id-keyed session shape. An editor replaces the room's doc so
-        // the session proper runs id-keyed; the conversion is deterministic,
-        // so two editors racing the replace is benign. Viewers (and the
-        // read-only snapshot fallback) just convert locally.
-        const sanitized = sanitizePlan(doc);
-        lastSessionDoc = planToSessionDoc(sanitized ? sanitized.plan : emptyPlan());
-        if (docSession.role === "editor") {
-          sendOps([{ o: "set", p: [], v: lastSessionDoc }]);
-        }
+        activeSync = "plan";
+        adoptPlanDoc(doc);
       }
-      // Adopt losslessly and re-derive lastSessionDoc from the adopted plan so
-      // render-state and wire-state stay identical — otherwise the push $effect
-      // would diff a normalized plan against the raw doc and echo a deletion
-      // back to peers (a just-added army would vanish on its sender).
-      const adopted = adoptSessionDoc(lastSessionDoc);
-      plan = adopted.plan;
-      lastSessionDoc = adopted.lastSessionDoc;
     },
     onRemoteOps(ops) {
-      if (!lastSessionDoc) return;
-      try {
-        lastSessionDoc = applyDocOps(lastSessionDoc, ops) as SessionDoc;
-      } catch {
-        // Divergence — the next reconnect's welcome restores exact state.
-        return;
+      if (activeSync === "matrix") {
+        if (!lastMatrixDoc) return;
+        try {
+          lastMatrixDoc = applyDocOps(lastMatrixDoc, ops) as MatrixDoc;
+        } catch {
+          return; // divergence — next reconnect's welcome restores exact state
+        }
+        const normalized = normalizeMatrixDoc(lastMatrixDoc);
+        matrixDoc = normalized;
+        lastMatrixDoc = normalized;
+      } else {
+        if (!lastSessionDoc) return;
+        try {
+          lastSessionDoc = applyDocOps(lastSessionDoc, ops) as SessionDoc;
+        } catch {
+          return;
+        }
+        const adopted = adoptSessionDoc(lastSessionDoc);
+        plan = adopted.plan;
+        lastSessionDoc = adopted.lastSessionDoc;
       }
-      // Adopt losslessly and re-derive lastSessionDoc from the adopted plan so
-      // render-state and wire-state stay identical — otherwise the push $effect
-      // would diff a normalized plan against the raw doc and echo a deletion
-      // back to peers (a just-added army would vanish on its sender).
-      const adopted = adoptSessionDoc(lastSessionDoc);
-      plan = adopted.plan;
-      lastSessionDoc = adopted.lastSessionDoc;
     },
   });
 
-  // Push local edits while live (editors only). Runs after every plan change;
-  // when the change came from the session itself the diff is empty.
+  // Push local PLAN edits while a plan session is live (editors only). The
+  // activeSync guard keeps plan ops out of a matrix room (and vice-versa below).
   $effect(() => {
     const next = planToSessionDoc(plan);
-    if (docSession.status !== "connected" || docSession.role !== "editor" || !lastSessionDoc) {
+    if (activeSync !== "plan" || docSession.status !== "connected" || docSession.role !== "editor" || !lastSessionDoc) {
       return;
     }
     const ops = diffSessionDocs(lastSessionDoc, next);
@@ -174,6 +246,62 @@
       sendOps(ops);
     }
   });
+
+  // Push local MATRIX edits while a matrix session is live (editors only).
+  $effect(() => {
+    const next = matrixDoc;
+    if (activeSync !== "matrix" || docSession.status !== "connected" || docSession.role !== "editor" || !lastMatrixDoc) {
+      return;
+    }
+    const ops = diffMatrixDocs(lastMatrixDoc, next);
+    if (ops.length > 0) {
+      lastMatrixDoc = next;
+      sendOps(ops);
+    }
+  });
+
+  // Persist matrix + opponents alongside the plan.
+  $effect(() => {
+    try {
+      localStorage.setItem(MATRIX_KEY, JSON.stringify(matrixDoc));
+    } catch {
+      /* quota — non-fatal */
+    }
+  });
+  $effect(() => {
+    try {
+      if (opponents) localStorage.setItem(OPPONENTS_KEY, JSON.stringify(opponents));
+    } catch {
+      /* a multi-MB event can blow localStorage quota; the matrix doc still syncs */
+    }
+  });
+
+  let liveMatrixDocId = $state<string | null>(null);
+
+  /** Make the threat matrix a live shared doc and join as editor. Seeds the room
+   *  with the matrix shape so the welcome needs no bridge. */
+  async function startLiveMatrix(): Promise<void> {
+    activeSync = "matrix";
+    const name = matrixDoc.eventName ? `${matrixDoc.eventName} — threat matrix` : "Threat matrix";
+    const id = await goLive("threat-matrix", name, matrixDoc, { docId: liveMatrixDocId });
+    if (id) liveMatrixDocId = id;
+  }
+
+  function onMatrixChange(next: MatrixDoc): void {
+    matrixDoc = next;
+  }
+
+  /** A freshly loaded BCP event seeds the matrix (keeping it if one's in
+   *  progress would mean stale opponents, so replace on confirm) + stores the
+   *  full opponents locally for list review. */
+  function onLoadOpponents(data: OpponentData): void {
+    opponents = data;
+    const hasWork = Object.keys(matrixDoc.cellsById).length > 0;
+    if (hasWork && !confirm("Replace the current matrix with this event's teams? Your scores will be cleared.")) {
+      return;
+    }
+    matrixDoc = seedMatrixDoc(data);
+  }
 
   // A refused create (no/lapsed entitlement) opens the gate.
   $effect(() => {
@@ -216,7 +344,7 @@
 
     // Keep the tab in sync with back/forward navigation over `#sim`.
     window.addEventListener("hashchange", () => {
-      view = location.hash === "#sim" ? "sim" : "plan";
+      view = location.hash === "#sim" ? "sim" : location.hash === "#matrix" ? "matrix" : "plan";
     });
 
     const m = location.hash.match(/^#t=(.+)$/);
@@ -305,11 +433,12 @@
     void tick().then(() => startTour());
   }
 
-  function setView(next: "plan" | "sim") {
+  function setView(next: "plan" | "sim" | "matrix") {
     view = next;
-    // `#t=` import already cleared its hash in onMount; `#sim` is the only
-    // durable fragment, so plain replacement is safe.
-    history.replaceState(null, "", location.pathname + location.search + (next === "sim" ? "#sim" : ""));
+    // `#t=` import already cleared its hash in onMount; `#sim`/`#matrix` are the
+    // only durable fragments, so plain replacement is safe.
+    const hash = next === "sim" ? "#sim" : next === "matrix" ? "#matrix" : "";
+    history.replaceState(null, "", location.pathname + location.search + hash);
   }
 </script>
 
@@ -348,6 +477,16 @@
       >
         Pairings practice
       </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={view === "matrix"}
+        class="focus-ring rounded-t px-3 py-1.5 font-heading text-xs font-bold uppercase tracking-wider
+               {view === 'matrix' ? 'bg-panel-surface text-text' : 'text-text-dim hover:text-text-muted'}"
+        onclick={() => setView("matrix")}
+      >
+        Threat matrix
+      </button>
     </div>
 
     {#if view === "plan"}
@@ -364,8 +503,35 @@
         onGoLive={startLive}
         onLoadExample={loadExample}
       />
-    {:else}
+    {:else if view === "sim"}
       <PairingsSimulator {plan} />
+    {:else if entitlement.connected}
+      <MatrixView
+        doc={matrixDoc}
+        {opponents}
+        showGoLive={docSession.status === "idle"}
+        onChange={onMatrixChange}
+        {onLoadOpponents}
+        onGoLive={startLiveMatrix}
+        onFlash={flash}
+      />
+    {:else}
+      <!-- Team-only tool: the threat matrix is gated behind the Patreon / access-key login. -->
+      <div class="mx-auto mt-8 flex max-w-md flex-col items-center gap-4 rounded-lg border border-panel-border bg-panel-surface p-8 text-center">
+        <span class="text-3xl" aria-hidden="true">🔒</span>
+        <h2 class="font-heading text-lg font-bold text-text">Threat matrix is for the team</h2>
+        <p class="text-sm text-text-muted">
+          Opponent triage is a shared team tool. Connect Patreon or enter your team's
+          access key to load events, score the matrix, and join live sessions.
+        </p>
+        <button
+          type="button"
+          class="focus-ring rounded border border-accent/40 bg-accent-dim px-4 py-2 text-sm font-medium text-accent hover:bg-accent-dim/80"
+          onclick={() => (gateOpen = true)}
+        >
+          Connect Patreon or enter access key
+        </button>
+      </div>
     {/if}
   </main>
 
@@ -433,5 +599,8 @@
   <!-- Floating live-session presence: roster, nickname, links, snapshot fallback. -->
   <LiveSessionWidget onFlash={flash} />
 
-  <EntitlementGate bind:open={gateOpen} feature="cloud sync and live sharing" />
+  <EntitlementGate
+    bind:open={gateOpen}
+    feature={view === "matrix" ? "the threat matrix" : "cloud sync and live sharing"}
+  />
 </div>
