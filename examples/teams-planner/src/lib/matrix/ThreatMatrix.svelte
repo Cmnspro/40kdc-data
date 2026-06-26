@@ -39,6 +39,25 @@
   let reviewPlayer = $state<OpponentPlayer | null>(null);
   let reviewOpen = $state(false);
 
+  // ── local triage dimming (per-device view state, not synced) ─────────────────
+  // Rows keyed by our player id, columns by opponent player id — a captain greys
+  // out a row/column they've set aside so the live cells stand out. Ephemeral on
+  // purpose: it never rides the synced doc, and resets on reload.
+  let dimmedRows = $state(new Set<string>()); // our player ids
+  let dimmedCols = $state(new Set<string>()); // opponent player ids
+  // Reassign a fresh Set (immutable-update idiom used throughout) so the change
+  // is tracked regardless of Svelte's Set-proxy behavior.
+  function toggleRowDim(ourId: string): void {
+    const next = new Set(dimmedRows);
+    next.has(ourId) ? next.delete(ourId) : next.add(ourId);
+    dimmedRows = next;
+  }
+  function toggleColDim(oppId: string): void {
+    const next = new Set(dimmedCols);
+    next.has(oppId) ? next.delete(oppId) : next.add(oppId);
+    dimmedCols = next;
+  }
+
   const teams = $derived(doc.teamOrder.map((id) => doc.teamsById[id]).filter(Boolean));
   const selectedTeam = $derived(
     teams.find((t) => t.id === selectedTeamId) ?? teams.find((t) => t.id !== doc.ourTeamId) ?? teams[0] ?? null,
@@ -161,6 +180,19 @@
         >
           {present ? "exit present" : "present"}
         </button>
+        {#if dimmedRows.size || dimmedCols.size}
+          <button
+            type="button"
+            class="focus-ring rounded border border-panel-border px-2 py-1 text-text-dim hover:text-text"
+            onclick={() => {
+              dimmedRows = new Set();
+              dimmedCols = new Set();
+            }}
+            title="Restore all dimmed rows and columns"
+          >
+            show all
+          </button>
+        {/if}
       </div>
     </div>
 
@@ -181,9 +213,18 @@
               </th>
               {#each selectedTeam.players as opp (opp.id)}
                 {@const eff = effectiveDisposition(doc, opp)}
-                <th class="px-3 py-2 text-center align-top font-normal">
+                <th
+                  class="px-3 py-2 text-center align-top font-normal {dimmedCols.has(opp.id) ? 'opacity-30 grayscale' : ''}"
+                >
                   <div class="flex flex-col items-center gap-0.5">
-                    <span class="font-medium text-text">{opp.name}</span>
+                    <button
+                      type="button"
+                      class="focus-ring cursor-pointer rounded font-medium text-text"
+                      aria-pressed={dimmedCols.has(opp.id)}
+                      onclick={() => toggleColDim(opp.id)}
+                      title={`Dim ${opp.name}'s column (click to restore)`}
+                      aria-label={`Dim ${opp.name}'s column (click to restore)`}
+                    >{opp.name}</button>
                     {#if opp.faction}<span class="text-xs text-text-dim">{opp.faction}</span>{/if}
                     {#if eff}
                       <span class="rounded px-1 text-xs" style="color:{DISPOSITION_COLORS[eff]}">●&nbsp;{eff.replace(/-/g, " ")}</span>
@@ -218,7 +259,7 @@
               <tr class="border-t border-panel-border/60 hover:bg-panel-hover/40 {isLeadOff ? 'bg-accent-dim/20' : ''}">
                 <th
                   scope="row"
-                  class="sticky left-0 z-10 px-3 py-2 text-left font-normal {isLeadOff ? 'border-l-4 border-accent bg-accent-dim/40' : 'bg-panel'}"
+                  class="sticky left-0 z-10 px-3 py-2 text-left font-normal {isLeadOff ? 'border-l-4 border-accent bg-accent-dim/40' : 'bg-panel'} {dimmedRows.has(our.id) ? 'opacity-30 grayscale' : ''}"
                 >
                   <div class="flex items-start gap-1.5">
                     <button
@@ -235,7 +276,14 @@
                     >🛡</button>
                     <div>
                       <div class="flex items-center gap-1.5">
-                        <span class="font-medium text-text">{our.name || "—"}</span>
+                        <button
+                          type="button"
+                          class="focus-ring cursor-pointer rounded font-medium text-text"
+                          aria-pressed={dimmedRows.has(our.id)}
+                          onclick={() => toggleRowDim(our.id)}
+                          title={`Dim ${our.name || "this player"}'s row (click to restore)`}
+                          aria-label={`Dim ${our.name || "this player"}'s row (click to restore)`}
+                        >{our.name || "—"}</button>
                         {#if isLeadOff}
                           <span
                             class="rounded bg-accent px-1 py-0.5 font-bold uppercase leading-none tracking-wider text-white {present ? 'text-xs' : 'text-[0.6rem]'}"
@@ -251,7 +299,9 @@
 
                 {#each selectedTeam.players as opp (opp.id)}
                   {@const v = getVerdict(our.id, opp.id)}
-                  <td class="px-2 py-1.5 text-center align-middle">
+                  <td
+                    class="px-2 py-1.5 text-center align-middle {dimmedRows.has(our.id) || dimmedCols.has(opp.id) ? 'opacity-30 grayscale' : ''}"
+                  >
                     <button
                       type="button"
                       class="focus-ring rounded border leading-none {present ? 'px-3 py-1.5 text-2xl' : 'px-2 py-1 text-lg'}"
