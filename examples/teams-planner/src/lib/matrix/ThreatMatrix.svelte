@@ -39,41 +39,45 @@
   let reviewPlayer = $state<OpponentPlayer | null>(null);
   let reviewOpen = $state(false);
 
-  // ── live pairing triage (per-device view state, not synced) ──────────────────
-  // The board is worked top-left → out: click an opponent name to 🎯 *target* the
-  // matchup under discussion, then click one of our player names to LOCK that
-  // pairing. A locked pairing greys + sorts its row to the bottom and its opponent
-  // column to the right, so the undecided block shrinks toward the top-left.
-  // Ephemeral on purpose: it never rides the synced doc and resets on reload.
-  let targetOppId = $state<string | null>(null); // the opponent column we're looking at
-  let picks = $state<Record<string, string>>({}); // ourPlayerId → opponentId (a locked pairing)
+  // ── live triage (per-device view state, not synced) ──────────────────────────
+  // Each row and column NAME is a TRIPLE TOGGLE: active → greyed (set aside, stays
+  // in place) → picked (greyed AND sorted out of the way — rows to the bottom,
+  // opponent columns to the right) → active. Separately, 🎯 *targets* one opponent
+  // column as the matchup under discussion (its own button, radio). Ephemeral on
+  // purpose: none of it rides the synced doc, and it resets on reload.
+  type TriState = "grey" | "picked"; // absent = active
+  let rowStatus = $state<Record<string, TriState>>({}); // ourPlayerId → state
+  let colStatus = $state<Record<string, TriState>>({}); // opponentId → state
+  let targetOppId = $state<string | null>(null);
 
-  // An opponent is paired iff some pick points at it; our player iff it's a key.
-  const pickedOpps = $derived(new Set(Object.values(picks)));
-  const isRowPicked = (ourId: string) => ourId in picks;
-  const isColPicked = (oppId: string) => pickedOpps.has(oppId);
+  const isPicked = (s: TriState | undefined) => s === "picked";
+  const isDimmed = (s: TriState | undefined) => s === "grey" || s === "picked";
+  const hasTriage = $derived(
+    Object.keys(rowStatus).length > 0 || Object.keys(colStatus).length > 0 || targetOppId !== null,
+  );
+
+  // active → grey → picked → active. Reassign a fresh map so $state tracks it.
+  function cycle(map: Record<string, TriState>, id: string): Record<string, TriState> {
+    const next = { ...map };
+    if (!next[id]) next[id] = "grey";
+    else if (next[id] === "grey") next[id] = "picked";
+    else delete next[id];
+    return next;
+  }
+  const cycleRow = (ourId: string): void => void (rowStatus = cycle(rowStatus, ourId));
+  const cycleCol = (oppId: string): void => void (colStatus = cycle(colStatus, oppId));
 
   /** Radio-toggle the opponent we're focused on (clear by re-clicking). */
   function toggleTarget(oppId: string): void {
     targetOppId = targetOppId === oppId ? null : oppId;
   }
 
-  /** Lock our player against the current target opponent — or, if this player is
-   *  already paired, release them. Picking clears the target so the next opponent
-   *  can be looked at; with no target set, a name click on an unpaired player is a
-   *  no-op (you target an opponent first). */
-  function pickOrRelease(ourId: string): void {
-    const next = { ...picks };
-    if (ourId in next) {
-      delete next[ourId];
-      picks = next;
-      return;
-    }
-    if (!targetOppId) return;
-    next[ourId] = targetOppId;
-    picks = next;
-    targetOppId = null;
-  }
+  const STATE_TITLE: Record<"active" | "grey" | "picked", string> = {
+    active: "active — click to grey out",
+    grey: "greyed (set aside) — click to pick & sort away",
+    picked: "picked (sorted away) — click to restore",
+  };
+  const triageTitle = (s: TriState | undefined): string => STATE_TITLE[s ?? "active"];
 
   const teams = $derived(doc.teamOrder.map((id) => doc.teamsById[id]).filter(Boolean));
   const selectedTeam = $derived(
@@ -84,18 +88,16 @@
 
   const allFactions = factionOptions();
   const factionName = (id: string) => allFactions.find((f) => f.id === id)?.name ?? id;
-  const opponentName = (id: string | undefined) =>
-    (id && selectedTeam?.players.find((p) => p.id === id)?.name) || "—";
 
-  // Picked pairings sort out of the way: rows to the bottom, opponent columns to
-  // the right. Array.sort is stable, so unpicked keep their loaded order and the
-  // top-left stays the live, undecided block. (`Number(false)=0 < Number(true)=1`.)
+  // Only *picked* items sort out of the way (greyed ones stay in place). Array.sort
+  // is stable, so active + greyed keep their loaded order and the top-left stays
+  // the live, undecided block. (`Number(false)=0 < Number(true)=1`.)
   const sortedRows = $derived(
-    [...doc.ourPlayers].sort((a, b) => Number(isRowPicked(a.id)) - Number(isRowPicked(b.id))),
+    [...doc.ourPlayers].sort((a, b) => Number(isPicked(rowStatus[a.id])) - Number(isPicked(rowStatus[b.id]))),
   );
   const sortedCols = $derived(
     selectedTeam
-      ? [...selectedTeam.players].sort((a, b) => Number(isColPicked(a.id)) - Number(isColPicked(b.id)))
+      ? [...selectedTeam.players].sort((a, b) => Number(isPicked(colStatus[a.id])) - Number(isPicked(colStatus[b.id])))
       : [],
   );
 
@@ -211,17 +213,18 @@
         >
           {present ? "exit present" : "present"}
         </button>
-        {#if Object.keys(picks).length || targetOppId}
+        {#if hasTriage}
           <button
             type="button"
             class="focus-ring rounded border border-panel-border px-2 py-1 text-text-dim hover:text-text"
             onclick={() => {
-              picks = {};
+              rowStatus = {};
+              colStatus = {};
               targetOppId = null;
             }}
-            title="Release all locked pairings and clear the target"
+            title="Restore all greyed/picked rows and columns and clear the target"
           >
-            reset picks
+            reset
           </button>
         {/if}
       </div>
@@ -248,24 +251,29 @@
               </th>
               {#each sortedCols as opp (opp.id)}
                 {@const eff = effectiveDisposition(doc, opp)}
-                {@const picked = isColPicked(opp.id)}
+                {@const status = colStatus[opp.id]}
                 {@const targeted = targetOppId === opp.id}
                 <th
-                  class="px-2 py-2 text-center align-top font-normal {picked ? 'opacity-30 grayscale' : ''} {targeted ? 'bg-accent-dim/40 ring-2 ring-inset ring-accent' : ''}"
+                  class="px-2 py-2 text-center align-top font-normal {isDimmed(status) ? 'opacity-30 grayscale' : ''} {targeted ? 'bg-accent-dim/40 ring-2 ring-inset ring-accent' : ''}"
                 >
                   <div class="flex flex-col items-center gap-0.5">
-                    <button
-                      type="button"
-                      class="focus-ring max-w-full cursor-pointer truncate rounded px-1 font-medium {targeted ? 'text-accent' : 'text-text'}"
-                      aria-pressed={targeted}
-                      disabled={picked}
-                      onclick={() => toggleTarget(opp.id)}
-                      title={picked
-                        ? `${opp.name} is paired`
-                        : targeted
-                          ? `${opp.name} is the target — click to clear`
-                          : `Target ${opp.name}, then click one of our players to pair`}
-                    >{targeted ? "🎯 " : ""}{opp.name}</button>
+                    <div class="flex max-w-full items-center gap-0.5">
+                      <button
+                        type="button"
+                        class="focus-ring shrink-0 rounded text-xs leading-none {targeted ? 'opacity-100' : 'opacity-40 hover:opacity-90'}"
+                        aria-pressed={targeted}
+                        onclick={() => toggleTarget(opp.id)}
+                        title={targeted ? `${opp.name} is the target — click to clear` : `Target ${opp.name}`}
+                        aria-label={targeted ? `${opp.name} is the target; click to clear` : `Target ${opp.name}`}
+                      >🎯</button>
+                      <button
+                        type="button"
+                        class="focus-ring max-w-full cursor-pointer truncate rounded px-1 font-medium text-text"
+                        onclick={() => cycleCol(opp.id)}
+                        title={`${opp.name}: ${triageTitle(status)}`}
+                        aria-label={`${opp.name}: ${triageTitle(status)}`}
+                      >{opp.name}</button>
+                    </div>
                     {#if opp.faction}<span class="truncate text-xs text-text-dim">{opp.faction}</span>{/if}
                     {#if eff}
                       <span class="rounded px-1 text-xs" style="color:{DISPOSITION_COLORS[eff]}">●&nbsp;{eff.replace(/-/g, " ")}</span>
@@ -297,9 +305,8 @@
           <tbody>
             {#each sortedRows as our (our.id)}
               {@const isLeadOff = our.id === leadOffId}
-              {@const picked = isRowPicked(our.id)}
-              {@const canPair = !picked && !!targetOppId}
-              <tr class="border-t border-panel-border/60 hover:bg-panel-hover/40 {isLeadOff ? 'bg-accent-dim/20' : ''} {picked ? 'opacity-30 grayscale' : ''}">
+              {@const status = rowStatus[our.id]}
+              <tr class="border-t border-panel-border/60 hover:bg-panel-hover/40 {isLeadOff ? 'bg-accent-dim/20' : ''} {isDimmed(status) ? 'opacity-30 grayscale' : ''}">
                 <th
                   scope="row"
                   class="sticky left-0 z-10 px-3 py-2 text-left font-normal {isLeadOff ? 'border-l-4 border-accent bg-accent-dim/40' : 'bg-panel'}"
@@ -321,19 +328,15 @@
                       <div class="flex flex-wrap items-center gap-1.5">
                         <button
                           type="button"
-                          class="focus-ring truncate rounded font-medium text-text {canPair ? 'cursor-pointer hover:text-accent' : 'cursor-default'}"
-                          aria-pressed={picked}
-                          onclick={() => pickOrRelease(our.id)}
-                          title={picked
-                            ? `Paired vs ${opponentName(picks[our.id])} — click to release`
-                            : canPair
-                              ? `Pair ${our.name || "this player"} vs ${opponentName(targetOppId ?? undefined)}`
-                              : `Target an opponent first, then click to pair ${our.name || "this player"}`}
+                          class="focus-ring cursor-pointer truncate rounded font-medium text-text"
+                          onclick={() => cycleRow(our.id)}
+                          title={`${our.name || "this player"}: ${triageTitle(status)}`}
+                          aria-label={`${our.name || "this player"}: ${triageTitle(status)}`}
                         >{our.name || "—"}</button>
-                        {#if picked}
+                        {#if status === "picked"}
                           <span
-                            class="rounded bg-panel-border px-1 py-0.5 font-medium leading-none text-text-dim {present ? 'text-xs' : 'text-[0.6rem]'}"
-                          >vs {opponentName(picks[our.id])}</span>
+                            class="rounded bg-panel-border px-1 py-0.5 font-medium uppercase leading-none tracking-wide text-text-dim {present ? 'text-xs' : 'text-[0.6rem]'}"
+                          >picked</span>
                         {/if}
                         {#if isLeadOff}
                           <span
@@ -351,7 +354,7 @@
                 {#each sortedCols as opp (opp.id)}
                   {@const v = getVerdict(our.id, opp.id)}
                   <td
-                    class="px-1.5 py-1 text-center align-middle {isColPicked(opp.id) ? 'opacity-30 grayscale' : ''} {targetOppId === opp.id && !picked ? 'bg-accent-dim/20' : ''}"
+                    class="px-1.5 py-1 text-center align-middle {isDimmed(colStatus[opp.id]) ? 'opacity-30 grayscale' : ''} {targetOppId === opp.id && !isDimmed(status) ? 'bg-accent-dim/20' : ''}"
                   >
                     <button
                       type="button"
