@@ -223,13 +223,19 @@ async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
     }
   }
 
-  // Group players by their TEAM. The right key is `teamPlayerId` (the team's
-  // event registration id), NOT `teamId` — `teamId` is a shared org id, so an
-  // org's A/B teams (e.g. "Georgia Warlords" + "…Bravo") collapse together and
-  // over-fill if you group by it. teamPlayerId yields one bucket per real team.
-  const teamKey = (p: any): string => String(p.teamPlayerId ?? p.team?.id ?? `solo:${p.id}`);
+  // Group players by their real TEAM. The authoritative key is `teamId` (the team
+  // entity id; `team.name` is 1:1 with it across the corpus). NOT `teamPlayerId` —
+  // despite the field name, that is a per-round *pairing pod* id: BCP reuses one
+  // value for the ~8 players seated against each other in a round, drawn from
+  // several DIFFERENT teams. Keying on it buckets opponents together and names the
+  // bucket after whichever member sorts first — which is exactly how "Warp Dust
+  // Crusaders" players ended up filed under "Hunter Killers". Only when a player
+  // carries no teamId at all (BCP team-record gaps) do we fall back to their pod,
+  // then a solo bucket, so orphans group with their pod-mates instead of vanishing.
+  const teamKey = (p: any): string =>
+    String(p.teamId ?? p.team?.id ?? (p.teamPlayerId ? `pod:${p.teamPlayerId}` : `solo:${p.id}`));
 
-  // Pass 1: a display name per team — the first non-empty team.name in the
+  // Pass 1: a display name per team key — the first non-empty team.name in the
   // group (some members' rows omit it; a teammate's fills the gap).
   const teamNames = new Map<string, string>();
   for (const p of players) {
@@ -237,13 +243,23 @@ async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
     const nm = p.team?.name ?? p.teamName;
     if (nm && !teamNames.has(k)) teamNames.set(k, nm);
   }
+  // A handful of orgs field A/B teams under the same display name but distinct
+  // teamIds (e.g. "Georgia Warlords"). Suffix the duplicates with a short id so two
+  // genuinely-different teams don't render identically in the matrix.
+  const nameUses = new Map<string, number>();
+  for (const nm of teamNames.values()) nameUses.set(nm, (nameUses.get(nm) ?? 0) + 1);
+  const labelFor = (key: string): string => {
+    const nm = teamNames.get(key);
+    if (nm) return (nameUses.get(nm) ?? 0) > 1 ? `${nm} (${key.slice(0, 4)})` : nm;
+    if (key.startsWith("pod:")) return `Unrostered pod ${key.slice(4, 10)}`;
+    return `Unrostered ${key.slice(5, 11)}`;
+  };
 
   // Pass 2: bucket.
   const byTeam = new Map<string, OutTeam>();
   for (const p of players) {
     const tid = teamKey(p);
-    const tname = teamNames.get(tid) ?? `Team ${tid.slice(0, 6)}`;
-    if (!byTeam.has(tid)) byTeam.set(tid, { id: tid, name: tname, players: [] });
+    if (!byTeam.has(tid)) byTeam.set(tid, { id: tid, name: labelFor(tid), players: [] });
     byTeam.get(tid)!.players.push({
       id: String(p.id ?? p.userId ?? p.listId),
       name: playerName(p),
@@ -258,6 +274,29 @@ async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
     teams: [...byTeam.values()].sort((a, b) => a.name.localeCompare(b.name)),
   };
   await writeFile(outPath, JSON.stringify(out, null, 2));
+
+  // Surface data anomalies instead of shipping them silently (a scrambled grouping
+  // used to pass without a peep). None of these abort the pull — they're prompts to
+  // eyeball the affected teams.
+  const orphanTeams = out.teams.filter((t) => t.id.startsWith("pod:") || t.id.startsWith("solo:"));
+  const orphanPlayers = orphanTeams.reduce((n, t) => n + t.players.length, 0);
+  if (orphanPlayers) {
+    console.error(
+      `  NOTE: ${orphanPlayers} player(s) had no teamId; grouped by pairing pod / solo into ${orphanTeams.length} "Unrostered" bucket(s).`,
+    );
+  }
+  const dupNames = [...nameUses].filter(([, n]) => n > 1).map(([n]) => n);
+  if (dupNames.length) {
+    console.error(`  NOTE: shared team name(s) across distinct teamIds, id-suffixed: ${dupNames.join(", ")}`);
+  }
+  const oversized = out.teams.filter((t) => t.players.length > 8);
+  if (oversized.length) {
+    console.error(
+      `  NOTE: ${oversized.length} team(s) exceed 8 players (reserves / merged registration): ` +
+        oversized.map((t) => `${t.name}=${t.players.length}`).join(", "),
+    );
+  }
+
   const withLists = out.teams.flatMap((t) => t.players).filter((p) => p.armyListText).length;
   console.log(`✓ wrote ${outPath}: ${out.teams.length} teams, ${players.length} players, ${withLists} with list text`);
 }
