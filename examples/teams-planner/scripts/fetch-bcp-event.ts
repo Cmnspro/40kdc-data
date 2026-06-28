@@ -151,19 +151,46 @@ async function probe(kind: string, eventId: string): Promise<void> {
 
 // ── full pull (shape confirmed/adjusted after probe) ────────────────────────────
 
+interface OutRound { result: "W" | "D" | "L"; points: number }
+interface OutStanding {
+  placing: number;
+  wins: number;
+  matchPoints: number;
+  gameWins: number;
+  battlePoints: number;
+  dropped: boolean;
+  rounds: OutRound[];
+}
 interface OutPlayer { id: string; name: string; faction: string | null; armyListText: string | null }
-interface OutTeam { id: string; name: string; players: OutPlayer[] }
-interface OutEvent { event: { id: string; name: string | null; teamEvent: boolean }; teams: OutTeam[] }
+interface OutTeam { id: string; name: string; players: OutPlayer[]; standing?: OutStanding }
+interface OutEvent {
+  event: { id: string; name: string | null; teamEvent: boolean; ended?: boolean };
+  teams: OutTeam[];
+}
+
+// `--rebuild` rebuilds the snapshot from cached raw (players / squads / lists /
+// event meta) with NO API calls — so grouping/standings logic can be re-derived
+// offline after one live pull, without a fresh BCP_TOKEN each time.
+const REBUILD = process.argv.slice(2).includes("--rebuild");
+
+async function readCache(file: string): Promise<any> {
+  if (!existsSync(file)) throw new Error(`--rebuild: missing cache ${file}; do a live pull (no --rebuild) first`);
+  return JSON.parse(await readFile(file, "utf8"));
+}
 
 /** Fetch all active players. The endpoint respects `limit` but exposes no cursor,
- *  so we request a limit well above any team-event headcount and read `active`. */
+ *  so we request a limit well above any team-event headcount and read `active`.
+ *  Caches the raw rows so `--rebuild` can re-derive offline. */
 async function fetchPlayers(eventId: string): Promise<any[]> {
+  const cache = join(RAW_DIR, `players-${eventId}.json`);
+  if (REBUILD) return readCache(cache);
   const LIMIT = 1000;
   const payload = await api(`/events/${eventId}/players`, { limit: LIMIT });
   const active = rows(payload);
   if (active.length >= LIMIT) {
     console.error(`  WARNING: got ${active.length} players == limit; the event may have more (no cursor available).`);
   }
+  await writeFile(cache, JSON.stringify(active));
   return active;
 }
 
@@ -173,16 +200,76 @@ function playerName(p: any): string {
   return `${p.firstName ?? ""} ${p.lastName ?? ""}`.trim() || "—";
 }
 
+interface SquadEntry {
+  id: string; // == a player's teamPlayerId
+  name: string; // the event-squad registration name (NOT the parent club)
+  standing?: OutStanding; // present once the event has published placings
+}
+
+/** Fetch the event's team squads: `/events/<id>/teamplayers?placings=true` returns
+ *  one row per *event team* (distinct from a player's parent club), keyed by the id
+ *  each player carries as `teamPlayerId`. With placings it also carries the final
+ *  standing. This is the authoritative event-team list — names + ids to group and
+ *  score by. Empty if the endpoint 404s (e.g. a non-team event). */
+async function fetchSquads(eventId: string): Promise<SquadEntry[]> {
+  const cache = join(RAW_DIR, `squads-${eventId}.json`);
+  let raw: any[];
+  if (REBUILD) {
+    raw = existsSync(cache) ? await readCache(cache) : [];
+  } else {
+    try {
+      raw = rows(await api(`/events/${eventId}/teamplayers`, { placings: "true" }));
+    } catch (err) {
+      console.error(`  no team squads pulled (${(err as Error).message.split("\n")[0]})`);
+      raw = [];
+    }
+    await writeFile(cache, JSON.stringify(raw));
+  }
+  const metric = (tp: any, name: string): number => {
+    const m = (tp.metrics ?? []).find((x: any) => x.name === name);
+    return typeof m?.value === "number" ? m.value : 0;
+  };
+  const overall = (tp: any, name: string): number => {
+    const m = (tp.overall_metrics ?? []).find((x: any) => x.name === name);
+    return typeof m?.value === "number" ? m.value : 0;
+  };
+  const out: SquadEntry[] = [];
+  for (const tp of raw) {
+    if (!tp.id) continue;
+    const standing: OutStanding | undefined =
+      typeof tp.placing === "number"
+        ? {
+            placing: tp.placing,
+            wins: overall(tp, "Wins"),
+            matchPoints: metric(tp, "Match Points"),
+            gameWins: metric(tp, "Game Wins"),
+            battlePoints: metric(tp, "Battle Points"),
+            dropped: Boolean(tp.dropped),
+            rounds: [...(tp.games ?? [])]
+              .sort((a: any, b: any) => (a.gameNum ?? 0) - (b.gameNum ?? 0))
+              .map((g: any) => ({
+                result: g.gameResult === 2 ? "W" : g.gameResult === 1 ? "D" : "L",
+                points: typeof g.gamePoints === "number" ? g.gamePoints : 0,
+              })),
+          }
+        : undefined;
+    out.push({ id: String(tp.id), name: typeof tp.name === "string" ? tp.name : "—", standing });
+  }
+  return out;
+}
+
 async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
   const outPath = join(CACHE_DIR, `${eventId}.json`);
-  if (existsSync(outPath) && !refresh) {
+  if (existsSync(outPath) && !refresh && !REBUILD) {
     console.log(`✓ ${eventId} already cached at ${outPath} (use --refresh to re-pull)`);
     return;
   }
   await mkdir(RAW_DIR, { recursive: true });
 
-  console.log(`event ${eventId}: fetching metadata…`);
-  const ev = await api(`/events/${eventId}`);
+  console.log(`event ${eventId}: ${REBUILD ? "reading cached metadata…" : "fetching metadata…"}`);
+  const evCache = join(RAW_DIR, `event-${eventId}.json`);
+  const ev = REBUILD ? await readCache(evCache) : await api(`/events/${eventId}`);
+  if (!REBUILD) await writeFile(evCache, JSON.stringify(ev));
   const teamEvent = Boolean(ev?.teamEvent ?? ev?.isTeamEvent ?? ev?.teamGame);
 
   console.log(`event ${eventId}: fetching players…`);
@@ -196,7 +283,7 @@ async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
     : {};
 
   const withListId = players.filter((p) => p.listId);
-  const needFetch = withListId.filter((p) => !cachedLists[p.listId]);
+  const needFetch = REBUILD ? [] : withListId.filter((p) => !cachedLists[p.listId]);
   console.log(
     `event ${eventId}: ${withListId.length}/${players.length} players have a list; ` +
       `${needFetch.length} to fetch, ${withListId.length - needFetch.length} already cached.`,
@@ -223,44 +310,32 @@ async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
     }
   }
 
-  // Group players by their real TEAM. The authoritative key is `teamId` (the team
-  // entity id; `team.name` is 1:1 with it across the corpus). NOT `teamPlayerId` —
-  // despite the field name, that is a per-round *pairing pod* id: BCP reuses one
-  // value for the ~8 players seated against each other in a round, drawn from
-  // several DIFFERENT teams. Keying on it buckets opponents together and names the
-  // bucket after whichever member sorts first — which is exactly how "Warp Dust
-  // Crusaders" players ended up filed under "Hunter Killers". Only when a player
-  // carries no teamId at all (BCP team-record gaps) do we fall back to their pod,
-  // then a solo bucket, so orphans group with their pod-mates instead of vanishing.
-  const teamKey = (p: any): string =>
-    String(p.teamId ?? p.team?.id ?? (p.teamPlayerId ? `pod:${p.teamPlayerId}` : `solo:${p.id}`));
+  // Group players by their EVENT SQUAD. BCP has two team layers: a player's parent
+  // club (`team`/`teamId`, often shared across squads and even across events) and
+  // the event squad they actually play on (`teamPlayerId`). For an event view we
+  // group by the squad — `/teamplayers` enumerates exactly these, keyed by the same
+  // id, with the registration name and the final standing. Grouping by teamPlayerId
+  // yields clean N-man squads; the parent club fragments and mislabels them (it's
+  // what once filed "Warp Dust Crusaders" players under the club "Hunter Killers").
+  console.log(`event ${eventId}: fetching team squads + standings…`);
+  const squads = await fetchSquads(eventId);
+  const squadById = new Map(squads.map((s) => [s.id, s]));
 
-  // Pass 1: a display name per team key — the first non-empty team.name in the
-  // group (some members' rows omit it; a teammate's fills the gap).
-  const teamNames = new Map<string, string>();
-  for (const p of players) {
-    const k = teamKey(p);
-    const nm = p.team?.name ?? p.teamName;
-    if (nm && !teamNames.has(k)) teamNames.set(k, nm);
-  }
-  // A handful of orgs field A/B teams under the same display name but distinct
-  // teamIds (e.g. "Georgia Warlords"). Suffix the duplicates with a short id so two
-  // genuinely-different teams don't render identically in the matrix.
-  const nameUses = new Map<string, number>();
-  for (const nm of teamNames.values()) nameUses.set(nm, (nameUses.get(nm) ?? 0) + 1);
-  const labelFor = (key: string): string => {
-    const nm = teamNames.get(key);
-    if (nm) return (nameUses.get(nm) ?? 0) > 1 ? `${nm} (${key.slice(0, 4)})` : nm;
-    if (key.startsWith("pod:")) return `Unrostered pod ${key.slice(4, 10)}`;
-    return `Unrostered ${key.slice(5, 11)}`;
-  };
-
-  // Pass 2: bucket.
   const byTeam = new Map<string, OutTeam>();
   for (const p of players) {
-    const tid = teamKey(p);
-    if (!byTeam.has(tid)) byTeam.set(tid, { id: tid, name: labelFor(tid), players: [] });
-    byTeam.get(tid)!.players.push({
+    const sid = p.teamPlayerId ? String(p.teamPlayerId) : `solo:${String(p.id)}`;
+    let team = byTeam.get(sid);
+    if (!team) {
+      const squad = squadById.get(sid);
+      team = {
+        id: sid,
+        name: squad?.name?.trim() || p.team?.name || `Squad ${sid.slice(0, 6)}`,
+        players: [],
+        standing: squad?.standing,
+      };
+      byTeam.set(sid, team);
+    }
+    team.players.push({
       id: String(p.id ?? p.userId ?? p.listId),
       name: playerName(p),
       faction: p.faction?.name ?? p.subFaction?.name ?? p.army ?? null,
@@ -269,36 +344,42 @@ async function pullEvent(eventId: string, refresh: boolean): Promise<void> {
   }
   for (const t of byTeam.values()) t.players.sort((a, b) => a.name.localeCompare(b.name));
 
+  // Placed teams sort to the front by placing; the rest stay alphabetical.
   const out: OutEvent = {
-    event: { id: eventId, name: ev?.name ?? ev?.eventName ?? null, teamEvent },
-    teams: [...byTeam.values()].sort((a, b) => a.name.localeCompare(b.name)),
+    event: { id: eventId, name: ev?.name ?? ev?.eventName ?? null, teamEvent, ended: Boolean(ev?.ended) },
+    teams: [...byTeam.values()].sort((a, b) => {
+      const pa = a.standing?.placing ?? Infinity;
+      const pb = b.standing?.placing ?? Infinity;
+      return pa !== pb ? pa - pb : a.name.localeCompare(b.name);
+    }),
   };
   await writeFile(outPath, JSON.stringify(out, null, 2));
 
-  // Surface data anomalies instead of shipping them silently (a scrambled grouping
-  // used to pass without a peep). None of these abort the pull — they're prompts to
-  // eyeball the affected teams.
-  const orphanTeams = out.teams.filter((t) => t.id.startsWith("pod:") || t.id.startsWith("solo:"));
-  const orphanPlayers = orphanTeams.reduce((n, t) => n + t.players.length, 0);
-  if (orphanPlayers) {
+  // Surface data anomalies instead of shipping them silently. None abort the pull —
+  // they're prompts to eyeball the affected squads.
+  const soloTeams = out.teams.filter((t) => t.id.startsWith("solo:"));
+  if (soloTeams.length) {
     console.error(
-      `  NOTE: ${orphanPlayers} player(s) had no teamId; grouped by pairing pod / solo into ${orphanTeams.length} "Unrostered" bucket(s).`,
+      `  NOTE: ${soloTeams.length} player(s) had no teamPlayerId (no event squad); each kept as a solo bucket.`,
     );
   }
-  const dupNames = [...nameUses].filter(([, n]) => n > 1).map(([n]) => n);
-  if (dupNames.length) {
-    console.error(`  NOTE: shared team name(s) across distinct teamIds, id-suffixed: ${dupNames.join(", ")}`);
-  }
-  const oversized = out.teams.filter((t) => t.players.length > 8);
-  if (oversized.length) {
+  const emptySquads = squads.filter((s) => !byTeam.has(s.id));
+  if (squads.length && emptySquads.length) {
     console.error(
-      `  NOTE: ${oversized.length} team(s) exceed 8 players (reserves / merged registration): ` +
-        oversized.map((t) => `${t.name}=${t.players.length}`).join(", "),
+      `  NOTE: ${emptySquads.length}/${squads.length} squad(s) from the placings list matched no players: ` +
+        emptySquads.slice(0, 8).map((s) => s.name).join(", ") + (emptySquads.length > 8 ? "…" : ""),
     );
+  }
+  const namedFromClub = out.teams.filter((t) => !t.id.startsWith("solo:") && !squadById.has(t.id)).length;
+  if (namedFromClub) {
+    console.error(`  NOTE: ${namedFromClub} squad(s) had no /teamplayers entry; named from the parent club instead.`);
   }
 
   const withLists = out.teams.flatMap((t) => t.players).filter((p) => p.armyListText).length;
-  console.log(`✓ wrote ${outPath}: ${out.teams.length} teams, ${players.length} players, ${withLists} with list text`);
+  const withStanding = out.teams.filter((t) => t.standing).length;
+  console.log(
+    `✓ wrote ${outPath}: ${out.teams.length} teams, ${players.length} players, ${withLists} with list text, ${withStanding} with standings`,
+  );
 }
 
 // ── entry ───────────────────────────────────────────────────────────────────────

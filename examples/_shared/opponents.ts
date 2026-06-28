@@ -27,15 +27,60 @@ export interface OpponentPlayer {
   armyListText: string | null;
 }
 
+/** One round's team result + battle points (W/D/L). */
+export interface StandingRound {
+  result: "W" | "D" | "L";
+  points: number;
+}
+
+/** Final team standing from the event's placings tab (present only once an event
+ *  has concluded and published placings). Team-level — ATC scores by team. */
+export interface TeamStanding {
+  placing: number;
+  wins: number;
+  matchPoints: number;
+  gameWins: number;
+  battlePoints: number;
+  dropped: boolean;
+  rounds: StandingRound[];
+}
+
 export interface OpponentTeam {
   id: string;
   name: string;
   players: OpponentPlayer[];
+  /** Final standing, when the event has published placings. */
+  standing?: TeamStanding;
 }
 
 export interface OpponentData {
-  event: { id: string; name: string | null; teamEvent: boolean };
+  event: { id: string; name: string | null; teamEvent: boolean; ended?: boolean };
   teams: OpponentTeam[];
+}
+
+/** Defensively parse a team's `standing` block (absent/malformed → undefined). */
+function loadStanding(raw: unknown): TeamStanding | undefined {
+  if (typeof raw !== "object" || raw === null) return undefined;
+  const s = raw as Record<string, unknown>;
+  if (typeof s.placing !== "number") return undefined;
+  const num = (v: unknown): number => (typeof v === "number" ? v : 0);
+  const rounds = Array.isArray(s.rounds)
+    ? s.rounds.flatMap((r): StandingRound[] => {
+        if (typeof r !== "object" || r === null) return [];
+        const rr = r as Record<string, unknown>;
+        const result = rr.result === "W" || rr.result === "D" || rr.result === "L" ? rr.result : null;
+        return result ? [{ result, points: num(rr.points) }] : [];
+      })
+    : [];
+  return {
+    placing: s.placing,
+    wins: num(s.wins),
+    matchPoints: num(s.matchPoints),
+    gameWins: num(s.gameWins),
+    battlePoints: num(s.battlePoints),
+    dropped: Boolean(s.dropped),
+    rounds,
+  };
 }
 
 /** Validate a parsed event-pull JSON into OpponentData, or null if it isn't one. */
@@ -64,6 +109,7 @@ export function loadOpponents(json: unknown): OpponentData | null {
       id: String(tt.id ?? teams.length),
       name: typeof tt.name === "string" ? tt.name : "—",
       players,
+      standing: loadStanding(tt.standing),
     });
   }
   if (teams.length === 0) return null;
@@ -72,6 +118,7 @@ export function loadOpponents(json: unknown): OpponentData | null {
       id: String(ev.id ?? ""),
       name: typeof ev.name === "string" ? ev.name : null,
       teamEvent: ev.teamEvent !== false,
+      ended: ev.ended === true,
     },
     teams,
   };
