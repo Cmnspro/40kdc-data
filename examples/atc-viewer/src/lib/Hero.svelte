@@ -1,6 +1,5 @@
 <script lang="ts">
   import { PACKAGE_NAME, PACKAGE_URL, PUBLISHER_URL, REPO_URL } from "../../../_shared/links";
-  import { reveal } from "./me.svelte";
 
   let { eventName }: { eventName: string | null } = $props();
 </script>
@@ -16,8 +15,7 @@
     <a class="underline hover:text-text-muted" href={REPO_URL} target="_blank" rel="noopener noreferrer">Source</a>.
   </p>
 
-  <!-- Byline (author-authorized). The favicon is dark, so it sits on a light
-       chip; "Come say Hi!" jumps to the author's own list. -->
+  <!-- Byline (author-authorized). The favicon is dark, so it sits on a light chip. -->
   <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-2">
     <a
       class="group inline-flex w-fit items-center gap-2.5 rounded-md border border-panel-border bg-panel px-2.5 py-1.5 text-sm text-text-muted transition-colors hover:border-accent hover:text-text"
@@ -30,12 +28,5 @@
       </span>
       <span>Built by <span class="font-semibold text-text">Will Mitchell</span></span>
     </a>
-    <button
-      type="button"
-      class="focus-ring inline-flex items-center gap-1 rounded-md px-1 text-sm font-semibold text-accent hover:text-accent-hover"
-      onclick={() => reveal.fire()}
-    >
-      Come say Hi! <span aria-hidden="true">→</span> find me in the lists
-    </button>
   </div>
 </section>
