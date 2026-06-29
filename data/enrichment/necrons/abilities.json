@@ -66,7 +66,10 @@
       "ghost-ark"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "deadly-demise-d6-2",
@@ -1192,7 +1195,10 @@
       "psychomancer"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "optimised-for-slaughter",
@@ -1530,7 +1536,10 @@
       "deathmarks"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "targeting-relay",
@@ -3025,10 +3034,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "targeting-permission",
       "target": "self",
       "modifier": {
-        "restriction": "cannot-be-targeted-unless-closest-or-within-12"
+        "attack_type": "ranged",
+        "gate": "within-range",
+        "range": 12
       }
     },
     "scope": {
@@ -3065,7 +3076,10 @@
       "hexmark-destroyer"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "multi-threat-eliminator",
@@ -3100,7 +3114,10 @@
       "hexmark-destroyer"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "atavistic-instigation",

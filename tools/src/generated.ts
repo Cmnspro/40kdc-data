@@ -314,7 +314,10 @@ export type SingleEffect = {
     | "replace-roll-from-pool"
     | "flyover"
     | "cp-on-destroy"
-    | "battle-shock-test";
+    | "battle-shock-test"
+    | "modifier-immunity"
+    | "stratagem-cost-modifier"
+    | "targeting-permission";
   target:
     | "self"
     | "bearer"

@@ -2808,17 +2808,31 @@
     "ability_type": "enhancement",
     "behavior": "reactive",
     "effect": {
-      "type": "cp-refund",
-      "target": "self",
-      "modifier": {
-        "amount": 1
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "cp-refund",
+          "target": "self",
+          "modifier": {
+            "stratagem": "command-re-roll"
+          }
+        },
+        {
+          "type": "stratagem-cost-modifier",
+          "target": "self",
+          "modifier": {
+            "operation": "increase",
+            "amount": 1,
+            "applies_to": "stratagems-targeting-bearer"
+          }
+        }
+      ]
     },
     "scope": {
       "range": "aura-12",
       "duration": "turn"
     },
-    "community_notes": "30pts (Faction Pack v1.0). Once per turn, when your opponent targets a unit within 12\" of this model with a Stratagem, increase the CP cost of that use by 1CP. (Also lets the bearer use Command Re-roll for 0CP once per battle round.)"
+    "community_notes": "30pts (Faction Pack v1.0). Once per battle round, the bearer's unit can be targeted with the Command Re-roll Stratagem for 0CP, even if another unit was already targeted by it this phase. In addition, once per battle, just after the opponent uses a Stratagem, the CP cost they must pay to use that Stratagem again is increased by 1CP."
   },
   {
     "ability_id": "blessing-of-the-dark-master-lords-of-dread",

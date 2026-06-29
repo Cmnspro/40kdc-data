@@ -2048,6 +2048,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -2991,10 +2994,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "targeting-permission",
       "target": "self",
       "modifier": {
-        "restriction": "cannot-be-targeted-unless-closest-or-within-12"
+        "attack_type": "ranged",
+        "gate": "within-range",
+        "range": 12
       }
     },
     "scope": {
@@ -3041,7 +3046,10 @@
       "sly-marbo"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "like-fighting-a-shadow",
@@ -3811,7 +3819,10 @@
       "avenger-strike-fighter"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "tank-killer",
@@ -3984,7 +3995,10 @@
       "krieg-combat-engineers"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "remote-mine",
@@ -7139,7 +7153,10 @@
       "commissar-graves-on-foot"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "icon-of-discipline",

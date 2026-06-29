@@ -703,8 +703,6 @@ func describeAttackRestriction(m map[string]any, subj string) string {
 			amount = ejstr(m["value"])
 		}
 		return "each time an attack targets " + subj + ", worsen the Armour Penetration of that attack by " + amount
-	case "cannot-be-targeted-unless-closest-or-within-12":
-		return subj + " can only be targeted if it is the closest eligible target or within 12\""
 	case "targeting-range-limit":
 		r := "?"
 		if hasRng {
@@ -1296,6 +1294,68 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			strat = "the " + titleCase(ejstr(m["stratagem"])) + " Stratagem"
 		}
 		return "you can use " + strat + " on " + subj + " for 0CP"
+	case "modifier-immunity":
+		scope := ejstr(m["scope"])
+		if scope == "enemy-stratagems" {
+			return subj + " cannot be affected by enemy Stratagems"
+		}
+		if scope == "enemy-abilities" {
+			return subj + " cannot be affected by enemy abilities"
+		}
+		exc := ""
+		if arr, ok := m["exclude"].([]any); ok && len(arr) > 0 {
+			names := make([]string, len(arr))
+			for i, s := range arr {
+				names[i] = statName(s)
+			}
+			exc = " (except " + strings.Join(names, " and ") + ")"
+		}
+		return subj + " " + ev(subj, "ignores") + " any modifiers to " + pronoun(subj) + " characteristics" + exc
+	case "stratagem-cost-modifier":
+		which := "Stratagems"
+		if m["stratagem"] != nil {
+			which = "the " + titleCase(ejstr(m["stratagem"])) + " Stratagem"
+		}
+		whose := "that target " + subj
+		if m["applies_to"] == "stratagems-used-by-bearer" {
+			whose = "used by " + subj
+		}
+		verb := "cost"
+		if m["stratagem"] != nil {
+			verb = "costs"
+		}
+		var val string
+		if m["operation"] == "set-to" {
+			val = ejstr(m["set_to"]) + "CP"
+		} else {
+			amount := "1"
+			if m["amount"] != nil {
+				amount = ejstr(m["amount"])
+			}
+			val = amount + " more CP"
+		}
+		return which + " " + whose + " " + verb + " " + val
+	case "targeting-permission":
+		at := "attacks"
+		if m["attack_type"] == "ranged" {
+			at = "ranged attacks"
+		}
+		r := "?"
+		if m["range"] != nil {
+			r = ejstr(m["range"]) + "\""
+		}
+		var gate string
+		switch ejstr(m["gate"]) {
+		case "within-range":
+			gate = "the attacking unit is within " + r
+		case "closest-eligible":
+			gate = "it is the closest eligible target"
+		case "closest-or-within-range":
+			gate = "it is the closest eligible target or the attacking unit is within " + r
+		default:
+			gate = dekebab(ejstr(m["gate"]))
+		}
+		return subj + " can only be selected as the target of " + at + " if " + gate
 	case "resource-gain":
 		amount := m["amount"]
 		if amount == nil {

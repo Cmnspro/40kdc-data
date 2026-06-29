@@ -961,7 +961,10 @@
     ],
     "ability_type": "unit",
     "behavior": "activated",
-    "community_notes": "auto-generated, partial"
+    "community_notes": "auto-generated, partial",
+    "usage": {
+      "frequency": "once-per-phase"
+    }
   },
   {
     "ability_id": "warp-rift-firepower",
@@ -1294,7 +1297,10 @@
       "traitor-enforcer"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "mutated-bodyguard",
@@ -1631,6 +1637,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -4654,7 +4663,10 @@
       "fabius-bile"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "chirurgeon",
@@ -4698,10 +4710,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "targeting-permission",
       "target": "self",
       "modifier": {
-        "restriction": "cannot-be-targeted-unless-closest-or-within-12"
+        "attack_type": "ranged",
+        "gate": "within-range",
+        "range": 12
       }
     },
     "scope": {
@@ -4732,11 +4746,12 @@
         }
       },
       "effect": {
-        "type": "cp-gain",
-        "target": "self",
+        "type": "stratagem-cost-modifier",
+        "target": "enemy-within-aura",
         "modifier": {
-          "type": "enemy-stratagem-tax",
-          "amount": 1
+          "operation": "increase",
+          "amount": 1,
+          "applies_to": "stratagems-targeting-bearer"
         }
       }
     },
@@ -4783,7 +4798,10 @@
       "cypher"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "deadly-demise-d6-2",

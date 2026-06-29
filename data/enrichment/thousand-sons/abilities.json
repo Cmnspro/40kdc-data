@@ -568,6 +568,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -1318,7 +1321,10 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "defensive ability (skipped for damage calc)"
+    "community_notes": "defensive ability (skipped for damage calc)",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "prophesied-doom",
@@ -1375,6 +1381,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -2175,10 +2184,12 @@
         "type": "model-is-leader"
       },
       "effect": {
-        "type": "attack-restriction",
+        "type": "targeting-permission",
         "target": "unit",
         "modifier": {
-          "restriction": "ranged-attacks-only-within-18"
+          "attack_type": "ranged",
+          "gate": "within-range",
+          "range": 18
         }
       }
     },

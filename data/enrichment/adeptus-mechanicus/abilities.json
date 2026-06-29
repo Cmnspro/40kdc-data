@@ -851,10 +851,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "targeting-permission",
       "target": "self",
       "modifier": {
-        "restriction": "cannot-be-targeted-unless-closest-or-within-12"
+        "attack_type": "ranged",
+        "gate": "within-range",
+        "range": 12
       }
     },
     "scope": {

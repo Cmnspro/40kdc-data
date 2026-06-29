@@ -499,6 +499,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -2392,7 +2395,10 @@
       "mortarion"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "host-of-plagues",

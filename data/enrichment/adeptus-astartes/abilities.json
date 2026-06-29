@@ -1302,7 +1302,10 @@
       "repulsor"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "reaping-tally",
@@ -1805,10 +1808,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "targeting-permission",
       "target": "self",
       "modifier": {
-        "restriction": "cannot-be-targeted-unless-closest-or-within-12"
+        "attack_type": "ranged",
+        "gate": "within-range",
+        "range": 12
       }
     },
     "scope": {
@@ -2066,7 +2071,10 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated, partial"
+    "community_notes": "auto-generated, partial",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "aura-of-fervour-aura",
@@ -2759,7 +2767,10 @@
       "land-speeder-vengeance"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "hover",
@@ -3171,7 +3182,10 @@
       "ravenwing-dark-talon"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "grand-master-of-the-ravenwing",
@@ -6953,6 +6967,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -8239,7 +8256,10 @@
       "invader-atv"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "omni-scramblers",
@@ -8442,11 +8462,12 @@
         }
       },
       "effect": {
-        "type": "cp-gain",
-        "target": "self",
+        "type": "stratagem-cost-modifier",
+        "target": "enemy-within-aura",
         "modifier": {
-          "type": "enemy-stratagem-tax",
-          "amount": 1
+          "operation": "increase",
+          "amount": 1,
+          "applies_to": "stratagems-targeting-bearer"
         }
       }
     },
@@ -8800,7 +8821,10 @@
       "invictor-tactical-warsuit"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "deeds-of-heroism",
@@ -10172,6 +10196,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -10638,11 +10665,12 @@
         }
       },
       "effect": {
-        "type": "cp-gain",
-        "target": "self",
+        "type": "stratagem-cost-modifier",
+        "target": "enemy-within-aura",
         "modifier": {
-          "type": "enemy-stratagem-tax",
-          "amount": 1
+          "operation": "increase",
+          "amount": 1,
+          "applies_to": "stratagems-targeting-bearer"
         }
       }
     },
@@ -12026,11 +12054,24 @@
               }
             },
             {
-              "type": "ability-grant",
-              "target": "unit",
-              "modifier": {
-                "grant_type": "ignore-characteristic-and-roll-modifiers"
-              }
+              "type": "sequence",
+              "steps": [
+                {
+                  "type": "modifier-immunity",
+                  "target": "unit",
+                  "modifier": {
+                    "scope": "characteristics"
+                  }
+                },
+                {
+                  "type": "roll-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "roll": "all",
+                    "operation": "ignore-modifiers"
+                  }
+                }
+              ]
             }
           ]
         }
@@ -12205,7 +12246,10 @@
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store.",
+    "usage": {
+      "frequency": "once-per-phase"
+    }
   },
   {
     "ability_id": "rapid-deployment",

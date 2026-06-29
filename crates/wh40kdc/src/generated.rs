@@ -12943,6 +12943,15 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///    },
 ///    {
 ///      "$comment": "`battle-shock-test`: the target takes Battle-shock tests on the given `dice` expression instead of the default 2D6 (e.g. '3D6' for Tyranid Synapse)."
+///    },
+///    {
+///      "$comment": "`modifier-immunity`: the target ignores applied modifiers. `scope: characteristics` = ignore any/all modifiers to its characteristics (champion-of-humanity / obfuscation / ceramite family); `enemy-stratagems` / `enemy-abilities` = cannot be affected by enemy Stratagems / abilities. `exclude` lists characteristic codes the immunity does not cover. Roll-modifier immunity stays on `roll-modifier` { operation: ignore-modifiers }; a 'characteristics AND rolls' rule composes the two via a sequence."
+///    },
+///    {
+///      "$comment": "`stratagem-cost-modifier`: modify a Stratagem's CP cost. `operation: increase` adds `amount` CP (the cost-increase / opponent-tax direction — e.g. 'enemy Stratagems targeting this unit cost 1 more CP'); `set-to` sets the cost to `set_to`. `applies_to` picks which Stratagems: `stratagems-targeting-bearer` (enemy Stratagems against the bearer or its aura) or `stratagems-used-by-bearer`. Optional `stratagem` names a single Stratagem. The 'use a Stratagem for 0CP' reduction stays on `cp-refund`."
+///    },
+///    {
+///      "$comment": "`targeting-permission`: the bearer can only be SELECTED as a target (selection-time gate) of `attack_type` (`ranged` | `any`) attacks if `gate` holds — `within-range` (the attacking unit is within `range`\"; Lone Operative = ranged/12, fog-of-dreams = ranged/18), `closest-eligible` (it is the closest eligible target), or `closest-or-within-range`. Distinct from `attack-restriction` (resolution-time) and `targeting-range-limit` (the bearer's own offence)."
 ///    }
 ///  ],
 ///  "required": [
@@ -13020,7 +13029,10 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "replace-roll-from-pool",
 ///        "flyover",
 ///        "cp-on-destroy",
-///        "battle-shock-test"
+///        "battle-shock-test",
+///        "modifier-immunity",
+///        "stratagem-cost-modifier",
+///        "targeting-permission"
 ///      ]
 ///    }
 ///  },
@@ -13211,7 +13223,10 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///    "replace-roll-from-pool",
 ///    "flyover",
 ///    "cp-on-destroy",
-///    "battle-shock-test"
+///    "battle-shock-test",
+///    "modifier-immunity",
+///    "stratagem-cost-modifier",
+///    "targeting-permission"
 ///  ]
 ///}
 /// ```
@@ -13319,6 +13334,12 @@ pub enum SingleEffectType {
     CpOnDestroy,
     #[serde(rename = "battle-shock-test")]
     BattleShockTest,
+    #[serde(rename = "modifier-immunity")]
+    ModifierImmunity,
+    #[serde(rename = "stratagem-cost-modifier")]
+    StratagemCostModifier,
+    #[serde(rename = "targeting-permission")]
+    TargetingPermission,
 }
 impl ::std::fmt::Display for SingleEffectType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -13368,6 +13389,9 @@ impl ::std::fmt::Display for SingleEffectType {
             Self::Flyover => f.write_str("flyover"),
             Self::CpOnDestroy => f.write_str("cp-on-destroy"),
             Self::BattleShockTest => f.write_str("battle-shock-test"),
+            Self::ModifierImmunity => f.write_str("modifier-immunity"),
+            Self::StratagemCostModifier => f.write_str("stratagem-cost-modifier"),
+            Self::TargetingPermission => f.write_str("targeting-permission"),
         }
     }
 }
@@ -13422,6 +13446,9 @@ impl ::std::str::FromStr for SingleEffectType {
             "flyover" => Ok(Self::Flyover),
             "cp-on-destroy" => Ok(Self::CpOnDestroy),
             "battle-shock-test" => Ok(Self::BattleShockTest),
+            "modifier-immunity" => Ok(Self::ModifierImmunity),
+            "stratagem-cost-modifier" => Ok(Self::StratagemCostModifier),
+            "targeting-permission" => Ok(Self::TargetingPermission),
             _ => Err("invalid value".into()),
         }
     }

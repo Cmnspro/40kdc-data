@@ -293,16 +293,16 @@
       "count": 129
     },
     {
-      "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
-      "count": 81
+      "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
+      "count": 80
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
       "count": 79
     },
     {
-      "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 79
+      "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
+      "count": 62
     },
     {
       "reason": "effect type \"resurrection\" is not modelled by the buff layer",
@@ -355,6 +355,10 @@
     {
       "reason": "stat-modifier on \"M\" is outside the damage path",
       "count": 22
+    },
+    {
+      "reason": "effect type \"targeting-permission\" is not modelled by the buff layer",
+      "count": 19
     },
     {
       "reason": "roll-modifier: operation \"set\" not supported",
@@ -437,6 +441,10 @@
       "count": 5
     },
     {
+      "reason": "conditional: cannot evaluate condition \"units-destroyed\" against current context",
+      "count": 4
+    },
+    {
       "reason": "roll-modifier: operation \"ignore-engagement-penalty\" not supported",
       "count": 4
     },
@@ -455,10 +463,6 @@
     {
       "reason": "stat-modifier on \"Ld\" is outside the damage path",
       "count": 4
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"units-destroyed\" against current context",
-      "count": 3
     },
     {
       "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
@@ -566,6 +570,10 @@
     },
     {
       "reason": "stat-modifier on \"OC\" is outside the damage path",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"stratagem-cost-modifier\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -1096,11 +1104,11 @@
       "faction": "adepta-sororitas",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "adepta-sororitas",
@@ -2176,11 +2184,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -6456,11 +6464,11 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
@@ -7746,11 +7754,11 @@
       "faction": "aeldari",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "aeldari",
@@ -7820,7 +7828,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "aeldari",
@@ -8230,7 +8238,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "aeldari",
@@ -9266,11 +9274,11 @@
       "faction": "agents-of-the-imperium",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "agents-of-the-imperium",
@@ -11346,11 +11354,11 @@
       "faction": "astra-militarum",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "astra-militarum",
@@ -12636,11 +12644,11 @@
       "faction": "chaos-daemons",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-daemons",
@@ -14856,7 +14864,7 @@
       "faction": "chaos-knights",
       "ability_id": "mirror-of-fates-lords-of-dread",
       "name": "Mirror of Fates",
-      "shape": "cp-refund",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
@@ -16546,11 +16554,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -20216,11 +20224,11 @@
       "faction": "emperors-children",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "emperors-children",
@@ -20676,11 +20684,11 @@
       "faction": "genestealer-cults",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "genestealer-cults",
@@ -21860,7 +21868,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "grey-knights",
@@ -22416,11 +22424,11 @@
       "faction": "imperial-knights",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "imperial-knights",
@@ -23106,11 +23114,11 @@
       "faction": "leagues-of-votann",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "leagues-of-votann",
@@ -23370,7 +23378,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "conditional: cannot evaluate condition \"units-destroyed\" against current context"
     },
     {
       "faction": "leagues-of-votann",
@@ -24546,11 +24554,11 @@
       "faction": "necrons",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "necrons",
@@ -25496,11 +25504,11 @@
       "faction": "orks",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -27416,11 +27424,11 @@
       "faction": "tau-empire",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "tau-empire",
@@ -28760,7 +28768,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "thousand-sons",
@@ -29716,11 +29724,11 @@
       "faction": "tyranids",
       "ability_id": "lone-operative",
       "name": "Lone Operative",
-      "shape": "attack-restriction",
+      "shape": "targeting-permission",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"targeting-permission\" is not modelled by the buff layer"
     },
     {
       "faction": "tyranids",
