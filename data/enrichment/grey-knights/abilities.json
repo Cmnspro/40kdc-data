@@ -1136,10 +1136,12 @@
         "type": "model-is-leader"
       },
       "effect": {
-        "type": "attack-restriction",
+        "type": "targeting-permission",
         "target": "unit",
         "modifier": {
-          "restriction": "within-18-inches"
+          "attack_type": "any",
+          "gate": "within-range",
+          "range": 18
         }
       }
     },

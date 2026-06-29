@@ -778,11 +778,6 @@ fn describe_attack_restriction(m: &Map<String, Value>, subj: &str) -> String {
             };
             format!("each time an attack targets {subj}, worsen the Armour Penetration of that attack by {amount}")
         }
-        "cannot-be-targeted-unless-closest-or-within-12" => {
-            format!(
-                "{subj} can only be targeted if it is the closest eligible target or within 12\""
-            )
-        }
         "targeting-range-limit" => format!(
             "{subj} can only target enemy units within {}\"",
             range.as_deref().unwrap_or("?")
@@ -1449,6 +1444,75 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 "one Stratagem".to_string()
             };
             format!("you can use {strat} on {subj} for 0CP")
+        }
+        T::ModifierImmunity => match nstr(m, "scope") {
+            Some("enemy-stratagems") => format!("{subj} cannot be affected by enemy Stratagems"),
+            Some("enemy-abilities") => format!("{subj} cannot be affected by enemy abilities"),
+            _ => {
+                let exc = m
+                    .get("exclude")
+                    .and_then(Value::as_array)
+                    .filter(|a| !a.is_empty())
+                    .map(|a| {
+                        let names: Vec<String> = a.iter().map(stat_name).collect();
+                        format!(" (except {})", names.join(" and "))
+                    })
+                    .unwrap_or_default();
+                format!(
+                    "{subj} {} any modifiers to {} characteristics{exc}",
+                    agree(&subj, "ignores"),
+                    pronoun(&subj)
+                )
+            }
+        },
+        T::StratagemCostModifier => {
+            let which = if notnull(m, "stratagem") {
+                format!("the {} Stratagem", title_case(&jv(m, "stratagem")))
+            } else {
+                "Stratagems".to_string()
+            };
+            let whose = if nstr(m, "applies_to") == Some("stratagems-used-by-bearer") {
+                format!("used by {subj}")
+            } else {
+                format!("that target {subj}")
+            };
+            let verb = if notnull(m, "stratagem") {
+                "costs"
+            } else {
+                "cost"
+            };
+            let val = if nstr(m, "operation") == Some("set-to") {
+                format!("{}CP", jv(m, "set_to"))
+            } else {
+                let amount = if notnull(m, "amount") {
+                    jv(m, "amount")
+                } else {
+                    "1".to_string()
+                };
+                format!("{amount} more CP")
+            };
+            format!("{which} {whose} {verb} {val}")
+        }
+        T::TargetingPermission => {
+            let at = if nstr(m, "attack_type") == Some("ranged") {
+                "ranged attacks"
+            } else {
+                "attacks"
+            };
+            let r = if notnull(m, "range") {
+                format!("{}\"", jv(m, "range"))
+            } else {
+                "?".to_string()
+            };
+            let gate = match nstr(m, "gate") {
+                Some("within-range") => format!("the attacking unit is within {r}"),
+                Some("closest-eligible") => "it is the closest eligible target".to_string(),
+                Some("closest-or-within-range") => {
+                    format!("it is the closest eligible target or the attacking unit is within {r}")
+                }
+                _ => dekebab(&jv(m, "gate")),
+            };
+            format!("{subj} can only be selected as the target of {at} if {gate}")
         }
         T::ResourceGain => {
             let amount = first(m, &["amount", "value"])

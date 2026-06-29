@@ -761,10 +761,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "attack-restriction",
+      "type": "targeting-permission",
       "target": "self",
       "modifier": {
-        "restriction": "cannot-be-targeted-unless-closest-or-within-12"
+        "attack_type": "ranged",
+        "gate": "within-range",
+        "range": 12
       }
     },
     "scope": {
@@ -1143,7 +1145,10 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "defensive ability (skipped for damage calc)"
+    "community_notes": "defensive ability (skipped for damage calc)",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "grim-efficiency",
@@ -1258,6 +1263,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -1416,7 +1424,10 @@
       "arkanyst-evaluator"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "opportunistic-manoeuvre",
@@ -1593,23 +1604,12 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "operator": "and",
-        "operands": [
-          {
-            "type": "units-destroyed",
-            "parameters": {
-              "side": "enemy",
-              "window": "phase",
-              "count_min": 1
-            }
-          },
-          {
-            "type": "timing-is",
-            "parameters": {
-              "timing": "once-per-phase"
-            }
-          }
-        ]
+        "type": "units-destroyed",
+        "parameters": {
+          "side": "enemy",
+          "window": "phase",
+          "count_min": 1
+        }
       },
       "effect": {
         "type": "resource-gain",
@@ -1629,7 +1629,10 @@
     ],
     "ability_type": "unit",
     "behavior": "reactive",
-    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21",
+    "usage": {
+      "frequency": "once-per-phase"
+    }
   },
   {
     "ability_id": "feel-no-pain-6",

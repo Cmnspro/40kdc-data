@@ -817,6 +817,9 @@ class SingleEffect(TypedDict):
         "flyover",
         "cp-on-destroy",
         "battle-shock-test",
+        "modifier-immunity",
+        "stratagem-cost-modifier",
+        "targeting-permission",
     ]
     target: Literal[
         "self",

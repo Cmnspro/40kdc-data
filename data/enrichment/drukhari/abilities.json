@@ -492,6 +492,9 @@
       "event": "enemy-unit-ended-move",
       "subject": "enemy-unit",
       "optional": true
+    },
+    "usage": {
+      "frequency": "once-per-turn"
     }
   },
   {
@@ -1863,11 +1866,12 @@
         }
       },
       "effect": {
-        "type": "cp-gain",
-        "target": "self",
+        "type": "stratagem-cost-modifier",
+        "target": "enemy-within-aura",
         "modifier": {
-          "type": "enemy-stratagem-tax",
-          "amount": 1
+          "operation": "increase",
+          "amount": 1,
+          "applies_to": "stratagems-targeting-bearer"
         }
       }
     },
@@ -2135,7 +2139,10 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "defensive ability (skipped for damage calc)"
+    "community_notes": "defensive ability (skipped for damage calc)",
+    "usage": {
+      "frequency": "once-per-turn"
+    }
   },
   {
     "ability_id": "archon-s-retinue",

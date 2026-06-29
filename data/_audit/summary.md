@@ -40,9 +40,9 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `181` — stat-modifier: operation "undefined" not supported
 - `149` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
-- `81` — effect type "attack-restriction" is not modelled by the buff layer
+- `80` — conditional: cannot evaluate condition "undefined" against current context
 - `79` — effect type "leadership-modifier" is not modelled by the buff layer
-- `79` — conditional: cannot evaluate condition "undefined" against current context
+- `62` — effect type "attack-restriction" is not modelled by the buff layer
 - `56` — effect type "resurrection" is not modelled by the buff layer
 - `51` — effect type "objective-control-modifier" is not modelled by the buff layer
 - `49` — effect type "cp-refund" is not modelled by the buff layer
@@ -56,6 +56,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `22` — effect type "fight-on-death" is not modelled by the buff layer
 - `22` — effect type "fight-first" is not modelled by the buff layer
 - `22` — stat-modifier on "M" is outside the damage path
+- `19` — effect type "targeting-permission" is not modelled by the buff layer
 - `18` — roll-modifier: operation "set" not supported
 - `14` — roll-modifier: operation "ignore-modifiers" not supported
 - `13` — conditional: cannot evaluate condition "unit-below-starting-strength" against current context
@@ -76,12 +77,12 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `5` — stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer
 - `5` — effect type "charge-roll-modifier" is not modelled by the buff layer
 - `5` — effect type "resource-spend" is not modelled by the buff layer
+- `4` — conditional: cannot evaluate condition "units-destroyed" against current context
 - `4` — roll-modifier: operation "ignore-engagement-penalty" not supported
 - `4` — conditional: cannot evaluate condition "attack-stat-compare" against current context
 - `4` — conditional: cannot evaluate condition "attack-is-type" against current context
 - `4` — conditional: cannot evaluate condition "opponent-unit-within-range" against current context
 - `4` — stat-modifier on "Ld" is outside the damage path
-- `3` — conditional: cannot evaluate condition "units-destroyed" against current context
 - `3` — effect type "resource-gain" is not modelled by the buff layer
 - `3` — effect type "shoot-on-death" is not modelled by the buff layer
 - `3` — conditional: cannot evaluate condition "has-lost-wounds" against current context
@@ -109,6 +110,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `1` — conditional: cannot evaluate condition "unit-has-tag" against current context
 - `1` — stat-modifier: narrows by "weapon_filter" which the cruncher can't resolve here
 - `1` — stat-modifier on "OC" is outside the damage path
+- `1` — effect type "stratagem-cost-modifier" is not modelled by the buff layer
 - `1` — re-roll on "dread-ability-selection" (subset …) is outside the damage path
 - `1` — effect type "aura" is not modelled by the buff layer
 - `1` — conditional: cannot evaluate condition "has-fought-this-phase" against current context

@@ -102,7 +102,8 @@
             "auto-result", "firing-deck", "disembark-after-move", "disembark",
             "rule-state",
             "pool-add-die", "replace-roll-from-pool",
-            "flyover", "cp-on-destroy", "battle-shock-test"
+            "flyover", "cp-on-destroy", "battle-shock-test",
+            "modifier-immunity", "stratagem-cost-modifier", "targeting-permission"
           ]
         },
         "target": {
@@ -346,6 +347,70 @@
                   "dice": { "type": "string", "minLength": 1 }
                 },
                 "required": ["dice"]
+              }
+            },
+            "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`modifier-immunity`: the target ignores applied modifiers. `scope: characteristics` = ignore any/all modifiers to its characteristics (champion-of-humanity / obfuscation / ceramite family); `enemy-stratagems` / `enemy-abilities` = cannot be affected by enemy Stratagems / abilities. `exclude` lists characteristic codes the immunity does not cover. Roll-modifier immunity stays on `roll-modifier` { operation: ignore-modifiers }; a 'characteristics AND rolls' rule composes the two via a sequence.",
+          "if": {
+            "properties": { "type": { "const": "modifier-immunity" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "scope": { "type": "string", "enum": ["characteristics", "enemy-stratagems", "enemy-abilities"] },
+                  "exclude": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["scope"]
+              }
+            },
+            "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`stratagem-cost-modifier`: modify a Stratagem's CP cost. `operation: increase` adds `amount` CP (the cost-increase / opponent-tax direction — e.g. 'enemy Stratagems targeting this unit cost 1 more CP'); `set-to` sets the cost to `set_to`. `applies_to` picks which Stratagems: `stratagems-targeting-bearer` (enemy Stratagems against the bearer or its aura) or `stratagems-used-by-bearer`. Optional `stratagem` names a single Stratagem. The 'use a Stratagem for 0CP' reduction stays on `cp-refund`.",
+          "if": {
+            "properties": { "type": { "const": "stratagem-cost-modifier" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "operation": { "type": "string", "enum": ["increase", "set-to"] },
+                  "amount": { "type": "integer", "minimum": 1 },
+                  "set_to": { "type": "integer", "minimum": 0 },
+                  "applies_to": { "type": "string", "enum": ["stratagems-targeting-bearer", "stratagems-used-by-bearer"] },
+                  "stratagem": { "type": "string" }
+                },
+                "required": ["operation", "applies_to"]
+              }
+            },
+            "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`targeting-permission`: the bearer can only be SELECTED as a target (selection-time gate) of `attack_type` (`ranged` | `any`) attacks if `gate` holds — `within-range` (the attacking unit is within `range`\"; Lone Operative = ranged/12, fog-of-dreams = ranged/18), `closest-eligible` (it is the closest eligible target), or `closest-or-within-range`. Distinct from `attack-restriction` (resolution-time) and `targeting-range-limit` (the bearer's own offence).",
+          "if": {
+            "properties": { "type": { "const": "targeting-permission" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "attack_type": { "type": "string", "enum": ["ranged", "any"] },
+                  "gate": { "type": "string", "enum": ["within-range", "closest-eligible", "closest-or-within-range"] },
+                  "range": { "type": "number", "exclusiveMinimum": 0 }
+                },
+                "required": ["attack_type", "gate"]
               }
             },
             "required": ["modifier"]

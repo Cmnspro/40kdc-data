@@ -1022,6 +1022,42 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       const strat = m.stratagem != null ? `the ${titleCase(jstr(m.stratagem))} Stratagem` : "one Stratagem";
       return `you can use ${strat} on ${subj} for 0CP`;
     }
+    case "modifier-immunity": {
+      const scope = jstr(m.scope);
+      if (scope === "enemy-stratagems") return `${subj} cannot be affected by enemy Stratagems`;
+      if (scope === "enemy-abilities") return `${subj} cannot be affected by enemy abilities`;
+      const exc =
+        Array.isArray(m.exclude) && m.exclude.length
+          ? ` (except ${(m.exclude as unknown[]).map((s) => statName(jstr(s))).join(" and ")})`
+          : "";
+      return `${subj} ${v(subj, "ignores")} any modifiers to ${pronoun(subj)} characteristics${exc}`;
+    }
+    case "stratagem-cost-modifier": {
+      const which = m.stratagem != null ? `the ${titleCase(jstr(m.stratagem))} Stratagem` : "Stratagems";
+      const whose = m.applies_to === "stratagems-used-by-bearer" ? `used by ${subj}` : `that target ${subj}`;
+      const verb = m.stratagem != null ? "costs" : "cost";
+      const val = m.operation === "set-to" ? `${jstr(m.set_to)}CP` : `${jstr(m.amount ?? 1)} more CP`;
+      return `${which} ${whose} ${verb} ${val}`;
+    }
+    case "targeting-permission": {
+      const at = m.attack_type === "ranged" ? "ranged attacks" : "attacks";
+      const r = m.range != null ? `${jstr(m.range)}"` : "?";
+      let gate: string;
+      switch (jstr(m.gate)) {
+        case "within-range":
+          gate = `the attacking unit is within ${r}`;
+          break;
+        case "closest-eligible":
+          gate = "it is the closest eligible target";
+          break;
+        case "closest-or-within-range":
+          gate = `it is the closest eligible target or the attacking unit is within ${r}`;
+          break;
+        default:
+          gate = dekebab(jstr(m.gate));
+      }
+      return `${subj} can only be selected as the target of ${at} if ${gate}`;
+    }
     case "resource-gain":
       return `you gain ${jstr(m.amount ?? m.value)} ${poolName(m.pool_id ?? m.resource)}`;
     case "resource-spend": {
@@ -1245,8 +1281,6 @@ function describeAttackRestriction(m: Record<string, unknown>, subj: string): st
   switch (slug) {
     case "worsen-incoming-ap":
       return `each time an attack targets ${subj}, worsen the Armour Penetration of that attack by ${jstr(m.value ?? 1)}`;
-    case "cannot-be-targeted-unless-closest-or-within-12":
-      return `${subj} can only be targeted if it is the closest eligible target or within 12"`;
     case "targeting-range-limit":
       return `${subj} can only target enemy units within ${range ?? "?"}"`;
     case "reinforcement-denial":

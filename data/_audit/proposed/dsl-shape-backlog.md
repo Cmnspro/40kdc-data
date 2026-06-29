@@ -8,12 +8,17 @@ unexpressibility. Counts are abilities / factions.
 
 | # | Shape | Kind | Coverage | Status |
 |---|---|---|---|---|
-| 1 | pooled-resource economy (tokens + valued dice) | effect + condition | 101 / 5 | **shape landed (1.0.8)** |
-| 2 | `modifier-immunity` | effect | 46 / 25 | todo |
-| 3 | `usage-limit` | meta-constraint field | 366 / 34 | todo |
-| 4 | `stratagem-cost-modifier` | effect | 50 / 22 | todo |
-| 5 | `targetable-only-if` | condition | 29 / 15 | todo |
+| 1 | pooled-resource economy (tokens + valued dice) | effect + condition | 101 / 5 | **landed (1.0.8)** |
+| 2 | `modifier-immunity` | effect | 46 / 25 | **landed (1.0.14)** |
+| 3 | `usage` limit | meta-constraint field | 366 / 34 | **landed (field; adoption 1.0.14)** |
+| 4 | `stratagem-cost-modifier` | effect | 50 / 22 | **landed (1.0.14)** |
+| 5 | `targeting-permission` (was "targetable-only-if") | effect | 29 / 15 | **landed (1.0.14)** |
 | ~~6~~ | ~~sticky-objective~~ | — | — | **dropped — already expressible** |
+
+> Coverage counts are whole-store (incl. enhancements/stratagems). The DSL data
+> layer enriches only core/faction/detachment/unit + the enriched enhancement/
+> stratagem subset, so each shape's *migratable data footprint* is smaller than
+> the store coverage; see per-shape notes.
 
 ## 1. Pooled-resource economy — tokens + valued dice (SHAPE LANDED, 1.0.8)
 
@@ -32,38 +37,63 @@ Miracle-dice abilities. Deliberately left as-is — neither new effect fits fait
 (re-rolls a die); both remain opaque ability-grant grant_type until a "modify a
 pooled die" shape exists.
 
-## 2. modifier-immunity (effect)
+## 2. modifier-immunity (effect) — LANDED 1.0.14
 
-"Ignore any/all modifiers to characteristics and/or rolls", "cannot be affected
-by enemy Stratagems/abilities". Negates *applied* modifiers — not `stat-modifier`
-(adds/sets a value), not a condition. Clusters 41 / 13 / 8 (medoids
-unyielding-might-ceramite-sentinels, champion-of-humanity-firestorm-assault-force,
-inescapable-accuracy). New effect leaf: `scope: characteristics | rolls | both` +
-optional exclusions.
+`single-effect` leaf `modifier-immunity { scope, exclude? }`. Negates *applied*
+modifiers — not `stat-modifier` (adds/sets a value), not a condition.
+`scope: characteristics` is the grounded mechanic ("ignore any/all modifiers to a
+unit's characteristics" — champion-of-humanity / obfuscation / ceramite family).
+`scope: enemy-stratagems | enemy-abilities` ("cannot be affected by enemy
+Stratagems / abilities") + the `exclude` carve-out are reserved for incoming
+faction-pack content — no current store ability uses them (pinned by unit test,
+not data). Roll-modifier immunity stays on `roll-modifier { operation:
+ignore-modifiers }` (e.g. inescapable-accuracy, the BS/Hit attack-scoped family —
+it fits, not torture); a "characteristics AND rolls" rule composes the two via a
+`sequence`. Data migration: the lone char+roll
+`ability-grant{ignore-characteristic-and-roll-modifiers}` (adeptus-astartes) →
+sequence of the two leaves. Most of the 46/25 store coverage is
+enhancements/stratagems not yet enriched in the data layer.
 
-## 3. usage-limit (meta-constraint field)
+## 3. usage limit (meta-constraint field) — FIELD LANDED; adoption 1.0.14
 
-"Once per turn / phase / battle", per-unit vs per-army. Most pervasive (every
-faction). `scope.duration: one-use` is too coarse to distinguish once-per-turn-
-per-unit from once-per-battle-army — a correctness gap for availability
-reasoning. Structured `usage_limit { count, per: turn|phase|battle, scope:
-unit|army }` rather than prose.
+`ability.usage { frequency, count?, per? }` (schema) rendered by `usageClause`
+(front-of-sentence "Once per turn, …"). Distinguishes once-per-turn-per-unit
+from once-per-battle-army where `scope.duration: one-use` was too coarse. 1.0.14
+adopts it on the abilities that still encode their limit in prose / a timing
+marker.
 
-## 4. stratagem-cost-modifier (effect)
+## 4. stratagem-cost-modifier (effect) — LANDED 1.0.14
 
-"Stratagems cost 1 more CP to target this unit", "use [X] for 0 CP". `cp-gain`/
-`cp-refund` cover gaining CP, nothing modifies a Stratagem's *cost*. Size-23
-cluster (medoid protection-protocols). New effect `{ delta | set-to, scope:
-targeting | used-by, stratagem_filter? }`. Ex: shock-charge,
-mirror-of-fates-lords-of-dread, homing-beacon, incensor-cherub.
+`single-effect` leaf `stratagem-cost-modifier { operation, amount?|set_to?,
+applies_to, stratagem? }`. `cp-gain`/`cp-refund` cover *gaining* CP; this
+modifies a Stratagem's *cost*. The genuine gap is the cost-increase / opponent-
+tax direction — the 7 "enemy Stratagems targeting a unit within 12" cost 1 more
+CP" auras (unorthodox-strategist, guile-of-the-wolf, lord-of-deceit,
+one-head-looks-back, agent-of-discord, mind-like-a-steel-trap, malign-presence)
+were mis-encoded as `cp-gain{enemy-stratagem-tax}` → migrated to `{operation:
+increase, applies_to: stratagems-targeting-bearer}`. mirror-of-fates re-authored
+as a two-clause sequence. The "use a Stratagem for 0CP" reduction stays on
+`cp-refund` (49 uses). `operation:set-to` / `applies_to:stratagems-used-by-bearer`
+are reserved (pinned by unit test). NB: `master-of-the-fleet` is a Deep Strike
+granter, not a cost modifier (original backlog mis-cited it).
 
-## 5. targetable-only-if (condition)
+## 5. targeting-permission (effect, was "targetable-only-if") — LANDED 1.0.14
 
-"Cannot be targeted by ranged attacks unless the attacker is within X\"",
-closest-target-only gates. Distinct from `attack-restriction` (fires at
-resolution, not target *selection*) and the Lone Operative keyword (fixed 12",
-already modeled). Clusters 12 / 8 (obfuscation-librarius-conclave,
-fog-of-dreams-psychic). New condition evaluated at target-selection time.
+`single-effect` leaf `targeting-permission { attack_type, gate, range? }` — the
+bearer can only be *selected as a target* of (ranged) attacks if a selection-time
+gate holds. Framed as a condition originally, but a targeting restriction has no
+condition host, so it is an effect leaf sibling to `attack-restriction`
+(resolution-time) and `targeting-range-limit` (the bearer's own offence).
+Replaces the opaque baked-range slugs (`ranged-attack-only-within-range-18`,
+`ranged-attacks-only-within-18`, `within-18-inches`, and the deleted
+`cannot-be-targeted-unless-closest-or-within-12`). The deleted slug was the core
+**Lone Operative** encoding (16 factions) — migrated faithfully to `{ranged,
+within-range, 12}` (the slug name's "closest" clause was spurious for Lone
+Operative); fog-of-dreams / illusions-of-tzeentch → `{ranged, within-range, 18}`,
+haloed-in-soulfire → `{any, within-range, 18}`. `gate: closest-eligible |
+closest-or-within-range` reserved (pinned by unit test). orbital-oversight keeps
+its `ranged-attack-range` slug — it carries a Lone-Operative-conditional 6" range
+the leaf cannot yet express.
 
 ## Dropped
 

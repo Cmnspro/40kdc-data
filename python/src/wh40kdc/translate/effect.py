@@ -664,8 +664,6 @@ def _describe_attack_restriction(m: dict[str, Any], subj: str) -> str:
             f"each time an attack targets {subj}, "
             f"worsen the Armour Penetration of that attack by {amount}"
         )
-    if slug == "cannot-be-targeted-unless-closest-or-within-12":
-        return f'{subj} can only be targeted if it is the closest eligible target or within 12"'
     if slug == "targeting-range-limit":
         return f'{subj} can only target enemy units within {rng or "?"}"'
     if slug == "reinforcement-denial":
@@ -1114,6 +1112,52 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         else:
             strat = "one Stratagem"
         return f"you can use {strat} on {subj} for 0CP"
+    if etype == "modifier-immunity":
+        scope = _jstr(m.get("scope"))
+        if scope == "enemy-stratagems":
+            return f"{subj} cannot be affected by enemy Stratagems"
+        if scope == "enemy-abilities":
+            return f"{subj} cannot be affected by enemy abilities"
+        exclude = m.get("exclude")
+        if isinstance(exclude, list) and exclude:
+            names = " and ".join(_stat_name(s) for s in exclude)
+            exc = f" (except {names})"
+        else:
+            exc = ""
+        return (
+            f"{subj} {_v(subj, 'ignores')} any modifiers to "
+            f"{_pronoun(subj)} characteristics{exc}"
+        )
+    if etype == "stratagem-cost-modifier":
+        if m.get("stratagem") is not None:
+            which = f"the {_title_case(_jstr(m.get('stratagem')))} Stratagem"
+        else:
+            which = "Stratagems"
+        whose = (
+            f"used by {subj}"
+            if m.get("applies_to") == "stratagems-used-by-bearer"
+            else f"that target {subj}"
+        )
+        verb = "costs" if m.get("stratagem") is not None else "cost"
+        if m.get("operation") == "set-to":
+            val = f"{_jstr(m.get('set_to'))}CP"
+        else:
+            amount = m.get("amount") if m.get("amount") is not None else 1
+            val = f"{_jstr(amount)} more CP"
+        return f"{which} {whose} {verb} {val}"
+    if etype == "targeting-permission":
+        at = "ranged attacks" if m.get("attack_type") == "ranged" else "attacks"
+        r = f'{_jstr(m.get("range"))}"' if m.get("range") is not None else "?"
+        gate_val = _jstr(m.get("gate"))
+        if gate_val == "within-range":
+            gate = f"the attacking unit is within {r}"
+        elif gate_val == "closest-eligible":
+            gate = "it is the closest eligible target"
+        elif gate_val == "closest-or-within-range":
+            gate = f"it is the closest eligible target or the attacking unit is within {r}"
+        else:
+            gate = dekebab(gate_val)
+        return f"{subj} can only be selected as the target of {at} if {gate}"
     if etype == "resource-gain":
         amount = m.get("amount") if m.get("amount") is not None else m.get("value")
         pool = m.get("pool_id") if m.get("pool_id") is not None else m.get("resource")
