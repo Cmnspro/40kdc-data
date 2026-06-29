@@ -608,7 +608,7 @@ describe('shared Chaos datasheets resolve to the army faction', () => {
 
 	it('does not flag own World Eaters units when a Chaos Knights ally is present', () => {
 		const ckRule = alliesForState({ ...emptyBuilderState(), factionId: 'world-eaters' }).find(
-			(g) => g.rule.id === 'world-eaters-chaos-knights',
+			(g) => g.rule.id === 'chaos-knights-allies',
 		);
 		expect(ckRule).toBeDefined();
 		expect(ckRule!.units.length).toBeGreaterThan(0);
@@ -625,7 +625,7 @@ describe('shared Chaos datasheets resolve to the army faction', () => {
 			key: 'ck',
 			datasheetId: ckRule!.units[0].id,
 			factionId: 'chaos-knights',
-			allyRuleId: 'world-eaters-chaos-knights',
+			allyRuleId: 'chaos-knights-allies',
 			modelCount: 1,
 			loadout: new Map(),
 			enhancementId: null,
@@ -637,6 +637,45 @@ describe('shared Chaos datasheets resolve to the army faction', () => {
 			units: [own('chaos-spawn', 's'), own('master-of-executions', 'm'), ally],
 		});
 		expect(issues.some((v) => /every army model must have/.test(v.message))).toBe(false);
+	});
+});
+
+describe('generated ally caps: keyword_limits and warlord allowlist', () => {
+	it('flags more War Dogs than the Chaos Knights pool allows', () => {
+		const warDogs = ['war-dog-huntsman', 'war-dog-brigand', 'war-dog-executioner', 'war-dog-stalker'];
+		const units: BuilderUnit[] = warDogs.map((id, i) => ({
+			key: `wd${i}`,
+			datasheetId: id,
+			factionId: 'chaos-knights',
+			allyRuleId: 'chaos-knights-allies',
+			modelCount: 1,
+			loadout: new Map(),
+			enhancementId: null,
+			isWarlord: false,
+		}));
+		const issues = builderViolations({ ...emptyBuilderState(), factionId: 'world-eaters', units });
+		// strike-force cap for War Dog is 3; a 4th trips the advisory.
+		expect(issues.some((v) => /4 War Dog over the 3 allowed/.test(v.message))).toBe(true);
+	});
+
+	it('flags an ally Warlord absent from the pool’s warlord allowlist', () => {
+		// callidus-assassin is in the Imperial Agents pool but not its warlord allowlist.
+		const ally: BuilderUnit = {
+			key: 'cal',
+			datasheetId: 'callidus-assassin',
+			factionId: 'agents-of-the-imperium',
+			allyRuleId: 'agents-of-the-imperium-allies',
+			modelCount: 1,
+			loadout: new Map(),
+			enhancementId: null,
+			isWarlord: true,
+		};
+		const issues = builderViolations({
+			...emptyBuilderState(),
+			factionId: 'astra-militarum',
+			units: [ally],
+		});
+		expect(issues.some((v) => /only specific units may be Warlord/.test(v.message))).toBe(true);
 	});
 });
 

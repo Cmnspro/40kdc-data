@@ -61,6 +61,7 @@ import {
 } from "./mfm/wargear.js";
 import { runAttachmentRoles, buildAttachmentReport } from "./mfm/attachment.js";
 import { runSeedUnits, buildSeedUnitsReport } from "./mfm/seed-units.js";
+import { runAllies, buildAlliesReport } from "./mfm/allies.js";
 import { applyWrites, type StagedWrite } from "./mfm/apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
@@ -745,6 +746,31 @@ async function runSeedUnitsCmd(
   }
 }
 
+async function runAlliesCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runAllies(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-allies.md");
+  fs.writeFileSync(reportPath, buildAlliesReport(report, write));
+
+  console.log(`Allies report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Pools emitted ${report.rules.length}, skipped ${report.skipped.length}` +
+      `${report.skipped.length ? ` (${report.skipped.map((s) => s.label).join(", ")})` : ""}, ` +
+      `partially-unresolved ${report.unresolved.length}, new-in-dump ${report.unknownPools.length}.`,
+  );
+  for (const u of report.unresolved) {
+    const parts = [
+      u.datasheets.length ? `datasheets: ${u.datasheets.join("; ")}` : "",
+      u.detachments.length ? `detachments: ${u.detachments.join("; ")}` : "",
+    ].filter(Boolean);
+    console.log(`  ${u.id} dropped → ${parts.join(" | ")}`);
+  }
+  for (const g of report.unknownPools) console.log(`  new GW pool not in overlay: ${g}`);
+
+  await applyWrites(report.staged, { write, label: "allies" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
@@ -770,6 +796,7 @@ async function main(): Promise<void> {
     "composition-tiers",
     "attachment-role",
     "seed-units",
+    "allies",
   ];
   if (!commands.includes(cmd)) {
     console.error(
@@ -794,6 +821,7 @@ async function main(): Promise<void> {
   else if (cmd === "attachment-role") await runAttachmentRoleCmd(dump, write, onlyDir);
   else if (cmd === "seed-units")
     await runSeedUnitsCmd(dump, write, onlyDir, includeCombatPatrol);
+  else if (cmd === "allies") await runAlliesCmd(dump, write);
 }
 
 main().catch((e) => {

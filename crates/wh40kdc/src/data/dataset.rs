@@ -599,7 +599,8 @@ impl Dataset {
     /// The allied-rules offered for an army of `faction_id` running the given
     /// detachments. A rule applies when both gates pass: the army gate
     /// (`army_keywords_any` empty, or intersecting the faction's keywords) and
-    /// the detachment gate (`detachment_id` null, or among `detachment_ids`).
+    /// the detachment gate (`detachment_ids` empty, or at least one listed id
+    /// among the selected detachments).
     /// Order follows the allied-rules data. Mirror of TS `alliesFor`; pinned by
     /// the `allies_for` conformance query.
     pub fn allies_for(&self, faction_id: &str, detachment_ids: &[&str]) -> Vec<&AlliedRule> {
@@ -624,9 +625,14 @@ impl Dataset {
                         .iter()
                         .any(|k| faction_keywords.contains(&k.to_lowercase())),
                 };
-                let detachment_gate = match &rule.detachment_id {
-                    None => true,
-                    Some(id) => detachment_ids.contains(&id.as_str()),
+                let detachment_gate = {
+                    let gates: Vec<&str> = rule
+                        .detachment_ids
+                        .iter()
+                        .flatten()
+                        .map(|x| x.as_str())
+                        .collect();
+                    gates.is_empty() || gates.iter().any(|id| detachment_ids.contains(id))
                 };
                 army_gate && detachment_gate
             })
@@ -634,10 +640,11 @@ impl Dataset {
     }
 
     /// The unit pool an allied-rule grants, sorted by name. Starts from the
-    /// rule's `source_faction_id` (if set) or the whole dataset, narrows to
-    /// units carrying any `source_keywords`, then applies `required_keywords`
-    /// (all present), `excluded_keywords` (none present), and `roles`. Empty for
-    /// an unknown rule id. Mirror of TS `allyUnitsFor`; pinned by the
+    /// rule's `source_faction_id` (if set) or the whole dataset, then ANDs every
+    /// filter the rule sets: `source_datasheet_ids` (explicit id allowlist —
+    /// primary selector for generated pools), any `source_keywords`,
+    /// `required_keywords` (all present), `excluded_keywords` (none present), and
+    /// `roles`. Empty for an unknown rule id. Mirror of TS `allyUnitsFor`; pinned by the
     /// `ally_units_for` conformance query.
     pub fn ally_units_for(&self, rule_id: &str) -> Vec<&Unit> {
         let Some(rule) = self.allied_rules.get(rule_id) else {
@@ -658,10 +665,19 @@ impl Dataset {
         let excluded = lower(&rule.excluded_keywords);
         let roles: std::collections::HashSet<String> =
             rule.roles.iter().flatten().map(|r| r.to_string()).collect();
+        let datasheet_ids: std::collections::HashSet<&str> = rule
+            .source_datasheet_ids
+            .iter()
+            .flatten()
+            .map(|x| x.as_str())
+            .collect();
         let mut out: Vec<&Unit> = base
             .into_iter()
             .filter(|u| {
                 let have = unit_keyword_set(u);
+                if !datasheet_ids.is_empty() && !datasheet_ids.contains(u.id.as_str()) {
+                    return false;
+                }
                 if !source_keywords.is_empty() && !source_keywords.iter().any(|k| have.contains(k))
                 {
                     return false;

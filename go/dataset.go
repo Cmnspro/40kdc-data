@@ -218,11 +218,12 @@ func (ds *Dataset) alliesFor(factionID string, detachmentIDs []string) []any {
 				break
 			}
 		}
-		det := rule["detachment_id"]
-		detachmentGate := det == nil
-		if ds, ok := det.(string); ok {
-			if _, has := detachmentSet[ds]; has {
+		detIDs := getStrList(rule, "detachment_ids")
+		detachmentGate := len(detIDs) == 0
+		for _, d := range detIDs {
+			if _, has := detachmentSet[d]; has {
 				detachmentGate = true
+				break
 			}
 		}
 		if armyGate && detachmentGate {
@@ -257,10 +258,19 @@ func (ds *Dataset) allyUnitsFor(ruleID string) []*UnitView {
 	for _, r := range getStrList(rule, "roles") {
 		roles[r] = struct{}{}
 	}
+	datasheetIDs := map[string]struct{}{}
+	for _, id := range getStrList(rule, "source_datasheet_ids") {
+		datasheetIDs[id] = struct{}{}
+	}
 	matches := func(unit map[string]any) bool {
 		have := map[string]struct{}{}
 		for _, k := range append(getStrList(unit, "keywords"), getStrList(unit, "faction_keywords")...) {
 			have[lower(k)] = struct{}{}
+		}
+		if len(datasheetIDs) > 0 {
+			if _, has := datasheetIDs[getStr(unit, "id")]; !has {
+				return false
+			}
 		}
 		if len(sourceKeywords) > 0 && !anyIn(have, sourceKeywords) {
 			return false

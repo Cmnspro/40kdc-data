@@ -261,7 +261,8 @@ class Dataset:
 
         A rule applies when both gates pass: the army gate
         (``army_keywords_any`` empty, or intersecting the faction's keywords) and
-        the detachment gate (``detachment_id`` null, or among ``detachment_ids``).
+        the detachment gate (``detachment_ids`` empty, or at least one listed id
+        among ``detachment_ids``).
         Order follows the allied-rules data. Mirror of TS ``alliesFor``; pinned by
         the ``allies_for`` conformance query.
         """
@@ -274,8 +275,8 @@ class Dataset:
         for rule in self.allied_rules.all:
             army_any = rule.get("army_keywords_any") or []
             army_gate = not army_any or any(k.lower() in faction_keywords for k in army_any)
-            det = rule.get("detachment_id")
-            detachment_gate = det is None or det in detachment_set
+            det_ids = rule.get("detachment_ids") or []
+            detachment_gate = not det_ids or any(d in detachment_set for d in det_ids)
             if army_gate and detachment_gate:
                 out.append(rule)
         return out
@@ -284,9 +285,11 @@ class Dataset:
         """The unit pool an allied-rule grants, sorted by name.
 
         Starts from the rule's ``source_faction_id`` (if set) or the whole
-        dataset, narrows to units carrying any ``source_keywords``, then applies
-        ``required_keywords`` (all present), ``excluded_keywords`` (none
-        present), and ``roles``. Empty for an unknown rule id. Mirror of TS
+        dataset, then ANDs every filter the rule sets: ``source_datasheet_ids``
+        (explicit id allowlist — primary selector for generated pools), any
+        ``source_keywords``, ``required_keywords`` (all present),
+        ``excluded_keywords`` (none present), and ``roles``. Empty for an unknown
+        rule id. Mirror of TS
         ``allyUnitsFor``; pinned by the ``ally_units_for`` conformance query.
         """
         rule = self.allied_rules.get(rule_id)
@@ -302,12 +305,15 @@ class Dataset:
         required = [k.lower() for k in (rule.get("required_keywords") or [])]
         excluded = [k.lower() for k in (rule.get("excluded_keywords") or [])]
         roles = set(rule.get("roles") or [])
+        datasheet_ids = set(rule.get("source_datasheet_ids") or [])
 
         def matches(unit: dict[str, Any]) -> bool:
             have = {
                 k.lower()
                 for k in (unit.get("keywords") or []) + (unit.get("faction_keywords") or [])
             }
+            if datasheet_ids and unit.get("id") not in datasheet_ids:
+                return False
             if source_keywords and not any(k in have for k in source_keywords):
                 return False
             if required and not all(k in have for k in required):

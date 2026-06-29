@@ -906,6 +906,135 @@ impl ::std::convert::TryFrom<::std::string::String> for AbilityUsagePer {
         value.parse()
     }
 }
+///Per-keyword cap on how many units carrying `keyword` may be included via an allied rule at one battle size.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "Per-keyword cap on how many units carrying `keyword` may be included via an allied rule at one battle size.",
+///  "type": "object",
+///  "required": [
+///    "battle_size",
+///    "keyword",
+///    "max_count"
+///  ],
+///  "properties": {
+///    "battle_size": {
+///      "description": "Battle size this cap applies at.",
+///      "type": "string",
+///      "enum": [
+///        "incursion",
+///        "strike-force",
+///        "onslaught"
+///      ]
+///    },
+///    "keyword": {
+///      "description": "Keyword the cap counts (matched case-insensitively against a unit's keywords union faction_keywords, e.g. 'Titanic', 'Armiger', 'Character').",
+///      "$ref": "#/$defs/keyword"
+///    },
+///    "max_count": {
+///      "description": "Maximum number of units carrying `keyword` includable via the rule at this battle size.",
+///      "type": "integer",
+///      "minimum": 0.0
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct AlliedKeywordLimit {
+    ///Battle size this cap applies at.
+    pub battle_size: AlliedKeywordLimitBattleSize,
+    ///Keyword the cap counts (matched case-insensitively against a unit's keywords union faction_keywords, e.g. 'Titanic', 'Armiger', 'Character').
+    pub keyword: Keyword,
+    ///Maximum number of units carrying `keyword` includable via the rule at this battle size.
+    pub max_count: u64,
+}
+///Battle size this cap applies at.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "Battle size this cap applies at.",
+///  "type": "string",
+///  "enum": [
+///    "incursion",
+///    "strike-force",
+///    "onslaught"
+///  ]
+///}
+/// ```
+/// </details>
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    Hash,
+    Ord,
+    PartialEq,
+    PartialOrd
+)]
+pub enum AlliedKeywordLimitBattleSize {
+    #[serde(rename = "incursion")]
+    Incursion,
+    #[serde(rename = "strike-force")]
+    StrikeForce,
+    #[serde(rename = "onslaught")]
+    Onslaught,
+}
+impl ::std::fmt::Display for AlliedKeywordLimitBattleSize {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        match *self {
+            Self::Incursion => f.write_str("incursion"),
+            Self::StrikeForce => f.write_str("strike-force"),
+            Self::Onslaught => f.write_str("onslaught"),
+        }
+    }
+}
+impl ::std::str::FromStr for AlliedKeywordLimitBattleSize {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        match value {
+            "incursion" => Ok(Self::Incursion),
+            "strike-force" => Ok(Self::StrikeForce),
+            "onslaught" => Ok(Self::Onslaught),
+            _ => Err("invalid value".into()),
+        }
+    }
+}
+impl ::std::convert::TryFrom<&str> for AlliedKeywordLimitBattleSize {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String> for AlliedKeywordLimitBattleSize {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String> for AlliedKeywordLimitBattleSize {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
 ///The combined points cap for units included via an allied rule at one battle size.
 ///
 /// <details><summary>JSON schema</summary>
@@ -1028,14 +1157,14 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
         value.parse()
     }
 }
-///A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_id`).
+///A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_ids`).
 ///
 /// <details><summary>JSON schema</summary>
 ///
 /// ```json
 ///{
 ///  "title": "AlliedRule",
-///  "description": "A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_id`).",
+///  "description": "A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_ids`).",
 ///  "type": "object",
 ///  "required": [
 ///    "game_version",
@@ -1044,7 +1173,7 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
 ///  ],
 ///  "properties": {
 ///    "army_keywords_any": {
-///      "description": "Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_id`, whose detachment is itself faction-locked).",
+///      "description": "Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_ids`, whose detachments are themselves faction-locked).",
 ///      "$ref": "#/$defs/keyword-list"
 ///    },
 ///    "battleline_ratio_keywords": {
@@ -1061,16 +1190,13 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
 ///      "default": false,
 ///      "type": "boolean"
 ///    },
-///    "detachment_id": {
-///      "description": "Detachment gate: this exact detachment must be selected for the rule to apply (e.g. 'iconoclast-fiefdom'). null = no detachment-level gate. Independent of the detachment's combat rule (`detachment_rule_id`).",
-///      "oneOf": [
-///        {
-///          "$ref": "#/$defs/entity-id"
-///        },
-///        {
-///          "type": "null"
-///        }
-///      ]
+///    "detachment_ids": {
+///      "description": "Detachment gate: the rule applies only when at least one listed detachment is selected. Empty/absent = no detachment gate. Replaces the former single detachment_id (GW pools may gate on several detachments).",
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/entity-id"
+///      },
+///      "uniqueItems": true
 ///    },
 ///    "excluded_keywords": {
 ///      "description": "A unit carrying ANY of these cannot be included via this rule (e.g. Brood Brothers bans 'Aircraft', 'Epic Hero', 'Ogryn', ...).",
@@ -1081,6 +1207,14 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
 ///    },
 ///    "id": {
 ///      "$ref": "#/$defs/entity-id"
+///    },
+///    "keyword_limits": {
+///      "description": "Per-keyword, per-battle-size cap on how many units carrying `keyword` may be included via this rule (e.g. Imperial Knights' Titanic 1 / Armiger 3; Agents of the Imperium's Character/Retinue/Requisitioned counts). Advisory construction cap.",
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/allied-keyword-limit"
+///      },
+///      "uniqueItems": true
 ///    },
 ///    "label": {
 ///      "description": "Short panel/category heading a list builder groups this pool under (e.g. 'Daemons', 'Imperial Agents', 'Titanic Allies'). Defaults to `name` when omitted.",
@@ -1134,6 +1268,14 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
 ///      },
 ///      "uniqueItems": true
 ///    },
+///    "source_datasheet_ids": {
+///      "description": "Explicit datasheet allowlist: when non-empty, a unit qualifies only if its id is listed (AND-combined with source_keywords/required_keywords/excluded_keywords/roles). GW soup pools enumerate by datasheet; this is the primary unit selector for generated rules. Empty/absent = no datasheet-level restriction.",
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/entity-id"
+///      },
+///      "uniqueItems": true
+///    },
 ///    "source_faction_id": {
 ///      "description": "Faction the ally pool is drawn from, when scoping by faction is needed to disambiguate units whose id is shared across factions. Optional hint; `source_keywords` is the primary filter.",
 ///      "oneOf": [
@@ -1148,6 +1290,14 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
 ///    "source_keywords": {
 ///      "description": "A unit qualifies for this pool when it carries any of these keywords (e.g. ['Legiones Daemonica'], ['Damned'], ['Vanguard Invader']). Empty = the whole `source_faction_id` is the pool.",
 ///      "$ref": "#/$defs/keyword-list"
+///    },
+///    "warlord_datasheet_ids": {
+///      "description": "Datasheet allowlist for which units included via this rule may be the army Warlord (the specific characters GW permits). Non-empty = only these may be Warlord among the pool's units; pair with cannot_be_warlord:false. Empty/absent = no per-datasheet warlord allowlist.",
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/entity-id"
+///      },
+///      "uniqueItems": true
 ///    },
 ///    "warlord_required_keyword": {
 ///      "description": "Host-Warlord requirement: a model carrying this keyword must be the army's Warlord (e.g. Brood Brothers requires a 'Genestealer Cults' Warlord). null = no such requirement.",
@@ -1168,7 +1318,7 @@ impl ::std::convert::TryFrom<::std::string::String> for AlliedPointsLimitBattleS
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct AlliedRule {
-    ///Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_id`, whose detachment is itself faction-locked).
+    ///Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_ids`, whose detachments are themselves faction-locked).
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub army_keywords_any: ::std::option::Option<KeywordList>,
     ///Per-keyword Battleline ratio constraint: for each keyword listed, the number of non-BATTLELINE units with that keyword included via this rule cannot exceed the number of BATTLELINE units with that keyword included via this rule (e.g. Daemonic Pact's per-god ['Khorne','Tzeentch','Nurgle','Slaanesh']).
@@ -1180,14 +1330,17 @@ pub struct AlliedRule {
     ///True when units included via this rule cannot be given Enhancements (e.g. Daemonic Pact).
     #[serde(default)]
     pub cannot_take_enhancements: bool,
-    ///Detachment gate: this exact detachment must be selected for the rule to apply (e.g. 'iconoclast-fiefdom'). null = no detachment-level gate. Independent of the detachment's combat rule (`detachment_rule_id`).
+    ///Detachment gate: the rule applies only when at least one listed detachment is selected. Empty/absent = no detachment gate. Replaces the former single detachment_id (GW pools may gate on several detachments).
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
-    pub detachment_id: ::std::option::Option<EntityId>,
+    pub detachment_ids: ::std::option::Option<Vec<EntityId>>,
     ///A unit carrying ANY of these cannot be included via this rule (e.g. Brood Brothers bans 'Aircraft', 'Epic Hero', 'Ogryn', ...).
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub excluded_keywords: ::std::option::Option<KeywordList>,
     pub game_version: GameVersionRef,
     pub id: EntityId,
+    ///Per-keyword, per-battle-size cap on how many units carrying `keyword` may be included via this rule (e.g. Imperial Knights' Titanic 1 / Armiger 3; Agents of the Imperium's Character/Retinue/Requisitioned counts). Advisory construction cap.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub keyword_limits: ::std::option::Option<Vec<AlliedKeywordLimit>>,
     ///Short panel/category heading a list builder groups this pool under (e.g. 'Daemons', 'Imperial Agents', 'Titanic Allies'). Defaults to `name` when omitted.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub label: ::std::option::Option<::std::string::String>,
@@ -1209,12 +1362,18 @@ pub struct AlliedRule {
     ///Optional battlefield-role filter (matched against a unit's `role`). Empty = no role restriction.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub roles: ::std::option::Option<Vec<::std::string::String>>,
+    ///Explicit datasheet allowlist: when non-empty, a unit qualifies only if its id is listed (AND-combined with source_keywords/required_keywords/excluded_keywords/roles). GW soup pools enumerate by datasheet; this is the primary unit selector for generated rules. Empty/absent = no datasheet-level restriction.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub source_datasheet_ids: ::std::option::Option<Vec<EntityId>>,
     ///Faction the ally pool is drawn from, when scoping by faction is needed to disambiguate units whose id is shared across factions. Optional hint; `source_keywords` is the primary filter.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub source_faction_id: ::std::option::Option<EntityId>,
     ///A unit qualifies for this pool when it carries any of these keywords (e.g. ['Legiones Daemonica'], ['Damned'], ['Vanguard Invader']). Empty = the whole `source_faction_id` is the pool.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub source_keywords: ::std::option::Option<KeywordList>,
+    ///Datasheet allowlist for which units included via this rule may be the army Warlord (the specific characters GW permits). Non-empty = only these may be Warlord among the pool's units; pair with cannot_be_warlord:false. Empty/absent = no per-datasheet warlord allowlist.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub warlord_datasheet_ids: ::std::option::Option<Vec<EntityId>>,
     ///Host-Warlord requirement: a model carrying this keyword must be the army's Warlord (e.g. Brood Brothers requires a 'Genestealer Cults' Warlord). null = no such requirement.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub warlord_required_keyword: ::std::option::Option<Keyword>,

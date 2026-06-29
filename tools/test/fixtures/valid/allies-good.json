@@ -6,6 +6,11 @@
     "army_keywords_any": ["Chaos Knights", "Heretic Astartes"],
     "source_faction_id": "chaos-daemons",
     "source_keywords": ["Legiones Daemonica"],
+    "source_datasheet_ids": ["test-bloodletters", "test-bloodthirster"],
+    "keyword_limits": [
+      { "keyword": "Khorne", "battle_size": "incursion", "max_count": 1 },
+      { "keyword": "Khorne", "battle_size": "strike-force", "max_count": 2 }
+    ],
     "points_limits": [
       { "battle_size": "incursion", "max_points": 250 },
       { "battle_size": "strike-force", "max_points": 500 },
@@ -19,13 +24,14 @@
   {
     "id": "test-detachment-scoped",
     "name": "Test Detachment-Scoped Allies",
-    "detachment_id": "test-detachment",
+    "detachment_ids": ["test-detachment"],
     "source_faction_id": "test-faction",
     "source_keywords": ["Damned"],
     "excluded_keywords": ["Aircraft", "Epic Hero"],
     "max_units": 2,
     "warlord_required_keyword": "Test Faction",
     "removes_ability_ids": ["test-ability"],
+    "warlord_datasheet_ids": ["test-warlord-character"],
     "game_version": { "edition": "11th", "dataslate": "pre-launch-provisional" }
   }
 ]

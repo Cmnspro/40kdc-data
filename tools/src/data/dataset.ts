@@ -339,7 +339,7 @@ export class Dataset {
    * The allied-rules **offered** for an army of `factionId` running the given
    * detachments. A rule applies when both its gates pass: the **army gate**
    * (`army_keywords_any` empty, or intersecting the faction's keywords) and the
-   * **detachment gate** (`detachment_id` null, or among `detachmentIds`). Order
+   * **detachment gate** (`detachment_ids` empty, or any listed id among `detachmentIds`). Order
    * follows the allied-rules data file. The strict "every *model* carries an
    * army keyword" check (for soup lists) is a builder/validation concern — this
    * offers the candidate rules a faction qualifies for. Mirror of Rust
@@ -355,7 +355,8 @@ export class Dataset {
         (rule.army_keywords_any ?? []).length === 0 ||
         (rule.army_keywords_any ?? []).some((k) => factionKeywords.has(k.toLowerCase()));
       const detachmentGate =
-        rule.detachment_id == null || detachmentSet.has(rule.detachment_id);
+        (rule.detachment_ids ?? []).length === 0 ||
+        (rule.detachment_ids ?? []).some((id) => detachmentSet.has(id));
       return armyGate && detachmentGate;
     });
   }
@@ -363,10 +364,11 @@ export class Dataset {
   /**
    * The unit pool an allied-rule grants, sorted by name. Starts from the rule's
    * `source_faction_id` (if set, to keep that faction's copy of shared ids) or
-   * the whole dataset, narrows to units carrying any `source_keywords`, then
-   * applies `required_keywords` (all present), `excluded_keywords` (none
-   * present), and `roles`. Empty for an unknown rule id or a pool that resolves
-   * to nothing. Mirror of Rust `Dataset::ally_units_for`; pinned by the
+   * the whole dataset, then ANDs every filter the rule sets: `source_datasheet_ids`
+   * (an explicit id allowlist — the primary selector for generated pools), any
+   * `source_keywords`, `required_keywords` (all present), `excluded_keywords`
+   * (none present), and `roles`. Empty for an unknown rule id or a pool that
+   * resolves to nothing. Mirror of Rust `Dataset::ally_units_for`; pinned by the
    * `ally_units_for` conformance query.
    */
   allyUnitsFor(ruleId: string): UnitView[] {
@@ -379,8 +381,10 @@ export class Dataset {
     const required = (rule.required_keywords ?? []).map((k) => k.toLowerCase());
     const excluded = (rule.excluded_keywords ?? []).map((k) => k.toLowerCase());
     const roles = new Set(rule.roles ?? []);
+    const datasheetIds = new Set(rule.source_datasheet_ids ?? []);
     const out = base.filter((u) => {
       const have = unitKeywordSet(u.raw);
+      if (datasheetIds.size > 0 && !datasheetIds.has(u.raw.id)) return false;
       if (sourceKeywords.length > 0 && !sourceKeywords.some((k) => have.has(k))) return false;
       if (required.length > 0 && !required.every((k) => have.has(k))) return false;
       if (excluded.some((k) => have.has(k))) return false;

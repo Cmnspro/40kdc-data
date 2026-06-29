@@ -158,22 +158,31 @@ class AlliedPointsLimit(TypedDict):
     max_points: int
 
 
+class AlliedKeywordLimit(TypedDict):
+    keyword: Keyword
+    battle_size: Literal["incursion", "strike-force", "onslaught"]
+    max_count: int
+
+
 class AlliedRule(TypedDict):
     id: EntityId
     name: str
     label: NotRequired[str]
     army_keywords_any: NotRequired[KeywordList]
-    detachment_id: NotRequired[EntityId | None]
+    detachment_ids: NotRequired[list[EntityId]]
     source_faction_id: NotRequired[EntityId | None]
     source_keywords: NotRequired[KeywordList]
+    source_datasheet_ids: NotRequired[list[EntityId]]
     required_keywords: NotRequired[KeywordList]
     excluded_keywords: NotRequired[KeywordList]
     roles: NotRequired[list[str]]
     points_limits: NotRequired[list[AlliedPointsLimit]]
+    keyword_limits: NotRequired[list[AlliedKeywordLimit]]
     max_units: NotRequired[int | None]
     cannot_be_warlord: NotRequired[bool]
     cannot_take_enhancements: NotRequired[bool]
     warlord_required_keyword: NotRequired[Keyword | None]
+    warlord_datasheet_ids: NotRequired[list[EntityId]]
     removes_ability_ids: NotRequired[list[EntityId]]
     battleline_ratio_keywords: NotRequired[KeywordList]
     game_version: GameVersionRef

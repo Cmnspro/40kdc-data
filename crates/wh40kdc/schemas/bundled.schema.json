@@ -349,9 +349,39 @@
       ],
       "additionalProperties": false
     },
+    "allied-keyword-limit": {
+      "type": "object",
+      "description": "Per-keyword cap on how many units carrying `keyword` may be included via an allied rule at one battle size.",
+      "properties": {
+        "keyword": {
+          "$ref": "#/$defs/keyword",
+          "description": "Keyword the cap counts (matched case-insensitively against a unit's keywords union faction_keywords, e.g. 'Titanic', 'Armiger', 'Character')."
+        },
+        "battle_size": {
+          "type": "string",
+          "enum": [
+            "incursion",
+            "strike-force",
+            "onslaught"
+          ],
+          "description": "Battle size this cap applies at."
+        },
+        "max_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum number of units carrying `keyword` includable via the rule at this battle size."
+        }
+      },
+      "required": [
+        "keyword",
+        "battle_size",
+        "max_count"
+      ],
+      "additionalProperties": false
+    },
     "allied-rule": {
       "title": "AlliedRule",
-      "description": "A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_id`).",
+      "description": "A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_ids`).",
       "type": "object",
       "properties": {
         "id": {
@@ -368,18 +398,15 @@
         },
         "army_keywords_any": {
           "$ref": "#/$defs/keyword-list",
-          "description": "Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_id`, whose detachment is itself faction-locked)."
+          "description": "Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_ids`, whose detachments are themselves faction-locked)."
         },
-        "detachment_id": {
-          "oneOf": [
-            {
-              "$ref": "#/$defs/entity-id"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "Detachment gate: this exact detachment must be selected for the rule to apply (e.g. 'iconoclast-fiefdom'). null = no detachment-level gate. Independent of the detachment's combat rule (`detachment_rule_id`)."
+        "detachment_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity-id"
+          },
+          "uniqueItems": true,
+          "description": "Detachment gate: the rule applies only when at least one listed detachment is selected. Empty/absent = no detachment gate. Replaces the former single detachment_id (GW pools may gate on several detachments)."
         },
         "source_faction_id": {
           "oneOf": [
@@ -395,6 +422,14 @@
         "source_keywords": {
           "$ref": "#/$defs/keyword-list",
           "description": "A unit qualifies for this pool when it carries any of these keywords (e.g. ['Legiones Daemonica'], ['Damned'], ['Vanguard Invader']). Empty = the whole `source_faction_id` is the pool."
+        },
+        "source_datasheet_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity-id"
+          },
+          "uniqueItems": true,
+          "description": "Explicit datasheet allowlist: when non-empty, a unit qualifies only if its id is listed (AND-combined with source_keywords/required_keywords/excluded_keywords/roles). GW soup pools enumerate by datasheet; this is the primary unit selector for generated rules. Empty/absent = no datasheet-level restriction."
         },
         "required_keywords": {
           "$ref": "#/$defs/keyword-list",
@@ -419,6 +454,14 @@
           },
           "description": "Absolute points cap on the combined cost of units included via this rule, per battle size. Empty = no points cap. A rule lists at most one entry per battle size.",
           "uniqueItems": true
+        },
+        "keyword_limits": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/allied-keyword-limit"
+          },
+          "description": "Per-keyword, per-battle-size cap on how many units carrying `keyword` may be included via this rule (e.g. Imperial Knights' Titanic 1 / Armiger 3; Agents of the Imperium's Character/Retinue/Requisitioned counts). Advisory construction cap."
         },
         "max_units": {
           "oneOf": [
@@ -452,6 +495,14 @@
             }
           ],
           "description": "Host-Warlord requirement: a model carrying this keyword must be the army's Warlord (e.g. Brood Brothers requires a 'Genestealer Cults' Warlord). null = no such requirement."
+        },
+        "warlord_datasheet_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity-id"
+          },
+          "uniqueItems": true,
+          "description": "Datasheet allowlist for which units included via this rule may be the army Warlord (the specific characters GW permits). Non-empty = only these may be Warlord among the pool's units; pair with cannot_be_warlord:false. Empty/absent = no per-datasheet warlord allowlist."
         },
         "removes_ability_ids": {
           "type": "array",

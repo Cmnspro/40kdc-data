@@ -187,7 +187,7 @@ export type Footprint =
  */
 export type TerrainAreaKeyword = "obscuring" | "hidden" | "plunging-fire";
 /**
- * Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_id`, whose detachment is itself faction-locked).
+ * Army gate: every model in the army must carry at least one of these keywords for the rule to apply (e.g. ['Chaos Knights', 'Heretic Astartes'] for Daemonic Pact). Empty = no army-level gate (the rule is then gated only by `detachment_ids`, whose detachments are themselves faction-locked).
  */
 export type KeywordList1 = Keyword[];
 /**
@@ -492,7 +492,27 @@ export interface AlliedPointsLimit {
   max_points: number;
 }
 /**
- * A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_id`).
+ * Per-keyword cap on how many units carrying `keyword` may be included via an allied rule at one battle size.
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "allied-keyword-limit".
+ */
+export interface AlliedKeywordLimit {
+  /**
+   * Keyword the cap counts (matched case-insensitively against a unit's keywords union faction_keywords, e.g. 'Titanic', 'Armiger', 'Character').
+   */
+  keyword: string;
+  /**
+   * Battle size this cap applies at.
+   */
+  battle_size: "incursion" | "strike-force" | "onslaught";
+  /**
+   * Maximum number of units carrying `keyword` includable via the rule at this battle size.
+   */
+  max_count: number;
+}
+/**
+ * A community-authored model of an allied-detachment / 'soup' rule: the named exception by which units lacking the army's chosen Faction keyword may still be included (e.g. Daemonic Pact, Brood Brothers, Iconoclast Fiefdom's Damned access). One rule = one allied source pool; a faction that allies in several pools (the Chaos cult pattern: a Chaos Knights pool plus a matching-god Daemons pool) carries one rule per pool. The rule is gated by two optional, AND-combined conditions: an army-wide keyword condition (`army_keywords_any`) and/or a selected detachment (`detachment_ids`).
  *
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
  * via the `definition` "allied-rule".
@@ -506,14 +526,18 @@ export interface AlliedRule {
   label?: string;
   army_keywords_any?: KeywordList1;
   /**
-   * Detachment gate: this exact detachment must be selected for the rule to apply (e.g. 'iconoclast-fiefdom'). null = no detachment-level gate. Independent of the detachment's combat rule (`detachment_rule_id`).
+   * Detachment gate: the rule applies only when at least one listed detachment is selected. Empty/absent = no detachment gate. Replaces the former single detachment_id (GW pools may gate on several detachments).
    */
-  detachment_id?: EntityId | null;
+  detachment_ids?: EntityId[];
   /**
    * Faction the ally pool is drawn from, when scoping by faction is needed to disambiguate units whose id is shared across factions. Optional hint; `source_keywords` is the primary filter.
    */
   source_faction_id?: EntityId | null;
   source_keywords?: KeywordList2;
+  /**
+   * Explicit datasheet allowlist: when non-empty, a unit qualifies only if its id is listed (AND-combined with source_keywords/required_keywords/excluded_keywords/roles). GW soup pools enumerate by datasheet; this is the primary unit selector for generated rules. Empty/absent = no datasheet-level restriction.
+   */
+  source_datasheet_ids?: EntityId[];
   required_keywords?: KeywordList3;
   excluded_keywords?: KeywordList4;
   /**
@@ -524,6 +548,10 @@ export interface AlliedRule {
    * Absolute points cap on the combined cost of units included via this rule, per battle size. Empty = no points cap. A rule lists at most one entry per battle size.
    */
   points_limits?: AlliedPointsLimit[];
+  /**
+   * Per-keyword, per-battle-size cap on how many units carrying `keyword` may be included via this rule (e.g. Imperial Knights' Titanic 1 / Armiger 3; Agents of the Imperium's Character/Retinue/Requisitioned counts). Advisory construction cap.
+   */
+  keyword_limits?: AlliedKeywordLimit[];
   /**
    * Optional cap on the number of units included via this rule, independent of points. null = no unit-count cap.
    */
@@ -540,6 +568,10 @@ export interface AlliedRule {
    * Host-Warlord requirement: a model carrying this keyword must be the army's Warlord (e.g. Brood Brothers requires a 'Genestealer Cults' Warlord). null = no such requirement.
    */
   warlord_required_keyword?: Keyword | null;
+  /**
+   * Datasheet allowlist for which units included via this rule may be the army Warlord (the specific characters GW permits). Non-empty = only these may be Warlord among the pool's units; pair with cannot_be_warlord:false. Empty/absent = no per-datasheet warlord allowlist.
+   */
+  warlord_datasheet_ids?: EntityId[];
   /**
    * Abilities that included units lose under this rule (e.g. Astra Militarum units lose 'voice-of-command' under Brood Brothers). A display/effect hint, not a construction constraint.
    */

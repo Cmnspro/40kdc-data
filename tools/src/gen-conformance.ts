@@ -332,12 +332,22 @@ const LINKED_API_QUERIES: LinkedApiQuery[] = [
   // allies_for: two-gate offer; ordered (allied-rules data-file order, locale-independent).
   { name: "allies_for chaos-knights (no detachment)", query: "allies_for", args: { factionId: "chaos-knights" }, comparison: "ordered" },
   { name: "allies_for chaos-knights with iconoclast-fiefdom", query: "allies_for", args: { factionId: "chaos-knights", detachmentIds: ["iconoclast-fiefdom"] }, comparison: "ordered" },
-  { name: "allies_for world-eaters (two pools)", query: "allies_for", args: { factionId: "world-eaters" }, comparison: "ordered" },
+  { name: "allies_for world-eaters (no detachment → chaos-knights-allies)", query: "allies_for", args: { factionId: "world-eaters" }, comparison: "ordered" },
+  { name: "allies_for world-eaters with khorne-daemonkin", query: "allies_for", args: { factionId: "world-eaters", detachmentIds: ["khorne-daemonkin"] }, comparison: "ordered" },
+  { name: "allies_for imperial-knights (no detachment)", query: "allies_for", args: { factionId: "imperial-knights" }, comparison: "ordered" },
+  { name: "allies_for imperial-knights with questor-forgepact", query: "allies_for", args: { factionId: "imperial-knights", detachmentIds: ["questor-forgepact"] }, comparison: "ordered" },
   { name: "allies_for genestealer-cults with final-day", query: "allies_for", args: { factionId: "genestealer-cults", detachmentIds: ["final-day"] }, comparison: "ordered" },
+  // Cross-namespace host gates: Aeldari armies carry the Asuryani faction keyword, Chaos Daemons the Legiones Daemonica one.
+  { name: "allies_for aeldari (no detachment → harlequins)", query: "allies_for", args: { factionId: "aeldari" }, comparison: "ordered" },
+  { name: "allies_for aeldari with devoted-of-ynnead", query: "allies_for", args: { factionId: "aeldari", detachmentIds: ["devoted-of-ynnead"] }, comparison: "ordered" },
+  { name: "allies_for chaos-daemons with shadow-legion", query: "allies_for", args: { factionId: "chaos-daemons", detachmentIds: ["shadow-legion"] }, comparison: "ordered" },
   // ally_units_for: resolved pool; compared as set (accessor sorts by name, locale-dependent).
   { name: "ally_units_for iconoclast-fiefdom-damned", query: "ally_units_for", args: { ruleId: "iconoclast-fiefdom-damned" }, comparison: "set" },
   { name: "ally_units_for world-eaters-khorne-daemons", query: "ally_units_for", args: { ruleId: "world-eaters-khorne-daemons" }, comparison: "set" },
-  { name: "ally_units_for star-childrens-blessings (excludes broodlord/genestealers)", query: "ally_units_for", args: { ruleId: "star-childrens-blessings" }, comparison: "set" },
+  { name: "ally_units_for star-childrens-blessings (Vanguard Invader allowlist)", query: "ally_units_for", args: { ruleId: "star-childrens-blessings" }, comparison: "set" },
+  { name: "ally_units_for imperial-knights-questor-forgepact (5 AdMech datasheets)", query: "ally_units_for", args: { ruleId: "imperial-knights-questor-forgepact" }, comparison: "set" },
+  { name: "ally_units_for agents-of-the-imperium-allies (29 datasheets)", query: "ally_units_for", args: { ruleId: "agents-of-the-imperium-allies" }, comparison: "set" },
+  { name: "ally_units_for chaos-knights-allies (20 datasheets)", query: "ally_units_for", args: { ruleId: "chaos-knights-allies" }, comparison: "set" },
   // base_loadout(unit, modelCount): the pinned legal default loadout, encoded as a
   // sorted "weaponId:count" multiset. chaos-terminators is a uniform squad (per-model
   // scaling); crusader-squad exercises leader+bulk per-figure allocation.

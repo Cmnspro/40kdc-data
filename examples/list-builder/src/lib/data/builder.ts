@@ -853,7 +853,8 @@ export interface BuilderViolation {
  * Allied-rule advisory checks for every active ally pool: per-battle-size points
  * cap, unit-count cap, warlord/enhancement locks, the per-god Battleline ratio,
  * the army-wide keyword condition (every *own* model must qualify — allied units
- * are the granted exception), and any host-Warlord-keyword requirement.
+ * are the granted exception), any host-Warlord-keyword requirement, per-keyword
+ * count caps, and the per-datasheet Warlord allowlist.
  */
 function allyViolations(state: BuilderState): BuilderViolation[] {
 	const out: BuilderViolation[] = [];
@@ -922,6 +923,29 @@ function allyViolations(state: BuilderState): BuilderViolation[] {
 			const raw = warlord ? buRaw(warlord, armyFaction) : undefined;
 			if (warlord && raw && !keywordSet(raw).has(wk)) {
 				out.push({ unitKey: null, message: `${label}: Warlord must have ${rule.warlord_required_keyword}` });
+			}
+		}
+		for (const lim of rule.keyword_limits ?? []) {
+			if (lim.battle_size !== effectiveBattleSize(state)) continue;
+			const lk = lim.keyword.toLowerCase();
+			const count = allyUnits.filter((u) => {
+				const raw = buRaw(u, armyFaction);
+				return raw != null && keywordSet(raw).has(lk);
+			}).length;
+			if (count > lim.max_count) {
+				out.push({
+					unitKey: null,
+					message: `${label}: ${count} ${lim.keyword} over the ${lim.max_count} allowed`,
+				});
+			}
+		}
+		const warlordAllow = rule.warlord_datasheet_ids ?? [];
+		if (warlordAllow.length > 0) {
+			const allowed = new Set(warlordAllow);
+			for (const u of allyUnits) {
+				if (u.isWarlord && !allowed.has(u.datasheetId)) {
+					out.push({ unitKey: u.key, message: `${label}: only specific units may be Warlord` });
+				}
 			}
 		}
 	}
