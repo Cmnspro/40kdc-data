@@ -1258,7 +1258,45 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         )
         return f"{subj} can disembark{where}{eng}"
     if etype == "disembark-after-move":
-        return f"units can disembark from {subj} after it has moved"
+        if m.get("after") is None:
+            return f"units can disembark from {subj} after it has moved"
+        who = (
+            f"units with the {_title_case(_jstr(m.get('requires_keyword')))} ability"
+            if m.get("requires_keyword") is not None
+            else "units"
+        )
+        after = m.get("after")
+        if after == "advance":
+            when = "after it has Advanced"
+        elif after == "deployment":
+            when = "after it has been set up on the battlefield"
+        elif after == "before-move":
+            when = "before it moves"
+        else:
+            when = "after it has made a Normal move"
+        counts = (
+            "; such units count as having made a Normal move"
+            if m.get("counts_as_normal_move")
+            else ""
+        )
+        charge = (
+            ", and are still eligible to declare a charge this turn"
+            if m.get("can_charge")
+            else ", but cannot declare a charge this turn"
+        )
+        return f"{who} can disembark from {subj} {when}{counts}{charge}"
+    if etype == "unit-attachment":
+        if m.get("mandatory"):
+            return f"{subj} must be attached to a Leader, or it counts as destroyed"
+        led = (
+            f" led by a {_title_case(_jstr(m.get('led_by')))} model"
+            if m.get("led_by") is not None
+            else ""
+        )
+        return (
+            "at the start of the Declare Battle Formations step, "
+            f"{subj} can join one friendly unit{led}, becoming part of that Bodyguard unit"
+        )
     if etype == "fallback-and-act":
         return (
             f"{subj} {_v(subj, 'is')} eligible to shoot and declare a charge "

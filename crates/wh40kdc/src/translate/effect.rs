@@ -1729,7 +1729,37 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 jv(m, "value")
             )
         }
-        T::DisembarkAfterMove => format!("units can disembark from {subj} after it has moved"),
+        T::DisembarkAfterMove => {
+            if !notnull(m, "after") {
+                format!("units can disembark from {subj} after it has moved")
+            } else {
+                let who = if notnull(m, "requires_keyword") {
+                    format!(
+                        "units with the {} ability",
+                        title_case(&jv(m, "requires_keyword"))
+                    )
+                } else {
+                    "units".to_string()
+                };
+                let when = match nstr(m, "after") {
+                    Some("advance") => "after it has Advanced",
+                    Some("deployment") => "after it has been set up on the battlefield",
+                    Some("before-move") => "before it moves",
+                    _ => "after it has made a Normal move",
+                };
+                let counts = if truthy(m, "counts_as_normal_move") {
+                    "; such units count as having made a Normal move"
+                } else {
+                    ""
+                };
+                let charge = if truthy(m, "can_charge") {
+                    ", and are still eligible to declare a charge this turn"
+                } else {
+                    ", but cannot declare a charge this turn"
+                };
+                format!("{who} can disembark from {subj} {when}{counts}{charge}")
+            }
+        }
         T::Disembark => {
             let where_ = if notnull(m, "distance") {
                 format!(
@@ -1745,6 +1775,20 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 ""
             };
             format!("{subj} can disembark{where_}{eng}")
+        }
+        T::UnitAttachment => {
+            if truthy(m, "mandatory") {
+                format!("{subj} must be attached to a Leader, or it counts as destroyed")
+            } else {
+                let led = if notnull(m, "led_by") {
+                    format!(" led by a {} model", title_case(&jv(m, "led_by")))
+                } else {
+                    String::new()
+                };
+                format!(
+                    "at the start of the Declare Battle Formations step, {subj} can join one friendly unit{led}, becoming part of that Bodyguard unit"
+                )
+            }
         }
     }
 }

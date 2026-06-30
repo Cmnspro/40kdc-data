@@ -1128,12 +1128,35 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "firing-deck":
       return `${subj} ${v(subj, "has")} Firing Deck ${jstr(m.value)}`;
-    case "disembark-after-move":
-      return `units can disembark from ${subj} after it has moved`;
+    case "disembark-after-move": {
+      if (m.after == null) return `units can disembark from ${subj} after it has moved`;
+      const who =
+        m.requires_keyword != null
+          ? `units with the ${titleCase(jstr(m.requires_keyword))} ability`
+          : "units";
+      const when =
+        m.after === "advance"
+          ? "after it has Advanced"
+          : m.after === "deployment"
+            ? "after it has been set up on the battlefield"
+            : m.after === "before-move"
+              ? "before it moves"
+              : "after it has made a Normal move";
+      const counts = m.counts_as_normal_move ? "; such units count as having made a Normal move" : "";
+      const charge = m.can_charge
+        ? ", and are still eligible to declare a charge this turn"
+        : ", but cannot declare a charge this turn";
+      return `${who} can disembark from ${subj} ${when}${counts}${charge}`;
+    }
     case "disembark": {
       const where = m.distance != null ? ` and be set up wholly within ${jstr(m.distance)}" of the transport` : "";
       const eng = m.allow_engagement_range ? ", even within Engagement Range of enemy units" : "";
       return `${subj} can disembark${where}${eng}`;
+    }
+    case "unit-attachment": {
+      if (m.mandatory) return `${subj} must be attached to a Leader, or it counts as destroyed`;
+      const led = m.led_by != null ? ` led by a ${titleCase(jstr(m.led_by))} model` : "";
+      return `at the start of the Declare Battle Formations step, ${subj} can join one friendly unit${led}, becoming part of that Bodyguard unit`;
     }
     case "fallback-and-act":
       return `${subj} is eligible to shoot and declare a charge in a turn in which it Fell Back`;

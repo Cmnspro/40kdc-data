@@ -209,11 +209,9 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
+      "type": "unit-attachment",
       "target": "unit",
-      "modifier": {
-        "ability_id": "forced-attachment"
-      }
+      "modifier": {}
     },
     "scope": {
       "range": "unit",
@@ -4841,10 +4839,11 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
+      "type": "disembark-after-move",
+      "target": "self",
       "modifier": {
-        "ability_id": "transport-disembark-modifier"
+        "after": "before-move",
+        "can_charge": true
       }
     },
     "scope": {

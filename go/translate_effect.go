@@ -1469,7 +1469,42 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		}
 		return subj + " can disembark" + where + eng
 	case "disembark-after-move":
-		return "units can disembark from " + subj + " after it has moved"
+		if m["after"] == nil {
+			return "units can disembark from " + subj + " after it has moved"
+		}
+		who := "units"
+		if m["requires_keyword"] != nil {
+			who = "units with the " + titleCase(ejstr(m["requires_keyword"])) + " ability"
+		}
+		var when string
+		switch m["after"] {
+		case "advance":
+			when = "after it has Advanced"
+		case "deployment":
+			when = "after it has been set up on the battlefield"
+		case "before-move":
+			when = "before it moves"
+		default:
+			when = "after it has made a Normal move"
+		}
+		counts := ""
+		if truthy(m["counts_as_normal_move"]) {
+			counts = "; such units count as having made a Normal move"
+		}
+		charge := ", but cannot declare a charge this turn"
+		if truthy(m["can_charge"]) {
+			charge = ", and are still eligible to declare a charge this turn"
+		}
+		return who + " can disembark from " + subj + " " + when + counts + charge
+	case "unit-attachment":
+		if truthy(m["mandatory"]) {
+			return subj + " must be attached to a Leader, or it counts as destroyed"
+		}
+		led := ""
+		if m["led_by"] != nil {
+			led = " led by a " + titleCase(ejstr(m["led_by"])) + " model"
+		}
+		return "at the start of the Declare Battle Formations step, " + subj + " can join one friendly unit" + led + ", becoming part of that Bodyguard unit"
 	case "fallback-and-act":
 		return subj + " " + ev(subj, "is") + " eligible to shoot and declare a charge in a turn in which it Fell Back"
 	case "engagement-passthrough":
