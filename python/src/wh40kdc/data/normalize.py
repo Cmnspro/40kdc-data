@@ -31,6 +31,10 @@ _QUOTES_RE = re.compile(r"['’‘`\"“”]")
 # mirror, this uses the host language's Unicode whitespace class.
 _SPACE_HYPHEN_RE = re.compile(r"[\s-]+")
 
+# Leading "The " (case-insensitive, after trim), capturing the remainder. Mirror
+# of the TS `stripLeadingThe` regex `/^the\s+(.+)$/i`.
+_LEADING_THE_RE = re.compile(r"^the\s+(.+)$", re.IGNORECASE)
+
 
 def normalize_name(input: str) -> str:
     """Reduce a display name to a canonical lookup key.
@@ -57,3 +61,23 @@ def normalize_name(input: str) -> str:
     lowered = stripped.lower()
     no_quotes = _QUOTES_RE.sub("", lowered)
     return _SPACE_HYPHEN_RE.sub(" ", no_quotes).strip()
+
+
+def strip_leading_the(input: str) -> str | None:
+    """Strip a leading "The " (case-insensitive, after trimming), returning the
+    remainder, or ``None`` when there is no leading "The " to strip.
+
+    Used only by roster import to bridge the leading-article mismatch between
+    data names and roster exports in BOTH directions ("The Bloody Twins" ↔
+    "Bloody Twins", "Fire Axe" ↔ "The Fire Axe"). Deliberately NOT folded into
+    :func:`normalize_name`, whose key is shared by unit, faction, and ability
+    lookup, where dropping a leading "The" would collide distinct entities
+    (e.g. "The Emperor's Champion"). Mirror of the TS ``stripLeadingThe``.
+
+    >>> strip_leading_the("The Bloody Twins")
+    'Bloody Twins'
+    >>> strip_leading_the("Bloody Twins") is None
+    True
+    """
+    m = _LEADING_THE_RE.match(input.strip())
+    return m.group(1).strip() if m else None

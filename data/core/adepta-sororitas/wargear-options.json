@@ -200,10 +200,10 @@
     },
     "is_free": true,
     "replaces": [
-      "bolt-pistol"
+      "bolt-pistol-palatine"
     ],
     "replacement": [
-      "plasma-pistol"
+      "plasma-pistol-palatine"
     ],
     "model_constraint": {
       "max_count": 1
@@ -414,7 +414,7 @@
         "plasma-pistol"
       ],
       [
-        "power-weapon",
+        "power-weapon-seraphim-squad",
         "plasma-pistol"
       ]
     ],
@@ -444,7 +444,7 @@
         "chainsword"
       ],
       [
-        "power-weapon"
+        "power-weapon-seraphim-squad"
       ]
     ],
     "model_constraint": {
@@ -547,8 +547,8 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "heavy-bolter",
-      "close-combat-weapon"
+      "heavy-bolter-retributor-squad",
+      "close-combat-weapon-retributor-squad"
     ],
     "replacement_choice": [
       [
@@ -575,14 +575,14 @@
     "replaces": [
       "bolt-pistol",
       "boltgun",
-      "close-combat-weapon"
+      "close-combat-weapon-retributor-squad"
     ],
     "replacement_choice": [
       [
-        "power-weapon"
+        "power-weapon-retributor-squad"
       ],
       [
-        "chainsword"
+        "chainsword-retributor-squad"
       ]
     ],
     "model_constraint": {
@@ -604,7 +604,7 @@
       "boltgun"
     ],
     "replacement": [
-      "power-weapon",
+      "power-weapon-sisters-novitiate-squad",
       "plasma-pistol"
     ],
     "model_constraint": {
@@ -625,7 +625,7 @@
       "boltgun"
     ],
     "replacement": [
-      "power-weapon"
+      "power-weapon-sisters-novitiate-squad"
     ],
     "model_constraint": {
       "model_name": "Novitiate Superior",
@@ -643,7 +643,7 @@
     "is_free": true,
     "replaces": [
       "autogun",
-      "close-combat-weapon"
+      "close-combat-weapon-sisters-novitiate-squad"
     ],
     "replacement": [
       "novitiate-melee-weapons"
@@ -721,7 +721,7 @@
         "ministorum-heavy-flamer"
       ],
       [
-        "multi-melta"
+        "multi-melta-paragon-warsuits"
       ]
     ],
     "model_constraint": {
@@ -749,7 +749,7 @@
         "ministorum-heavy-flamer"
       ],
       [
-        "multi-melta"
+        "multi-melta-paragon-warsuits"
       ]
     ],
     "model_constraint": {
@@ -971,15 +971,15 @@
     "is_free": true,
     "replaces": [
       "penitent-flamers",
-      "twin-penitent-buzz-blades"
+      "twin-penitent-buzz-blades-penitent-engines"
     ],
     "replacement_choice": [
       [
         "twin-penitent-flails"
       ],
       [
-        "penitent-flail",
-        "penitent-buzz-blade"
+        "penitent-flail-penitent-engines",
+        "penitent-buzz-blade-penitent-engines"
       ]
     ],
     "model_constraint": {
@@ -1000,7 +1000,7 @@
     ],
     "replacement": [
       "holy-pistol",
-      "power-weapon"
+      "power-weapon-ministorum-priest"
     ],
     "model_constraint": {
       "max_count": 1
@@ -1017,7 +1017,7 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "power-weapon"
+      "power-weapon-zephyrim-squad"
     ],
     "replacement": [
       "sacred-banner"
@@ -1038,7 +1038,7 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "power-weapon"
+      "power-weapon-zephyrim-squad"
     ],
     "replacement": [
       "plasma-pistol"
@@ -1058,7 +1058,7 @@
     },
     "is_free": true,
     "replaces": [
-      "boltgun"
+      "boltgun-dominion-squad"
     ],
     "replacement_choice": [
       [
@@ -1096,15 +1096,15 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "boltgun",
-      "close-combat-weapon"
+      "boltgun-dominion-squad",
+      "close-combat-weapon-dominion-squad"
     ],
     "replacement_choice": [
       [
-        "chainsword"
+        "chainsword-dominion-squad"
       ],
       [
-        "power-weapon"
+        "power-weapon-dominion-squad"
       ]
     ],
     "model_constraint": {
@@ -1123,18 +1123,18 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "boltgun",
-      "close-combat-weapon"
+      "boltgun-dominion-squad",
+      "close-combat-weapon-dominion-squad"
     ],
     "replacement_choice": [
       [
-        "meltagun"
+        "meltagun-dominion-squad"
       ],
       [
         "artificer-crafted-storm-bolter"
       ],
       [
-        "ministorum-flamer"
+        "ministorum-flamer-dominion-squad"
       ]
     ],
     "model_constraint": {
@@ -1153,7 +1153,7 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "close-combat-weapon"
+      "close-combat-weapon-dominion-squad"
     ],
     "replacement": [
       "simulacrum-imperialis"
@@ -1212,14 +1212,14 @@
     "replaces": [
       "bolt-pistol",
       "boltgun",
-      "close-combat-weapon"
+      "close-combat-weapon-battle-sisters-squad"
     ],
     "replacement_choice": [
       [
-        "power-weapon"
+        "power-weapon-battle-sisters-squad"
       ],
       [
-        "chainsword"
+        "chainsword-battle-sisters-squad"
       ]
     ],
     "model_constraint": {
@@ -1239,7 +1239,7 @@
     "replaces": [
       "bolt-pistol",
       "boltgun",
-      "close-combat-weapon"
+      "close-combat-weapon-battle-sisters-squad"
     ],
     "replacement_choice": [
       [
@@ -1252,13 +1252,13 @@
         "ministorum-flamer"
       ],
       [
-        "heavy-bolter"
+        "heavy-bolter-battle-sisters-squad"
       ],
       [
-        "meltagun"
+        "meltagun-battle-sisters-squad"
       ],
       [
-        "artificer-crafted-storm-bolter"
+        "artificer-crafted-storm-bolter-battle-sisters-squad"
       ]
     ],
     "model_constraint": {
@@ -1277,7 +1277,7 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "close-combat-weapon"
+      "close-combat-weapon-battle-sisters-squad"
     ],
     "replacement": [
       "simulacrum-imperialis"
@@ -1297,41 +1297,41 @@
     },
     "is_free": true,
     "replaces": [
-      "bolt-pistol"
+      "bolt-pistol-canoness"
     ],
     "replacement_choice": [
       [
         "null-rod",
-        "condemnor-boltgun"
+        "condemnor-boltgun-canoness"
       ],
       [
-        "plasma-pistol"
+        "plasma-pistol-canoness"
       ],
       [
-        "inferno-pistol"
+        "inferno-pistol-canoness"
       ],
       [
-        "plasma-pistol",
+        "plasma-pistol-canoness",
         "null-rod"
       ],
       [
-        "condemnor-boltgun",
+        "condemnor-boltgun-canoness",
         "brazier-of-holy-fire"
       ],
       [
         "null-rod",
-        "inferno-pistol"
+        "inferno-pistol-canoness"
       ],
       [
-        "inferno-pistol",
+        "inferno-pistol-canoness",
         "brazier-of-holy-fire"
       ],
       [
-        "condemnor-boltgun"
+        "condemnor-boltgun-canoness"
       ],
       [
         "brazier-of-holy-fire",
-        "plasma-pistol"
+        "plasma-pistol-canoness"
       ]
     ],
     "model_constraint": {
@@ -1348,36 +1348,36 @@
     },
     "is_free": true,
     "replaces": [
-      "bolt-pistol",
+      "bolt-pistol-canoness",
       "hallowed-chainsword"
     ],
     "replacement_choice": [
       [
-        "inferno-pistol",
+        "inferno-pistol-canoness",
         "power-weapon"
       ],
       [
         "power-weapon",
-        "condemnor-boltgun"
+        "condemnor-boltgun-canoness"
       ],
       [
-        "plasma-pistol",
+        "plasma-pistol-canoness",
         "power-weapon"
       ],
       [
         "blessed-blade",
-        "inferno-pistol"
+        "inferno-pistol-canoness"
       ],
       [
         "blessed-blade",
-        "plasma-pistol"
+        "plasma-pistol-canoness"
       ],
       [
         "blessed-blade",
-        "condemnor-boltgun"
+        "condemnor-boltgun-canoness"
       ],
       [
-        "plasma-pistol",
+        "plasma-pistol-canoness",
         "power-weapon",
         "rod-of-office"
       ]

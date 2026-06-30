@@ -416,24 +416,38 @@ export function importCatalogUnit(opts: ImportOptions): ImportResult {
   const reusedWeaponIds: string[] = [];
   const weaponIds = new Set<string>();
 
+  // Weapons minted earlier in THIS run, so a later same-name weapon in the same
+  // batch reuses an identical one and a same-name/different-stat one gets its own
+  // `${baseId}-${unitId}` variant — instead of silently colliding on the bare id.
+  // `existingById` covers the on-disk catalog; this covers the current batch.
+  const createdById = new Map<string, CoreWeapon>();
   for (const entry of weaponEntries.values()) {
     const built = buildWeapon(entry, catalog, warnings);
     const baseId = nameToId(built.name);
-    const existing = existingById.get(baseId);
+    const prior = existingById.get(baseId) ?? createdById.get(baseId);
 
     let finalId: string;
-    if (existing && profilesEqual(existing.profiles, built.profiles)) {
+    if (prior && profilesEqual(prior.profiles, built.profiles)) {
       finalId = baseId; // identical — reuse, add nothing
       reusedWeaponIds.push(baseId);
-    } else if (existing) {
-      finalId = `${baseId}-${unitId}`; // collision with different stats → variant
+    } else if (prior) {
+      // Collision with different stats → per-unit variant; a second same-name/
+      // different-stat weapon within one unit gets a numeric suffix.
+      finalId = `${baseId}-${unitId}`;
+      for (let n = 2; existingById.has(finalId) || createdById.has(finalId); n += 1) {
+        finalId = `${baseId}-${unitId}-${n}`;
+      }
       warnings.push(
         `weapon "${built.name}" (${baseId}) already exists with different stats; emitting variant "${finalId}". Reconcile if these should be the same weapon.`,
       );
-      if (!existingById.has(finalId)) newWeapons.push({ id: finalId, ...built });
+      const weapon: CoreWeapon = { id: finalId, ...built };
+      newWeapons.push(weapon);
+      createdById.set(finalId, weapon);
     } else {
       finalId = baseId;
-      newWeapons.push({ id: finalId, ...built });
+      const weapon: CoreWeapon = { id: finalId, ...built };
+      newWeapons.push(weapon);
+      createdById.set(finalId, weapon);
     }
     weaponIds.add(finalId);
   }

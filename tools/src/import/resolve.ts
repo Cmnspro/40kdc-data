@@ -18,7 +18,7 @@ import type { Dataset } from "../data/dataset.js";
 import type { UnitView } from "../data/entities.js";
 import { detachmentCapForBattleSize } from "../data/battle-sizes.js";
 import { groupLoadout } from "../data/loadout.js";
-import { normalizeName } from "../data/normalize.js";
+import { normalizeName, stripLeadingThe } from "../data/normalize.js";
 import type {
   BattleSize,
   Candidate,
@@ -227,6 +227,51 @@ function unitLookupCandidates(raw_name: string, faction_id: string | null, ds: D
   return [...new Set(candidates)];
 }
 
+/**
+ * Resolve a weapon raw name to candidate weapon views, tolerating a leading
+ * "The " mismatch in either direction between roster exports and data names
+ * (NewRecruit "The Bloody Twins" ↔ data "Bloody Twins"; GW "Fire Axe" ↔ data
+ * "The Fire Axe"). Tries the name as given, then the "The"-stripped form, then
+ * the "The"-prefixed form, returning the first non-empty match set. Each form
+ * routes through {@link Collection.findAll} (id → normalized-name → substring).
+ */
+function findWeaponCandidates(ds: Dataset, rawName: string) {
+  const direct = ds.weapons.findAll(rawName);
+  if (direct.length > 0) return direct;
+  const stripped = stripLeadingThe(rawName);
+  if (stripped) {
+    const hits = ds.weapons.findAll(stripped);
+    if (hits.length > 0) return hits;
+  }
+  return ds.weapons.findAll(`The ${rawName}`);
+}
+
+/**
+ * Resolve a weapon raw name to one of the RESOLVED unit's own weapon ids — its
+ * `weapon_ids` plus any ids reachable through its wargear options. Per-unit stat
+ * variants share a NAME (e.g. `dragon-fusion-gun` vs `dragon-fusion-gun-fire-dragons`),
+ * so a name match must pick the variant the resolved unit actually fields. Matches
+ * by {@link normalizeName} with the same leading-"The" tolerance as
+ * {@link findWeaponCandidates}. Returns null when the unit fields no weapon of that
+ * name (the caller then falls back to the global lookup).
+ */
+function scopedWeaponId(ds: Dataset, hit: UnitView, rawName: string): string | null {
+  const ids = new Set<string>(hit.raw.weapon_ids ?? []);
+  for (const opt of ds.wargearOptionsOf(hit.raw)) {
+    for (const id of opt.replaces ?? []) ids.add(id);
+    for (const id of opt.replacement ?? []) ids.add(id);
+    for (const group of opt.replacement_choice ?? []) for (const id of group) ids.add(id);
+  }
+  const stripped = stripLeadingThe(rawName);
+  const targets = new Set<string>([normalizeName(rawName), normalizeName(`The ${rawName}`)]);
+  if (stripped) targets.add(normalizeName(stripped));
+  for (const id of ids) {
+    const w = ds.weapons.get(id);
+    if (w && targets.has(normalizeName(w.name))) return id;
+  }
+  return null;
+}
+
 function resolveUnit(
   parsed: ParsedUnit,
   faction_id: string | null,
@@ -275,7 +320,15 @@ function resolveUnit(
   const enhancement_points = enhancement === null ? null : parsed.enhancement_points;
 
   const wargear = parsed.wargear.map((w) => {
-    const hits = ds.weapons.findAll(w.raw_name);
+    // Prefer the resolved unit's own weapon of this name — picks the right
+    // per-unit stat variant — falling back to the global lookup only when the
+    // unit is unresolved or fields no weapon of that name.
+    const scopedId = hit ? scopedWeaponId(ds, hit, w.raw_name) : null;
+    if (scopedId) {
+      diag.resolved_weapons += 1;
+      return { ref: resolved(scopedId, w.raw_name), count: w.count };
+    }
+    const hits = findWeaponCandidates(ds, w.raw_name);
     if (hits[0]) {
       diag.resolved_weapons += 1;
       return { ref: resolved(hits[0].id, w.raw_name), count: w.count };

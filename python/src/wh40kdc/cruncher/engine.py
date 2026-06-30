@@ -87,7 +87,8 @@ def crunch(input: EngineInput, dataset: Dataset | None = None) -> EngineOutput:
     stages: list[dict[str, Any]] = []
 
     # 1. Attacks
-    is_melee = weapon.get("type") == "melee"
+    # Melee/ranged is per-profile (11e weapons mix profiles), not weapon-level.
+    is_melee = weapon_profile.get("range") == "Melee"
     stats = weapon_profile["stats"]
     base_a = eval_stat_value(stats.get("A"))
     attacks_per_model = base_a + resolved["attacksMod"]["value"]
@@ -121,9 +122,7 @@ def crunch(input: EngineInput, dataset: Dataset | None = None) -> EngineOutput:
     # save bonus, and it only applies to ranged attacks (ignored by ignores-cover
     # and irrelevant to auto-hitting Torrent weapons, which take no hit roll).
     ignores_cover = _find_keyword(resolved, "ignores-cover") is not None
-    covered = (
-        resolved["cover"]["active"] and not ignores_cover and weapon.get("type") == "ranged"
-    )
+    covered = resolved["cover"]["active"] and not ignores_cover and not is_melee
     cover_hit_penalty = -1 if covered else 0
     hit_stat = stats.get("WS") if is_melee else stats.get("BS")
     torrent = _find_keyword(resolved, "torrent") is not None

@@ -1,0 +1,23 @@
+{
+  "name": "The Wailing Doom (ranged profile) vs intercessor — dual-profile weapon, shooting phase",
+  "attacker": { "weaponId": "the-wailing-doom", "profileIndex": 0 },
+  "modelsFiring": 1,
+  "target": { "unitId": "intercessor-squad", "profileIndex": 0 },
+  "context": {
+    "phase": "shooting",
+    "attackerStationary": false,
+    "withinHalfRange": false
+  },
+  "buffs": [],
+  "expected": {
+    "stages": {
+      "attacks": 1,
+      "hits": 1.1667,
+      "wounds": 0.9722,
+      "unsaved": 0.9722,
+      "damage": 5.3472,
+      "after-fnp": 5.3472,
+      "models-killed": 2.6736
+    }
+  }
+}

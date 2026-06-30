@@ -62,6 +62,7 @@ import {
 import { runAttachmentRoles, buildAttachmentReport } from "./mfm/attachment.js";
 import { runSeedUnits, buildSeedUnitsReport } from "./mfm/seed-units.js";
 import { runAllies, buildAlliesReport } from "./mfm/allies.js";
+import { runWeaponVariants, buildWeaponVariantsReport } from "./mfm/weapon-variants.js";
 import { applyWrites, type StagedWrite } from "./mfm/apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
@@ -771,6 +772,24 @@ async function runAlliesCmd(dump: MfmDump, write: boolean): Promise<void> {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runWeaponVariantsCmd(dump: MfmDump, write: boolean, onlyDir?: string): Promise<void> {
+  const report = runWeaponVariants(dump, onlyDir);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-weapon-variants.md");
+  fs.writeFileSync(reportPath, buildWeaponVariantsReport(report, write));
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Weapon-variant report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Conflicting ids ${sum((d) => d.conflictingIds)}, variants +${sum((d) => d.variantsAdded)}, ` +
+      `units rewired ${sum((d) => d.unitsRewired)}, duplicates dropped ${sum((d) => d.duplicatesDropped)}, ` +
+      `warnings ${sum((d) => d.warnings.length)}.`,
+  );
+  await applyWrites(report.staged, { write, label: "weapon-variants" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const cmd = argv[0];
@@ -797,6 +816,7 @@ async function main(): Promise<void> {
     "attachment-role",
     "seed-units",
     "allies",
+    "weapon-variants",
   ];
   if (!commands.includes(cmd)) {
     console.error(
@@ -822,6 +842,7 @@ async function main(): Promise<void> {
   else if (cmd === "seed-units")
     await runSeedUnitsCmd(dump, write, onlyDir, includeCombatPatrol);
   else if (cmd === "allies") await runAlliesCmd(dump, write);
+  else if (cmd === "weapon-variants") await runWeaponVariantsCmd(dump, write, onlyDir);
 }
 
 main().catch((e) => {

@@ -812,33 +812,6 @@
     }
   },
   {
-    "id": "ravaging-claws",
-    "name": "Ravaging claws",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Ravaging claws",
-        "range": "Melee",
-        "stats": {
-          "A": 5,
-          "S": 4,
-          "AP": -1,
-          "D": 1,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "plaguesword",
     "name": "Plaguesword",
     "type": "melee",
@@ -2027,33 +2000,6 @@
     }
   },
   {
-    "id": "ravaging-claws",
-    "name": "Ravaging claws",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Ravaging claws",
-        "range": "Melee",
-        "stats": {
-          "A": 8,
-          "S": 4,
-          "AP": -1,
-          "D": 1,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "foul-balesword",
     "name": "Foul balesword",
     "type": "melee",
@@ -2161,33 +2107,6 @@
           },
           {
             "keyword_id": "lethal-hits"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "slashing-claws",
-    "name": "Slashing claws",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Slashing claws",
-        "range": "Melee",
-        "stats": {
-          "A": 8,
-          "S": 4,
-          "AP": -1,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
           }
         ]
       }
@@ -2408,29 +2327,6 @@
     }
   },
   {
-    "id": "flamer-mouths",
-    "name": "Flamer mouths",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Flamer mouths",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "balesword-and-nurgling-attendants",
     "name": "Balesword and Nurgling attendants",
     "type": "melee",
@@ -2569,66 +2465,6 @@
         "keywords": [
           {
             "keyword_id": "lethal-hits"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "lashes-of-torment",
-    "name": "Lashes of torment",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ranged",
-        "range": 12,
-        "stats": {
-          "A": 6,
-          "S": 4,
-          "AP": -1,
-          "D": 2,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Infantry",
-              "threshold": 3
-            }
-          },
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      },
-      {
-        "name": "Melee",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 4,
-          "AP": -1,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Infantry",
-              "threshold": 3
-            }
-          },
-          {
-            "keyword_id": "extra-attacks"
           }
         ]
       }
@@ -2957,29 +2793,6 @@
     }
   },
   {
-    "id": "flamer-mouths",
-    "name": "Flamer mouths",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Flamer mouths",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "putrid-appendages",
     "name": "Putrid appendages",
     "type": "melee",
@@ -3110,26 +2923,23 @@
     }
   },
   {
-    "id": "putrid-vomit",
-    "name": "Putrid vomit",
+    "id": "grasping-tongue",
+    "name": "Grasping tongue",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Putrid vomit",
-        "range": 6,
+        "name": "Grasping tongue",
+        "range": 9,
         "stats": {
-          "A": "D6+3",
+          "A": "D3",
           "S": 5,
-          "AP": -2,
+          "AP": 0,
           "D": 1,
-          "BS": null
+          "BS": 4
         },
         "keywords": [
           {
-            "keyword_id": "ignores-cover"
-          },
-          {
-            "keyword_id": "torrent"
+            "keyword_id": "lethal-hits"
           }
         ]
       }
@@ -3140,75 +2950,99 @@
     }
   },
   {
-    "id": "phantasmagoria",
-    "name": "Phantasmagoria",
+    "id": "flamer-mouths-exalted-flamer",
+    "name": "Flamer mouths",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Flamer mouths",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "flamer-mouths-flamers",
+    "name": "Flamer mouths",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Flamer mouths",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "lashes-of-torment-tormentbringer",
+    "name": "Lashes of torment",
     "type": "ranged",
     "profiles": [
       {
-        "name": "witchfire",
-        "range": 18,
+        "name": "Ranged",
+        "range": 12,
         "stats": {
           "A": 6,
-          "S": 6,
-          "AP": -2,
-          "D": 1,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
           "BS": 2
         },
         "keywords": [
           {
-            "keyword_id": "devastating-wounds"
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 3
+            }
           },
           {
-            "keyword_id": "psychic"
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "pistol"
           }
         ]
       },
       {
-        "name": "focused witchfire",
-        "range": 18,
-        "stats": {
-          "A": 9,
-          "S": 6,
-          "AP": -2,
-          "D": 1,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "hazardous"
-          },
-          {
-            "keyword_id": "psychic"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "snapping-claws",
-    "name": "Snapping claws",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Snapping claws",
+        "name": "Melee",
         "range": "Melee",
         "stats": {
-          "A": 4,
-          "S": 6,
-          "AP": -2,
-          "D": 3,
+          "A": 6,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
           "WS": 2
         },
         "keywords": [
           {
-            "keyword_id": "devastating-wounds"
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 3
+            }
           },
           {
             "keyword_id": "extra-attacks"
@@ -3222,42 +3056,7 @@
     }
   },
   {
-    "id": "axe-of-khorne",
-    "name": "Axe of Khorne",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "sweep",
-        "range": "Melee",
-        "stats": {
-          "A": 16,
-          "S": 10,
-          "AP": -2,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": []
-      },
-      {
-        "name": "strike",
-        "range": "Melee",
-        "stats": {
-          "A": 8,
-          "S": 16,
-          "AP": -4,
-          "D": "D6+2",
-          "WS": 2
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ravaging-claws",
+    "id": "ravaging-claws-contorted-epitome",
     "name": "Ravaging claws",
     "type": "melee",
     "profiles": [
@@ -3265,7 +3064,7 @@
         "name": "Ravaging claws",
         "range": "Melee",
         "stats": {
-          "A": 6,
+          "A": 8,
           "S": 4,
           "AP": -1,
           "D": 1,
@@ -3284,26 +3083,23 @@
     }
   },
   {
-    "id": "lashing-tongue",
-    "name": "Lashing tongue",
+    "id": "ravaging-claws-infernal-enrapturess",
+    "name": "Ravaging claws",
     "type": "melee",
     "profiles": [
       {
-        "name": "Lashing tongue",
+        "name": "Ravaging claws",
         "range": "Melee",
         "stats": {
-          "A": 2,
+          "A": 5,
           "S": 4,
-          "AP": 0,
+          "AP": -1,
           "D": 1,
-          "WS": 4
+          "WS": 2
         },
         "keywords": [
           {
-            "keyword_id": "extra-attacks"
-          },
-          {
-            "keyword_id": "lethal-hits"
+            "keyword_id": "devastating-wounds"
           }
         ]
       }
@@ -3314,23 +3110,50 @@
     }
   },
   {
-    "id": "grasping-tongue",
-    "name": "Grasping tongue",
-    "type": "ranged",
+    "id": "slashing-claws-hellflayers",
+    "name": "Slashing claws",
+    "type": "melee",
     "profiles": [
       {
-        "name": "Grasping tongue",
-        "range": 9,
+        "name": "Slashing claws",
+        "range": "Melee",
         "stats": {
-          "A": "D3",
-          "S": 5,
-          "AP": 0,
+          "A": 8,
+          "S": 4,
+          "AP": -1,
           "D": 1,
-          "BS": 4
+          "WS": 3
         },
         "keywords": [
           {
-            "keyword_id": "lethal-hits"
+            "keyword_id": "devastating-wounds"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "slashing-claws-tormentbringer",
+    "name": "Slashing claws",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Slashing claws",
+        "range": "Melee",
+        "stats": {
+          "A": 8,
+          "S": 4,
+          "AP": -1,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
           }
         ]
       }

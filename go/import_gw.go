@@ -219,6 +219,18 @@ var gwAdapter = formatAdapter{
 				}
 				continue
 			}
+			// A plain `Nx …` line with no `•` bullet is still that unit's wargear:
+			// the GW app bullets only the first wargear entry per unit and emits the
+			// rest unbulleted. Feed it through the same top-level-bullet path. A unit
+			// header also lacks a bullet but carries a `(N pts)` parenthetical, so it
+			// is excluded here and handled just below.
+			if current != nil && !gwUnitHeader.MatchString(line) {
+				if nx := gwNxPrefix.FindStringSubmatch(line); nx != nil {
+					n, _ := strconv.Atoi(nx[1])
+					current.bullets = append(current.bullets, lftBulletEntry{indent: 0, count: n, text: strings.TrimSpace(nx[2])})
+					continue
+				}
+			}
 			if m := gwUnitHeader.FindStringSubmatch(line); m != nil {
 				finalize()
 				pts, _ := strconv.Atoi(m[2])

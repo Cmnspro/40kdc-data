@@ -271,29 +271,6 @@
     }
   },
   {
-    "id": "titanic-feet",
-    "name": "Titanic feet",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Titanic feet",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 8,
-          "AP": -1,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "acheron-flame-cannon",
     "name": "Acheron flame cannon",
     "type": "ranged",
@@ -1267,92 +1244,6 @@
     }
   },
   {
-    "id": "thunderstrike-gauntlet",
-    "name": "Thunderstrike gauntlet",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Sweep",
-        "range": "Melee",
-        "stats": {
-          "A": 12,
-          "S": 10,
-          "AP": -2,
-          "D": 3,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "lethal-hits"
-          }
-        ]
-      },
-      {
-        "name": "Strike",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 20,
-          "AP": -3,
-          "D": 8,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "reaper-chainsword",
-    "name": "Reaper chainsword",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Sweep",
-        "range": "Melee",
-        "stats": {
-          "A": 18,
-          "S": 9,
-          "AP": -3,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "lethal-hits"
-          }
-        ]
-      },
-      {
-        "name": "Strike",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 14,
-          "AP": -4,
-          "D": 6,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "thermal-spear",
     "name": "Thermal spear",
     "type": "ranged",
@@ -1617,61 +1508,6 @@
           "WS": 2
         },
         "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "las-impulsor",
-    "name": "Las-impulsor",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Low intensity",
-        "range": 36,
-        "stats": {
-          "A": "2D6",
-          "S": 7,
-          "AP": -1,
-          "D": 2,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      },
-      {
-        "name": "High intensity",
-        "range": 24,
-        "stats": {
-          "A": "D6",
-          "S": 14,
-          "AP": -3,
-          "D": 4,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
       }
     ],
     "game_version": {
@@ -2320,6 +2156,262 @@
             "keyword_id": "lance"
           }
         ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "las-impulsor-canis-rex",
+    "name": "Las-impulsor",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Low intensity",
+        "range": 36,
+        "stats": {
+          "A": "2D6",
+          "S": 7,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast"
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "High intensity",
+        "range": 24,
+        "stats": {
+          "A": "D6",
+          "S": 14,
+          "AP": -3,
+          "D": 4,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast"
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reaper-chainsword-knight-gallant",
+    "name": "Reaper chainsword",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Sweep",
+        "range": "Melee",
+        "stats": {
+          "A": 18,
+          "S": 9,
+          "AP": -3,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "lethal-hits"
+          }
+        ]
+      },
+      {
+        "name": "Strike",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 14,
+          "AP": -4,
+          "D": 6,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "thunderstrike-gauntlet-knight-gallant",
+    "name": "Thunderstrike gauntlet",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Sweep",
+        "range": "Melee",
+        "stats": {
+          "A": 12,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "lethal-hits"
+          }
+        ]
+      },
+      {
+        "name": "Strike",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 20,
+          "AP": -3,
+          "D": 8,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-feet-knight-castellan",
+    "name": "Titanic feet",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Titanic feet",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -1,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-feet-knight-crusader",
+    "name": "Titanic feet",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Titanic feet",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -1,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-feet-knight-defender",
+    "name": "Titanic feet",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Titanic feet",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -1,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-feet-knight-destrier",
+    "name": "Titanic feet",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Titanic feet",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -1,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-feet-knight-valiant",
+    "name": "Titanic feet",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Titanic feet",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -1,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
       }
     ],
     "game_version": {

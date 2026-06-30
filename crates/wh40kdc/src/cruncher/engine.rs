@@ -20,7 +20,14 @@ use super::buffs::{
 };
 use super::from_keyword::buffs_from_keyword;
 use crate::data::Dataset;
-use crate::{KeywordList, StatValue, Unit, Weapon, WeaponType};
+use crate::{KeywordList, StatValue, Unit, Weapon, WeaponProfilesItem, WeaponProfilesItemRange};
+
+/// Whether a weapon profile is a melee profile (`range == "Melee"`). Mirror of
+/// the TS `isMeleeProfile`: 11e weapons can mix ranged and melee profiles, so
+/// melee/ranged is a per-profile property, not a weapon-level one.
+fn is_melee_profile(profile: &WeaponProfilesItem) -> bool {
+    matches!(&profile.range, Some(WeaponProfilesItemRange::String(s)) if s == "Melee")
+}
 
 /// A weapon + which of its `profiles[]` to fire. Borrows the catalog record
 /// so the engine never owns the dataset.
@@ -180,7 +187,7 @@ pub fn crunch(
     let mut stages: Vec<Stage> = Vec::with_capacity(7);
 
     // 1. Attacks
-    let is_melee = input.attacker.weapon.type_ == WeaponType::Melee;
+    let is_melee = is_melee_profile(weapon_profile);
     let base_a = eval_stat_value(&weapon_profile.stats.a)?;
     let attacks_per_model = base_a + resolved.attacks_mod.value;
     let rapid_fire = find_extra_keyword(&resolved, "rapid-fire");
@@ -223,9 +230,7 @@ pub fn crunch(
     // save bonus. Ranged-only, negated by ignores-cover, moot for auto-hitting
     // Torrent weapons (no hit roll).
     let ignores_cover = find_extra_keyword(&resolved, "ignores-cover").is_some();
-    let covered = resolved.cover.active
-        && !ignores_cover
-        && input.attacker.weapon.type_ == WeaponType::Ranged;
+    let covered = resolved.cover.active && !ignores_cover && !is_melee;
     let cover_hit_penalty = if covered { -1.0 } else { 0.0 };
     let hit_stat_opt = if is_melee {
         weapon_profile.stats.ws

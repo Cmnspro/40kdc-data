@@ -83,6 +83,59 @@ func candFromWeapons(records []*WeaponView) []any {
 	return out
 }
 
+// findWeaponCandidates resolves a weapon raw name to candidate weapons,
+// tolerating a leading "The " mismatch in either direction (NewRecruit "The
+// Bloody Twins" ↔ data "Bloody Twins"; GW "Fire Axe" ↔ data "The Fire Axe").
+// Tries the name as given, then the "The"-stripped form, then the
+// "The"-prefixed form, returning the first non-empty match set. Mirror of the
+// TS findWeaponCandidates.
+func findWeaponCandidates(ds *Dataset, rawName string) []*WeaponView {
+	direct := ds.Weapons.FindAll(rawName)
+	if len(direct) > 0 {
+		return direct
+	}
+	if stripped, ok := StripLeadingThe(rawName); ok {
+		if hits := ds.Weapons.FindAll(stripped); len(hits) > 0 {
+			return hits
+		}
+	}
+	return ds.Weapons.FindAll("The " + rawName)
+}
+
+// scopedWeaponID resolves a weapon raw name to one of the RESOLVED unit's own
+// weapon ids — its weapon_ids plus ids reachable through its wargear options —
+// so a name match picks the per-unit stat variant the unit actually fields.
+// Matches by NormalizeName with the same leading-"The" tolerance as
+// findWeaponCandidates; returns ("", false) when the unit fields no weapon of
+// that name (the caller falls back to the global lookup). Mirror of the TS
+// scopedWeaponID.
+func scopedWeaponID(ds *Dataset, hit *UnitView, rawName string) (string, bool) {
+	ids := append([]string{}, getStrList(hit.Raw, "weapon_ids")...)
+	for _, optAny := range ds.wargearOptionsOf(hit.Raw) {
+		opt, _ := optAny.(map[string]any)
+		ids = append(ids, getStrList(opt, "replaces")...)
+		ids = append(ids, getStrList(opt, "replacement")...)
+		for _, gAny := range getList(opt, "replacement_choice") {
+			g, _ := gAny.([]any)
+			for _, idAny := range g {
+				if s, ok := idAny.(string); ok {
+					ids = append(ids, s)
+				}
+			}
+		}
+	}
+	targets := map[string]bool{NormalizeName(rawName): true, NormalizeName("The " + rawName): true}
+	if stripped, ok := StripLeadingThe(rawName); ok {
+		targets[NormalizeName(stripped)] = true
+	}
+	for _, id := range ids {
+		if w, ok := ds.Weapons.Get(id); ok && targets[NormalizeName(w.Name())] {
+			return w.ID(), true
+		}
+	}
+	return "", false
+}
+
 func mapBattleSize(raw any) any {
 	s, ok := raw.(string)
 	if !ok || s == "" {
@@ -363,7 +416,17 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 	wargear := []any{}
 	for _, wAny := range getList(parsed, "wargear") {
 		w := wAny.(map[string]any)
-		hits := ds.Weapons.FindAll(getStr(w, "raw_name"))
+		// Prefer the resolved unit's own weapon of this name — picks the right
+		// per-unit stat variant — falling back to the global lookup only when the
+		// unit is unresolved or fields no weapon of that name.
+		if hit != nil {
+			if id, ok := scopedWeaponID(ds, hit, getStr(w, "raw_name")); ok {
+				diag.resolvedWeapons++
+				wargear = append(wargear, map[string]any{"ref": refResolved(id, w["raw_name"]), "count": w["count"]})
+				continue
+			}
+		}
+		hits := findWeaponCandidates(ds, getStr(w, "raw_name"))
 		if len(hits) > 0 {
 			diag.resolvedWeapons++
 			wargear = append(wargear, map[string]any{"ref": refResolved(hits[0].ID(), w["raw_name"]), "count": w["count"]})

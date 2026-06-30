@@ -108,7 +108,8 @@ func crunch(input map[string]any, ds *Dataset) ([]map[string]any, *resolved, err
 	stats, _ := getMap(weaponProfile, "stats")
 	stages := []map[string]any{}
 
-	isMelee := getStr(weapon, "type") == "melee"
+	// Melee/ranged is per-profile (11e weapons mix profiles), not weapon-level.
+	isMelee := getStr(weaponProfile, "range") == "Melee"
 
 	// 1. Attacks
 	baseA, err := evalStatValue(stats["A"])
@@ -145,7 +146,7 @@ func crunch(input map[string]any, ds *Dataset) ([]map[string]any, *resolved, err
 
 	// 2. Hits
 	ignoresCover := res.findKeyword("ignores-cover") != nil
-	covered := res.coverActive && !ignoresCover && getStr(weapon, "type") == "ranged"
+	covered := res.coverActive && !ignoresCover && !isMelee
 	coverHitPenalty := 0.0
 	if covered {
 		coverHitPenalty = -1

@@ -26,7 +26,7 @@
   },
   {
     "name": "berzerkers-fully-kitted-legal",
-    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "icon-of-khorne": 1, "plasma-pistol": 3, "khornate-eviscerator": 2 } },
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "icon-of-khorne": 1, "plasma-pistol-khorne-berzerkers": 3, "khornate-eviscerator": 2 } },
     "expected": []
   },
   {
@@ -36,13 +36,13 @@
   },
   {
     "name": "berzerkers-plasma-champion-plus-troops-legal",
-    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "plasma-pistol": 3 } },
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "plasma-pistol-khorne-berzerkers": 3 } },
     "expected": []
   },
   {
     "name": "berzerkers-plasma-over",
-    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "plasma-pistol": 4 } },
-    "expected": ["exceeds-max:plasma-pistol"]
+    "args": { "unitId": "khorne-berzerkers", "factionId": "world-eaters", "modelCount": 10, "counts": { "plasma-pistol-khorne-berzerkers": 4 } },
+    "expected": ["exceeds-max:plasma-pistol-khorne-berzerkers"]
   },
   {
     "name": "berzerkers-eviscerator-over",
@@ -51,18 +51,18 @@
   },
   {
     "name": "terminators-reaper-at-cap-legal",
-    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon": 2 } },
+    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon-chaos-terminators": 2 } },
     "expected": []
   },
   {
     "name": "terminators-reaper-over-allowance",
-    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon": 3 } },
-    "expected": ["exceeds-allowance:heavy-flamer+reaper-autocannon"]
+    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon-chaos-terminators": 3 } },
+    "expected": ["exceeds-allowance:heavy-flamer+reaper-autocannon-chaos-terminators"]
   },
   {
     "name": "terminators-reaper-heavyflamer-shared-over",
-    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon": 1, "heavy-flamer": 2 } },
-    "expected": ["exceeds-allowance:heavy-flamer+reaper-autocannon"]
+    "args": { "unitId": "chaos-terminators", "factionId": "world-eaters", "modelCount": 10, "counts": { "reaper-autocannon-chaos-terminators": 1, "heavy-flamer": 2 } },
+    "expected": ["exceeds-allowance:heavy-flamer+reaper-autocannon-chaos-terminators"]
   },
   {
     "name": "terminators-5-powerfist-at-cap-legal",

@@ -35,6 +35,7 @@
  */
 import * as fs from "fs";
 import * as path from "path";
+import { pathToFileURL } from "node:url";
 import {
   loadDump,
   MfmDump,
@@ -55,11 +56,11 @@ import { applyWrites, type StagedWrite } from "./apply.js";
 
 const DATA_CORE = path.join(REPO_ROOT, "data", "core");
 
-interface GameVersion {
+export interface GameVersion {
   edition: string;
   dataslate: string;
 }
-interface WeaponProfile {
+export interface WeaponProfile {
   name: string;
   range: number | "Melee";
   stats: {
@@ -72,7 +73,7 @@ interface WeaponProfile {
   };
   keywords?: { keyword_id: string; parameters?: Record<string, unknown> }[];
 }
-interface WeaponRecord {
+export interface WeaponRecord {
   id: string;
   name: string;
   type: "ranged" | "melee";
@@ -221,14 +222,14 @@ function parseRange(s: string | null | undefined, type: string): number | "Melee
 }
 
 // ───────────────────────── minting ─────────────────────────
-interface MintContext {
+export interface MintContext {
   dump: MfmDump;
   gv: GameVersion;
   warnings: string[];
 }
 
 /** Build a repo weapon record from the dump's wargear_item + its profiles. */
-function mintWeapon(ctx: MintContext, item: WargearItemRow, id: string, name: string): WeaponRecord {
+export function mintWeapon(ctx: MintContext, item: WargearItemRow, id: string, name: string): WeaponRecord {
   const { dump } = ctx;
   const profiles = (dump.groupBy<any>("wargear_item_profile", "wargearItemId").get(item.id!) ?? [])
     .slice()
@@ -275,7 +276,7 @@ function mintWeapon(ctx: MintContext, item: WargearItemRow, id: string, name: st
 }
 
 // ───────────────────────── datasheet lookup ─────────────────────────
-function findDatasheet(dump: MfmDump, unitId: string, dir: string): DatasheetRow | null {
+export function findDatasheet(dump: MfmDump, unitId: string, dir: string): DatasheetRow | null {
   const matches: DatasheetRow[] = [];
   for (const ds of dump.table<DatasheetRow>("datasheet")) {
     if (ds.isLegends) continue;
@@ -567,7 +568,11 @@ async function main() {
   if (!write) console.log("\nDRY RUN — no files written. Re-run with --write to apply.");
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+// Only run the CLI when invoked as the entry script — importing this module for
+// its exported primitives (mintWeapon / findDatasheet) must have no side effects.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
