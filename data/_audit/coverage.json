@@ -29,7 +29,7 @@
       "defensive": 38,
       "inert": 231,
       "stub": 26,
-      "stubStructural": 13,
+      "stubStructural": 14,
       "gwTextLeak": 0,
       "defensiveSkipped": 7
     },
@@ -62,7 +62,7 @@
       "defensive": 13,
       "inert": 134,
       "stub": 16,
-      "stubStructural": 12,
+      "stubStructural": 13,
       "gwTextLeak": 0,
       "defensiveSkipped": 5
     },
@@ -117,7 +117,7 @@
       "defensive": 16,
       "inert": 164,
       "stub": 27,
-      "stubStructural": 15,
+      "stubStructural": 16,
       "gwTextLeak": 0,
       "defensiveSkipped": 6
     },
@@ -271,14 +271,14 @@
     "defensive": 257,
     "inert": 2209,
     "stub": 216,
-    "stubStructural": 190,
+    "stubStructural": 193,
     "gwTextLeak": 0,
     "defensiveSkipped": 59
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 485
+      "count": 453
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
@@ -345,6 +345,10 @@
       "count": 26
     },
     {
+      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
+      "count": 25
+    },
+    {
       "reason": "effect type \"fight-on-death\" is not modelled by the buff layer",
       "count": 22
     },
@@ -402,6 +406,10 @@
     },
     {
       "reason": "roll-modifier: operation \"crit-on\" not supported",
+      "count": 7
+    },
+    {
+      "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
       "count": 7
     },
     {
@@ -1854,11 +1862,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -1934,11 +1942,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "assault-vehicle",
       "name": "Assault Vehicle",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -3234,11 +3242,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "combat-disembarkation",
       "name": "Combat Disembarkation",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -3754,11 +3762,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "heroes-of-ultramar",
       "name": "HEROES OF ULTRAMAR",
-      "shape": "ability-grant",
-      "stub": false,
+      "shape": "unit-attachment",
+      "stub": true,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -3934,11 +3942,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "company-heroes",
       "name": "Company Heroes",
-      "shape": "ability-grant",
+      "shape": "unit-attachment",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4054,11 +4062,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "aerial-assault",
       "name": "Aerial Assault",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4474,11 +4482,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "into-the-foe",
       "name": "Into the Foe",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -5604,11 +5612,11 @@
       "faction": "adeptus-custodes",
       "ability_id": "assault-dropship",
       "name": "Assault Dropship",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-custodes",
@@ -5724,11 +5732,11 @@
       "faction": "adeptus-custodes",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-custodes",
@@ -6864,11 +6872,11 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "servitor-bodyguard",
       "name": "SERVITOR BODYGUARD",
-      "shape": "ability-grant",
+      "shape": "unit-attachment",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
@@ -7374,11 +7382,11 @@
       "faction": "aeldari",
       "ability_id": "support-artillery",
       "name": "Support Artillery",
-      "shape": "ability-grant",
-      "stub": false,
+      "shape": "unit-attachment",
+      "stub": true,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "aeldari",
@@ -8724,11 +8732,11 @@
       "faction": "aeldari",
       "ability_id": "into-the-foe",
       "name": "Into the Foe",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "aeldari",
@@ -9234,11 +9242,11 @@
       "faction": "agents-of-the-imperium",
       "ability_id": "rapid-deployment",
       "name": "Rapid Deployment",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "agents-of-the-imperium",
@@ -11404,11 +11412,11 @@
       "faction": "astra-militarum",
       "ability_id": "rapid-deployment",
       "name": "Rapid Deployment",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "astra-militarum",
@@ -11724,11 +11732,11 @@
       "faction": "astra-militarum",
       "ability_id": "blistering-advance",
       "name": "Blistering Advance",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "astra-militarum",
@@ -15564,11 +15572,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -16324,11 +16332,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "assault-vehicle",
       "name": "Assault Vehicle",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -16414,11 +16422,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "masters-of-the-maelstrom",
       "name": "Masters of the Maelstrom",
-      "shape": "ability-grant",
-      "stub": false,
+      "shape": "unit-attachment",
+      "stub": true,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -16704,11 +16712,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "aerial-assault",
       "name": "Aerial Assault",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -18304,11 +18312,11 @@
       "faction": "death-guard",
       "ability_id": "assault-vehicle",
       "name": "Assault Vehicle",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "death-guard",
@@ -18334,11 +18342,11 @@
       "faction": "death-guard",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "death-guard",
@@ -18944,11 +18952,11 @@
       "faction": "drukhari",
       "ability_id": "rapid-deployment",
       "name": "Rapid Deployment",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "drukhari",
@@ -19774,11 +19782,11 @@
       "faction": "emperors-children",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "emperors-children",
@@ -20134,11 +20142,11 @@
       "faction": "emperors-children",
       "ability_id": "assault-vehicle",
       "name": "Assault Vehicle",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "emperors-children",
@@ -21524,11 +21532,11 @@
       "faction": "grey-knights",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "grey-knights",
@@ -21664,11 +21672,11 @@
       "faction": "grey-knights",
       "ability_id": "aerial-assault",
       "name": "Aerial Assault",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "grey-knights",
@@ -23354,11 +23362,11 @@
       "faction": "leagues-of-votann",
       "ability_id": "blistering-advance",
       "name": "Blistering Advance",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "leagues-of-votann",
@@ -23904,11 +23912,11 @@
       "faction": "necrons",
       "ability_id": "cryptek-retinue",
       "name": "Cryptek Retinue",
-      "shape": "ability-grant",
+      "shape": "unit-attachment",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "necrons",
@@ -24504,11 +24512,11 @@
       "faction": "necrons",
       "ability_id": "canoptek-retinue",
       "name": "Canoptek Retinue",
-      "shape": "ability-grant",
+      "shape": "unit-attachment",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "necrons",
@@ -27654,11 +27662,11 @@
       "faction": "tau-empire",
       "ability_id": "rapid-deployment",
       "name": "Rapid Deployment",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "tau-empire",
@@ -28204,11 +28212,11 @@
       "faction": "thousand-sons",
       "ability_id": "assault-ramp",
       "name": "Assault Ramp",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "thousand-sons",
@@ -28424,11 +28432,11 @@
       "faction": "thousand-sons",
       "ability_id": "assault-vehicle",
       "name": "Assault Vehicle",
-      "shape": "ability-grant",
+      "shape": "disembark-after-move",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"disembark-after-move\" is not modelled by the buff layer"
     },
     {
       "faction": "thousand-sons",

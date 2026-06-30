@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 190 stub abilities.
+Total: 193 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -16,6 +16,7 @@ Total: 190 stub abilities.
 | adeptus-astartes | close-range-eradication | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | combat-doctrines | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | driven-by-fury | stat-modifier | stat-modifier: operation "undefined" not supported |
+| adeptus-astartes | heroes-of-ultramar | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | adeptus-astartes | interlocking-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | purgation-run | stat-modifier | stat-modifier: operation "undefined" not supported |
@@ -42,6 +43,7 @@ Total: 190 stub abilities.
 | aeldari | relentless-raiders | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | shepherds-of-the-dead | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | strength-from-death | stat-modifier | stat-modifier: operation "undefined" not supported |
+| aeldari | support-artillery | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | aeldari | yriels-own | stat-modifier | stat-modifier: operation "undefined" not supported |
 | agents-of-the-imperium | a-weaponsmith-not-a-warlord | stat-modifier | stat-modifier: operation "undefined" not supported |
 | agents-of-the-imperium | at-all-costs | stat-modifier | stat-modifier: operation "undefined" not supported |
@@ -97,6 +99,7 @@ Total: 190 stub abilities.
 | chaos-space-marines | focus-of-hatred | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | idol-of-blessed-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
+| chaos-space-marines | masters-of-the-maelstrom | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | chaos-space-marines | slaves-to-none | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | super-heavy-war-engine | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | terror-descends-aura | stat-modifier | stat-modifier: operation "undefined" not supported |

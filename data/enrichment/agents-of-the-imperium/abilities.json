@@ -388,10 +388,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
+      "type": "disembark-after-move",
+      "target": "self",
       "modifier": {
-        "ability_id": "transport-disembark-modifier"
+        "after": "advance",
+        "can_charge": false,
+        "counts_as_normal_move": true
       }
     },
     "scope": {

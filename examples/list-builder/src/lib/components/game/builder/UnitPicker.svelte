@@ -185,9 +185,15 @@ function toggle(key: string) {
 								{/if}
 								<ul class="flex flex-col gap-0.5 pl-1">
 									{#each bucket.units as u (`${u.faction_id}:${u.id}`)}
+										{@const affordable = canAfford(draft, u)}
 										<li>
+											<!-- Over-limit is advisory; mirror the own-faction list — grey an
+											     unaffordable ally (title explains) but keep it clickable. -->
 											<button
-												class="hover:bg-panel-hover flex w-full items-center gap-2 rounded px-1.5 py-1 text-left"
+												class="hover:bg-panel-hover flex w-full items-center gap-2 rounded px-1.5 py-1 text-left {affordable
+													? ''
+													: 'opacity-40'}"
+												title={affordable ? undefined : 'Over the points limit at its cheapest size'}
 												onclick={() => onadd(u.id, u.faction_id, group.rule.id)}
 											>
 												<span class="text-text flex-1 truncate text-sm">{u.name}</span>

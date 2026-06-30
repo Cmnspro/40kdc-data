@@ -103,7 +103,8 @@
             "rule-state",
             "pool-add-die", "replace-roll-from-pool",
             "flyover", "cp-on-destroy", "battle-shock-test",
-            "modifier-immunity", "stratagem-cost-modifier", "targeting-permission"
+            "modifier-immunity", "stratagem-cost-modifier", "targeting-permission",
+            "unit-attachment"
           ]
         },
         "target": {
@@ -414,6 +415,46 @@
               }
             },
             "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`disembark-after-move`: a Transport modifies disembarkation. `after` is the move that enables it (`normal-move` | `advance` | `deployment` | `before-move`); `can_charge` is whether the disembarked unit may then declare a charge; `requires_keyword` gates it on a keyword (e.g. Deep Strike for Aerial Assault); `counts_as_normal_move` marks the disembarked unit as having made a Normal move (Assault Vehicle). An absent modifier renders the bare 'after it has moved' form.",
+          "if": {
+            "properties": { "type": { "const": "disembark-after-move" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "after": { "type": "string", "enum": ["normal-move", "advance", "deployment", "before-move"] },
+                  "can_charge": { "type": "boolean" },
+                  "requires_keyword": { "type": "string", "minLength": 1 },
+                  "counts_as_normal_move": { "type": "boolean" }
+                },
+                "required": ["after"]
+              }
+            },
+            "required": ["modifier"]
+          }
+        },
+        {
+          "$comment": "`unit-attachment`: this unit can join another friendly unit during the Declare Battle Formations step, becoming part of that Bodyguard unit. `led_by` (optional) is the keyword the joined unit must be led by; `mandatory` (optional) marks the attachment as forced (the unit must be attached to a Leader or it counts as destroyed).",
+          "if": {
+            "properties": { "type": { "const": "unit-attachment" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "led_by": { "type": "string", "minLength": 1 },
+                  "mandatory": { "type": "boolean" }
+                }
+              }
+            }
           }
         }
       ]

@@ -1,8 +1,9 @@
 import { factions } from "@alpaca-software/40kdc-data";
 import { DEFAULT_SOURCE } from "./source-store.js";
 import type { VeracityIndex } from "./veracity-store.js";
+import type { DivergenceIndex } from "./divergence-store.js";
 
-export type ExplorerView = "browse" | "roundtrip";
+export type ExplorerView = "browse" | "roundtrip" | "divergence";
 /** Roundtrip collation order: `reading` = datasheet type groups; `veracity` =
  *  flat, weakest-embedding-score first (only meaningful once a report loads). */
 export type RoundtripSort = "reading" | "veracity";
@@ -43,6 +44,9 @@ class ExplorerStore {
   veracity = $state<VeracityIndex | null>(null);
   /** Collation order for the roundtrip view. */
   roundtripSort = $state<RoundtripSort>("reading");
+  /** Loaded divergence report, or null. Session-only and never persisted: the
+   *  report is GW-prose-derived, so it must not be written to localStorage. */
+  divergence = $state<DivergenceIndex | null>(null);
 
   setSource(spec: string): void {
     this.sourceSpec = spec;
@@ -58,6 +62,11 @@ class ExplorerStore {
   setVeracity(idx: VeracityIndex | null): void {
     this.veracity = idx;
     this.roundtripSort = idx ? "veracity" : "reading";
+  }
+
+  /** Load (or clear) the divergence report. Session-only; never persisted. */
+  setDivergence(idx: DivergenceIndex | null): void {
+    this.divergence = idx;
   }
 
   /** Jump to the roundtrip view focused on a specific ability. Widen the scope to

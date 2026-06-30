@@ -7,6 +7,7 @@
   import Datacard from "./lib/datacard.svelte";
   import Detachments from "./lib/detachments.svelte";
   import Roundtrip from "./lib/roundtrip.svelte";
+  import Divergence from "./lib/divergence.svelte";
 
   // Units of the selected faction, name-filtered, sorted.
   const factionUnits = $derived(
@@ -64,6 +65,7 @@
   <nav class="view-tabs">
     <button class:active={explorer.view === "browse"} onclick={() => (explorer.view = "browse")}>Browse</button>
     <button class:active={explorer.view === "roundtrip"} onclick={() => (explorer.view = "roundtrip")}>Roundtrip QA</button>
+    <button class:active={explorer.view === "divergence"} onclick={() => (explorer.view = "divergence")}>Divergence</button>
   </nav>
 
   <aside class="sidebar">
@@ -113,8 +115,10 @@
       {#if explorer.factionId}
         <Detachments factionId={explorer.factionId} />
       {/if}
-    {:else}
+    {:else if explorer.view === "roundtrip"}
       <Roundtrip />
+    {:else}
+      <Divergence />
     {/if}
   </section>
 

@@ -13111,6 +13111,12 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///    },
 ///    {
 ///      "$comment": "`targeting-permission`: the bearer can only be SELECTED as a target (selection-time gate) of `attack_type` (`ranged` | `any`) attacks if `gate` holds — `within-range` (the attacking unit is within `range`\"; Lone Operative = ranged/12, fog-of-dreams = ranged/18), `closest-eligible` (it is the closest eligible target), or `closest-or-within-range`. Distinct from `attack-restriction` (resolution-time) and `targeting-range-limit` (the bearer's own offence)."
+///    },
+///    {
+///      "$comment": "`disembark-after-move`: a Transport modifies disembarkation. `after` is the move that enables it (`normal-move` | `advance` | `deployment` | `before-move`); `can_charge` is whether the disembarked unit may then declare a charge; `requires_keyword` gates it on a keyword (e.g. Deep Strike for Aerial Assault); `counts_as_normal_move` marks the disembarked unit as having made a Normal move (Assault Vehicle). An absent modifier renders the bare 'after it has moved' form."
+///    },
+///    {
+///      "$comment": "`unit-attachment`: this unit can join another friendly unit during the Declare Battle Formations step, becoming part of that Bodyguard unit. `led_by` (optional) is the keyword the joined unit must be led by; `mandatory` (optional) marks the attachment as forced (the unit must be attached to a Leader or it counts as destroyed)."
 ///    }
 ///  ],
 ///  "required": [
@@ -13191,7 +13197,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "battle-shock-test",
 ///        "modifier-immunity",
 ///        "stratagem-cost-modifier",
-///        "targeting-permission"
+///        "targeting-permission",
+///        "unit-attachment"
 ///      ]
 ///    }
 ///  },
@@ -13385,7 +13392,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///    "battle-shock-test",
 ///    "modifier-immunity",
 ///    "stratagem-cost-modifier",
-///    "targeting-permission"
+///    "targeting-permission",
+///    "unit-attachment"
 ///  ]
 ///}
 /// ```
@@ -13499,6 +13507,8 @@ pub enum SingleEffectType {
     StratagemCostModifier,
     #[serde(rename = "targeting-permission")]
     TargetingPermission,
+    #[serde(rename = "unit-attachment")]
+    UnitAttachment,
 }
 impl ::std::fmt::Display for SingleEffectType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -13551,6 +13561,7 @@ impl ::std::fmt::Display for SingleEffectType {
             Self::ModifierImmunity => f.write_str("modifier-immunity"),
             Self::StratagemCostModifier => f.write_str("stratagem-cost-modifier"),
             Self::TargetingPermission => f.write_str("targeting-permission"),
+            Self::UnitAttachment => f.write_str("unit-attachment"),
         }
     }
 }
@@ -13608,6 +13619,7 @@ impl ::std::str::FromStr for SingleEffectType {
             "modifier-immunity" => Ok(Self::ModifierImmunity),
             "stratagem-cost-modifier" => Ok(Self::StratagemCostModifier),
             "targeting-permission" => Ok(Self::TargetingPermission),
+            "unit-attachment" => Ok(Self::UnitAttachment),
             _ => Err("invalid value".into()),
         }
     }

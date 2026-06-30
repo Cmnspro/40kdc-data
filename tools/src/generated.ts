@@ -317,7 +317,8 @@ export type SingleEffect = {
     | "battle-shock-test"
     | "modifier-immunity"
     | "stratagem-cost-modifier"
-    | "targeting-permission";
+    | "targeting-permission"
+    | "unit-attachment";
   target:
     | "self"
     | "bearer"
