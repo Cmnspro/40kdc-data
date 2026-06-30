@@ -88,7 +88,7 @@
         "max": 1,
         "default_weapon_ids": [
           "gaunts-chainsword",
-          "bolt-pistol"
+          "bolt-pistol-gaunts-ghosts"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -257,8 +257,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "laspistol-cadian-shock-troops",
+          "close-combat-weapon-cadian-shock-troops"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -272,7 +272,7 @@
         "max": 19,
         "default_weapon_ids": [
           "lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-cadian-shock-troops"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -310,7 +310,7 @@
         "max": 4,
         "default_weapon_ids": [
           "hot-shot-lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-militarum-tempestus-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -387,7 +387,7 @@
         "max": 1,
         "default_weapon_ids": [
           "hot-shot-laspistol",
-          "close-combat-weapon"
+          "close-combat-weapon-tempestus-aquilons"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -401,7 +401,7 @@
         "max": 9,
         "default_weapon_ids": [
           "hot-shot-lascarbine",
-          "close-combat-weapon"
+          "close-combat-weapon-tempestus-aquilons"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -424,8 +424,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "laspistol-krieg-heavy-weapons-squad",
+          "close-combat-weapon-krieg-heavy-weapons-squad"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -438,9 +438,9 @@
         "min": 3,
         "max": 3,
         "default_weapon_ids": [
-          "close-combat-weapon",
-          "lascannon",
-          "laspistol"
+          "close-combat-weapon-krieg-heavy-weapons-squad",
+          "lascannon-krieg-heavy-weapons-squad",
+          "laspistol-krieg-heavy-weapons-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -545,7 +545,7 @@
           "twin-heavy-flamer",
           "twin-heavy-flamer",
           "twin-heavy-bolter",
-          "armoured-tracks",
+          "armoured-tracks-stormsword",
           "stormsword-siege-cannon"
         ]
       }
@@ -580,7 +580,7 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "armoured-tracks",
+          "armoured-tracks-taurox-prime",
           "twin-taurox-hot-shot-volley-gun",
           "taurox-battle-cannon"
         ]
@@ -617,7 +617,7 @@
         },
         "default_weapon_ids": [
           "lasgun",
-          "laspistol",
+          "laspistol-field-ordnance-battery",
           "battery-close-combat-weapons",
           "malleus-rocket-launcher"
         ]
@@ -761,7 +761,7 @@
         },
         "default_weapon_ids": [
           "grenadier-gauntlet",
-          "close-combat-weapon",
+          "close-combat-weapon-bullgryn-squad",
           "slabshield"
         ]
       },
@@ -775,7 +775,7 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "close-combat-weapon",
+          "close-combat-weapon-bullgryn-squad",
           "slabshield",
           "grenadier-gauntlet"
         ]
@@ -866,9 +866,9 @@
           "diameter": 50
         },
         "default_weapon_ids": [
-          "laspistol",
+          "laspistol-cadian-heavy-weapons-squad",
           "weapons-team-close-combat-weapons",
-          "heavy-bolter"
+          "heavy-bolter-cadian-heavy-weapons-squad"
         ]
       }
     ],
@@ -903,7 +903,7 @@
         },
         "default_weapon_ids": [
           "weapons-team-close-combat-weapons",
-          "heavy-bolter",
+          "heavy-bolter-catachan-heavy-weapons-squad",
           "lasgun"
         ]
       }
@@ -938,13 +938,13 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "twin-heavy-flamer",
-          "twin-heavy-flamer",
+          "twin-heavy-flamer-hellhammer",
+          "twin-heavy-flamer-hellhammer",
           "demolisher-cannon",
           "coaxial-autocannon",
           "heavy-stubber",
           "twin-heavy-bolter",
-          "armoured-tracks",
+          "armoured-tracks-hellhammer",
           "hellhammer-cannon",
           "lascannon",
           "lascannon"
@@ -1060,7 +1060,7 @@
         },
         "default_weapon_ids": [
           "bolt-pistol",
-          "chainsword"
+          "chainsword-commissar"
         ]
       }
     ],
@@ -1095,7 +1095,7 @@
         },
         "default_weapon_ids": [
           "deathstrike-missile",
-          "armoured-tracks",
+          "armoured-tracks-deathstrike",
           "heavy-bolter"
         ]
       }
@@ -1273,7 +1273,7 @@
         "max": 1,
         "default_weapon_ids": [
           "hot-shot-laspistol",
-          "chainsword"
+          "chainsword-tempestus-scions"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1287,7 +1287,7 @@
         "max": 9,
         "default_weapon_ids": [
           "hot-shot-lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-tempestus-scions"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1347,11 +1347,11 @@
         "default_weapon_ids": [
           "twin-heavy-bolter",
           "vulcan-mega-bolter",
-          "armoured-tracks",
+          "armoured-tracks-stormlord",
           "lascannon",
           "lascannon",
-          "twin-heavy-flamer",
-          "twin-heavy-flamer",
+          "twin-heavy-flamer-stormlord",
+          "twin-heavy-flamer-stormlord",
           "heavy-stubber",
           "heavy-stubber"
         ]
@@ -1387,9 +1387,9 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "huge-knife",
-          "ripper-gun",
-          "close-combat-weapon"
+          "huge-knife-ogryn-bodyguard",
+          "ripper-gun-ogryn-bodyguard",
+          "close-combat-weapon-ogryn-bodyguard"
         ]
       }
     ],
@@ -1420,7 +1420,7 @@
         "max": 1,
         "default_weapon_ids": [
           "hot-shot-laspistol",
-          "chainsword"
+          "chainsword-kasrkin"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1434,7 +1434,7 @@
         "max": 9,
         "default_weapon_ids": [
           "hot-shot-lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-kasrkin"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1473,8 +1473,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "chainsword"
+          "laspistol-cadian-command-squad",
+          "chainsword-cadian-command-squad"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1489,7 +1489,7 @@
         "default_weapon_ids": [
           "lasgun",
           "regimental-standard",
-          "close-combat-weapon"
+          "close-combat-weapon-cadian-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1512,8 +1512,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "laspistol-catachan-command-squad",
+          "close-combat-weapon-catachan-command-squad"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1526,8 +1526,8 @@
         "min": 4,
         "max": 4,
         "default_weapon_ids": [
-          "close-combat-weapon",
-          "laspistol",
+          "close-combat-weapon-catachan-command-squad",
+          "laspistol-catachan-command-squad",
           "lasgun"
         ],
         "is_leader_model": false,
@@ -1572,10 +1572,10 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "twin-heavy-flamer",
-          "twin-heavy-flamer",
+          "twin-heavy-flamer-doomhammer",
+          "twin-heavy-flamer-doomhammer",
           "twin-heavy-bolter",
-          "armoured-tracks",
+          "armoured-tracks-doomhammer",
           "magma-cannon",
           "lascannon",
           "lascannon"
@@ -1679,8 +1679,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "laspistol-death-korps-of-krieg",
+          "close-combat-weapon-death-korps-of-krieg"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1694,7 +1694,7 @@
         "max": 19,
         "default_weapon_ids": [
           "lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-death-korps-of-krieg"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1722,13 +1722,13 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "armoured-tracks",
+          "armoured-tracks-banesword",
           "twin-heavy-bolter",
           "quake-cannon",
           "lascannon",
           "lascannon",
-          "twin-heavy-flamer",
-          "twin-heavy-flamer"
+          "twin-heavy-flamer-banesword",
+          "twin-heavy-flamer-banesword"
         ]
       }
     ],
@@ -1762,7 +1762,7 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "armoured-tracks",
+          "armoured-tracks-wyvern",
           "heavy-bolter",
           "wyvern-quad-stormshard-mortar"
         ]
@@ -1797,7 +1797,7 @@
           "hunting-lance",
           "steeds-hooves",
           "lasgun",
-          "laspistol"
+          "laspistol-attilan-rough-riders"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1811,7 +1811,7 @@
         "min": 4,
         "max": 9,
         "default_weapon_ids": [
-          "laspistol",
+          "laspistol-attilan-rough-riders",
           "hunting-lance"
         ],
         "is_leader_model": false,
@@ -1843,7 +1843,7 @@
         "default_weapon_ids": [
           "heavy-flamer",
           "inferno-cannon",
-          "armoured-tracks"
+          "armoured-tracks-hellhound"
         ]
       }
     ],
@@ -1908,8 +1908,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "power-weapon"
+          "laspistol-krieg-command-squad",
+          "power-weapon-krieg-command-squad"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1922,8 +1922,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "chainsword"
+          "laspistol-krieg-command-squad",
+          "chainsword-krieg-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1936,8 +1936,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "laspistol-krieg-command-squad",
+          "close-combat-weapon-krieg-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1951,7 +1951,7 @@
         "max": 1,
         "default_weapon_ids": [
           "lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-krieg-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1965,7 +1965,7 @@
         "max": 1,
         "default_weapon_ids": [
           "lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-krieg-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -1978,8 +1978,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "boltgun",
-          "close-combat-weapon"
+          "boltgun-krieg-command-squad",
+          "close-combat-weapon-krieg-command-squad"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -2078,8 +2078,8 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "twin-autocannon",
-          "armoured-tracks"
+          "twin-autocannon-taurox",
+          "armoured-tracks-taurox"
         ]
       }
     ],
@@ -2113,7 +2113,7 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "ripper-gun"
+          "ripper-gun-ogryn-squad"
         ]
       },
       {
@@ -2126,7 +2126,7 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "ripper-gun"
+          "ripper-gun-ogryn-squad"
         ]
       }
     ],
@@ -2252,13 +2252,13 @@
           "draft": true
         },
         "default_weapon_ids": [
-          "twin-heavy-flamer",
-          "twin-heavy-flamer",
+          "twin-heavy-flamer-banehammer",
+          "twin-heavy-flamer-banehammer",
           "twin-heavy-bolter",
           "tremor-cannon",
           "lascannon",
           "lascannon",
-          "armoured-tracks"
+          "armoured-tracks-banehammer"
         ]
       }
     ],
@@ -2288,8 +2288,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "laspistol",
-          "close-combat-weapon"
+          "laspistol-catachan-jungle-fighters",
+          "close-combat-weapon-catachan-jungle-fighters"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -2303,7 +2303,7 @@
         "max": 19,
         "default_weapon_ids": [
           "lasgun",
-          "close-combat-weapon"
+          "close-combat-weapon-catachan-jungle-fighters"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -2440,12 +2440,12 @@
         },
         "default_weapon_ids": [
           "twin-heavy-bolter",
-          "twin-heavy-flamer",
-          "twin-heavy-flamer",
+          "twin-heavy-flamer-shadowsword",
+          "twin-heavy-flamer-shadowsword",
           "volcano-cannon",
           "lascannon",
           "lascannon",
-          "armoured-tracks"
+          "armoured-tracks-shadowsword"
         ]
       }
     ],
@@ -2481,7 +2481,7 @@
         "default_weapon_ids": [
           "storm-eagle-rockets",
           "heavy-bolter",
-          "armoured-tracks"
+          "armoured-tracks-manticore"
         ]
       }
     ],
@@ -2517,7 +2517,7 @@
         "default_weapon_ids": [
           "heavy-bolter",
           "multi-laser",
-          "armoured-tracks",
+          "armoured-tracks-chimera",
           "lasgun-array"
         ]
       }
@@ -2554,7 +2554,7 @@
         },
         "default_weapon_ids": [
           "avenger-bolt-cannon",
-          "armoured-hull",
+          "armoured-hull-avenger-strike-fighter",
           "heavy-stubber",
           "lascannon",
           "lascannon"
@@ -2629,7 +2629,7 @@
         "default_weapon_ids": [
           "earthshaker-cannon",
           "heavy-bolter",
-          "armoured-tracks"
+          "armoured-tracks-basilisk"
         ]
       }
     ],
@@ -2665,14 +2665,14 @@
         "default_weapon_ids": [
           "lascannon",
           "lascannon",
-          "twin-heavy-flamer",
-          "twin-heavy-flamer",
+          "twin-heavy-flamer-baneblade",
+          "twin-heavy-flamer-baneblade",
           "baneblade-cannon",
           "twin-heavy-bolter",
           "heavy-stubber",
           "demolisher-cannon",
           "coaxial-autocannon",
-          "armoured-tracks"
+          "armoured-tracks-baneblade"
         ]
       }
     ],
@@ -2702,7 +2702,7 @@
         "max": 1,
         "default_weapon_ids": [
           "autopistol",
-          "trench-club"
+          "trench-club-krieg-combat-engineers"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -2716,7 +2716,7 @@
         "max": 9,
         "default_weapon_ids": [
           "autopistol",
-          "trench-club"
+          "trench-club-krieg-combat-engineers"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -2775,7 +2775,7 @@
         },
         "default_weapon_ids": [
           "hydra-autocannon",
-          "armoured-tracks",
+          "armoured-tracks-hydra",
           "heavy-bolter"
         ]
       }
@@ -2841,7 +2841,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "close-combat-weapon",
+          "close-combat-weapon-cadian-recon-squad",
           "lasgun"
         ]
       },
@@ -2850,7 +2850,7 @@
         "min": 9,
         "max": 9,
         "default_weapon_ids": [
-          "close-combat-weapon",
+          "close-combat-weapon-cadian-recon-squad",
           "lasgun"
         ]
       }
@@ -2893,7 +2893,7 @@
           "prefectus-heavy-stubber",
           "power-sword-and-manus-mortis",
           "enforcer-crew",
-          "armoured-hull"
+          "armoured-hull-commissar-graves"
         ]
       }
     ],
@@ -2911,7 +2911,7 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "bolt-pistol",
+          "bolt-pistol-commissar-graves-on-foot",
           "power-sword-and-manus-mortis"
         ]
       }
@@ -2930,8 +2930,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "storm-bolter",
-          "laspistol",
+          "storm-bolter-commissar-yarrick",
+          "laspistol-commissar-yarrick",
           "bale-eye",
           "power-klaw",
           "power-sword"
@@ -2953,8 +2953,8 @@
         "max": 2,
         "default_weapon_ids": [
           "vigilator-cannon",
-          "heavy-stubber",
-          "armoured-hull"
+          "heavy-stubber-hippogriff-afv",
+          "armoured-hull-hippogriff-afv"
         ]
       }
     ],

@@ -271,6 +271,23 @@ fn parse_body(lines: &[&str], body_start: usize) -> (Vec<ParsedUnit>, bool) {
             continue;
         }
 
+        // A plain `Nx …` line with no `•` bullet is still that unit's wargear:
+        // the GW app bullets only the first wargear entry per unit and emits the
+        // rest unbulleted. Feed it through the same top-level-bullet path. A unit
+        // header also lacks a bullet but carries a `(N pts)` parenthetical, so it
+        // is excluded here and handled just below.
+        if current.is_some() && !RE_UNIT_HEADER.is_match(line) {
+            if let Some(nx) = RE_NX_PREFIX.captures(line) {
+                let unit = current.as_mut().unwrap();
+                unit.bullets.push(Bullet {
+                    indent: 0,
+                    count: nx[1].parse::<u64>().ok(),
+                    text: nx[2].trim().to_string(),
+                });
+                continue;
+            }
+        }
+
         if let Some(c) = RE_UNIT_HEADER.captures(line) {
             if let Some(unit) = current.take() {
                 units.push(finish_unit(unit));

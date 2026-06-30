@@ -19,7 +19,7 @@ from typing import Any
 
 from wh40kdc.data.dataset import Dataset
 from wh40kdc.data.loadout import group_loadout
-from wh40kdc.data.normalize import normalize_name
+from wh40kdc.data.normalize import normalize_name, strip_leading_the
 
 #: The dataset edition/dataslate stamped onto an imported roster.
 ROSTER_GAME_VERSION = {"edition": "11th", "dataslate": "pre-launch-provisional"}
@@ -76,6 +76,52 @@ def _to_candidates(records: list[Any]) -> list[dict[str, str]]:
         else:
             out.append({"id": r.id, "name": r.name})
     return out
+
+
+def _find_weapon_candidates(ds: Dataset, raw_name: str) -> list[Any]:
+    """Resolve a weapon raw name to candidate weapons, tolerating a leading
+    "The " mismatch in either direction (NewRecruit "The Bloody Twins" ↔ data
+    "Bloody Twins"; GW "Fire Axe" ↔ data "The Fire Axe").
+
+    Tries the name as given, then the "The"-stripped form, then the
+    "The"-prefixed form, returning the first non-empty match set. Mirror of the
+    TS ``findWeaponCandidates``.
+    """
+    direct = ds.weapons.find_all(raw_name)
+    if direct:
+        return direct
+    stripped = strip_leading_the(raw_name)
+    if stripped:
+        hits = ds.weapons.find_all(stripped)
+        if hits:
+            return hits
+    return ds.weapons.find_all(f"The {raw_name}")
+
+
+def _scoped_weapon_id(ds: Dataset, hit: Any, raw_name: str) -> str | None:
+    """Resolve a weapon raw name to one of the RESOLVED unit's own weapon ids —
+    its ``weapon_ids`` plus ids reachable through its wargear options — so a name
+    match picks the per-unit stat variant the unit actually fields. Matches by
+    ``normalize_name`` with the same leading-"The" tolerance as
+    ``_find_weapon_candidates``; returns ``None`` when the unit fields no weapon
+    of that name (the caller falls back to the global lookup). Mirror of the TS
+    ``scopedWeaponId``.
+    """
+    ids: list[str] = list(hit.raw.get("weapon_ids") or [])
+    for opt in ds.wargear_options_of(hit.raw):
+        ids += opt.get("replaces") or []
+        ids += opt.get("replacement") or []
+        for group in opt.get("replacement_choice") or []:
+            ids += group
+    targets = {normalize_name(raw_name), normalize_name(f"The {raw_name}")}
+    stripped = strip_leading_the(raw_name)
+    if stripped:
+        targets.add(normalize_name(stripped))
+    for wid in ids:
+        w = ds.weapons.get(wid)
+        if w is not None and normalize_name(w.name) in targets:
+            return w.id
+    return None
 
 
 def _map_battle_size(raw: str | None) -> str | None:
@@ -320,7 +366,15 @@ def _resolve_unit(
 
     wargear = []
     for w in parsed["wargear"]:
-        hits = ds.weapons.find_all(w["raw_name"])
+        # Prefer the resolved unit's own weapon of this name — picks the right
+        # per-unit stat variant — falling back to the global lookup only when the
+        # unit is unresolved or fields no weapon of that name.
+        scoped_id = _scoped_weapon_id(ds, hit, w["raw_name"]) if hit is not None else None
+        if scoped_id:
+            diag.resolved_weapons += 1
+            wargear.append({"ref": _resolved(scoped_id, w["raw_name"]), "count": w["count"]})
+            continue
+        hits = _find_weapon_candidates(ds, w["raw_name"])
         if hits:
             diag.resolved_weapons += 1
             wargear.append({"ref": _resolved(hits[0].id, w["raw_name"]), "count": w["count"]})

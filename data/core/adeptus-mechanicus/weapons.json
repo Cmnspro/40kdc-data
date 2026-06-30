@@ -561,39 +561,6 @@
     }
   },
   {
-    "id": "twin-cognis-lascannon",
-    "name": "Twin cognis lascannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Twin cognis lascannon",
-        "range": 48,
-        "stats": {
-          "A": 2,
-          "S": 12,
-          "AP": -3,
-          "D": "D6+1",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          },
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "ironstrider-feet",
     "name": "Ironstrider feet",
     "type": "melee",
@@ -881,36 +848,6 @@
     }
   },
   {
-    "id": "mechanicus-pistol",
-    "name": "Mechanicus pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Mechanicus pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 6,
-          "AP": -1,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "heavy-arc-rifle",
     "name": "Heavy arc rifle",
     "type": "ranged",
@@ -968,39 +905,6 @@
           },
           {
             "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "phosphor-blaster",
-    "name": "Phosphor blaster",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Phosphor blaster",
-        "range": 24,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "ignores-cover"
-          },
-          {
-            "keyword_id": "rapid-fire",
             "parameters": {
               "value": 1
             }
@@ -1219,43 +1123,6 @@
           "BS": 4
         },
         "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "radium-jezzail",
-    "name": "Radium jezzail",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Radium jezzail",
-        "range": 36,
-        "stats": {
-          "A": 1,
-          "S": 5,
-          "AP": -2,
-          "D": 3,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Infantry",
-              "threshold": 3
-            }
-          },
-          {
-            "keyword_id": "heavy"
-          },
-          {
-            "keyword_id": "precision"
-          }
-        ]
       }
     ],
     "game_version": {
@@ -1617,29 +1484,6 @@
     }
   },
   {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "alpha-combat-weapon",
     "name": "Alpha combat weapon",
     "type": "melee",
@@ -1707,36 +1551,6 @@
         "keywords": [
           {
             "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "phosphor-serpenta",
-    "name": "Phosphor serpenta",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Phosphor serpenta",
-        "range": 18,
-        "stats": {
-          "A": 1,
-          "S": 5,
-          "AP": -1,
-          "D": 2,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "ignores-cover"
-          },
-          {
-            "keyword_id": "pistol"
           }
         ]
       }
@@ -1820,96 +1634,6 @@
           "BS": 4
         },
         "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "taser-goad",
-    "name": "Taser goad",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Taser goad",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 6,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "heavy-arc-rifle",
-    "name": "Heavy arc rifle",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Heavy arc rifle",
-        "range": 30,
-        "stats": {
-          "A": 2,
-          "S": 8,
-          "AP": -2,
-          "D": 3,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Vehicle",
-              "threshold": 4
-            }
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
       }
     ],
     "game_version": {
@@ -2436,29 +2160,6 @@
     }
   },
   {
-    "id": "omnissian-axe",
-    "name": "Omnissian axe",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Omnissian axe",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 6,
-          "AP": -2,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "servo-arm",
     "name": "Servo-arm",
     "type": "melee",
@@ -2635,29 +2336,6 @@
           "S": 12,
           "AP": -2,
           "D": 3,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 6,
-          "AP": 0,
-          "D": 1,
           "WS": 4
         },
         "keywords": []
@@ -3049,6 +2727,547 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "launch"
+    }
+  },
+  {
+    "id": "close-combat-weapon-hastarii-exterminators",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "close-combat-weapon-hastarii-fusiliers",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "close-combat-weapon-kastelan-robots",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-pteraxii-skystalkers",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-skitarii-rangers",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-skitarii-vanguard",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "heavy-arc-rifle-kataphron-breachers",
+    "name": "Heavy arc rifle",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Heavy arc rifle",
+        "range": 30,
+        "stats": {
+          "A": 2,
+          "S": 8,
+          "AP": -2,
+          "D": 3,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Vehicle",
+              "threshold": 4
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mechanicus-pistol-serberys-raiders",
+    "name": "Mechanicus pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Mechanicus pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mechanicus-pistol-serberys-sulphurhounds",
+    "name": "Mechanicus pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Mechanicus pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mechanicus-pistol-servitor-battleclade",
+    "name": "Mechanicus pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Mechanicus pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mechanicus-pistol-skitarii-rangers",
+    "name": "Mechanicus pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Mechanicus pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mechanicus-pistol-skitarii-vanguard",
+    "name": "Mechanicus pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Mechanicus pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "omnissian-axe-tech-priest-enginseer",
+    "name": "Omnissian axe",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Omnissian axe",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 6,
+          "AP": -2,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "phosphor-blaster-servitor-battleclade",
+    "name": "Phosphor blaster",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Phosphor blaster",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "ignores-cover"
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "phosphor-serpenta-tech-priest-dominus",
+    "name": "Phosphor serpenta",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Phosphor serpenta",
+        "range": 18,
+        "stats": {
+          "A": 1,
+          "S": 5,
+          "AP": -1,
+          "D": 2,
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "ignores-cover"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "radium-jezzail-sydonian-skatros",
+    "name": "Radium jezzail",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Radium jezzail",
+        "range": 36,
+        "stats": {
+          "A": 1,
+          "S": 5,
+          "AP": -2,
+          "D": 3,
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 3
+            }
+          },
+          {
+            "keyword_id": "heavy"
+          },
+          {
+            "keyword_id": "precision"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "taser-goad-pteraxii-skystalkers",
+    "name": "Taser goad",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Taser goad",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "taser-goad-pteraxii-sterylizors",
+    "name": "Taser goad",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Taser goad",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "twin-cognis-lascannon-ironstrider-ballistarii",
+    "name": "Twin cognis lascannon",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Twin cognis lascannon",
+        "range": 48,
+        "stats": {
+          "A": 2,
+          "S": 12,
+          "AP": -3,
+          "D": "D6+1",
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "twin-linked"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
     }
   }
 ]

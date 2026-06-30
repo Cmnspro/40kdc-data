@@ -116,7 +116,7 @@
         "power-weapon"
       ],
       [
-        "close-combat-weapon",
+        "close-combat-weapon-cadian-castellan",
         "boltgun"
       ],
       [
@@ -137,10 +137,10 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol"
+      "laspistol-cadian-shock-troops"
     ],
     "replacement": [
-      "bolt-pistol"
+      "bolt-pistol-cadian-shock-troops"
     ],
     "model_constraint": {
       "model_name": "Shock Trooper Sergeant",
@@ -157,12 +157,12 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-cadian-shock-troops",
+      "chainsword-cadian-shock-troops"
     ],
     "replacement": [
       "sergeants-autogun",
-      "close-combat-weapon"
+      "close-combat-weapon-cadian-shock-troops"
     ],
     "model_constraint": {
       "model_name": "Shock Trooper Sergeant",
@@ -179,7 +179,7 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon"
+      "close-combat-weapon-cadian-shock-troops"
     ],
     "replacement": [
       "vox-caster"
@@ -200,7 +200,7 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-cadian-shock-troops"
     ],
     "replacement_choice": [
       [
@@ -232,24 +232,24 @@
     "is_free": true,
     "replaces": [
       "hot-shot-lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-militarum-tempestus-command-squad"
     ],
     "replacement_choice": [
       [
-        "meltagun"
+        "meltagun-militarum-tempestus-command-squad"
       ],
       [
         "hot-shot-volley-gun"
       ],
       [
-        "plasma-gun"
+        "plasma-gun-militarum-tempestus-command-squad"
       ],
       [
         "hot-shot-laspistol",
         "master-vox"
       ],
       [
-        "grenade-launcher"
+        "grenade-launcher-militarum-tempestus-command-squad"
       ],
       [
         "flamer"
@@ -273,7 +273,7 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon"
+      "close-combat-weapon-militarum-tempestus-command-squad"
     ],
     "replacement_choice": [
       [
@@ -325,7 +325,7 @@
     "is_free": true,
     "replaces": [
       "hot-shot-lascarbine",
-      "close-combat-weapon"
+      "close-combat-weapon-tempestus-aquilons"
     ],
     "replacement_choice": [
       [
@@ -379,7 +379,7 @@
     "replaces": [
       "hot-shot-lascarbine",
       "sentry-flamer",
-      "close-combat-weapon"
+      "close-combat-weapon-tempestus-aquilons"
     ],
     "replacement_choice": [
       [
@@ -387,33 +387,33 @@
         "hot-shot-laspistol"
       ],
       [
-        "power-weapon",
+        "power-weapon-tempestus-aquilons",
         "bolt-pistol"
       ],
       [
         "hot-shot-laspistol"
       ],
       [
-        "chainsword",
+        "chainsword-tempestus-aquilons",
         "bolt-pistol"
       ],
       [
-        "chainsword"
+        "chainsword-tempestus-aquilons"
       ],
       [
         "hot-shot-laspistol",
         "hot-shot-laspistol"
       ],
       [
-        "power-weapon",
+        "power-weapon-tempestus-aquilons",
         "hot-shot-laspistol"
       ],
       [
-        "power-weapon"
+        "power-weapon-tempestus-aquilons"
       ],
       [
         "hot-shot-laspistol",
-        "chainsword"
+        "chainsword-tempestus-aquilons"
       ]
     ],
     "model_constraint": {
@@ -432,7 +432,7 @@
     "is_free": true,
     "replaces": [
       "sentry-flamer",
-      "close-combat-weapon"
+      "close-combat-weapon-tempestus-aquilons"
     ],
     "replacement_choice": [
       [
@@ -459,7 +459,7 @@
     "replaces": [
       "hot-shot-lascarbine",
       "sentry-flamer",
-      "close-combat-weapon"
+      "close-combat-weapon-tempestus-aquilons"
     ],
     "replacement_choice": [
       [
@@ -484,9 +484,9 @@
     },
     "is_free": true,
     "replaces": [
-      "lascannon",
-      "laspistol",
-      "close-combat-weapon"
+      "lascannon-krieg-heavy-weapons-squad",
+      "laspistol-krieg-heavy-weapons-squad",
+      "close-combat-weapon-krieg-heavy-weapons-squad"
     ],
     "replacement_choice": [
       [
@@ -531,7 +531,7 @@
     "is_free": true,
     "replaces": [
       "sniper-rifle",
-      "close-combat-weapon"
+      "close-combat-weapon-ratlings"
     ],
     "replacement": [
       "ratling-battlemutt"
@@ -551,7 +551,7 @@
     "is_free": true,
     "replaces": [
       "sniper-rifle",
-      "close-combat-weapon"
+      "close-combat-weapon-ratlings"
     ],
     "replacement": [
       "demolition-gear"
@@ -719,7 +719,7 @@
     "is_free": true,
     "replaces": [
       "stormsword-siege-cannon",
-      "armoured-tracks"
+      "armoured-tracks-stormsword"
     ],
     "replacement_choice": [
       [
@@ -752,7 +752,7 @@
       "stormsword-siege-cannon",
       "twin-heavy-flamer",
       "twin-heavy-flamer",
-      "armoured-tracks"
+      "armoured-tracks-stormsword"
     ],
     "replacement_choice": [
       [
@@ -784,7 +784,7 @@
     "replaces": [
       "taurox-battle-cannon",
       "twin-taurox-hot-shot-volley-gun",
-      "armoured-tracks"
+      "armoured-tracks-taurox-prime"
     ],
     "replacement": [
       "twin-autocannon"
@@ -805,7 +805,7 @@
     "replaces": [
       "taurox-battle-cannon",
       "twin-taurox-hot-shot-volley-gun",
-      "armoured-tracks"
+      "armoured-tracks-taurox-prime"
     ],
     "replacement_choice": [
       [
@@ -831,10 +831,10 @@
     "replaces": [
       "taurox-battle-cannon",
       "twin-taurox-hot-shot-volley-gun",
-      "armoured-tracks"
+      "armoured-tracks-taurox-prime"
     ],
     "replacement": [
-      "storm-bolter"
+      "storm-bolter-taurox-prime"
     ],
     "model_constraint": {
       "max_count": 1
@@ -852,7 +852,7 @@
     "replaces": [
       "malleus-rocket-launcher",
       "lasgun",
-      "laspistol",
+      "laspistol-field-ordnance-battery",
       "battery-close-combat-weapons"
     ],
     "replacement_choice": [
@@ -1128,7 +1128,7 @@
     "is_free": true,
     "replaces": [
       "grenadier-gauntlet",
-      "close-combat-weapon",
+      "close-combat-weapon-bullgryn-squad",
       "slabshield"
     ],
     "replacement": [
@@ -1150,7 +1150,7 @@
     "is_free": true,
     "replaces": [
       "grenadier-gauntlet",
-      "close-combat-weapon",
+      "close-combat-weapon-bullgryn-squad",
       "slabshield"
     ],
     "replacement": [
@@ -1172,7 +1172,7 @@
     "is_free": true,
     "replaces": [
       "grenadier-gauntlet",
-      "close-combat-weapon",
+      "close-combat-weapon-bullgryn-squad",
       "slabshield"
     ],
     "replacement": [
@@ -1194,7 +1194,7 @@
     "is_free": true,
     "replaces": [
       "grenadier-gauntlet",
-      "close-combat-weapon",
+      "close-combat-weapon-bullgryn-squad",
       "slabshield"
     ],
     "replacement": [
@@ -1215,22 +1215,22 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolter",
-      "laspistol",
+      "heavy-bolter-cadian-heavy-weapons-squad",
+      "laspistol-cadian-heavy-weapons-squad",
       "weapons-team-close-combat-weapons"
     ],
     "replacement_choice": [
       [
-        "autocannon"
+        "autocannon-cadian-heavy-weapons-squad"
       ],
       [
         "mortar"
       ],
       [
-        "lascannon"
+        "lascannon-cadian-heavy-weapons-squad"
       ],
       [
-        "missile-launcher"
+        "missile-launcher-cadian-heavy-weapons-squad"
       ]
     ],
     "model_constraint": {
@@ -1247,7 +1247,7 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolter",
+      "heavy-bolter-catachan-heavy-weapons-squad",
       "lasgun",
       "weapons-team-close-combat-weapons"
     ],
@@ -1256,13 +1256,13 @@
         "mortar"
       ],
       [
-        "missile-launcher"
+        "missile-launcher-catachan-heavy-weapons-squad"
       ],
       [
-        "lascannon"
+        "lascannon-catachan-heavy-weapons-squad"
       ],
       [
-        "autocannon"
+        "autocannon-catachan-heavy-weapons-squad"
       ]
     ],
     "model_constraint": {
@@ -1283,7 +1283,7 @@
       "demolisher-cannon",
       "heavy-stubber",
       "hellhammer-cannon",
-      "armoured-tracks"
+      "armoured-tracks-hellhammer"
     ],
     "replacement_choice": [
       [
@@ -1295,8 +1295,8 @@
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer",
-        "twin-heavy-flamer"
+        "twin-heavy-flamer-hellhammer",
+        "twin-heavy-flamer-hellhammer"
       ]
     ],
     "model_constraint": {
@@ -1317,9 +1317,9 @@
       "demolisher-cannon",
       "heavy-stubber",
       "hellhammer-cannon",
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
-      "armoured-tracks"
+      "twin-heavy-flamer-hellhammer",
+      "twin-heavy-flamer-hellhammer",
+      "armoured-tracks-hellhammer"
     ],
     "replacement_choice": [
       [
@@ -1424,7 +1424,7 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "chainsword"
+      "chainsword-commissar"
     ],
     "replacement": [
       "plasma-pistol"
@@ -1444,10 +1444,10 @@
     "is_free": true,
     "replaces": [
       "bolt-pistol",
-      "chainsword"
+      "chainsword-commissar"
     ],
     "replacement": [
-      "power-weapon"
+      "power-weapon-commissar"
     ],
     "model_constraint": {
       "max_count": 1
@@ -1465,10 +1465,10 @@
     "replaces": [
       "heavy-bolter",
       "deathstrike-missile",
-      "armoured-tracks"
+      "armoured-tracks-deathstrike"
     ],
     "replacement": [
-      "hunter-killer-missile"
+      "hunter-killer-missile-deathstrike"
     ],
     "model_constraint": {
       "max_count": 1
@@ -1486,7 +1486,7 @@
     "replaces": [
       "heavy-bolter",
       "deathstrike-missile",
-      "armoured-tracks"
+      "armoured-tracks-deathstrike"
     ],
     "replacement": [
       "heavy-flamer"
@@ -1683,7 +1683,7 @@
     "is_free": true,
     "replaces": [
       "hot-shot-laspistol",
-      "chainsword"
+      "chainsword-tempestus-scions"
     ],
     "replacement_choice": [
       [
@@ -1709,14 +1709,14 @@
     "is_free": true,
     "replaces": [
       "hot-shot-laspistol",
-      "chainsword"
+      "chainsword-tempestus-scions"
     ],
     "replacement_choice": [
       [
-        "power-fist"
+        "power-fist-tempestus-scions"
       ],
       [
-        "power-weapon"
+        "power-weapon-tempestus-scions"
       ]
     ],
     "model_constraint": {
@@ -1735,27 +1735,27 @@
     "is_free": true,
     "replaces": [
       "hot-shot-lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-tempestus-scions"
     ],
     "replacement_choice": [
       [
         "flamer"
       ],
       [
-        "meltagun"
+        "meltagun-tempestus-scions"
       ],
       [
         "hot-shot-laspistol",
         "vox-caster"
       ],
       [
-        "plasma-gun"
+        "plasma-gun-tempestus-scions"
       ],
       [
         "hot-shot-volley-gun"
       ],
       [
-        "grenade-launcher"
+        "grenade-launcher-tempestus-scions"
       ]
     ],
     "model_constraint": {
@@ -1776,12 +1776,12 @@
       "heavy-stubber",
       "heavy-stubber",
       "vulcan-mega-bolter",
-      "armoured-tracks"
+      "armoured-tracks-stormlord"
     ],
     "replacement_choice": [
       [
-        "twin-heavy-flamer",
-        "twin-heavy-flamer",
+        "twin-heavy-flamer-stormlord",
+        "twin-heavy-flamer-stormlord",
         "lascannon",
         "lascannon"
       ],
@@ -1808,10 +1808,10 @@
     "replaces": [
       "heavy-stubber",
       "heavy-stubber",
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
+      "twin-heavy-flamer-stormlord",
+      "twin-heavy-flamer-stormlord",
       "vulcan-mega-bolter",
-      "armoured-tracks"
+      "armoured-tracks-stormlord"
     ],
     "replacement_choice": [
       [
@@ -1841,13 +1841,13 @@
     },
     "is_free": true,
     "replaces": [
-      "ripper-gun",
-      "close-combat-weapon",
-      "huge-knife"
+      "ripper-gun-ogryn-bodyguard",
+      "close-combat-weapon-ogryn-bodyguard",
+      "huge-knife-ogryn-bodyguard"
     ],
     "replacement_choice": [
       [
-        "bullgryn-maul"
+        "bullgryn-maul-ogryn-bodyguard"
       ],
       [
         "grenadier-gauntlet"
@@ -1867,9 +1867,9 @@
     },
     "is_free": true,
     "replaces": [
-      "ripper-gun",
-      "close-combat-weapon",
-      "huge-knife"
+      "ripper-gun-ogryn-bodyguard",
+      "close-combat-weapon-ogryn-bodyguard",
+      "huge-knife-ogryn-bodyguard"
     ],
     "replacement_choice": [
       [
@@ -1894,23 +1894,23 @@
     "is_free": true,
     "replaces": [
       "hot-shot-lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-kasrkin"
     ],
     "replacement_choice": [
       [
         "hot-shot-laspistol"
       ],
       [
-        "plasma-gun"
+        "plasma-gun-kasrkin"
       ],
       [
-        "grenade-launcher"
+        "grenade-launcher-kasrkin"
       ],
       [
         "hot-shot-marksman-rifle"
       ],
       [
-        "meltagun"
+        "meltagun-kasrkin"
       ],
       [
         "hot-shot-volley-gun"
@@ -1934,7 +1934,7 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon"
+      "close-combat-weapon-kasrkin"
     ],
     "replacement": [
       "vox-caster"
@@ -1955,10 +1955,10 @@
     "is_free": true,
     "replaces": [
       "hot-shot-laspistol",
-      "chainsword"
+      "chainsword-kasrkin"
     ],
     "replacement": [
-      "power-weapon"
+      "power-weapon-kasrkin"
     ],
     "model_constraint": {
       "model_name": "Kasrkin Sergeant",
@@ -1976,7 +1976,7 @@
     "is_free": true,
     "replaces": [
       "hot-shot-laspistol",
-      "chainsword"
+      "chainsword-kasrkin"
     ],
     "replacement_choice": [
       [
@@ -2001,15 +2001,15 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-cadian-command-squad",
+      "chainsword-cadian-command-squad"
     ],
     "replacement_choice": [
       [
-        "plasma-pistol"
+        "plasma-pistol-cadian-command-squad"
       ],
       [
-        "bolt-pistol"
+        "bolt-pistol-cadian-command-squad"
       ]
     ],
     "model_constraint": {
@@ -2027,15 +2027,15 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-cadian-command-squad",
+      "chainsword-cadian-command-squad"
     ],
     "replacement_choice": [
       [
-        "power-fist"
+        "power-fist-cadian-command-squad"
       ],
       [
-        "power-weapon"
+        "power-weapon-cadian-command-squad"
       ]
     ],
     "model_constraint": {
@@ -2053,31 +2053,31 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-cadian-command-squad",
+      "chainsword-cadian-command-squad"
     ],
     "replacement_choice": [
       [
-        "power-weapon"
+        "power-weapon-cadian-command-squad"
       ],
       [
         "flamer",
-        "close-combat-weapon"
+        "close-combat-weapon-cadian-command-squad"
       ],
       [
-        "close-combat-weapon",
+        "close-combat-weapon-cadian-command-squad",
         "plasma-gun"
       ],
       [
-        "close-combat-weapon",
+        "close-combat-weapon-cadian-command-squad",
         "grenade-launcher"
       ],
       [
         "meltagun",
-        "close-combat-weapon"
+        "close-combat-weapon-cadian-command-squad"
       ],
       [
-        "power-fist"
+        "power-fist-cadian-command-squad"
       ]
     ],
     "model_constraint": {
@@ -2127,15 +2127,15 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-cadian-command-squad",
+      "chainsword-cadian-command-squad"
     ],
     "replacement_choice": [
       [
-        "plasma-pistol"
+        "plasma-pistol-cadian-command-squad"
       ],
       [
-        "bolt-pistol"
+        "bolt-pistol-cadian-command-squad"
       ]
     ],
     "model_constraint": {
@@ -2153,14 +2153,14 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol"
+      "laspistol-catachan-command-squad"
     ],
     "replacement_choice": [
       [
-        "plasma-pistol"
+        "plasma-pistol-catachan-command-squad"
       ],
       [
-        "bolt-pistol"
+        "bolt-pistol-catachan-command-squad"
       ]
     ],
     "model_constraint": {
@@ -2178,21 +2178,21 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "close-combat-weapon"
+      "laspistol-catachan-command-squad",
+      "close-combat-weapon-catachan-command-squad"
     ],
     "replacement_choice": [
       [
-        "power-weapon"
+        "power-weapon-catachan-command-squad"
       ],
       [
-        "chainsword"
+        "chainsword-catachan-command-squad"
       ],
       [
-        "boltgun"
+        "boltgun-catachan-command-squad"
       ],
       [
-        "power-fist"
+        "power-fist-catachan-command-squad"
       ]
     ],
     "model_constraint": {
@@ -2210,8 +2210,8 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "close-combat-weapon"
+      "laspistol-catachan-command-squad",
+      "close-combat-weapon-catachan-command-squad"
     ],
     "replacement_choice": [
       [
@@ -2237,15 +2237,15 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "laspistol",
-      "close-combat-weapon"
+      "laspistol-catachan-command-squad",
+      "close-combat-weapon-catachan-command-squad"
     ],
     "replacement_choice": [
       [
         "grenade-launcher"
       ],
       [
-        "sniper-rifle"
+        "sniper-rifle-catachan-command-squad"
       ],
       [
         "meltagun"
@@ -2276,9 +2276,9 @@
     "is_free": true,
     "replaces": [
       "magma-cannon",
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
-      "armoured-tracks"
+      "twin-heavy-flamer-doomhammer",
+      "twin-heavy-flamer-doomhammer",
+      "armoured-tracks-doomhammer"
     ],
     "replacement_choice": [
       [
@@ -2309,12 +2309,12 @@
     "is_free": true,
     "replaces": [
       "magma-cannon",
-      "armoured-tracks"
+      "armoured-tracks-doomhammer"
     ],
     "replacement_choice": [
       [
-        "twin-heavy-flamer",
-        "twin-heavy-flamer",
+        "twin-heavy-flamer-doomhammer",
+        "twin-heavy-flamer-doomhammer",
         "lascannon",
         "lascannon"
       ],
@@ -2445,7 +2445,7 @@
     ],
     "replacement": [
       "holy-pistol",
-      "power-weapon"
+      "power-weapon-ministorum-priest"
     ],
     "model_constraint": {
       "max_count": 1
@@ -2462,7 +2462,7 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-death-korps-of-krieg"
     ],
     "replacement": [
       "vox-caster"
@@ -2482,14 +2482,14 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol"
+      "laspistol-death-korps-of-krieg"
     ],
     "replacement_choice": [
       [
-        "plasma-pistol"
+        "plasma-pistol-death-korps-of-krieg"
       ],
       [
-        "bolt-pistol"
+        "bolt-pistol-death-korps-of-krieg"
       ]
     ],
     "model_constraint": {
@@ -2507,21 +2507,21 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-death-korps-of-krieg",
+      "chainsword-death-korps-of-krieg"
     ],
     "replacement_choice": [
       [
-        "close-combat-weapon",
-        "boltgun"
+        "close-combat-weapon-death-korps-of-krieg",
+        "boltgun-death-korps-of-krieg"
       ],
       [
-        "power-weapon",
-        "plasma-pistol"
+        "power-weapon-death-korps-of-krieg",
+        "plasma-pistol-death-korps-of-krieg"
       ],
       [
-        "bolt-pistol",
-        "power-weapon"
+        "bolt-pistol-death-korps-of-krieg",
+        "power-weapon-death-korps-of-krieg"
       ]
     ],
     "model_constraint": {
@@ -2539,10 +2539,10 @@
     },
     "is_free": true,
     "replaces": [
-      "chainsword"
+      "chainsword-death-korps-of-krieg"
     ],
     "replacement": [
-      "power-weapon"
+      "power-weapon-death-korps-of-krieg"
     ],
     "model_constraint": {
       "model_name": "Death Korps Watchmaster",
@@ -2560,7 +2560,7 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-death-korps-of-krieg"
     ],
     "replacement_choice": [
       [
@@ -2595,14 +2595,14 @@
     "is_free": true,
     "replaces": [
       "quake-cannon",
-      "armoured-tracks"
+      "armoured-tracks-banesword"
     ],
     "replacement_choice": [
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer",
-        "twin-heavy-flamer"
+        "twin-heavy-flamer-banesword",
+        "twin-heavy-flamer-banesword"
       ],
       [
         "lascannon",
@@ -2626,9 +2626,9 @@
     "is_free": true,
     "replaces": [
       "quake-cannon",
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
-      "armoured-tracks"
+      "twin-heavy-flamer-banesword",
+      "twin-heavy-flamer-banesword",
+      "armoured-tracks-banesword"
     ],
     "replacement_choice": [
       [
@@ -2660,7 +2660,7 @@
     "replaces": [
       "heavy-bolter",
       "wyvern-quad-stormshard-mortar",
-      "armoured-tracks"
+      "armoured-tracks-wyvern"
     ],
     "replacement": [
       "heavy-flamer"
@@ -2681,7 +2681,7 @@
     "replaces": [
       "heavy-bolter",
       "wyvern-quad-stormshard-mortar",
-      "armoured-tracks"
+      "armoured-tracks-wyvern"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -2701,7 +2701,7 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "laspistol",
+      "laspistol-attilan-rough-riders",
       "hunting-lance",
       "steeds-hooves"
     ],
@@ -2724,7 +2724,7 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "laspistol",
+      "laspistol-attilan-rough-riders",
       "hunting-lance",
       "steeds-hooves"
     ],
@@ -2747,12 +2747,12 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "laspistol",
+      "laspistol-attilan-rough-riders",
       "hunting-lance",
       "steeds-hooves"
     ],
     "replacement": [
-      "power-sabre"
+      "power-sabre-attilan-rough-riders"
     ],
     "model_constraint": {
       "model_name": "Rough Rider Sergeant",
@@ -2771,7 +2771,7 @@
     "replaces": [
       "heavy-flamer",
       "inferno-cannon",
-      "armoured-tracks"
+      "armoured-tracks-hellhound"
     ],
     "replacement_choice": [
       [
@@ -2797,7 +2797,7 @@
     "replaces": [
       "heavy-flamer",
       "inferno-cannon",
-      "armoured-tracks"
+      "armoured-tracks-hellhound"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -2818,7 +2818,7 @@
     "replaces": [
       "heavy-flamer",
       "inferno-cannon",
-      "armoured-tracks"
+      "armoured-tracks-hellhound"
     ],
     "replacement_choice": [
       [
@@ -2990,15 +2990,15 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-krieg-command-squad",
+      "chainsword-krieg-command-squad"
     ],
     "replacement_choice": [
       [
-        "bolt-pistol"
+        "bolt-pistol-krieg-command-squad"
       ],
       [
-        "plasma-pistol"
+        "plasma-pistol-krieg-command-squad"
       ]
     ],
     "model_constraint": {
@@ -3016,11 +3016,11 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "power-weapon"
+      "laspistol-krieg-command-squad",
+      "power-weapon-krieg-command-squad"
     ],
     "replacement": [
-      "power-fist"
+      "power-fist-krieg-command-squad"
     ],
     "model_constraint": {
       "model_name": "Lord Commissar",
@@ -3037,7 +3037,7 @@
     },
     "is_free": true,
     "replaces": [
-      "boltgun"
+      "boltgun-krieg-command-squad"
     ],
     "replacement_choice": [
       [
@@ -3068,15 +3068,15 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "chainsword"
+      "laspistol-krieg-command-squad",
+      "chainsword-krieg-command-squad"
     ],
     "replacement_choice": [
       [
         "trench-club"
       ],
       [
-        "power-weapon"
+        "power-weapon-krieg-command-squad"
       ]
     ],
     "model_constraint": {
@@ -3094,11 +3094,11 @@
     },
     "is_free": true,
     "replaces": [
-      "laspistol",
-      "power-weapon"
+      "laspistol-krieg-command-squad",
+      "power-weapon-krieg-command-squad"
     ],
     "replacement": [
-      "plasma-pistol"
+      "plasma-pistol-krieg-command-squad"
     ],
     "model_constraint": {
       "model_name": "Lord Commissar",
@@ -3263,8 +3263,8 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-autocannon",
-      "armoured-tracks"
+      "twin-autocannon-taurox",
+      "armoured-tracks-taurox"
     ],
     "replacement": [
       "storm-bolter"
@@ -3284,7 +3284,7 @@
     "is_free": true,
     "replaces": [
       "tremor-cannon",
-      "armoured-tracks"
+      "armoured-tracks-banehammer"
     ],
     "replacement_choice": [
       [
@@ -3294,8 +3294,8 @@
         "lascannon"
       ],
       [
-        "twin-heavy-flamer",
-        "twin-heavy-flamer",
+        "twin-heavy-flamer-banehammer",
+        "twin-heavy-flamer-banehammer",
         "lascannon",
         "lascannon"
       ]
@@ -3315,9 +3315,9 @@
     "is_free": true,
     "replaces": [
       "tremor-cannon",
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
-      "armoured-tracks"
+      "twin-heavy-flamer-banehammer",
+      "twin-heavy-flamer-banehammer",
+      "armoured-tracks-banehammer"
     ],
     "replacement_choice": [
       [
@@ -3348,7 +3348,7 @@
     "is_free": true,
     "replaces": [
       "lasgun",
-      "close-combat-weapon"
+      "close-combat-weapon-catachan-jungle-fighters"
     ],
     "replacement": [
       "flamer"
@@ -3368,7 +3368,7 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon"
+      "close-combat-weapon-catachan-jungle-fighters"
     ],
     "replacement": [
       "vox-caster"
@@ -3640,7 +3640,7 @@
     "is_free": true,
     "replaces": [
       "volcano-cannon",
-      "armoured-tracks"
+      "armoured-tracks-shadowsword"
     ],
     "replacement_choice": [
       [
@@ -3652,8 +3652,8 @@
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer",
-        "twin-heavy-flamer"
+        "twin-heavy-flamer-shadowsword",
+        "twin-heavy-flamer-shadowsword"
       ]
     ],
     "model_constraint": {
@@ -3670,10 +3670,10 @@
     },
     "is_free": true,
     "replaces": [
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
+      "twin-heavy-flamer-shadowsword",
+      "twin-heavy-flamer-shadowsword",
       "volcano-cannon",
-      "armoured-tracks"
+      "armoured-tracks-shadowsword"
     ],
     "replacement_choice": [
       [
@@ -3705,7 +3705,7 @@
     "replaces": [
       "heavy-bolter",
       "storm-eagle-rockets",
-      "armoured-tracks"
+      "armoured-tracks-manticore"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -3726,7 +3726,7 @@
     "replaces": [
       "heavy-bolter",
       "storm-eagle-rockets",
-      "armoured-tracks"
+      "armoured-tracks-manticore"
     ],
     "replacement": [
       "heavy-flamer"
@@ -3748,7 +3748,7 @@
       "multi-laser",
       "heavy-bolter",
       "lasgun-array",
-      "armoured-tracks"
+      "armoured-tracks-chimera"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -3770,7 +3770,7 @@
       "multi-laser",
       "heavy-bolter",
       "lasgun-array",
-      "armoured-tracks"
+      "armoured-tracks-chimera"
     ],
     "replacement_choice": [
       [
@@ -3796,7 +3796,7 @@
     "replaces": [
       "heavy-bolter",
       "lasgun-array",
-      "armoured-tracks"
+      "armoured-tracks-chimera"
     ],
     "replacement": [
       "heavy-flamer"
@@ -3817,7 +3817,7 @@
     "replaces": [
       "multi-laser",
       "lasgun-array",
-      "armoured-tracks"
+      "armoured-tracks-chimera"
     ],
     "replacement_choice": [
       [
@@ -3844,7 +3844,7 @@
       "multi-laser",
       "heavy-bolter",
       "lasgun-array",
-      "armoured-tracks"
+      "armoured-tracks-chimera"
     ],
     "replacement": [
       "heavy-flamer",
@@ -4014,7 +4014,7 @@
     "replaces": [
       "earthshaker-cannon",
       "heavy-bolter",
-      "armoured-tracks"
+      "armoured-tracks-basilisk"
     ],
     "replacement": [
       "heavy-flamer"
@@ -4035,7 +4035,7 @@
     "replaces": [
       "earthshaker-cannon",
       "heavy-bolter",
-      "armoured-tracks"
+      "armoured-tracks-basilisk"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -4058,14 +4058,14 @@
       "coaxial-autocannon",
       "demolisher-cannon",
       "heavy-stubber",
-      "armoured-tracks"
+      "armoured-tracks-baneblade"
     ],
     "replacement_choice": [
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer",
-        "twin-heavy-flamer"
+        "twin-heavy-flamer-baneblade",
+        "twin-heavy-flamer-baneblade"
       ],
       [
         "twin-heavy-bolter",
@@ -4092,9 +4092,9 @@
       "coaxial-autocannon",
       "demolisher-cannon",
       "heavy-stubber",
-      "twin-heavy-flamer",
-      "twin-heavy-flamer",
-      "armoured-tracks"
+      "twin-heavy-flamer-baneblade",
+      "twin-heavy-flamer-baneblade",
+      "armoured-tracks-baneblade"
     ],
     "replacement_choice": [
       [
@@ -4125,16 +4125,16 @@
     "is_free": true,
     "replaces": [
       "autopistol",
-      "trench-club"
+      "trench-club-krieg-combat-engineers"
     ],
     "replacement_choice": [
       [
-        "close-combat-weapon",
+        "close-combat-weapon-krieg-combat-engineers",
         "flamer"
       ],
       [
         "combat-shotgun",
-        "close-combat-weapon"
+        "close-combat-weapon-krieg-combat-engineers"
       ]
     ],
     "model_constraint": {
@@ -4152,10 +4152,10 @@
     },
     "is_free": true,
     "replaces": [
-      "trench-club"
+      "trench-club-krieg-combat-engineers"
     ],
     "replacement": [
-      "close-combat-weapon"
+      "close-combat-weapon-krieg-combat-engineers"
     ],
     "model_constraint": {
       "model_name": "Krieg Combat Engineer",
@@ -4176,10 +4176,10 @@
     ],
     "replacement_choice": [
       [
-        "plasma-pistol"
+        "plasma-pistol-krieg-combat-engineers"
       ],
       [
-        "bolt-pistol"
+        "bolt-pistol-krieg-combat-engineers"
       ],
       [
         "hand-flamer"
@@ -4201,36 +4201,36 @@
     "is_free": true,
     "replaces": [
       "autopistol",
-      "trench-club"
+      "trench-club-krieg-combat-engineers"
     ],
     "replacement_choice": [
       [
-        "plasma-pistol",
-        "chainsword"
+        "plasma-pistol-krieg-combat-engineers",
+        "chainsword-krieg-combat-engineers"
       ],
       [
-        "bolt-pistol",
-        "chainsword"
+        "bolt-pistol-krieg-combat-engineers",
+        "chainsword-krieg-combat-engineers"
       ],
       [
         "hand-flamer",
-        "chainsword"
+        "chainsword-krieg-combat-engineers"
       ],
       [
         "combat-shotgun",
-        "close-combat-weapon"
+        "close-combat-weapon-krieg-combat-engineers"
       ],
       [
-        "bolt-pistol",
-        "power-weapon"
+        "bolt-pistol-krieg-combat-engineers",
+        "power-weapon-krieg-combat-engineers"
       ],
       [
-        "power-weapon",
-        "plasma-pistol"
+        "power-weapon-krieg-combat-engineers",
+        "plasma-pistol-krieg-combat-engineers"
       ],
       [
         "hand-flamer",
-        "power-weapon"
+        "power-weapon-krieg-combat-engineers"
       ]
     ],
     "model_constraint": {
@@ -4248,14 +4248,14 @@
     },
     "is_free": true,
     "replaces": [
-      "trench-club"
+      "trench-club-krieg-combat-engineers"
     ],
     "replacement_choice": [
       [
-        "chainsword"
+        "chainsword-krieg-combat-engineers"
       ],
       [
-        "power-weapon"
+        "power-weapon-krieg-combat-engineers"
       ]
     ],
     "model_constraint": {
@@ -4275,7 +4275,7 @@
     "replaces": [
       "heavy-bolter",
       "hydra-autocannon",
-      "armoured-tracks"
+      "armoured-tracks-hydra"
     ],
     "replacement": [
       "heavy-flamer"
@@ -4296,7 +4296,7 @@
     "replaces": [
       "heavy-bolter",
       "hydra-autocannon",
-      "armoured-tracks"
+      "armoured-tracks-hydra"
     ],
     "replacement": [
       "hunter-killer-missile"
@@ -4463,7 +4463,7 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon"
+      "close-combat-weapon-cadian-recon-squad"
     ],
     "replacement": [
       "vox-caster"
@@ -4483,16 +4483,16 @@
     },
     "is_free": true,
     "replaces": [
-      "close-combat-weapon",
+      "close-combat-weapon-cadian-recon-squad",
       "lasgun"
     ],
     "replacement_choice": [
       [
-        "laspistol"
+        "laspistol-cadian-recon-squad"
       ],
       [
-        "laspistol",
-        "missile-launcher"
+        "laspistol-cadian-recon-squad",
+        "missile-launcher-cadian-recon-squad"
       ],
       [
         "plasma-gun"
@@ -4523,8 +4523,8 @@
     "is_free": true,
     "replaces": [
       "vigilator-cannon",
-      "heavy-stubber",
-      "armoured-hull"
+      "heavy-stubber-hippogriff-afv",
+      "armoured-hull-hippogriff-afv"
     ],
     "replacement_choice": [
       [
@@ -4534,7 +4534,7 @@
         "chiron-gatling-cannon"
       ],
       [
-        "lascannon"
+        "lascannon-hippogriff-afv"
       ]
     ],
     "model_constraint": {
@@ -4552,11 +4552,11 @@
     "is_free": true,
     "replaces": [
       "vigilator-cannon",
-      "heavy-stubber",
-      "armoured-hull"
+      "heavy-stubber-hippogriff-afv",
+      "armoured-hull-hippogriff-afv"
     ],
     "replacement": [
-      "meltagun"
+      "meltagun-hippogriff-afv"
     ],
     "model_constraint": {
       "any_number": true

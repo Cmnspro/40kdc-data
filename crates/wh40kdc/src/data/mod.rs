@@ -42,7 +42,7 @@ pub use loadout::{
     loadout_tiers, maximal_loadout, option_cap, validate_loadout, Loadout, LoadoutGroup,
     LoadoutGroupWeapon, LoadoutModel, LoadoutTier, Violation, ViolationCode, WeaponBound,
 };
-pub use normalize::normalize_name;
+pub use normalize::{normalize_name, strip_leading_the};
 pub use pricing::{base_unit_points, points_tier_missing};
 
 #[cfg(feature = "import")]

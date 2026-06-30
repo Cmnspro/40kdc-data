@@ -78,7 +78,7 @@ describe("baseLoadout — Khorne Berzerkers @ 10 (legal default)", () => {
     const lo = baseLoadout(bz.raw, 10, options);
     // Base weapons (never a replacement) only — none of the swap/add-on ids.
     expect(Object.fromEntries(lo.counts)).toEqual({
-      "bolt-pistol": 10,
+      "bolt-pistol-khorne-berzerkers": 10,
       "chainblade": 10,
     });
     // The legal default is itself valid (the maximal take-every-swap set is not).
@@ -339,8 +339,8 @@ describe("groupLoadout", () => {
     const gModels = dataset.unitCompositionOf(gore)?.models;
     const gCounts = baseLoadout(gore, 8, gOpts, gModels).counts;
     expect(summarize(groupLoadout(gore, 8, gOpts, gModels, gCounts))).toEqual([
-      "1x Blood Herald: 1:autopistol,1:chainblade,1:close-combat-weapon",
-      "7x Goremongers: 1:autopistol,1:chainblade,1:close-combat-weapon",
+      "1x Blood Herald: 1:autopistol,1:chainblade-goremongers,1:close-combat-weapon-goremongers",
+      "7x Goremongers: 1:autopistol,1:chainblade-goremongers,1:close-combat-weapon-goremongers",
     ]);
 
     const term = dataset.units.getInFaction("chaos-terminators", "world-eaters")!.raw;
@@ -361,7 +361,7 @@ describe("groupLoadout", () => {
     const tOpts = dataset.wargearOptionsOf(term);
     const tModels = dataset.unitCompositionOf(term)?.models;
     const counts = new Map([
-      ["reaper-autocannon", 2],
+      ["reaper-autocannon-chaos-terminators", 2],
       ["power-fist", 6],
       ["paired-accursed-weapons", 2],
       ["chainfist", 2],

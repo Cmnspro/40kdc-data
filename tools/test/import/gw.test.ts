@@ -166,3 +166,84 @@ describe("gwAdapter resolves against the embedded dataset", () => {
     expect(enhanced?.enhancement?.id).toBe("preyslayers-mantle-houndpack-lance");
   });
 });
+
+describe("gwAdapter captures non-bulleted `Nx` wargear lines", () => {
+  // The GW app bullets only the FIRST wargear entry per unit and emits the
+  // rest as plain `Nx …` lines (no `•`). All of them are still that unit's
+  // wargear — the parser must not drop the unbulleted lines.
+  const GW_PARTIAL_BULLETS = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Aeldari
++ DETACHMENT: Battle Host
++ TOTAL ARMY POINTS: 200pts
++
++ NUMBER OF UNITS: 1
+++++++++++++++++++++++++++++++++++++++++++++++
+
+OTHER DATASHEETS
+
+Wraithlord (200 pts)
+• 1x Prism Cannon
+1x Wraithbone hull
+1x Twin Shuriken Catapult
+`;
+
+  const parsed = gwAdapter.parse(GW_PARTIAL_BULLETS);
+
+  it("treats plain `Nx` lines after the first bullet as wargear", () => {
+    expect(parsed.units.length).toBe(1);
+    const unit = parsed.units[0];
+    expect(unit.raw_name).toBe("Wraithlord");
+    expect(unit.wargear).toEqual([
+      { raw_name: "Prism Cannon", count: 1 },
+      { raw_name: "Wraithbone hull", count: 1 },
+      { raw_name: "Twin Shuriken Catapult", count: 1 },
+    ]);
+    expect(unit.model_count).toBe(1);
+  });
+});
+
+describe("leading-`The` weapon resolution + Jain Zar rename (issues #3a/#3b)", () => {
+  // A GW list whose wargear lines exercise both leading-"The" directions and
+  // the renamed Jain Zar melee weapon (was the id/name `strike`).
+  const GW_THE = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Aeldari
++ DETACHMENT: Battle Host
++ TOTAL ARMY POINTS: 100pts
++
++ NUMBER OF UNITS: 1
+++++++++++++++++++++++++++++++++++++++++++++++
+
+CHARACTERS
+
+Jain Zar (100 pts)
+• 1x The Blade of Destruction
+1x The Bloody Twins
+1x Fire Axe
+`;
+  const roster = importRoster(GW_THE, { dataset: ds });
+  const jz = roster.units[0];
+
+  it("resolves Jain Zar's renamed melee weapon (was `strike`)", () => {
+    // export "The Blade of Destruction" ← data "Blade of Destruction"
+    const ids = jz.wargear.map((w) => w.ref.id);
+    expect(ids).toContain("blade-of-destruction");
+  });
+
+  it("matches a data name against a `The`-prefixed export (NewRecruit direction)", () => {
+    // data "Bloody Twins" ← export "The Bloody Twins"
+    const twins = jz.wargear.find((w) => w.ref.raw_name === "The Bloody Twins");
+    expect(twins?.ref.id).toBe("bloody-twins");
+  });
+
+  it("matches a `The`-prefixed data name against a bare export (GW direction)", () => {
+    // data "The Fire Axe" ← export "Fire Axe"
+    const axe = jz.wargear.find((w) => w.ref.raw_name === "Fire Axe");
+    expect(axe?.ref.id).toBe("the-fire-axe");
+  });
+
+  it("exposes the renamed weapon name on the unit view, not `strike`", () => {
+    const names = ds.units.find("Jain Zar")!.weapons.map((w) => w.name);
+    expect(names).toContain("Blade of Destruction");
+    expect(names).not.toContain("strike");
+  });
+});

@@ -41,4 +41,7 @@ def test_points_tier_missing(dataset: Any) -> None:
 def test_base_loadout_is_legal_default(dataset: Any) -> None:
     bz = dataset.units.get("khorne-berzerkers")
     options = dataset.wargear_options_of(bz.raw)
-    assert base_loadout(bz.raw, 10, options) == {"bolt-pistol": 10, "chainblade": 10}
+    assert base_loadout(bz.raw, 10, options) == {
+        "bolt-pistol-khorne-berzerkers": 10,
+        "chainblade": 10,
+    }

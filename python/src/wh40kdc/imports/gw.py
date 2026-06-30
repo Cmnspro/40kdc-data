@@ -218,6 +218,22 @@ def _parse_body(lines: list[str], body_start: int) -> tuple[list[dict[str, Any]]
                 )
             continue
 
+        # A plain `Nx …` line with no `•` bullet is still that unit's wargear:
+        # the GW app bullets only the first wargear entry per unit and emits the
+        # rest unbulleted. Feed it through the same top-level-bullet path. A unit
+        # header also lacks a bullet but carries a `(N pts)` parenthetical, so it
+        # is excluded here and handled just below.
+        nx_match = _NX_PREFIX.match(line)
+        if current is not None and nx_match and not _UNIT_HEADER.match(line):
+            current["bullets"].append(
+                {
+                    "indent": 0,
+                    "count": int(nx_match.group(1)),
+                    "text": nx_match.group(2).strip(),
+                }
+            )
+            continue
+
         unit_match = _UNIT_HEADER.match(line)
         if unit_match:
             finalize()

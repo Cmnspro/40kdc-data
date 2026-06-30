@@ -15,7 +15,7 @@
 
 use std::collections::{BTreeMap, HashMap};
 
-use crate::data::{group_loadout, loadout_models, normalize_name, Dataset};
+use crate::data::{group_loadout, loadout_models, normalize_name, strip_leading_the, Dataset};
 
 use super::types::{
     AttachmentRole, BattleSize, Candidate, Diagnostics, ParsedRoster, ParsedUnit, ResolvedRef,
@@ -378,7 +378,17 @@ fn resolve_unit(
         .wargear
         .iter()
         .map(|w| {
-            let hits = ds.weapons.find_all(&w.raw_name);
+            // Prefer the resolved unit's own weapon of this name — picks the right
+            // per-unit stat variant — falling back to the global lookup only when
+            // the unit is unresolved or fields no weapon of that name.
+            if let Some(id) = hit.and_then(|u| scoped_weapon_id(ds, u, &w.raw_name)) {
+                diag.resolved_weapons += 1;
+                return RosterWargear {
+                    ref_: resolved(id, &w.raw_name),
+                    count: w.count,
+                };
+            }
+            let hits = find_weapon_candidates(ds, &w.raw_name);
             if let Some(first) = hits.first() {
                 diag.resolved_weapons += 1;
                 RosterWargear {
@@ -657,6 +667,66 @@ fn weapon_candidates(records: &[&crate::Weapon]) -> Vec<Candidate> {
             name: w.name.to_string(),
         })
         .collect()
+}
+
+/// Resolve a weapon raw name to candidate weapons, tolerating a leading "The "
+/// mismatch in either direction (NewRecruit "The Bloody Twins" ↔ data "Bloody
+/// Twins"; GW "Fire Axe" ↔ data "The Fire Axe"). Tries the name as given, then
+/// the "The"-stripped form, then the "The"-prefixed form, returning the first
+/// non-empty match set. Mirror of the TS `findWeaponCandidates`.
+fn find_weapon_candidates<'a>(ds: &'a Dataset, raw_name: &str) -> Vec<&'a crate::Weapon> {
+    let direct = ds.weapons.find_all(raw_name);
+    if !direct.is_empty() {
+        return direct;
+    }
+    if let Some(stripped) = strip_leading_the(raw_name) {
+        let hits = ds.weapons.find_all(&stripped);
+        if !hits.is_empty() {
+            return hits;
+        }
+    }
+    ds.weapons.find_all(&format!("The {raw_name}"))
+}
+
+/// Resolve a weapon raw name to one of the RESOLVED unit's own weapon ids — its
+/// `weapon_ids` plus ids reachable through its wargear options. Per-unit stat
+/// variants share a NAME, so a name match must pick the variant the resolved
+/// unit actually fields. Matches by `normalize_name` with the same leading-"The"
+/// tolerance as `find_weapon_candidates`; returns None when the unit fields no
+/// weapon of that name (the caller falls back to the global lookup). Mirror of
+/// the TS `scopedWeaponId`.
+fn scoped_weapon_id<'a>(ds: &'a Dataset, unit: &crate::Unit, raw_name: &str) -> Option<&'a str> {
+    let mut targets = vec![
+        normalize_name(raw_name),
+        normalize_name(&format!("The {raw_name}")),
+    ];
+    if let Some(stripped) = strip_leading_the(raw_name) {
+        targets.push(normalize_name(&stripped));
+    }
+    let matches = |id: &str| -> Option<&'a str> {
+        ds.weapons
+            .get(id)
+            .filter(|w| targets.iter().any(|t| *t == normalize_name(&w.name)))
+            .map(|w| w.id.as_str())
+    };
+    for id in &unit.weapon_ids {
+        if let Some(found) = matches(id.as_str()) {
+            return Some(found);
+        }
+    }
+    for opt in ds.wargear_options_of(unit) {
+        for id in opt
+            .replaces
+            .iter()
+            .chain(&opt.replacement)
+            .chain(opt.replacement_choice.iter().flatten())
+        {
+            if let Some(found) = matches(id.as_str()) {
+                return Some(found);
+            }
+        }
+    }
+    None
 }
 
 fn detachment_candidates(records: &[&crate::Detachment]) -> Vec<Candidate> {

@@ -227,7 +227,7 @@ describe("checkRosterLegality", () => {
       chaosTerminators(10, [
         wargear("combi-bolter", 5),
         wargear("accursed-weapon", 10),
-        wargear("reaper-autocannon", 5),
+        wargear("reaper-autocannon-chaos-terminators", 5),
       ]),
     ]);
     const report = checkRosterLegality(roster, ds);
@@ -243,7 +243,7 @@ describe("checkRosterLegality", () => {
       chaosTerminators(10, [
         wargear("combi-bolter", 7),
         wargear("accursed-weapon", 10),
-        wargear("reaper-autocannon", 3),
+        wargear("reaper-autocannon-chaos-terminators", 3),
       ]),
     ]);
     const report = checkRosterLegality(roster, ds);
@@ -255,7 +255,7 @@ describe("checkRosterLegality", () => {
       chaosTerminators(10, [
         wargear("combi-bolter", 8),
         wargear("accursed-weapon", 10),
-        wargear("reaper-autocannon", 2),
+        wargear("reaper-autocannon-chaos-terminators", 2),
       ]),
     ]);
     const report = checkRosterLegality(roster, ds);

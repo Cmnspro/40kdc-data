@@ -484,79 +484,6 @@
     }
   },
   {
-    "id": "bolt-pistol",
-    "name": "Bolt Pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Bolt Pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "plasma-pistol",
-    "name": "Plasma pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Standard",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 7,
-          "AP": -2,
-          "D": 1,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      },
-      {
-        "name": "Supercharge",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 8,
-          "AP": -3,
-          "D": 2,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "hazardous"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "palatine-blade",
     "name": "Palatine blade",
     "type": "melee",
@@ -1017,29 +944,6 @@
     }
   },
   {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "bolt-pistols",
     "name": "Bolt pistols",
     "type": "ranged",
@@ -1101,29 +1005,6 @@
           "A": 4,
           "S": 3,
           "AP": 0,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "power-weapon",
-    "name": "Power weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Power weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 4,
-          "AP": -2,
           "D": 1,
           "WS": 3
         },
@@ -1607,39 +1488,6 @@
     }
   },
   {
-    "id": "heavy-bolter",
-    "name": "Heavy bolter",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Heavy bolter",
-        "range": 36,
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": -1,
-          "D": 2,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "heavy"
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "ministorum-heavy-flamer",
     "name": "Ministorum heavy flamer",
     "type": "ranged",
@@ -1695,75 +1543,6 @@
             }
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "chainsword",
-    "name": "Chainsword",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Chainsword",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "power-weapon",
-    "name": "Power weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Power weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -2003,36 +1782,6 @@
     }
   },
   {
-    "id": "multi-melta",
-    "name": "Multi-melta",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Multi-melta",
-        "range": 18,
-        "stats": {
-          "A": 2,
-          "S": 9,
-          "AP": -4,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "melta",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "paragon-war-blade",
     "name": "Paragon war blade",
     "type": "melee",
@@ -2238,99 +1987,6 @@
     }
   },
   {
-    "id": "twin-penitent-buzz-blades",
-    "name": "Twin penitent buzz-blades",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Twin penitent buzz-blades",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 10,
-          "AP": -3,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          },
-          {
-            "keyword_id": "twin-linked"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "penitent-buzz-blade",
-    "name": "Penitent buzz-blade",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Penitent buzz-blade",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 10,
-          "AP": -3,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "penitent-flail",
-    "name": "Penitent Flail",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Penitent Flail",
-        "range": "Melee",
-        "stats": {
-          "A": 8,
-          "S": 5,
-          "AP": -1,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "twin-penitent-flail",
     "name": "Twin penitent flail",
     "type": "melee",
@@ -2489,39 +2145,6 @@
     }
   },
   {
-    "id": "boltgun",
-    "name": "Boltgun",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Boltgun",
-        "range": 24,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "artificer-crafted-storm-bolter",
     "name": "Artificer-crafted storm bolter",
     "type": "ranged",
@@ -2545,72 +2168,6 @@
             "parameters": {
               "value": 2
             }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "meltagun",
-    "name": "Meltagun",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Meltagun",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 9,
-          "AP": -4,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "melta",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ministorum-flamer",
-    "name": "Ministorum flamer",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ministorum flamer",
-        "range": 12,
-        "stats": {
-          "A": "D6",
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "BS": null
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "ignores-cover"
-          },
-          {
-            "keyword_id": "torrent"
           }
         ]
       }
@@ -2657,165 +2214,6 @@
         "keywords": [
           {
             "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "power-weapon",
-    "name": "Power weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Power weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 4,
-          "AP": -2,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "artificer-crafted-storm-bolter",
-    "name": "Artificer-crafted storm bolter",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Artificer-crafted storm bolter",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": 0,
-          "D": 2,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "meltagun",
-    "name": "Meltagun",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Meltagun",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 9,
-          "AP": -4,
-          "D": "D6",
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "melta",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "condemnor-boltgun",
-    "name": "Condemnor boltgun",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Condemnor boltgun",
-        "range": 24,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Psyker",
-              "threshold": 2
-            }
-          },
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "precision"
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "inferno-pistol",
-    "name": "Inferno pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Inferno pistol",
-        "range": 6,
-        "stats": {
-          "A": 1,
-          "S": 8,
-          "AP": -4,
-          "D": "D3",
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "melta",
-            "parameters": {
-              "value": 2
-            }
-          },
-          {
-            "keyword_id": "pistol"
           }
         ]
       }
@@ -2955,33 +2353,6 @@
     }
   },
   {
-    "id": "hunter-killer-missile",
-    "name": "Hunter-killer missile",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Hunter-killer missile",
-        "range": 48,
-        "stats": {
-          "A": 1,
-          "S": 14,
-          "AP": -3,
-          "D": "D6",
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "one-shot"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "heavy-flamer",
     "name": "Heavy flamer",
     "type": "ranged",
@@ -3002,36 +2373,6 @@
           },
           {
             "keyword_id": "torrent"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "storm-bolter",
-    "name": "Storm bolter",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Storm bolter",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
           }
         ]
       }
@@ -3126,6 +2467,974 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "launch"
+    }
+  },
+  {
+    "id": "artificer-crafted-storm-bolter-battle-sisters-squad",
+    "name": "Artificer-crafted storm bolter",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Artificer-crafted storm bolter",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": 0,
+          "D": 2,
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "bolt-pistol-canoness",
+    "name": "Bolt Pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Bolt Pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "bolt-pistol-palatine",
+    "name": "Bolt Pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Bolt Pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "boltgun-dominion-squad",
+    "name": "Boltgun",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Boltgun",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chainsword-battle-sisters-squad",
+    "name": "Chainsword",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Chainsword",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chainsword-dominion-squad",
+    "name": "Chainsword",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Chainsword",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chainsword-retributor-squad",
+    "name": "Chainsword",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Chainsword",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-battle-sisters-squad",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-dominion-squad",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-imagifier",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-retributor-squad",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-sisters-novitiate-squad",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "condemnor-boltgun-canoness",
+    "name": "Condemnor boltgun",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Condemnor boltgun",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Psyker",
+              "threshold": 2
+            }
+          },
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "precision"
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "heavy-bolter-battle-sisters-squad",
+    "name": "Heavy bolter",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Heavy bolter",
+        "range": 36,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -1,
+          "D": 2,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "heavy"
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "heavy-bolter-intranzia-fraye",
+    "name": "Heavy bolter",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Heavy bolter",
+        "range": 36,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "heavy-bolter-retributor-squad",
+    "name": "Heavy bolter",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Heavy bolter",
+        "range": 36,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -1,
+          "D": 2,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "heavy"
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "inferno-pistol-canoness",
+    "name": "Inferno pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Inferno pistol",
+        "range": 6,
+        "stats": {
+          "A": 1,
+          "S": 8,
+          "AP": -4,
+          "D": "D3",
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "melta",
+            "parameters": {
+              "value": 2
+            }
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "meltagun-battle-sisters-squad",
+    "name": "Meltagun",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Meltagun",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 9,
+          "AP": -4,
+          "D": "D6",
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "melta",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "meltagun-dominion-squad",
+    "name": "Meltagun",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Meltagun",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 9,
+          "AP": -4,
+          "D": "D6",
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "melta",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ministorum-flamer-dominion-squad",
+    "name": "Ministorum flamer",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ministorum flamer",
+        "range": 12,
+        "stats": {
+          "A": "D6",
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "ignores-cover"
+          },
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "multi-melta-paragon-warsuits",
+    "name": "Multi-melta",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Multi-melta",
+        "range": 18,
+        "stats": {
+          "A": 2,
+          "S": 9,
+          "AP": -4,
+          "D": "D6",
+          "BS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "melta",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "penitent-buzz-blade-penitent-engines",
+    "name": "Penitent buzz-blade",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Penitent buzz-blade",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 10,
+          "AP": -3,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "penitent-flail-penitent-engines",
+    "name": "Penitent Flail",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Penitent Flail",
+        "range": "Melee",
+        "stats": {
+          "A": 8,
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "plasma-pistol-canoness",
+    "name": "Plasma pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Standard",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 7,
+          "AP": -2,
+          "D": 1,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      },
+      {
+        "name": "Supercharge",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 8,
+          "AP": -3,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "hazardous"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "plasma-pistol-palatine",
+    "name": "Plasma pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Standard",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 7,
+          "AP": -2,
+          "D": 1,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      },
+      {
+        "name": "Supercharge",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 8,
+          "AP": -3,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "hazardous"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-battle-sisters-squad",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-dominion-squad",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-ministorum-priest",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-retributor-squad",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-saint-celestine",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-seraphim-squad",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-sisters-novitiate-squad",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-weapon-zephyrim-squad",
+    "name": "Power weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 4,
+          "AP": -2,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "twin-penitent-buzz-blades-penitent-engines",
+    "name": "Twin penitent buzz-blades",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Twin penitent buzz-blades",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 10,
+          "AP": -3,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "twin-linked"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
     }
   }
 ]

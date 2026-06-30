@@ -235,79 +235,6 @@
     }
   },
   {
-    "id": "bolt-pistol",
-    "name": "Bolt pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Bolt pistol",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "plasma-pistol",
-    "name": "Plasma pistol",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Standard",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 7,
-          "AP": -2,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      },
-      {
-        "name": "Supercharge",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 8,
-          "AP": -3,
-          "D": 2,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "hazardous"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "chainblade",
     "name": "Chainblade",
     "type": "melee",
@@ -1118,29 +1045,6 @@
     }
   },
   {
-    "id": "chainblades",
-    "name": "Chainblades",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Chainblades",
-        "range": "Melee",
-        "stats": {
-          "A": 5,
-          "S": 8,
-          "AP": -2,
-          "D": 2,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "lacerator-and-daemonic-claw",
     "name": "Lacerator and daemonic claw",
     "type": "melee",
@@ -1156,44 +1060,6 @@
           "WS": 2
         },
         "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "chainblades",
-    "name": "Chainblades",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Chainblades",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 8,
-          "AP": -3,
-          "D": 2,
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Monster",
-              "threshold": 3
-            }
-          },
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Vehicle",
-              "threshold": 3
-            }
-          }
-        ]
       }
     ],
     "game_version": {
@@ -1221,29 +1087,6 @@
             "keyword_id": "devastating-wounds"
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "armoured-tracks",
-    "name": "Armoured tracks",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Armoured tracks",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 6,
-          "AP": 0,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -1696,45 +1539,6 @@
     }
   },
   {
-    "id": "reaper-autocannon",
-    "name": "Reaper autocannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Reaper autocannon",
-        "range": 36,
-        "stats": {
-          "A": 4,
-          "S": 7,
-          "AP": -1,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "accursed-weapon",
     "name": "Accursed weapon",
     "type": "melee",
@@ -2095,56 +1899,6 @@
     }
   },
   {
-    "id": "chainblade",
-    "name": "Chainblade",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Chainblade",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "lance"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "ectoplasma-destructor",
     "name": "Ectoplasma destructor",
     "type": "ranged",
@@ -2488,6 +2242,298 @@
           "WS": 3
         },
         "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-tracks-chaos-predator-annihilator",
+    "name": "Armoured tracks",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured tracks",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-tracks-chaos-predator-destructor",
+    "name": "Armoured tracks",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured tracks",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-tracks-chaos-rhino",
+    "name": "Armoured tracks",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured tracks",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "bolt-pistol-khorne-berzerkers",
+    "name": "Bolt pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Bolt pistol",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chainblade-goremongers",
+    "name": "Chainblade",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Chainblade",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "lance"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chainblades-eightbound",
+    "name": "Chainblades",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Chainblades",
+        "range": "Melee",
+        "stats": {
+          "A": 5,
+          "S": 8,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chainblades-exalted-eightbound",
+    "name": "Chainblades",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Chainblades",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -3,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Monster",
+              "threshold": 3
+            }
+          },
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Vehicle",
+              "threshold": 3
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-goremongers",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "plasma-pistol-khorne-berzerkers",
+    "name": "Plasma pistol",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Standard",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 7,
+          "AP": -2,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      },
+      {
+        "name": "Supercharge",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 8,
+          "AP": -3,
+          "D": 2,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "hazardous"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reaper-autocannon-chaos-terminators",
+    "name": "Reaper autocannon",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Reaper autocannon",
+        "range": 36,
+        "stats": {
+          "A": 4,
+          "S": 7,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
       }
     ],
     "game_version": {

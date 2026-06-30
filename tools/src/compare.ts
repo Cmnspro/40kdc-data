@@ -17,6 +17,7 @@
  */
 import { crunch, type EngineContext } from "./cruncher/index.js";
 import type { Dataset } from "./data/dataset.js";
+import { isMeleeProfile } from "./data/weapon-profile.js";
 import type { UnitView } from "./data/entities.js";
 import type { TargetProfile, Unit, Weapon } from "./generated.js";
 
@@ -162,12 +163,15 @@ export function unitVsTarget(
   phase: ComparePhase,
   modelsFiring = 1,
 ): MatrixCell {
-  const wantType = weaponTypeForComparePhase(phase);
+  const wantMelee = weaponTypeForComparePhase(phase) === "melee";
   const weapons: WeaponCell[] = [];
   for (const weapon of attackerUnit.weapons) {
     const wraw = weapon.raw;
-    if (wraw.type !== wantType) continue;
     wraw.profiles.forEach((wprofile, idx) => {
+      // Per-profile phase bucketing: a dual-profile weapon (e.g. The Wailing
+      // Doom) contributes its melee profiles to the fight phase and its ranged
+      // profiles to shooting. Single-type weapons are unaffected.
+      if (isMeleeProfile(wprofile) !== wantMelee) return;
       const rng = wprofile.range;
       const isRanged = typeof rng === "number";
       const reaches = !isRanged || (rng as number) >= distance;

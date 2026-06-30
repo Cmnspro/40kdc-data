@@ -27,6 +27,11 @@ var quotesRe = regexp.MustCompile("['’‘`\"“”]")
 // pass through, matching the reference impls).
 var spaceHyphenRe = regexp.MustCompile(`[\s\p{Z}\x{000b}-]+`)
 
+// leadingTheRe matches a leading "The " (case-insensitive, after trim) and
+// captures the remainder. Mirror of the TS `stripLeadingThe` regex
+// `/^the\s+(.+)$/i`.
+var leadingTheRe = regexp.MustCompile(`(?i)^the\s+(.+)$`)
+
 // NormalizeName reduces a display name to a canonical lookup key. The
 // transform, in order: NFD-decompose → strip combining marks → lowercase →
 // remove quote variants → collapse whitespace/hyphen runs to a single space →
@@ -46,4 +51,22 @@ func NormalizeName(input string) string {
 	noQuotes := quotesRe.ReplaceAllString(lowered, "")
 	collapsed := spaceHyphenRe.ReplaceAllString(noQuotes, " ")
 	return strings.TrimSpace(collapsed)
+}
+
+// StripLeadingThe strips a leading "The " (case-insensitive, after trimming)
+// from a display name, returning the remainder and true, or ("", false) when
+// there is no leading "The " to strip.
+//
+// Used only by roster import to bridge the leading-article mismatch between
+// data names and roster exports in BOTH directions ("The Bloody Twins" ↔
+// "Bloody Twins", "Fire Axe" ↔ "The Fire Axe"). Deliberately NOT folded into
+// NormalizeName, whose key is shared by unit, faction, and ability lookup,
+// where dropping a leading "The" would collide distinct entities (e.g. "The
+// Emperor's Champion"). Mirror of the TS stripLeadingThe.
+func StripLeadingThe(input string) (string, bool) {
+	m := leadingTheRe.FindStringSubmatch(strings.TrimSpace(input))
+	if m == nil {
+		return "", false
+	}
+	return strings.TrimSpace(m[1]), true
 }

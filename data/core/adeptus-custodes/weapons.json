@@ -888,29 +888,6 @@
     }
   },
   {
-    "id": "misericordia",
-    "name": "Misericordia",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Misericordia",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 5,
-          "AP": -2,
-          "D": 1,
-          "WS": 2
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "witchseeker-flamer",
     "name": "Witchseeker flamer",
     "type": "ranged",
@@ -1000,29 +977,6 @@
           "AP": -3,
           "D": "D6+1",
           "BS": 2
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "armoured-hull",
-    "name": "Armoured hull",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Armoured hull",
-        "range": "Melee",
-        "stats": {
-          "A": 9,
-          "S": 9,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
         },
         "keywords": []
       }
@@ -1124,63 +1078,6 @@
             }
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "executioner-greatblade",
-    "name": "Executioner greatblade",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Executioner greatblade",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": -2,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Psyker",
-              "threshold": 5
-            }
-          },
-          {
-            "keyword_id": "devastating-wounds"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "close-combat-weapon",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "WS": 2
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -1383,33 +1280,6 @@
     }
   },
   {
-    "id": "interceptor-lance",
-    "name": "Interceptor lance",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Interceptor lance",
-        "range": "Melee",
-        "stats": {
-          "A": 5,
-          "S": 7,
-          "AP": -2,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "lance"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "twin-heavy-bolter",
     "name": "Twin heavy bolter",
     "type": "ranged",
@@ -1466,59 +1336,6 @@
     }
   },
   {
-    "id": "storm-bolter",
-    "name": "Storm bolter",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Storm bolter",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "armoured-tracks",
-    "name": "Armoured tracks",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Armoured tracks",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 8,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "twin-arachnus-blaze-cannon",
     "name": "Twin arachnus blaze cannon",
     "type": "ranged",
@@ -1541,29 +1358,6 @@
             "keyword_id": "twin-linked"
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "armoured-hull",
-    "name": "Armoured hull",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Armoured hull",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 6,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -1679,84 +1473,6 @@
             }
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "guardian-spear",
-    "name": "Guardian spear",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ranged",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": -1,
-          "D": 2,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          }
-        ]
-      },
-      {
-        "name": "Melee",
-        "range": "Melee",
-        "stats": {
-          "A": 7,
-          "S": 7,
-          "AP": -2,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "castellan-axe",
-    "name": "Castellan axe",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ranged",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": -1,
-          "D": 2,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          }
-        ]
-      },
-      {
-        "name": "Melee",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 9,
-          "AP": -1,
-          "D": 3,
-          "WS": 2
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -1918,29 +1634,6 @@
     }
   },
   {
-    "id": "armoured-hull",
-    "name": "Armoured hull",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Armoured hull",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 8,
-          "AP": 0,
-          "D": 1,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "boltgun",
     "name": "Boltgun",
     "type": "ranged",
@@ -1963,90 +1656,6 @@
             }
           }
         ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sentinel-blade",
-    "name": "Sentinel blade",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ranged",
-        "range": 12,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": -1,
-          "D": 2,
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "pistol"
-          }
-        ]
-      },
-      {
-        "name": "Melee",
-        "range": "Melee",
-        "stats": {
-          "A": 7,
-          "S": 6,
-          "AP": -2,
-          "D": 1,
-          "WS": 2
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "pyrithite-spear",
-    "name": "Pyrithite spear",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Ranged",
-        "range": 12,
-        "stats": {
-          "A": 1,
-          "S": 9,
-          "AP": -4,
-          "D": "D6",
-          "BS": 2
-        },
-        "keywords": [
-          {
-            "keyword_id": "melta",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      },
-      {
-        "name": "Melee",
-        "range": "Melee",
-        "stats": {
-          "A": 7,
-          "S": 7,
-          "AP": -2,
-          "D": 2,
-          "WS": 2
-        },
-        "keywords": []
       }
     ],
     "game_version": {
@@ -2097,6 +1706,525 @@
           "WS": 2
         },
         "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-hull-ares-gunship",
+    "name": "Armoured hull",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured hull",
+        "range": "Melee",
+        "stats": {
+          "A": 9,
+          "S": 9,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-hull-coronus-grav-carrier",
+    "name": "Armoured hull",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured hull",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 8,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-hull-orion-assault-dropship",
+    "name": "Armoured hull",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured hull",
+        "range": "Melee",
+        "stats": {
+          "A": 9,
+          "S": 9,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-hull-pallas-grav-attack",
+    "name": "Armoured hull",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured hull",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 6,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armoured-tracks-venerable-land-raider",
+    "name": "Armoured tracks",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Armoured tracks",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 8,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "castellan-axe-shield-captain",
+    "name": "Castellan axe",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ranged",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          }
+        ]
+      },
+      {
+        "name": "Melee",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 9,
+          "AP": -1,
+          "D": 3,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "castellan-axe-shield-captain-in-allarus-terminator-armour",
+    "name": "Castellan axe",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ranged",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          }
+        ]
+      },
+      {
+        "name": "Melee",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 9,
+          "AP": -1,
+          "D": 3,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-combat-weapon-knight-centura",
+    "name": "Close combat weapon",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Close combat weapon",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "executioner-greatblade-knight-centura",
+    "name": "Executioner greatblade",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Executioner greatblade",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Psyker",
+              "threshold": 5
+            }
+          },
+          {
+            "keyword_id": "devastating-wounds"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "guardian-spear-shield-captain",
+    "name": "Guardian spear",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ranged",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          }
+        ]
+      },
+      {
+        "name": "Melee",
+        "range": "Melee",
+        "stats": {
+          "A": 7,
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "guardian-spear-shield-captain-in-allarus-terminator-armour",
+    "name": "Guardian spear",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ranged",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          }
+        ]
+      },
+      {
+        "name": "Melee",
+        "range": "Melee",
+        "stats": {
+          "A": 7,
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "interceptor-lance-agamatus-custodians",
+    "name": "Interceptor lance",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Interceptor lance",
+        "range": "Melee",
+        "stats": {
+          "A": 5,
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "lance"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "interceptor-lance-vertus-praetors",
+    "name": "Interceptor lance",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Interceptor lance",
+        "range": "Melee",
+        "stats": {
+          "A": 5,
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "lance"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "misericordia-sagittarum-custodians",
+    "name": "Misericordia",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Misericordia",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 5,
+          "AP": -2,
+          "D": 1,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "pyrithite-spear-shield-captain",
+    "name": "Pyrithite spear",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ranged",
+        "range": 12,
+        "stats": {
+          "A": 1,
+          "S": 9,
+          "AP": -4,
+          "D": "D6",
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "melta",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "Melee",
+        "range": "Melee",
+        "stats": {
+          "A": 7,
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sentinel-blade-shield-captain",
+    "name": "Sentinel blade",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Ranged",
+        "range": 12,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": -1,
+          "D": 2,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "pistol"
+          }
+        ]
+      },
+      {
+        "name": "Melee",
+        "range": "Melee",
+        "stats": {
+          "A": 7,
+          "S": 6,
+          "AP": -2,
+          "D": 1,
+          "WS": 2
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "storm-bolter-venerable-land-raider",
+    "name": "Storm bolter",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Storm bolter",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 2
+        },
+        "keywords": [
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
       }
     ],
     "game_version": {

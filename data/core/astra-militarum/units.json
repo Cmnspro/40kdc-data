@@ -114,7 +114,7 @@
       "bolt-pistol",
       "boltgun",
       "chainsword",
-      "close-combat-weapon",
+      "close-combat-weapon-cadian-castellan",
       "laspistol",
       "plasma-pistol",
       "power-fist",
@@ -188,7 +188,7 @@
       "max": 6
     },
     "weapon_ids": [
-      "bolt-pistol",
+      "bolt-pistol-gaunts-ghosts",
       "braggs-autocannon",
       "corbecs-hot-shot-lascarbine",
       "gaunts-chainsword",
@@ -324,13 +324,13 @@
       "max": 20
     },
     "weapon_ids": [
-      "bolt-pistol",
-      "chainsword",
-      "close-combat-weapon",
+      "bolt-pistol-cadian-shock-troops",
+      "chainsword-cadian-shock-troops",
+      "close-combat-weapon-cadian-shock-troops",
       "flamer",
       "grenade-launcher",
       "lasgun",
-      "laspistol",
+      "laspistol-cadian-shock-troops",
       "meltagun",
       "plasma-gun",
       "sergeants-autogun"
@@ -428,14 +428,14 @@
     },
     "weapon_ids": [
       "bolt-pistol",
-      "close-combat-weapon",
+      "close-combat-weapon-militarum-tempestus-command-squad",
       "flamer",
-      "grenade-launcher",
+      "grenade-launcher-militarum-tempestus-command-squad",
       "hot-shot-lasgun",
       "hot-shot-laspistol",
       "hot-shot-volley-gun",
-      "meltagun",
-      "plasma-gun",
+      "meltagun-militarum-tempestus-command-squad",
+      "plasma-gun-militarum-tempestus-command-squad",
       "plasma-pistol",
       "tempestus-dagger"
     ],
@@ -458,7 +458,7 @@
     "wargear_budgets": [
       {
         "items": [
-          "grenade-launcher"
+          "grenade-launcher-militarum-tempestus-command-squad"
         ],
         "count": 1,
         "per_models": 0
@@ -479,14 +479,14 @@
       },
       {
         "items": [
-          "plasma-gun"
+          "plasma-gun-militarum-tempestus-command-squad"
         ],
         "count": 1,
         "per_models": 0
       },
       {
         "items": [
-          "meltagun"
+          "meltagun-militarum-tempestus-command-squad"
         ],
         "count": 1,
         "per_models": 0
@@ -612,14 +612,14 @@
     },
     "weapon_ids": [
       "bolt-pistol",
-      "chainsword",
-      "close-combat-weapon",
+      "chainsword-tempestus-aquilons",
+      "close-combat-weapon-tempestus-aquilons",
       "hot-shot-lascarbine",
       "hot-shot-laspistol",
       "hot-shot-long-las",
       "melta-carbine",
       "plasma-carbine",
-      "power-weapon",
+      "power-weapon-tempestus-aquilons",
       "sentry-flamer",
       "sentry-grenade-launcher",
       "sentry-hot-shot-volley-gun"
@@ -710,10 +710,10 @@
       "max": 4
     },
     "weapon_ids": [
-      "close-combat-weapon",
+      "close-combat-weapon-krieg-heavy-weapons-squad",
       "krieg-heavy-flamer",
-      "lascannon",
-      "laspistol",
+      "lascannon-krieg-heavy-weapons-squad",
+      "laspistol-krieg-heavy-weapons-squad",
       "twin-krieg-heavy-stubber"
     ],
     "ability_ids": [
@@ -770,7 +770,7 @@
       "max": 10
     },
     "weapon_ids": [
-      "close-combat-weapon",
+      "close-combat-weapon-ratlings",
       "sniper-rifle",
       "tankstopper-rifle"
     ],
@@ -908,7 +908,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-stormsword",
       "lascannon",
       "stormsword-siege-cannon",
       "twin-heavy-bolter",
@@ -968,8 +968,8 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
-      "storm-bolter",
+      "armoured-tracks-taurox-prime",
+      "storm-bolter-taurox-prime",
       "taurox-battle-cannon",
       "taurox-gatling-cannon",
       "taurox-missile-launcher",
@@ -1035,7 +1035,7 @@
       "bombast-field-gun",
       "heavy-lascannon",
       "lasgun",
-      "laspistol",
+      "laspistol-field-ordnance-battery",
       "malleus-rocket-launcher"
     ],
     "ability_ids": [
@@ -1314,7 +1314,7 @@
     },
     "weapon_ids": [
       "bullgryn-maul",
-      "close-combat-weapon",
+      "close-combat-weapon-bullgryn-squad",
       "grenadier-gauntlet"
     ],
     "ability_ids": [
@@ -1430,11 +1430,11 @@
       "max": 3
     },
     "weapon_ids": [
-      "autocannon",
-      "heavy-bolter",
-      "lascannon",
-      "laspistol",
-      "missile-launcher",
+      "autocannon-cadian-heavy-weapons-squad",
+      "heavy-bolter-cadian-heavy-weapons-squad",
+      "lascannon-cadian-heavy-weapons-squad",
+      "laspistol-cadian-heavy-weapons-squad",
+      "missile-launcher-cadian-heavy-weapons-squad",
       "mortar",
       "weapons-team-close-combat-weapons"
     ],
@@ -1489,11 +1489,11 @@
       "max": 3
     },
     "weapon_ids": [
-      "autocannon",
-      "heavy-bolter",
-      "lascannon",
+      "autocannon-catachan-heavy-weapons-squad",
+      "heavy-bolter-catachan-heavy-weapons-squad",
+      "lascannon-catachan-heavy-weapons-squad",
       "lasgun",
-      "missile-launcher",
+      "missile-launcher-catachan-heavy-weapons-squad",
       "mortar",
       "weapons-team-close-combat-weapons"
     ],
@@ -1557,14 +1557,14 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-hellhammer",
       "coaxial-autocannon",
       "demolisher-cannon",
       "heavy-stubber",
       "hellhammer-cannon",
       "lascannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer"
+      "twin-heavy-flamer-hellhammer"
     ],
     "ability_ids": [
       "close-quarters-warfare"
@@ -1739,9 +1739,9 @@
     },
     "weapon_ids": [
       "bolt-pistol",
-      "chainsword",
+      "chainsword-commissar",
       "plasma-pistol",
-      "power-weapon"
+      "power-weapon-commissar"
     ],
     "ability_ids": [
       "leader",
@@ -1806,11 +1806,11 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-deathstrike",
       "deathstrike-missile",
       "heavy-bolter",
       "heavy-flamer",
-      "hunter-killer-missile"
+      "hunter-killer-missile-deathstrike"
     ],
     "ability_ids": [
       "deathstrike-missile"
@@ -2085,18 +2085,18 @@
     },
     "weapon_ids": [
       "bolt-pistol",
-      "chainsword",
-      "close-combat-weapon",
+      "chainsword-tempestus-scions",
+      "close-combat-weapon-tempestus-scions",
       "flamer",
-      "grenade-launcher",
+      "grenade-launcher-tempestus-scions",
       "hot-shot-lasgun",
       "hot-shot-laspistol",
       "hot-shot-volley-gun",
-      "meltagun",
-      "plasma-gun",
+      "meltagun-tempestus-scions",
+      "plasma-gun-tempestus-scions",
       "plasma-pistol",
-      "power-fist",
-      "power-weapon"
+      "power-fist-tempestus-scions",
+      "power-weapon-tempestus-scions"
     ],
     "ability_ids": [
       "storm-troopers"
@@ -2118,10 +2118,10 @@
       {
         "items": [
           "flamer",
-          "grenade-launcher",
+          "grenade-launcher-tempestus-scions",
           "hot-shot-volley-gun",
-          "meltagun",
-          "plasma-gun"
+          "meltagun-tempestus-scions",
+          "plasma-gun-tempestus-scions"
         ],
         "count": 4,
         "per_models": 10
@@ -2178,11 +2178,11 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-stormlord",
       "heavy-stubber",
       "lascannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer",
+      "twin-heavy-flamer-stormlord",
       "vulcan-mega-bolter"
     ],
     "ability_ids": [
@@ -2243,11 +2243,11 @@
       "max": 1
     },
     "weapon_ids": [
-      "bullgryn-maul",
-      "close-combat-weapon",
+      "bullgryn-maul-ogryn-bodyguard",
+      "close-combat-weapon-ogryn-bodyguard",
       "grenadier-gauntlet",
-      "huge-knife",
-      "ripper-gun"
+      "huge-knife-ogryn-bodyguard",
+      "ripper-gun-ogryn-bodyguard"
     ],
     "ability_ids": [
       "brute-shield",
@@ -2313,18 +2313,18 @@
     },
     "weapon_ids": [
       "bolt-pistol",
-      "chainsword",
-      "close-combat-weapon",
+      "chainsword-kasrkin",
+      "close-combat-weapon-kasrkin",
       "flamer",
-      "grenade-launcher",
+      "grenade-launcher-kasrkin",
       "hot-shot-lasgun",
       "hot-shot-laspistol",
       "hot-shot-marksman-rifle",
       "hot-shot-volley-gun",
-      "meltagun",
-      "plasma-gun",
+      "meltagun-kasrkin",
+      "plasma-gun-kasrkin",
       "plasma-pistol",
-      "power-weapon"
+      "power-weapon-kasrkin"
     ],
     "ability_ids": [
       "melta-mine",
@@ -2347,10 +2347,10 @@
       {
         "items": [
           "flamer",
-          "grenade-launcher",
+          "grenade-launcher-kasrkin",
           "hot-shot-volley-gun",
-          "meltagun",
-          "plasma-gun"
+          "meltagun-kasrkin",
+          "plasma-gun-kasrkin"
         ],
         "count": 4,
         "per_models": 0
@@ -2426,18 +2426,18 @@
       "max": 5
     },
     "weapon_ids": [
-      "bolt-pistol",
-      "chainsword",
-      "close-combat-weapon",
+      "bolt-pistol-cadian-command-squad",
+      "chainsword-cadian-command-squad",
+      "close-combat-weapon-cadian-command-squad",
       "flamer",
       "grenade-launcher",
       "lasgun",
-      "laspistol",
+      "laspistol-cadian-command-squad",
       "meltagun",
       "plasma-gun",
-      "plasma-pistol",
-      "power-fist",
-      "power-weapon"
+      "plasma-pistol-cadian-command-squad",
+      "power-fist-cadian-command-squad",
+      "power-weapon-cadian-command-squad"
     ],
     "ability_ids": [
       "cadia-stands",
@@ -2506,21 +2506,21 @@
       "max": 5
     },
     "weapon_ids": [
-      "bolt-pistol",
-      "boltgun",
-      "chainsword",
-      "close-combat-weapon",
+      "bolt-pistol-catachan-command-squad",
+      "boltgun-catachan-command-squad",
+      "chainsword-catachan-command-squad",
+      "close-combat-weapon-catachan-command-squad",
       "flamer",
       "grenade-launcher",
       "heavy-flamer",
       "lasgun",
-      "laspistol",
+      "laspistol-catachan-command-squad",
       "meltagun",
       "plasma-gun",
-      "plasma-pistol",
-      "power-fist",
-      "power-weapon",
-      "sniper-rifle"
+      "plasma-pistol-catachan-command-squad",
+      "power-fist-catachan-command-squad",
+      "power-weapon-catachan-command-squad",
+      "sniper-rifle-catachan-command-squad"
     ],
     "ability_ids": [
       "gung-ho-command",
@@ -2600,11 +2600,11 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-doomhammer",
       "lascannon",
       "magma-cannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer"
+      "twin-heavy-flamer-doomhammer"
     ],
     "ability_ids": [
       "close-range-titan-killer"
@@ -2732,7 +2732,7 @@
     },
     "weapon_ids": [
       "holy-pistol",
-      "power-weapon",
+      "power-weapon-ministorum-priest",
       "zealots-vindictor"
     ],
     "ability_ids": [
@@ -2800,19 +2800,19 @@
       "max": 20
     },
     "weapon_ids": [
-      "bolt-pistol",
-      "boltgun",
-      "chainsword",
-      "close-combat-weapon",
+      "bolt-pistol-death-korps-of-krieg",
+      "boltgun-death-korps-of-krieg",
+      "chainsword-death-korps-of-krieg",
+      "close-combat-weapon-death-korps-of-krieg",
       "flamer",
       "grenade-launcher",
       "lasgun",
-      "laspistol",
+      "laspistol-death-korps-of-krieg",
       "long-las",
       "meltagun",
       "plasma-gun",
-      "plasma-pistol",
-      "power-weapon"
+      "plasma-pistol-death-korps-of-krieg",
+      "power-weapon-death-korps-of-krieg"
     ],
     "ability_ids": [
       "death-korps-medi-pack",
@@ -2887,11 +2887,11 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-banesword",
       "lascannon",
       "quake-cannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer"
+      "twin-heavy-flamer-banesword"
     ],
     "ability_ids": [
       "armour-obliteration"
@@ -2953,7 +2953,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-wyvern",
       "heavy-bolter",
       "heavy-flamer",
       "hunter-killer-missile",
@@ -3034,8 +3034,8 @@
       "goad-lance",
       "hunting-lance",
       "lasgun",
-      "laspistol",
-      "power-sabre",
+      "laspistol-attilan-rough-riders",
+      "power-sabre-attilan-rough-riders",
       "steeds-hooves"
     ],
     "ability_ids": [
@@ -3106,7 +3106,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-hellhound",
       "chem-cannon",
       "heavy-bolter",
       "heavy-flamer",
@@ -3250,19 +3250,19 @@
       "max": 6
     },
     "weapon_ids": [
-      "bolt-pistol",
-      "boltgun",
-      "chainsword",
-      "close-combat-weapon",
+      "bolt-pistol-krieg-command-squad",
+      "boltgun-krieg-command-squad",
+      "chainsword-krieg-command-squad",
+      "close-combat-weapon-krieg-command-squad",
       "flamer",
       "grenade-launcher",
       "lasgun",
-      "laspistol",
+      "laspistol-krieg-command-squad",
       "meltagun",
       "plasma-gun",
-      "plasma-pistol",
-      "power-fist",
-      "power-weapon",
+      "plasma-pistol-krieg-command-squad",
+      "power-fist-krieg-command-squad",
+      "power-weapon-krieg-command-squad",
       "trench-club"
     ],
     "ability_ids": [
@@ -3452,9 +3452,9 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-taurox",
       "storm-bolter",
-      "twin-autocannon"
+      "twin-autocannon-taurox"
     ],
     "ability_ids": [
       "rapid-deployment"
@@ -3514,7 +3514,7 @@
       "max": 6
     },
     "weapon_ids": [
-      "ripper-gun"
+      "ripper-gun-ogryn-squad"
     ],
     "ability_ids": [
       "point-blank-barrage"
@@ -3697,11 +3697,11 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-banehammer",
       "lascannon",
       "tremor-cannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer"
+      "twin-heavy-flamer-banehammer"
     ],
     "ability_ids": [
       "firing-deck-6",
@@ -3765,10 +3765,10 @@
       "max": 20
     },
     "weapon_ids": [
-      "close-combat-weapon",
+      "close-combat-weapon-catachan-jungle-fighters",
       "flamer",
       "lasgun",
-      "laspistol"
+      "laspistol-catachan-jungle-fighters"
     ],
     "ability_ids": [
       "jungle-fighters"
@@ -4049,10 +4049,10 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-shadowsword",
       "lascannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer",
+      "twin-heavy-flamer-shadowsword",
       "volcano-cannon"
     ],
     "ability_ids": [
@@ -4115,7 +4115,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-manticore",
       "heavy-bolter",
       "heavy-flamer",
       "hunter-killer-missile",
@@ -4175,7 +4175,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-chimera",
       "heavy-bolter",
       "heavy-flamer",
       "heavy-stubber",
@@ -4240,7 +4240,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-hull",
+      "armoured-hull-avenger-strike-fighter",
       "avenger-bolt-cannon",
       "heavy-stubber",
       "lascannon"
@@ -4375,7 +4375,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-basilisk",
       "earthshaker-cannon",
       "heavy-bolter",
       "heavy-flamer",
@@ -4440,14 +4440,14 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-baneblade",
       "baneblade-cannon",
       "coaxial-autocannon",
       "demolisher-cannon",
       "heavy-stubber",
       "lascannon",
       "twin-heavy-bolter",
-      "twin-heavy-flamer"
+      "twin-heavy-flamer-baneblade"
     ],
     "ability_ids": [
       "rolling-fortress"
@@ -4532,15 +4532,15 @@
     },
     "weapon_ids": [
       "autopistol",
-      "bolt-pistol",
-      "chainsword",
-      "close-combat-weapon",
+      "bolt-pistol-krieg-combat-engineers",
+      "chainsword-krieg-combat-engineers",
+      "close-combat-weapon-krieg-combat-engineers",
       "combat-shotgun",
       "flamer",
       "hand-flamer",
-      "plasma-pistol",
-      "power-weapon",
-      "trench-club"
+      "plasma-pistol-krieg-combat-engineers",
+      "power-weapon-krieg-combat-engineers",
+      "trench-club-krieg-combat-engineers"
     ],
     "ability_ids": [
       "grenadiers",
@@ -4603,7 +4603,7 @@
       "max": 1
     },
     "weapon_ids": [
-      "armoured-tracks",
+      "armoured-tracks-hydra",
       "heavy-bolter",
       "heavy-flamer",
       "hunter-killer-missile",
@@ -4733,10 +4733,10 @@
     "is_legend": false,
     "points_provisional": false,
     "weapon_ids": [
-      "close-combat-weapon",
+      "close-combat-weapon-cadian-recon-squad",
       "lasgun",
-      "laspistol",
-      "missile-launcher",
+      "laspistol-cadian-recon-squad",
+      "missile-launcher-cadian-recon-squad",
       "plasma-gun",
       "long-las",
       "meltagun",
@@ -4745,9 +4745,9 @@
     "wargear_budgets": [
       {
         "items": [
-          "laspistol",
+          "laspistol-cadian-recon-squad",
           "long-las",
-          "missile-launcher"
+          "missile-launcher-cadian-recon-squad"
         ],
         "count": 2,
         "per_models": 0
@@ -4862,7 +4862,7 @@
       "prefectus-heavy-stubber",
       "power-sword-and-manus-mortis",
       "enforcer-crew",
-      "armoured-hull"
+      "armoured-hull-commissar-graves"
     ]
   },
   {
@@ -4909,7 +4909,7 @@
     "is_legend": false,
     "points_provisional": false,
     "weapon_ids": [
-      "bolt-pistol",
+      "bolt-pistol-commissar-graves-on-foot",
       "power-sword-and-manus-mortis"
     ]
   },
@@ -4958,8 +4958,8 @@
     "is_legend": false,
     "points_provisional": false,
     "weapon_ids": [
-      "storm-bolter",
-      "laspistol",
+      "storm-bolter-commissar-yarrick",
+      "laspistol-commissar-yarrick",
       "bale-eye",
       "power-klaw",
       "power-sword"
@@ -5013,12 +5013,12 @@
     "points_provisional": false,
     "weapon_ids": [
       "vigilator-cannon",
-      "heavy-stubber",
-      "armoured-hull",
+      "heavy-stubber-hippogriff-afv",
+      "armoured-hull-hippogriff-afv",
       "melta-cannon",
       "chiron-gatling-cannon",
-      "lascannon",
-      "meltagun"
+      "lascannon-hippogriff-afv",
+      "meltagun-hippogriff-afv"
     ]
   }
 ]

@@ -1,0 +1,23 @@
+{
+  "name": "The Wailing Doom (Strike melee profile) vs intercessor — second melee profile of a ranged-typed weapon, fight phase",
+  "attacker": { "weaponId": "the-wailing-doom", "profileIndex": 2 },
+  "modelsFiring": 1,
+  "target": { "unitId": "intercessor-squad", "profileIndex": 0 },
+  "context": {
+    "phase": "fight",
+    "attackerStationary": false,
+    "withinHalfRange": false
+  },
+  "buffs": [],
+  "expected": {
+    "stages": {
+      "attacks": 6,
+      "hits": 5,
+      "wounds": 4.1667,
+      "unsaved": 4.1667,
+      "damage": 22.9167,
+      "after-fnp": 22.9167,
+      "models-killed": 5
+    }
+  }
+}

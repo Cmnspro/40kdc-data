@@ -67,6 +67,41 @@ pub fn normalize_name(input: &str) -> String {
     out
 }
 
+/// Strip a leading "The " (case-insensitive, after trimming) from a display
+/// name, returning the remainder. Returns `None` when there is no leading
+/// "The " to strip.
+///
+/// Used only by roster import to bridge the leading-article mismatch between
+/// data names and roster exports in BOTH directions ("The Bloody Twins" ↔
+/// "Bloody Twins", "Fire Axe" ↔ "The Fire Axe"). Deliberately NOT folded into
+/// [`normalize_name`]: that key is shared by unit, faction, and ability lookup,
+/// where dropping a leading "The" would collide distinct entities (e.g. "The
+/// Emperor's Champion"). Mirror of the TS `stripLeadingThe`.
+pub fn strip_leading_the(input: &str) -> Option<String> {
+    let trimmed = input.trim();
+    // Byte length of the first three characters, so the prefix slice is valid
+    // even if they are multi-byte (no ASCII assumption).
+    let mut prefix_end = 0;
+    let mut chars = trimmed.chars();
+    for _ in 0..3 {
+        match chars.next() {
+            Some(c) => prefix_end += c.len_utf8(),
+            None => return None,
+        }
+    }
+    if !trimmed[..prefix_end].eq_ignore_ascii_case("the") {
+        return None;
+    }
+    let after = &trimmed[prefix_end..];
+    let rest = after.trim_start();
+    // Require at least one stripped whitespace char (so "theatre" is rejected)
+    // and a non-empty remainder.
+    if rest.len() == after.len() || rest.is_empty() {
+        return None;
+    }
+    Some(rest.to_string())
+}
+
 #[cfg(test)]
 mod tests {
     use super::normalize_name;

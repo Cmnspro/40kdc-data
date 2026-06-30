@@ -19,6 +19,7 @@ import {
   type WeaponKeywordRef,
 } from "./buffs.js";
 import { Dataset } from "../data/dataset.js";
+import { isMeleeProfile } from "../data/weapon-profile.js";
 
 export type AttackProfileRef = { weapon: Weapon; profileIndex: number };
 export type TargetProfileRef = {
@@ -79,7 +80,7 @@ export function crunch(input: EngineInput, dataset?: Dataset): EngineOutput {
   const stages: Stage[] = [];
 
   // 1. Attacks
-  const isMelee = input.attacker.weapon.type === "melee";
+  const isMelee = isMeleeProfile(weaponProfile);
   const baseA = evalStatValue(weaponProfile.stats.A);
   const attacksPerModel = baseA + resolved.attacksMod.value;
   const rapidFire = findKeyword(resolved, "rapid-fire");
@@ -101,7 +102,7 @@ export function crunch(input: EngineInput, dataset?: Dataset): EngineOutput {
   // Torrent weapons (no hit roll).
   const ignoresCover = !!findKeyword(resolved, "ignores-cover");
   const covered =
-    resolved.cover.active && !ignoresCover && input.attacker.weapon.type === "ranged";
+    resolved.cover.active && !ignoresCover && !isMelee;
   const coverHitPenalty = covered ? -1 : 0;
   const hitStat = isMelee ? weaponProfile.stats.WS : weaponProfile.stats.BS;
   const torrent = !!findKeyword(resolved, "torrent");

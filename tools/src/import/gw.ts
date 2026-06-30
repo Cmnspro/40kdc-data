@@ -265,6 +265,21 @@ function parseBody(lines: string[], bodyStart: number): {
       continue;
     }
 
+    // A plain `Nx …` line with no `•` bullet is still that unit's wargear: the
+    // GW app bullets only the first wargear entry per unit and emits the rest
+    // unbulleted. Feed it through the same top-level-bullet path so it lands in
+    // the unit's wargear. A unit header also lacks a bullet but carries a
+    // `(N pts)` parenthetical, so it is excluded here and handled just below.
+    const nxMatch = NX_PREFIX.exec(line);
+    if (current && nxMatch && !UNIT_HEADER.test(line)) {
+      current.bullets.push({
+        indent: 0,
+        count: Number.parseInt(nxMatch[1], 10),
+        text: nxMatch[2].trim(),
+      });
+      continue;
+    }
+
     const unitMatch = UNIT_HEADER.exec(line);
     if (unitMatch) {
       finalize();

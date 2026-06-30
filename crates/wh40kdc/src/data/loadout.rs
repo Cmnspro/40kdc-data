@@ -1196,7 +1196,10 @@ mod tests {
         let (bz, opts) = berzerkers();
         let lo = base_loadout(bz, 10, &opts, None);
         // Base weapons only (never a replacement) — none of the swap/add-on ids.
-        assert_eq!(lo.counts.get("bolt-pistol").copied(), Some(10));
+        assert_eq!(
+            lo.counts.get("bolt-pistol-khorne-berzerkers").copied(),
+            Some(10)
+        );
         assert_eq!(lo.counts.get("chainblade").copied(), Some(10));
         assert_eq!(lo.counts.get("plasma-pistol").copied(), None);
         assert_eq!(lo.counts.len(), 2);
@@ -1229,10 +1232,10 @@ mod tests {
         // per-weapon bound. (The maximal loadout is a per-weapon upper bound and is
         // intentionally budget-blind, so it is not asserted legal here.)
         let mut over = HashMap::new();
-        over.insert("plasma-pistol".to_string(), 4i64);
+        over.insert("plasma-pistol-khorne-berzerkers".to_string(), 4i64);
         let v = validate_loadout(bz, 10, &opts, &over, None);
         assert_eq!(v.len(), 1);
-        assert_eq!(v[0].id, "plasma-pistol");
+        assert_eq!(v[0].id, "plasma-pistol-khorne-berzerkers");
         assert_eq!(v[0].code, ViolationCode::ExceedsMax);
 
         // The base loadout (the legal default) always validates clean.
