@@ -261,7 +261,9 @@ export function describeCondition(c: Condition): string {
     case "has-fought-this-phase":
       return `${negate}has fought this phase`;
     case "destroyed-by-attack-type":
-      return `${negate}destroyed by a ${str(p.attack_type)} attack`;
+      return p.attack_type === "any"
+        ? `${negate}destroyed by any attack`
+        : `${negate}destroyed by a ${str(p.attack_type)} attack`;
     case "attack-stat-compare": {
       // Mirrors the Rust arm byte-for-byte: missing params render as "" (not "?").
       const sv = (v: unknown): string => (v == null ? "" : str(v));

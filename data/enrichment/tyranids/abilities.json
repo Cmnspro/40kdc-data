@@ -725,21 +725,34 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "shooting"
+      "type": "designate-target",
+      "designation": "symbiotic-target",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "TYRANIDS"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "subset": "ones"
+            }
+          }
         }
       },
-      "effect": {
-        "type": "re-roll",
-        "target": "unit",
-        "modifier": {
-          "roll": "hit",
-          "subset": "ones"
-        }
-      }
+      "duration": "phase"
     },
     "scope": {
       "range": "unit",
@@ -749,8 +762,8 @@
       "exocrine"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "defensive ability (skipped for damage calc)"
+    "behavior": "activated",
+    "community_notes": "[APPROX] After this model shoots, select one enemy unit hit by those attacks: until the end of the phase, friendly TYRANIDS models re-roll Hit rolls of 1 against it. The hit-by-this-model eligibility restriction is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "stealth",
@@ -1474,22 +1487,46 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "fight"
+      "type": "designate-target",
+      "designation": "bio-stimulus-target",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "TYRANIDS"
+                }
+              },
+              {
+                "type": "attack-is-type",
+                "parameters": {
+                  "attack_type": "melee"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "AP",
+              "operation": "improve",
+              "value": 1
+            }
+          }
         }
       },
-      "effect": {
-        "type": "stat-modifier",
-        "target": "unit",
-        "modifier": {
-          "stat": "AP",
-          "operation": "add",
-          "value": -1
-        }
-      }
+      "duration": "turn"
     },
     "scope": {
       "range": "unit",
@@ -1499,7 +1536,8 @@
       "psychophage"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "activated",
+    "community_notes": "[APPROX] After this model shoots, select one enemy unit hit by those attacks: until the end of the turn, friendly TYRANIDS melee attacks against it have their Armour Penetration improved by 1. The hit-by-this-model eligibility and the once-per-turn-per-enemy-unit limits are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "feeding-frenzy",
@@ -3548,14 +3586,32 @@
     "ability_type": "stratagem",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "tethered",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "stat-modifier",
+          "target": "defender",
+          "modifier": {
+            "stat": "M",
+            "operation": "set",
+            "value": 2
+          }
+        }
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    }
+      "range": "any-visible",
+      "duration": "turn"
+    },
+    "community_notes": "After a NORN ASSIMILATOR unit shoots, one enemy unit it hit is tethered until the start of your next Command phase; while tethered, its Move characteristic is set to 2\"."
   },
   {
     "ability_id": "destabilising-predation-talons-of-the-norn-queen",
@@ -3706,15 +3762,39 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "ones"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "BURROWER"
+            }
+          },
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "tunnel-marker-reserves-deployment"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] TYRANIDS models re-roll Hit rolls of 1. BURROWER units arriving from Reserves place Tunnel Markers, and later Reserves can be set up near a Tunnel Marker; the marker placement/removal and near-marker deployment are captured as an opaque grant. Full rule in raw-text store."
   },
   {
     "ability_id": "leader-beasts",
@@ -4094,15 +4174,102 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "army",
+      "select": "start-of-first-battle-round",
+      "options": [
+        {
+          "name": "Swarming Instincts",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "operator": "or",
+              "operands": [
+                {
+                  "type": "target-has-keyword",
+                  "parameters": {
+                    "keyword": "INFANTRY"
+                  }
+                },
+                {
+                  "type": "target-has-keyword",
+                  "parameters": {
+                    "keyword": "SWARM"
+                  }
+                }
+              ]
+            },
+            "effect": {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keyword": "Sustained Hits",
+                "value": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "Hyper-aggression",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "operator": "or",
+              "operands": [
+                {
+                  "type": "target-has-keyword",
+                  "parameters": {
+                    "keyword": "MONSTER"
+                  }
+                },
+                {
+                  "type": "target-has-keyword",
+                  "parameters": {
+                    "keyword": "VEHICLE"
+                  }
+                }
+              ]
+            },
+            "effect": {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keywords": [
+                  "Lethal Hits"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "Hive Predators",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "target-has-keyword",
+              "parameters": {
+                "keyword": "CHARACTER"
+              }
+            },
+            "effect": {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keywords": [
+                  "Precision"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the start of the first battle round, pick one Hyper-adaptation for the battle: Swarming Instincts ([SUSTAINED HITS 1] vs INFANTRY/SWARM), Hyper-aggression ([LETHAL HITS] vs MONSTER/VEHICLE), or Hive Predators ([PRECISION] vs CHARACTER). The Hive Predators grant applies only on a Critical Hit, which is not gated here. Full rule in raw-text store."
   },
   {
     "ability_id": "feed-the-swarm",
@@ -4120,15 +4287,32 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "choice",
+      "choice_label": "regenerate",
+      "options": [
+        {
+          "type": "resurrection",
+          "target": "unit",
+          "modifier": {
+            "count": "D3+1",
+            "type": "wounds"
+          }
+        },
+        {
+          "type": "resurrection",
+          "target": "unit",
+          "modifier": {
+            "count": 1,
+            "type": "models"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-6",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] In your Command phase, each HARVESTER unit can Regenerate one friendly TYRANIDS unit within 6\": either heal D3+1 lost wounds on one model, or return one destroyed INFANTRY (non-CHARACTER) model at full wounds. ENDLESS MULTITUDE units return up to 3 models instead of 1 — the 3-model variant and per-HARVESTER selection are unmodeled. Full rule in raw-text store."
   },
   {
     "ability_id": "swallow-whole",
@@ -4296,9 +4480,13 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "movement-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "passthrough": [
+          "all-terrain"
+        ]
+      }
     },
     "scope": {
       "range": "unit",
@@ -4308,6 +4496,7 @@
       "the-red-terror"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] This model can move through terrain features (but cannot end a move inside a wall/floor). The RUINS floor-level placement clause is unmodeled. Full rule in raw-text store."
   }
 ]

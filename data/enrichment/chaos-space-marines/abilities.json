@@ -2194,20 +2194,40 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "subset": "ones"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "subset": "all-failures"
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [
       "defiler"
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1
+    },
+    "community_notes": "[APPROX] On a Dark Pact this unit re-rolls Wound rolls of 1; the second step models the once-per-battle overcharge that instead grants a full Wound re-roll. The overcharge is optional and, if the Dark Pact Leadership test is then failed, the model suffers 3 mortal wounds instead of D3 — not modeled here. Full rule in raw-text store."
   },
   {
     "ability_id": "scuttling-walker",
@@ -7892,15 +7912,47 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "re-selectable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Huron's Elite",
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "Mobile Marauders",
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "act-after-move",
+              "moves": [
+                "fall-back"
+              ],
+              "acts": [
+                "shoot",
+                "charge"
+              ]
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Each Command phase, HERETIC ASTARTES INFANTRY units gain one selected ability — Huron's Elite (+1 to Hit rolls) or Mobile Marauders (eligible to shoot and declare a charge in a turn it Fell Back), modeled as a re-selectable menu. The clause granting BOTH abilities to units visible to Huron Blackheart is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "raiders-and-reavers",
@@ -8112,17 +8164,49 @@
     "faction_id": "chaos-space-marines",
     "detachment_id": "soulforged-warpack",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "leadership-modifier",
+          "target": "unit",
+          "modifier": {
+            "test": "dark-pacts",
+            "operation": "subtract",
+            "value": 1
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 2,
+            "weapon_type": "melee"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "phase",
+      "applies_to": [
+        "HERETIC ASTARTES"
+      ]
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] When a HERETIC ASTARTES DAEMON VEHICLE unit invokes its contract on a Dark Pact: −1 to the resulting Leadership test, +1 to ranged Wound rolls, and +2 Attacks to melee weapons. The DAEMON VEHICLE restriction and the optional invoke are noted rather than gated in the tree. Full rule in raw-text store."
   },
   {
     "ability_id": "slaves-to-none",
@@ -8140,15 +8224,37 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "suppressed",
+            "rule_kind": "ability",
+            "rule": "dark-pacts"
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "all-friendly",
+          "modifier": {
+            "keywords": [
+              "Assault"
+            ],
+            "weapon_type": "ranged"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "permanent",
+      "applies_to": [
+        "HERETIC ASTARTES"
+      ]
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the two static clauses: HERETIC ASTARTES models lose the Dark Pacts ability and their ranged weapons gain [ASSAULT]. Not modeled: the mustering restriction (cannot use Cults of the Dark Gods), the Vendetta target (re-roll Hit rolls against a chosen enemy unit by non-DAMNED models), and Twisted Doctrine (Default to Doctrine, taking a Battle-shock test to gain shoot/charge-after-Fall-Back or charge-after-Advance). Full rule in raw-text store."
   },
   {
     "ability_id": "terror-descends-aura",
@@ -8166,15 +8272,18 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "leadership-modifier",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "operation": "battle-shock-test",
+        "bonus_if_below_half": -1
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-12",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] A 12\" battle-shock-test debuff aura: forces the test and applies −1 to the result. The rule forces the test specifically on enemy units below their Starting Strength and applies the −1 to any enemy unit within 12\" (the encoding ties the −1 to below-half via `bonus_if_below_half`); its 'no other Battle-shock tests this phase' clause is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "desperate-devotion",
@@ -8190,17 +8299,47 @@
     "faction_id": "chaos-space-marines",
     "detachment_id": "chaos-cult",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "DAMNED"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 2
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "charge",
+              "operation": "add",
+              "value": 2
+            }
+          }
+        ]
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "phase",
+      "applies_to": [
+        "DAMNED"
+      ]
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the Desperate Pact bonus for DAMNED units with Dark Pacts: +2\" Move and +2 to Charge rolls. Not modeled: the optional activation, the exclusion of units that arrived from Reserves this turn, and the Leadership test taken to make a Desperate Pact (D3 mortal wounds on failure). Full rule in raw-text store."
   },
   {
     "ability_id": "focus-of-hatred",
@@ -8216,17 +8355,33 @@
     "faction_id": "chaos-space-marines",
     "detachment_id": "veterans-of-the-long-war",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "focus-of-hatred",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-command-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "all-failures"
+          }
+        }
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Each Command phase, mark one enemy unit as the focus of hatred; HERETIC ASTARTES models re-roll Hit rolls against it. The rule excludes DAMNED models from the re-roll — an exclusion not modeled here. Full rule in raw-text store."
   },
   {
     "ability_id": "terror-made-manifest",
@@ -8244,15 +8399,38 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "leadership-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "operation": "battle-shock-test",
+            "bonus_if_below_half": -1
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-below-half-strength"
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-12",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the 12\" battle-shock-test debuff (force + −1) and +1 to Hit rolls against targets Below Half-strength. Not modeled (the DSL has no Battle-shocked-state condition): −1 to Hit for Battle-shocked attackers targeting HERETIC ASTARTES, and +1 to Wound against Battle-shocked targets; nor the 'no other Battle-shock tests this phase' clause. Full rule in raw-text store."
   },
   {
     "ability_id": "marks-of-chaos",
@@ -8455,15 +8633,92 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "army",
+      "select": "start-of-battle",
+      "options": [
+        {
+          "name": "Cholinergic Accelerants",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "A",
+              "operation": "add",
+              "value": 1,
+              "weapon_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Hyperadrenal Infusion",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 2
+            }
+          }
+        },
+        {
+          "name": "Paraneural Reactions",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "WS",
+              "operation": "improve",
+              "value": 1,
+              "weapon_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Supracutaneous Chitination",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "T",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "Macrotensile Sinews",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "S",
+              "operation": "add",
+              "value": 1,
+              "weapon_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Ophthalmic Enhancement",
+          "effect": {
+            "type": "bs-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the six augmentation options as a battle-long selectable menu for HERETIC ASTARTES INFANTRY. Not modeled: the pick-one-or-roll-two-D6 selection method, the DAMNED exclusion, the duplicate-has-no-effect clause, and Fabius Bile's re-roll of the augmentation dice. Full rule in raw-text store."
   },
   {
     "ability_id": "headlong-destruction",
@@ -8513,18 +8768,35 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "hated-foe",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-battle"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "subset": "all-failures"
+          }
+        }
+      },
+      "duration": "battle"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
     "unit_ids": [
       "kravek-morne"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Selects a hated foe at the start of the battle; models the re-roll to Wound rolls against it via the marked-target mechanism. Because that mechanism buffs all attacks against the mark, the restriction to this model's own attacks is not enforced, and the clause allowing a new hated foe to be chosen when the current one is destroyed is not modeled. Full rule in raw-text store."
   }
 ]

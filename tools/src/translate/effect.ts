@@ -387,6 +387,15 @@ function possessive(s: string): string {
   return s.endsWith("s") ? `${s}'` : `${s}'s`;
 }
 
+/**
+ * `<subj>'s <rest>` for a simple subject; `the <rest> of <subj>` when the subject
+ * is a clause (an aura target ending in an inch mark), where a trailing possessive
+ * reads as garbage (`friendly units within 6"'s weapons`).
+ */
+function ofOrPossessive(subj: string, rest: string): string {
+  return subj.endsWith('"') ? `the ${rest} of ${subj}` : `${possessive(subj)} ${rest}`;
+}
+
 /** Possessive pronoun agreeing with the subject (`its` / `their`). */
 function pronoun(subj: string): string {
   return isPlural(subj) ? "their" : "its";
@@ -619,7 +628,9 @@ function conditionLeadIn(c: Condition): string {
       if (p.comparison != null) return `when ${dekebab(jstr(p.comparison))}`;
       return `while making ${jstr(p.attack_type)} attacks`;
     case "destroyed-by-attack-type":
-      return `when destroyed by a ${jstr(p.attack_type)} attack`;
+      return p.attack_type === "any"
+        ? "when destroyed by any attack"
+        : `when destroyed by a ${jstr(p.attack_type)} attack`;
     case "opponent-unit-within-range": {
       let where: string;
       if (p.weapon_name != null) where = `range of ${dekebab(jstr(p.weapon_name))}`;
@@ -743,7 +754,7 @@ function movementClause(m: Record<string, unknown>, subj: string): string {
     case "infiltrate":
       return `${subj} ${v(subj, "has")} the Infiltrators ability`;
     case "advance":
-      return `add ${diceCase(jstr(dist))} to ${possessive(subj)} Advance rolls`;
+      return `add ${diceCase(jstr(dist))} to ${ofOrPossessive(subj, "Advance rolls")}`;
     case "pile-in":
       return `${subj} can Pile In up to${inches || ' 3"'}`;
     case "consolidation":
@@ -778,8 +789,8 @@ function movementClause(m: Record<string, unknown>, subj: string): string {
     default: {
       const n = Number(dist);
       if (!Number.isNaN(n) && n < 0)
-        return `${possessive(subj)} Move characteristic is reduced by ${Math.abs(n)}"`;
-      if (moveKinds) return `add${inches} to ${possessive(subj)} ${moveKinds} moves`;
+        return `${ofOrPossessive(subj, "Move characteristic")} is reduced by ${Math.abs(n)}"`;
+      if (moveKinds) return `add${inches} to ${ofOrPossessive(subj, `${moveKinds} moves`)}`;
       return `${subj} can make a Normal move${ofUpTo}`;
     }
   }
@@ -868,9 +879,9 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
   switch (e.type) {
     case "stat-modifier": {
       const scope = m.attack_type ? ` (${jstr(m.attack_type)})` : "";
-      if (m.stat == null) return `modify ${possessive(subj)} characteristics${scope}`;
+      if (m.stat == null) return `modify ${ofOrPossessive(subj, "characteristics")}${scope}`;
       if (m.operation === "set")
-        return `modify ${possessive(subj)} ${statName(m.stat)} characteristic to ${jstr(m.value)}${scope}`;
+        return `modify ${ofOrPossessive(subj, `${statName(m.stat)} characteristic`)} to ${jstr(m.value)}${scope}`;
       let val = m.value;
       let verb = m.operation === "subtract" || m.operation === "worsen" ? "subtract" : "add";
       const n = Number(val); // a negative value flips the verb so we never say "add -1"
@@ -879,7 +890,7 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
         val = Math.abs(n);
       }
       const prep = verb === "add" ? "to" : "from";
-      return `${verb} ${jstr(val)} ${prep} ${possessive(subj)} ${statName(m.stat)} characteristic${scope}`;
+      return `${verb} ${jstr(val)} ${prep} ${ofOrPossessive(subj, `${statName(m.stat)} characteristic`)}${scope}`;
     }
     case "roll-modifier": {
       const ctxNote = m.context ? ` (${jstr(m.context)})` : "";
@@ -889,7 +900,7 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       }
       if (m.operation === "set")
         return `${subj} can change ${rollName(m.roll)} rolls to a ${jstr(m.value)}`;
-      if (m.value == null) return `${dekebab(jstr(m.operation))} ${possessive(subj)} ${rollName(m.roll)} rolls${ctxNote}`;
+      if (m.value == null) return `${dekebab(jstr(m.operation))} ${ofOrPossessive(subj, `${rollName(m.roll)} rolls`)}${ctxNote}`;
       return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to ${rollName(m.roll)} rolls${ctxNote}`;
     }
     case "re-roll": {
@@ -957,9 +968,9 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       } else {
         kw = bracketKeyword(m.keyword ?? "keywords");
       }
-      if (m.weapon_name != null) return `${possessive(subj)} ${jstr(m.weapon_name)} gains ${kw}`;
-      if (m.weapon_type != null) return `${possessive(subj)} ${jstr(m.weapon_type)} weapons gain ${kw}`;
-      return `${possessive(subj)} weapons gain ${kw}`;
+      if (m.weapon_name != null) return `${ofOrPossessive(subj, jstr(m.weapon_name))} gains ${kw}`;
+      if (m.weapon_type != null) return `${ofOrPossessive(subj, `${jstr(m.weapon_type)} weapons`)} gain ${kw}`;
+      return `${ofOrPossessive(subj, "weapons")} gain ${kw}`;
     }
     case "ability-grant": {
       const grant = m.grant_type ?? m.ability_id;
@@ -1085,7 +1096,7 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
         return `${m.operation === "add" ? "add" : "subtract"} ${jstr(m.value)} ${m.operation === "add" ? "to" : "from"} the ${testName(m.test)} test of ${subj}`;
       if (m.operation != null && m.value != null)
         return `${m.operation === "add" || m.operation === "improve" ? "add" : "subtract"} ${jstr(m.value)} ${m.operation === "add" || m.operation === "improve" ? "to" : "from"} the Leadership characteristic of ${subj}`;
-      return `modify ${possessive(subj)} Leadership characteristic`;
+      return `modify ${ofOrPossessive(subj, "Leadership characteristic")}`;
     }
     case "fight-first":
       return `${subj} ${v(subj, "has")} the Fights First ability`;
@@ -1122,9 +1133,9 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
         return `${subj} ${v(subj, "treats")} ${testName(m.test)} tests as ${jstr(r)}`;
       }
       const roll = rollName(m.roll);
-      if (r === "pass") return `${possessive(subj)} ${roll} rolls automatically succeed`;
-      if (r === "fail") return `${possessive(subj)} ${roll} rolls automatically fail`;
-      return `${possessive(subj)} ${roll} rolls count as ${jstr(r)}`;
+      if (r === "pass") return `${ofOrPossessive(subj, `${roll} rolls`)} automatically succeed`;
+      if (r === "fail") return `${ofOrPossessive(subj, `${roll} rolls`)} automatically fail`;
+      return `${ofOrPossessive(subj, `${roll} rolls`)} count as ${jstr(r)}`;
     }
     case "firing-deck":
       return `${subj} ${v(subj, "has")} Firing Deck ${jstr(m.value)}`;
@@ -1172,18 +1183,24 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       if (m.operation === "halve") return `halve the Objective Control characteristic of ${subj}`;
       if (m.operation != null)
         return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to ${pronoun(subj)} Objective Control characteristic`;
-      return `modify ${possessive(subj)} Objective Control characteristic`;
+      return `modify ${ofOrPossessive(subj, "Objective Control characteristic")}`;
     }
     case "bs-modifier":
       return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to Ballistic Skill`;
     case "charge-roll-modifier":
       return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to Charge rolls`;
     case "terrain-area-tag":
-      return `the terrain area is marked as ${dekebab(jstr(m.tag))}`;
+      return m.tag != null
+        ? `the terrain area is marked as ${dekebab(jstr(m.tag))}`
+        : "the terrain area is marked";
     case "objective-tag":
-      return `the objective is marked as ${dekebab(jstr(m.tag))}`;
+      return m.tag != null
+        ? `the objective is marked as ${dekebab(jstr(m.tag))}`
+        : "the objective is marked";
     case "unit-tag":
-      return `${subj} ${v(subj, "is")} marked as ${dekebab(jstr(m.tag))}`;
+      return m.tag != null
+        ? `${subj} ${v(subj, "is")} marked as ${dekebab(jstr(m.tag))}`
+        : `${subj} ${v(subj, "is")} marked`;
 
     // Container types — inline forms.
     case "conditional":

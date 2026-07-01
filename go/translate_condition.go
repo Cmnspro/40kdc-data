@@ -318,6 +318,9 @@ func describeCondition(c map[string]any) string {
 	case "has-fought-this-phase":
 		return negate + "has fought this phase"
 	case "destroyed-by-attack-type":
+		if cstr(p["attack_type"]) == "any" {
+			return negate + "destroyed by any attack"
+		}
 		return negate + "destroyed by a " + cstr(p["attack_type"]) + " attack"
 	case "attack-stat-compare":
 		// Mirrors the TS/Rust arms byte-for-byte: missing params render as "" (not "?").

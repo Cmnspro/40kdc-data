@@ -291,6 +291,8 @@ def describe_condition(c: Condition) -> str:
     if ctype == "has-fought-this-phase":
         return f"{negate}has fought this phase"
     if ctype == "destroyed-by-attack-type":
+        if p.get("attack_type") == "any":
+            return f"{negate}destroyed by any attack"
         return f"{negate}destroyed by a {_str(p.get('attack_type'))} attack"
     if ctype == "attack-stat-compare":
         # Mirrors the Rust arm byte-for-byte: missing params render as "" (not "?").

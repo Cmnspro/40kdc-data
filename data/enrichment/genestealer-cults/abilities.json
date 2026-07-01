@@ -1146,20 +1146,32 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 3,
+        "keywords": [
+          "GENESTEALER CULTS"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "redeploy"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "unit_ids": [
       "primus"
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "[APPROX] After deployment, select up to 3 GENESTEALER CULTS units and redeploy them; the option to place redeployed units into Strategic Reserves regardless of the reserves cap is unmodeled. Full rule in raw-text store."
   },
   {
     "ability_id": "feel-no-pain-5",
@@ -2163,16 +2175,20 @@
     "faction_id": "genestealer-cults",
     "detachment_id": "heroes-of-the-uprising",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "ability-grant",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "grant_type": "remove-battle-shock"
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    }
+      "range": "aura-custom",
+      "duration": "phase",
+      "range_inches": 12
+    },
+    "community_notes": "[APPROX] After a friendly KILLER unit's attacks destroy an enemy unit or CHARACTER, each visible battle-shocked GENESTEALER CULTS unit within 12\" is no longer battle-shocked; the kill trigger and the battle-shocked/visibility filter are captured as an opaque grant, as no remove-battle-shock effect exists. Full rule in raw-text store."
   },
   {
     "ability_id": "surging-broodworship-heroes-of-the-uprising",
@@ -2527,16 +2543,25 @@
     "faction_id": "genestealer-cults",
     "detachment_id": "purestrain-broodswarm",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "movement-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D3+3"
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "optional": true
+    },
+    "community_notes": "When an enemy unit ends a move within 8\" of an unengaged PURESTRAIN GENESTEALERS unit, that unit can make a Normal move of up to D3+3\"."
   },
   {
     "ability_id": "mark-of-the-star-children-purestrain-broodswarm",
@@ -2700,14 +2725,27 @@
     "ability_type": "stratagem",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "hit",
+          "subset": "all-failures"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] When a NEOPHYTE HYBRIDS unit is selected to shoot, its ranged attacks may re-roll hit rolls against one selected enemy unit; modeled as a re-roll of failed hits, not restricted to the single chosen target. Full rule in raw-text store."
   },
   {
     "ability_id": "slunk-from-the-underbelly-xenocult-masses",
@@ -2723,16 +2761,30 @@
     "faction_id": "genestealer-cults",
     "detachment_id": "xenocult-masses",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "attacker",
+        "modifier": {
+          "stat": "AP",
+          "operation": "add",
+          "value": 1
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] While a NEOPHYTE HYBRIDS unit with every model in a terrain area is targeted in your opponent's Shooting phase, ranged attacks against it have -1 AP (modeled as +1 to the attacker's AP characteristic) until that unit has attacked. The terrain-area and 'until it has attacked' conditions are simplified. Full rule in raw-text store."
   },
   {
     "ability_id": "inspired-to-greatness-xenocult-masses",
@@ -2808,15 +2860,32 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "overlapping-fire",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "when-this-unit-selected-to-shoot"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1
+          }
+        }
+      },
+      "duration": "phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-visible",
+      "duration": "phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] When an ASTRA MILITARUM unit is selected to shoot, mark one enemy unit within 18\" of and visible to it; GENESTEALER CULTS ranged attacks against the marked unit get +1 to Hit. Unmodeled: the ASTRA MILITARUM unit being locked to only target the marked unit, and the 18\" selection range. Full rule in raw-text store."
   },
   {
     "ability_id": "brood-brothers",
@@ -2834,15 +2903,17 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "ability-grant",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "grant_type": "allied-astra-militarum-inclusion"
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Army-construction rule — permits including ASTRA MILITARUM allied units up to a points cap, with keyword exclusions, a GENESTEALER CULTS Warlord requirement, and loss of the Voice of Command ability. The build restrictions are unmodeled by design. Full rule in raw-text store."
   },
   {
     "ability_id": "hypermorphic-fury",
@@ -2860,15 +2931,67 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "ABERRANTS"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "BIOPHAGUS"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "PURESTRAIN GENESTEALERS"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "charge",
+              "operation": "add",
+              "value": 1
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "charged-this-turn",
+              "parameters": {}
+            },
+            "effect": {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "A",
+                "operation": "add",
+                "value": 1,
+                "attack_type": "melee"
+              }
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "ABERRANTS, BIOPHAGUS and PURESTRAIN GENESTEALERS units get +1 to Charge rolls; if such a unit made a Charge move this turn, melee weapons get +1 Attack until the end of the Fight phase."
   },
   {
     "ability_id": "rapid-takeover",
@@ -2970,15 +3093,43 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 1,
+        "keywords": [
+          "TYRANIDS"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "resurrection",
+            "target": "unit",
+            "modifier": {
+              "count": "D3+1",
+              "type": "wounds"
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        ]
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "aura-custom",
+      "duration": "turn",
+      "range_inches": 9
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the end of your Movement phase, for each TYRANIDS SYNAPSE unit, a friendly TYRANIDS unit within 9\" heals up to D3+1 lost wounds and gets +1 to Hit until your next Movement phase. Unmodeled: the per-Synapse repetition, the D3+1 mortal wounds inflicted on the paired GENESTEALER CULTS unit, and the Catalyst aura the rule grants to TYRANIDS units. Full rule in raw-text store."
   },
   {
     "ability_id": "unquestioning-fanaticism",
@@ -3078,14 +3229,40 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "reinforcements-arrival"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Sustained Hits",
+              "value": 1
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Ignores Cover"
+              ]
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "When a GENESTEALER CULTS unit is set up as Reinforcements, its weapons gain [SUSTAINED HITS 1] and [IGNORES COVER] until the end of your next Fight phase (modeled as a grant triggered on arrival)."
   }
 ]

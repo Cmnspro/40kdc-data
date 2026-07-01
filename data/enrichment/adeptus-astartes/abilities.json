@@ -1266,20 +1266,47 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "opponent"
+            }
+          },
+          {
+            "type": "was-hit-by-attack",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "reactive",
+          "name": "Stabilised Disembarkation"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [
       "repulsor"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "reactive",
+    "community_notes": "[APPROX] After an enemy unit shoots this TRANSPORT in your opponent's Shooting phase, its embarked units can disembark and be set up wholly within 6\" of it and outside Engagement Range; modeled as a reactive move. The disembark itself and the placement rules are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "emergency-combat-embarkation",
@@ -1291,24 +1318,35 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
-      "modifier": {
-        "ability_id": "once-per-round-special"
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "charge"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "reactive-embark-when-charged"
+        }
       }
     },
     "scope": {
-      "range": "aura-6",
+      "range": "aura-custom",
+      "range_inches": 3,
       "duration": "permanent"
     },
     "unit_ids": [
       "repulsor"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
+    "behavior": "reactive",
     "usage": {
-      "frequency": "once-per-turn"
-    }
+      "frequency": "once-per-opponent-turn"
+    },
+    "community_notes": "[APPROX] Once per turn in the opponent's Charge phase, an ADEPTUS ASTARTES unit targeted by a charge and wholly within 3\" of this TRANSPORT can embark in it before the Charge move (the charging unit then re-selects targets); the embark reaction itself has no leaf and is an opaque grant. Full rule in raw-text store."
   },
   {
     "ability_id": "reaping-tally",
@@ -1410,20 +1448,70 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "opponent"
+            }
+          },
+          {
+            "type": "was-hit-by-attack",
+            "parameters": {}
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "is-battle-shocked"
+              }
+            ]
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "opponent-unit-within-range",
+                "parameters": {
+                  "range": "engagement"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "reactive",
+          "name": "Driven by Fury",
+          "distance": "D6+2"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [
       "death-company-dreadnought"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "once-per-phase"
+    },
+    "community_notes": "After being hit by one or more of an enemy unit's ranged attacks in your opponent's Shooting phase, this model makes a D6+2\" reactive move toward the nearest enemy unit; it cannot do so while Battle-shocked or within Engagement Range of an enemy unit."
   },
   {
     "ability_id": "sanguinary-priest",
@@ -11896,17 +11984,50 @@
     "faction_id": "adeptus-astartes",
     "detachment_id": "gladius-task-force",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Devastator Doctrine",
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "shoot-after-advance"
+            }
+          }
+        },
+        {
+          "name": "Tactical Doctrine",
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "shoot-and-charge-after-fall-back"
+            }
+          }
+        },
+        {
+          "name": "Assault Doctrine",
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "charge-after-advance"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle-round"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Consumable army-wide stance selected at the start of your Command phase (each Doctrine once per battle). Each Doctrine's 'eligible to shoot/declare a charge in a turn it Advanced or Fell Back' effect is captured as an opaque eligibility grant. Full rule in raw-text store."
   },
   {
     "ability_id": "lightning-assault",
@@ -12165,15 +12286,25 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 3,
+        "keywords": [
+          "ADEPTUS ASTARTES"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "deep-strike",
+        "target": "unit",
+        "modifier": {}
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the Declare Battle Formations step, grants Deep Strike to a battle-size-dependent number of selected non-TITANIC ADEPTUS ASTARTES units (modeled as 3 — strongest case; the per-battle-size table is not in the store text). The re-roll of Wound rolls of 1 for models set up this turn — and re-roll of Hit rolls of 1 if disembarked from a DROP POD — are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "shield-of-the-imperium",
@@ -12191,15 +12322,40 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Heavy",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "remained-stationary",
+            "parameters": {}
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1,
+              "weapon_keyword": "Heavy"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Ranged weapons gain [HEAVY]; a weapon that already had [HEAVY] adds 1 to the Wound roll while the attacking unit Remained Stationary. The 'already had [HEAVY]' restriction is approximated by narrowing the +1 to weapons with the Heavy keyword. Full rule in raw-text store."
   },
   {
     "ability_id": "close-range-eradication",
@@ -12217,15 +12373,42 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Assault",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "opponent-unit-within-range",
+            "parameters": {
+              "range_inches": 12
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "S",
+              "operation": "add",
+              "value": 1,
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "Ranged weapons of ADEPTUS ASTARTES models gain [ASSAULT]; attacks from such weapons targeting a unit within 12\" add 1 to the Strength characteristic."
   },
   {
     "ability_id": "armoured-wrath",
@@ -12241,17 +12424,42 @@
     "faction_id": "adeptus-astartes",
     "detachment_id": "ironstorm-spearhead",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "choice",
+      "choice_label": "Armoured Wrath re-roll",
+      "options": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "all-failures"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "subset": "all-failures"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "damage",
+            "subset": "all-failures"
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store.",
+    "community_notes": "[APPROX] Once per phase, each ADEPTUS ASTARTES unit may re-roll one Hit, Wound, or Damage roll (see 'usage'). The single-roll re-roll is modeled with subset 'all-failures' per the sibling convention. Full rule in raw-text store.",
     "usage": {
       "frequency": "once-per-phase"
     }
@@ -12270,17 +12478,28 @@
     "faction_id": "adeptus-astartes",
     "detachment_id": "armoured-speartip",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "disembarked-from-transport",
+        "parameters": {}
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "reactive",
+          "name": "Rapid Deployment",
+          "distance": "D6"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] After disembarking from a TRANSPORT, the unit makes a Normal move of up to D6\" (modeled as a reactive move). The D3+3\" HEAVY TRANSPORT variant and the 'transport made a Normal/Advance move this phase, excluding arrivals from Strategic Reserves' qualifiers are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "interlocking-tactics",
@@ -12298,15 +12517,38 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "BATTLELINE"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "shoot-and-charge-after-advance-fall-back"
+            }
+          },
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "action-after-advance-fall-back"
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] ADEPTUS ASTARTES BATTLELINE units become eligible to shoot/declare a charge and to start Actions in a turn they Advanced or Fell Back (captured as opaque eligibility grants). The auspex-scanned mark placed on an enemy unit hit by a BATTLELINE unit — and the resulting re-roll of Hit rolls of 1 against auspex-scanned units — are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "adaptive-defence",
@@ -12324,15 +12566,31 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "ones"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "subset": "ones"
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the re-roll of Hit rolls of 1 and Wound rolls of 1. The gating condition — the attacking unit being within a terrain feature — has no DSL predicate and is not modeled, nor is the separate conditional ENTRENCHED keyword grant. Full rule in raw-text store."
   },
   {
     "ability_id": "target-sighted",
@@ -12598,18 +12856,44 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "shoot-and-scoot",
+              "distance": "D6"
+            }
+          },
+          {
+            "type": "rule-state",
+            "target": "unit",
+            "modifier": {
+              "direction": "suppressed",
+              "rule_kind": "core-rule",
+              "rule": "charge"
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
     "unit_ids": [
       "land-speeder"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "activated"
   }
 ]

@@ -830,21 +830,33 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
-      "modifier": {
-        "ability_id": "once-per-battle-special"
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 2,
+      "on_success": {
+        "type": "resurrection",
+        "target": "self",
+        "modifier": {
+          "placement": "closest-to-destruction",
+          "wounds_remaining": 3
+        }
       }
     },
     "scope": {
       "range": "unit",
       "duration": "one-use"
     },
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "model"
+    },
     "unit_ids": [
       "lord-of-contagion"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] The first time this model is destroyed in a battle round, roll a D6 at the end of the phase: on a 2+ it is set up again as close as possible to where it was destroyed with 3 wounds remaining. The not-within-Engagement-Range placement clause and the end-of-phase timing are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "annihilator",

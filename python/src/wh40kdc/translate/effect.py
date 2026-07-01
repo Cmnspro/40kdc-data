@@ -253,6 +253,15 @@ def _possessive(s: str) -> str:
     return f"{s}'" if s.endswith("s") else f"{s}'s"
 
 
+def _of_or_possessive(subj: str, rest: str) -> str:
+    """`<subj>'s <rest>` for a simple subject; `the <rest> of <subj>` when the subject
+    is a clause (an aura target ending in an inch mark), where a trailing possessive
+    reads as garbage (`friendly units within 6"'s weapons`)."""
+    if subj.endswith('"'):
+        return f"the {rest} of {subj}"
+    return f"{_possessive(subj)} {rest}"
+
+
 def _signed(operation: Any, value: Any) -> str:
     positive = operation in ("add", "improve")
     sign = 1 if positive else -1
@@ -541,6 +550,8 @@ def _condition_lead_in(c: Condition) -> str:
             return f"when {dekebab(_jstr(p.get('comparison')))}"
         return f"while making {_jstr(p.get('attack_type'))} attacks"
     if ctype == "destroyed-by-attack-type":
+        if p.get("attack_type") == "any":
+            return "when destroyed by any attack"
         return f"when destroyed by a {_jstr(p.get('attack_type'))} attack"
     if ctype == "opponent-unit-within-range":
         if p.get("weapon_name") is not None:
@@ -796,7 +807,7 @@ def _movement_clause(m: dict[str, Any], subj: str) -> str:
     if kind_str == "infiltrate":
         return f"{subj} {_v(subj, 'has')} the Infiltrators ability"
     if kind_str == "advance":
-        return f"add {_dice_case(_jstr(dist))} to {_possessive(subj)} Advance rolls"
+        return f"add {_dice_case(_jstr(dist))} to {_of_or_possessive(subj, 'Advance rolls')}"
     if kind_str == "pile-in":
         pile_default = inches or ' 3"'
         return f"{subj} can Pile In up to{pile_default}"
@@ -842,9 +853,9 @@ def _movement_clause(m: dict[str, Any], subj: str) -> str:
             is_num = False
     if is_num and dist_val < 0:
         abs_n = int(abs(dist_val)) if float(abs(dist_val)).is_integer() else abs(dist_val)
-        return f'{_possessive(subj)} Move characteristic is reduced by {abs_n}"'
+        return f'{_of_or_possessive(subj, "Move characteristic")} is reduced by {abs_n}"'
     if move_kinds:
-        return f"add{inches} to {_possessive(subj)} {move_kinds} moves"
+        return f"add{inches} to {_of_or_possessive(subj, f'{move_kinds} moves')}"
     return f"{subj} can make a Normal move{of_up_to}"
 
 
@@ -917,11 +928,11 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
     if etype == "stat-modifier":
         scope = f" ({_jstr(m['attack_type'])})" if m.get("attack_type") else ""
         if m.get("stat") is None:
-            return f"modify {_possessive(subj)} characteristics{scope}"
+            return f"modify {_of_or_possessive(subj, 'characteristics')}{scope}"
         if m.get("operation") == "set":
             stat = _stat_name(m["stat"])
             set_val = _jstr(m.get("value"))
-            return f"modify {_possessive(subj)} {stat} characteristic to {set_val}{scope}"
+            return f"modify {_of_or_possessive(subj, f'{stat} characteristic')} to {set_val}{scope}"
         val = m.get("value")
         verb = "subtract" if m.get("operation") in ("subtract", "worsen") else "add"
         # `val is not None` guard replaces relying on float(None) raising
@@ -935,8 +946,8 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             except (TypeError, ValueError):
                 pass
         prep = "to" if verb == "add" else "from"
-        stat = _stat_name(m["stat"])
-        return f"{verb} {_jstr(val)} {prep} {_possessive(subj)} {stat} characteristic{scope}"
+        stat_of = _of_or_possessive(subj, f"{_stat_name(m['stat'])} characteristic")
+        return f"{verb} {_jstr(val)} {prep} {stat_of}{scope}"
     if etype == "roll-modifier":
         ctx_note = f" ({_jstr(m['context'])})" if m.get("context") else ""
         roll = _roll_name(m.get("roll"))
@@ -948,7 +959,7 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             return f"{subj} can change {roll} rolls to a {_jstr(m.get('value'))}"
         if m.get("value") is None:
             op = dekebab(_jstr(m.get("operation")))
-            return f"{op} {_possessive(subj)} {roll} rolls{ctx_note}"
+            return f"{op} {_of_or_possessive(subj, f'{roll} rolls')}{ctx_note}"
         sgn = _signed(m.get("operation"), m["value"])
         return f"{subj} {_v(subj, 'gets')} {sgn} to {roll} rolls{ctx_note}"
     if etype == "re-roll":
@@ -1026,10 +1037,11 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         else:
             kw = _bracket_keyword(m.get("keyword") if m.get("keyword") is not None else "keywords")
         if m.get("weapon_name") is not None:
-            return f"{_possessive(subj)} {_jstr(m['weapon_name'])} gains {kw}"
+            return f"{_of_or_possessive(subj, _jstr(m['weapon_name']))} gains {kw}"
         if m.get("weapon_type") is not None:
-            return f"{_possessive(subj)} {_jstr(m['weapon_type'])} weapons gain {kw}"
-        return f"{_possessive(subj)} weapons gain {kw}"
+            weapon_type = _jstr(m["weapon_type"])
+            return f"{_of_or_possessive(subj, f'{weapon_type} weapons')} gain {kw}"
+        return f"{_of_or_possessive(subj, 'weapons')} gain {kw}"
     if etype == "ability-grant":
         grant = m.get("grant_type")
         if grant is None:
@@ -1192,7 +1204,7 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             verb = "add" if positive else "subtract"
             prep = "to" if positive else "from"
             return f"{verb} {_jstr(m['value'])} {prep} the Leadership characteristic of {subj}"
-        return f"modify {_possessive(subj)} Leadership characteristic"
+        return f"modify {_of_or_possessive(subj, 'Leadership characteristic')}"
     if etype == "fight-first":
         return f"{subj} {_v(subj, 'has')} the Fights First ability"
     if etype == "fight-last":
@@ -1239,10 +1251,10 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             return f"{subj} {_v(subj, 'treats')} {tn} tests as {_jstr(res)}"
         roll = _roll_name(m.get("roll"))
         if res == "pass":
-            return f"{_possessive(subj)} {roll} rolls automatically succeed"
+            return f"{_of_or_possessive(subj, f'{roll} rolls')} automatically succeed"
         if res == "fail":
-            return f"{_possessive(subj)} {roll} rolls automatically fail"
-        return f"{_possessive(subj)} {roll} rolls count as {_jstr(res)}"
+            return f"{_of_or_possessive(subj, f'{roll} rolls')} automatically fail"
+        return f"{_of_or_possessive(subj, f'{roll} rolls')} count as {_jstr(res)}"
     if etype == "firing-deck":
         return f"{subj} {_v(subj, 'has')} Firing Deck {_jstr(m.get('value'))}"
     if etype == "disembark":
@@ -1324,7 +1336,7 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             sgn = _signed(m["operation"], m.get("value"))
             pron = _pronoun(subj)
             return f"{subj} {_v(subj, 'gets')} {sgn} to {pron} Objective Control characteristic"
-        return f"modify {_possessive(subj)} Objective Control characteristic"
+        return f"modify {_of_or_possessive(subj, 'Objective Control characteristic')}"
     if etype == "bs-modifier":
         sgn = _signed(m.get("operation"), m.get("value"))
         return f"{subj} {_v(subj, 'gets')} {sgn} to Ballistic Skill"
@@ -1332,10 +1344,16 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         sgn = _signed(m.get("operation"), m.get("value"))
         return f"{subj} {_v(subj, 'gets')} {sgn} to Charge rolls"
     if etype == "terrain-area-tag":
+        if m.get("tag") is None:
+            return "the terrain area is marked"
         return f"the terrain area is marked as {dekebab(_jstr(m.get('tag')))}"
     if etype == "objective-tag":
+        if m.get("tag") is None:
+            return "the objective is marked"
         return f"the objective is marked as {dekebab(_jstr(m.get('tag')))}"
     if etype == "unit-tag":
+        if m.get("tag") is None:
+            return f"{subj} {_v(subj, 'is')} marked"
         return f"{subj} {_v(subj, 'is')} marked as {dekebab(_jstr(m.get('tag')))}"
 
     # Container types — inline forms.

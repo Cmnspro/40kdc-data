@@ -316,6 +316,17 @@ fn possessive(s: &str) -> String {
     }
 }
 
+/// `<subj>'s <rest>` for a simple subject; `the <rest> of <subj>` when the subject
+/// is a clause (an aura target ending in an inch mark), where a trailing possessive
+/// reads as garbage (`friendly units within 6"'s weapons`).
+fn of_or_possessive(subj: &str, rest: &str) -> String {
+    if subj.ends_with('"') {
+        format!("the {rest} of {subj}")
+    } else {
+        format!("{} {rest}", possessive(subj))
+    }
+}
+
 /// `+1` / `-1` from operation + value (a negative value flips the sign).
 fn signed(m: &Map<String, Value>) -> String {
     let op = nstr(m, "operation");
@@ -586,7 +597,11 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                     None => format!("while making {} attacks", jv(p, "attack_type")),
                 },
                 T::DestroyedByAttackType => {
-                    format!("when destroyed by a {} attack", jv(p, "attack_type"))
+                    if jv(p, "attack_type") == "any" {
+                        "when destroyed by any attack".to_string()
+                    } else {
+                        format!("when destroyed by a {} attack", jv(p, "attack_type"))
+                    }
                 }
                 T::OpponentUnitWithinRange => {
                     let where_ = if notnull(p, "weapon_name") {
@@ -919,9 +934,9 @@ fn movement_clause(m: &Map<String, Value>, subj: &str) -> String {
         "scout" => format!("before the first battle round, {subj} can make a Scout move{of_up_to}"),
         "infiltrate" => format!("{subj} {} the Infiltrators ability", agree(subj, "has")),
         "advance" => format!(
-            "add {} to {} Advance rolls",
+            "add {} to {}",
             dice_case(dist.unwrap_or(&Value::Null)),
-            possessive(subj)
+            of_or_possessive(subj, "Advance rolls")
         ),
         "pile-in" => format!(
             "{subj} can Pile In up to{}",
@@ -989,14 +1004,17 @@ fn movement_clause(m: &Map<String, Value>, subj: &str) -> String {
             if let Some(n) = dist.and_then(Value::as_f64) {
                 if n < 0.0 {
                     return format!(
-                        "{} Move characteristic is reduced by {}\"",
-                        possessive(subj),
+                        "{} is reduced by {}\"",
+                        of_or_possessive(subj, "Move characteristic"),
                         fmt_num(n.abs())
                     );
                 }
             }
             if let Some(mk) = &move_kinds {
-                return format!("add{inches} to {} {mk} moves", possessive(subj));
+                return format!(
+                    "add{inches} to {}",
+                    of_or_possessive(subj, &format!("{mk} moves"))
+                );
             }
             format!("{subj} can make a Normal move{of_up_to}")
         }
@@ -1083,13 +1101,21 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 String::new()
             };
             if !notnull(m, "stat") {
-                return format!("modify {} characteristics{scope}", possessive(&subj));
+                return format!(
+                    "modify {}{scope}",
+                    of_or_possessive(&subj, "characteristics")
+                );
             }
             if nstr(m, "operation") == Some("set") {
                 return format!(
-                    "modify {} {} characteristic to {}{scope}",
-                    possessive(&subj),
-                    stat_name(m.get("stat").unwrap_or(&Value::Null)),
+                    "modify {} to {}{scope}",
+                    of_or_possessive(
+                        &subj,
+                        &format!(
+                            "{} characteristic",
+                            stat_name(m.get("stat").unwrap_or(&Value::Null))
+                        )
+                    ),
                     jv(m, "value")
                 );
             }
@@ -1107,10 +1133,15 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             }
             let prep = if verb == "add" { "to" } else { "from" };
             format!(
-                "{verb} {} {prep} {} {} characteristic{scope}",
+                "{verb} {} {prep} {}{scope}",
                 jval(&val),
-                possessive(&subj),
-                stat_name(m.get("stat").unwrap_or(&Value::Null))
+                of_or_possessive(
+                    &subj,
+                    &format!(
+                        "{} characteristic",
+                        stat_name(m.get("stat").unwrap_or(&Value::Null))
+                    )
+                )
             )
         }
         T::RollModifier => {
@@ -1141,10 +1172,12 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             }
             if !notnull(m, "value") {
                 format!(
-                    "{} {} {} rolls{ctx_note}",
+                    "{} {}{ctx_note}",
                     dekebab(&jv(m, "operation")),
-                    possessive(&subj),
-                    roll_name(m.get("roll").unwrap_or(&Value::Null))
+                    of_or_possessive(
+                        &subj,
+                        &format!("{} rolls", roll_name(m.get("roll").unwrap_or(&Value::Null)))
+                    )
                 )
             } else {
                 format!(
@@ -1278,15 +1311,17 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 bracket_keyword(&kw_or_default)
             };
             if notnull(m, "weapon_name") {
-                format!("{} {} gains {kw}", possessive(&subj), jv(m, "weapon_name"))
+                format!(
+                    "{} gains {kw}",
+                    of_or_possessive(&subj, &jv(m, "weapon_name"))
+                )
             } else if notnull(m, "weapon_type") {
                 format!(
-                    "{} {} weapons gain {kw}",
-                    possessive(&subj),
-                    jv(m, "weapon_type")
+                    "{} gain {kw}",
+                    of_or_possessive(&subj, &format!("{} weapons", jv(m, "weapon_type")))
                 )
             } else {
-                format!("{} weapons gain {kw}", possessive(&subj))
+                format!("{} gain {kw}", of_or_possessive(&subj, "weapons"))
             }
         }
         T::AbilityGrant => {
@@ -1581,7 +1616,10 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     jv(m, "value")
                 )
             } else {
-                format!("modify {} Leadership characteristic", possessive(&subj))
+                format!(
+                    "modify {}",
+                    of_or_possessive(&subj, "Leadership characteristic")
+                )
             }
         }
         T::FightFirst => format!("{subj} {} the Fights First ability", agree(&subj, "has")),
@@ -1657,8 +1695,8 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 )
             } else {
                 format!(
-                    "modify {} Objective Control characteristic",
-                    possessive(&subj)
+                    "modify {}",
+                    of_or_possessive(&subj, "Objective Control characteristic")
                 )
             }
         }
@@ -1675,14 +1713,30 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             )
         }
         T::TerrainAreaTag => {
-            format!("the terrain area is marked as {}", dekebab(&jv(m, "tag")))
+            if notnull(m, "tag") {
+                format!("the terrain area is marked as {}", dekebab(&jv(m, "tag")))
+            } else {
+                "the terrain area is marked".to_string()
+            }
         }
-        T::ObjectiveTag => format!("the objective is marked as {}", dekebab(&jv(m, "tag"))),
-        T::UnitTag => format!(
-            "{subj} {} marked as {}",
-            agree(&subj, "is"),
-            dekebab(&jv(m, "tag"))
-        ),
+        T::ObjectiveTag => {
+            if notnull(m, "tag") {
+                format!("the objective is marked as {}", dekebab(&jv(m, "tag")))
+            } else {
+                "the objective is marked".to_string()
+            }
+        }
+        T::UnitTag => {
+            if notnull(m, "tag") {
+                format!(
+                    "{subj} {} marked as {}",
+                    agree(&subj, "is"),
+                    dekebab(&jv(m, "tag"))
+                )
+            } else {
+                format!("{subj} {} marked", agree(&subj, "is"))
+            }
+        }
         T::AutoResult => {
             let result = nstr(m, "result");
             if notnull(m, "test") {
@@ -1709,14 +1763,20 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 let roll = roll_name(m.get("roll").unwrap_or(&Value::Null));
                 match result {
                     Some("pass") => {
-                        format!("{} {roll} rolls automatically succeed", possessive(&subj))
+                        format!(
+                            "{} automatically succeed",
+                            of_or_possessive(&subj, &format!("{roll} rolls"))
+                        )
                     }
                     Some("fail") => {
-                        format!("{} {roll} rolls automatically fail", possessive(&subj))
+                        format!(
+                            "{} automatically fail",
+                            of_or_possessive(&subj, &format!("{roll} rolls"))
+                        )
                     }
                     _ => format!(
-                        "{} {roll} rolls count as {}",
-                        possessive(&subj),
+                        "{} count as {}",
+                        of_or_possessive(&subj, &format!("{roll} rolls")),
                         jv(m, "result")
                     ),
                 }

@@ -3069,12 +3069,14 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "extra-leader-attachment"
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -3082,7 +3084,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "[APPROX] Leader-attachment/army-construction rule: a unit with Starting Strength 20 may have up to two (non-duplicate) Leaders attached instead of one, and if it is destroyed the attached Leaders become separate units at their original Starting Strengths. The attachment-capacity change is out of scope and unmodeled by design. Full rule in raw-text store."
   },
   {
     "ability_id": "war-leader",
@@ -3294,10 +3296,19 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "deep-strike",
-      "target": "unit",
-      "modifier": {
-        "allowed_deployment_zone": "opponent-deployment-zone"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "arrives-from-strategic-reserves"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "outflank-set-up-in-opponent-deployment-zone"
+        }
       }
     },
     "scope": {
@@ -4025,16 +4036,41 @@
     "faction_id": "tau-empire",
     "detachment_id": "advanced-acquisition-cadre",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "opponent"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "self",
+        "modifier": {
+          "stat": "Sv",
+          "operation": "improve",
+          "value": 1
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] When a hidden PATHFINDER TEAM or STEALTH BATTLESUITS unit is targeted in your opponent's Shooting phase, it gets +1 to its Save characteristic. The 'hidden' precondition is not gated here. Full rule in raw-text store."
   },
   {
     "ability_id": "negation-emitters-advanced-acquisition-cadre",
@@ -4082,14 +4118,32 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "unmasked",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "when-this-unit-selected-to-shoot"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "stat-modifier",
+          "target": "defender",
+          "modifier": {
+            "stat": "detection-range",
+            "operation": "add",
+            "value": 9
+          }
+        }
+      },
+      "duration": "phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    }
+      "range": "any-visible",
+      "duration": "phase"
+    },
+    "community_notes": "When the bearer's unit is selected to shoot, mark one enemy unit within 24\"; that enemy unit has +9\" detection range until this unit has shot."
   },
   {
     "ability_id": "bonded-heroes",

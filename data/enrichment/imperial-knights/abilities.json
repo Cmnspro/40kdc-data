@@ -2656,15 +2656,17 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "ability-grant",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "grant_type": "additional-oath"
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Detachment rule extending the Oath army rule: at the start of your turn, if your current Oath is fulfilled, determine an additional Oath (no repeated Deed/Quality; Qualities from fulfilled Oaths keep applying to Code Chivalric models; completing an additional Oath's Deed grants 1CP instead). This army-rule interaction is not expressible in the effect vocabulary and is modeled as an opaque ability grant. Full rule in raw-text store."
   },
   {
     "ability_id": "valours-reward",

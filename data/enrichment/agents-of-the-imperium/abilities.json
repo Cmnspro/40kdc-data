@@ -2580,9 +2580,17 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "ability_id": "infiltrators"
+        }
+      }
     },
     "scope": {
       "range": "unit",
@@ -2595,7 +2603,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "[APPROX] While the selected unit is leading a unit, models in that unit gain Infiltrators; the Declare Battle Formations 'select one of those units' pick is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "warrant-of-trade",
@@ -2607,9 +2615,22 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 3,
+        "keywords": [
+          "Imperium",
+          "Battleline"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "redeploy"
+        }
+      }
     },
     "scope": {
       "range": "unit",
@@ -2622,7 +2643,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "[APPROX] After deployment, select up to D3 Imperium Battleline units (modeled as a flat 3 — the selector count cannot be a dice expression) and redeploy them; the option to set those redeployed units up in Strategic Reserves (regardless of the usual reserve limit) is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "healing-serum",
@@ -2849,9 +2870,11 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "ability-grant",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "grant_type": "extremis-double-ability-uses"
+      }
     },
     "scope": {
       "range": "unit",
@@ -2860,7 +2883,8 @@
     "unit_ids": [],
     "ability_type": "detachment",
     "behavior": "passive",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] Officio Assassinorum units may use Overkill, Soulless Horror and Shieldbreaker twice per battle instead of once (still max once per battle round); the per-army points surcharge and Extremis mustering rules are army-build effects. Usage-limit change is not directly expressible. Full rule in raw-text store."
   },
   {
     "ability_id": "decoy-targets",
@@ -2872,20 +2896,23 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "movement-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "move_type": "redeploy"
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
     "unit_ids": [
       "callidus-assassin"
     ],
     "ability_type": "enhancement",
     "behavior": "activated",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] Models the reposition as a redeploy; the actual mechanic destroys one friendly Infantry model and sets it up again where it stood, and is usable twice per battle (max once per battle round). Full rule in raw-text store."
   },
   {
     "ability_id": "esoteric-explosives",
@@ -2897,12 +2924,14 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "improved-grenades-mortal-wound-threshold"
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -2910,7 +2939,8 @@
     ],
     "ability_type": "enhancement",
     "behavior": "passive",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] When this model is targeted with the Grenades Stratagem, it inflicts a mortal wound on each D6 of 3+ instead of 4+ — a modifier to another Stratagem's dice, not directly expressible. Full rule in raw-text store."
   },
   {
     "ability_id": "intraneural-biotech",
@@ -2922,12 +2952,15 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "cp-refund",
+      "target": "self",
+      "modifier": {
+        "amount": 1,
+        "applies_to_stratagem": "heroic-intervention"
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -2935,7 +2968,8 @@
     ],
     "ability_type": "enhancement",
     "behavior": "passive",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] Encodes the −1 CP when this Eversor Assassin is targeted with the Heroic Intervention Stratagem; the clauses that the use is allowed regardless of other uses of that Stratagem this phase and does not prevent other uses of it are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "micromelta-rounds",
@@ -2979,18 +3013,31 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "target-has-keyword",
+        "parameters": {
+          "keyword": "CHARACTER"
+        }
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "wound",
+          "subset": "ones"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "activated",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] Until end of phase, the selected unit's attacks against Character units re-roll Wound rolls of 1; the upgrade whereby an Officio Assassinorum model attacking the enemy Warlord re-rolls the Wound roll entirely (not just 1s) is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "hyperstimms-veiled-blade-elimination-force",
@@ -3002,18 +3049,44 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "T",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Eversor Assassin"
+            }
+          },
+          "effect": {
+            "type": "feel-no-pain",
+            "target": "unit",
+            "modifier": {
+              "threshold": 4
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "reactive",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21"
   },
   {
     "ability_id": "willsapping-salvo",
@@ -3025,18 +3098,47 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Sustained Hits",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Culexus Assassin"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "D",
+              "operation": "set",
+              "value": 3,
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "activated",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21"
   },
   {
     "ability_id": "orbital-oversight-veiled-blade-elimination-force",
@@ -3076,18 +3178,23 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "roll-modifier",
+      "target": "attacker",
+      "modifier": {
+        "roll": "charge",
+        "operation": "subtract",
+        "value": 1
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "reactive",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] Encodes the base −1 to the charging enemy unit's Charge roll; when the protected unit is a Vindicare Assassin the penalty is −2 instead, which is not separately modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "ensnaring-trap-veiled-blade-elimination-force",
@@ -3099,18 +3206,46 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "granted",
+            "rule_kind": "core-rule",
+            "rule": "charge"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Callidus Assassin"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "reactive",
-    "detachment_id": "veiled-blade-elimination-force"
+    "detachment_id": "veiled-blade-elimination-force",
+    "community_notes": "[APPROX] Grants an out-of-phase charge and the Callidus Assassin +1 to Wound roll; the 'does not receive a Charge bonus' clause and the melee-only narrowing of the Callidus bonus are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "on-my-signal-fire",
@@ -3122,19 +3257,36 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "signal-fire-target",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "all-failures"
+          }
+        }
+      },
+      "duration": "phase"
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [
       "inquisitor-kroyle"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] After this unit shoots, marks one enemy unit it hit so attacks against it re-roll Hit rolls; the restriction that only AGENTS OF THE IMPERIUM or IMPERIUM INFANTRY BATTLELINE models benefit is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "tox-cycler",
@@ -3146,19 +3298,50 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "was-hit-by-attack",
+        "parameters": {
+          "subject": "target",
+          "weapon_name": "jindarii-tox-cycler"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "S",
+              "operation": "add",
+              "value": 2,
+              "weapon_name": "jindarii-tox-cycler"
+            }
+          },
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "D",
+              "operation": "add",
+              "value": 2,
+              "weapon_name": "jindarii-tox-cycler"
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "unit_ids": [
       "inquisitor-kroyle"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] After this unit shoots, if the Jindarii tox-cycler scored a hit, that weapon gains +2 Strength and +2 Damage for the rest of the battle; the maximum Damage cap of 6 is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "ward-against-the-malefic-arts",
@@ -3170,9 +3353,44 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "is-attached"
+          },
+          {
+            "type": "attack-is-type",
+            "parameters": {
+              "attack_type": "psychic"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "roll-modifier",
+            "target": "attacker",
+            "modifier": {
+              "roll": "hit",
+              "operation": "subtract",
+              "value": 1
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "attacker",
+            "modifier": {
+              "roll": "wound",
+              "operation": "subtract",
+              "value": 1
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
@@ -3182,7 +3400,8 @@
       "inquisitor-ostromandeus"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Applies while this model is leading a unit; the −1 to Hit and −1 to Wound affect Psychic Attacks targeting the led unit."
   },
   {
     "ability_id": "vox-cast-proclamations-aura",
@@ -3194,19 +3413,24 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stratagem-cost-modifier",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "operation": "increase",
+        "amount": 1,
+        "applies_to": "stratagems-targeting-bearer"
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-12",
       "duration": "permanent"
     },
     "unit_ids": [
       "inquisitor-ostromandeus"
     ],
     "ability_type": "unit",
-    "behavior": "aura"
+    "behavior": "aura",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Each time the opponent targets a unit within 12\" of this model with a Stratagem, that use costs 1CP more; encoded following the aura stratagem-cost family (cf. callidus-assassin/lord-of-deceit-aura)."
   },
   {
     "ability_id": "vox-skull",
@@ -3218,19 +3442,22 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "leadership-modifier",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "test": "battle-shock"
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "aura-12",
+      "duration": "one-use"
     },
     "unit_ids": [
       "inquisitor-ostromandeus"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Once per battle, forces a Battle-shock test on one enemy unit within 12\"; the exclusion of Monsters and Vehicles from selection, and the consequence on a failed test (that unit cannot have the Benefit of Cover until the end of your next turn), are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "throne-of-judgement-aura",
@@ -3242,19 +3469,52 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "aura",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "range": 6,
+            "effect": {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "Ld",
+                "operation": "add",
+                "value": 1
+              }
+            }
+          }
+        },
+        {
+          "type": "aura",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "range": 6,
+            "effect": {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "Ld",
+                "operation": "subtract",
+                "value": 1
+              }
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-6",
       "duration": "permanent"
     },
     "unit_ids": [
       "inquisitor-karamazov"
     ],
     "ability_type": "unit",
-    "behavior": "aura"
+    "behavior": "aura",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Friendly units within 6\" improve Leadership by 1, enemy units within 6\" worsen it by 1; per the file convention (cf. simulacrum-imperialis) improving Ld is add and worsening is subtract."
   },
   {
     "ability_id": "unsubtle-crusader",
@@ -3266,9 +3526,48 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "choice",
+      "choice_label": "unsubtle-crusader",
+      "options": [
+        {
+          "type": "select-units",
+          "selector": {
+            "max_count": 3,
+            "keywords": [
+              "Agents of the Imperium",
+              "Infantry"
+            ],
+            "owner": "friendly"
+          },
+          "effect": {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "scout",
+              "distance": 6
+            }
+          }
+        },
+        {
+          "type": "select-units",
+          "selector": {
+            "max_count": 1,
+            "keywords": [
+              "Imperium",
+              "Battleline"
+            ],
+            "owner": "friendly"
+          },
+          "effect": {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "scout",
+              "distance": 6
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
@@ -3278,7 +3577,8 @@
       "inquisitor-karamazov"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. At Declare Battle Formations, pick one option: up to three Agents of the Imperium Infantry units, or one Imperium Battleline unit, gain the Scouts 6\" ability."
   },
   {
     "ability_id": "malus-codicium",
@@ -3328,19 +3628,33 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "attacker",
+        "modifier": {
+          "roll": "hit",
+          "operation": "subtract",
+          "value": 1
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "aura-12",
+      "duration": "phase"
     },
     "unit_ids": [
       "inquisitor-eisenhorn"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Encodes the 2–5 D6 result (−1 to the dominated enemy Infantry unit's Hit rolls). The selection is one enemy Infantry unit within 12\" and visible; the D6=1 branch (bearer suffers D3 mortal wounds) and D6=6 branch (target not eligible to shoot) are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "catechism-of-death",
@@ -3473,19 +3787,28 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "charged-this-turn"
+      },
+      "effect": {
+        "type": "leadership-modifier",
+        "target": "enemy-within-aura",
+        "modifier": {
+          "operation": "battle-shock-test"
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "engagement-range",
+      "duration": "phase"
     },
     "unit_ids": [
       "deathwatch-terminator-squad"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "reactive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Each time this unit ends a Charge move, every enemy unit within Engagement Range must take a Battle-shock test (encoded following world-eaters/bloodied-terror)."
   },
   {
     "ability_id": "teleport-homer",
@@ -3497,19 +3820,22 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "cp-refund",
+      "target": "self",
+      "modifier": {
+        "type": "stratagem-for-0cp"
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "aura-6",
+      "duration": "one-use"
     },
     "unit_ids": [
       "deathwatch-terminator-squad"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Kept consistent with adeptus-astartes/teleport-homer: once per battle, target this unit with the Rapid Ingress Stratagem for 0CP. The Teleport Homer token set up at the start of the battle, and the requirement to arrive within 3\" of that token and not within 8\" of enemy models, are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "storm-shield",
@@ -3655,9 +3981,39 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-below-starting-strength"
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-below-half-strength"
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
@@ -3667,7 +4023,8 @@
       "indomitor-kill-team"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21"
   },
   {
     "ability_id": "spectrus-doctrines",
@@ -3679,19 +4036,23 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "movement-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
     "unit_ids": [
       "spectrus-kill-team"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] At the end of your opponent's turn, this unit may remove itself from the battlefield and go into Strategic Reserves; the requirement that it be more than 6\" from all enemy units, and the end-of-opponent-turn timing, are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "helix-gauntlet",
@@ -3730,9 +4091,18 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 5,
+      "comparison": "gte",
+      "on_success": {
+        "type": "cp-gain",
+        "target": "bearer",
+        "modifier": {
+          "amount": 1
+        }
+      },
+      "on_fail": null
     },
     "scope": {
       "range": "unit",
@@ -3742,7 +4112,8 @@
       "spectrus-kill-team"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "reactive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Triggered each time the bearer's unit is targeted with a Stratagem."
   },
   {
     "ability_id": "malefic-warding",
@@ -3754,9 +4125,17 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "invulnerable-save",
+        "target": "unit",
+        "modifier": {
+          "invuln_sv": 5
+        }
+      }
     },
     "scope": {
       "range": "unit",
@@ -3766,7 +4145,8 @@
       "daemonhost"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Applies while an Inquisitor is leading a unit that includes one or more Daemonhost models."
   },
   {
     "ability_id": "bound-daemon",
@@ -3778,9 +4158,19 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "unit",
+        "modifier": {
+          "stat": "OC",
+          "operation": "set",
+          "value": 1
+        }
+      }
     },
     "scope": {
       "range": "unit",
@@ -3790,7 +4180,8 @@
       "daemonhost"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Applies while an Inquisitor is leading the Daemonhost unit."
   },
   {
     "ability_id": "inconceivable-augmentation",
@@ -3838,9 +4229,31 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "attack-restriction",
+          "target": "self",
+          "modifier": {
+            "restriction": "cannot-be-warlord"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "is-attached"
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "OC",
+              "operation": "set",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
@@ -3850,7 +4263,8 @@
       "jokaero-weaponsmith"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. OC set to 1 applies while an Inquisitor is leading the Jokaero Weaponsmith unit."
   },
   {
     "ability_id": "at-all-costs",
@@ -3866,17 +4280,84 @@
     "faction_id": "agents-of-the-imperium",
     "detachment_id": "imperialis-fleet",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "re-selectable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Eliminate At All Costs",
+          "effect": {
+            "type": "designate-target",
+            "designation": "eliminate-at-all-costs",
+            "select": {
+              "scope": "enemy-unit",
+              "count": 1,
+              "timing": "start-of-command-phase"
+            },
+            "applies": {
+              "to": "attackers-of-target",
+              "effect": {
+                "type": "roll-modifier",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "operation": "add",
+                  "value": 1
+                }
+              }
+            },
+            "duration": "until-next-command-phase"
+          }
+        },
+        {
+          "name": "Acquire At All Costs",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "within-range-of-objective"
+            },
+            "effect": {
+              "type": "sequence",
+              "steps": [
+                {
+                  "type": "stat-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "stat": "Ld",
+                    "operation": "add",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "stat-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "stat": "OC",
+                    "operation": "add",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "invulnerable-save",
+                  "target": "unit",
+                  "modifier": {
+                    "invuln_sv": 5
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the start of your Command phase, pick one option. Eliminate marks one enemy unit (Agents attacks against it +1 Hit); Acquire selects one objective marker and buffs Agents units within range of THAT marker (+1 Ld, +1 OC, 5+ invuln) — the objective-marker selection is generalized to any controlled/within-range objective. Full rule in raw-text store."
   },
   {
     "ability_id": "root-out-heresy",
@@ -3894,15 +4375,41 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Ignores Cover",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "CHAOS"
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Sustained Hits",
+              "value": 1,
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Ranged weapons gain [IGNORES COVER], and gain [SUSTAINED HITS 1] against Chaos units; the restriction to Adeptus Arbites, Inquisitor, Inquisitorial Agents and Ordo Hereticus models, and the target threshold of Chaos units containing 5 or more models, are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "deathwatch-mission-tactics",
@@ -3918,17 +4425,56 @@
     "faction_id": "agents-of-the-imperium",
     "detachment_id": "ordo-xenos-alien-hunters",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Furor Tactics",
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Malleus Tactics",
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Lethal Hits"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Purgatus Tactics",
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Precision"
+              ]
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the start of your Command phase select one Mission Tactic, active until your next Command phase, applied to all Deathwatch units; each tactic usable once per battle (consumable). Purgatus Tactics' Critical-Wound-gated [PRECISION] is modeled as a flat Precision grant. Full rule in raw-text store."
   },
   {
     "ability_id": "destroy-the-daemonic",
@@ -3946,14 +4492,39 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "ones"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "DAEMON"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "subset": "ones"
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 11e Imperial Agents faction pack; see #21. Applies to Inquisitor, Inquisitorial Agents and Ordo Malleus models from your army."
   }
 ]

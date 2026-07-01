@@ -326,12 +326,32 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "aura",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "range": 6,
+        "effect": {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "PSYKER"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "psychic-test",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-6",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -339,7 +359,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "[APPROX] The non-cumulative clause (does not stack with other modifiers to the Psychic test result) is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "assault-ramp",
@@ -438,9 +458,17 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "self",
+        "modifier": {
+          "grant_type": "bodyguard-sacrifice-psychic-buff"
+        }
+      }
     },
     "scope": {
       "range": "unit",
@@ -450,8 +478,8 @@
       "tzaangor-shaman"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Opaque grant: while leading a unit, destroying one Bodyguard model to add D3 to this model's Psychic-weapon Attacks and Strength until end of phase is not expressible as a scalar buff. Full rule in raw-text store."
   },
   {
     "ability_id": "mind-breaking-mutations-aura",
@@ -1173,6 +1201,7 @@
       "type": "leadership-modifier",
       "target": "self",
       "modifier": {
+        "test": "psychic",
         "operation": "add",
         "value": 1
       }
@@ -3076,11 +3105,26 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
-      "modifier": {
-        "ability_id": "benefit-of-cover"
-      }
+      "type": "designate-target",
+      "designation": "flame-wreathed",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "end-of-normal-move"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "suppressed",
+            "rule_kind": "core-rule",
+            "rule": "benefit-of-cover"
+          }
+        }
+      },
+      "duration": "turn"
     },
     "scope": {
       "range": "unit",
@@ -3090,7 +3134,8 @@
       "heldrake"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Each time this model ends a Normal move, select one enemy unit it moved over: until the end of the turn that unit cannot have the Benefit of Cover. The moved-over eligibility restriction is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "servile-pawns",
@@ -3128,9 +3173,11 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "ritual-bonus-on-cabal-death"
+      }
     },
     "scope": {
       "range": "unit",
@@ -3140,8 +3187,8 @@
       "daemon-prince-of-tzeentch"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "reactive",
+    "community_notes": "[APPROX] Opaque grant: when a friendly Cabal-of-Sorcerers Thousand Sons Psyker is destroyed within 9\", a chosen bearer gains +1 to its Ritual Psychic test result for the battle (stacking to a maximum of +2); the trigger, stacking, and cap are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "glamour-of-tzeentch-aura-psychic",
@@ -4060,18 +4107,103 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "terrain-area-tag",
+          "target": "self",
+          "modifier": {}
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "timing-is",
+                "parameters": {
+                  "timing": "start"
+                }
+              },
+              {
+                "type": "objective-majority",
+                "parameters": {
+                  "zone": "no-mans-land"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "terrain-area-tag",
+            "target": "self",
+            "modifier": {}
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "timing-is",
+                "parameters": {
+                  "timing": "start"
+                }
+              },
+              {
+                "type": "objective-majority",
+                "parameters": {
+                  "zone": "opponent-deployment-zone"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "terrain-area-tag",
+            "target": "self",
+            "modifier": {}
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "self",
+          "modifier": {
+            "roll": "wound",
+            "subset": "ones",
+            "weapon_keyword": "Psychic"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "terrain-area-control",
+            "parameters": {
+              "area": "flow-of-magic",
+              "relation": "wholly-within"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "self",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1,
+              "weapon_keyword": "Psychic"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "unit_ids": [],
     "ability_type": "detachment",
     "behavior": "passive",
-    "detachment_id": "hexwarp-thrallband"
+    "detachment_id": "hexwarp-thrallband",
+    "community_notes": "[APPROX] Follows the Hallowed Ground terrain-area pattern: the enhanced in-Flow effect (+1 to the Wound roll for Psychic Attacks) is modeled as additive to the base reroll-1s rather than replacing it, and the deployment-zone/objective-majority zone tagging is approximated. Full rule in raw-text store."
   },
   {
     "ability_id": "arcane-might-hexwarp-thrallband",
@@ -4380,18 +4512,19 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "fallback-and-act",
       "target": "unit",
       "modifier": {}
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "activated",
-    "detachment_id": "hexwarp-thrallband"
+    "detachment_id": "hexwarp-thrallband",
+    "community_notes": "[APPROX] Encoded as the strongest case (shoot AND charge after Falling Back, the wholly-within-Flow-of-Magic outcome); the base case grants only one of the two, chosen when used. Full rule in raw-text store."
   },
   {
     "ability_id": "through-the-veil-hexwarp-thrallband",
@@ -4471,18 +4604,59 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "terrain-area-control",
+        "parameters": {
+          "area": "flow-of-magic",
+          "relation": "wholly-within"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Ignores Cover"
+              ],
+              "weapon_type": "ranged"
+            }
+          },
+          {
+            "type": "designate-target",
+            "designation": "no-benefit-of-cover",
+            "select": {
+              "scope": "enemy-unit",
+              "count": 1,
+              "timing": "after-this-unit-shoots"
+            },
+            "applies": {
+              "to": "target",
+              "effect": {
+                "type": "ability-grant",
+                "target": "unit",
+                "modifier": {
+                  "grant_type": "cannot-have-benefit-of-cover"
+                }
+              }
+            },
+            "duration": "phase"
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [],
     "ability_type": "stratagem",
     "behavior": "activated",
-    "detachment_id": "hexwarp-thrallband"
+    "detachment_id": "hexwarp-thrallband",
+    "community_notes": "community-authored from 11e faction pack; targeting requires the unit be wholly within the Flow of Magic (modeled as a gating condition)."
   },
   {
     "ability_id": "kaleidoscopic-tempest-hexwarp-thrallband",
@@ -4661,15 +4835,103 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-within-range-of",
+            "parameters": {
+              "target_type": "friendly",
+              "keyword": "THOUSAND SONS PSYKER",
+              "range": 6,
+              "visible": false
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "subset": "all-failures"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "wound",
+                  "subset": "all-failures"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "damage",
+                  "subset": "all-failures"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "unit-within-range-of",
+                "parameters": {
+                  "target_type": "friendly",
+                  "keyword": "THOUSAND SONS PSYKER",
+                  "range": 6,
+                  "visible": false
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "choice",
+            "choice_label": "Re-roll one Hit, Wound, or Damage roll",
+            "options": [
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "subset": "all-failures"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "wound",
+                  "subset": "all-failures"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "damage",
+                  "subset": "all-failures"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] \"Re-roll one Hit/Wound/Damage roll\" is a single-die re-roll of choice, approximated here as re-rolling all failures. The clause improving a nearby VEHICLE's Deadly Demise to trigger on a 5+ is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "kindred-sorcery",
@@ -4685,17 +4947,60 @@
     "faction_id": "thousand-sons",
     "detachment_id": "grand-coven",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Imbued Manifestation",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "Range",
+              "operation": "add",
+              "value": 6,
+              "weapon_keyword": "Psychic",
+              "weapon_type": "ranged"
+            }
+          }
+        },
+        {
+          "name": "Psychic Maelstrom",
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1,
+              "weapon_keyword": "Psychic"
+            }
+          }
+        },
+        {
+          "name": "Wrath of the Immaterium",
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Devastating Wounds"
+              ],
+              "weapon_keyword": "Psychic"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "warpmeld-sacrifice",
@@ -4711,17 +5016,60 @@
     "faction_id": "thousand-sons",
     "detachment_id": "warpmeld-pact",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "choice",
+      "choice_label": "Warpmeld Sacrifice",
+      "options": [
+        {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "roll-modifier",
+              "target": "attacker",
+              "modifier": {
+                "roll": "wound",
+                "operation": "subtract",
+                "value": 1
+              }
+            },
+            {
+              "type": "mortal-wounds",
+              "target": "self",
+              "modifier": {
+                "count": "D3"
+              }
+            }
+          ]
+        },
+        {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "roll-modifier",
+              "target": "unit",
+              "modifier": {
+                "roll": "wound",
+                "operation": "add",
+                "value": 1
+              }
+            },
+            {
+              "type": "mortal-wounds",
+              "target": "self",
+              "modifier": {
+                "count": "D3"
+              }
+            }
+          ]
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Restricted to TZEENTCH MUTANT INFANTRY/MOUNTED units. First option is the defensive sacrifice (-1 to enemy Wound rolls against it), second is the offensive sacrifice (+1 to its own Wound rolls); the D3 mortal-wound self-cost resolves at end of phase (timing not encoded). Full rule in raw-text store."
   },
   {
     "ability_id": "all-is-dust",
@@ -4739,14 +5087,40 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "attack-stat-compare",
+            "parameters": {
+              "attacker_stat": "D",
+              "comparison": "equal-to",
+              "value": 1
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "RUBRICAE"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "saving-throw",
+          "operation": "add",
+          "value": 1
+        }
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Drops the \"unmodified\" qualifier on the Damage 1 gate, and \"any armour saving throw\" is modeled as a generic save modifier (invulnerable saves are not distinguished). Full rule in raw-text store."
   }
 ]

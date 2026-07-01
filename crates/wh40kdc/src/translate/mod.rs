@@ -484,7 +484,11 @@ fn describe_simple(s: &SimpleCondition) -> String {
         T::WithinRangeOfObjective => format!("{negate}within range of an objective"),
         T::HasFoughtThisPhase => format!("{negate}has fought this phase"),
         T::DestroyedByAttackType => {
-            format!("{negate}destroyed by a {} attack", pj(p, "attack_type"))
+            if pj(p, "attack_type") == "any" {
+                format!("{negate}destroyed by any attack")
+            } else {
+                format!("{negate}destroyed by a {} attack", pj(p, "attack_type"))
+            }
         }
 
         // ── Scoring conditions (secondary-card award `when`) ────────────────

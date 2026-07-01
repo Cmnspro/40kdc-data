@@ -266,6 +266,17 @@ func possessive(s string) string {
 	return s + "'s"
 }
 
+// ofOrPossessive renders "<subj>'s <rest>" for a simple subject, or
+// "the <rest> of <subj>" when the subject is a clause (an aura target ending in
+// an inch mark), where a trailing possessive reads as garbage
+// (`friendly units within 6"'s weapons`).
+func ofOrPossessive(subj, rest string) string {
+	if strings.HasSuffix(subj, "\"") {
+		return "the " + rest + " of " + subj
+	}
+	return possessive(subj) + " " + rest
+}
+
 func esigned(operation, value any) string {
 	positive := operation == "add" || operation == "improve"
 	sign := 1
@@ -550,6 +561,9 @@ func conditionLeadIn(c map[string]any) string {
 		}
 		return "while making " + ejstr(p["attack_type"]) + " attacks"
 	case "destroyed-by-attack-type":
+		if ejstr(p["attack_type"]) == "any" {
+			return "when destroyed by any attack"
+		}
 		return "when destroyed by a " + ejstr(p["attack_type"]) + " attack"
 	case "opponent-unit-within-range":
 		var where string
@@ -918,7 +932,7 @@ func movementClause(m map[string]any, subj string) string {
 	case "infiltrate":
 		return subj + " " + ev(subj, "has") + " the Infiltrators ability"
 	case "advance":
-		return "add " + diceCase(ejstr(dist)) + " to " + possessive(subj) + " Advance rolls"
+		return "add " + diceCase(ejstr(dist)) + " to " + ofOrPossessive(subj, "Advance rolls")
 	case "pile-in":
 		i := inches
 		if i == "" {
@@ -970,10 +984,10 @@ func movementClause(m map[string]any, subj string) string {
 	}
 	// normal / default
 	if n, ok := parseNumber(dist); ok && n < 0 {
-		return possessive(subj) + " Move characteristic is reduced by " + numStr(-n) + "\""
+		return ofOrPossessive(subj, "Move characteristic") + " is reduced by " + numStr(-n) + "\""
 	}
 	if moveKinds != "" {
-		return "add" + inches + " to " + possessive(subj) + " " + moveKinds + " moves"
+		return "add" + inches + " to " + ofOrPossessive(subj, moveKinds+" moves")
 	}
 	return subj + " can make a Normal move" + ofUpTo
 }
@@ -1042,10 +1056,10 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			scope = " (" + ejstr(m["attack_type"]) + ")"
 		}
 		if m["stat"] == nil {
-			return "modify " + possessive(subj) + " characteristics" + scope
+			return "modify " + ofOrPossessive(subj, "characteristics") + scope
 		}
 		if m["operation"] == "set" {
-			return "modify " + possessive(subj) + " " + statName(m["stat"]) + " characteristic to " + ejstr(m["value"]) + scope
+			return "modify " + ofOrPossessive(subj, statName(m["stat"])+" characteristic") + " to " + ejstr(m["value"]) + scope
 		}
 		val := m["value"]
 		verb := "add"
@@ -1067,7 +1081,7 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if verb == "add" {
 			prep = "to"
 		}
-		return verb + " " + ejstr(val) + " " + prep + " " + possessive(subj) + " " + statName(m["stat"]) + " characteristic" + scope
+		return verb + " " + ejstr(val) + " " + prep + " " + ofOrPossessive(subj, statName(m["stat"])+" characteristic") + scope
 	case "roll-modifier":
 		ctxNote := ""
 		if m["context"] != nil && truthy(m["context"]) {
@@ -1085,7 +1099,7 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			return subj + " can change " + roll + " rolls to a " + ejstr(m["value"])
 		}
 		if m["value"] == nil {
-			return dekebab(ejstr(m["operation"])) + " " + possessive(subj) + " " + roll + " rolls" + ctxNote
+			return dekebab(ejstr(m["operation"])) + " " + ofOrPossessive(subj, roll+" rolls") + ctxNote
 		}
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to " + roll + " rolls" + ctxNote
 	case "re-roll":
@@ -1145,12 +1159,12 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			kw = bracketKeyword(k)
 		}
 		if m["weapon_name"] != nil {
-			return possessive(subj) + " " + ejstr(m["weapon_name"]) + " gains " + kw
+			return ofOrPossessive(subj, ejstr(m["weapon_name"])) + " gains " + kw
 		}
 		if m["weapon_type"] != nil {
-			return possessive(subj) + " " + ejstr(m["weapon_type"]) + " weapons gain " + kw
+			return ofOrPossessive(subj, ejstr(m["weapon_type"])+" weapons") + " gain " + kw
 		}
-		return possessive(subj) + " weapons gain " + kw
+		return ofOrPossessive(subj, "weapons") + " gain " + kw
 	case "ability-grant":
 		grant := m["grant_type"]
 		if grant == nil {
@@ -1404,7 +1418,7 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			}
 			return verb + " " + ejstr(m["value"]) + " " + prep + " the Leadership characteristic of " + subj
 		}
-		return "modify " + possessive(subj) + " Leadership characteristic"
+		return "modify " + ofOrPossessive(subj, "Leadership characteristic")
 	case "fight-first":
 		return subj + " " + ev(subj, "has") + " the Fights First ability"
 	case "fight-last":
@@ -1451,11 +1465,11 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		roll := rollName(m["roll"])
 		switch r {
 		case "pass":
-			return possessive(subj) + " " + roll + " rolls automatically succeed"
+			return ofOrPossessive(subj, roll+" rolls") + " automatically succeed"
 		case "fail":
-			return possessive(subj) + " " + roll + " rolls automatically fail"
+			return ofOrPossessive(subj, roll+" rolls") + " automatically fail"
 		}
-		return possessive(subj) + " " + roll + " rolls count as " + ejstr(r)
+		return ofOrPossessive(subj, roll+" rolls") + " count as " + ejstr(r)
 	case "firing-deck":
 		return subj + " " + ev(subj, "has") + " Firing Deck " + ejstr(m["value"])
 	case "disembark":
@@ -1524,17 +1538,26 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if m["operation"] != nil {
 			return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to " + pronoun(subj) + " Objective Control characteristic"
 		}
-		return "modify " + possessive(subj) + " Objective Control characteristic"
+		return "modify " + ofOrPossessive(subj, "Objective Control characteristic")
 	case "bs-modifier":
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to Ballistic Skill"
 	case "charge-roll-modifier":
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to Charge rolls"
 	case "terrain-area-tag":
-		return "the terrain area is marked as " + dekebab(ejstr(m["tag"]))
+		if m["tag"] != nil {
+			return "the terrain area is marked as " + dekebab(ejstr(m["tag"]))
+		}
+		return "the terrain area is marked"
 	case "objective-tag":
-		return "the objective is marked as " + dekebab(ejstr(m["tag"]))
+		if m["tag"] != nil {
+			return "the objective is marked as " + dekebab(ejstr(m["tag"]))
+		}
+		return "the objective is marked"
 	case "unit-tag":
-		return subj + " " + ev(subj, "is") + " marked as " + dekebab(ejstr(m["tag"]))
+		if m["tag"] != nil {
+			return subj + " " + ev(subj, "is") + " marked as " + dekebab(ejstr(m["tag"]))
+		}
+		return subj + " " + ev(subj, "is") + " marked"
 	case "conditional":
 		cond, _ := getMap(e, "condition")
 		inner, _ := getMap(e, "effect")

@@ -2807,15 +2807,58 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "CHARACTER"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "modifier-immunity",
+            "target": "unit",
+            "modifier": {
+              "scope": "characteristics"
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "advance",
+              "operation": "ignore-modifiers"
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "charge",
+              "operation": "ignore-modifiers"
+            }
+          },
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "subset": "all-failures"
+            }
+          }
+        ]
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "permanent",
+      "applies_to": [
+        "EMPEROR'S CHILDREN"
+      ]
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models: EMPEROR'S CHILDREN CHARACTERs ignore characteristic modifiers (the rule covers only the Move characteristic; encoded as all characteristics — strongest case), ignore modifiers to their Advance and Charge rolls, plus the Favoured Champions re-roll (re-roll the Wound roll). Not modeled: the dynamic Favoured Champions designation — initially the Warlord's unit, reassigned to the EMPEROR'S CHILDREN CHARACTER that first destroys an enemy unit each player-turn — so the Wound re-roll is expressed as a blanket CHARACTER buff rather than restricted to the single Favoured Champions unit. Full rule in raw-text store."
   },
   {
     "ability_id": "daemonic-empowerment",
@@ -2833,15 +2876,32 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-within-range-of",
+        "parameters": {
+          "range": 6,
+          "target_type": "friendly-keyword",
+          "keyword": "LEGIONS OF EXCESS"
+        }
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "unit",
+        "modifier": {
+          "keyword": "Sustained Hits",
+          "value": 1
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "permanent",
+      "applies_to": [
+        "EMPEROR'S CHILDREN"
+      ]
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the Empowered buff — while within 6\" of a friendly LEGIONS OF EXCESS unit, weapons gain [SUSTAINED HITS 1] — from the EMPEROR'S CHILDREN side. The symmetric case (a LEGIONS OF EXCESS unit empowered by a nearby EMPEROR'S CHILDREN unit) and the upgrade clause (a weapon that already has [SUSTAINED HITS] instead scores a Critical Hit on an unmodified 5+) are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "exquisite-swordsmanship",
@@ -2913,15 +2973,52 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "TRANSPORT"
+            }
+          },
+          {
+            "type": "disembarked-from-transport",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "subset": "ones"
+            }
+          },
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "subset": "ones"
+            }
+          }
+        ]
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "permanent",
+      "applies_to": [
+        "EMPEROR'S CHILDREN"
+      ]
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "quicksilver-grace",
@@ -3033,15 +3130,17 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "cp-refund",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "amount": 1
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the 1CP reduction as a refund on a Stratagem use. The rule restricts this to the Sinuous Breach and Prideful Superiority Stratagems targeting a FULGRIM unit, and to once per battle round — restrictions not gated here. Full rule in raw-text store."
   },
   {
     "ability_id": "pledges-to-the-dark-prince",
