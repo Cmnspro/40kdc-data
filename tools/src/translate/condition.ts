@@ -66,6 +66,7 @@ const TIMING_ALIASES: Record<string, string> = {
   "set-up-this-turn": "unit-set-up",
   "after-move-through-terrain-over-4-inches": "moved-through-terrain",
   "after-moving-through-tall-terrain": "moved-through-terrain",
+  "when-this-unit-selected-to-shoot": "selected-to-shoot",
 };
 
 /**
@@ -81,6 +82,12 @@ const TIMING_ONLY_PHRASES: Record<string, string> = {
   "first-time-this-phase": "the first time this phase",
   "in-reserves": "while it is in Reserves",
   "shooting-phase": "in the Shooting phase",
+  "start-of-battle": "at the start of the battle",
+  "start-of-first-battle-round": "at the start of the first battle round",
+  "start-of-movement-phase": "at the start of the Movement phase",
+  "shooting-or-fight-phase": "in the Shooting or Fight phase",
+  "this-model-starts-or-ends-a-move": "each time this model starts or ends a move",
+  "end-of-normal-move": "when the unit ends a Normal move",
 };
 
 export function describeTiming(timing: unknown): string {

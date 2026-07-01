@@ -95,6 +95,18 @@ func grantLabel(id string) string {
 	return titleCase(id)
 }
 
+// designationLabel renders "(your Suppressed target)" — a designate-target
+// mark's parenthetical. A designation slug that already ends in "target" keeps
+// its own noun ("bio-stimulus-target" → "(your Bio Stimulus Target)", not
+// "… Target target").
+func designationLabel(designation any) string {
+	label := titleCase(ejstr(designation))
+	if label == "Target" || strings.HasSuffix(label, " Target") {
+		return " (your " + label + ")"
+	}
+	return " (your " + label + " target)"
+}
+
 // antiRe splits an "anti-<x>"/"anti <x>" keyword; antiRatedRe peels the trailing
 // rating ("titanic 3+" -> "titanic", "3"). Both case-insensitive, mirroring the TS.
 var antiRe = regexp.MustCompile(`(?i)^anti[\s-]+(.*)$`)
@@ -232,6 +244,10 @@ func subject(target any, ctx map[string]any) string {
 		within = " within " + ejstr(ri) + "\""
 	} else if ctx["engagement_range"] == true {
 		within = " within Engagement Range"
+	} else if ctx["scope_range"] == "any-visible" {
+		within = " that are visible"
+	} else if ctx["scope_range"] == "any-on-battlefield" {
+		within = " anywhere on the battlefield"
 	}
 	switch target {
 	case "self", "bearer":
@@ -1594,13 +1610,26 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if sel["scope"] == "friendly-unit" {
 			scopeNoun = "friendly"
 		}
+		desig := ""
+		if truthy(e["designation"]) {
+			desig = designationLabel(e["designation"])
+		}
+		selectLead := "select"
+		if truthy(sel["timing"]) {
+			selectLead = describeTiming(sel["timing"]) + ", select"
+		}
+		_, durTrail := durationClauses(e["duration"])
 		applies, _ := getMap(e, "applies")
 		when := "each time a friendly unit attacks it"
 		if applies["to"] == "target" {
 			when = "while it is your target"
 		}
+		whenClause := when
+		if durTrail != "" {
+			whenClause = durTrail + ", " + when
+		}
 		appEff, _ := getMap(applies, "effect")
-		return "select one " + scopeNoun + " unit; " + when + ", " + describeEffectInline(appEff, ctx)
+		return selectLead + " one " + scopeNoun + " unit" + desig + "; " + whenClause + ", " + describeEffectInline(appEff, ctx)
 	case "stance-select":
 		var opts []string
 		for _, o := range getList(e, "options") {
@@ -1738,7 +1767,7 @@ func describeRequirement(req map[string]any) string {
 }
 
 func describeDicePoolInline(e map[string]any, ctx map[string]any) string {
-	poolText := "?"
+	poolText := "your dice pool"
 	if pool, ok := getMap(e, "pool"); ok && pool != nil {
 		poolText = ejstr(pool["count"]) + ejstr(pool["die"])
 	}
@@ -1747,7 +1776,7 @@ func describeDicePoolInline(e map[string]any, ctx map[string]any) string {
 		om, _ := asMap(o)
 		req, _ := getMap(om, "requirement")
 		eff, _ := getMap(om, "effect")
-		opts = append(opts, ejstr(om["name"])+" ("+describeRequirement(req)+"): "+describeEffectInline(eff, ctx))
+		opts = append(opts, ejstr(om["name"])+" (requires "+describeRequirement(req)+"): "+describeEffectInline(eff, ctx))
 	}
 	return "roll " + poolText + ": " + strings.Join(opts, " / ")
 }
@@ -1803,16 +1832,20 @@ func describeEffect(e map[string]any, depth int, ctx map[string]any) string {
 		}
 		return indent + arrow + "Roll one " + diceCase(e["dice"]) + ": on " + cmp + ", " + success + fail + "."
 	case "dice-pool-allocation":
-		poolText := "?"
+		poolText := "your dice pool"
 		if pool, ok := getMap(e, "pool"); ok && pool != nil {
 			poolText = ejstr(pool["count"]) + ejstr(pool["die"])
 		}
-		lines := []string{indent + arrow + "Roll " + poolText + " (max " + ejstr(e["max_activations"]) + " activations):"}
+		upTo := " to activate the following"
+		if e["max_activations"] != nil {
+			upTo = " to activate up to " + ejstr(e["max_activations"]) + " of the following"
+		}
+		lines := []string{indent + arrow + "Roll " + poolText + "; allocate dice" + upTo + ":"}
 		for _, optAny := range getList(e, "options") {
 			opt, _ := asMap(optAny)
 			req, _ := getMap(opt, "requirement")
 			eff, _ := getMap(opt, "effect")
-			lines = append(lines, indent+"  - "+ejstr(opt["name"])+": need "+describeRequirement(req)+" -> "+describeEffectInline(eff, ctx))
+			lines = append(lines, indent+"  - "+ejstr(opt["name"])+" (requires "+describeRequirement(req)+"): "+describeEffectInline(eff, ctx)+".")
 		}
 		return strings.Join(lines, "\n")
 	case "select-units":
@@ -1831,15 +1864,26 @@ func describeEffect(e map[string]any, depth int, ctx map[string]any) string {
 		}
 		desig := ""
 		if truthy(e["designation"]) {
-			desig = " (your " + dekebab(ejstr(e["designation"])) + ")"
+			desig = designationLabel(e["designation"])
 		}
+		// The mark's timing and duration are content: "After this unit shoots,
+		// select …. Until your next Command phase, each time …".
+		selectLead := "Select"
+		if truthy(sel["timing"]) {
+			selectLead = capitalize(describeTiming(sel["timing"])) + ", select"
+		}
+		_, durTrail := durationClauses(e["duration"])
 		applies, _ := getMap(e, "applies")
 		inner, _ := getMap(applies, "effect")
-		when := "Each time a friendly unit makes an attack against it"
+		when := "each time a friendly unit makes an attack against it"
 		if applies["to"] == "target" {
-			when = "While it is your target"
+			when = "while it is your target"
 		}
-		head := indent + arrow + "Select one " + scopeNoun + " unit" + desig + ". " + when
+		whenClause := capitalize(when)
+		if durTrail != "" {
+			whenClause = capitalize(durTrail) + ", " + when
+		}
+		head := indent + arrow + selectLead + " one " + scopeNoun + " unit" + desig + ". " + whenClause
 		if inner != nil && containerTypes[getStr(inner, "type")] {
 			return head + ":\n" + describeEffect(inner, depth+1, ctx)
 		}
@@ -2078,6 +2122,7 @@ func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any
 	ctx := map[string]any{
 		"range_inches":     auraRadius(scope),
 		"engagement_range": scope["range"] == "engagement-range",
+		"scope_range":      scope["range"],
 	}
 	durLead, trail := durationClauses(scope["duration"])
 	// An explicit usage limit supersedes the duration's coarse "once per battle" lead.
@@ -2136,9 +2181,12 @@ func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any
 		return assembleSentence([]string{trig, lead, leadIn, trail, describeEffectInline(inner, ctx)})
 	}
 	if containerTypes[getStr(e, "type")] {
+		// A designate-target carrying its own `duration` renders that duration
+		// itself — repeating the scope duration in the head would double it.
+		ownDuration := getStr(e, "type") == "designate-target" && e["duration"] != nil
 		block := describeEffect(e, 0, ctx)
 		dur := lead
-		if dur == "" {
+		if dur == "" && !ownDuration {
 			dur = trail
 		}
 		head := joinNonEmpty([]string{trig, dur}, ", ")

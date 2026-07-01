@@ -28,6 +28,10 @@ struct Ctx {
     range_inches: Option<f64>,
     /// True when the ability scope is `engagement-range`, so within-aura subjects read "within Engagement Range".
     engagement_range: bool,
+    /// The raw scope range, for the non-radius scopes (`any-visible`,
+    /// `any-on-battlefield`) whose within-aura subjects have a real extent the
+    /// generic " nearby" fallback would drop.
+    scope_range: Option<ScopeRange>,
 }
 
 /// JS-template stringification (`String(v)`; numbers print without `.0`, null → `?`).
@@ -111,6 +115,18 @@ fn grant_label(id: &str) -> String {
         "charge-after-fallback" => "Fall Back & Charge".to_string(),
         "charge-after-disembark" => "Charge After Disembarking".to_string(),
         _ => title_case(id),
+    }
+}
+
+/// "(your Suppressed target)" — a designate-target mark's parenthetical. A
+/// designation slug that already ends in "target" keeps its own noun
+/// ("bio-stimulus-target" → "(your Bio Stimulus Target)", not "… Target target").
+fn designation_label(designation: &str) -> String {
+    let label = title_case(designation);
+    if label == "Target" || label.ends_with(" Target") {
+        format!(" (your {label})")
+    } else {
+        format!(" (your {label} target)")
     }
 }
 
@@ -291,6 +307,10 @@ fn subject(target: &str, ctx: &Ctx) -> String {
     let within = match ctx.range_inches {
         Some(r) => format!(" within {}\"", fmt_num(r)),
         None if ctx.engagement_range => " within Engagement Range".to_string(),
+        None if ctx.scope_range == Some(ScopeRange::AnyVisible) => " that are visible".to_string(),
+        None if ctx.scope_range == Some(ScopeRange::AnyOnBattlefield) => {
+            " anywhere on the battlefield".to_string()
+        }
         None => " nearby".to_string(),
     };
     match target {
@@ -1932,14 +1952,30 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
                 DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
                 DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
             };
+            let desig = if d.designation.as_str().is_empty() {
+                String::new()
+            } else {
+                designation_label(d.designation.as_str())
+            };
+            let select_lead = match &d.select.timing {
+                Some(t) => format!("{}, select", describe_timing(t)),
+                None => "select".to_string(),
+            };
+            let dur = d.duration.map(|x| x.to_string()).unwrap_or_default();
+            let (_, dur_trail) = duration_clauses(&dur);
             let when = match d.applies.to {
                 DesignateTargetEffectAppliesTo::Target => "while it is your target",
                 DesignateTargetEffectAppliesTo::AttackersOfTarget => {
                     "each time a friendly unit attacks it"
                 }
             };
+            let when_clause = if dur_trail.is_empty() {
+                when.to_string()
+            } else {
+                format!("{dur_trail}, {when}")
+            };
             format!(
-                "select one {scope_noun} unit; {when}, {}",
+                "{select_lead} one {scope_noun} unit{desig}; {when_clause}, {}",
                 inline(&d.applies.effect, ctx)
             )
         }
@@ -2070,7 +2106,7 @@ fn dice_pool_options_inline(d: &DicePoolAllocationEffect, ctx: &Ctx) -> String {
         .iter()
         .map(|o| {
             format!(
-                "{} ({}): {}",
+                "{} (requires {}): {}",
                 o.name,
                 describe_requirement(&requirement_value(&o.requirement)),
                 inline(&o.effect, ctx)
@@ -2160,12 +2196,12 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
         }
         EffectNode::DicePoolAllocationEffect(d) => {
             let mut lines = vec![format!(
-                "{indent}{arrow}Roll {}{} (max {} activations):",
+                "{indent}{arrow}Roll {}{}; allocate dice to activate up to {} of the following:",
                 d.pool.count, d.pool.die, d.max_activations
             )];
             for opt in &d.options {
                 lines.push(format!(
-                    "{indent}  - {}: need {} -> {}",
+                    "{indent}  - {} (requires {}): {}.",
                     opt.name,
                     describe_requirement(&requirement_value(&opt.requirement)),
                     inline(&opt.effect, ctx)
@@ -2190,16 +2226,30 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
             let desig = if d.designation.as_str().is_empty() {
                 String::new()
             } else {
-                format!(" (your {})", dekebab(d.designation.as_str()))
+                designation_label(d.designation.as_str())
             };
+            // The mark's timing and duration are content: "After this unit shoots,
+            // select …. Until your next Command phase, each time …".
+            let select_lead = match &d.select.timing {
+                Some(t) => format!("{}, select", capitalize(&describe_timing(t))),
+                None => "Select".to_string(),
+            };
+            let dur = d.duration.map(|x| x.to_string()).unwrap_or_default();
+            let (_, dur_trail) = duration_clauses(&dur);
             let when = match d.applies.to {
-                DesignateTargetEffectAppliesTo::Target => "While it is your target",
+                DesignateTargetEffectAppliesTo::Target => "while it is your target",
                 DesignateTargetEffectAppliesTo::AttackersOfTarget => {
-                    "Each time a friendly unit makes an attack against it"
+                    "each time a friendly unit makes an attack against it"
                 }
             };
+            let when_clause = if dur_trail.is_empty() {
+                capitalize(when)
+            } else {
+                format!("{}, {when}", capitalize(&dur_trail))
+            };
             let inner = &*d.applies.effect;
-            let head = format!("{indent}{arrow}Select one {scope_noun} unit{desig}. {when}");
+            let head =
+                format!("{indent}{arrow}{select_lead} one {scope_noun} unit{desig}. {when_clause}");
             if is_container(inner) {
                 format!("{head}:\n{}", block(inner, depth + 1, ctx))
             } else {
@@ -2437,6 +2487,7 @@ fn render_top_level(
         engagement_range: scope
             .map(|s| matches!(s.range, ScopeRange::EngagementRange))
             .unwrap_or(false),
+        scope_range: scope.map(|s| s.range),
     };
     let duration = scope.map(|s| s.duration.to_string()).unwrap_or_default();
     let (dur_lead, trail) = duration_clauses(&duration);
@@ -2494,8 +2545,18 @@ fn render_top_level(
             }
         }
         _ if is_container(e) => {
+            // A designate-target carrying its own `duration` renders that duration
+            // itself — repeating the scope duration in the head would double it.
+            let own_duration =
+                matches!(e, EffectNode::DesignateTargetEffect(d) if d.duration.is_some());
             let blk = block(e, 0, &ctx);
-            let dur = if !lead.is_empty() { lead } else { trail };
+            let dur = if !lead.is_empty() {
+                lead
+            } else if own_duration {
+                String::new()
+            } else {
+                trail
+            };
             let head = [trig, dur]
                 .into_iter()
                 .filter(|p| !p.is_empty())

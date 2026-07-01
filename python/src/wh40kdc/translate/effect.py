@@ -119,6 +119,16 @@ def _grant_label(id: str) -> str:
     return _ABILITY_GRANT_LABELS.get(id) or _title_case(id)
 
 
+def _designation_label(designation: Any) -> str:
+    """"(your Suppressed target)" — a designate-target mark's parenthetical. A
+    designation slug that already ends in "target" keeps its own noun
+    ("bio-stimulus-target" → "(your Bio Stimulus Target)", not "… Target target")."""
+    label = _title_case(_jstr(designation))
+    if re.search(r"\bTarget$", label):
+        return f" (your {label})"
+    return f" (your {label} target)"
+
+
 def _bracket_keyword(k: Any) -> str:
     raw = _jstr(k).strip()
     anti = re.match(r"^anti[\s-]+(.*)$", raw, re.I)
@@ -223,6 +233,10 @@ def _subject(target: str | None, ctx: Ctx) -> str:
         within = f' within {_jstr(ri)}"'
     elif ctx.get("engagement_range"):
         within = " within Engagement Range"
+    elif ctx.get("scope_range") == "any-visible":
+        within = " that are visible"
+    elif ctx.get("scope_range") == "any-on-battlefield":
+        within = " anywhere on the battlefield"
     else:
         within = " nearby"
     if target in ("self", "bearer"):
@@ -1375,9 +1389,9 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         return f"roll one {_dice_case(e.get('dice'))}: on {comp}, {success}{fail}"
     if etype == "dice-pool-allocation":
         pool = e.get("pool")
-        pool_text = f"{_jstr(pool['count'])}{_jstr(pool['die'])}" if pool else "?"
+        pool_text = f"{_jstr(pool['count'])}{_jstr(pool['die'])}" if pool else "your dice pool"
         opts = " / ".join(
-            f"{_jstr(o.get('name'))} ({_describe_requirement(o.get('requirement'))}): "
+            f"{_jstr(o.get('name'))} (requires {_describe_requirement(o.get('requirement'))}): "
             f"{describe_effect_inline(o.get('effect') or {}, ctx)}"
             for o in e.get("options") or []
         )
@@ -1391,14 +1405,19 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         sel_raw = e.get("select")
         sel = sel_raw if isinstance(sel_raw, dict) else {}
         scope_noun = "friendly" if sel.get("scope") == "friendly-unit" else "enemy"
+        desig = _designation_label(e["designation"]) if e.get("designation") else ""
+        timing = sel.get("timing")
+        select_lead = f"{describe_timing(timing)}, select" if timing else "select"
+        _, dur_trail = _duration_clauses(e.get("duration"))
         applies = e.get("applies") or {}
         when = (
             "while it is your target"
             if applies.get("to") == "target"
             else "each time a friendly unit attacks it"
         )
+        when_clause = f"{dur_trail}, {when}" if dur_trail else when
         inner = describe_effect_inline(applies.get("effect") or {}, ctx)
-        return f"select one {scope_noun} unit; {when}, {inner}"
+        return f"{select_lead} one {scope_noun} unit{desig}; {when_clause}, {inner}"
     if etype == "stance-select":
         opts = " / ".join(
             f"{_jstr(o.get('name'))} ({describe_effect_inline(o.get('effect') or {}, ctx)})"
@@ -1455,15 +1474,19 @@ def describe_effect(e: Effect, depth: int = 0, ctx: Ctx | None = None) -> str:
         return f"{indent}{arrow}Roll one {_dice_case(e.get('dice'))}: on {comp}, {success}{fail}."
     if etype == "dice-pool-allocation":
         pool = e.get("pool")
-        pool_text = f"{_jstr(pool['count'])}{_jstr(pool['die'])}" if pool else "?"
-        lines = [
-            f"{indent}{arrow}Roll {pool_text} (max {_jstr(e.get('max_activations'))} activations):"
-        ]
+        pool_text = f"{_jstr(pool['count'])}{_jstr(pool['die'])}" if pool else "your dice pool"
+        max_act = e.get("max_activations")
+        up_to = (
+            f" to activate up to {_jstr(max_act)} of the following"
+            if max_act is not None
+            else " to activate the following"
+        )
+        lines = [f"{indent}{arrow}Roll {pool_text}; allocate dice{up_to}:"]
         for opt in e.get("options") or []:
             lines.append(
-                f"{indent}  - {_jstr(opt.get('name'))}: "
-                f"need {_describe_requirement(opt.get('requirement'))} -> "
-                f"{describe_effect_inline(opt.get('effect') or {}, ctx)}"
+                f"{indent}  - {_jstr(opt.get('name'))} "
+                f"(requires {_describe_requirement(opt.get('requirement'))}): "
+                f"{describe_effect_inline(opt.get('effect') or {}, ctx)}."
             )
         return "\n".join(lines)
     if etype == "select-units":
@@ -1476,15 +1499,21 @@ def describe_effect(e: Effect, depth: int = 0, ctx: Ctx | None = None) -> str:
         sel_raw = e.get("select")
         sel = sel_raw if isinstance(sel_raw, dict) else {}
         scope_noun = "friendly" if sel.get("scope") == "friendly-unit" else "enemy"
-        desig = f" (your {dekebab(_jstr(e['designation']))})" if e.get("designation") else ""
+        desig = _designation_label(e["designation"]) if e.get("designation") else ""
         applies = e.get("applies") or {}
         inner = applies.get("effect") or {}
+        # The mark's timing and duration are content: "After this unit shoots,
+        # select .... Until your next Command phase, each time ...".
+        timing = sel.get("timing")
+        select_lead = f"{_capitalize(describe_timing(timing))}, select" if timing else "Select"
+        _, dur_trail = _duration_clauses(e.get("duration"))
         when = (
-            "While it is your target"
+            "while it is your target"
             if applies.get("to") == "target"
-            else "Each time a friendly unit makes an attack against it"
+            else "each time a friendly unit makes an attack against it"
         )
-        head = f"{indent}{arrow}Select one {scope_noun} unit{desig}. {when}"
+        when_clause = f"{_capitalize(dur_trail)}, {when}" if dur_trail else _capitalize(when)
+        head = f"{indent}{arrow}{select_lead} one {scope_noun} unit{desig}. {when_clause}"
         if inner.get("type") in _CONTAINER_TYPES:
             return f"{head}:\n" + describe_effect(inner, depth + 1, ctx)
         return f"{head}, {describe_effect_inline(inner, ctx)}."
@@ -1606,6 +1635,7 @@ def _render_top_level(
     ctx: Ctx = {
         "range_inches": _aura_radius(scope),
         "engagement_range": (scope or {}).get("range") == "engagement-range",
+        "scope_range": (scope or {}).get("range"),
     }
     dur_lead, trail = _duration_clauses((scope or {}).get("duration"))
     # An explicit usage limit supersedes the duration's coarse "once per battle" lead.
@@ -1647,8 +1677,11 @@ def _render_top_level(
         return _assemble_sentence([trig, lead, lead_in, trail, describe_effect_inline(inner, ctx)])
 
     if e.get("type") in _CONTAINER_TYPES:
+        # A designate-target carrying its own `duration` renders that duration
+        # itself — repeating the scope duration in the head would double it.
+        own_duration = e.get("type") == "designate-target" and e.get("duration") is not None
         block = describe_effect(e, 0, ctx)
-        head = ", ".join(part for part in (trig, lead or trail) if part)
+        head = ", ".join(part for part in (trig, lead or ("" if own_duration else trail)) if part)
         return _capitalize(head) + ":\n" + block if head else block
 
     return _assemble_sentence([trig, lead, trail, describe_effect_inline(e, ctx)])

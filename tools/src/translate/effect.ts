@@ -125,6 +125,12 @@ interface Ctx {
   rangeInches?: number;
   /** True when the ability scope is `engagement-range`, so within-aura subjects read "within Engagement Range". */
   engagementRange?: boolean;
+  /**
+   * The raw scope range slug, for the non-radius scopes (`any-visible`,
+   * `any-on-battlefield`) whose within-aura subjects have a real extent the
+   * generic " nearby" fallback would drop.
+   */
+  scopeRange?: string;
 }
 
 const CONTAINER_TYPES = new Set([
@@ -177,6 +183,16 @@ const ABILITY_GRANT_LABELS: Record<string, string> = {
 /** The display label for a granted ability id: a curated override, else Title Case. */
 function grantLabel(id: string): string {
   return ABILITY_GRANT_LABELS[id] ?? titleCase(id);
+}
+
+/**
+ * "(your Suppressed target)" — a designate-target mark's parenthetical. A
+ * designation slug that already ends in "target" keeps its own noun
+ * ("bio-stimulus-target" → "(your Bio Stimulus Target)", not "… Target target").
+ */
+function designationLabel(designation: unknown): string {
+  const label = titleCase(jstr(designation));
+  return /\bTarget$/.test(label) ? ` (your ${label})` : ` (your ${label} target)`;
 }
 
 /** kebab/space token → Title Case (`deep-strike` → `Deep Strike`, `shoot-and-scoot` → `Shoot and Scoot`). */
@@ -353,7 +369,11 @@ function subject(target: string | undefined, ctx: Ctx): string {
       ? ` within ${jstr(ctx.rangeInches)}"`
       : ctx.engagementRange
         ? " within Engagement Range"
-        : " nearby";
+        : ctx.scopeRange === "any-visible"
+          ? " that are visible"
+          : ctx.scopeRange === "any-on-battlefield"
+            ? " anywhere on the battlefield"
+            : " nearby";
   switch (target) {
     case "self":
     case "bearer":
@@ -1218,19 +1238,26 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       return `roll one ${diceCase(e.dice)}: on ${comp}, ${success}${fail}`;
     }
     case "dice-pool-allocation": {
-      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "?";
+      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "your dice pool";
       const opts = (e.options ?? [])
-        .map((o) => `${jstr(o.name)} (${describeRequirement(o.requirement)}): ${describeEffectInline(o.effect ?? {}, ctx)}`)
+        .map((o) => `${jstr(o.name)} (requires ${describeRequirement(o.requirement)}): ${describeEffectInline(o.effect ?? {}, ctx)}`)
         .join(" / ");
       return `roll ${pool}: ${opts}`;
     }
     case "select-units":
       return `select ${selectUnitsSubject(e.selector)}: ${describeEffectInline(e.effect ?? {}, ctx)}`;
     case "designate-target": {
-      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as { scope?: string };
+      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as {
+        scope?: string;
+        timing?: string;
+      };
       const scopeNoun = sel.scope === "friendly-unit" ? "friendly" : "enemy";
+      const desig = e.designation ? designationLabel(e.designation) : "";
+      const selectLead = sel.timing ? `${describeTiming(sel.timing)}, select` : "select";
+      const { trail: durTrail } = durationClauses(e.duration);
       const when = e.applies?.to === "target" ? "while it is your target" : "each time a friendly unit attacks it";
-      return `select one ${scopeNoun} unit; ${when}, ${describeEffectInline(e.applies?.effect ?? {}, ctx)}`;
+      const whenClause = durTrail ? `${durTrail}, ${when}` : when;
+      return `${selectLead} one ${scopeNoun} unit${desig}; ${whenClause}, ${describeEffectInline(e.applies?.effect ?? {}, ctx)}`;
     }
     case "stance-select":
       return `select one: ${(e.options ?? []).map((o) => `${jstr(o.name)} (${describeEffectInline(o.effect ?? {}, ctx)})`).join(" / ")}`;
@@ -1372,11 +1399,15 @@ export function describeEffect(e: Effect, depth: number = 0, ctx: Ctx = {}): str
       return `${indent}${arrow}Roll one ${diceCase(e.dice)}: on ${comp}, ${success}${fail}.`;
     }
     case "dice-pool-allocation": {
-      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "?";
-      const lines = [`${indent}${arrow}Roll ${pool} (max ${jstr(e.max_activations)} activations):`];
+      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "your dice pool";
+      const upTo =
+        e.max_activations != null
+          ? ` to activate up to ${jstr(e.max_activations)} of the following`
+          : " to activate the following";
+      const lines = [`${indent}${arrow}Roll ${pool}; allocate dice${upTo}:`];
       for (const opt of e.options ?? []) {
         lines.push(
-          `${indent}  - ${jstr(opt.name)}: need ${describeRequirement(opt.requirement)} -> ${describeEffectInline(opt.effect ?? {}, ctx)}`
+          `${indent}  - ${jstr(opt.name)} (requires ${describeRequirement(opt.requirement)}): ${describeEffectInline(opt.effect ?? {}, ctx)}.`
         );
       }
       return lines.join("\n");
@@ -1390,16 +1421,24 @@ export function describeEffect(e: Effect, depth: number = 0, ctx: Ctx = {}): str
       return `${indent}${arrow}${lead}: ${describeEffectInline(inner, ctx)}.`;
     }
     case "designate-target": {
-      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as { scope?: string };
+      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as {
+        scope?: string;
+        timing?: string;
+      };
       const scopeNoun = sel.scope === "friendly-unit" ? "friendly" : "enemy";
-      const desig = e.designation ? ` (your ${dekebab(jstr(e.designation))})` : "";
+      const desig = e.designation ? designationLabel(e.designation) : "";
       const applies = e.applies ?? {};
       const inner = applies.effect ?? {};
+      // The mark's timing and duration are content: "After this unit shoots,
+      // select …. Until your next Command phase, each time …".
+      const selectLead = sel.timing ? `${capitalize(describeTiming(sel.timing))}, select` : "Select";
+      const { trail: durTrail } = durationClauses(e.duration);
       const when =
         applies.to === "target"
-          ? "While it is your target"
-          : "Each time a friendly unit makes an attack against it";
-      const head = `${indent}${arrow}Select one ${scopeNoun} unit${desig}. ${when}`;
+          ? "while it is your target"
+          : "each time a friendly unit makes an attack against it";
+      const whenClause = durTrail ? `${capitalize(durTrail)}, ${when}` : capitalize(when);
+      const head = `${indent}${arrow}${selectLead} one ${scopeNoun} unit${desig}. ${whenClause}`;
       if (CONTAINER_TYPES.has(inner.type ?? "")) {
         return `${head}:\n` + describeEffect(inner, depth + 1, ctx);
       }
@@ -1515,7 +1554,11 @@ function renderTopLevel(
   usage?: AbilityUsage | null,
   trigger?: AbilityTriggerSpec | null,
 ): string {
-  const ctx: Ctx = { rangeInches: auraRadius(scope), engagementRange: scope?.range === "engagement-range" };
+  const ctx: Ctx = {
+    rangeInches: auraRadius(scope),
+    engagementRange: scope?.range === "engagement-range",
+    scopeRange: scope?.range,
+  };
   const { lead: durLead, trail } = durationClauses(scope?.duration);
   // An explicit usage limit supersedes the duration's coarse "once per battle" lead.
   const lead = usage && usage.frequency != null ? usageClause(usage) : durLead;
@@ -1548,9 +1591,12 @@ function renderTopLevel(
   }
 
   if (CONTAINER_TYPES.has(e.type ?? "")) {
-    // Containers render block; a trigger/duration lead-in prefixes the block when present.
+    // Containers render block; a trigger/duration lead-in prefixes the block when
+    // present. A designate-target carrying its own `duration` renders that
+    // duration itself — repeating the scope duration in the head would double it.
+    const ownDuration = e.type === "designate-target" && e.duration != null;
     const block = describeEffect(e, 0, ctx);
-    const head = [trig, lead || trail].filter((p) => p.length > 0).join(", ");
+    const head = [trig, lead || (ownDuration ? "" : trail)].filter((p) => p.length > 0).join(", ");
     return head ? capitalize(head) + ":\n" + block : block;
   }
 

@@ -1294,7 +1294,7 @@
       "duration": "until-next-command-phase"
     },
     "expected": {
-      "text": "Until your next Command phase:\nSelect one enemy unit (your suppressed). While it is your target, the unit gets -1 to Hit rolls."
+      "text": "After this unit shoots, select one enemy unit (your Suppressed target). Until your next Command phase, while it is your target, the unit gets -1 to Hit rolls."
     }
   },
   {
@@ -1580,7 +1580,7 @@
       "duration": "battle"
     },
     "expected": {
-      "text": "At start of battle, for the rest of the battle:\n  -> If the unit has the ARCHON keyword, if the unit has the KABALITE WARRIORS keyword, you gain 2 Pain Token Pool.\n  -> If the unit has the SUCCUBUS keyword, if the unit has the WYCHES keyword, you gain 2 Pain Token Pool.\n  -> If the unit has the HAEMONCULUS keyword, if the unit has the WRACKS keyword, you gain 2 Pain Token Pool."
+      "text": "At the start of the battle, for the rest of the battle:\n  -> If the unit has the ARCHON keyword, if the unit has the KABALITE WARRIORS keyword, you gain 2 Pain Token Pool.\n  -> If the unit has the SUCCUBUS keyword, if the unit has the WYCHES keyword, you gain 2 Pain Token Pool.\n  -> If the unit has the HAEMONCULUS keyword, if the unit has the WRACKS keyword, you gain 2 Pain Token Pool."
     }
   },
   {
@@ -2200,7 +2200,7 @@
       "duration": "battle"
     },
     "expected": {
-      "text": "For the rest of the battle:\nSelect one enemy unit (your hated foe). Each time a friendly unit makes an attack against it, you can re-roll the Wound roll."
+      "text": "At the start of the battle, select one enemy unit (your Hated Foe target). For the rest of the battle, each time a friendly unit makes an attack against it, you can re-roll the Wound roll."
     }
   },
   {
@@ -2635,7 +2635,7 @@
       "duration": "until-next-command-phase"
     },
     "expected": {
-      "text": "Until your next Command phase:\nSelect one enemy unit (your assemblage of might). Each time a friendly unit makes an attack against it, if the unit has the ADEPTUS CUSTODES keyword, if the unit has the CHARACTER keyword, the unit gets +1 to Wound rolls."
+      "text": "At the start of the Command phase, select one enemy unit (your Assemblage of Might target). Until your next Command phase, each time a friendly unit makes an attack against it, if the unit has the ADEPTUS CUSTODES keyword, if the unit has the CHARACTER keyword, the unit gets +1 to Wound rolls."
     }
   },
   {
@@ -2752,7 +2752,7 @@
       "duration": "until-next-command-phase"
     },
     "expected": {
-      "text": "Until your next Command phase:\nAt the start of the Command phase, select one:\n  - Eliminate At All Costs: select one enemy unit; each time a friendly unit attacks it, the unit gets +1 to Hit rolls.\n  - Acquire At All Costs: if within range of an objective, add 1 to the unit's Leadership characteristic; add 1 to the unit's Objective Control characteristic; the unit has a 5+ invulnerable save."
+      "text": "Until your next Command phase:\nAt the start of the Command phase, select one:\n  - Eliminate At All Costs: at the start of the Command phase, select one enemy unit (your Eliminate At All Costs target); until your next Command phase, each time a friendly unit attacks it, the unit gets +1 to Hit rolls.\n  - Acquire At All Costs: if within range of an objective, add 1 to the unit's Leadership characteristic; add 1 to the unit's Objective Control characteristic; the unit has a 5+ invulnerable save."
     }
   },
   {
@@ -3431,7 +3431,7 @@
       "duration": "turn"
     },
     "expected": {
-      "text": "Until the end of the turn:\nSelect one enemy unit (your bio stimulus target). Each time a friendly unit makes an attack against it, if the unit has the TYRANIDS keyword, while making melee attacks, add 1 to the unit's Armour Penetration characteristic."
+      "text": "After this unit shoots, select one enemy unit (your Bio Stimulus Target). Until the end of the turn, each time a friendly unit makes an attack against it, if the unit has the TYRANIDS keyword, while making melee attacks, add 1 to the unit's Armour Penetration characteristic."
     }
   },
   {
@@ -3782,7 +3782,7 @@
       "event": "start-of-phase"
     },
     "expected": {
-      "text": "At the start of the phase, until the end of the battle round:\n  -> Roll 8D6 (max 2 activations):\n    - Unbridled Bloodlust: need pair of 1+ -> all friendly units get +1 to Charge rolls\n    - Rage-Fuelled Invigoration: need pair of 2+ -> all friendly units can Consolidate up to 6\"\n    - Total Carnage: need pair of 3+ -> when destroyed by a melee attack, if not has fought this phase, roll one D6: on a 4+, each time this model is destroyed, it can fight before being removed from play\n    - Martial Excellence: need pair of 4+ or triple of 1+ -> all friendly units' melee weapons gain [SUSTAINED HITS 1]\n    - Warp Blades: need pair of 5+ or triple of 2+ -> all friendly units' melee weapons gain [LETHAL HITS]\n    - Decapitating Strikes: need pair of 6+ or triple of 3+ -> against Infantry targets, while making melee attacks, all friendly units' weapons gain [DEVASTATING WOUNDS]"
+      "text": "At the start of the phase, until the end of the battle round:\n  -> Roll 8D6; allocate dice to activate up to 2 of the following:\n    - Unbridled Bloodlust (requires pair of 1+): all friendly units get +1 to Charge rolls.\n    - Rage-Fuelled Invigoration (requires pair of 2+): all friendly units can Consolidate up to 6\".\n    - Total Carnage (requires pair of 3+): when destroyed by a melee attack, if not has fought this phase, roll one D6: on a 4+, each time this model is destroyed, it can fight before being removed from play.\n    - Martial Excellence (requires pair of 4+ or triple of 1+): all friendly units' melee weapons gain [SUSTAINED HITS 1].\n    - Warp Blades (requires pair of 5+ or triple of 2+): all friendly units' melee weapons gain [LETHAL HITS].\n    - Decapitating Strikes (requires pair of 6+ or triple of 3+): against Infantry targets, while making melee attacks, all friendly units' weapons gain [DEVASTATING WOUNDS]."
     }
   },
   {
@@ -8767,7 +8767,7 @@
       ]
     },
     "expected": {
-      "text": "For the rest of the battle:\nAll friendly units' weapons gain [RECON AUGURY].\nDuring the Shooting phase, enemy units nearby are marked as analysed.\nApplies to: units with Adeptus Mechanicus."
+      "text": "For the rest of the battle:\nAll friendly units' weapons gain [RECON AUGURY].\nDuring the Shooting phase, enemy units anywhere on the battlefield are marked as analysed.\nApplies to: units with Adeptus Mechanicus."
     }
   },
   {
@@ -9656,7 +9656,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "If you control a terrain area with 1+ models, until the end of the phase:\n  -> The unit's ranged weapons gain [IGNORES COVER].\n  -> Select one enemy unit (your no benefit of cover). While it is your target, the unit gains the Cannot Have Benefit of Cover ability."
+      "text": "If you control a terrain area with 1+ models, until the end of the phase:\n  -> The unit's ranged weapons gain [IGNORES COVER].\n  -> After this unit shoots, select one enemy unit (your No Benefit of Cover target). Until the end of the phase, while it is your target, the unit gains the Cannot Have Benefit of Cover ability."
     }
   },
   {
@@ -11240,7 +11240,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "Select one of the following:\n  - Roll 3D6: Carnage (pair of 4+): all enemy units suffer 3 mortal wounds.\n  - The unit has the Fights First ability."
+      "text": "Select one of the following:\n  - Roll 3D6: Carnage (requires pair of 4+): all enemy units suffer 3 mortal wounds.\n  - The unit has the Fights First ability."
     }
   },
   {
@@ -11311,7 +11311,7 @@
       "duration": "battle-round"
     },
     "expected": {
-      "text": "Until the end of the battle round:\nRoll 8D6 (max 2 activations):\n  - Martial Excellence: need pair of 4+ or triple of 1+ -> all friendly units' melee weapons gain [SUSTAINED HITS 1]"
+      "text": "Until the end of the battle round:\nRoll 8D6; allocate dice to activate up to 2 of the following:\n  - Martial Excellence (requires pair of 4+ or triple of 1+): all friendly units' melee weapons gain [SUSTAINED HITS 1]."
     }
   },
   {
