@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 39 stub abilities.
+Total: 42 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -48,3 +48,6 @@ Total: 39 stub abilities.
 | thousand-sons | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | wracking-agonies-psychic | stat-modifier | stat-modifier: operation "undefined" not supported |
 | tyranids | mindhunger | stat-modifier | stat-modifier: operation "undefined" not supported |
+| world-eaters | butcher-lord-cult-of-blood | sequence | effect type "unit-attachment" is not modelled by the buff layer |
+| world-eaters | disciple-of-khorne-khorne-daemonkin | sequence | effect type "unit-attachment" is not modelled by the buff layer |
+| world-eaters | fury-unleashed-goretrack-onslaught | conditional | conditional: cannot evaluate condition "undefined" against current context |
