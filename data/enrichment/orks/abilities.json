@@ -5760,127 +5760,48 @@
     "ability_type": "detachment",
     "behavior": "activated",
     "effect": {
-      "type": "issue-orders",
-      "count": 1,
-      "range": 6,
-      "eligible": {
-        "keyword": "ORKS"
-      },
-      "options": [
+      "type": "sequence",
+      "steps": [
         {
-          "name": "Get Stuck In",
-          "effect": {
-            "type": "re-roll",
-            "target": "unit",
-            "modifier": {
-              "roll": "charge",
-              "subset": "all-failures"
-            }
+          "type": "unit-keyword-grant",
+          "target": "all-friendly",
+          "modifier": {
+            "keyword": "BATTLELINE",
+            "to_keywords": [
+              "Stormboyz"
+            ]
           }
         },
         {
-          "name": "Get On Wiv It",
-          "effect": {
-            "type": "stat-modifier",
-            "target": "unit",
-            "modifier": {
-              "stat": "S",
-              "operation": "add",
-              "value": 1,
-              "attack_type": "melee"
-            }
-          }
-        },
-        {
-          "name": "Sneaky Stalkin\u2019",
-          "effect": {
-            "type": "conditional",
-            "condition": {
-              "operator": "and",
-              "operands": [
-                {
-                  "operator": "or",
-                  "operands": [
-                    {
-                      "type": "unit-has-keyword",
-                      "parameters": {
-                        "keyword": "INFANTRY"
-                      }
-                    },
-                    {
-                      "type": "unit-has-keyword",
-                      "parameters": {
-                        "keyword": "MOUNTED"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "operator": "not",
-                  "operands": [
-                    {
-                      "type": "unit-has-keyword",
-                      "parameters": {
-                        "keyword": "MEGANOBZ"
-                      }
-                    }
-                  ]
+          "type": "conditional",
+          "condition": {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "BOYZ"
                 }
-              ]
-            },
-            "effect": {
-              "type": "sequence",
-              "steps": [
-                {
-                  "type": "ability-grant",
-                  "target": "unit",
-                  "modifier": {
-                    "ability_id": "stealth"
-                  }
-                },
-                {
-                  "type": "rule-state",
-                  "target": "unit",
-                  "modifier": {
-                    "direction": "granted",
-                    "rule_kind": "core-rule",
-                    "rule": "benefit-of-cover"
-                  }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "KOMMANDOS"
                 }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Shoota Drills",
-          "effect": {
-            "type": "conditional",
-            "condition": {
-              "operator": "or",
-              "operands": [
-                {
-                  "type": "unit-has-keyword",
-                  "parameters": {
-                    "keyword": "INFANTRY"
-                  }
-                },
-                {
-                  "type": "unit-has-keyword",
-                  "parameters": {
-                    "keyword": "MOUNTED"
-                  }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "STORMBOYZ"
                 }
-              ]
-            },
-            "effect": {
-              "type": "roll-modifier",
-              "target": "unit",
-              "modifier": {
-                "roll": "hit",
-                "operation": "add",
-                "value": 1,
-                "attack_type": "ranged"
               }
+            ]
+          },
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "eligible-to-start-an-action-after-an-advance-or-fall-back-move"
             }
           }
         }
@@ -5888,11 +5809,7 @@
     },
     "scope": {
       "range": "unit",
-      "duration": "until-next-command-phase"
-    },
-    "usage": {
-      "frequency": "once-per-command-phase",
-      "per": "model"
+      "duration": "battle"
     },
     "community_notes": "[APPROX] Issuers are limited to BOSS SNIKROT, MEK and WARBOSS models, once per battle round each (encoded as once-per-command-phase per model); the issuer's Leadership test (1 mortal wound to the receiving unit on a failure), the once-per-round-per-unit receipt limit and the Battle-shock exclusions are dropped. Full rule in raw-text store."
   },

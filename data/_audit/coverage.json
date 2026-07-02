@@ -135,9 +135,9 @@
     {
       "faction": "drukhari",
       "total": 100,
-      "offensive": 26,
+      "offensive": 25,
       "defensive": 7,
-      "inert": 69,
+      "inert": 70,
       "stub": 5,
       "stubStructural": 1,
       "gwTextLeak": 0,
@@ -212,9 +212,9 @@
     {
       "faction": "orks",
       "total": 159,
-      "offensive": 35,
+      "offensive": 34,
       "defensive": 14,
-      "inert": 115,
+      "inert": 116,
       "stub": 5,
       "stubStructural": 2,
       "gwTextLeak": 0,
@@ -267,9 +267,9 @@
   ],
   "totals": {
     "total": 3121,
-    "offensive": 775,
+    "offensive": 773,
     "defensive": 266,
-    "inert": 2166,
+    "inert": 2168,
     "stub": 119,
     "stubStructural": 42,
     "gwTextLeak": 0,
@@ -278,7 +278,7 @@
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 463
+      "count": 462
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -469,6 +469,10 @@
       "count": 5
     },
     {
+      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
+      "count": 5
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"units-destroyed\" against current context",
       "count": 4
     },
@@ -522,10 +526,6 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"within-range-of-objective\" against current context",
-      "count": 3
-    },
-    {
-      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
       "count": 3
     },
     {
@@ -19770,9 +19770,9 @@
       "faction": "drukhari",
       "ability_id": "callous-competition",
       "name": "Callous Competition",
-      "shape": "re-roll",
+      "shape": "sequence",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -23640,11 +23640,11 @@
       "faction": "leagues-of-votann",
       "ability_id": "fury-from-the-delve",
       "name": "Fury From The Dêlve",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "leagues-of-votann",
@@ -26740,11 +26740,11 @@
       "faction": "orks",
       "ability_id": "lissen-ere",
       "name": "Lissen ’Ere",
-      "shape": "issue-orders",
+      "shape": "sequence",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -30474,7 +30474,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "tyranids",

@@ -12379,7 +12379,7 @@
               {
                 "type": "opponent-unit-within-range",
                 "parameters": {
-                  "range_inches": 12
+                  "range": 12
                 }
               }
             ]
@@ -12387,18 +12387,18 @@
         ]
       },
       "effect": {
-        "type": "roll-modifier",
+        "type": "rule-state",
         "target": "unit",
         "modifier": {
-          "roll": "save",
-          "operation": "add",
-          "value": 1
+          "direction": "granted",
+          "rule_kind": "core-rule",
+          "rule": "benefit-of-cover"
         }
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "phase"
+      "duration": "permanent"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },

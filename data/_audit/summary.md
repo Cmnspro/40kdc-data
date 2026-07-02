@@ -18,25 +18,25 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | chaos-knights | 115 | 29 | 9 | 78 | 3 | 2 | 0 | 0 |
 | chaos-space-marines | 236 | 69 | 17 | 157 | 6 | 18 | 0 | 6 |
 | death-guard | 119 | 24 | 6 | 91 | 4 | 7 | 0 | 3 |
-| drukhari | 100 | 26 | 7 | 69 | 1 | 5 | 0 | 1 |
+| drukhari | 100 | 25 | 7 | 70 | 1 | 5 | 0 | 1 |
 | emperors-children | 87 | 23 | 3 | 62 | 3 | 8 | 0 | 1 |
 | genestealer-cults | 88 | 21 | 7 | 63 | 2 | 1 | 0 | 1 |
 | grey-knights | 61 | 16 | 5 | 41 | 1 | 2 | 0 | 1 |
 | imperial-knights | 76 | 29 | 6 | 43 | 1 | 5 | 0 | 1 |
 | leagues-of-votann | 76 | 22 | 7 | 49 | 0 | 0 | 0 | 0 |
 | necrons | 157 | 31 | 23 | 111 | 0 | 2 | 0 | 1 |
-| orks | 159 | 35 | 14 | 115 | 2 | 5 | 0 | 3 |
+| orks | 159 | 34 | 14 | 116 | 2 | 5 | 0 | 3 |
 | tau-empire | 129 | 31 | 6 | 94 | 0 | 3 | 0 | 3 |
 | thousand-sons | 130 | 32 | 9 | 94 | 7 | 12 | 0 | 2 |
 | tyranids | 114 | 22 | 8 | 87 | 1 | 5 | 0 | 5 |
 | world-eaters | 133 | 20 | 10 | 104 | 3 | 0 | 0 | 0 |
-| **TOTAL** | **3121** | **775** | **266** | **2166** | **42** | **119** | **0** | **57** |
+| **TOTAL** | **3121** | **773** | **266** | **2168** | **42** | **119** | **0** | **57** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
-- `463` — effect type "ability-grant" is not modelled by the buff layer
+- `462` — effect type "ability-grant" is not modelled by the buff layer
 - `157` — effect type "movement-modifier" is not modelled by the buff layer
 - `128` — effect type "mortal-wounds" is not modelled by the buff layer
 - `98` — conditional: cannot evaluate condition "undefined" against current context
@@ -84,6 +84,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `5` — effect type "charge-roll-modifier" is not modelled by the buff layer
 - `5` — effect type "terrain-area-tag" is not modelled by the buff layer
 - `5` — conditional: cannot evaluate condition "faction-rule-active" against current context
+- `5` — effect type "unit-keyword-grant" is not modelled by the buff layer
 - `4` — conditional: cannot evaluate condition "units-destroyed" against current context
 - `4` — roll-modifier: operation "ignore-engagement-penalty" not supported
 - `4` — conditional: cannot evaluate condition "attack-stat-compare" against current context
@@ -98,7 +99,6 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `3` — stat-modifier: operation "multiply" not supported
 - `3` — effect type "auto-result" is not modelled by the buff layer
 - `3` — conditional: cannot evaluate condition "within-range-of-objective" against current context
-- `3` — effect type "unit-keyword-grant" is not modelled by the buff layer
 - `2` — effect type "replace-roll-from-pool" is not modelled by the buff layer
 - `2` — re-roll on "attacks-characteristic" (subset …) is outside the damage path
 - `2` — stat-modifier on "Range" is outside the damage path

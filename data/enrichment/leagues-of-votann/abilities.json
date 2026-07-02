@@ -233,7 +233,7 @@
   },
   {
     "ability_id": "grimnyr-s-regard",
-    "name": "Grimnyr’s Regard",
+    "name": "Grimnyr\u2019s Regard",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -809,7 +809,7 @@
   },
   {
     "ability_id": "grudge-fuelled-fortitude",
-    "name": "Grudge‑fuelled Fortitude",
+    "name": "Grudge\u2011fuelled Fortitude",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -925,7 +925,7 @@
   },
   {
     "ability_id": "brokhyr-guild-support",
-    "name": "Brôkhyr Guild Support",
+    "name": "Br\u00f4khyr Guild Support",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2578,7 +2578,7 @@
       "range": "any-on-battlefield",
       "duration": "battle"
     },
-    "community_notes": "[APPROX] YP gain is 1 per controlled objective outside your deployment zone with an IRON-MASTER/MEMNYR STRATEGIST model within range (max 2 YP/turn); the model-proximity, deployment-zone exclusion, and 2 YP cap are not encoded. The Shooting-phase effect (optionally spend 1 YP so a selected BRÔKHYR/IRONKIN STEELJACKS/ARKANYST EVALUATOR unit re-rolls Hit rolls of 1) has its unit gating simplified. Full rule in raw-text store."
+    "community_notes": "[APPROX] YP gain is 1 per controlled objective outside your deployment zone with an IRON-MASTER/MEMNYR STRATEGIST model within range (max 2 YP/turn); the model-proximity, deployment-zone exclusion, and 2 YP cap are not encoded. The Shooting-phase effect (optionally spend 1 YP so a selected BR\u00d4KHYR/IRONKIN STEELJACKS/ARKANYST EVALUATOR unit re-rolls Hit rolls of 1) has its unit gating simplified. Full rule in raw-text store."
   },
   {
     "ability_id": "assailed-from-every-angle",
@@ -2733,7 +2733,7 @@
   },
   {
     "ability_id": "fury-from-the-delve",
-    "name": "Fury From The Dêlve",
+    "name": "Fury From The D\u00ealve",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2747,15 +2747,24 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "deep-strike"
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "CTHONIAN BESERKS"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "deep-strike"
+        }
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
@@ -2810,7 +2819,7 @@
                 {
                   "type": "unit-has-keyword",
                   "parameters": {
-                    "keyword": "KÂHL"
+                    "keyword": "K\u00c2HL"
                   }
                 },
                 {
@@ -2822,7 +2831,7 @@
                 {
                   "type": "unit-has-keyword",
                   "parameters": {
-                    "keyword": "ÛTHAR THE DESTINED"
+                    "keyword": "\u00dbTHAR THE DESTINED"
                   }
                 }
               ]

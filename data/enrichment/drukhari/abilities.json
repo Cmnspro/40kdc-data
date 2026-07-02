@@ -3859,18 +3859,62 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "re-roll",
-      "target": "unit",
-      "modifier": {
-        "roll": "hit",
-        "subset": "ones"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Winning the Wager"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "subset": "ones"
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Losing the Wager"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "subset": "ones"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "wound",
+                  "subset": "ones"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "any-on-battlefield",
+      "range": "unit",
       "duration": "battle"
     },
-    "community_notes": "[APPROX] Encodes the 'winning the wager' benefit (re-roll Hit rolls of 1), the state DRUKHARI units begin the battle in. The wager state machine is not modeled: destroying an enemy unit flips your faction to winning (and the other faction \u2014 DRUKHARI vs HARLEQUINS \u2014 to losing); while losing, units instead re-roll Hit rolls of 1 and Wound rolls of 1. Full rule in raw-text store."
+    "community_notes": "[APPROX] DRUKHARI units start the battle winning the wager; each time a DRUKHARI unit destroys an enemy unit DRUKHARI units are winning and HARLEQUINS units are losing, and vice versa when a HARLEQUINS unit destroys an enemy unit"
   },
   {
     "ability_id": "alliance-of-agony",

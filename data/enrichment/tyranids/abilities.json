@@ -3863,33 +3863,25 @@
       "type": "sequence",
       "steps": [
         {
-          "type": "conditional",
-          "condition": {
-            "operator": "or",
-            "operands": [
-              {
-                "type": "unit-has-keyword",
-                "parameters": {
-                  "keyword": "TYRANID WARRIORS WITH RANGED BIO-WEAPONS"
-                }
-              },
-              {
-                "type": "unit-has-keyword",
-                "parameters": {
-                  "keyword": "TYRANID WARRIORS WITH MELEE BIO-WEAPONS"
-                }
-              }
+          "type": "unit-keyword-grant",
+          "target": "all-friendly",
+          "modifier": {
+            "keyword": "TYRANID WARRIORS",
+            "to_keywords": [
+              "Tyranid Warriors with Ranged Bio-weapons",
+              "Tyranid Warriors with Melee Bio-weapons"
             ]
-          },
-          "effect": {
-            "type": "keyword-grant",
-            "target": "self",
-            "modifier": {
-              "keywords": [
-                "TYRANID WARRIORS",
-                "BATTLELINE"
-              ]
-            }
+          }
+        },
+        {
+          "type": "unit-keyword-grant",
+          "target": "all-friendly",
+          "modifier": {
+            "keyword": "BATTLELINE",
+            "to_keywords": [
+              "Tyranid Warriors with Ranged Bio-weapons",
+              "Tyranid Warriors with Melee Bio-weapons"
+            ]
           }
         },
         {
@@ -3921,14 +3913,14 @@
             "type": "invulnerable-save",
             "target": "self",
             "modifier": {
-              "threshold": 5
+              "invuln_sv": 5
             }
           }
         }
       ]
     },
     "scope": {
-      "range": "any-on-battlefield",
+      "range": "unit",
       "duration": "battle"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
