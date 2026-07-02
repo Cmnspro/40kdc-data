@@ -1112,6 +1112,11 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         return f"each time an attack targets {subj}, {how}"
     if etype == "resurrection":
         count = _dice_case(m.get("count")) if m.get("count") is not None else "1"
+        # `type: "wounds"` is a heal (regained wounds), not a revive.
+        if m.get("type") == "wounds" or m.get("wounds") is not None:
+            healed = _dice_case(m.get("wounds")) if m.get("wounds") is not None else count
+            noun = "lost wound" if healed == "1" else "lost wounds"
+            return f"{subj} {_v(subj, 'regains')} up to {healed} {noun}"
         wounds = m.get("wounds_remaining")
         w = _jstr(wounds if wounds is not None else "full")
         place = _resurrection_placement(m.get("placement"))

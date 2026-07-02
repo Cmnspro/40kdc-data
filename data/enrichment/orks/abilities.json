@@ -325,7 +325,7 @@
   },
   {
     "ability_id": "rivetin-dakka",
-    "name": "Rivetin’ Dakka",
+    "name": "Rivetin\u2019 Dakka",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -362,7 +362,7 @@
   },
   {
     "ability_id": "dok-s-toolz",
-    "name": "Dok’s Toolz",
+    "name": "Dok\u2019s Toolz",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -394,7 +394,7 @@
   },
   {
     "ability_id": "hold-still-and-say-aargh",
-    "name": "Hold Still and Say ‘Aargh!’",
+    "name": "Hold Still and Say \u2018Aargh!\u2019",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -511,7 +511,7 @@
   },
   {
     "ability_id": "dat-s-our-loot",
-    "name": "Dat’s Our Loot!",
+    "name": "Dat\u2019s Our Loot!",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -998,7 +998,7 @@
   },
   {
     "ability_id": "ard-case",
-    "name": "’Ard Case",
+    "name": "\u2019Ard Case",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1155,7 +1155,7 @@
   },
   {
     "ability_id": "kunnin-infiltrator",
-    "name": "Kunnin’ Infiltrator",
+    "name": "Kunnin\u2019 Infiltrator",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1195,7 +1195,7 @@
   },
   {
     "ability_id": "clankin-forward",
-    "name": "Clankin’ Forward",
+    "name": "Clankin\u2019 Forward",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1223,7 +1223,7 @@
   },
   {
     "ability_id": "big-an-shooty",
-    "name": "Big an’ Shooty",
+    "name": "Big an\u2019 Shooty",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1321,7 +1321,7 @@
   },
   {
     "ability_id": "ghazghkull-s-waaagh-banner-aura",
-    "name": "Ghazghkull’s Waaagh! Banner (Aura)",
+    "name": "Ghazghkull\u2019s Waaagh! Banner (Aura)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1540,7 +1540,7 @@
   },
   {
     "ability_id": "stompin-forward",
-    "name": "Stompin’ Forward",
+    "name": "Stompin\u2019 Forward",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1881,7 +1881,7 @@
   },
   {
     "ability_id": "big-an-stompy",
-    "name": "Big an’ Stompy",
+    "name": "Big an\u2019 Stompy",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2616,23 +2616,73 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "roll-modifier",
-      "target": "unit",
-      "modifier": {
-        "roll": "hit",
-        "operation": "add",
-        "value": 1
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "end-of-movement-phase"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "your-turn"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "select-units",
+        "selector": {
+          "max_count": 1,
+          "owner": "friendly",
+          "keywords": [
+            "ORKS",
+            "VEHICLE"
+          ]
+        },
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "resurrection",
+              "target": "unit",
+              "modifier": {
+                "count": "d3",
+                "type": "wounds"
+              }
+            },
+            {
+              "type": "roll-modifier",
+              "target": "unit",
+              "modifier": {
+                "roll": "hit",
+                "operation": "add",
+                "value": 1
+              }
+            }
+          ]
+        }
       }
     },
     "scope": {
-      "range": "aura-6",
-      "duration": "permanent"
+      "range": "aura-custom",
+      "range_inches": 3,
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "mek"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "model"
+    },
+    "community_notes": "[APPROX] the hit bonus lasts until the start of your next Movement phase; each model can only be selected once per turn"
   },
   {
     "ability_id": "shokk-tunnel",
@@ -2737,7 +2787,7 @@
   },
   {
     "ability_id": "da-bigger-dey-iz",
-    "name": "Da Bigger Dey Iz…",
+    "name": "Da Bigger Dey Iz\u2026",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2891,7 +2941,7 @@
   },
   {
     "ability_id": "thievin-scavengers",
-    "name": "Thievin’ Scavengers",
+    "name": "Thievin\u2019 Scavengers",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3074,7 +3124,7 @@
   },
   {
     "ability_id": "da-boss-ladz",
-    "name": "Da Boss’ Ladz",
+    "name": "Da Boss\u2019 Ladz",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3170,7 +3220,7 @@
   },
   {
     "ability_id": "krumpin-time",
-    "name": "Krumpin’ Time",
+    "name": "Krumpin\u2019 Time",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4133,7 +4183,7 @@
   },
   {
     "ability_id": "shoutin-pole-aura",
-    "name": "Shoutin’ Pole (Aura)",
+    "name": "Shoutin\u2019 Pole (Aura)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4552,7 +4602,7 @@
   },
   {
     "ability_id": "targetin-gizmos-rollin-deff",
-    "name": "Targetin’ Gizmos",
+    "name": "Targetin\u2019 Gizmos",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4942,7 +4992,7 @@
   },
   {
     "ability_id": "run-em-down-blitz-brigade",
-    "name": "Run ’em Down",
+    "name": "Run \u2019em Down",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5106,7 +5156,7 @@
   },
   {
     "ability_id": "runnin-boots-blitz-brigade",
-    "name": "Runnin’ Boots",
+    "name": "Runnin\u2019 Boots",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5591,7 +5641,7 @@
   },
   {
     "ability_id": "da-boss-is-watchin",
-    "name": "Da Boss Is Watchin’",
+    "name": "Da Boss Is Watchin\u2019",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5689,11 +5739,11 @@
       "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] Strongest case: the 5+ invulnerable save is the tier for BOYZ units containing 10 or more models; units below 10 models have a 6+ instead — no model-count condition exists. Full rule in raw-text store."
+    "community_notes": "[APPROX] Strongest case: the 5+ invulnerable save is the tier for BOYZ units containing 10 or more models; units below 10 models have a 6+ instead \u2014 no model-count condition exists. Full rule in raw-text store."
   },
   {
     "ability_id": "lissen-ere",
-    "name": "Lissen ’Ere",
+    "name": "Lissen \u2019Ere",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5739,7 +5789,7 @@
           }
         },
         {
-          "name": "Sneaky Stalkin’",
+          "name": "Sneaky Stalkin\u2019",
           "effect": {
             "type": "conditional",
             "condition": {
@@ -6144,7 +6194,7 @@
   },
   {
     "ability_id": "breakin-heads",
-    "name": "Breakin’ Heads",
+    "name": "Breakin\u2019 Heads",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -6173,7 +6223,7 @@
   },
   {
     "ability_id": "somethin-to-prove",
-    "name": "Somethin’ to Prove",
+    "name": "Somethin\u2019 to Prove",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",

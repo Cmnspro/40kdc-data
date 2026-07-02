@@ -963,7 +963,7 @@
   },
   {
     "ability_id": "powers-of-the-c-tan",
-    "name": "Powers of the C’tan",
+    "name": "Powers of the C\u2019tan",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3236,7 +3236,7 @@
     ],
     "ability_type": "unit",
     "behavior": "activated",
-    "community_notes": "[APPROX] Selection is restricted to an enemy unit within 18\" of and visible to this model; that 18\"/visibility restriction is not encoded, and the mark's until-your-next-Movement-phase window is modeled as one battle round. Pinned debuff (−2 Move, −2 to Charge rolls) mirrors the grav-pinned encoding. Full rule in raw-text store."
+    "community_notes": "[APPROX] Selection is restricted to an enemy unit within 18\" of and visible to this model; that 18\"/visibility restriction is not encoded, and the mark's until-your-next-Movement-phase window is modeled as one battle round. Pinned debuff (\u22122 Move, \u22122 to Charge rolls) mirrors the grav-pinned encoding. Full rule in raw-text store."
   },
   {
     "ability_id": "obelisk-node-control",
@@ -3293,19 +3293,22 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "type": "is-attached"
+        "type": "is-attached",
+        "parameters": {
+          "keyword": "CANOPTEK MACROCYTES"
+        }
       },
       "effect": {
         "type": "ability-grant",
-        "target": "unit",
+        "target": "self",
         "modifier": {
-          "ability_id": "attached-unit-eligibility"
+          "ability_id": "scouts-8"
         }
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "geomancer"
@@ -3962,7 +3965,7 @@
   },
   {
     "ability_id": "the-vargard-s-duty",
-    "name": "The Vargard’s Duty",
+    "name": "The Vargard\u2019s Duty",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4052,7 +4055,7 @@
   },
   {
     "ability_id": "the-lord-s-will",
-    "name": "The Lord’s Will",
+    "name": "The Lord\u2019s Will",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4451,7 +4454,7 @@
   },
   {
     "ability_id": "ctan-shard",
-    "name": "C’tan Shard",
+    "name": "C\u2019tan Shard",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",

@@ -1036,6 +1036,12 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "resurrection": {
       const count = m.count != null ? diceCase(m.count) : "1";
+      // `type: "wounds"` is a heal (regained wounds), not a revive.
+      if (m.type === "wounds" || m.wounds != null) {
+        const healed = m.wounds != null ? diceCase(m.wounds) : count;
+        const noun = healed === "1" ? "lost wound" : "lost wounds";
+        return `${subj} ${v(subj, "regains")} up to ${healed} ${noun}`;
+      }
       const wounds = m.wounds_remaining ?? "full";
       const place = resurrectionPlacement(m.placement);
       const when = resurrectionTiming(m.timing);

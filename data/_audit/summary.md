@@ -36,10 +36,10 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 
 ## Unsupported-effect reasons (offensive walk)
 
-- `469` — effect type "ability-grant" is not modelled by the buff layer
-- `162` — effect type "movement-modifier" is not modelled by the buff layer
+- `467` — effect type "ability-grant" is not modelled by the buff layer
+- `161` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
-- `91` — conditional: cannot evaluate condition "undefined" against current context
+- `92` — conditional: cannot evaluate condition "undefined" against current context
 - `87` — effect type "leadership-modifier" is not modelled by the buff layer
 - `62` — effect type "attack-restriction" is not modelled by the buff layer
 - `58` — effect type "resurrection" is not modelled by the buff layer

@@ -278,11 +278,11 @@
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 469
+      "count": 467
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 162
+      "count": 161
     },
     {
       "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
@@ -290,7 +290,7 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 91
+      "count": 92
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
@@ -10070,11 +10070,11 @@
       "faction": "agents-of-the-imperium",
       "ability_id": "decoy-targets",
       "name": "Decoy Targets",
-      "shape": "movement-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "agents-of-the-imperium",
@@ -16584,7 +16584,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "chaos-space-marines",
@@ -22110,11 +22110,11 @@
       "faction": "grey-knights",
       "ability_id": "duty-before-all",
       "name": "Duty Before All",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "grey-knights",
@@ -26010,7 +26010,7 @@
       "faction": "orks",
       "ability_id": "mekaniak",
       "name": "Mekaniak",
-      "shape": "roll-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": true,
       "defensive": false,

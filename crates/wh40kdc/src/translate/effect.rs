@@ -1421,6 +1421,16 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             let count = first(m, &["count"])
                 .map(dice_case)
                 .unwrap_or_else(|| "1".to_string());
+            // `type: "wounds"` is a heal (regained wounds), not a revive.
+            if nstr(m, "type") == Some("wounds") || notnull(m, "wounds") {
+                let healed = first(m, &["wounds"]).map(dice_case).unwrap_or(count);
+                let noun = if healed == "1" {
+                    "lost wound"
+                } else {
+                    "lost wounds"
+                };
+                return format!("{subj} {} up to {healed} {noun}", agree(&subj, "regains"));
+            }
             let wounds = first(m, &["wounds_remaining"])
                 .map(jval)
                 .unwrap_or_else(|| "full".to_string());

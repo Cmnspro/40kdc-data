@@ -1246,6 +1246,18 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if m["count"] != nil {
 			count = diceCase(m["count"])
 		}
+		// type: "wounds" is a heal (regained wounds), not a revive.
+		if m["type"] == "wounds" || m["wounds"] != nil {
+			healed := count
+			if m["wounds"] != nil {
+				healed = diceCase(m["wounds"])
+			}
+			noun := "lost wounds"
+			if healed == "1" {
+				noun = "lost wound"
+			}
+			return subj + " " + ev(subj, "regains") + " up to " + healed + " " + noun
+		}
 		var w any = "full"
 		if m["wounds_remaining"] != nil {
 			w = m["wounds_remaining"]
