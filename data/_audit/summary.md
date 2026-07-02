@@ -8,16 +8,16 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 |---|--:|--:|--:|--:|--:|--:|--:|--:|
 | _core | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | adepta-sororitas | 100 | 29 | 10 | 64 | 0 | 7 | 0 | 1 |
-| adeptus-astartes | 364 | 113 | 38 | 227 | 3 | 16 | 0 | 7 |
+| adeptus-astartes | 364 | 112 | 38 | 228 | 3 | 16 | 0 | 7 |
 | adeptus-custodes | 90 | 21 | 12 | 61 | 0 | 3 | 0 | 3 |
 | adeptus-mechanicus | 111 | 27 | 12 | 76 | 0 | 0 | 0 | 2 |
 | aeldari | 180 | 39 | 13 | 133 | 3 | 8 | 0 | 5 |
 | agents-of-the-imperium | 133 | 34 | 13 | 89 | 0 | 0 | 0 | 2 |
 | astra-militarum | 205 | 44 | 16 | 147 | 2 | 3 | 0 | 5 |
-| chaos-daemons | 157 | 40 | 14 | 109 | 0 | 7 | 0 | 4 |
+| chaos-daemons | 157 | 39 | 14 | 110 | 0 | 7 | 0 | 4 |
 | chaos-knights | 115 | 29 | 9 | 78 | 3 | 2 | 0 | 0 |
 | chaos-space-marines | 236 | 69 | 17 | 157 | 6 | 18 | 0 | 6 |
-| death-guard | 119 | 24 | 6 | 91 | 5 | 7 | 0 | 3 |
+| death-guard | 119 | 24 | 6 | 91 | 4 | 7 | 0 | 3 |
 | drukhari | 100 | 26 | 7 | 69 | 1 | 5 | 0 | 1 |
 | emperors-children | 87 | 23 | 3 | 62 | 3 | 8 | 0 | 1 |
 | genestealer-cults | 88 | 21 | 7 | 63 | 2 | 1 | 0 | 1 |
@@ -30,14 +30,14 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | thousand-sons | 130 | 32 | 9 | 94 | 7 | 12 | 0 | 2 |
 | tyranids | 114 | 22 | 8 | 87 | 1 | 5 | 0 | 5 |
 | world-eaters | 133 | 21 | 9 | 104 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **3121** | **778** | **265** | **2164** | **40** | **119** | **0** | **57** |
+| **TOTAL** | **3121** | **776** | **265** | **2166** | **39** | **119** | **0** | **57** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
 ## Unsupported-effect reasons (offensive walk)
 
-- `472` — effect type "ability-grant" is not modelled by the buff layer
-- `163` — effect type "movement-modifier" is not modelled by the buff layer
+- `469` — effect type "ability-grant" is not modelled by the buff layer
+- `162` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
 - `91` — conditional: cannot evaluate condition "undefined" against current context
 - `87` — effect type "leadership-modifier" is not modelled by the buff layer
@@ -53,7 +53,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `32` — effect type "rule-state" is not modelled by the buff layer
 - `31` — effect type "disembark-after-move" is not modelled by the buff layer
 - `30` — effect type "fallback-and-act" is not modelled by the buff layer
-- `25` — stat-modifier: operation "undefined" not supported
+- `24` — stat-modifier: operation "undefined" not supported
 - `23` — stat-modifier on "M" is outside the damage path
 - `22` — effect type "fight-on-death" is not modelled by the buff layer
 - `22` — effect type "fight-first" is not modelled by the buff layer

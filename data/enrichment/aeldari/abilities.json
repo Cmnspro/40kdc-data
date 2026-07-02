@@ -865,7 +865,7 @@
   },
   {
     "ability_id": "faolchu",
-    "name": "Faolchú",
+    "name": "Faolch\u00fa",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2641,7 +2641,7 @@
   },
   {
     "ability_id": "point-blank-devastation",
-    "name": "Point‐blank Devastation",
+    "name": "Point\u2010blank Devastation",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3093,7 +3093,7 @@
   },
   {
     "ability_id": "yvraine-s-champion",
-    "name": "Yvraine’s Champion",
+    "name": "Yvraine\u2019s Champion",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3943,7 +3943,7 @@
   },
   {
     "ability_id": "cegorach-s-favour",
-    "name": "Cegorach’s Favour",
+    "name": "Cegorach\u2019s Favour",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5219,7 +5219,7 @@
     "faction_id": "aeldari",
     "ability_type": "faction",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)",
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)",
     "unit_ids": []
   },
   {
@@ -5320,7 +5320,7 @@
   },
   {
     "ability_id": "heroes-fall-fateful-performance",
-    "name": "Heroes’ Fall",
+    "name": "Heroes\u2019 Fall",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -6030,22 +6030,68 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "type": "model-is-leader"
+        "operator": "or",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "ASURYANI MOUNTED"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "VYPER"
+            }
+          }
+        ]
       },
       "effect": {
-        "type": "movement-modifier",
-        "target": "unit",
-        "modifier": {
-          "move_type": "advance",
-          "distance": 6
-        }
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "may-start-in-reserves"
+            }
+          },
+          {
+            "type": "strategic-reserves-arrival",
+            "target": "unit"
+          },
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "battle-round-plus-one-for-arrival"
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "timing-is",
+              "parameters": {
+                "timing": "end-of-opponent-turn"
+              }
+            },
+            "effect": {
+              "type": "movement-modifier",
+              "target": "unit",
+              "modifier": {
+                "move_type": "redeploy",
+                "to_reserves": true
+              }
+            }
+          }
+        ]
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "phase"
+      "duration": "battle"
     },
-    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+    "community_notes": "[APPROX] the number of units returned to Strategic Reserves at the end of your opponent's turn is capped by battle size, and units within Engagement Range of enemy units cannot be selected"
   },
   {
     "ability_id": "boons-of-the-brood",
@@ -6311,7 +6357,7 @@
       "range": "any-on-battlefield",
       "duration": "battle"
     },
-    "community_notes": "[APPROX] Encodes the three Ynnari rules: Lethal Intent (end of opponent's Shooting phase, if a YNNARI unit was destroyed that phase, a YNNARI INFANTRY/MOUNTED unit within 6\" of it makes a Normal move of D6+1\" — the within-6\" and INFANTRY/MOUNTED restrictions are not modeled); Lethal Surge (once per turn, a YNNARI unit performing the Fade Back Agile Manoeuvre may make a D6+1\" move that can end within Engagement Range — the Fade Back trigger, once-per-turn limit and engagement-range allowance are not modeled); Lethal Reprisal (start of the Fight phase, a below-Starting-Strength YNNARI unit excluding TITANIC gains Fights First). Full rule in raw-text store."
+    "community_notes": "[APPROX] Encodes the three Ynnari rules: Lethal Intent (end of opponent's Shooting phase, if a YNNARI unit was destroyed that phase, a YNNARI INFANTRY/MOUNTED unit within 6\" of it makes a Normal move of D6+1\" \u2014 the within-6\" and INFANTRY/MOUNTED restrictions are not modeled); Lethal Surge (once per turn, a YNNARI unit performing the Fade Back Agile Manoeuvre may make a D6+1\" move that can end within Engagement Range \u2014 the Fade Back trigger, once-per-turn limit and engagement-range allowance are not modeled); Lethal Reprisal (start of the Fight phase, a below-Starting-Strength YNNARI unit excluding TITANIC gains Fights First). Full rule in raw-text store."
   },
   {
     "ability_id": "defend-at-all-costs",
@@ -6528,7 +6574,7 @@
   },
   {
     "ability_id": "yriels-own",
-    "name": "Yriel’s Own",
+    "name": "Yriel\u2019s Own",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",

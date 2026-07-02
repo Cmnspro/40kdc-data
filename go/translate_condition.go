@@ -108,6 +108,8 @@ var eventPhrases = map[string]string{
 	"start-of-opponent-turn":          "at the start of the opponent's turn",
 	"end-of-opponent-turn":            "at the end of the opponent's turn",
 	"start-of-battle-round":           "at the start of the battle round",
+	"start-of-battle":                 "at the start of the battle",
+	"army-selection":                  "when you select this model to include in your army",
 	"start-of-command-phase":          "at the start of the Command phase",
 	"declare-battle-formations":       "when declaring Battle Formations",
 	"post-deployment":                 "after deployment",

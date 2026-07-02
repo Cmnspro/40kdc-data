@@ -85,6 +85,7 @@ var abilityGrantLabels = map[string]string{
 	"charge-after-advance":   "Advance & Charge",
 	"charge-after-fallback":  "Fall Back & Charge",
 	"charge-after-disembark": "Charge After Disembarking",
+	"nurgle-s-gift-aura":     "Nurgle's Gift (Aura)",
 }
 
 // grantLabel returns the curated label for a granted ability id, else Title Case.
@@ -1197,6 +1198,12 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			return subj + " " + ev(subj, "is") + " not counted towards any limits on the number of units that can start the battle in Reserves"
 		case "reserves-limit-exempt-with-cargo":
 			return "neither " + subj + " nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves"
+		case "may-start-in-reserves":
+			return subj + " can start the battle in Reserves"
+		case "battle-round-plus-one-for-arrival":
+			return subj + " " + ev(subj, "treats") + " the current battle round number as being one higher than it actually is when arriving from Reserves"
+		case "flavor-text":
+			return "this ability is a descriptive note (no additional rules effect)"
 		}
 		cap := ""
 		if m["capacity"] != nil {
@@ -1474,7 +1481,11 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		}
 		return subj + " " + ev(subj, "has") + " the " + name + val + " ability"
 	case "unit-keyword-grant":
-		return ejstr(m["to_keywords"]) + " units gain the " + ejstr(m["keyword"]) + " keyword"
+		// Without a to_keywords filter the grant lands on the effect subject.
+		if m["to_keywords"] != nil {
+			return ejstr(m["to_keywords"]) + " units gain the " + ejstr(m["keyword"]) + " keyword"
+		}
+		return subj + " " + ev(subj, "gains") + " the " + ejstr(m["keyword"]) + " keyword"
 	case "deep-strike":
 		if m["min_distance"] != nil {
 			return subj + " " + ev(subj, "has") + " the Deep Strike ability and can be set up more than " + ejstr(m["min_distance"]) + "\" from enemy models"

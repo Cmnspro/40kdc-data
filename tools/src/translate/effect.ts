@@ -178,6 +178,7 @@ const ABILITY_GRANT_LABELS: Record<string, string> = {
   "charge-after-advance": "Advance & Charge",
   "charge-after-fallback": "Fall Back & Charge",
   "charge-after-disembark": "Charge After Disembarking",
+  "nurgle-s-gift-aura": "Nurgle's Gift (Aura)",
 };
 
 /** The display label for a granted ability id: a curated override, else Title Case. */
@@ -1005,6 +1006,12 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
           return `${subj} ${v(subj, "is")} not counted towards any limits on the number of units that can start the battle in Reserves`;
         case "reserves-limit-exempt-with-cargo":
           return `neither ${subj} nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves`;
+        case "may-start-in-reserves":
+          return `${subj} can start the battle in Reserves`;
+        case "battle-round-plus-one-for-arrival":
+          return `${subj} ${v(subj, "treats")} the current battle round number as being one higher than it actually is when arriving from Reserves`;
+        case "flavor-text":
+          return "this ability is a descriptive note (no additional rules effect)";
       }
       const cap = m.capacity != null ? ` (${jstr(m.capacity)})` : "";
       // A grant's `timing` modifier scopes when the granted ability applies.
@@ -1150,7 +1157,10 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       return `${subj} has the ${name}${val} ability`;
     }
     case "unit-keyword-grant":
-      return `${jstr(m.to_keywords)} units gain the ${jstr(m.keyword)} keyword`;
+      // Without a `to_keywords` filter the grant lands on the effect subject.
+      return m.to_keywords != null
+        ? `${jstr(m.to_keywords)} units gain the ${jstr(m.keyword)} keyword`
+        : `${subj} ${v(subj, "gains")} the ${jstr(m.keyword)} keyword`;
     case "deep-strike":
       return m.min_distance != null
         ? `${subj} ${v(subj, "has")} the Deep Strike ability and can be set up more than ${jstr(m.min_distance)}" from enemy models`

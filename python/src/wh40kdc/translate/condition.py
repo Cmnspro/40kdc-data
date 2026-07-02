@@ -99,7 +99,6 @@ _TIMING_ONLY_PHRASES: dict[str, str] = {
     "first-time-this-phase": "the first time this phase",
     "in-reserves": "while it is in Reserves",
     "shooting-phase": "in the Shooting phase",
-    "start-of-battle": "at the start of the battle",
     "start-of-fight-phase": "at the start of the Fight phase",
     "first-movement-phase": "in your first Movement phase",
     "start-of-first-battle-round": "at the start of the first battle round",
@@ -107,6 +106,11 @@ _TIMING_ONLY_PHRASES: dict[str, str] = {
     "shooting-or-fight-phase": "in the Shooting or Fight phase",
     "this-model-starts-or-ends-a-move": "each time this model starts or ends a move",
     "end-of-normal-move": "when the unit ends a Normal move",
+    "friendly-unit-empowered-within-9": (
+        'each time you spend 1 Pain token to Empower a friendly unit within 9" of this unit'
+    ),
+    "enemy-unit-fails-battle-shock": "each time an enemy unit fails a Battle-shock test",
+    "enemy-unit-destroyed": "each time an enemy unit is destroyed",
 }
 
 
@@ -138,6 +142,8 @@ _EVENT_PHRASES: dict[str, str] = {
     "start-of-opponent-turn": "at the start of the opponent's turn",
     "end-of-opponent-turn": "at the end of the opponent's turn",
     "start-of-battle-round": "at the start of the battle round",
+    "start-of-battle": "at the start of the battle",
+    "army-selection": "when you select this model to include in your army",
     "start-of-command-phase": "at the start of the Command phase",
     "declare-battle-formations": "when declaring Battle Formations",
     "post-deployment": "after deployment",

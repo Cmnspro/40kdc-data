@@ -25,9 +25,9 @@
     {
       "faction": "adeptus-astartes",
       "total": 364,
-      "offensive": 113,
+      "offensive": 112,
       "defensive": 38,
-      "inert": 227,
+      "inert": 228,
       "stub": 16,
       "stubStructural": 3,
       "gwTextLeak": 0,
@@ -91,9 +91,9 @@
     {
       "faction": "chaos-daemons",
       "total": 157,
-      "offensive": 40,
+      "offensive": 39,
       "defensive": 14,
-      "inert": 109,
+      "inert": 110,
       "stub": 7,
       "stubStructural": 0,
       "gwTextLeak": 0,
@@ -128,7 +128,7 @@
       "defensive": 6,
       "inert": 91,
       "stub": 7,
-      "stubStructural": 5,
+      "stubStructural": 4,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
@@ -267,22 +267,22 @@
   ],
   "totals": {
     "total": 3121,
-    "offensive": 778,
+    "offensive": 776,
     "defensive": 265,
-    "inert": 2164,
+    "inert": 2166,
     "stub": 119,
-    "stubStructural": 40,
+    "stubStructural": 39,
     "gwTextLeak": 0,
     "defensiveSkipped": 57
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 472
+      "count": 469
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 163
+      "count": 162
     },
     {
       "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
@@ -346,7 +346,7 @@
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 25
+      "count": 24
     },
     {
       "reason": "stat-modifier on \"M\" is outside the damage path",
@@ -4800,9 +4800,9 @@
       "faction": "adeptus-astartes",
       "ability_id": "slayer-s-oath",
       "name": "Slayer’s Oath",
-      "shape": "re-roll",
+      "shape": "stance-select",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -9034,7 +9034,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "aeldari",
@@ -10710,11 +10710,11 @@
       "faction": "astra-militarum",
       "ability_id": "servo-sentry",
       "name": "Servo-sentry",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "astra-militarum",
@@ -12560,9 +12560,9 @@
       "faction": "chaos-daemons",
       "ability_id": "daemonic-allegiance",
       "name": "Daemonic Allegiance",
-      "shape": "re-roll",
+      "shape": "stance-select",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -12830,7 +12830,7 @@
       "faction": "chaos-daemons",
       "ability_id": "horrors-are-pink-horrors-are-blue-where-once-there-was-one-now-there-are-two",
       "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHERE ONCE THERE WAS ONE, NOW THERE ARE TWO.",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
@@ -18680,11 +18680,11 @@
       "faction": "death-guard",
       "ability_id": "nurgles-gift-aura",
       "name": "Nurgle's Gift (Aura)",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "ability-grant",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "death-guard",
@@ -18870,11 +18870,11 @@
       "faction": "drukhari",
       "ability_id": "pain-engine-aura",
       "name": "Pain Engine (Aura)",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "drukhari",
@@ -19540,11 +19540,11 @@
       "faction": "drukhari",
       "ability_id": "power-from-pain",
       "name": "Power From Pain",
-      "shape": "conditional",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "drukhari",
@@ -27120,7 +27120,7 @@
       "faction": "tau-empire",
       "ability_id": "ds8-support-turret",
       "name": "DS8 Support Turret",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
@@ -30080,11 +30080,11 @@
       "faction": "tyranids",
       "ability_id": "neuroloids",
       "name": "Neuroloids",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "tyranids",

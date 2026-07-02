@@ -111,6 +111,7 @@ _ABILITY_GRANT_LABELS = {
     "charge-after-advance": "Advance & Charge",
     "charge-after-fallback": "Fall Back & Charge",
     "charge-after-disembark": "Charge After Disembarking",
+    "nurgle-s-gift-aura": "Nurgle's Gift (Aura)",
 }
 
 
@@ -1080,6 +1081,15 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
                 f"neither {subj} nor any units embarked within it are counted"
                 " towards any limits on the number of units that can start the battle in Reserves"
             )
+        if g == "may-start-in-reserves":
+            return f"{subj} can start the battle in Reserves"
+        if g == "battle-round-plus-one-for-arrival":
+            return (
+                f"{subj} {_v(subj, 'treats')} the current battle round number as being"
+                " one higher than it actually is when arriving from Reserves"
+            )
+        if g == "flavor-text":
+            return "this ability is a descriptive note (no additional rules effect)"
         cap = f" ({_jstr(m['capacity'])})" if m.get("capacity") is not None else ""
         # A grant's `timing` modifier scopes when the granted ability applies.
         when = f"{describe_timing(_jstr(m['timing']))}, " if m.get("timing") is not None else ""
@@ -1264,7 +1274,10 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         val = f" {_jstr(m.get('value'))}" if m.get("value") is not None else ""
         return f"{subj} {_v(subj, 'has')} the {name}{val} ability"
     if etype == "unit-keyword-grant":
-        return f"{_jstr(m.get('to_keywords'))} units gain the {_jstr(m.get('keyword'))} keyword"
+        # Without a `to_keywords` filter the grant lands on the effect subject.
+        if m.get("to_keywords") is not None:
+            return f"{_jstr(m.get('to_keywords'))} units gain the {_jstr(m.get('keyword'))} keyword"
+        return f"{subj} {_v(subj, 'gains')} the {_jstr(m.get('keyword'))} keyword"
     if etype == "deep-strike":
         if m.get("min_distance") is not None:
             return (

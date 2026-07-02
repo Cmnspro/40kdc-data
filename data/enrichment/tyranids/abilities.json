@@ -2242,16 +2242,35 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "start-of-command-phase"
+        }
+      },
+      "effect": {
+        "type": "select-units",
+        "selector": {
+          "max_count": 2,
+          "owner": "friendly",
+          "keywords": [
+            "TYRANIDS"
+          ]
+        },
+        "effect": {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "always-within-synapse-range"
+          }
+        }
       }
     },
     "scope": {
       "range": "aura-custom",
-      "duration": "until-next-command-phase",
-      "range_inches": 18
+      "range_inches": 18,
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "neurotyrant"

@@ -10705,23 +10705,80 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "re-roll",
-      "target": "unit",
-      "modifier": {
-        "roll": "hit",
-        "context": "vs-selected-keyword",
-        "subset": "all-failures"
-      }
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "unit",
+      "select": "start-of-battle",
+      "options": [
+        {
+          "name": "Character",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "timing-is",
+              "parameters": {
+                "timing": "first-this-battle"
+              }
+            },
+            "effect": {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "detachment-saga-completed"
+              }
+            }
+          }
+        },
+        {
+          "name": "Monster",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "timing-is",
+              "parameters": {
+                "timing": "first-this-battle"
+              }
+            },
+            "effect": {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "detachment-saga-completed"
+              }
+            }
+          }
+        },
+        {
+          "name": "Vehicle",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "timing-is",
+              "parameters": {
+                "timing": "first-this-battle"
+              }
+            },
+            "effect": {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "detachment-saga-completed"
+              }
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "unit_ids": [
       "ulrik-the-slayer"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] fires the first time this model's unit destroys a unit with the chosen Slayer's Oath keyword; if the Detachment rule has a Saga, the unit receives that rule's benefits as if the Saga were completed"
   },
   {
     "ability_id": "oathbound",

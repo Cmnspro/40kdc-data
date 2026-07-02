@@ -114,6 +114,7 @@ fn grant_label(id: &str) -> String {
         "charge-after-advance" => "Advance & Charge".to_string(),
         "charge-after-fallback" => "Fall Back & Charge".to_string(),
         "charge-after-disembark" => "Charge After Disembarking".to_string(),
+        "nurgle-s-gift-aura" => "Nurgle's Gift (Aura)".to_string(),
         _ => title_case(id),
     }
 }
@@ -1368,6 +1369,19 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                         "neither {subj} nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves"
                     );
                 }
+                Some("may-start-in-reserves") => {
+                    return format!("{subj} can start the battle in Reserves");
+                }
+                Some("battle-round-plus-one-for-arrival") => {
+                    return format!(
+                        "{subj} {} the current battle round number as being one higher than it actually is when arriving from Reserves",
+                        agree(&subj, "treats")
+                    );
+                }
+                Some("flavor-text") => {
+                    return "this ability is a descriptive note (no additional rules effect)"
+                        .to_string();
+                }
                 _ => {}
             }
             let cap = if notnull(m, "capacity") {
@@ -1700,11 +1714,22 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             };
             format!("{subj} {} the {name}{val} ability", agree(&subj, "has"))
         }
-        T::UnitKeywordGrant => format!(
-            "{} units gain the {} keyword",
-            jv(m, "to_keywords"),
-            jv(m, "keyword")
-        ),
+        T::UnitKeywordGrant => {
+            // Without a `to_keywords` filter the grant lands on the effect subject.
+            if notnull(m, "to_keywords") {
+                format!(
+                    "{} units gain the {} keyword",
+                    jv(m, "to_keywords"),
+                    jv(m, "keyword")
+                )
+            } else {
+                format!(
+                    "{subj} {} the {} keyword",
+                    agree(&subj, "gains"),
+                    jv(m, "keyword")
+                )
+            }
+        }
         T::DeepStrike => {
             if notnull(m, "min_distance") {
                 format!(
