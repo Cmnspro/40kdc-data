@@ -325,7 +325,7 @@
   },
   {
     "ability_id": "rivetin-dakka",
-    "name": "Rivetin’ Dakka",
+    "name": "Rivetin\u2019 Dakka",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -362,7 +362,7 @@
   },
   {
     "ability_id": "dok-s-toolz",
-    "name": "Dok’s Toolz",
+    "name": "Dok\u2019s Toolz",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -394,7 +394,7 @@
   },
   {
     "ability_id": "hold-still-and-say-aargh",
-    "name": "Hold Still and Say ‘Aargh!’",
+    "name": "Hold Still and Say \u2018Aargh!\u2019",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -511,7 +511,7 @@
   },
   {
     "ability_id": "dat-s-our-loot",
-    "name": "Dat’s Our Loot!",
+    "name": "Dat\u2019s Our Loot!",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -998,7 +998,7 @@
   },
   {
     "ability_id": "ard-case",
-    "name": "’Ard Case",
+    "name": "\u2019Ard Case",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1155,7 +1155,7 @@
   },
   {
     "ability_id": "kunnin-infiltrator",
-    "name": "Kunnin’ Infiltrator",
+    "name": "Kunnin\u2019 Infiltrator",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1163,25 +1163,39 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
-      "modifier": {
-        "ability_id": "once-per-battle-special"
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "movement"
+        }
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "redeploy"
+        }
       }
     },
     "scope": {
       "range": "unit",
       "duration": "one-use"
     },
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1
+    },
     "unit_ids": [
       "boss-snikrot"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Once per battle, in your Movement phase, instead of making a Normal move the unit is removed and set up again anywhere more than 9\" from all enemy models; the instead-of-Normal-move cost and the 9\" placement restriction are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "clankin-forward",
-    "name": "Clankin’ Forward",
+    "name": "Clankin\u2019 Forward",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1209,7 +1223,7 @@
   },
   {
     "ability_id": "big-an-shooty",
-    "name": "Big an’ Shooty",
+    "name": "Big an\u2019 Shooty",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1307,7 +1321,7 @@
   },
   {
     "ability_id": "ghazghkull-s-waaagh-banner-aura",
-    "name": "Ghazghkull’s Waaagh! Banner (Aura)",
+    "name": "Ghazghkull\u2019s Waaagh! Banner (Aura)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1526,7 +1540,7 @@
   },
   {
     "ability_id": "stompin-forward",
-    "name": "Stompin’ Forward",
+    "name": "Stompin\u2019 Forward",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1867,7 +1881,7 @@
   },
   {
     "ability_id": "big-an-stompy",
-    "name": "Big an’ Stompy",
+    "name": "Big an\u2019 Stompy",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2602,23 +2616,73 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "roll-modifier",
-      "target": "unit",
-      "modifier": {
-        "roll": "hit",
-        "operation": "add",
-        "value": 1
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "end-of-movement-phase"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "your-turn"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "select-units",
+        "selector": {
+          "max_count": 1,
+          "owner": "friendly",
+          "keywords": [
+            "ORKS",
+            "VEHICLE"
+          ]
+        },
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "resurrection",
+              "target": "unit",
+              "modifier": {
+                "count": "d3",
+                "type": "wounds"
+              }
+            },
+            {
+              "type": "roll-modifier",
+              "target": "unit",
+              "modifier": {
+                "roll": "hit",
+                "operation": "add",
+                "value": 1
+              }
+            }
+          ]
+        }
       }
     },
     "scope": {
-      "range": "aura-6",
-      "duration": "permanent"
+      "range": "aura-custom",
+      "range_inches": 3,
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "mek"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "model"
+    },
+    "community_notes": "[APPROX] the hit bonus lasts until the start of your next Movement phase; each model can only be selected once per turn"
   },
   {
     "ability_id": "shokk-tunnel",
@@ -2723,7 +2787,7 @@
   },
   {
     "ability_id": "da-bigger-dey-iz",
-    "name": "Da Bigger Dey Iz…",
+    "name": "Da Bigger Dey Iz\u2026",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2877,7 +2941,7 @@
   },
   {
     "ability_id": "thievin-scavengers",
-    "name": "Thievin’ Scavengers",
+    "name": "Thievin\u2019 Scavengers",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3060,7 +3124,7 @@
   },
   {
     "ability_id": "da-boss-ladz",
-    "name": "Da Boss’ Ladz",
+    "name": "Da Boss\u2019 Ladz",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3156,7 +3220,7 @@
   },
   {
     "ability_id": "krumpin-time",
-    "name": "Krumpin’ Time",
+    "name": "Krumpin\u2019 Time",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3895,18 +3959,21 @@
       "type": "ability-grant",
       "target": "self",
       "modifier": {
-        "ability_id": "flavor-text"
+        "grant_type": "crew-tokens",
+        "count": 2,
+        "token_name": "Grot Crew"
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "big-gunz"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] tokens are placed per Mek Gun model (2 each), removing one each time that Big Gun model loses a wound"
   },
   {
     "ability_id": "speed-freeks",
@@ -4119,7 +4186,7 @@
   },
   {
     "ability_id": "shoutin-pole-aura",
-    "name": "Shoutin’ Pole (Aura)",
+    "name": "Shoutin\u2019 Pole (Aura)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4308,14 +4375,29 @@
     "ability_type": "stratagem",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "unit",
+        "modifier": {
+          "stat": "A",
+          "operation": "multiply",
+          "value": 2,
+          "attack_type": "ranged"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] [RAPID FIRE X] with X equal to each weapon's Attacks characteristic (double Attacks at half range) encoded as unconditional x2 Attacks; the half-range gate and the Firing Deck weapon exclusion are not expressible. Full rule in raw-text store."
   },
   {
     "ability_id": "impending-crunch-rollin-deff",
@@ -4523,7 +4605,7 @@
   },
   {
     "ability_id": "targetin-gizmos-rollin-deff",
-    "name": "Targetin’ Gizmos",
+    "name": "Targetin\u2019 Gizmos",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4537,14 +4619,40 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Ignores Cover",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "faction-rule-active",
+            "parameters": {
+              "rule": "waaagh"
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Sustained Hits 1",
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
-    }
+    },
+    "community_notes": "[APPROX] Applies only while a BIG MEK model is embarked within the bearer WAGON unit; the embarked-within condition is not expressible, encoded as always active. Full rule in raw-text store."
   },
   {
     "ability_id": "dead-shiny-shootas-rollin-deff",
@@ -4887,7 +4995,7 @@
   },
   {
     "ability_id": "run-em-down-blitz-brigade",
-    "name": "Run ’em Down",
+    "name": "Run \u2019em Down",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4981,20 +5089,77 @@
     "faction_id": "orks",
     "detachment_id": "blitz-brigade",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "opponent"
+            }
+          },
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "after-enemy-unit-fires"
+            }
+          },
+          {
+            "type": "was-hit-by-attack",
+            "parameters": {
+              "subject": "self",
+              "attack_type": "ranged"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "select-units",
+        "selector": {
+          "max_count": 1,
+          "keywords": [
+            "orks",
+            "infantry"
+          ],
+          "owner": "friendly"
+        },
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "disembark",
+              "target": "unit"
+            },
+            {
+              "type": "movement-modifier",
+              "target": "unit",
+              "modifier": {
+                "move_type": "surge",
+                "distance": "D6"
+              }
+            }
+          ]
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] The disembarking ORKS INFANTRY unit must be embarked within the BATTLEWAGON, HUNTA RIG or KILL RIG model that was hit; the embarked-within linkage is not expressible. Full rule in raw-text store."
   },
   {
     "ability_id": "runnin-boots-blitz-brigade",
-    "name": "Runnin’ Boots",
+    "name": "Runnin\u2019 Boots",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5080,16 +5245,31 @@
     "faction_id": "orks",
     "detachment_id": "blitz-brigade",
     "ability_type": "enhancement",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 1,
+        "keywords": [
+          "orks",
+          "vehicle"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "charge",
+          "subset": "all-failures"
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    }
+      "range": "any-on-battlefield",
+      "duration": "turn"
+    },
+    "community_notes": "[APPROX] Fires only when the bearer uses its Mekaniak ability and applies to the VEHICLE model's unit selected by that ability; the ability-use linkage is not expressible, encoded as selecting one friendly VEHICLE unit. Full rule in raw-text store."
   },
   {
     "ability_id": "tuff-git-blitz-brigade",
@@ -5148,15 +5328,88 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "ORKS"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "INFANTRY"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Assault",
+              "weapon_type": "ranged"
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "ORKS"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "INFANTRY"
+                }
+              },
+              {
+                "type": "phase-is",
+                "parameters": {
+                  "phase": "shooting"
+                }
+              },
+              {
+                "type": "player-turn-is",
+                "parameters": {
+                  "turn": "own"
+                }
+              },
+              {
+                "type": "faction-rule-active",
+                "parameters": {
+                  "rule": "waaagh"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Sustained Hits 1",
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
-    },
-    "community_notes": "[APPROX] DSL stub — grants [ASSAULT] always and conditional [SUSTAINED HITS 1] while Waaagh! active; needs DSL authoring. Full rule in raw-text store."
+    }
   },
   {
     "ability_id": "adrenaline-junkies",
@@ -5209,17 +5462,56 @@
     "faction_id": "orks",
     "detachment_id": "da-big-hunt",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "prey",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-command-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "BEAST SNAGGA"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "charge",
+                  "subset": "all-failures"
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "AP",
+                  "operation": "improve",
+                  "value": 1
+                }
+              }
+            ]
+          }
+        }
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Prey selection is restricted to a MONSTER, VEHICLE or CHARACTER unit (the designate-target selector carries no keyword filter), and the charge re-roll applies only to charges that include the Prey as a target. Full rule in raw-text store."
   },
   {
     "ability_id": "try-dat-button",
@@ -5237,15 +5529,87 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "MEK"
+            }
+          },
+          {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "ORKS"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "WALKER"
+                }
+              }
+            ]
+          },
+          {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "GROTS"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "VEHICLE"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "choice",
+        "choice_label": "Try Dat Button!",
+        "options": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Sustained Hits 1"
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keyword": "Lethal Hits"
+            }
+          },
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "AP",
+              "operation": "improve",
+              "value": 2
+            }
+          }
+        ]
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Random D6 table (1-2 Sustained Hits 1, 3-4 Lethal Hits, 5-6 improve AP by 2 on a Critical Wound) flattened to a choice; the AP option's Critical Wound-only rider, the [HAZARDOUS] rider for deliberately selecting an option, and the two-source Hazardous fail-on-1-or-2 escalation are dropped. Full rule in raw-text store."
   },
   {
     "ability_id": "get-stuck-in",
@@ -5280,7 +5644,7 @@
   },
   {
     "ability_id": "da-boss-is-watchin",
-    "name": "Da Boss Is Watchin’",
+    "name": "Da Boss Is Watchin\u2019",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5292,17 +5656,56 @@
     "faction_id": "orks",
     "detachment_id": "bully-boyz",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "once-per-battle"
+            }
+          },
+          {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "WARBOSS"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "NOBZ"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "MEGANOBZ"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "ability_id": "waaagh"
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Second Waaagh! call requires one or more WARBOSS models on the battlefield (or embarked in an on-battlefield TRANSPORT) and a Command phase in a turn in which no Waaagh! was called; encoded as a once-per-battle grant of the Waaagh! ability to WARBOSS, NOBZ and MEGANOBZ units. Full rule in raw-text store."
   },
   {
     "ability_id": "mob-mentality",
@@ -5320,19 +5723,30 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "BOYZ"
+        }
+      },
+      "effect": {
+        "type": "invulnerable-save",
+        "target": "unit",
+        "modifier": {
+          "invuln_sv": 5
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Strongest case: the 5+ invulnerable save is the tier for BOYZ units containing 10 or more models; units below 10 models have a 6+ instead \u2014 no model-count condition exists. Full rule in raw-text store."
   },
   {
     "ability_id": "lissen-ere",
-    "name": "Lissen ’Ere",
+    "name": "Lissen \u2019Ere",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5344,17 +5758,60 @@
     "faction_id": "orks",
     "detachment_id": "taktikal-brigade",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "unit-keyword-grant",
+          "target": "all-friendly",
+          "modifier": {
+            "keyword": "BATTLELINE",
+            "to_keywords": [
+              "Stormboyz"
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "BOYZ"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "KOMMANDOS"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "STORMBOYZ"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "eligible-to-start-an-action-after-an-advance-or-fall-back-move"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Issuers are limited to BOSS SNIKROT, MEK and WARBOSS models, once per battle round each (encoded as once-per-command-phase per model); the issuer's Leadership test (1 mortal wound to the receiving unit on a failure), the once-per-round-per-unit receipt limit and the Battle-shock exclusions are dropped. Full rule in raw-text store."
   },
   {
     "ability_id": "here-be-loot",
@@ -5561,9 +6018,34 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "invulnerable-save",
+          "target": "unit",
+          "modifier": {
+            "invuln_sv": 5
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "faction-rule-active",
+            "parameters": {
+              "rule": "waaagh"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "T",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
@@ -5632,7 +6114,7 @@
   },
   {
     "ability_id": "breakin-heads",
-    "name": "Breakin’ Heads",
+    "name": "Breakin\u2019 Heads",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5661,7 +6143,7 @@
   },
   {
     "ability_id": "somethin-to-prove",
-    "name": "Somethin’ to Prove",
+    "name": "Somethin\u2019 to Prove",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5747,9 +6229,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "resurrection",
+      "target": "self",
+      "modifier": {
+        "count": "D3",
+        "type": "wounds"
+      }
     },
     "scope": {
       "range": "unit",

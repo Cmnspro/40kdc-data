@@ -5,200 +5,49 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 193 stub abilities.
+Total: 42 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
-| adepta-sororitas | fervent-purgation | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adepta-sororitas | righteous-purpose | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | adaptive-defence | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | armoured-wrath | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | close-range-eradication | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | combat-doctrines | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | driven-by-fury | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | heroes-of-ultramar | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
-| adeptus-astartes | interlocking-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | purgation-run | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | rapid-deployment | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | rapid-drop-deployment | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | shield-of-the-imperium | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-astartes | stabilised-disembarkation | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-custodes | assemblage-of-might | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-custodes | martial-mastery | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-custodes | revered-companions | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-mechanicus | benedictions-of-the-omnissiah | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-mechanicus | cybernetic-augmentation | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-mechanicus | noospheric-transference | stat-modifier | stat-modifier: operation "undefined" not supported |
-| adeptus-mechanicus | rad-bombardment | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | acrobatic-onslaught | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | battle-focus | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | cluster-caltrops | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | exit-the-stage-fateful-performance | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | far-reaching-doom | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | hallucinogen-grenades | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | indomitable-strength-of-will | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | point-blank-devastation | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | relentless-raiders | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | shepherds-of-the-dead | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | strength-from-death | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | support-artillery | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
-| aeldari | yriels-own | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | a-weaponsmith-not-a-warlord | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | at-all-costs | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | backroom-deals | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | blind-grenades-veiled-blade-elimination-force | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | bound-daemon | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | deathwatch-mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | decoy-targets | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | destroy-the-daemonic | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | dominate-will-psychic | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | ensnaring-trap-veiled-blade-elimination-force | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | esoteric-explosives | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | extremis-sanction | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | hyperstimms-veiled-blade-elimination-force | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | indomitor-doctrines | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | infiltrator-comms-array | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | intraneural-biotech | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | malefic-warding | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | on-my-signal-fire | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | prime-target-veiled-blade-elimination-force | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | root-out-heresy | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | spectrus-doctrines | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | teleport-homer | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | terminatus-assault | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | throne-of-judgement-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | tox-cycler | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | unsubtle-crusader | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | vox-cast-proclamations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | vox-skull | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | ward-against-the-malefic-arts | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | warrant-of-trade | stat-modifier | stat-modifier: operation "undefined" not supported |
-| agents-of-the-imperium | willsapping-salvo | stat-modifier | stat-modifier: operation "undefined" not supported |
-| astra-militarum | armoured-fist | stat-modifier | stat-modifier: operation "undefined" not supported |
-| astra-militarum | brutal-disciplinarian | stat-modifier | stat-modifier: operation "undefined" not supported |
-| astra-militarum | convoy-escort-vehicle | stat-modifier | stat-modifier: operation "undefined" not supported |
-| astra-militarum | iron-tread | stat-modifier | stat-modifier: operation "undefined" not supported |
-| astra-militarum | masters-of-camouflage | stat-modifier | stat-modifier: operation "undefined" not supported |
-| astra-militarum | mechanised-spearhead | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-daemons | fates-in-flux | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-daemons | shadow-form-abilities | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-daemons | shadow-of-khorne | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-daemons | shroud-of-flies | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-daemons | warp-rifts | stat-modifier | stat-modifier: operation "undefined" not supported |
+| astra-militarum | aerial-deployment | conditional | empty modifier |
+| astra-militarum | brutal-disciplinarian | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
 | chaos-knights | flush-the-quarry-helhunt-lance | conditional | effect type "movement-modifier" is not modelled by the buff layer |
-| chaos-knights | grav-pinned | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-knights | imperious-advance-traitoris-lance | conditional | effect type "movement-modifier" is not modelled by the buff layer |
 | chaos-knights | super-heavy-walker | conditional | effect type "movement-modifier" is not modelled by the buff layer |
-| chaos-space-marines | architect-of-ruin | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | debt-to-the-soul-forge | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | desperate-devotion | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | experimental-augmentations | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | focus-of-hatred | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | idol-of-blessed-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | masters-of-the-maelstrom | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
-| chaos-space-marines | slaves-to-none | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | super-heavy-war-engine | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | terror-descends-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | terror-made-manifest | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
-| chaos-space-marines | tyrannical-motivation | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | wracking-agonies-psychic | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | dark-ascension-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| death-guard | nurgles-gift-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | callous-competition | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | cluster-caltrops | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | combat-drugs | stat-modifier | stat-modifier: operation "undefined" not supported |
 | drukhari | exacting-cruelty | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | murderous-agenda | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | precognisant | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | rain-of-cruelty | stat-modifier | stat-modifier: operation "undefined" not supported |
-| drukhari | towering-arrogance-kabalite-agonysts | stat-modifier | stat-modifier: operation "undefined" not supported |
-| emperors-children | daemonic-empowerment | stat-modifier | stat-modifier: operation "undefined" not supported |
 | emperors-children | daemonic-patrons | sequence | empty modifier |
-| emperors-children | internal-rivalries | stat-modifier | stat-modifier: operation "undefined" not supported |
-| emperors-children | master-of-the-pageant | stat-modifier | stat-modifier: operation "undefined" not supported |
-| emperors-children | mechanised-murder | stat-modifier | stat-modifier: operation "undefined" not supported |
 | emperors-children | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | emperors-children | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | a-perfect-ambush | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | brood-brothers | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | decoys-and-misdirection | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | fanatical-hail-xenocult-masses | stat-modifier | stat-modifier: operation "undefined" not supported |
 | genestealer-cults | hordes-of-the-faithful | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | hypermorphic-fury | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | inhuman-reactions-purestrain-broodswarm | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | integrated-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | living-up-to-legend-heroes-of-the-uprising | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | psionic-parasitism | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | slunk-from-the-underbelly-xenocult-masses | stat-modifier | stat-modifier: operation "undefined" not supported |
 | genestealer-cults | underground-egress | conditional | empty modifier |
-| grey-knights | fury-of-titan | stat-modifier | stat-modifier: operation "undefined" not supported |
 | grey-knights | hallowed-ground | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
-| grey-knights | mailed-fist | stat-modifier | stat-modifier: operation "undefined" not supported |
-| grey-knights | prescient-redeployment | stat-modifier | stat-modifier: operation "undefined" not supported |
-| grey-knights | searing-soulflame | stat-modifier | stat-modifier: operation "undefined" not supported |
-| imperial-knights | heroes-of-legend | stat-modifier | stat-modifier: operation "undefined" not supported |
 | imperial-knights | super-heavy-walker | conditional | effect type "movement-modifier" is not modelled by the buff layer |
-| leagues-of-votann | fury-of-the-hearth-hearthguard-covenant | stat-modifier | stat-modifier: operation "undefined" not supported |
-| leagues-of-votann | optimal-application | stat-modifier | stat-modifier: operation "undefined" not supported |
-| leagues-of-votann | outflanking-armour-armoured-trailblazers | stat-modifier | stat-modifier: operation "undefined" not supported |
-| leagues-of-votann | ruthless-reinvestment | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | accelerator-mandible | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | annihilation-protocol | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | cold-fervour | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | cosmic-distortion | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | hyperphasing | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | prelocational-optimiser-the-phaerons-armoury | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | recursive-reanimation-skyshroud-spearhead | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | relentless-onslaught | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | subsurface-quantumweave-the-phaerons-armoury | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | technosorcerous-augmentations | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | tectonic-reverberations | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | their-number-is-legion | stat-modifier | stat-modifier: operation "undefined" not supported |
-| necrons | worthy-foes | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | aerial-deployment | conditional | empty modifier |
-| orks | brutal-broadside-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | da-boss-is-watchin | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | da-hunt-is-on | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | dakka-dakka-dakka-more-dakka | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | fixit-da-grot | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | lissen-ere | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | mob-mentality | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | supercharged-squig-oil-blitz-brigade | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | targetin-gizmos-rollin-deff | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | try-dat-button | stat-modifier | stat-modifier: operation "undefined" not supported |
 | orks | tuff-git-blitz-brigade | conditional | conditional: cannot evaluate condition "undefined" against current context |
-| orks | waaagh-banner | stat-modifier | stat-modifier: operation "undefined" not supported |
-| orks | yooz-in-trouble-now-blitz-brigade | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tau-empire | autoreactive-camouflage-advanced-acquisition-cadre | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tau-empire | bodyguard | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tau-empire | unmasking-suite-advanced-acquisition-cadre | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | all-is-dust | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | dark-ascension-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | flow-of-magic | stat-modifier | stat-modifier: operation "undefined" not supported |
+| thousand-sons | flow-of-magic | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
 | thousand-sons | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | immaterial-flare-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | kindred-sorcery | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | sacrificial-blessing | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | scouring-warpflame-hexwarp-thrallband | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | spirit-snare | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | strands-of-time-hexwarp-thrallband | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | warpfire-infusion | stat-modifier | stat-modifier: operation "undefined" not supported |
-| thousand-sons | warpmeld-sacrifice | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | wracking-agonies-psychic | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tyranids | feed-the-swarm | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tyranids | hyper-adaptations | stat-modifier | stat-modifier: operation "undefined" not supported |
 | tyranids | mindhunger | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tyranids | serpentine-fiend | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tyranids | surprise-assault | stat-modifier | stat-modifier: operation "undefined" not supported |
-| tyranids | tanglestrike-rounds-talons-of-the-norn-queen | stat-modifier | stat-modifier: operation "undefined" not supported |
+| world-eaters | butcher-lord-cult-of-blood | sequence | effect type "unit-attachment" is not modelled by the buff layer |
+| world-eaters | disciple-of-khorne-khorne-daemonkin | sequence | effect type "unit-attachment" is not modelled by the buff layer |
+| world-eaters | fury-unleashed-goretrack-onslaught | conditional | conditional: cannot evaluate condition "undefined" against current context |

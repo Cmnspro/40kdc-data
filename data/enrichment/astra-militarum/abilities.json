@@ -682,10 +682,12 @@
             }
           },
           {
-            "type": "attack-restriction",
+            "type": "rule-state",
             "target": "self",
             "modifier": {
-              "restriction_type": "charge-blocked"
+              "direction": "suppressed",
+              "rule_kind": "core-rule",
+              "rule": "charge"
             }
           }
         ]
@@ -712,21 +714,31 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "deep-strike-setup"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "self",
+        "modifier": {
+          "grant_type": "shoot-after-action"
+        }
       }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
       "tempestus-aquilons"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] only the Tempestor Aquilon shoots, and only with its sentry weapon (sentry flamer / sentry grenade launcher / sentry hotshot volley gun), as if it were your Shooting phase"
   },
   {
     "ability_id": "final-duty",
@@ -3328,7 +3340,7 @@
   },
   {
     "ability_id": "omnissiah-s-blessing",
-    "name": "Omnissiah’s Blessing",
+    "name": "Omnissiah\u2019s Blessing",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4189,53 +4201,36 @@
             }
           },
           {
-            "type": "phase-is",
+            "type": "timing-is",
             "parameters": {
-              "phase": "movement"
+              "timing": "starts-in-strategic-reserves"
             }
           },
           {
-            "operator": "or",
-            "operands": [
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 1
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 2
-                }
-              },
-              {
-                "type": "player-turn-is",
-                "parameters": {
-                  "turn": 3
-                }
-              }
-            ]
+            "type": "battle-round",
+            "parameters": {
+              "max": 3
+            }
           }
         ]
       },
       "effect": {
-        "type": "deep-strike",
+        "type": "strategic-reserves-arrival",
         "target": "self",
         "modifier": {}
       }
     },
     "scope": {
       "range": "self",
-      "duration": "battle"
+      "duration": "permanent"
     },
     "unit_ids": [
       "arvus-lighter",
       "aquila-lander"
     ],
     "ability_type": "unit",
-    "behavior": "activated",
-    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+    "behavior": "reactive",
+    "community_notes": "[APPROX] If this model starts the game in Hover mode and in Strategic Reserves, it can arrive in the Reinforcements step of the first, second or third battle round regardless of mission rules. Aligned to the orks/aerial-deployment encoding. Full rule in raw-text store."
   },
   {
     "ability_id": "turbo-boost",
@@ -4392,11 +4387,19 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "grant_type": "strategic-reserves-placement",
-        "allow_enemy_zone": true
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "arrives-from-strategic-reserves"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "outflank-set-up-in-opponent-deployment-zone"
+        }
       }
     },
     "scope": {
@@ -4880,12 +4883,14 @@
       "type": "ability-grant",
       "target": "self",
       "modifier": {
-        "ability_id": "flavor-text"
+        "grant_type": "crew-tokens",
+        "count": 3,
+        "token_name": "Crew"
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "heavy-quad-launcher-team",
@@ -6735,15 +6740,42 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "granted",
+            "rule_kind": "core-rule",
+            "rule": "benefit-of-cover"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "benefit-of-cover"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "Sv",
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Save +1 (to a max of 3+) applies only when the WALKER/REGIMENT model already has Benefit of Cover for another reason (e.g. wholly within a Ruin); the cap and the 'other reason' gate are simplified. Applies to ASTRA MILITARUM WALKER and REGIMENT models. Full rule in raw-text store."
   },
   {
     "ability_id": "iron-tread",
@@ -6761,15 +6793,19 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "roll-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "roll": "advance",
+        "operation": "set",
+        "value": 6
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Applies to SQUADRON units on Advance (no Advance roll, +6\" Move). The clause allowing the Advance move to pass through \u2014 but not end within \u2014 enemy Engagement Range is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "born-soldiers",
@@ -6962,15 +6998,36 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "disembarked-from-transport"
+          },
+          {
+            "type": "attack-is-type",
+            "parameters": {
+              "attack_type": "ranged"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "wound",
+          "operation": "add",
+          "value": 1,
+          "weapon_type": "ranged"
+        }
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
-    },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    }
   },
   {
     "ability_id": "artillery-support",
@@ -7120,19 +7177,31 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "movement"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "self",
+        "modifier": {
+          "grant_type": "issue-order-to-disembarked-regiment-unit"
+        }
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "aura-6",
+      "duration": "turn"
     },
     "unit_ids": [
       "commissar-graves"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] Triggers when a friendly ASTRA MILITARUM REGIMENT unit disembarks from a Transport within 6\" of this model, letting it issue 1 Order to that unit regardless of Orders already issued; the disembark trigger and order bypass are collapsed into an opaque grant. Full rule in raw-text store."
   },
   {
     "ability_id": "brutal-disciplinarian",
@@ -7144,12 +7213,23 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 1,
+        "keywords": [
+          "ASTRA MILITARUM",
+          "INFANTRY"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "remove-battle-shock",
+        "target": "unit",
+        "modifier": {}
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-12",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -7157,10 +7237,11 @@
       "commissar-graves-on-foot"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
+    "behavior": "activated",
     "usage": {
       "frequency": "once-per-turn"
-    }
+    },
+    "community_notes": "[APPROX] The selected unit must be Battle-shocked and contain 2+ models, and the cost \u2014 one model in that unit is destroyed \u2014 is not encoded; the selector captures only the friendly ASTRA MILITARUM INFANTRY within 12\" constraint. Full rule in raw-text store."
   },
   {
     "ability_id": "icon-of-discipline",
@@ -7269,18 +7350,44 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "shoot-and-scoot",
+              "distance": "D6"
+            }
+          },
+          {
+            "type": "rule-state",
+            "target": "unit",
+            "modifier": {
+              "direction": "suppressed",
+              "rule_kind": "core-rule",
+              "rule": "charge"
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
     "unit_ids": [
       "hippogriff-afv"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "activated"
   }
 ]

@@ -29,7 +29,7 @@
   },
   {
     "ability_id": "eviscerating-fly-by",
-    "name": "Eviscerating Fly‑by",
+    "name": "Eviscerating Fly\u2011by",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -63,9 +63,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "re-roll",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "roll": "eviscerating-fly-by-wounds",
+        "subset": "all-failures"
+      }
     },
     "scope": {
       "range": "unit",
@@ -76,7 +79,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "[APPROX] The rule grants one re-roll per model equipped with cluster caltrops; the per-model re-roll count is not expressible, so it is modeled as a re-roll of the Eviscerating Fly-by wound dice (subset all-failures per the codebase re-roll convention). Full rule in raw-text store."
   },
   {
     "ability_id": "grav-talon",
@@ -237,21 +240,38 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "friendly-unit-empowered-within-9"
+        }
+      },
+      "effect": {
+        "type": "dice-gated",
+        "dice": "D6",
+        "threshold": 5,
+        "comparison": "gte",
+        "on_success": {
+          "type": "resource-gain",
+          "target": "self",
+          "modifier": {
+            "pool_id": "pain-token-pool",
+            "amount": 1
+          }
+        }
       }
     },
     "scope": {
-      "range": "aura-9",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
       "cronos"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] add 1 to the roll if no model in this unit has a spirit vortex; Pain tokens spent for reasons other than Empowering do not trigger this ability"
   },
   {
     "ability_id": "leader",
@@ -1484,7 +1504,7 @@
   },
   {
     "ability_id": "torturer-s-craft",
-    "name": "Torturer’s Craft",
+    "name": "Torturer\u2019s Craft",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1835,20 +1855,32 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 3,
+        "keywords": [
+          "DRUKHARI"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "redeploy"
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
     "unit_ids": [
       "lady-malys"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "activated",
+    "community_notes": "[APPROX] After both players deploy, up to three DRUKHARI units are redeployed; the rule additionally lets those units be set up in Strategic Reserves regardless of the reserve limit, which is not modeled by the redeploy move. Full rule in raw-text store."
   },
   {
     "ability_id": "mind-like-a-steel-trap-aura",
@@ -2040,7 +2072,7 @@
   },
   {
     "ability_id": "assassins-poisons",
-    "name": "Assassins’ Poisons",
+    "name": "Assassins\u2019 Poisons",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2092,7 +2124,7 @@
   },
   {
     "ability_id": "archon-s-will",
-    "name": "Archon’s Will",
+    "name": "Archon\u2019s Will",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2148,7 +2180,7 @@
   },
   {
     "ability_id": "archon-s-retinue",
-    "name": "Archon’s Retinue",
+    "name": "Archon\u2019s Retinue",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2686,28 +2718,72 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "is-attached"
-      },
-      "effect": {
-        "type": "ability-grant",
-        "target": "self",
-        "modifier": {
-          "ability_id": "flavor-text"
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "start-of-command-phase"
+            }
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "pain-token-pool",
+              "amount": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "enemy-unit-destroyed"
+            }
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "pain-token-pool",
+              "amount": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "enemy-unit-fails-battle-shock"
+            }
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "pain-token-pool",
+              "amount": 1
+            }
+          }
         }
-      }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "phase"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
     "faction_id": "drukhari",
     "ability_type": "faction",
     "behavior": "passive",
     "unit_ids": [
       "reaper"
-    ]
+    ],
+    "community_notes": "[APPROX] spend Pain tokens to Empower a unit until the end of the phase, activating all its Pain abilities; an Empowered Attached unit activates its Leader and Bodyguard Pain abilities together"
   },
   {
     "ability_id": "corsairs-and-travelling-players",
@@ -3110,7 +3186,7 @@
   },
   {
     "ability_id": "shadows-reach-kabalite-agonysts",
-    "name": "Shadows’ Reach",
+    "name": "Shadows\u2019 Reach",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3223,14 +3299,37 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "leadership-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "subtract",
+              "value": 1
+            }
+          },
+          {
+            "type": "objective-control-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "add",
+              "value": 1
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
-    }
+    },
+    "community_notes": "ARCHON-only enhancement. While the bearer leads a unit, models in that unit improve Leadership by 1 (modeled as a -1 to the Leadership characteristic) and Objective Control by 1."
   },
   {
     "ability_id": "contempt-for-rivals-kabalite-agonysts",
@@ -3545,17 +3644,109 @@
     "faction_id": "drukhari",
     "detachment_id": "spectacle-of-spite",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "re-selectable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Adrenalight",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "A",
+              "operation": "add",
+              "value": 1,
+              "weapon_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Hypex",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 2
+            }
+          }
+        },
+        {
+          "name": "Serpentin",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "WS",
+              "operation": "subtract",
+              "value": 1,
+              "weapon_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Painbringer",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "T",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "Grave Lotus",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "S",
+              "operation": "add",
+              "value": 1,
+              "weapon_type": "melee"
+            }
+          }
+        },
+        {
+          "name": "Splintermind",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "leadership-modifier",
+                "target": "unit",
+                "modifier": {
+                  "operation": "subtract",
+                  "value": 1
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "BS",
+                  "operation": "subtract",
+                  "value": 1,
+                  "weapon_type": "ranged"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the start of your Command phase you either deliberately select one drug (cannot pick the same one twice per battle) or randomly select two by rolling 2D6; the once-per-battle-per-drug limit and the random-two alternative are not modeled (stance-select mode re-selectable). All options buff WYCH CULT models/weapons; 'improve' for Weapon Skill, Ballistic Skill and Leadership is modeled as a subtraction from the characteristic. Full rule in raw-text store."
   },
   {
     "ability_id": "murderous-agenda",
@@ -3573,15 +3764,32 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "contract-unit",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-first-battle-round"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Precision"
+            ]
+          }
+        }
+      },
+      "duration": "battle"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-visible",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the Trophy Hunters Contract: at the start of the first battle round one enemy CHARACTER is designated the Contract unit, and KABAL / BLADES FOR HIRE attacks against it gain [PRECISION]. The two other Contracts (Sow Fear and Terror \u2192 [SUSTAINED HITS 1] vs INFANTRY/MOUNTED; Show of Strength \u2192 [LETHAL HITS] vs MONSTER/VEHICLE), the KABAL/BLADES-FOR-HIRE attacker restriction, and the +3 Pain tokens gained when the Contract unit is destroyed are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "rain-of-cruelty",
@@ -3597,17 +3805,43 @@
     "faction_id": "drukhari",
     "detachment_id": "skysplinter-assault",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "disembarked-from-transport"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Ignores Cover"
+              ],
+              "weapon_type": "ranged"
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Lance"
+              ],
+              "weapon_type": "melee"
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "Each time a DRUKHARI unit disembarks from a TRANSPORT, until the end of the turn its ranged weapons gain [IGNORES COVER] and its melee weapons gain [LANCE]."
   },
   {
     "ability_id": "callous-competition",
@@ -3625,15 +3859,62 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Winning the Wager"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "subset": "ones"
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Losing the Wager"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "subset": "ones"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "wound",
+                  "subset": "ones"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] DRUKHARI units start the battle winning the wager; each time a DRUKHARI unit destroys an enemy unit DRUKHARI units are winning and HARLEQUINS units are losing, and vice versa when a HARLEQUINS unit destroys an enemy unit"
   },
   {
     "ability_id": "alliance-of-agony",

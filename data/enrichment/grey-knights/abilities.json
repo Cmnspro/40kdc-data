@@ -1435,7 +1435,7 @@
   },
   {
     "ability_id": "apothecary-s-narthecium",
-    "name": "Apothecary’s Narthecium",
+    "name": "Apothecary\u2019s Narthecium",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1461,7 +1461,7 @@
   },
   {
     "ability_id": "ancient-s-banner",
-    "name": "Ancient’s Banner",
+    "name": "Ancient\u2019s Banner",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1745,15 +1745,28 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 1,
+        "keywords": [
+          "GREY KNIGHTS"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "redeploy",
+          "to_reserves": true
+        }
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Gated on the second battle round onward and on not having used the full Gate of Infinity quota the previous turn; those preconditions are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "channelled-force",
@@ -1966,15 +1979,31 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "ones"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "subset": "ones"
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Applies only to a unit set up by the Deep Strike ability this turn; the arrival gate is not encoded (no deep-strike-arrival condition in the DSL). Full rule in raw-text store."
   },
   {
     "ability_id": "duty-before-all",
@@ -1992,21 +2021,36 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "grant_type": "post-fallback-actions",
-        "allows": [
-          "shoot",
-          "declare-charge"
-        ],
-        "unit_type": "terminator",
-        "faction": "grey-knights"
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "GREY KNIGHTS TERMINATOR"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "shoot-after-fallback"
+            }
+          },
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "charge-after-fallback"
+            }
+          }
+        ]
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "turn"
+      "duration": "battle"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
@@ -2026,15 +2070,43 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "VEHICLE"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "advance",
+              "operation": "set",
+              "value": 6
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Assault"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Advance is treated as a fixed 6\" (no roll). The +6\" Move lasts until end of phase while [ASSAULT] lasts until end of turn; the DSL carries a single duration. Full rule in raw-text store."
   },
   {
     "ability_id": "dauntless-champions",
@@ -2103,17 +2175,21 @@
     "faction_id": "grey-knights",
     "detachment_id": "fires-of-purgation",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "leadership-modifier",
+      "target": "defender",
+      "modifier": {
+        "test": "battle-shock",
+        "operation": "subtract",
+        "value": 1
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Triggered when a friendly PURGATION SQUAD pins an enemy unit via Righteous Persecution; the trigger linkage to that ability is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "echojump",

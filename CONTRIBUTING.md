@@ -71,31 +71,31 @@ Repair worklist by faction — abilities still needing DSL work (not total cover
 
 | faction | stub\* | notes-stub | gw-leak | def-skipped |
 |---|--:|--:|--:|--:|
-| agents-of-the-imperium | 31 | 6 | 0 | 2 |
-| chaos-space-marines | 16 | 27 | 0 | 6 |
-| thousand-sons | 16 | 19 | 0 | 2 |
-| adeptus-astartes | 14 | 26 | 0 | 7 |
-| orks | 14 | 11 | 0 | 3 |
-| aeldari | 13 | 16 | 0 | 5 |
-| necrons | 13 | 12 | 0 | 1 |
-| genestealer-cults | 12 | 7 | 0 | 1 |
-| drukhari | 8 | 11 | 0 | 1 |
-| emperors-children | 7 | 12 | 0 | 1 |
-| tyranids | 6 | 8 | 0 | 6 |
-| astra-militarum | 6 | 6 | 0 | 5 |
-| chaos-daemons | 5 | 9 | 0 | 4 |
-| death-guard | 5 | 7 | 0 | 3 |
-| grey-knights | 5 | 6 | 0 | 1 |
-| adeptus-mechanicus | 4 | 3 | 0 | 2 |
-| chaos-knights | 4 | 3 | 0 | 0 |
-| leagues-of-votann | 4 | 2 | 0 | 1 |
-| adeptus-custodes | 3 | 6 | 0 | 3 |
-| tau-empire | 3 | 4 | 0 | 3 |
-| adepta-sororitas | 2 | 9 | 0 | 1 |
-| imperial-knights | 2 | 6 | 0 | 1 |
+| thousand-sons | 7 | 12 | 0 | 2 |
+| chaos-space-marines | 6 | 18 | 0 | 6 |
+| death-guard | 4 | 7 | 0 | 3 |
+| adeptus-astartes | 3 | 16 | 0 | 7 |
+| aeldari | 3 | 8 | 0 | 5 |
+| emperors-children | 3 | 8 | 0 | 1 |
+| chaos-knights | 3 | 2 | 0 | 0 |
+| world-eaters | 3 | 0 | 0 | 0 |
+| orks | 2 | 5 | 0 | 3 |
+| astra-militarum | 2 | 3 | 0 | 5 |
+| genestealer-cults | 2 | 1 | 0 | 1 |
+| tyranids | 1 | 5 | 0 | 5 |
+| drukhari | 1 | 5 | 0 | 1 |
+| imperial-knights | 1 | 5 | 0 | 1 |
+| grey-knights | 1 | 2 | 0 | 1 |
+| chaos-daemons | 0 | 7 | 0 | 4 |
+| adepta-sororitas | 0 | 7 | 0 | 1 |
+| adeptus-custodes | 0 | 3 | 0 | 3 |
+| tau-empire | 0 | 3 | 0 | 3 |
+| necrons | 0 | 2 | 0 | 1 |
+| adeptus-mechanicus | 0 | 0 | 0 | 2 |
+| agents-of-the-imperium | 0 | 0 | 0 | 2 |
 | _core | 0 | 0 | 0 | 0 |
-| world-eaters | 0 | 0 | 0 | 0 |
-| **TOTAL** | **193** | **216** | **0** | **59** |
+| leagues-of-votann | 0 | 0 | 0 | 0 |
+| **TOTAL** | **42** | **119** | **0** | **57** |
 
 `stub*` = empty-modifier placeholder nodes (highest need first) · `notes-stub` = flagged in `community_notes` · `gw-leak` = suspected verbatim GW text · `def-skipped` = defensive abilities skipped by the buff walk. Enumerated stub ids: [`data/_audit/worklist.md`](data/_audit/worklist.md). Full total+repair breakdown: [`data/_audit/summary.md`](data/_audit/summary.md).
 <!-- coverage:end -->

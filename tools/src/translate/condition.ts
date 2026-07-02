@@ -66,6 +66,7 @@ const TIMING_ALIASES: Record<string, string> = {
   "set-up-this-turn": "unit-set-up",
   "after-move-through-terrain-over-4-inches": "moved-through-terrain",
   "after-moving-through-tall-terrain": "moved-through-terrain",
+  "when-this-unit-selected-to-shoot": "selected-to-shoot",
 };
 
 /**
@@ -81,6 +82,17 @@ const TIMING_ONLY_PHRASES: Record<string, string> = {
   "first-time-this-phase": "the first time this phase",
   "in-reserves": "while it is in Reserves",
   "shooting-phase": "in the Shooting phase",
+  "start-of-fight-phase": "at the start of the Fight phase",
+  "first-movement-phase": "in your first Movement phase",
+  "start-of-first-battle-round": "at the start of the first battle round",
+  "start-of-movement-phase": "at the start of the Movement phase",
+  "shooting-or-fight-phase": "in the Shooting or Fight phase",
+  "this-model-starts-or-ends-a-move": "each time this model starts or ends a move",
+  "end-of-normal-move": "when the unit ends a Normal move",
+  "friendly-unit-empowered-within-9":
+    'each time you spend 1 Pain token to Empower a friendly unit within 9" of this unit',
+  "enemy-unit-fails-battle-shock": "each time an enemy unit fails a Battle-shock test",
+  "enemy-unit-destroyed": "each time an enemy unit is destroyed",
 };
 
 export function describeTiming(timing: unknown): string {
@@ -112,6 +124,8 @@ const EVENT_PHRASES: Record<string, string> = {
   "start-of-opponent-turn": "at the start of the opponent's turn",
   "end-of-opponent-turn": "at the end of the opponent's turn",
   "start-of-battle-round": "at the start of the battle round",
+  "start-of-battle": "at the start of the battle",
+  "army-selection": "when you select this model to include in your army",
   "start-of-command-phase": "at the start of the Command phase",
   "declare-battle-formations": "when declaring Battle Formations",
   "post-deployment": "after deployment",
@@ -261,7 +275,9 @@ export function describeCondition(c: Condition): string {
     case "has-fought-this-phase":
       return `${negate}has fought this phase`;
     case "destroyed-by-attack-type":
-      return `${negate}destroyed by a ${str(p.attack_type)} attack`;
+      return p.attack_type === "any"
+        ? `${negate}destroyed by any attack`
+        : `${negate}destroyed by a ${str(p.attack_type)} attack`;
     case "attack-stat-compare": {
       // Mirrors the Rust arm byte-for-byte: missing params render as "" (not "?").
       const sv = (v: unknown): string => (v == null ? "" : str(v));

@@ -28,6 +28,10 @@ struct Ctx {
     range_inches: Option<f64>,
     /// True when the ability scope is `engagement-range`, so within-aura subjects read "within Engagement Range".
     engagement_range: bool,
+    /// The raw scope range, for the non-radius scopes (`any-visible`,
+    /// `any-on-battlefield`) whose within-aura subjects have a real extent the
+    /// generic " nearby" fallback would drop.
+    scope_range: Option<ScopeRange>,
 }
 
 /// JS-template stringification (`String(v)`; numbers print without `.0`, null → `?`).
@@ -110,7 +114,20 @@ fn grant_label(id: &str) -> String {
         "charge-after-advance" => "Advance & Charge".to_string(),
         "charge-after-fallback" => "Fall Back & Charge".to_string(),
         "charge-after-disembark" => "Charge After Disembarking".to_string(),
+        "nurgle-s-gift-aura" => "Nurgle's Gift (Aura)".to_string(),
         _ => title_case(id),
+    }
+}
+
+/// "(your Suppressed target)" — a designate-target mark's parenthetical. A
+/// designation slug that already ends in "target" keeps its own noun
+/// ("bio-stimulus-target" → "(your Bio Stimulus Target)", not "… Target target").
+fn designation_label(designation: &str) -> String {
+    let label = title_case(designation);
+    if label == "Target" || label.ends_with(" Target") {
+        format!(" (your {label})")
+    } else {
+        format!(" (your {label} target)")
     }
 }
 
@@ -291,6 +308,10 @@ fn subject(target: &str, ctx: &Ctx) -> String {
     let within = match ctx.range_inches {
         Some(r) => format!(" within {}\"", fmt_num(r)),
         None if ctx.engagement_range => " within Engagement Range".to_string(),
+        None if ctx.scope_range == Some(ScopeRange::AnyVisible) => " that are visible".to_string(),
+        None if ctx.scope_range == Some(ScopeRange::AnyOnBattlefield) => {
+            " anywhere on the battlefield".to_string()
+        }
         None => " nearby".to_string(),
     };
     match target {
@@ -313,6 +334,17 @@ fn possessive(s: &str) -> String {
         format!("{s}'")
     } else {
         format!("{s}'s")
+    }
+}
+
+/// `<subj>'s <rest>` for a simple subject; `the <rest> of <subj>` when the subject
+/// is a clause (an aura target ending in an inch mark), where a trailing possessive
+/// reads as garbage (`friendly units within 6"'s weapons`).
+fn of_or_possessive(subj: &str, rest: &str) -> String {
+    if subj.ends_with('"') {
+        format!("the {rest} of {subj}")
+    } else {
+        format!("{} {rest}", possessive(subj))
     }
 }
 
@@ -586,7 +618,11 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                     None => format!("while making {} attacks", jv(p, "attack_type")),
                 },
                 T::DestroyedByAttackType => {
-                    format!("when destroyed by a {} attack", jv(p, "attack_type"))
+                    if jv(p, "attack_type") == "any" {
+                        "when destroyed by any attack".to_string()
+                    } else {
+                        format!("when destroyed by a {} attack", jv(p, "attack_type"))
+                    }
                 }
                 T::OpponentUnitWithinRange => {
                     let where_ = if notnull(p, "weapon_name") {
@@ -919,9 +955,9 @@ fn movement_clause(m: &Map<String, Value>, subj: &str) -> String {
         "scout" => format!("before the first battle round, {subj} can make a Scout move{of_up_to}"),
         "infiltrate" => format!("{subj} {} the Infiltrators ability", agree(subj, "has")),
         "advance" => format!(
-            "add {} to {} Advance rolls",
+            "add {} to {}",
             dice_case(dist.unwrap_or(&Value::Null)),
-            possessive(subj)
+            of_or_possessive(subj, "Advance rolls")
         ),
         "pile-in" => format!(
             "{subj} can Pile In up to{}",
@@ -989,14 +1025,17 @@ fn movement_clause(m: &Map<String, Value>, subj: &str) -> String {
             if let Some(n) = dist.and_then(Value::as_f64) {
                 if n < 0.0 {
                     return format!(
-                        "{} Move characteristic is reduced by {}\"",
-                        possessive(subj),
+                        "{} is reduced by {}\"",
+                        of_or_possessive(subj, "Move characteristic"),
                         fmt_num(n.abs())
                     );
                 }
             }
             if let Some(mk) = &move_kinds {
-                return format!("add{inches} to {} {mk} moves", possessive(subj));
+                return format!(
+                    "add{inches} to {}",
+                    of_or_possessive(subj, &format!("{mk} moves"))
+                );
             }
             format!("{subj} can make a Normal move{of_up_to}")
         }
@@ -1083,13 +1122,21 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 String::new()
             };
             if !notnull(m, "stat") {
-                return format!("modify {} characteristics{scope}", possessive(&subj));
+                return format!(
+                    "modify {}{scope}",
+                    of_or_possessive(&subj, "characteristics")
+                );
             }
             if nstr(m, "operation") == Some("set") {
                 return format!(
-                    "modify {} {} characteristic to {}{scope}",
-                    possessive(&subj),
-                    stat_name(m.get("stat").unwrap_or(&Value::Null)),
+                    "modify {} to {}{scope}",
+                    of_or_possessive(
+                        &subj,
+                        &format!(
+                            "{} characteristic",
+                            stat_name(m.get("stat").unwrap_or(&Value::Null))
+                        )
+                    ),
                     jv(m, "value")
                 );
             }
@@ -1107,10 +1154,15 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             }
             let prep = if verb == "add" { "to" } else { "from" };
             format!(
-                "{verb} {} {prep} {} {} characteristic{scope}",
+                "{verb} {} {prep} {}{scope}",
                 jval(&val),
-                possessive(&subj),
-                stat_name(m.get("stat").unwrap_or(&Value::Null))
+                of_or_possessive(
+                    &subj,
+                    &format!(
+                        "{} characteristic",
+                        stat_name(m.get("stat").unwrap_or(&Value::Null))
+                    )
+                )
             )
         }
         T::RollModifier => {
@@ -1141,10 +1193,12 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             }
             if !notnull(m, "value") {
                 format!(
-                    "{} {} {} rolls{ctx_note}",
+                    "{} {}{ctx_note}",
                     dekebab(&jv(m, "operation")),
-                    possessive(&subj),
-                    roll_name(m.get("roll").unwrap_or(&Value::Null))
+                    of_or_possessive(
+                        &subj,
+                        &format!("{} rolls", roll_name(m.get("roll").unwrap_or(&Value::Null)))
+                    )
                 )
             } else {
                 format!(
@@ -1203,14 +1257,46 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 }
                 return format!("roll {die}: for each {hit}, {subj_mw} {verb} {per} {per_noun}");
             }
+            // Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+            // roll decides the amount, so render the rows, not "a number of".
+            let table = m
+                .get("amount_table")
+                .or_else(|| m.get("table"))
+                .and_then(|t| t.as_array());
+            if let Some(rows) = table {
+                if !rows.is_empty() {
+                    let parts: Vec<String> = rows
+                        .iter()
+                        .enumerate()
+                        .map(|(i, r)| {
+                            let amt = dice_case(r.get("amount").unwrap_or(&Value::Null));
+                            let noun = if amt == "1" {
+                                "mortal wound"
+                            } else {
+                                "mortal wounds"
+                            };
+                            let roll = jval(r.get("roll").unwrap_or(&Value::Null));
+                            if i == 0 {
+                                format!("on a {roll}, {subj_mw} {verb} {amt} {noun}")
+                            } else {
+                                format!("on a {roll}, {amt} {noun}")
+                            }
+                        })
+                        .collect();
+                    let die = if notnull(m, "dice") {
+                        dice_case(m.get("dice").unwrap_or(&Value::Null))
+                    } else {
+                        "D6".to_string()
+                    };
+                    return format!("roll one {die}: {}", parts.join("; "));
+                }
+            }
             let a: Option<String> = if notnull(m, "count") {
                 Some(jv(m, "count"))
             } else if notnull(m, "amount") {
                 Some(jv(m, "amount"))
             } else if notnull(m, "dice") {
                 Some(dice_case(m.get("dice").unwrap_or(&Value::Null)))
-            } else if truthy(m, "table") || truthy(m, "amount_table") {
-                Some("a number of".to_string())
             } else {
                 None
             };
@@ -1278,30 +1364,96 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 bracket_keyword(&kw_or_default)
             };
             if notnull(m, "weapon_name") {
-                format!("{} {} gains {kw}", possessive(&subj), jv(m, "weapon_name"))
+                format!(
+                    "{} gains {kw}",
+                    of_or_possessive(&subj, &jv(m, "weapon_name"))
+                )
             } else if notnull(m, "weapon_type") {
                 format!(
-                    "{} {} weapons gain {kw}",
-                    possessive(&subj),
-                    jv(m, "weapon_type")
+                    "{} gain {kw}",
+                    of_or_possessive(&subj, &format!("{} weapons", jv(m, "weapon_type")))
                 )
             } else {
-                format!("{} weapons gain {kw}", possessive(&subj))
+                format!("{} gain {kw}", of_or_possessive(&subj, "weapons"))
             }
         }
         T::AbilityGrant => {
+            // Reserves-arrival grant slugs read as full clauses in GW voice — the
+            // generic "gains the X ability" form would bury the mechanic in a name.
+            let grant = first(m, &["grant_type", "ability_id"]);
+            match grant.map(jval).as_deref() {
+                Some("must-start-in-reserves") => {
+                    return format!("{subj} must start the battle in Reserves");
+                }
+                Some("reinforcement-any-of-turns-1-to-3") => {
+                    return format!(
+                        "{subj} can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules"
+                    );
+                }
+                Some("reserves-limit-exempt") => {
+                    return format!(
+                        "{subj} {} not counted towards any limits on the number of units that can start the battle in Reserves",
+                        agree(&subj, "is")
+                    );
+                }
+                Some("reserves-limit-exempt-with-cargo") => {
+                    return format!(
+                        "neither {subj} nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves"
+                    );
+                }
+                Some("may-start-in-reserves") => {
+                    return format!("{subj} can start the battle in Reserves");
+                }
+                Some("battle-round-plus-one-for-arrival") => {
+                    return format!(
+                        "{subj} {} the current battle round number as being one higher than it actually is when arriving from Reserves",
+                        agree(&subj, "treats")
+                    );
+                }
+                Some("flavor-text") => {
+                    return "this ability is a descriptive note (no additional rules effect)"
+                        .to_string();
+                }
+                Some("crew-tokens") => {
+                    let n = first(m, &["count"])
+                        .map(jval)
+                        .unwrap_or_else(|| "1".to_string());
+                    let token = if notnull(m, "token_name") {
+                        format!("{} tokens", jv(m, "token_name"))
+                    } else {
+                        "Crew tokens".to_string()
+                    };
+                    let being = if pronoun(&subj) == "their" {
+                        "they are"
+                    } else {
+                        "it is"
+                    };
+                    return format!(
+                        "place {n} {token} next to {subj} when {being} first set up, removing one each time {subj} {} a wound (the model itself represents {} final wound)",
+                        agree(&subj, "loses"),
+                        pronoun(&subj)
+                    );
+                }
+                _ => {}
+            }
             let cap = if notnull(m, "capacity") {
                 format!(" ({})", jv(m, "capacity"))
             } else {
                 String::new()
             };
-            match first(m, &["grant_type", "ability_id"]) {
+            // A grant's `timing` modifier scopes when the granted ability applies.
+            let when = if notnull(m, "timing") {
+                format!("{}, ", describe_timing(&jv(m, "timing")))
+            } else {
+                String::new()
+            };
+            match grant {
                 Some(g) => format!(
-                    "{subj} {} the {} ability{cap}",
+                    "{when}{subj} {} the {} ability{cap}",
                     agree(&subj, "gains"),
                     grant_label(&jval(g))
                 ),
-                None => format!("{subj} {} an ability{cap}", agree(&subj, "gains")),
+                None => format!("{when}{subj} {} an ability{cap}", agree(&subj, "gains")),
             }
         }
         T::DamageReduction => {
@@ -1321,6 +1473,16 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             let count = first(m, &["count"])
                 .map(dice_case)
                 .unwrap_or_else(|| "1".to_string());
+            // `type: "wounds"` is a heal (regained wounds), not a revive.
+            if nstr(m, "type") == Some("wounds") || notnull(m, "wounds") {
+                let healed = first(m, &["wounds"]).map(dice_case).unwrap_or(count);
+                let noun = if healed == "1" {
+                    "lost wound"
+                } else {
+                    "lost wounds"
+                };
+                return format!("{subj} {} up to {healed} {noun}", agree(&subj, "regains"));
+            }
             let wounds = first(m, &["wounds_remaining"])
                 .map(jval)
                 .unwrap_or_else(|| "full".to_string());
@@ -1581,7 +1743,10 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     jv(m, "value")
                 )
             } else {
-                format!("modify {} Leadership characteristic", possessive(&subj))
+                format!(
+                    "modify {}",
+                    of_or_possessive(&subj, "Leadership characteristic")
+                )
             }
         }
         T::FightFirst => format!("{subj} {} the Fights First ability", agree(&subj, "has")),
@@ -1611,11 +1776,22 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             };
             format!("{subj} {} the {name}{val} ability", agree(&subj, "has"))
         }
-        T::UnitKeywordGrant => format!(
-            "{} units gain the {} keyword",
-            jv(m, "to_keywords"),
-            jv(m, "keyword")
-        ),
+        T::UnitKeywordGrant => {
+            // Without a `to_keywords` filter the grant lands on the effect subject.
+            if notnull(m, "to_keywords") {
+                format!(
+                    "{} units gain the {} keyword",
+                    jv(m, "to_keywords"),
+                    jv(m, "keyword")
+                )
+            } else {
+                format!(
+                    "{subj} {} the {} keyword",
+                    agree(&subj, "gains"),
+                    jv(m, "keyword")
+                )
+            }
+        }
         T::DeepStrike => {
             if notnull(m, "min_distance") {
                 format!(
@@ -1657,8 +1833,8 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 )
             } else {
                 format!(
-                    "modify {} Objective Control characteristic",
-                    possessive(&subj)
+                    "modify {}",
+                    of_or_possessive(&subj, "Objective Control characteristic")
                 )
             }
         }
@@ -1675,14 +1851,30 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             )
         }
         T::TerrainAreaTag => {
-            format!("the terrain area is marked as {}", dekebab(&jv(m, "tag")))
+            if notnull(m, "tag") {
+                format!("the terrain area is marked as {}", dekebab(&jv(m, "tag")))
+            } else {
+                "the terrain area is marked".to_string()
+            }
         }
-        T::ObjectiveTag => format!("the objective is marked as {}", dekebab(&jv(m, "tag"))),
-        T::UnitTag => format!(
-            "{subj} {} marked as {}",
-            agree(&subj, "is"),
-            dekebab(&jv(m, "tag"))
-        ),
+        T::ObjectiveTag => {
+            if notnull(m, "tag") {
+                format!("the objective is marked as {}", dekebab(&jv(m, "tag")))
+            } else {
+                "the objective is marked".to_string()
+            }
+        }
+        T::UnitTag => {
+            if notnull(m, "tag") {
+                format!(
+                    "{subj} {} marked as {}",
+                    agree(&subj, "is"),
+                    dekebab(&jv(m, "tag"))
+                )
+            } else {
+                format!("{subj} {} marked", agree(&subj, "is"))
+            }
+        }
         T::AutoResult => {
             let result = nstr(m, "result");
             if notnull(m, "test") {
@@ -1709,14 +1901,20 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 let roll = roll_name(m.get("roll").unwrap_or(&Value::Null));
                 match result {
                     Some("pass") => {
-                        format!("{} {roll} rolls automatically succeed", possessive(&subj))
+                        format!(
+                            "{} automatically succeed",
+                            of_or_possessive(&subj, &format!("{roll} rolls"))
+                        )
                     }
                     Some("fail") => {
-                        format!("{} {roll} rolls automatically fail", possessive(&subj))
+                        format!(
+                            "{} automatically fail",
+                            of_or_possessive(&subj, &format!("{roll} rolls"))
+                        )
                     }
                     _ => format!(
-                        "{} {roll} rolls count as {}",
-                        possessive(&subj),
+                        "{} count as {}",
+                        of_or_possessive(&subj, &format!("{roll} rolls")),
                         jv(m, "result")
                     ),
                 }
@@ -1747,17 +1945,35 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     Some("before-move") => "before it moves",
                     _ => "after it has made a Normal move",
                 };
+                // `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+                let verb = if truthy(m, "mandatory") {
+                    "must immediately disembark"
+                } else {
+                    "can disembark"
+                };
+                let away = if notnull(m, "min_enemy_distance") {
+                    format!(
+                        ", and must be set up more than {}\" away from all enemy models",
+                        jv(m, "min_enemy_distance")
+                    )
+                } else {
+                    String::new()
+                };
                 let counts = if truthy(m, "counts_as_normal_move") {
                     "; such units count as having made a Normal move"
                 } else {
                     ""
                 };
+                // A deployment-step disembark has no meaningful charge window; only
+                // an explicit `can_charge` renders the charge tail there.
                 let charge = if truthy(m, "can_charge") {
                     ", and are still eligible to declare a charge this turn"
+                } else if nstr(m, "after") == Some("deployment") && !notnull(m, "can_charge") {
+                    ""
                 } else {
                     ", but cannot declare a charge this turn"
                 };
-                format!("{who} can disembark from {subj} {when}{counts}{charge}")
+                format!("{who} {verb} from {subj} {when}{away}{counts}{charge}")
             }
         }
         T::Disembark => {
@@ -1872,14 +2088,30 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
                 DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
                 DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
             };
+            let desig = if d.designation.as_str().is_empty() {
+                String::new()
+            } else {
+                designation_label(d.designation.as_str())
+            };
+            let select_lead = match &d.select.timing {
+                Some(t) => format!("{}, select", describe_timing(t)),
+                None => "select".to_string(),
+            };
+            let dur = d.duration.map(|x| x.to_string()).unwrap_or_default();
+            let (_, dur_trail) = duration_clauses(&dur);
             let when = match d.applies.to {
                 DesignateTargetEffectAppliesTo::Target => "while it is your target",
                 DesignateTargetEffectAppliesTo::AttackersOfTarget => {
                     "each time a friendly unit attacks it"
                 }
             };
+            let when_clause = if dur_trail.is_empty() {
+                when.to_string()
+            } else {
+                format!("{dur_trail}, {when}")
+            };
             format!(
-                "select one {scope_noun} unit; {when}, {}",
+                "{select_lead} one {scope_noun} unit{desig}; {when_clause}, {}",
                 inline(&d.applies.effect, ctx)
             )
         }
@@ -2010,7 +2242,7 @@ fn dice_pool_options_inline(d: &DicePoolAllocationEffect, ctx: &Ctx) -> String {
         .iter()
         .map(|o| {
             format!(
-                "{} ({}): {}",
+                "{} (requires {}): {}",
                 o.name,
                 describe_requirement(&requirement_value(&o.requirement)),
                 inline(&o.effect, ctx)
@@ -2100,12 +2332,12 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
         }
         EffectNode::DicePoolAllocationEffect(d) => {
             let mut lines = vec![format!(
-                "{indent}{arrow}Roll {}{} (max {} activations):",
+                "{indent}{arrow}Roll {}{}; allocate dice to activate up to {} of the following:",
                 d.pool.count, d.pool.die, d.max_activations
             )];
             for opt in &d.options {
                 lines.push(format!(
-                    "{indent}  - {}: need {} -> {}",
+                    "{indent}  - {} (requires {}): {}.",
                     opt.name,
                     describe_requirement(&requirement_value(&opt.requirement)),
                     inline(&opt.effect, ctx)
@@ -2130,16 +2362,30 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
             let desig = if d.designation.as_str().is_empty() {
                 String::new()
             } else {
-                format!(" (your {})", dekebab(d.designation.as_str()))
+                designation_label(d.designation.as_str())
             };
+            // The mark's timing and duration are content: "After this unit shoots,
+            // select …. Until your next Command phase, each time …".
+            let select_lead = match &d.select.timing {
+                Some(t) => format!("{}, select", capitalize(&describe_timing(t))),
+                None => "Select".to_string(),
+            };
+            let dur = d.duration.map(|x| x.to_string()).unwrap_or_default();
+            let (_, dur_trail) = duration_clauses(&dur);
             let when = match d.applies.to {
-                DesignateTargetEffectAppliesTo::Target => "While it is your target",
+                DesignateTargetEffectAppliesTo::Target => "while it is your target",
                 DesignateTargetEffectAppliesTo::AttackersOfTarget => {
-                    "Each time a friendly unit makes an attack against it"
+                    "each time a friendly unit makes an attack against it"
                 }
             };
+            let when_clause = if dur_trail.is_empty() {
+                capitalize(when)
+            } else {
+                format!("{}, {when}", capitalize(&dur_trail))
+            };
             let inner = &*d.applies.effect;
-            let head = format!("{indent}{arrow}Select one {scope_noun} unit{desig}. {when}");
+            let head =
+                format!("{indent}{arrow}{select_lead} one {scope_noun} unit{desig}. {when_clause}");
             if is_container(inner) {
                 format!("{head}:\n{}", block(inner, depth + 1, ctx))
             } else {
@@ -2377,6 +2623,7 @@ fn render_top_level(
         engagement_range: scope
             .map(|s| matches!(s.range, ScopeRange::EngagementRange))
             .unwrap_or(false),
+        scope_range: scope.map(|s| s.range),
     };
     let duration = scope.map(|s| s.duration.to_string()).unwrap_or_default();
     let (dur_lead, trail) = duration_clauses(&duration);
@@ -2434,8 +2681,18 @@ fn render_top_level(
             }
         }
         _ if is_container(e) => {
+            // A designate-target carrying its own `duration` renders that duration
+            // itself — repeating the scope duration in the head would double it.
+            let own_duration =
+                matches!(e, EffectNode::DesignateTargetEffect(d) if d.duration.is_some());
             let blk = block(e, 0, &ctx);
-            let dur = if !lead.is_empty() { lead } else { trail };
+            let dur = if !lead.is_empty() {
+                lead
+            } else if own_duration {
+                String::new()
+            } else {
+                trail
+            };
             let head = [trig, dur]
                 .into_iter()
                 .filter(|p| !p.is_empty())

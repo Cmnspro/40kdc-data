@@ -1116,59 +1116,16 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "operator": "and",
-        "operands": [
-          {
-            "type": "unit-has-keyword",
-            "parameters": {
-              "keyword": "Hover"
-            }
-          },
-          {
-            "type": "timing-is",
-            "parameters": {
-              "timing": "starts-in-strategic-reserves"
-            }
-          }
-        ]
-      },
-      "effect": {
-        "type": "conditional",
-        "condition": {
-          "operator": "and",
-          "operands": [
-            {
-              "type": "phase-is",
-              "parameters": {
-                "phase": "movement"
-              }
-            },
-            {
-              "type": "timing-is",
-              "parameters": {
-                "timing": "reinforcements"
-              }
-            },
-            {
-              "type": "timing-is",
-              "parameters": {
-                "timing": "battle-round-1-to-3"
-              }
-            }
-          ]
-        },
-        "effect": {
-          "type": "deep-strike",
-          "target": "self",
-          "modifier": {}
-        }
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "ingress-move",
+        "timing": "first-movement-phase"
       }
     },
     "scope": {
-      "range": "self",
-      "duration": "battle"
+      "range": "unit",
+      "duration": "one-use"
     },
     "unit_ids": [
       "archaeopter-transvector"
@@ -1742,7 +1699,7 @@
   },
   {
     "ability_id": "omnissiah-s-blessing",
-    "name": "Omnissiah’s Blessing",
+    "name": "Omnissiah\u2019s Blessing",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2137,14 +2094,41 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "deep-strike",
-      "target": "unit",
-      "modifier": {
-        "type": "start-in-reserves"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "must-start-in-reserves"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt-with-cargo"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reinforcement-any-of-turns-1-to-3"
+          }
+        },
+        {
+          "type": "disembark-after-move",
+          "target": "self",
+          "modifier": {
+            "after": "deployment",
+            "min_enemy_distance": 9
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -2790,7 +2774,7 @@
   },
   {
     "ability_id": "vinghs-wafers-of-dynamism-lords-of-the-forge",
-    "name": "Vingh’s Wafers of Dynamism",
+    "name": "Vingh\u2019s Wafers of Dynamism",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2830,7 +2814,7 @@
   },
   {
     "ability_id": "tl-4-9-lords-of-the-forge",
-    "name": "TL-4Ø9",
+    "name": "TL-4\u00d89",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3423,7 +3407,7 @@
   },
   {
     "ability_id": "omnissiahs-fury-eradication-cohort",
-    "name": "Omnissiah’s Fury",
+    "name": "Omnissiah\u2019s Fury",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3750,15 +3734,66 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "re-selectable",
+      "scope": "army",
+      "select": "start-of-command-phase",
+      "options": [
+        {
+          "name": "Electromotive Energisation",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 2
+            }
+          }
+        },
+        {
+          "name": "Microactuator Bracing",
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "T",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "name": "Predation Protocols",
+          "effect": {
+            "type": "rule-state",
+            "target": "unit",
+            "modifier": {
+              "direction": "granted",
+              "rule_kind": "core-rule",
+              "rule": "charge"
+            }
+          }
+        },
+        {
+          "name": "Muted Servomotors",
+          "effect": {
+            "type": "roll-modifier",
+            "target": "attacker",
+            "modifier": {
+              "roll": "hit",
+              "operation": "subtract",
+              "value": 1
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] In the Command phase, selected units gain the Halo Override keyword (max selectable scales with battle size: 1/2/3 for Incursion/Strike Force/Onslaught) and then one Override ability is chosen for them; only the chosen ability is modeled. Predation Protocols is expressed as a granted charge eligibility (rule is charge-after-Advance) and Muted Servomotors as the Stealth hit penalty. Full rule in raw-text store."
   },
   {
     "ability_id": "cyber-psalm-programming",
@@ -3972,15 +4007,74 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "army",
+      "select": "start-of-first-battle-round",
+      "options": [
+        {
+          "name": "Panegyric Procession",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "attack-is-type",
+              "parameters": {
+                "attack_type": "ranged"
+              }
+            },
+            "effect": {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "AP",
+                "operation": "improve",
+                "value": 1,
+                "attack_type": "ranged"
+              }
+            }
+          }
+        },
+        {
+          "name": "Citation in Savagery",
+          "effect": {
+            "type": "conditional",
+            "condition": {
+              "type": "charged-this-turn"
+            },
+            "effect": {
+              "type": "sequence",
+              "steps": [
+                {
+                  "type": "stat-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "stat": "S",
+                    "operation": "add",
+                    "value": 1,
+                    "attack_type": "melee"
+                  }
+                },
+                {
+                  "type": "stat-modifier",
+                  "target": "unit",
+                  "modifier": {
+                    "stat": "A",
+                    "operation": "add",
+                    "value": 1,
+                    "attack_type": "melee"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] One Benediction is chosen at the start of the first battle round and stays active for CULT MECHANICUS units all battle; Panegyric Procession's +1 AP applies only within half range, a gate not encoded here. Full rule in raw-text store."
   },
   {
     "ability_id": "acquisition-at-any-cost",
@@ -4043,19 +4137,38 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "battle-round",
+        "parameters": {
+          "round": 1
+        }
+      },
+      "effect": {
+        "type": "dice-gated",
+        "dice": "D6",
+        "threshold": 3,
+        "comparison": "gte",
+        "on_success": {
+          "type": "mortal-wounds",
+          "target": "all-enemy",
+          "modifier": {
+            "count": "D3",
+            "scope": "each-enemy-unit-in-opponent-deployment-zone"
+          }
+        },
+        "on_fail": null
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle-round"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Only the BOMBARDMENT 'standing firm' branch is modeled (3+ \u2192 D3 mortal wounds to each enemy unit in the opponent's deployment zone at the start of the first battle round). The opponent's cover/stand-firm choice, the 'taking cover' branch (Battle-shock plus 5+ \u2192 D3 mortal wounds), and the FALLOUT effect across battle rounds 2\u20135 are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "broad-spectrum-targeting-augurs",
-    "name": "Broad‑spectrum Targeting Augurs",
+    "name": "Broad\u2011spectrum Targeting Augurs",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4209,9 +4322,13 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "movement-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "passthrough": [
+          "all-terrain"
+        ]
+      }
     },
     "scope": {
       "range": "unit",
@@ -4221,7 +4338,8 @@
       "thulia-ghuld"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] Models can move through terrain features; the RUIN floor-level placement and base-overhang restrictions are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "secutor-of-olympus",

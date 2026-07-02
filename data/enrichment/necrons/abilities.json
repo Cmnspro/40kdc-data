@@ -243,9 +243,12 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
+      "type": "re-roll",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "roll": "reanimation-protocols",
+        "subset": "all-failures"
+      }
     },
     "scope": {
       "range": "unit",
@@ -256,7 +259,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "Each time this unit's Reanimation Protocols activate, re-roll the dice determining how many wounds are reanimated."
   },
   {
     "ability_id": "scouts-8",
@@ -349,20 +352,43 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "fight"
+        }
+      },
+      "effect": {
+        "type": "select-units",
+        "selector": {
+          "max_count": 1,
+          "keywords": [
+            "CANOPTEK"
+          ],
+          "owner": "friendly"
+        },
+        "effect": {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "WS",
+            "operation": "improve",
+            "value": 1
+          }
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "phase"
     },
     "unit_ids": [
       "canoptek-macrocytes"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "activated",
+    "community_notes": "[APPROX] The selected friendly CANOPTEK unit must be within 3\" of this unit; that 3\" range is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "leader",
@@ -937,7 +963,7 @@
   },
   {
     "ability_id": "powers-of-the-c-tan",
-    "name": "Powers of the C’tan",
+    "name": "Powers of the C\u2019tan",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3166,20 +3192,51 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "pinned",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-movement-phase"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "stat-modifier",
+              "target": "defender",
+              "modifier": {
+                "stat": "M",
+                "operation": "subtract",
+                "value": 2
+              }
+            },
+            {
+              "type": "roll-modifier",
+              "target": "defender",
+              "modifier": {
+                "roll": "charge",
+                "operation": "subtract",
+                "value": 2
+              }
+            }
+          ]
+        }
+      },
+      "duration": "battle-round"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle-round"
     },
     "unit_ids": [
       "geomancer"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Selection is restricted to an enemy unit within 18\" of and visible to this model; that 18\"/visibility restriction is not encoded, and the mark's until-your-next-Movement-phase window is modeled as one battle round. Pinned debuff (\u22122 Move, \u22122 to Charge rolls) mirrors the grav-pinned encoding. Full rule in raw-text store."
   },
   {
     "ability_id": "obelisk-node-control",
@@ -3236,19 +3293,22 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "type": "is-attached"
+        "type": "is-attached",
+        "parameters": {
+          "keyword": "CANOPTEK MACROCYTES"
+        }
       },
       "effect": {
         "type": "ability-grant",
-        "target": "unit",
+        "target": "self",
         "modifier": {
-          "ability_id": "attached-unit-eligibility"
+          "ability_id": "scouts-8"
         }
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "geomancer"
@@ -3905,7 +3965,7 @@
   },
   {
     "ability_id": "the-vargard-s-duty",
-    "name": "The Vargard’s Duty",
+    "name": "The Vargard\u2019s Duty",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3995,7 +4055,7 @@
   },
   {
     "ability_id": "the-lord-s-will",
-    "name": "The Lord’s Will",
+    "name": "The Lord\u2019s Will",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4394,7 +4454,7 @@
   },
   {
     "ability_id": "ctan-shard",
-    "name": "C’tan Shard",
+    "name": "C\u2019tan Shard",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4913,14 +4973,19 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
+      "type": "roll-modifier",
       "target": "unit",
-      "modifier": {}
+      "modifier": {
+        "roll": "reanimation-protocols",
+        "operation": "add",
+        "value": 1
+      }
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
-    }
+    },
+    "community_notes": "TOMB BLADES enhancement: add 1 to the roll when the bearer's unit activates its Reanimation Protocols."
   },
   {
     "ability_id": "deepening-madness-skyshroud-spearhead",
@@ -4987,16 +5052,21 @@
     "faction_id": "necrons",
     "detachment_id": "the-phaerons-armoury",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "reactive",
     "effect": {
       "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "target": "attacker",
+      "modifier": {
+        "stat": "AP",
+        "operation": "set",
+        "value": 1
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    }
+      "range": "self",
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] Reactive defensive stratagem used when an enemy unit targets a friendly NECRONS TITANIC FLY unit in your opponent's Shooting phase or the Fight phase: attacks that target your unit have Armour Penetration 1 until that enemy unit has finished attacking. Modeled as setting attacker AP to 1; the scoping to only the triggering enemy unit and the 'until it has attacked' window are not fully encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "particle-pulse-the-phaerons-armoury",
@@ -5102,14 +5172,33 @@
     "ability_type": "enhancement",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "choice",
+      "choice_label": "Ranged attacks gain (when selected to shoot)",
+      "options": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Lethal Hits",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Sustained Hits",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    }
+      "range": "self",
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] Applies only when the bearer's unit was set up this turn using a Monolith's Eternity Gate ability; when it is then selected to shoot, its ranged attacks gain either [LETHAL HITS] or [SUSTAINED HITS 1]. The Eternity-Gate deployment precondition is not expressible in the condition set. Full rule in raw-text store."
   },
   {
     "ability_id": "mortality-shroud-aura-the-phaerons-armoury",
@@ -5184,17 +5273,78 @@
     "faction_id": "necrons",
     "detachment_id": "cryptek-conclave",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Assault",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "choice",
+          "choice_label": "Weapon ability chosen when the CRYPTEK unit is selected to shoot (until end of phase)",
+          "options": [
+            {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keyword": "Anti-Infantry",
+                "value": "3+",
+                "weapon_type": "ranged"
+              }
+            },
+            {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keyword": "Anti-Mounted",
+                "value": "4+",
+                "weapon_type": "ranged"
+              }
+            },
+            {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keyword": "Assault",
+                "weapon_type": "ranged"
+              }
+            },
+            {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keyword": "Heavy",
+                "weapon_type": "ranged"
+              }
+            },
+            {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keyword": "Ignores Cover",
+                "weapon_type": "ranged"
+              }
+            }
+          ]
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "applies_to": {
+      "required_keywords": [
+        "Cryptek"
+      ]
+    },
+    "community_notes": "Detachment rule: CRYPTEK ranged weapons gain [ASSAULT]; additionally, each time a CRYPTEK unit is selected to shoot, one listed weapon ability may be chosen for its ranged weapons until end of phase."
   },
   {
     "ability_id": "relentless-onslaught",
@@ -5212,15 +5362,38 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "within-range-of-objective"
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Assault",
+            "weapon_type": "ranged"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] +1 to Hit applies to NECRONS attacks (excluding MONSTER models) targeting a unit within range of an objective marker; the [ASSAULT] grant applies only to NECRONS VEHICLE and MOUNTED (excluding TITANIC) ranged weapons. Those keyword restrictions are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "cold-fervour",
@@ -5237,16 +5410,37 @@
     "detachment_id": "cursed-legion",
     "ability_type": "detachment",
     "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn"
+    },
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 2
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 2
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Step 1 (+2 Strength to DESTROYER CULT weapons) is always on. Step 2 fires the first time each turn a DESTROYER CULT unit destroys an enemy unit or brackets it below half-strength, granting +2 Strength to other friendly NECRONS weapons (excluding DESTROYER CULT/MONSTER/TITANIC) until end of turn; the kill trigger, the keyword exclusions, and the until-end-of-turn window are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "annihilation-protocol",
@@ -5264,15 +5458,48 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "charge",
+            "subset": "all-failures"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-below-half-strength"
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "charge",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Charge re-roll and the +1 Charge (when a charge target is Below Half-strength) apply to DESTROYER CULT or FLAYED ONES units; the +1 Armour Penetration applies only to DESTROYER CULT ranged attacks that target the closest eligible target. The per-keyword scoping and the closest-target restriction are not encoded, and unit-below-half-strength approximates the target being below half. Full rule in raw-text store."
   },
   {
     "ability_id": "hyperphasing",
@@ -5288,17 +5515,30 @@
     "faction_id": "necrons",
     "detachment_id": "hypercrypt-legion",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 3,
+        "keywords": [
+          "NECRONS"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "redeploy",
+          "to_reserves": true
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "any-on-battlefield",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the end of your opponent's turn, remove the selected NECRONS units to Strategic Reserves. The maximum selectable scales with battle size (Incursion 1 / Strike Force 2 / Onslaught 3) and is encoded at the Onslaught cap of 3; the end-of-opponent's-turn timing and the exclusion of units within Engagement Range are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "cosmic-distortion",
@@ -5314,17 +5554,28 @@
     "faction_id": "necrons",
     "detachment_id": "pantheon-of-woe",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "aura",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "aura",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "range": 6,
+        "effect": {
+          "type": "stat-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1
+          }
+        }
+      }
     },
     "scope": {
-      "range": "unit",
+      "range": "aura-6",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] Grants NECRONS MONSTER units the Distortion Fields aura: an enemy unit within 6\" is 'unravelling', so attacks targeting it improve Armour Penetration by 1. The optional 3-mortal-wound extension of the aura to 9\" and the model-specific C'tan binding abilities in the store text are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "worthy-foes",
@@ -5340,17 +5591,60 @@
     "faction_id": "necrons",
     "detachment_id": "obeisance-phalanx",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "designate-target",
+      "designation": "worthy-foes",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "start-of-command-phase"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "conditional",
+          "condition": {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "NOBLE"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "LYCHGUARD"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "TRIARCH"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      },
+      "duration": "until-next-command-phase"
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "until-next-command-phase"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "Detachment rule: in your Command phase mark one enemy unit; friendly NOBLE, LYCHGUARD or TRIARCH units add 1 to Wound rolls against it until the start of your next Command phase."
   },
   {
     "ability_id": "power-matrix",

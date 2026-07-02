@@ -85,6 +85,7 @@ var abilityGrantLabels = map[string]string{
 	"charge-after-advance":   "Advance & Charge",
 	"charge-after-fallback":  "Fall Back & Charge",
 	"charge-after-disembark": "Charge After Disembarking",
+	"nurgle-s-gift-aura":     "Nurgle's Gift (Aura)",
 }
 
 // grantLabel returns the curated label for a granted ability id, else Title Case.
@@ -93,6 +94,18 @@ func grantLabel(id string) string {
 		return label
 	}
 	return titleCase(id)
+}
+
+// designationLabel renders "(your Suppressed target)" — a designate-target
+// mark's parenthetical. A designation slug that already ends in "target" keeps
+// its own noun ("bio-stimulus-target" → "(your Bio Stimulus Target)", not
+// "… Target target").
+func designationLabel(designation any) string {
+	label := titleCase(ejstr(designation))
+	if label == "Target" || strings.HasSuffix(label, " Target") {
+		return " (your " + label + ")"
+	}
+	return " (your " + label + " target)"
 }
 
 // antiRe splits an "anti-<x>"/"anti <x>" keyword; antiRatedRe peels the trailing
@@ -232,6 +245,10 @@ func subject(target any, ctx map[string]any) string {
 		within = " within " + ejstr(ri) + "\""
 	} else if ctx["engagement_range"] == true {
 		within = " within Engagement Range"
+	} else if ctx["scope_range"] == "any-visible" {
+		within = " that are visible"
+	} else if ctx["scope_range"] == "any-on-battlefield" {
+		within = " anywhere on the battlefield"
 	}
 	switch target {
 	case "self", "bearer":
@@ -264,6 +281,17 @@ func possessive(s string) string {
 		return s + "'"
 	}
 	return s + "'s"
+}
+
+// ofOrPossessive renders "<subj>'s <rest>" for a simple subject, or
+// "the <rest> of <subj>" when the subject is a clause (an aura target ending in
+// an inch mark), where a trailing possessive reads as garbage
+// (`friendly units within 6"'s weapons`).
+func ofOrPossessive(subj, rest string) string {
+	if strings.HasSuffix(subj, "\"") {
+		return "the " + rest + " of " + subj
+	}
+	return possessive(subj) + " " + rest
 }
 
 func esigned(operation, value any) string {
@@ -550,6 +578,9 @@ func conditionLeadIn(c map[string]any) string {
 		}
 		return "while making " + ejstr(p["attack_type"]) + " attacks"
 	case "destroyed-by-attack-type":
+		if ejstr(p["attack_type"]) == "any" {
+			return "when destroyed by any attack"
+		}
 		return "when destroyed by a " + ejstr(p["attack_type"]) + " attack"
 	case "opponent-unit-within-range":
 		var where string
@@ -918,7 +949,7 @@ func movementClause(m map[string]any, subj string) string {
 	case "infiltrate":
 		return subj + " " + ev(subj, "has") + " the Infiltrators ability"
 	case "advance":
-		return "add " + diceCase(ejstr(dist)) + " to " + possessive(subj) + " Advance rolls"
+		return "add " + diceCase(ejstr(dist)) + " to " + ofOrPossessive(subj, "Advance rolls")
 	case "pile-in":
 		i := inches
 		if i == "" {
@@ -970,10 +1001,10 @@ func movementClause(m map[string]any, subj string) string {
 	}
 	// normal / default
 	if n, ok := parseNumber(dist); ok && n < 0 {
-		return possessive(subj) + " Move characteristic is reduced by " + numStr(-n) + "\""
+		return ofOrPossessive(subj, "Move characteristic") + " is reduced by " + numStr(-n) + "\""
 	}
 	if moveKinds != "" {
-		return "add" + inches + " to " + possessive(subj) + " " + moveKinds + " moves"
+		return "add" + inches + " to " + ofOrPossessive(subj, moveKinds+" moves")
 	}
 	return subj + " can make a Normal move" + ofUpTo
 }
@@ -1042,10 +1073,10 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			scope = " (" + ejstr(m["attack_type"]) + ")"
 		}
 		if m["stat"] == nil {
-			return "modify " + possessive(subj) + " characteristics" + scope
+			return "modify " + ofOrPossessive(subj, "characteristics") + scope
 		}
 		if m["operation"] == "set" {
-			return "modify " + possessive(subj) + " " + statName(m["stat"]) + " characteristic to " + ejstr(m["value"]) + scope
+			return "modify " + ofOrPossessive(subj, statName(m["stat"])+" characteristic") + " to " + ejstr(m["value"]) + scope
 		}
 		val := m["value"]
 		verb := "add"
@@ -1067,7 +1098,7 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if verb == "add" {
 			prep = "to"
 		}
-		return verb + " " + ejstr(val) + " " + prep + " " + possessive(subj) + " " + statName(m["stat"]) + " characteristic" + scope
+		return verb + " " + ejstr(val) + " " + prep + " " + ofOrPossessive(subj, statName(m["stat"])+" characteristic") + scope
 	case "roll-modifier":
 		ctxNote := ""
 		if m["context"] != nil && truthy(m["context"]) {
@@ -1085,7 +1116,7 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			return subj + " can change " + roll + " rolls to a " + ejstr(m["value"])
 		}
 		if m["value"] == nil {
-			return dekebab(ejstr(m["operation"])) + " " + possessive(subj) + " " + roll + " rolls" + ctxNote
+			return dekebab(ejstr(m["operation"])) + " " + ofOrPossessive(subj, roll+" rolls") + ctxNote
 		}
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to " + roll + " rolls" + ctxNote
 	case "re-roll":
@@ -1145,25 +1176,62 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			kw = bracketKeyword(k)
 		}
 		if m["weapon_name"] != nil {
-			return possessive(subj) + " " + ejstr(m["weapon_name"]) + " gains " + kw
+			return ofOrPossessive(subj, ejstr(m["weapon_name"])) + " gains " + kw
 		}
 		if m["weapon_type"] != nil {
-			return possessive(subj) + " " + ejstr(m["weapon_type"]) + " weapons gain " + kw
+			return ofOrPossessive(subj, ejstr(m["weapon_type"])+" weapons") + " gain " + kw
 		}
-		return possessive(subj) + " weapons gain " + kw
+		return ofOrPossessive(subj, "weapons") + " gain " + kw
 	case "ability-grant":
 		grant := m["grant_type"]
 		if grant == nil {
 			grant = m["ability_id"]
 		}
+		// Reserves-arrival grant slugs read as full clauses in GW voice — the
+		// generic "gains the X ability" form would bury the mechanic in a name.
+		switch ejstr(grant) {
+		case "must-start-in-reserves":
+			return subj + " must start the battle in Reserves"
+		case "reinforcement-any-of-turns-1-to-3":
+			return subj + " can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules"
+		case "reserves-limit-exempt":
+			return subj + " " + ev(subj, "is") + " not counted towards any limits on the number of units that can start the battle in Reserves"
+		case "reserves-limit-exempt-with-cargo":
+			return "neither " + subj + " nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves"
+		case "may-start-in-reserves":
+			return subj + " can start the battle in Reserves"
+		case "battle-round-plus-one-for-arrival":
+			return subj + " " + ev(subj, "treats") + " the current battle round number as being one higher than it actually is when arriving from Reserves"
+		case "flavor-text":
+			return "this ability is a descriptive note (no additional rules effect)"
+		case "crew-tokens":
+			n := "1"
+			if m["count"] != nil {
+				n = ejstr(m["count"])
+			}
+			token := "Crew tokens"
+			if m["token_name"] != nil {
+				token = ejstr(m["token_name"]) + " tokens"
+			}
+			being := "it is"
+			if pronoun(subj) == "their" {
+				being = "they are"
+			}
+			return "place " + n + " " + token + " next to " + subj + " when " + being + " first set up, removing one each time " + subj + " " + ev(subj, "loses") + " a wound (the model itself represents " + pronoun(subj) + " final wound)"
+		}
 		cap := ""
 		if m["capacity"] != nil {
 			cap = " (" + ejstr(m["capacity"]) + ")"
 		}
-		if grant != nil {
-			return subj + " " + ev(subj, "gains") + " the " + grantLabel(ejstr(grant)) + " ability" + cap
+		// A grant's timing modifier scopes when the granted ability applies.
+		when := ""
+		if m["timing"] != nil {
+			when = describeTiming(m["timing"]) + ", "
 		}
-		return subj + " " + ev(subj, "gains") + " an ability" + cap
+		if grant != nil {
+			return when + subj + " " + ev(subj, "gains") + " the " + grantLabel(ejstr(grant)) + " ability" + cap
+		}
+		return when + subj + " " + ev(subj, "gains") + " an ability" + cap
 	case "movement-modifier":
 		return movementClause(m, subj)
 	case "aura":
@@ -1191,6 +1259,18 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		count := "1"
 		if m["count"] != nil {
 			count = diceCase(m["count"])
+		}
+		// type: "wounds" is a heal (regained wounds), not a revive.
+		if m["type"] == "wounds" || m["wounds"] != nil {
+			healed := count
+			if m["wounds"] != nil {
+				healed = diceCase(m["wounds"])
+			}
+			noun := "lost wounds"
+			if healed == "1" {
+				noun = "lost wound"
+			}
+			return subj + " " + ev(subj, "regains") + " up to " + healed + " " + noun
 		}
 		var w any = "full"
 		if m["wounds_remaining"] != nil {
@@ -1404,7 +1484,7 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			}
 			return verb + " " + ejstr(m["value"]) + " " + prep + " the Leadership characteristic of " + subj
 		}
-		return "modify " + possessive(subj) + " Leadership characteristic"
+		return "modify " + ofOrPossessive(subj, "Leadership characteristic")
 	case "fight-first":
 		return subj + " " + ev(subj, "has") + " the Fights First ability"
 	case "fight-last":
@@ -1427,7 +1507,11 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		}
 		return subj + " " + ev(subj, "has") + " the " + name + val + " ability"
 	case "unit-keyword-grant":
-		return ejstr(m["to_keywords"]) + " units gain the " + ejstr(m["keyword"]) + " keyword"
+		// Without a to_keywords filter the grant lands on the effect subject.
+		if m["to_keywords"] != nil {
+			return ejstr(m["to_keywords"]) + " units gain the " + ejstr(m["keyword"]) + " keyword"
+		}
+		return subj + " " + ev(subj, "gains") + " the " + ejstr(m["keyword"]) + " keyword"
 	case "deep-strike":
 		if m["min_distance"] != nil {
 			return subj + " " + ev(subj, "has") + " the Deep Strike ability and can be set up more than " + ejstr(m["min_distance"]) + "\" from enemy models"
@@ -1451,11 +1535,11 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		roll := rollName(m["roll"])
 		switch r {
 		case "pass":
-			return possessive(subj) + " " + roll + " rolls automatically succeed"
+			return ofOrPossessive(subj, roll+" rolls") + " automatically succeed"
 		case "fail":
-			return possessive(subj) + " " + roll + " rolls automatically fail"
+			return ofOrPossessive(subj, roll+" rolls") + " automatically fail"
 		}
-		return possessive(subj) + " " + roll + " rolls count as " + ejstr(r)
+		return ofOrPossessive(subj, roll+" rolls") + " count as " + ejstr(r)
 	case "firing-deck":
 		return subj + " " + ev(subj, "has") + " Firing Deck " + ejstr(m["value"])
 	case "disembark":
@@ -1487,15 +1571,28 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		default:
 			when = "after it has made a Normal move"
 		}
+		// `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+		verb := "can disembark"
+		if truthy(m["mandatory"]) {
+			verb = "must immediately disembark"
+		}
+		away := ""
+		if m["min_enemy_distance"] != nil {
+			away = ", and must be set up more than " + ejstr(m["min_enemy_distance"]) + "\" away from all enemy models"
+		}
 		counts := ""
 		if truthy(m["counts_as_normal_move"]) {
 			counts = "; such units count as having made a Normal move"
 		}
+		// A deployment-step disembark has no meaningful charge window; only an
+		// explicit can_charge renders the charge tail there.
 		charge := ", but cannot declare a charge this turn"
 		if truthy(m["can_charge"]) {
 			charge = ", and are still eligible to declare a charge this turn"
+		} else if m["after"] == "deployment" && m["can_charge"] == nil {
+			charge = ""
 		}
-		return who + " can disembark from " + subj + " " + when + counts + charge
+		return who + " " + verb + " from " + subj + " " + when + away + counts + charge
 	case "unit-attachment":
 		if truthy(m["mandatory"]) {
 			return subj + " must be attached to a Leader, or it counts as destroyed"
@@ -1524,17 +1621,26 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if m["operation"] != nil {
 			return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to " + pronoun(subj) + " Objective Control characteristic"
 		}
-		return "modify " + possessive(subj) + " Objective Control characteristic"
+		return "modify " + ofOrPossessive(subj, "Objective Control characteristic")
 	case "bs-modifier":
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to Ballistic Skill"
 	case "charge-roll-modifier":
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to Charge rolls"
 	case "terrain-area-tag":
-		return "the terrain area is marked as " + dekebab(ejstr(m["tag"]))
+		if m["tag"] != nil {
+			return "the terrain area is marked as " + dekebab(ejstr(m["tag"]))
+		}
+		return "the terrain area is marked"
 	case "objective-tag":
-		return "the objective is marked as " + dekebab(ejstr(m["tag"]))
+		if m["tag"] != nil {
+			return "the objective is marked as " + dekebab(ejstr(m["tag"]))
+		}
+		return "the objective is marked"
 	case "unit-tag":
-		return subj + " " + ev(subj, "is") + " marked as " + dekebab(ejstr(m["tag"]))
+		if m["tag"] != nil {
+			return subj + " " + ev(subj, "is") + " marked as " + dekebab(ejstr(m["tag"]))
+		}
+		return subj + " " + ev(subj, "is") + " marked"
 	case "conditional":
 		cond, _ := getMap(e, "condition")
 		inner, _ := getMap(e, "effect")
@@ -1571,13 +1677,26 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if sel["scope"] == "friendly-unit" {
 			scopeNoun = "friendly"
 		}
+		desig := ""
+		if truthy(e["designation"]) {
+			desig = designationLabel(e["designation"])
+		}
+		selectLead := "select"
+		if truthy(sel["timing"]) {
+			selectLead = describeTiming(sel["timing"]) + ", select"
+		}
+		_, durTrail := durationClauses(e["duration"])
 		applies, _ := getMap(e, "applies")
 		when := "each time a friendly unit attacks it"
 		if applies["to"] == "target" {
 			when = "while it is your target"
 		}
+		whenClause := when
+		if durTrail != "" {
+			whenClause = durTrail + ", " + when
+		}
 		appEff, _ := getMap(applies, "effect")
-		return "select one " + scopeNoun + " unit; " + when + ", " + describeEffectInline(appEff, ctx)
+		return selectLead + " one " + scopeNoun + " unit" + desig + "; " + whenClause + ", " + describeEffectInline(appEff, ctx)
 	case "stance-select":
 		var opts []string
 		for _, o := range getList(e, "options") {
@@ -1649,6 +1768,33 @@ func describeMortalWounds(e, m map[string]any, subj string, ctx map[string]any) 
 		}
 		return "roll " + die + ": for each " + hit + ", " + subjMW + " " + verb + " " + per + " " + perNoun
 	}
+	// Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+	// roll decides the amount, so render the rows, not "a number of".
+	tableAny := m["amount_table"]
+	if tableAny == nil {
+		tableAny = m["table"]
+	}
+	if table, ok := tableAny.([]any); ok && len(table) > 0 {
+		var rows []string
+		for i, rAny := range table {
+			r, _ := asMap(rAny)
+			amt := diceCase(r["amount"])
+			noun := "mortal wounds"
+			if amt == "1" {
+				noun = "mortal wound"
+			}
+			if i == 0 {
+				rows = append(rows, "on a "+ejstr(r["roll"])+", "+subjMW+" "+verb+" "+amt+" "+noun)
+			} else {
+				rows = append(rows, "on a "+ejstr(r["roll"])+", "+amt+" "+noun)
+			}
+		}
+		die := "D6"
+		if m["dice"] != nil {
+			die = diceCase(m["dice"])
+		}
+		return "roll one " + die + ": " + strings.Join(rows, "; ")
+	}
 	var a *string
 	switch {
 	case m["count"] != nil:
@@ -1659,9 +1805,6 @@ func describeMortalWounds(e, m map[string]any, subj string, ctx map[string]any) 
 		a = &s
 	case m["dice"] != nil:
 		s := diceCase(m["dice"])
-		a = &s
-	case truthy(m["table"]) || truthy(m["amount_table"]):
-		s := "a number of"
 		a = &s
 	}
 	if a == nil && m["trigger"] != nil {
@@ -1715,7 +1858,7 @@ func describeRequirement(req map[string]any) string {
 }
 
 func describeDicePoolInline(e map[string]any, ctx map[string]any) string {
-	poolText := "?"
+	poolText := "your dice pool"
 	if pool, ok := getMap(e, "pool"); ok && pool != nil {
 		poolText = ejstr(pool["count"]) + ejstr(pool["die"])
 	}
@@ -1724,7 +1867,7 @@ func describeDicePoolInline(e map[string]any, ctx map[string]any) string {
 		om, _ := asMap(o)
 		req, _ := getMap(om, "requirement")
 		eff, _ := getMap(om, "effect")
-		opts = append(opts, ejstr(om["name"])+" ("+describeRequirement(req)+"): "+describeEffectInline(eff, ctx))
+		opts = append(opts, ejstr(om["name"])+" (requires "+describeRequirement(req)+"): "+describeEffectInline(eff, ctx))
 	}
 	return "roll " + poolText + ": " + strings.Join(opts, " / ")
 }
@@ -1780,16 +1923,20 @@ func describeEffect(e map[string]any, depth int, ctx map[string]any) string {
 		}
 		return indent + arrow + "Roll one " + diceCase(e["dice"]) + ": on " + cmp + ", " + success + fail + "."
 	case "dice-pool-allocation":
-		poolText := "?"
+		poolText := "your dice pool"
 		if pool, ok := getMap(e, "pool"); ok && pool != nil {
 			poolText = ejstr(pool["count"]) + ejstr(pool["die"])
 		}
-		lines := []string{indent + arrow + "Roll " + poolText + " (max " + ejstr(e["max_activations"]) + " activations):"}
+		upTo := " to activate the following"
+		if e["max_activations"] != nil {
+			upTo = " to activate up to " + ejstr(e["max_activations"]) + " of the following"
+		}
+		lines := []string{indent + arrow + "Roll " + poolText + "; allocate dice" + upTo + ":"}
 		for _, optAny := range getList(e, "options") {
 			opt, _ := asMap(optAny)
 			req, _ := getMap(opt, "requirement")
 			eff, _ := getMap(opt, "effect")
-			lines = append(lines, indent+"  - "+ejstr(opt["name"])+": need "+describeRequirement(req)+" -> "+describeEffectInline(eff, ctx))
+			lines = append(lines, indent+"  - "+ejstr(opt["name"])+" (requires "+describeRequirement(req)+"): "+describeEffectInline(eff, ctx)+".")
 		}
 		return strings.Join(lines, "\n")
 	case "select-units":
@@ -1808,15 +1955,26 @@ func describeEffect(e map[string]any, depth int, ctx map[string]any) string {
 		}
 		desig := ""
 		if truthy(e["designation"]) {
-			desig = " (your " + dekebab(ejstr(e["designation"])) + ")"
+			desig = designationLabel(e["designation"])
 		}
+		// The mark's timing and duration are content: "After this unit shoots,
+		// select …. Until your next Command phase, each time …".
+		selectLead := "Select"
+		if truthy(sel["timing"]) {
+			selectLead = capitalize(describeTiming(sel["timing"])) + ", select"
+		}
+		_, durTrail := durationClauses(e["duration"])
 		applies, _ := getMap(e, "applies")
 		inner, _ := getMap(applies, "effect")
-		when := "Each time a friendly unit makes an attack against it"
+		when := "each time a friendly unit makes an attack against it"
 		if applies["to"] == "target" {
-			when = "While it is your target"
+			when = "while it is your target"
 		}
-		head := indent + arrow + "Select one " + scopeNoun + " unit" + desig + ". " + when
+		whenClause := capitalize(when)
+		if durTrail != "" {
+			whenClause = capitalize(durTrail) + ", " + when
+		}
+		head := indent + arrow + selectLead + " one " + scopeNoun + " unit" + desig + ". " + whenClause
 		if inner != nil && containerTypes[getStr(inner, "type")] {
 			return head + ":\n" + describeEffect(inner, depth+1, ctx)
 		}
@@ -2055,6 +2213,7 @@ func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any
 	ctx := map[string]any{
 		"range_inches":     auraRadius(scope),
 		"engagement_range": scope["range"] == "engagement-range",
+		"scope_range":      scope["range"],
 	}
 	durLead, trail := durationClauses(scope["duration"])
 	// An explicit usage limit supersedes the duration's coarse "once per battle" lead.
@@ -2113,9 +2272,12 @@ func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any
 		return assembleSentence([]string{trig, lead, leadIn, trail, describeEffectInline(inner, ctx)})
 	}
 	if containerTypes[getStr(e, "type")] {
+		// A designate-target carrying its own `duration` renders that duration
+		// itself — repeating the scope duration in the head would double it.
+		ownDuration := getStr(e, "type") == "designate-target" && e["duration"] != nil
 		block := describeEffect(e, 0, ctx)
 		dur := lead
-		if dur == "" {
+		if dur == "" && !ownDuration {
 			dur = trail
 		}
 		head := joinNonEmpty([]string{trig, dur}, ", ")

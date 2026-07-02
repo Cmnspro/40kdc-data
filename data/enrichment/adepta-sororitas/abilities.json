@@ -427,10 +427,11 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "cp-gain",
+      "type": "resource-gain",
       "target": "self",
       "modifier": {
-        "type": "once-per-battle-resource"
+        "pool_id": "miracle-dice-pool",
+        "amount": 1
       }
     },
     "scope": {
@@ -441,7 +442,8 @@
       "sanctifiers"
     ],
     "ability_type": "unit",
-    "behavior": "activated"
+    "behavior": "activated",
+    "community_notes": "[APPROX] Once per battle, after the unit performs an Act of Faith, gain 1 Miracle dice; the after-Act-of-Faith trigger is not gated. Full rule in raw-text store."
   },
   {
     "ability_id": "salvationist-medikit",
@@ -1357,25 +1359,27 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
+      "type": "resource-gain",
       "target": "self",
       "modifier": {
-        "ability_id": "flavor-text"
+        "pool_id": "miracle-dice-pool",
+        "amount": 1
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "unit_ids": [
       "retributor-squad"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
+    "behavior": "activated",
     "usage": {
       "frequency": "n-per-battle",
       "count": 2
-    }
+    },
+    "community_notes": "[APPROX] Twice per battle, after the unit performs an Act of Faith, gain 1 Miracle dice; the after-Act-of-Faith trigger is not gated. Full rule in raw-text store."
   },
   {
     "ability_id": "storm-of-retribution",
@@ -3593,15 +3597,42 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Assault",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "opponent-unit-within-range",
+            "parameters": {
+              "range_inches": 6
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "S",
+              "operation": "add",
+              "value": 1,
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "Ranged weapons of ADEPTA SORORITAS models gain [ASSAULT]; attacks from such weapons targeting a unit within 6\" add 1 to the Strength characteristic."
   },
   {
     "ability_id": "righteous-purpose",
@@ -3617,17 +3648,44 @@
     "faction_id": "adepta-sororitas",
     "detachment_id": "champions-of-faith",
     "ability_type": "detachment",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 3,
+        "keywords": [
+          "ADEPTA SORORITAS"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 1
+            }
+          },
+          {
+            "type": "leadership-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "improve",
+              "value": 1
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "turn"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] In your Command phase, select up to 3 ADEPTA SORORITAS units; they are Righteous until the start of your next Command phase (modeled as 'turn'), gaining +1\" Move and +1 Leadership. The +1 WS/BS for Battle Sisters Squad / Celestian Sacresants / Paragon Warsuits models and the +1 OC for non-Battle-shocked Celestian Sacresants are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "sacred-rites",

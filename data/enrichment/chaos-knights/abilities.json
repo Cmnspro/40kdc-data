@@ -1219,20 +1219,70 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "after-scoring-hit"
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "INFANTRY"
+            }
+          },
+          {
+            "type": "attack-is-type",
+            "parameters": {
+              "attack_type": "graviton-crusher"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "defender",
+            "modifier": {
+              "stat": "M",
+              "operation": "subtract",
+              "value": 2
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "defender",
+            "modifier": {
+              "roll": "charge",
+              "operation": "subtract",
+              "value": 2
+            }
+          }
+        ]
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle-round"
     },
     "unit_ids": [
       "chaos-questoris-knight-styrix"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "behavior": "reactive",
+    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
     "ability_id": "super-heavy-walker",
@@ -3904,17 +3954,19 @@
     "behavior": "reactive",
     "effect": {
       "type": "mortal-wounds",
-      "target": "all-enemy",
+      "target": "target",
       "modifier": {
-        "count": "6D6",
-        "per_roll": "4+"
+        "dice": "6D6",
+        "threshold": 4,
+        "comparison": "gte",
+        "mortal_per_success": 1
       }
     },
     "scope": {
       "range": "unit",
       "duration": "phase"
     },
-    "community_notes": "1CP, once per battle round. After an enemy fails a Battle-shock test: a CHAOS KNIGHTS unit within 12\" rolls 6D6 — each 4+ deals 1 mortal wound and heals 1 wound on your unit."
+    "community_notes": "[APPROX] 1CP, once per battle round (not gated — no once-per-battle-round frequency exists). After an enemy unit fails a Battle-shock test, a CHAOS KNIGHTS unit within 12\" rolls 6D6: each 4+ deals that enemy unit 1 mortal wound. The paired heal (one model in your unit regains 1 lost wound per 4+) cannot share the same dice pool and is not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "nightmares-master-traitoris-lance",

@@ -233,7 +233,7 @@
   },
   {
     "ability_id": "grimnyr-s-regard",
-    "name": "Grimnyr’s Regard",
+    "name": "Grimnyr\u2019s Regard",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -809,7 +809,7 @@
   },
   {
     "ability_id": "grudge-fuelled-fortitude",
-    "name": "Grudge‑fuelled Fortitude",
+    "name": "Grudge\u2011fuelled Fortitude",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -925,7 +925,7 @@
   },
   {
     "ability_id": "brokhyr-guild-support",
-    "name": "Brôkhyr Guild Support",
+    "name": "Br\u00f4khyr Guild Support",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1130,11 +1130,47 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "unit",
-      "modifier": {
-        "ability_id": "once-per-round-special"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "resource-spend",
+          "target": "self",
+          "modifier": {
+            "pool_id": "yp-pool",
+            "amount": 1
+          }
+        },
+        {
+          "type": "choice",
+          "choice_label": "Change one roll made for this model to an unmodified 6",
+          "options": [
+            {
+              "type": "auto-result",
+              "target": "self",
+              "modifier": {
+                "roll": "hit",
+                "result": 6
+              }
+            },
+            {
+              "type": "auto-result",
+              "target": "self",
+              "modifier": {
+                "roll": "wound",
+                "result": 6
+              }
+            },
+            {
+              "type": "auto-result",
+              "target": "self",
+              "modifier": {
+                "roll": "saving-throw",
+                "result": 6
+              }
+            }
+          ]
+        }
+      ]
     },
     "scope": {
       "range": "unit",
@@ -1144,8 +1180,8 @@
       "uthar-the-destined"
     ],
     "ability_type": "unit",
-    "behavior": "passive",
-    "community_notes": "defensive ability (skipped for damage calc)",
+    "behavior": "activated",
+    "community_notes": "[APPROX] Once per turn, spend 1YP to change one Hit roll, Wound roll or saving throw made for this model to an unmodified 6; the change applies to a single roll, not all rolls of that kind. Full rule in raw-text store.",
     "usage": {
       "frequency": "once-per-turn"
     }
@@ -1871,16 +1907,29 @@
     "faction_id": "leagues-of-votann",
     "detachment_id": "armoured-trailblazers",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "select-units",
+      "selector": {
+        "max_count": 2,
+        "keywords": [
+          "SAGITAUR"
+        ],
+        "owner": "friendly"
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "ingress-move"
+        }
+      }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "turn"
+    },
+    "community_notes": "[APPROX] Selects up to two friendly SAGITAUR units to make an ingress move; the requirements that they be in Strategic Reserves and that this be used at the end of the opponent's Movement phase from the second battle round onwards are not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "built-to-last-armoured-trailblazers",
@@ -2308,16 +2357,44 @@
     "faction_id": "leagues-of-votann",
     "detachment_id": "hearthguard-covenant",
     "ability_type": "stratagem",
-    "behavior": "passive",
+    "behavior": "activated",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "ranged"
+          }
+        },
+        {
+          "type": "resource-spend",
+          "target": "self",
+          "modifier": {
+            "pool_id": "yp-pool",
+            "amount": 1
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keyword": "Sustained Hits",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
-    }
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] The +1 S on ranged attacks is unconditional; the [SUSTAINED HITS 1] grant is optional (only if you spend 1 YP). The resource-spend and keyword-grant steps together model that opt-in upgrade, but the sequence does not express that only the Sustained Hits step is gated on the YP spend. Full rule in raw-text store."
   },
   {
     "ability_id": "materialisation-matrices-hearthguard-covenant",
@@ -2438,15 +2515,70 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "phase-is",
+                "parameters": {
+                  "phase": "command"
+                }
+              },
+              {
+                "type": "controls-objective"
+              }
+            ]
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "yp-pool",
+              "amount": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "shooting"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "resource-spend",
+                "target": "self",
+                "modifier": {
+                  "pool_id": "yp-pool",
+                  "amount": 1
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "subset": "ones"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] YP gain is 1 per controlled objective outside your deployment zone with an IRON-MASTER/MEMNYR STRATEGIST model within range (max 2 YP/turn); the model-proximity, deployment-zone exclusion, and 2 YP cap are not encoded. The Shooting-phase effect (optionally spend 1 YP so a selected BR\u00d4KHYR/IRONKIN STEELJACKS/ARKANYST EVALUATOR unit re-rolls Hit rolls of 1) has its unit gating simplified. Full rule in raw-text store."
   },
   {
     "ability_id": "assailed-from-every-angle",
@@ -2601,7 +2733,7 @@
   },
   {
     "ability_id": "fury-from-the-delve",
-    "name": "Fury From The Dêlve",
+    "name": "Fury From The D\u00ealve",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2615,15 +2747,24 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "deep-strike"
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "CTHONIAN BESERKS"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "deep-strike"
+        }
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "permanent"
+      "duration": "battle"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
@@ -2678,7 +2819,7 @@
                 {
                   "type": "unit-has-keyword",
                   "parameters": {
-                    "keyword": "KÂHL"
+                    "keyword": "K\u00c2HL"
                   }
                 },
                 {
@@ -2690,7 +2831,7 @@
                 {
                   "type": "unit-has-keyword",
                   "parameters": {
-                    "keyword": "ÛTHAR THE DESTINED"
+                    "keyword": "\u00dbTHAR THE DESTINED"
                   }
                 }
               ]
@@ -2730,15 +2871,51 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "stat-modifier",
-      "target": "unit",
-      "modifier": {}
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "ability_id": "hostile-acquisition"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "command"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "resource-spend",
+                "target": "self",
+                "modifier": {
+                  "pool_id": "yp-pool",
+                  "amount": 3
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "unit",
+                "modifier": {
+                  "grant_type": "swap-hostile-acquisition-and-fortify-takeover"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
-    "community_notes": "[APPROX] DSL stub — detachment rule; mechanics pending authoring. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the start of the battle LEAGUES OF VOTANN units have the Hostile Acquisition ability; at the end of the Command phase you can spend 3 YP to swap the army between Hostile Acquisition and Fortify Takeover (the optional toggle is modeled as an opaque grant). The clause that units have neither ability except as described by this rule is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "mobile-sensor-relays",
