@@ -310,7 +310,14 @@ function run(): void {
     let dirty = false;
 
     for (const rule of byDir.get(dir)!) {
-      const slug = rule.slugs.find((s) => abilityById.has(s));
+      // A dump detachment/army rule can only correspond to a detachment- or
+      // faction-typed ability. A bare name-slug can collide with a same-named
+      // unit ability (e.g. a detachment rule "Onslaught" vs the unit ability
+      // "onslaught") — matching on type prevents clobbering the unit's prose.
+      const slug = rule.slugs.find((s) => {
+        const a = abilityById.get(s);
+        return a != null && (a.ability_type === "detachment" || a.ability_type === "faction");
+      });
       if (!slug) {
         // A `■`-section sub-rule the repo doesn't model separately is expected
         // noise (its prose already ships inside the parent rule's entry).
