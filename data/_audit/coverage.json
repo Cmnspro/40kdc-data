@@ -278,7 +278,7 @@
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 464
+      "count": 472
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -313,15 +313,15 @@
       "count": 52
     },
     {
-      "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
-      "count": 40
-    },
-    {
       "reason": "re-roll on \"charge\" (subset …) is outside the damage path",
-      "count": 39
+      "count": 38
     },
     {
       "reason": "stat-modifier: operation \"set\" not supported",
+      "count": 33
+    },
+    {
+      "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
       "count": 33
     },
     {
@@ -337,12 +337,12 @@
       "count": 32
     },
     {
-      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
-      "count": 30
+      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
+      "count": 31
     },
     {
-      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
-      "count": 25
+      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
+      "count": 30
     },
     {
       "reason": "stat-modifier: operation \"undefined\" not supported",
@@ -2780,11 +2780,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "terminatus-assault",
       "name": "Terminatus Assault",
-      "shape": "re-roll",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "re-roll on \"charge\" (subset …) is outside the damage path"
+      "gap": null
     },
     {
       "faction": "adeptus-astartes",
@@ -3260,11 +3260,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "drop-pod-assault",
       "name": "Drop Pod Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4340,11 +4340,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "deathstorm-assault",
       "name": "Deathstorm Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4430,11 +4430,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "termite-assault",
       "name": "Termite Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -6580,11 +6580,11 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "aerial-deployment",
       "name": "Aerial Deployment",
-      "shape": "conditional",
+      "shape": "ability-grant",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
@@ -6870,11 +6870,11 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "termite-assault",
       "name": "Termite Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
@@ -16660,11 +16660,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "dreadclaw-assault",
       "name": "Dreadclaw Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -16730,11 +16730,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "kharybdis-assault",
       "name": "Kharybdis Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -29700,11 +29700,11 @@
       "faction": "tyranids",
       "ability_id": "aerial-seeding",
       "name": "Aerial Seeding",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "tyranids",

@@ -926,18 +926,46 @@
   {
     "caseId": "aerial-seeding#36",
     "effect": {
-      "type": "deep-strike",
-      "target": "unit",
-      "modifier": {
-        "type": "start-in-reserves"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "must-start-in-reserves"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt-with-cargo"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reinforcement-any-of-turns-1-to-3"
+          }
+        },
+        {
+          "type": "disembark-after-move",
+          "target": "self",
+          "modifier": {
+            "after": "deployment",
+            "min_enemy_distance": 9,
+            "mandatory": true
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit has the Deep Strike ability."
+      "text": "This model must start the battle in Reserves.\nNeither this model nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves.\nThis model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules.\nUnits must immediately disembark from this model after it has been set up on the battlefield, and must be set up more than 9\" away from all enemy models."
     }
   },
   {
@@ -3810,26 +3838,7 @@
     }
   },
   {
-    "caseId": "blistering-advance#119",
-    "effect": {
-      "type": "disembark-after-move",
-      "target": "self",
-      "modifier": {
-        "after": "advance",
-        "can_charge": false,
-        "counts_as_normal_move": true
-      }
-    },
-    "scope": {
-      "range": "unit",
-      "duration": "permanent"
-    },
-    "expected": {
-      "text": "Units can disembark from this model after it has Advanced; such units count as having made a Normal move, but cannot declare a charge this turn."
-    }
-  },
-  {
-    "caseId": "blitzkaptin-blitz-brigade#120",
+    "caseId": "blitzkaptin-blitz-brigade#119",
     "effect": {
       "type": "select-units",
       "selector": {
@@ -3857,7 +3866,7 @@
     }
   },
   {
-    "caseId": "blood-forged-armour-khorne-daemonkin#121",
+    "caseId": "blood-forged-armour-khorne-daemonkin#120",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -3901,7 +3910,7 @@
     }
   },
   {
-    "caseId": "blood-tithe#122",
+    "caseId": "blood-tithe#121",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -3939,7 +3948,7 @@
     }
   },
   {
-    "caseId": "bloodied-terror#123",
+    "caseId": "bloodied-terror#122",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -3969,7 +3978,7 @@
     }
   },
   {
-    "caseId": "bloodrust-deluge-contagion-engines#124",
+    "caseId": "bloodrust-deluge-contagion-engines#123",
     "effect": {
       "type": "unit-tag",
       "target": "unit",
@@ -3993,7 +4002,7 @@
     }
   },
   {
-    "caseId": "blur-of-blades#125",
+    "caseId": "blur-of-blades#124",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4014,7 +4023,7 @@
     }
   },
   {
-    "caseId": "bodyguard#126",
+    "caseId": "bodyguard#125",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4037,7 +4046,7 @@
     }
   },
   {
-    "caseId": "bold-gallantry#127",
+    "caseId": "bold-gallantry#126",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4063,7 +4072,7 @@
     }
   },
   {
-    "caseId": "bonded-heroes#128",
+    "caseId": "bonded-heroes#127",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4118,7 +4127,7 @@
     }
   },
   {
-    "caseId": "boon-of-blood#129",
+    "caseId": "boon-of-blood#128",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4157,7 +4166,7 @@
     }
   },
   {
-    "caseId": "bound-creation#130",
+    "caseId": "bound-creation#129",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4180,7 +4189,7 @@
     }
   },
   {
-    "caseId": "bounding-assault#131",
+    "caseId": "bounding-assault#130",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4205,7 +4214,7 @@
     }
   },
   {
-    "caseId": "broad-spectrum-data-tether#132",
+    "caseId": "broad-spectrum-data-tether#131",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -4222,7 +4231,7 @@
     }
   },
   {
-    "caseId": "brood-surge#133",
+    "caseId": "brood-surge#132",
     "effect": {
       "type": "shoot-on-death",
       "target": "self",
@@ -4237,7 +4246,7 @@
     }
   },
   {
-    "caseId": "brutal-disciplinarian#134",
+    "caseId": "brutal-disciplinarian#133",
     "effect": {
       "type": "select-units",
       "selector": {
@@ -4266,7 +4275,7 @@
     }
   },
   {
-    "caseId": "brutal-example#135",
+    "caseId": "brutal-example#134",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4292,7 +4301,7 @@
     }
   },
   {
-    "caseId": "burning-lance#136",
+    "caseId": "burning-lance#135",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4315,7 +4324,7 @@
     }
   },
   {
-    "caseId": "cacophonic-accompaniment-elegant-brutes#137",
+    "caseId": "cacophonic-accompaniment-elegant-brutes#136",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4352,7 +4361,7 @@
     }
   },
   {
-    "caseId": "call-to-murder-lords-of-the-warp#138",
+    "caseId": "call-to-murder-lords-of-the-warp#137",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4388,7 +4397,7 @@
     }
   },
   {
-    "caseId": "canoptek-retinue#139",
+    "caseId": "canoptek-retinue#138",
     "effect": {
       "type": "unit-attachment",
       "target": "unit",
@@ -4405,7 +4414,7 @@
     }
   },
   {
-    "caseId": "canoptek-swarm#140",
+    "caseId": "canoptek-swarm#139",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4441,7 +4450,7 @@
     }
   },
   {
-    "caseId": "carnival-of-excess-lords-of-the-warp#141",
+    "caseId": "carnival-of-excess-lords-of-the-warp#140",
     "effect": {
       "type": "fight-first",
       "target": "unit",
@@ -4468,7 +4477,7 @@
     }
   },
   {
-    "caseId": "channelled-force#142",
+    "caseId": "channelled-force#141",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4520,7 +4529,7 @@
     }
   },
   {
-    "caseId": "channeller-stones#143",
+    "caseId": "channeller-stones#142",
     "effect": {
       "type": "damage-reduction",
       "target": "self",
@@ -4540,7 +4549,7 @@
     }
   },
   {
-    "caseId": "chaos-icon#144",
+    "caseId": "chaos-icon#143",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4567,7 +4576,7 @@
     }
   },
   {
-    "caseId": "chaos-lord#145",
+    "caseId": "chaos-lord#144",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4591,7 +4600,7 @@
     }
   },
   {
-    "caseId": "chapter-master-of-the-raven-guard#146",
+    "caseId": "chapter-master-of-the-raven-guard#145",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4659,7 +4668,7 @@
     }
   },
   {
-    "caseId": "chittering-swarm#147",
+    "caseId": "chittering-swarm#146",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4707,7 +4716,7 @@
     }
   },
   {
-    "caseId": "choice-samples#148",
+    "caseId": "choice-samples#147",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4730,7 +4739,7 @@
     }
   },
   {
-    "caseId": "claimed-for-the-cult#149",
+    "caseId": "claimed-for-the-cult#148",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -4747,7 +4756,7 @@
     }
   },
   {
-    "caseId": "cloaked-assassin#150",
+    "caseId": "cloaked-assassin#149",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4775,7 +4784,7 @@
     }
   },
   {
-    "caseId": "close-range-eradication#151",
+    "caseId": "close-range-eradication#150",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4817,7 +4826,7 @@
     }
   },
   {
-    "caseId": "cogbound-alliance#152",
+    "caseId": "cogbound-alliance#151",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4891,7 +4900,7 @@
     }
   },
   {
-    "caseId": "combat-doctrines#153",
+    "caseId": "combat-doctrines#152",
     "effect": {
       "type": "stance-select",
       "mode": "consumable",
@@ -4939,7 +4948,7 @@
     }
   },
   {
-    "caseId": "combat-drugs#154",
+    "caseId": "combat-drugs#153",
     "effect": {
       "type": "stance-select",
       "mode": "re-selectable",
@@ -5046,7 +5055,7 @@
     }
   },
   {
-    "caseId": "combined-fire-armoured-infantry#155",
+    "caseId": "combined-fire-armoured-infantry#154",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5087,7 +5096,7 @@
     }
   },
   {
-    "caseId": "command-link-drone-aura#156",
+    "caseId": "command-link-drone-aura#155",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -5104,7 +5113,7 @@
     }
   },
   {
-    "caseId": "command-protocols#157",
+    "caseId": "command-protocols#156",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5129,7 +5138,7 @@
     }
   },
   {
-    "caseId": "command-uplink#158",
+    "caseId": "command-uplink#157",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -5146,7 +5155,7 @@
     }
   },
   {
-    "caseId": "company-heroes#159",
+    "caseId": "company-heroes#158",
     "effect": {
       "type": "unit-attachment",
       "target": "unit",
@@ -5163,7 +5172,7 @@
     }
   },
   {
-    "caseId": "computational-mastermind#160",
+    "caseId": "computational-mastermind#159",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5215,7 +5224,7 @@
     }
   },
   {
-    "caseId": "cosmic-distortion#161",
+    "caseId": "cosmic-distortion#160",
     "effect": {
       "type": "aura",
       "target": "enemy-within-aura",
@@ -5241,7 +5250,7 @@
     }
   },
   {
-    "caseId": "covert-stealth-team#162",
+    "caseId": "covert-stealth-team#161",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5285,7 +5294,7 @@
     }
   },
   {
-    "caseId": "creeping-dread-aura#163",
+    "caseId": "creeping-dread-aura#162",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5357,7 +5366,7 @@
     }
   },
   {
-    "caseId": "crewed-platform#164",
+    "caseId": "crewed-platform#163",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5386,7 +5395,7 @@
     }
   },
   {
-    "caseId": "cry-of-the-wind#165",
+    "caseId": "cry-of-the-wind#164",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5421,7 +5430,7 @@
     }
   },
   {
-    "caseId": "cryptek-retinue#166",
+    "caseId": "cryptek-retinue#165",
     "effect": {
       "type": "unit-attachment",
       "target": "unit",
@@ -5438,7 +5447,7 @@
     }
   },
   {
-    "caseId": "cyberstimms#167",
+    "caseId": "cyberstimms#166",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5462,7 +5471,7 @@
     }
   },
   {
-    "caseId": "daemonic-empowerment#168",
+    "caseId": "daemonic-empowerment#167",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5494,7 +5503,7 @@
     }
   },
   {
-    "caseId": "daemonic-patrons#169",
+    "caseId": "daemonic-patrons#168",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5556,7 +5565,7 @@
     }
   },
   {
-    "caseId": "daemonic-rage#170",
+    "caseId": "daemonic-rage#169",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5596,7 +5605,7 @@
     }
   },
   {
-    "caseId": "daemonic-strength-possessed-slaughterband#171",
+    "caseId": "daemonic-strength-possessed-slaughterband#170",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5630,7 +5639,7 @@
     }
   },
   {
-    "caseId": "damaged-1-6-wounds-remaining#172",
+    "caseId": "damaged-1-6-wounds-remaining#171",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5655,7 +5664,7 @@
     }
   },
   {
-    "caseId": "dark-angels-bodyguard#173",
+    "caseId": "dark-angels-bodyguard#172",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5686,7 +5695,7 @@
     }
   },
   {
-    "caseId": "dark-pacts#174",
+    "caseId": "dark-pacts#173",
     "effect": {
       "type": "risk-reward",
       "reward": {
@@ -5745,7 +5754,7 @@
     }
   },
   {
-    "caseId": "dauntless-defenders#175",
+    "caseId": "dauntless-defenders#174",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5785,7 +5794,7 @@
     }
   },
   {
-    "caseId": "dead-shot#176",
+    "caseId": "dead-shot#175",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5813,7 +5822,7 @@
     }
   },
   {
-    "caseId": "deadly-vectors#177",
+    "caseId": "deadly-vectors#176",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5894,6 +5903,41 @@
     },
     "expected": {
       "text": "During the Command phase, in either player's turn against AFFLICTED targets, until the end of the phase:\n  While the unit is below half strength:\n    -> Roll one 2D6: on a 7 or less, the unit suffers D3 mortal wounds.\n  Unless while the unit is below half strength:\n    -> Roll one 2D6: on a 6 or less, the unit suffers D3 mortal wounds."
+    }
+  },
+  {
+    "caseId": "death-approaches#177",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "deep-strike-setup"
+        }
+      },
+      "effect": {
+        "type": "deep-strike",
+        "target": "self",
+        "modifier": {
+          "distance_constraints": [
+            {
+              "target_keyword": "AFFLICTED",
+              "minimum_distance": 6
+            },
+            {
+              "target_keyword": null,
+              "minimum_distance": 9
+            }
+          ]
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "expected": {
+      "text": "When the unit is set up by Deep Strike, for the rest of the battle, this model has the Deep Strike ability."
     }
   },
   {

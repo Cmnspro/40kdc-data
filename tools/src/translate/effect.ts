@@ -994,10 +994,24 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "ability-grant": {
       const grant = m.grant_type ?? m.ability_id;
+      // Reserves-arrival grant slugs read as full clauses in GW voice — the
+      // generic "gains the X ability" form would bury the mechanic in a name.
+      switch (jstr(grant)) {
+        case "must-start-in-reserves":
+          return `${subj} must start the battle in Reserves`;
+        case "reinforcement-any-of-turns-1-to-3":
+          return `${subj} can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules`;
+        case "reserves-limit-exempt":
+          return `${subj} ${v(subj, "is")} not counted towards any limits on the number of units that can start the battle in Reserves`;
+        case "reserves-limit-exempt-with-cargo":
+          return `neither ${subj} nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves`;
+      }
       const cap = m.capacity != null ? ` (${jstr(m.capacity)})` : "";
+      // A grant's `timing` modifier scopes when the granted ability applies.
+      const when = m.timing != null ? `${describeTiming(jstr(m.timing))}, ` : "";
       return grant != null
-        ? `${subj} ${v(subj, "gains")} the ${grantLabel(jstr(grant))} ability${cap}`
-        : `${subj} ${v(subj, "gains")} an ability${cap}`;
+        ? `${when}${subj} ${v(subj, "gains")} the ${grantLabel(jstr(grant))} ability${cap}`
+        : `${when}${subj} ${v(subj, "gains")} an ability${cap}`;
     }
     case "movement-modifier":
       return movementClause(m, subj);
@@ -1173,11 +1187,21 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
             : m.after === "before-move"
               ? "before it moves"
               : "after it has made a Normal move";
+      // `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+      const verb = m.mandatory ? "must immediately disembark" : "can disembark";
+      const away =
+        m.min_enemy_distance != null
+          ? `, and must be set up more than ${jstr(m.min_enemy_distance)}" away from all enemy models`
+          : "";
       const counts = m.counts_as_normal_move ? "; such units count as having made a Normal move" : "";
+      // A deployment-step disembark has no meaningful charge window; only an
+      // explicit `can_charge` renders the charge tail there.
       const charge = m.can_charge
         ? ", and are still eligible to declare a charge this turn"
-        : ", but cannot declare a charge this turn";
-      return `${who} can disembark from ${subj} ${when}${counts}${charge}`;
+        : m.after === "deployment" && m.can_charge == null
+          ? ""
+          : ", but cannot declare a charge this turn";
+      return `${who} ${verb} from ${subj} ${when}${away}${counts}${charge}`;
     }
     case "disembark": {
       const where = m.distance != null ? ` and be set up wholly within ${jstr(m.distance)}" of the transport` : "";

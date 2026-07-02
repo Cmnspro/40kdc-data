@@ -1345,18 +1345,49 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             }
         }
         T::AbilityGrant => {
+            // Reserves-arrival grant slugs read as full clauses in GW voice — the
+            // generic "gains the X ability" form would bury the mechanic in a name.
+            let grant = first(m, &["grant_type", "ability_id"]);
+            match grant.map(jval).as_deref() {
+                Some("must-start-in-reserves") => {
+                    return format!("{subj} must start the battle in Reserves");
+                }
+                Some("reinforcement-any-of-turns-1-to-3") => {
+                    return format!(
+                        "{subj} can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules"
+                    );
+                }
+                Some("reserves-limit-exempt") => {
+                    return format!(
+                        "{subj} {} not counted towards any limits on the number of units that can start the battle in Reserves",
+                        agree(&subj, "is")
+                    );
+                }
+                Some("reserves-limit-exempt-with-cargo") => {
+                    return format!(
+                        "neither {subj} nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves"
+                    );
+                }
+                _ => {}
+            }
             let cap = if notnull(m, "capacity") {
                 format!(" ({})", jv(m, "capacity"))
             } else {
                 String::new()
             };
-            match first(m, &["grant_type", "ability_id"]) {
+            // A grant's `timing` modifier scopes when the granted ability applies.
+            let when = if notnull(m, "timing") {
+                format!("{}, ", describe_timing(&jv(m, "timing")))
+            } else {
+                String::new()
+            };
+            match grant {
                 Some(g) => format!(
-                    "{subj} {} the {} ability{cap}",
+                    "{when}{subj} {} the {} ability{cap}",
                     agree(&subj, "gains"),
                     grant_label(&jval(g))
                 ),
-                None => format!("{subj} {} an ability{cap}", agree(&subj, "gains")),
+                None => format!("{when}{subj} {} an ability{cap}", agree(&subj, "gains")),
             }
         }
         T::DamageReduction => {
@@ -1827,17 +1858,35 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     Some("before-move") => "before it moves",
                     _ => "after it has made a Normal move",
                 };
+                // `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+                let verb = if truthy(m, "mandatory") {
+                    "must immediately disembark"
+                } else {
+                    "can disembark"
+                };
+                let away = if notnull(m, "min_enemy_distance") {
+                    format!(
+                        ", and must be set up more than {}\" away from all enemy models",
+                        jv(m, "min_enemy_distance")
+                    )
+                } else {
+                    String::new()
+                };
                 let counts = if truthy(m, "counts_as_normal_move") {
                     "; such units count as having made a Normal move"
                 } else {
                     ""
                 };
+                // A deployment-step disembark has no meaningful charge window; only
+                // an explicit `can_charge` renders the charge tail there.
                 let charge = if truthy(m, "can_charge") {
                     ", and are still eligible to declare a charge this turn"
+                } else if nstr(m, "after") == Some("deployment") && !notnull(m, "can_charge") {
+                    ""
                 } else {
                     ", but cannot declare a charge this turn"
                 };
-                format!("{who} can disembark from {subj} {when}{counts}{charge}")
+                format!("{who} {verb} from {subj} {when}{away}{counts}{charge}")
             }
         }
         T::Disembark => {

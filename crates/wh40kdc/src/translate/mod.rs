@@ -189,6 +189,8 @@ fn timing_only_phrase(t: &str) -> Option<&'static str> {
         "in-reserves" => "while it is in Reserves",
         "shooting-phase" => "in the Shooting phase",
         "start-of-battle" => "at the start of the battle",
+        "start-of-fight-phase" => "at the start of the Fight phase",
+        "first-movement-phase" => "in your first Movement phase",
         "start-of-first-battle-round" => "at the start of the first battle round",
         "start-of-movement-phase" => "at the start of the Movement phase",
         "shooting-or-fight-phase" => "in the Shooting or Fight phase",

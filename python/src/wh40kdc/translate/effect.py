@@ -1060,10 +1060,32 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         grant = m.get("grant_type")
         if grant is None:
             grant = m.get("ability_id")
+        # Reserves-arrival grant slugs read as full clauses in GW voice — the
+        # generic "gains the X ability" form would bury the mechanic in a name.
+        g = _jstr(grant)
+        if g == "must-start-in-reserves":
+            return f"{subj} must start the battle in Reserves"
+        if g == "reinforcement-any-of-turns-1-to-3":
+            return (
+                f"{subj} can be set up in the Reinforcements step of your first, second"
+                " or third Movement phase, regardless of any mission rules"
+            )
+        if g == "reserves-limit-exempt":
+            return (
+                f"{subj} {_v(subj, 'is')} not counted towards any limits on the number"
+                " of units that can start the battle in Reserves"
+            )
+        if g == "reserves-limit-exempt-with-cargo":
+            return (
+                f"neither {subj} nor any units embarked within it are counted"
+                " towards any limits on the number of units that can start the battle in Reserves"
+            )
         cap = f" ({_jstr(m['capacity'])})" if m.get("capacity") is not None else ""
+        # A grant's `timing` modifier scopes when the granted ability applies.
+        when = f"{describe_timing(_jstr(m['timing']))}, " if m.get("timing") is not None else ""
         if grant is not None:
-            return f"{subj} {_v(subj, 'gains')} the {_grant_label(_jstr(grant))} ability{cap}"
-        return f"{subj} {_v(subj, 'gains')} an ability{cap}"
+            return f"{when}{subj} {_v(subj, 'gains')} the {_grant_label(_jstr(grant))} ability{cap}"
+        return f"{when}{subj} {_v(subj, 'gains')} an ability{cap}"
     if etype == "movement-modifier":
         return _movement_clause(m, subj)
     if etype == "aura":
@@ -1300,17 +1322,28 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             when = "before it moves"
         else:
             when = "after it has made a Normal move"
+        # `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+        verb = "must immediately disembark" if m.get("mandatory") else "can disembark"
+        away = (
+            f", and must be set up more than {_jstr(m['min_enemy_distance'])}\" away"
+            " from all enemy models"
+            if m.get("min_enemy_distance") is not None
+            else ""
+        )
         counts = (
             "; such units count as having made a Normal move"
             if m.get("counts_as_normal_move")
             else ""
         )
-        charge = (
-            ", and are still eligible to declare a charge this turn"
-            if m.get("can_charge")
-            else ", but cannot declare a charge this turn"
-        )
-        return f"{who} can disembark from {subj} {when}{counts}{charge}"
+        # A deployment-step disembark has no meaningful charge window; only an
+        # explicit `can_charge` renders the charge tail there.
+        if m.get("can_charge"):
+            charge = ", and are still eligible to declare a charge this turn"
+        elif after == "deployment" and m.get("can_charge") is None:
+            charge = ""
+        else:
+            charge = ", but cannot declare a charge this turn"
+        return f"{who} {verb} from {subj} {when}{away}{counts}{charge}"
     if etype == "unit-attachment":
         if m.get("mandatory"):
             return f"{subj} must be attached to a Leader, or it counts as destroyed"

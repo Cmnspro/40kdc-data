@@ -1186,14 +1186,31 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		if grant == nil {
 			grant = m["ability_id"]
 		}
+		// Reserves-arrival grant slugs read as full clauses in GW voice — the
+		// generic "gains the X ability" form would bury the mechanic in a name.
+		switch ejstr(grant) {
+		case "must-start-in-reserves":
+			return subj + " must start the battle in Reserves"
+		case "reinforcement-any-of-turns-1-to-3":
+			return subj + " can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules"
+		case "reserves-limit-exempt":
+			return subj + " " + ev(subj, "is") + " not counted towards any limits on the number of units that can start the battle in Reserves"
+		case "reserves-limit-exempt-with-cargo":
+			return "neither " + subj + " nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves"
+		}
 		cap := ""
 		if m["capacity"] != nil {
 			cap = " (" + ejstr(m["capacity"]) + ")"
 		}
-		if grant != nil {
-			return subj + " " + ev(subj, "gains") + " the " + grantLabel(ejstr(grant)) + " ability" + cap
+		// A grant's timing modifier scopes when the granted ability applies.
+		when := ""
+		if m["timing"] != nil {
+			when = describeTiming(m["timing"]) + ", "
 		}
-		return subj + " " + ev(subj, "gains") + " an ability" + cap
+		if grant != nil {
+			return when + subj + " " + ev(subj, "gains") + " the " + grantLabel(ejstr(grant)) + " ability" + cap
+		}
+		return when + subj + " " + ev(subj, "gains") + " an ability" + cap
 	case "movement-modifier":
 		return movementClause(m, subj)
 	case "aura":
@@ -1517,15 +1534,28 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		default:
 			when = "after it has made a Normal move"
 		}
+		// `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+		verb := "can disembark"
+		if truthy(m["mandatory"]) {
+			verb = "must immediately disembark"
+		}
+		away := ""
+		if m["min_enemy_distance"] != nil {
+			away = ", and must be set up more than " + ejstr(m["min_enemy_distance"]) + "\" away from all enemy models"
+		}
 		counts := ""
 		if truthy(m["counts_as_normal_move"]) {
 			counts = "; such units count as having made a Normal move"
 		}
+		// A deployment-step disembark has no meaningful charge window; only an
+		// explicit can_charge renders the charge tail there.
 		charge := ", but cannot declare a charge this turn"
 		if truthy(m["can_charge"]) {
 			charge = ", and are still eligible to declare a charge this turn"
+		} else if m["after"] == "deployment" && m["can_charge"] == nil {
+			charge = ""
 		}
-		return who + " can disembark from " + subj + " " + when + counts + charge
+		return who + " " + verb + " from " + subj + " " + when + away + counts + charge
 	case "unit-attachment":
 		if truthy(m["mandatory"]) {
 			return subj + " must be attached to a Leader, or it counts as destroyed"

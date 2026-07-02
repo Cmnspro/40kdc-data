@@ -3729,15 +3729,23 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "re-roll",
-      "target": "unit",
-      "modifier": {
-        "roll": "charge",
-        "subset": "all-failures"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "start-of-fight-phase"
+        }
+      },
+      "effect": {
+        "type": "leadership-modifier",
+        "target": "enemy-within-aura",
+        "modifier": {
+          "test": "battle-shock"
+        }
       }
     },
     "scope": {
-      "range": "unit",
+      "range": "engagement-range",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -5492,14 +5500,35 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "deep-strike",
-      "target": "unit",
-      "modifier": {
-        "type": "start-in-reserves"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "must-start-in-reserves"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reinforcement-any-of-turns-1-to-3"
+          }
+        },
+        {
+          "type": "disembark-after-move",
+          "target": "self",
+          "modifier": {
+            "after": "deployment",
+            "min_enemy_distance": 8,
+            "mandatory": true
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -5564,7 +5593,7 @@
   },
   {
     "ability_id": "designer-s-note",
-    "name": "Designer’s Note",
+    "name": "Designer\u2019s Note",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5616,7 +5645,7 @@
   },
   {
     "ability_id": "angel-s-wrath",
-    "name": "Angel’s Wrath",
+    "name": "Angel\u2019s Wrath",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -9032,14 +9061,33 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "deep-strike",
-      "target": "unit",
-      "modifier": {
-        "type": "start-in-reserves"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "must-start-in-reserves"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reinforcement-any-of-turns-1-to-3"
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -9323,14 +9371,41 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "deep-strike",
-      "target": "unit",
-      "modifier": {
-        "type": "start-in-reserves"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "must-start-in-reserves"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt-with-cargo"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "reinforcement-any-of-turns-1-to-3"
+          }
+        },
+        {
+          "type": "disembark-after-move",
+          "target": "self",
+          "modifier": {
+            "after": "deployment",
+            "min_enemy_distance": 9
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -10561,7 +10636,7 @@
   },
   {
     "ability_id": "tempest-s-wrath-psychic",
-    "name": "Tempest’s Wrath (Psychic)",
+    "name": "Tempest\u2019s Wrath (Psychic)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -10622,7 +10697,7 @@
   },
   {
     "ability_id": "slayer-s-oath",
-    "name": "Slayer’s Oath",
+    "name": "Slayer\u2019s Oath",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -11732,7 +11807,7 @@
     "faction_id": "adeptus-astartes",
     "ability_type": "faction",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)",
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)",
     "unit_ids": []
   },
   {
@@ -11809,7 +11884,7 @@
   },
   {
     "ability_id": "the-emperors-shield",
-    "name": "The Emperor’s Shield",
+    "name": "The Emperor\u2019s Shield",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -12304,7 +12379,7 @@
       "range": "unit",
       "duration": "battle"
     },
-    "community_notes": "[APPROX] At the Declare Battle Formations step, grants Deep Strike to a battle-size-dependent number of selected non-TITANIC ADEPTUS ASTARTES units (modeled as 3 — strongest case; the per-battle-size table is not in the store text). The re-roll of Wound rolls of 1 for models set up this turn — and re-roll of Hit rolls of 1 if disembarked from a DROP POD — are not modeled. Full rule in raw-text store."
+    "community_notes": "[APPROX] At the Declare Battle Formations step, grants Deep Strike to a battle-size-dependent number of selected non-TITANIC ADEPTUS ASTARTES units (modeled as 3 \u2014 strongest case; the per-battle-size table is not in the store text). The re-roll of Wound rolls of 1 for models set up this turn \u2014 and re-roll of Hit rolls of 1 if disembarked from a DROP POD \u2014 are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "shield-of-the-imperium",
@@ -12548,7 +12623,7 @@
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] ADEPTUS ASTARTES BATTLELINE units become eligible to shoot/declare a charge and to start Actions in a turn they Advanced or Fell Back (captured as opaque eligibility grants). The auspex-scanned mark placed on an enemy unit hit by a BATTLELINE unit — and the resulting re-roll of Hit rolls of 1 against auspex-scanned units — are not modeled. Full rule in raw-text store."
+    "community_notes": "[APPROX] ADEPTUS ASTARTES BATTLELINE units become eligible to shoot/declare a charge and to start Actions in a turn they Advanced or Fell Back (captured as opaque eligibility grants). The auspex-scanned mark placed on an enemy unit hit by a BATTLELINE unit \u2014 and the resulting re-roll of Hit rolls of 1 against auspex-scanned units \u2014 are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "adaptive-defence",
@@ -12590,7 +12665,7 @@
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] Models the re-roll of Hit rolls of 1 and Wound rolls of 1. The gating condition — the attacking unit being within a terrain feature — has no DSL predicate and is not modeled, nor is the separate conditional ENTRENCHED keyword grant. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the re-roll of Hit rolls of 1 and Wound rolls of 1. The gating condition \u2014 the attacking unit being within a terrain feature \u2014 has no DSL predicate and is not modeled, nor is the separate conditional ENTRENCHED keyword grant. Full rule in raw-text store."
   },
   {
     "ability_id": "target-sighted",

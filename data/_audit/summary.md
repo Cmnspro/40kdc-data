@@ -36,7 +36,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 
 ## Unsupported-effect reasons (offensive walk)
 
-- `464` — effect type "ability-grant" is not modelled by the buff layer
+- `472` — effect type "ability-grant" is not modelled by the buff layer
 - `163` — effect type "movement-modifier" is not modelled by the buff layer
 - `129` — effect type "mortal-wounds" is not modelled by the buff layer
 - `91` — conditional: cannot evaluate condition "undefined" against current context
@@ -45,14 +45,14 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `58` — effect type "resurrection" is not modelled by the buff layer
 - `52` — effect type "cp-refund" is not modelled by the buff layer
 - `52` — effect type "objective-control-modifier" is not modelled by the buff layer
-- `40` — effect type "deep-strike" is not modelled by the buff layer
-- `39` — re-roll on "charge" (subset …) is outside the damage path
+- `38` — re-roll on "charge" (subset …) is outside the damage path
 - `33` — stat-modifier: operation "set" not supported
+- `33` — effect type "deep-strike" is not modelled by the buff layer
 - `33` — effect type "cp-gain" is not modelled by the buff layer
 - `32` — effect type "unit-keyword" is not modelled by the buff layer
 - `32` — effect type "rule-state" is not modelled by the buff layer
+- `31` — effect type "disembark-after-move" is not modelled by the buff layer
 - `30` — effect type "fallback-and-act" is not modelled by the buff layer
-- `25` — effect type "disembark-after-move" is not modelled by the buff layer
 - `25` — stat-modifier: operation "undefined" not supported
 - `23` — stat-modifier on "M" is outside the damage path
 - `22` — effect type "fight-on-death" is not modelled by the buff layer

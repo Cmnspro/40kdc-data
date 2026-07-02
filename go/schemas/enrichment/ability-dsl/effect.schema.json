@@ -418,7 +418,7 @@
           }
         },
         {
-          "$comment": "`disembark-after-move`: a Transport modifies disembarkation. `after` is the move that enables it (`normal-move` | `advance` | `deployment` | `before-move`); `can_charge` is whether the disembarked unit may then declare a charge; `requires_keyword` gates it on a keyword (e.g. Deep Strike for Aerial Assault); `counts_as_normal_move` marks the disembarked unit as having made a Normal move (Assault Vehicle). An absent modifier renders the bare 'after it has moved' form.",
+          "$comment": "`disembark-after-move`: a Transport modifies disembarkation. `after` is the move that enables it (`normal-move` | `advance` | `deployment` | `before-move`); `can_charge` is whether the disembarked unit may then declare a charge; `requires_keyword` gates it on a keyword (e.g. Deep Strike for Aerial Assault); `counts_as_normal_move` marks the disembarked unit as having made a Normal move (Assault Vehicle). An absent modifier renders the bare 'after it has moved' form. `mandatory` marks a Reserves-transport whose cargo MUST disembark on arrival (Drop Pod); `min_enemy_distance` is the inches the disembarking units must be set up away from all enemy models. For `after: deployment` the charge tail renders only when `can_charge` is explicit (a deployment-step disembark has no charge window).",
           "if": {
             "properties": { "type": { "const": "disembark-after-move" } },
             "required": ["type"]
