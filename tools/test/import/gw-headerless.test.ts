@@ -193,3 +193,51 @@ describe("gwHeaderlessAdapter via tryImportRoster", () => {
     expect(roster.units.some((u) => u.ref.id === "kharn-the-betrayer")).toBe(true);
   });
 });
+
+// BCP prepends a `++…++` summary block (Player Name / Factions Used / Army Points
+// / …) to text-type lists. Regression: its fence line was consumed as the roster
+// title, so the real title line ("Ding dong (1995 Points)") became a phantom unit
+// whose points doubled the computed total (a 1995pt list read as 3990). The block
+// must be stripped so the body parses as if pasted straight from the GW app.
+const BCP_WRAPPED = `++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Player Name:
+Team Name: Example Team
+Factions Used: World Eaters
+Disposition Used: Purge the Foe
+Detachment Used: Berzerker Warband
+Army Upgrades and Enhancements (list on which model):
+Master of Executions: Berzerker Glaive
+Army Points: 375
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+${GW_APP}`;
+
+describe("gwHeaderlessAdapter — BCP summary preamble", () => {
+  it("matches despite the leading BCP `++…++` block", () => {
+    expect(gwHeaderlessAdapter.matches(BCP_WRAPPED)).toBe(true);
+  });
+
+  it("strips the block: real title isn't a unit and points aren't doubled", () => {
+    const p = gwHeaderlessAdapter.parse(BCP_WRAPPED);
+    // Title consumed (not left as a phantom unit), faction read from the body.
+    expect(p.name).toBe("Ding dong");
+    expect(p.faction_raw_name).toBe("World Eaters");
+    expect(p.units).toHaveLength(3);
+    expect(p.units.some((u) => u.raw_name === "Ding dong")).toBe(false);
+    // 375 (Khârn 100 + MoE 95 + Berzerkers 180), NOT 375 + 1995.
+    expect(p.total_computed).toBe(375);
+    // Parsing the wrapped and unwrapped text yields the same units + total.
+    const plain = gwHeaderlessAdapter.parse(GW_APP);
+    expect(p.units.map((u) => u.raw_name)).toEqual(plain.units.map((u) => u.raw_name));
+    expect(p.total_computed).toBe(plain.total_computed);
+  });
+
+  it("resolves through tryImportRoster like the unwrapped export", () => {
+    const result = tryImportRoster(BCP_WRAPPED, { dataset: ds });
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.format).toBe("gw");
+    expect(result.roster.faction_id).toBe("world-eaters");
+    expect(result.roster.units.length).toBe(3);
+  });
+});
