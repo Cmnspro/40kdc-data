@@ -1007,14 +1007,26 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
                     f"for each {hit}, {subj_mw} {verb} {per} {per_noun}"
                 )
             return f"roll {die}: for each {hit}, {subj_mw} {verb} {per} {per_noun}"
+        # Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+        # roll decides the amount, so render the rows, not "a number of".
+        table = m.get("amount_table") or m.get("table")
+        if isinstance(table, list) and table:
+            rows = []
+            for idx, r in enumerate(table):
+                amt = _dice_case(r.get("amount"))
+                noun = "mortal wound" if amt == "1" else "mortal wounds"
+                if idx == 0:
+                    rows.append(f"on a {_jstr(r.get('roll'))}, {subj_mw} {verb} {amt} {noun}")
+                else:
+                    rows.append(f"on a {_jstr(r.get('roll'))}, {amt} {noun}")
+            dice = m.get("dice") if m.get("dice") is not None else "D6"
+            return f"roll one {_dice_case(dice)}: " + "; ".join(rows)
         if m.get("count") is not None:
             a: str | None = _jstr(m.get("count"))
         elif m.get("amount") is not None:
             a = _jstr(m.get("amount"))
         elif m.get("dice") is not None:
             a = _dice_case(m.get("dice"))
-        elif m.get("table") or m.get("amount_table"):
-            a = "a number of"
         else:
             a = None
         if a is None and m.get("trigger") is not None:

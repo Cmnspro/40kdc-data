@@ -65,8 +65,8 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `13` — designate-target debuff on the marked unit: not a buff on the bearer
 - `13` — conditional: cannot evaluate condition "unit-within-range-of" against current context
 - `12` — stat-modifier on "D" is outside the damage path
-- `11` — dice-gated effect: stochastic; not expressible as a buff
 - `10` — stat-modifier T: defender-side stat; applies when the buffed unit is the target
+- `10` — dice-gated effect: stochastic; not expressible as a buff
 - `9` — conditional: cannot evaluate condition "unit-below-half-strength" against current context
 - `9` — effect type "unit-attachment" is not modelled by the buff layer
 - `9` — effect type "resource-spend" is not modelled by the buff layer

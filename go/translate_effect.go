@@ -1768,6 +1768,33 @@ func describeMortalWounds(e, m map[string]any, subj string, ctx map[string]any) 
 		}
 		return "roll " + die + ": for each " + hit + ", " + subjMW + " " + verb + " " + per + " " + perNoun
 	}
+	// Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+	// roll decides the amount, so render the rows, not "a number of".
+	tableAny := m["amount_table"]
+	if tableAny == nil {
+		tableAny = m["table"]
+	}
+	if table, ok := tableAny.([]any); ok && len(table) > 0 {
+		var rows []string
+		for i, rAny := range table {
+			r, _ := asMap(rAny)
+			amt := diceCase(r["amount"])
+			noun := "mortal wounds"
+			if amt == "1" {
+				noun = "mortal wound"
+			}
+			if i == 0 {
+				rows = append(rows, "on a "+ejstr(r["roll"])+", "+subjMW+" "+verb+" "+amt+" "+noun)
+			} else {
+				rows = append(rows, "on a "+ejstr(r["roll"])+", "+amt+" "+noun)
+			}
+		}
+		die := "D6"
+		if m["dice"] != nil {
+			die = diceCase(m["dice"])
+		}
+		return "roll one " + die + ": " + strings.Join(rows, "; ")
+	}
 	var a *string
 	switch {
 	case m["count"] != nil:
@@ -1778,9 +1805,6 @@ func describeMortalWounds(e, m map[string]any, subj string, ctx map[string]any) 
 		a = &s
 	case m["dice"] != nil:
 		s := diceCase(m["dice"])
-		a = &s
-	case truthy(m["table"]) || truthy(m["amount_table"]):
-		s := "a number of"
 		a = &s
 	}
 	if a == nil && m["trigger"] != nil {

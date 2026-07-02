@@ -950,9 +950,6 @@
     "scope": {
       "range": "unit",
       "duration": "permanent"
-    },
-    "trigger": {
-      "event": "start-of-phase"
     }
   },
   {
@@ -1755,25 +1752,22 @@
       "condition": {
         "type": "timing-is",
         "parameters": {
-          "timing": "start-of-phase"
+          "timing": "start-of-fight-phase"
         }
       },
       "effect": {
         "type": "leadership-modifier",
         "target": "enemy-within-aura",
         "modifier": {
-          "operation": "battle-shock-test",
-          "bonus_if_below_half": -1
+          "test": "battle-shock"
         }
       }
     },
     "scope": {
       "range": "engagement-range",
-      "duration": "phase"
+      "duration": "permanent"
     },
-    "trigger": {
-      "event": "start-of-phase"
-    }
+    "community_notes": "[APPROX] the test subtracts 1 if the enemy unit is Below Half-strength"
   },
   {
     "ability_id": "swooping-predator",
@@ -1977,6 +1971,11 @@
             "passthrough": [
               "non-titanic-models",
               "terrain-le-4"
+            ],
+            "applies_to_moves": [
+              "normal",
+              "advance",
+              "fall-back"
             ]
           }
         },
@@ -1986,6 +1985,11 @@
           "modifier": {
             "passthrough": [
               "tall-terrain"
+            ],
+            "applies_to_moves": [
+              "normal",
+              "advance",
+              "fall-back"
             ]
           }
         }
@@ -1995,10 +1999,7 @@
       "range": "self",
       "duration": "permanent"
     },
-    "trigger": {
-      "event": "start-of-phase",
-      "subject": "self"
-    }
+    "community_notes": "[APPROX] it may move within Engagement Range of enemy models but cannot end the move there; after moving through terrain over 4\" roll one D6 \u2014 on a 1 this model is Battle-shocked"
   },
   {
     "ability_id": "the-scent-of-blood",
@@ -2483,44 +2484,38 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "type": "charged-this-turn"
+        "type": "timing-is",
+        "parameters": {
+          "timing": "charge-move"
+        }
       },
       "effect": {
-        "type": "dice-gated",
-        "dice": "D6",
-        "threshold": 2,
-        "comparison": "gte",
-        "on_success": {
-          "type": "mortal-wounds",
-          "target": "defender",
-          "modifier": {
-            "amount_table": [
-              {
-                "roll": "2-3",
-                "amount": 1
-              },
-              {
-                "roll": "4-5",
-                "amount": "D3"
-              },
-              {
-                "roll": "6",
-                "amount": "D3+3"
-              }
-            ]
-          }
-        },
-        "on_fail": null
+        "type": "mortal-wounds",
+        "target": "defender",
+        "modifier": {
+          "dice": "D6",
+          "amount_table": [
+            {
+              "roll": "2-3",
+              "amount": 1
+            },
+            {
+              "roll": "4-5",
+              "amount": "D3"
+            },
+            {
+              "roll": "6",
+              "amount": "D3+3"
+            }
+          ]
+        }
       }
     },
     "scope": {
-      "range": "engagement-range",
-      "duration": "phase"
+      "range": "unit",
+      "duration": "permanent"
     },
-    "trigger": {
-      "event": "end-of-phase",
-      "subject": "self"
-    }
+    "community_notes": "select one enemy unit within Engagement Range of this model when its unit ends a Charge move"
   },
   {
     "ability_id": "fire-riders",

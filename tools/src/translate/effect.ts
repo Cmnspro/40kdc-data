@@ -951,6 +951,21 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
         }
         return `roll ${diceCase(m.dice)}: for each ${hit}, ${subjMW} ${verb} ${per} ${perNoun}`;
       }
+      // Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+      // roll decides the amount, so render the rows, not "a number of".
+      const table = (m.amount_table ?? m.table) as { roll?: unknown; amount?: unknown }[] | undefined;
+      if (Array.isArray(table) && table.length) {
+        const rows = table
+          .map((r, i) => {
+            const amt = diceCase(r.amount);
+            const noun = amt === "1" ? "mortal wound" : "mortal wounds";
+            return i === 0
+              ? `on a ${jstr(r.roll)}, ${subjMW} ${verb} ${amt} ${noun}`
+              : `on a ${jstr(r.roll)}, ${amt} ${noun}`;
+          })
+          .join("; ");
+        return `roll one ${diceCase(m.dice ?? "D6")}: ${rows}`;
+      }
       const a =
         m.count != null
           ? jstr(m.count)
@@ -958,9 +973,7 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
             ? jstr(m.amount)
             : m.dice != null
               ? diceCase(m.dice)
-              : m.table || m.amount_table
-                ? "a number of"
-                : null;
+              : null;
       // Deadly-Demise-style triggers carry no count here — the amount is the
       // model's Deadly Demise rating, so describe the trigger instead of "?".
       if (a == null && m.trigger != null)

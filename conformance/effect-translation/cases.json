@@ -3990,27 +3990,23 @@
       "condition": {
         "type": "timing-is",
         "parameters": {
-          "timing": "start-of-phase"
+          "timing": "start-of-fight-phase"
         }
       },
       "effect": {
         "type": "leadership-modifier",
         "target": "enemy-within-aura",
         "modifier": {
-          "operation": "battle-shock-test",
-          "bonus_if_below_half": -1
+          "test": "battle-shock"
         }
       }
     },
     "scope": {
       "range": "engagement-range",
-      "duration": "phase"
-    },
-    "trigger": {
-      "event": "start-of-phase"
+      "duration": "permanent"
     },
     "expected": {
-      "text": "At the start of the phase, until the end of the phase, modify enemy units within Engagement Range's Leadership characteristic."
+      "text": "At the start of the Fight phase, enemy units within Engagement Range must take a Battle-shock test."
     }
   },
   {

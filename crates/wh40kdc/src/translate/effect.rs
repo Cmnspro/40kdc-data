@@ -1257,14 +1257,46 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 }
                 return format!("roll {die}: for each {hit}, {subj_mw} {verb} {per} {per_noun}");
             }
+            // Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+            // roll decides the amount, so render the rows, not "a number of".
+            let table = m
+                .get("amount_table")
+                .or_else(|| m.get("table"))
+                .and_then(|t| t.as_array());
+            if let Some(rows) = table {
+                if !rows.is_empty() {
+                    let parts: Vec<String> = rows
+                        .iter()
+                        .enumerate()
+                        .map(|(i, r)| {
+                            let amt = dice_case(r.get("amount").unwrap_or(&Value::Null));
+                            let noun = if amt == "1" {
+                                "mortal wound"
+                            } else {
+                                "mortal wounds"
+                            };
+                            let roll = jval(r.get("roll").unwrap_or(&Value::Null));
+                            if i == 0 {
+                                format!("on a {roll}, {subj_mw} {verb} {amt} {noun}")
+                            } else {
+                                format!("on a {roll}, {amt} {noun}")
+                            }
+                        })
+                        .collect();
+                    let die = if notnull(m, "dice") {
+                        dice_case(m.get("dice").unwrap_or(&Value::Null))
+                    } else {
+                        "D6".to_string()
+                    };
+                    return format!("roll one {die}: {}", parts.join("; "));
+                }
+            }
             let a: Option<String> = if notnull(m, "count") {
                 Some(jv(m, "count"))
             } else if notnull(m, "amount") {
                 Some(jv(m, "amount"))
             } else if notnull(m, "dice") {
                 Some(dice_case(m.get("dice").unwrap_or(&Value::Null)))
-            } else if truthy(m, "table") || truthy(m, "amount_table") {
-                Some("a number of".to_string())
             } else {
                 None
             };
