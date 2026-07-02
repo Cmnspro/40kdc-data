@@ -742,7 +742,7 @@
   },
   {
     "ability_id": "pech-ra",
-    "name": "Pech’ra",
+    "name": "Pech\u2019ra",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -947,21 +947,39 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "movement"
+            }
+          },
+          {
+            "type": "remained-stationary"
+          }
+        ]
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "self",
+        "modifier": {
+          "grant_type": "ranged-weapon"
+        }
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "strike-team"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] the Shas'ui model is equipped with the support turret weapon until the start of your next turn"
   },
   {
     "ability_id": "guardian-drone",
@@ -1029,7 +1047,7 @@
   },
   {
     "ability_id": "exemplars-of-mont-ka",
-    "name": "Exemplars of Mont’ka",
+    "name": "Exemplars of Mont\u2019ka",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1950,7 +1968,7 @@
   },
   {
     "ability_id": "puretide-s-teachings",
-    "name": "Puretide’s Teachings",
+    "name": "Puretide\u2019s Teachings",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4288,7 +4306,7 @@
   },
   {
     "ability_id": "hunters-instincts",
-    "name": "Hunter’s Instincts",
+    "name": "Hunter\u2019s Instincts",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",

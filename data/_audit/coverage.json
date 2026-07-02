@@ -25,9 +25,9 @@
     {
       "faction": "adeptus-astartes",
       "total": 364,
-      "offensive": 113,
+      "offensive": 112,
       "defensive": 38,
-      "inert": 227,
+      "inert": 228,
       "stub": 16,
       "stubStructural": 3,
       "gwTextLeak": 0,
@@ -91,9 +91,9 @@
     {
       "faction": "chaos-daemons",
       "total": 157,
-      "offensive": 40,
+      "offensive": 39,
       "defensive": 14,
-      "inert": 109,
+      "inert": 110,
       "stub": 7,
       "stubStructural": 0,
       "gwTextLeak": 0,
@@ -128,16 +128,16 @@
       "defensive": 6,
       "inert": 91,
       "stub": 7,
-      "stubStructural": 5,
+      "stubStructural": 4,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
     {
       "faction": "drukhari",
       "total": 100,
-      "offensive": 26,
+      "offensive": 25,
       "defensive": 7,
-      "inert": 69,
+      "inert": 70,
       "stub": 5,
       "stubStructural": 1,
       "gwTextLeak": 0,
@@ -212,9 +212,9 @@
     {
       "faction": "orks",
       "total": 159,
-      "offensive": 35,
+      "offensive": 34,
       "defensive": 14,
-      "inert": 115,
+      "inert": 116,
       "stub": 5,
       "stubStructural": 2,
       "gwTextLeak": 0,
@@ -256,41 +256,41 @@
     {
       "faction": "world-eaters",
       "total": 133,
-      "offensive": 21,
-      "defensive": 9,
+      "offensive": 20,
+      "defensive": 10,
       "inert": 104,
       "stub": 0,
-      "stubStructural": 0,
+      "stubStructural": 3,
       "gwTextLeak": 0,
       "defensiveSkipped": 0
     }
   ],
   "totals": {
     "total": 3121,
-    "offensive": 778,
-    "defensive": 265,
-    "inert": 2164,
+    "offensive": 773,
+    "defensive": 266,
+    "inert": 2168,
     "stub": 119,
-    "stubStructural": 40,
+    "stubStructural": 42,
     "gwTextLeak": 0,
     "defensiveSkipped": 57
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 464
+      "count": 462
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 163
+      "count": 157
     },
     {
       "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
-      "count": 129
+      "count": 128
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 91
+      "count": 98
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
@@ -313,20 +313,20 @@
       "count": 52
     },
     {
-      "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
-      "count": 40
-    },
-    {
       "reason": "re-roll on \"charge\" (subset …) is outside the damage path",
-      "count": 39
+      "count": 38
     },
     {
-      "reason": "stat-modifier: operation \"set\" not supported",
+      "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
       "count": 33
     },
     {
       "reason": "effect type \"cp-gain\" is not modelled by the buff layer",
       "count": 33
+    },
+    {
+      "reason": "stat-modifier: operation \"set\" not supported",
+      "count": 32
     },
     {
       "reason": "effect type \"unit-keyword\" is not modelled by the buff layer",
@@ -337,24 +337,24 @@
       "count": 32
     },
     {
+      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
+      "count": 31
+    },
+    {
       "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
       "count": 30
     },
     {
-      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
-      "count": 25
+      "reason": "stat-modifier: operation \"undefined\" not supported",
+      "count": 24
     },
     {
-      "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 25
+      "reason": "effect type \"fight-on-death\" is not modelled by the buff layer",
+      "count": 23
     },
     {
       "reason": "stat-modifier on \"M\" is outside the damage path",
       "count": 23
-    },
-    {
-      "reason": "effect type \"fight-on-death\" is not modelled by the buff layer",
-      "count": 22
     },
     {
       "reason": "effect type \"fight-first\" is not modelled by the buff layer",
@@ -385,23 +385,27 @@
       "count": 13
     },
     {
+      "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
+      "count": 13
+    },
+    {
       "reason": "stat-modifier on \"D\" is outside the damage path",
       "count": 12
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
-      "count": 12
-    },
-    {
-      "reason": "dice-gated effect: stochastic; not expressible as a buff",
-      "count": 11
     },
     {
       "reason": "stat-modifier T: defender-side stat; applies when the buffed unit is the target",
       "count": 10
     },
     {
+      "reason": "dice-gated effect: stochastic; not expressible as a buff",
+      "count": 10
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"unit-below-half-strength\" against current context",
+      "count": 9
+    },
+    {
+      "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
       "count": 9
     },
     {
@@ -417,10 +421,6 @@
       "count": 7
     },
     {
-      "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
-      "count": 7
-    },
-    {
       "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
       "count": 7
     },
@@ -430,6 +430,10 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"opponent-unit-within-range\" against current context",
+      "count": 6
+    },
+    {
+      "reason": "effect type \"aura\" is not modelled by the buff layer",
       "count": 6
     },
     {
@@ -457,15 +461,15 @@
       "count": 5
     },
     {
-      "reason": "effect type \"aura\" is not modelled by the buff layer",
-      "count": 5
-    },
-    {
       "reason": "effect type \"terrain-area-tag\" is not modelled by the buff layer",
       "count": 5
     },
     {
       "reason": "conditional: cannot evaluate condition \"faction-rule-active\" against current context",
+      "count": 5
+    },
+    {
+      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
       "count": 5
     },
     {
@@ -485,10 +489,6 @@
       "count": 4
     },
     {
-      "reason": "conditional: cannot evaluate condition \"attack-is-type\" against current context",
-      "count": 4
-    },
-    {
       "reason": "stat-modifier on \"Ld\" is outside the damage path",
       "count": 4
     },
@@ -505,6 +505,10 @@
       "count": 3
     },
     {
+      "reason": "conditional: cannot evaluate condition \"attack-is-type\" against current context",
+      "count": 3
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"has-lost-wounds\" against current context",
       "count": 3
     },
@@ -517,6 +521,10 @@
       "count": 3
     },
     {
+      "reason": "effect type \"auto-result\" is not modelled by the buff layer",
+      "count": 3
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"within-range-of-objective\" against current context",
       "count": 3
     },
@@ -526,10 +534,6 @@
     },
     {
       "reason": "re-roll on \"attacks-characteristic\" (subset …) is outside the damage path",
-      "count": 2
-    },
-    {
-      "reason": "stat-modifier on \"aura-range\" is outside the damage path",
       "count": 2
     },
     {
@@ -557,10 +561,6 @@
       "count": 2
     },
     {
-      "reason": "effect type \"auto-result\" is not modelled by the buff layer",
-      "count": 2
-    },
-    {
       "reason": "re-roll on \"blood-surge\" (subset …) is outside the damage path",
       "count": 2
     },
@@ -578,6 +578,10 @@
     },
     {
       "reason": "stat-modifier: operation \"improve-vs-D1\" not supported",
+      "count": 1
+    },
+    {
+      "reason": "stat-modifier on \"aura-range\" is outside the damage path",
       "count": 1
     },
     {
@@ -638,10 +642,6 @@
     },
     {
       "reason": "roll-modifier on \"reanimation-protocols\" is outside the damage path",
-      "count": 1
-    },
-    {
-      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -2780,11 +2780,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "terminatus-assault",
       "name": "Terminatus Assault",
-      "shape": "re-roll",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "re-roll on \"charge\" (subset …) is outside the damage path"
+      "gap": null
     },
     {
       "faction": "adeptus-astartes",
@@ -3260,11 +3260,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "drop-pod-assault",
       "name": "Drop Pod Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4340,11 +4340,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "deathstorm-assault",
       "name": "Deathstorm Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4430,11 +4430,11 @@
       "faction": "adeptus-astartes",
       "ability_id": "termite-assault",
       "name": "Termite Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-astartes",
@@ -4800,9 +4800,9 @@
       "faction": "adeptus-astartes",
       "ability_id": "slayer-s-oath",
       "name": "Slayer’s Oath",
-      "shape": "re-roll",
+      "shape": "stance-select",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -6580,11 +6580,11 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "aerial-deployment",
       "name": "Aerial Deployment",
-      "shape": "conditional",
+      "shape": "ability-grant",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
@@ -6870,11 +6870,11 @@
       "faction": "adeptus-mechanicus",
       "ability_id": "termite-assault",
       "name": "Termite Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
@@ -9034,7 +9034,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "aeldari",
@@ -10070,11 +10070,11 @@
       "faction": "agents-of-the-imperium",
       "ability_id": "decoy-targets",
       "name": "Decoy Targets",
-      "shape": "movement-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "agents-of-the-imperium",
@@ -10710,11 +10710,11 @@
       "faction": "astra-militarum",
       "ability_id": "servo-sentry",
       "name": "Servo-sentry",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "astra-militarum",
@@ -12560,9 +12560,9 @@
       "faction": "chaos-daemons",
       "ability_id": "daemonic-allegiance",
       "name": "Daemonic Allegiance",
-      "shape": "re-roll",
+      "shape": "stance-select",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -12830,7 +12830,7 @@
       "faction": "chaos-daemons",
       "ability_id": "horrors-are-pink-horrors-are-blue-where-once-there-was-one-now-there-are-two",
       "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHERE ONCE THERE WAS ONE, NOW THERE ARE TWO.",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
@@ -16584,7 +16584,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "chaos-space-marines",
@@ -16660,11 +16660,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "dreadclaw-assault",
       "name": "Dreadclaw Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -16730,11 +16730,11 @@
       "faction": "chaos-space-marines",
       "ability_id": "kharybdis-assault",
       "name": "Kharybdis Assault",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "chaos-space-marines",
@@ -18680,11 +18680,11 @@
       "faction": "death-guard",
       "ability_id": "nurgles-gift-aura",
       "name": "Nurgle's Gift (Aura)",
-      "shape": "stat-modifier",
-      "stub": true,
+      "shape": "ability-grant",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"undefined\" not supported"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "death-guard",
@@ -18870,11 +18870,11 @@
       "faction": "drukhari",
       "ability_id": "pain-engine-aura",
       "name": "Pain Engine (Aura)",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "drukhari",
@@ -19540,11 +19540,11 @@
       "faction": "drukhari",
       "ability_id": "power-from-pain",
       "name": "Power From Pain",
-      "shape": "conditional",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "drukhari",
@@ -19770,9 +19770,9 @@
       "faction": "drukhari",
       "ability_id": "callous-competition",
       "name": "Callous Competition",
-      "shape": "re-roll",
+      "shape": "sequence",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -22110,11 +22110,11 @@
       "faction": "grey-knights",
       "ability_id": "duty-before-all",
       "name": "Duty Before All",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "grey-knights",
@@ -23640,11 +23640,11 @@
       "faction": "leagues-of-votann",
       "ability_id": "fury-from-the-delve",
       "name": "Fury From The Dêlve",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "leagues-of-votann",
@@ -26010,7 +26010,7 @@
       "faction": "orks",
       "ability_id": "mekaniak",
       "name": "Mekaniak",
-      "shape": "roll-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -26740,11 +26740,11 @@
       "faction": "orks",
       "ability_id": "lissen-ere",
       "name": "Lissen ’Ere",
-      "shape": "issue-orders",
+      "shape": "sequence",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -27120,7 +27120,7 @@
       "faction": "tau-empire",
       "ability_id": "ds8-support-turret",
       "name": "DS8 Support Turret",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
@@ -29700,11 +29700,11 @@
       "faction": "tyranids",
       "ability_id": "aerial-seeding",
       "name": "Aerial Seeding",
-      "shape": "deep-strike",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "tyranids",
@@ -30080,11 +30080,11 @@
       "faction": "tyranids",
       "ability_id": "neuroloids",
       "name": "Neuroloids",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "tyranids",
@@ -30474,7 +30474,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "tyranids",
@@ -31044,7 +31044,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "dice-gated effect: stochastic; not expressible as a buff"
+      "gap": null
     },
     {
       "faction": "world-eaters",
@@ -31064,7 +31064,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "world-eaters",
@@ -31270,21 +31270,21 @@
       "faction": "world-eaters",
       "ability_id": "chosen-of-the-blood-god-cult-of-blood",
       "name": "Chosen of the Blood God",
-      "shape": "stat-modifier",
+      "shape": "aura",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier on \"aura-range\" is outside the damage path"
+      "gap": "effect type \"aura\" is not modelled by the buff layer"
     },
     {
       "faction": "world-eaters",
       "ability_id": "butcher-lord-cult-of-blood",
       "name": "Butcher Lord",
-      "shape": "ability-grant",
-      "stub": false,
+      "shape": "sequence",
+      "stub": true,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "world-eaters",
@@ -31370,11 +31370,11 @@
       "faction": "world-eaters",
       "ability_id": "disciple-of-khorne-khorne-daemonkin",
       "name": "Disciple of Khorne",
-      "shape": "ability-grant",
-      "stub": false,
+      "shape": "sequence",
+      "stub": true,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
     },
     {
       "faction": "world-eaters",
@@ -31460,7 +31460,7 @@
       "faction": "world-eaters",
       "ability_id": "frenzied-resilience-berzerker-warband",
       "name": "Frenzied Resilience",
-      "shape": "feel-no-pain",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": true,
@@ -31470,21 +31470,21 @@
       "faction": "world-eaters",
       "ability_id": "blood-offering-berzerker-warband",
       "name": "Blood Offering",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "world-eaters",
       "ability_id": "skulls-for-the-skull-throne-berzerker-warband",
       "name": "Skulls for the Skull Throne!",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "world-eaters",
@@ -31500,11 +31500,11 @@
       "faction": "world-eaters",
       "ability_id": "berzerkers-wrath-berzerker-warband",
       "name": "Berzerker's Wrath",
-      "shape": "stat-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier: operation \"set\" not supported"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "world-eaters",
@@ -31540,11 +31540,11 @@
       "faction": "world-eaters",
       "ability_id": "in-the-shadow-of-brass-idols-cult-of-blood",
       "name": "In the Shadow of Brass Idols",
-      "shape": "damage-reduction",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
-      "defensive": false,
-      "gap": null
+      "defensive": true,
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
     },
     {
       "faction": "world-eaters",
@@ -31580,11 +31580,11 @@
       "faction": "world-eaters",
       "ability_id": "smash-through-goretrack-onslaught",
       "name": "Smash Through",
-      "shape": "sequence",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "world-eaters",
@@ -31610,27 +31610,27 @@
       "faction": "world-eaters",
       "ability_id": "unrelenting-advance-goretrack-onslaught",
       "name": "Unrelenting Advance",
-      "shape": "movement-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "world-eaters",
       "ability_id": "fury-unleashed-goretrack-onslaught",
       "name": "Fury Unleashed",
-      "shape": "ability-grant",
-      "stub": false,
+      "shape": "conditional",
+      "stub": true,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "world-eaters",
       "ability_id": "daemonic-fury-khorne-daemonkin",
       "name": "Daemonic Fury",
-      "shape": "keyword-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -31680,11 +31680,11 @@
       "faction": "world-eaters",
       "ability_id": "murder-call-khorne-daemonkin",
       "name": "Murder-call",
-      "shape": "movement-modifier",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "world-eaters",
@@ -31694,7 +31694,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"attack-is-type\" against current context"
+      "gap": null
     },
     {
       "faction": "world-eaters",
@@ -31710,11 +31710,11 @@
       "faction": "world-eaters",
       "ability_id": "immortal-fury-possessed-slaughterband",
       "name": "Immortal Fury",
-      "shape": "ability-grant",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"fight-on-death\" is not modelled by the buff layer"
     },
     {
       "faction": "world-eaters",
@@ -31730,7 +31730,7 @@
       "faction": "world-eaters",
       "ability_id": "warp-stalkers-possessed-slaughterband",
       "name": "Warp Stalkers",
-      "shape": "engagement-passthrough",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
@@ -31790,11 +31790,11 @@
       "faction": "world-eaters",
       "ability_id": "murder-forged-entity-brazen-engines",
       "name": "Murder-Forged Entity",
-      "shape": "keyword-grant",
+      "shape": "unit-keyword-grant",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "world-eaters",
@@ -31880,11 +31880,11 @@
       "faction": "world-eaters",
       "ability_id": "wrath-beyond-reason-butchers-of-khorne",
       "name": "Wrath Beyond Reason",
-      "shape": "damage-reduction",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "world-eaters",

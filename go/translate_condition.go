@@ -53,18 +53,27 @@ var timingAliases = map[string]string{
 	"set-up-this-turn":                      "unit-set-up",
 	"after-move-through-terrain-over-4-inches": "moved-through-terrain",
 	"after-moving-through-tall-terrain":        "moved-through-terrain",
+	"when-this-unit-selected-to-shoot":         "selected-to-shoot",
 }
 
 // timingOnlyPhrases are timing strings with no canonical game-event equivalent
 // but an established phrase (usage markers + a couple of phase/state gates).
 var timingOnlyPhrases = map[string]string{
-	"once-per-battle":        "once per battle",
-	"once-per-phase":         "once per phase",
-	"once-per-opponent-turn": "once per opponent's turn",
-	"first-this-battle":      "the first time this battle",
-	"first-time-this-phase":  "the first time this phase",
-	"in-reserves":            "while it is in Reserves",
-	"shooting-phase":         "in the Shooting phase",
+	"once-per-battle":                  "once per battle",
+	"once-per-phase":                   "once per phase",
+	"once-per-opponent-turn":           "once per opponent's turn",
+	"first-this-battle":                "the first time this battle",
+	"first-time-this-phase":            "the first time this phase",
+	"in-reserves":                      "while it is in Reserves",
+	"shooting-phase":                   "in the Shooting phase",
+	"start-of-battle":                  "at the start of the battle",
+	"start-of-fight-phase":             "at the start of the Fight phase",
+	"first-movement-phase":             "in your first Movement phase",
+	"start-of-first-battle-round":      "at the start of the first battle round",
+	"start-of-movement-phase":          "at the start of the Movement phase",
+	"shooting-or-fight-phase":          "in the Shooting or Fight phase",
+	"this-model-starts-or-ends-a-move": "each time this model starts or ends a move",
+	"end-of-normal-move":               "when the unit ends a Normal move",
 }
 
 func describeTiming(timing any) string {
@@ -99,6 +108,8 @@ var eventPhrases = map[string]string{
 	"start-of-opponent-turn":          "at the start of the opponent's turn",
 	"end-of-opponent-turn":            "at the end of the opponent's turn",
 	"start-of-battle-round":           "at the start of the battle round",
+	"start-of-battle":                 "at the start of the battle",
+	"army-selection":                  "when you select this model to include in your army",
 	"start-of-command-phase":          "at the start of the Command phase",
 	"declare-battle-formations":       "when declaring Battle Formations",
 	"post-deployment":                 "after deployment",

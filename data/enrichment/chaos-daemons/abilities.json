@@ -151,23 +151,111 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "re-roll",
-      "target": "unit",
-      "modifier": {
-        "roll": "hit",
-        "context": "vs-selected-keyword",
-        "subset": "all-failures"
-      }
+      "type": "stance-select",
+      "mode": "consumable",
+      "scope": "unit",
+      "select": "army-selection",
+      "options": [
+        {
+          "name": "Khorne",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "unit-keyword-grant",
+                "target": "self",
+                "modifier": {
+                  "keyword": "KHORNE"
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "self",
+                "modifier": {
+                  "grant_type": "ranged-weapon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Tzeentch",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "unit-keyword-grant",
+                "target": "self",
+                "modifier": {
+                  "keyword": "TZEENTCH"
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "self",
+                "modifier": {
+                  "grant_type": "ranged-weapon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Nurgle",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "unit-keyword-grant",
+                "target": "self",
+                "modifier": {
+                  "keyword": "NURGLE"
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "self",
+                "modifier": {
+                  "grant_type": "ranged-weapon"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Slaanesh",
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "unit-keyword-grant",
+                "target": "self",
+                "modifier": {
+                  "keyword": "SLAANESH"
+                }
+              },
+              {
+                "type": "ability-grant",
+                "target": "self",
+                "modifier": {
+                  "grant_type": "ranged-weapon"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "soul-grinder"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] the choice is made once, when the model is added to the army, and also equips the matching god-specific ranged weapon (torrent of burning blood / warp gaze / phlegm bombardment / scream of despair)"
   },
   {
     "ability_id": "malefic-destruction",
@@ -1134,10 +1222,20 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "PINK HORROR"
+        },
+        "negated": true
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "use-the-blue-horrors-datasheet"
+        }
       }
     },
     "scope": {
@@ -1148,7 +1246,8 @@
       "pink-horrors"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] while any PINK HORROR models remain, the Blue Horrors datasheet's Sullen Malevolence and Exploding Horrors abilities do not apply"
   },
   {
     "ability_id": "harmonic-alignment",
@@ -1943,7 +2042,7 @@
   },
   {
     "ability_id": "nurgle-s-rot-psychic",
-    "name": "Nurgle’s Rot (Psychic)",
+    "name": "Nurgle\u2019s Rot (Psychic)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2495,7 +2594,7 @@
   },
   {
     "ability_id": "death-s-heads",
-    "name": "Death’s Heads",
+    "name": "Death\u2019s Heads",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2700,7 +2799,7 @@
   },
   {
     "ability_id": "skullmaster-s-fury",
-    "name": "Skullmaster’s Fury",
+    "name": "Skullmaster\u2019s Fury",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3471,7 +3570,7 @@
   },
   {
     "ability_id": "p-tarix-s-sorcerous-syphon-aura",
-    "name": "P’tarix’s Sorcerous Syphon (Aura)",
+    "name": "P\u2019tarix\u2019s Sorcerous Syphon (Aura)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3499,7 +3598,7 @@
   },
   {
     "ability_id": "xirat-p-s-sorcerous-barrages-psychic",
-    "name": "Xirat’p’s Sorcerous Barrages (Psychic)",
+    "name": "Xirat\u2019p\u2019s Sorcerous Barrages (Psychic)",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -5382,7 +5481,7 @@
         "LEGIONES DAEMONICA"
       ]
     },
-    "community_notes": "[APPROX] Grants the reduced Deep Strike distance (set up more than 6\" from enemies instead of 9\") as an opaque ability grant. The placement preconditions — set up wholly within the army's Shadow of Chaos, and/or wholly within 6\" of a friendly Bloodthirster/Great Unclean One/Kairos Fateweaver/Keeper of Secrets/Lord of Change/Rotigus/Shalaxi Helbane/Skarbrand unit sharing its god keyword — are not gated in the DSL. Full rule in raw-text store."
+    "community_notes": "[APPROX] Grants the reduced Deep Strike distance (set up more than 6\" from enemies instead of 9\") as an opaque ability grant. The placement preconditions \u2014 set up wholly within the army's Shadow of Chaos, and/or wholly within 6\" of a friendly Bloodthirster/Great Unclean One/Kairos Fateweaver/Keeper of Secrets/Lord of Change/Rotigus/Shalaxi Helbane/Skarbrand unit sharing its god keyword \u2014 are not gated in the DSL. Full rule in raw-text store."
   },
   {
     "ability_id": "melancholic-miasma",
@@ -5644,7 +5743,7 @@
         "TZEENTCH"
       ]
     },
-    "community_notes": "[APPROX] Modeled with the pooled-resource `replace-roll-from-pool` frame over a `flux-token-pool`, covering the rolls a Flux token affects for your LEGIONES DAEMONICA TZEENTCH units. Semantically a Flux token funds a re-roll (not a die-value substitution), and the token economy — starting with three tokens, the opponent gaining a token whenever you spend one, the reciprocal opponent re-roll, and the Command-phase regain — is not modeled. Pool state is not tracked by the buff layer (fail-safe). Full rule in raw-text store."
+    "community_notes": "[APPROX] Modeled with the pooled-resource `replace-roll-from-pool` frame over a `flux-token-pool`, covering the rolls a Flux token affects for your LEGIONES DAEMONICA TZEENTCH units. Semantically a Flux token funds a re-roll (not a die-value substitution), and the token economy \u2014 starting with three tokens, the opponent gaining a token whenever you spend one, the reciprocal opponent re-roll, and the Command-phase regain \u2014 is not modeled. Pool state is not tracked by the buff layer (fail-safe). Full rule in raw-text store."
   },
   {
     "ability_id": "beguiling-aura",

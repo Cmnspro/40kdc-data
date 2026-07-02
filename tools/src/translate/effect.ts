@@ -125,6 +125,12 @@ interface Ctx {
   rangeInches?: number;
   /** True when the ability scope is `engagement-range`, so within-aura subjects read "within Engagement Range". */
   engagementRange?: boolean;
+  /**
+   * The raw scope range slug, for the non-radius scopes (`any-visible`,
+   * `any-on-battlefield`) whose within-aura subjects have a real extent the
+   * generic " nearby" fallback would drop.
+   */
+  scopeRange?: string;
 }
 
 const CONTAINER_TYPES = new Set([
@@ -172,11 +178,22 @@ const ABILITY_GRANT_LABELS: Record<string, string> = {
   "charge-after-advance": "Advance & Charge",
   "charge-after-fallback": "Fall Back & Charge",
   "charge-after-disembark": "Charge After Disembarking",
+  "nurgle-s-gift-aura": "Nurgle's Gift (Aura)",
 };
 
 /** The display label for a granted ability id: a curated override, else Title Case. */
 function grantLabel(id: string): string {
   return ABILITY_GRANT_LABELS[id] ?? titleCase(id);
+}
+
+/**
+ * "(your Suppressed target)" — a designate-target mark's parenthetical. A
+ * designation slug that already ends in "target" keeps its own noun
+ * ("bio-stimulus-target" → "(your Bio Stimulus Target)", not "… Target target").
+ */
+function designationLabel(designation: unknown): string {
+  const label = titleCase(jstr(designation));
+  return /\bTarget$/.test(label) ? ` (your ${label})` : ` (your ${label} target)`;
 }
 
 /** kebab/space token → Title Case (`deep-strike` → `Deep Strike`, `shoot-and-scoot` → `Shoot and Scoot`). */
@@ -353,7 +370,11 @@ function subject(target: string | undefined, ctx: Ctx): string {
       ? ` within ${jstr(ctx.rangeInches)}"`
       : ctx.engagementRange
         ? " within Engagement Range"
-        : " nearby";
+        : ctx.scopeRange === "any-visible"
+          ? " that are visible"
+          : ctx.scopeRange === "any-on-battlefield"
+            ? " anywhere on the battlefield"
+            : " nearby";
   switch (target) {
     case "self":
     case "bearer":
@@ -930,6 +951,21 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
         }
         return `roll ${diceCase(m.dice)}: for each ${hit}, ${subjMW} ${verb} ${per} ${perNoun}`;
       }
+      // Escalating table ("on a 2-3, 1 mortal wound; on a 4-5, D3 ..."): the
+      // roll decides the amount, so render the rows, not "a number of".
+      const table = (m.amount_table ?? m.table) as { roll?: unknown; amount?: unknown }[] | undefined;
+      if (Array.isArray(table) && table.length) {
+        const rows = table
+          .map((r, i) => {
+            const amt = diceCase(r.amount);
+            const noun = amt === "1" ? "mortal wound" : "mortal wounds";
+            return i === 0
+              ? `on a ${jstr(r.roll)}, ${subjMW} ${verb} ${amt} ${noun}`
+              : `on a ${jstr(r.roll)}, ${amt} ${noun}`;
+          })
+          .join("; ");
+        return `roll one ${diceCase(m.dice ?? "D6")}: ${rows}`;
+      }
       const a =
         m.count != null
           ? jstr(m.count)
@@ -937,9 +973,7 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
             ? jstr(m.amount)
             : m.dice != null
               ? diceCase(m.dice)
-              : m.table || m.amount_table
-                ? "a number of"
-                : null;
+              : null;
       // Deadly-Demise-style triggers carry no count here — the amount is the
       // model's Deadly Demise rating, so describe the trigger instead of "?".
       if (a == null && m.trigger != null)
@@ -974,10 +1008,35 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "ability-grant": {
       const grant = m.grant_type ?? m.ability_id;
+      // Reserves-arrival grant slugs read as full clauses in GW voice — the
+      // generic "gains the X ability" form would bury the mechanic in a name.
+      switch (jstr(grant)) {
+        case "must-start-in-reserves":
+          return `${subj} must start the battle in Reserves`;
+        case "reinforcement-any-of-turns-1-to-3":
+          return `${subj} can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules`;
+        case "reserves-limit-exempt":
+          return `${subj} ${v(subj, "is")} not counted towards any limits on the number of units that can start the battle in Reserves`;
+        case "reserves-limit-exempt-with-cargo":
+          return `neither ${subj} nor any units embarked within it are counted towards any limits on the number of units that can start the battle in Reserves`;
+        case "may-start-in-reserves":
+          return `${subj} can start the battle in Reserves`;
+        case "battle-round-plus-one-for-arrival":
+          return `${subj} ${v(subj, "treats")} the current battle round number as being one higher than it actually is when arriving from Reserves`;
+        case "flavor-text":
+          return "this ability is a descriptive note (no additional rules effect)";
+        case "crew-tokens": {
+          const n = jstr(m.count ?? 1);
+          const token = m.token_name != null ? `${jstr(m.token_name)} tokens` : "Crew tokens";
+          return `place ${n} ${token} next to ${subj} when ${pronoun(subj)=== "their" ? "they are" : "it is"} first set up, removing one each time ${subj} ${v(subj, "loses")} a wound (the model itself represents ${pronoun(subj)} final wound)`;
+        }
+      }
       const cap = m.capacity != null ? ` (${jstr(m.capacity)})` : "";
+      // A grant's `timing` modifier scopes when the granted ability applies.
+      const when = m.timing != null ? `${describeTiming(jstr(m.timing))}, ` : "";
       return grant != null
-        ? `${subj} ${v(subj, "gains")} the ${grantLabel(jstr(grant))} ability${cap}`
-        : `${subj} ${v(subj, "gains")} an ability${cap}`;
+        ? `${when}${subj} ${v(subj, "gains")} the ${grantLabel(jstr(grant))} ability${cap}`
+        : `${when}${subj} ${v(subj, "gains")} an ability${cap}`;
     }
     case "movement-modifier":
       return movementClause(m, subj);
@@ -995,6 +1054,12 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     }
     case "resurrection": {
       const count = m.count != null ? diceCase(m.count) : "1";
+      // `type: "wounds"` is a heal (regained wounds), not a revive.
+      if (m.type === "wounds" || m.wounds != null) {
+        const healed = m.wounds != null ? diceCase(m.wounds) : count;
+        const noun = healed === "1" ? "lost wound" : "lost wounds";
+        return `${subj} ${v(subj, "regains")} up to ${healed} ${noun}`;
+      }
       const wounds = m.wounds_remaining ?? "full";
       const place = resurrectionPlacement(m.placement);
       const when = resurrectionTiming(m.timing);
@@ -1116,7 +1181,10 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       return `${subj} has the ${name}${val} ability`;
     }
     case "unit-keyword-grant":
-      return `${jstr(m.to_keywords)} units gain the ${jstr(m.keyword)} keyword`;
+      // Without a `to_keywords` filter the grant lands on the effect subject.
+      return m.to_keywords != null
+        ? `${jstr(m.to_keywords)} units gain the ${jstr(m.keyword)} keyword`
+        : `${subj} ${v(subj, "gains")} the ${jstr(m.keyword)} keyword`;
     case "deep-strike":
       return m.min_distance != null
         ? `${subj} ${v(subj, "has")} the Deep Strike ability and can be set up more than ${jstr(m.min_distance)}" from enemy models`
@@ -1153,11 +1221,21 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
             : m.after === "before-move"
               ? "before it moves"
               : "after it has made a Normal move";
+      // `mandatory`: a Reserves-transport whose cargo MUST disembark on arrival.
+      const verb = m.mandatory ? "must immediately disembark" : "can disembark";
+      const away =
+        m.min_enemy_distance != null
+          ? `, and must be set up more than ${jstr(m.min_enemy_distance)}" away from all enemy models`
+          : "";
       const counts = m.counts_as_normal_move ? "; such units count as having made a Normal move" : "";
+      // A deployment-step disembark has no meaningful charge window; only an
+      // explicit `can_charge` renders the charge tail there.
       const charge = m.can_charge
         ? ", and are still eligible to declare a charge this turn"
-        : ", but cannot declare a charge this turn";
-      return `${who} can disembark from ${subj} ${when}${counts}${charge}`;
+        : m.after === "deployment" && m.can_charge == null
+          ? ""
+          : ", but cannot declare a charge this turn";
+      return `${who} ${verb} from ${subj} ${when}${away}${counts}${charge}`;
     }
     case "disembark": {
       const where = m.distance != null ? ` and be set up wholly within ${jstr(m.distance)}" of the transport` : "";
@@ -1218,19 +1296,26 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       return `roll one ${diceCase(e.dice)}: on ${comp}, ${success}${fail}`;
     }
     case "dice-pool-allocation": {
-      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "?";
+      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "your dice pool";
       const opts = (e.options ?? [])
-        .map((o) => `${jstr(o.name)} (${describeRequirement(o.requirement)}): ${describeEffectInline(o.effect ?? {}, ctx)}`)
+        .map((o) => `${jstr(o.name)} (requires ${describeRequirement(o.requirement)}): ${describeEffectInline(o.effect ?? {}, ctx)}`)
         .join(" / ");
       return `roll ${pool}: ${opts}`;
     }
     case "select-units":
       return `select ${selectUnitsSubject(e.selector)}: ${describeEffectInline(e.effect ?? {}, ctx)}`;
     case "designate-target": {
-      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as { scope?: string };
+      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as {
+        scope?: string;
+        timing?: string;
+      };
       const scopeNoun = sel.scope === "friendly-unit" ? "friendly" : "enemy";
+      const desig = e.designation ? designationLabel(e.designation) : "";
+      const selectLead = sel.timing ? `${describeTiming(sel.timing)}, select` : "select";
+      const { trail: durTrail } = durationClauses(e.duration);
       const when = e.applies?.to === "target" ? "while it is your target" : "each time a friendly unit attacks it";
-      return `select one ${scopeNoun} unit; ${when}, ${describeEffectInline(e.applies?.effect ?? {}, ctx)}`;
+      const whenClause = durTrail ? `${durTrail}, ${when}` : when;
+      return `${selectLead} one ${scopeNoun} unit${desig}; ${whenClause}, ${describeEffectInline(e.applies?.effect ?? {}, ctx)}`;
     }
     case "stance-select":
       return `select one: ${(e.options ?? []).map((o) => `${jstr(o.name)} (${describeEffectInline(o.effect ?? {}, ctx)})`).join(" / ")}`;
@@ -1372,11 +1457,15 @@ export function describeEffect(e: Effect, depth: number = 0, ctx: Ctx = {}): str
       return `${indent}${arrow}Roll one ${diceCase(e.dice)}: on ${comp}, ${success}${fail}.`;
     }
     case "dice-pool-allocation": {
-      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "?";
-      const lines = [`${indent}${arrow}Roll ${pool} (max ${jstr(e.max_activations)} activations):`];
+      const pool = e.pool ? `${jstr(e.pool.count)}${jstr(e.pool.die)}` : "your dice pool";
+      const upTo =
+        e.max_activations != null
+          ? ` to activate up to ${jstr(e.max_activations)} of the following`
+          : " to activate the following";
+      const lines = [`${indent}${arrow}Roll ${pool}; allocate dice${upTo}:`];
       for (const opt of e.options ?? []) {
         lines.push(
-          `${indent}  - ${jstr(opt.name)}: need ${describeRequirement(opt.requirement)} -> ${describeEffectInline(opt.effect ?? {}, ctx)}`
+          `${indent}  - ${jstr(opt.name)} (requires ${describeRequirement(opt.requirement)}): ${describeEffectInline(opt.effect ?? {}, ctx)}.`
         );
       }
       return lines.join("\n");
@@ -1390,16 +1479,24 @@ export function describeEffect(e: Effect, depth: number = 0, ctx: Ctx = {}): str
       return `${indent}${arrow}${lead}: ${describeEffectInline(inner, ctx)}.`;
     }
     case "designate-target": {
-      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as { scope?: string };
+      const sel = (typeof e.select === "object" && e.select ? e.select : {}) as {
+        scope?: string;
+        timing?: string;
+      };
       const scopeNoun = sel.scope === "friendly-unit" ? "friendly" : "enemy";
-      const desig = e.designation ? ` (your ${dekebab(jstr(e.designation))})` : "";
+      const desig = e.designation ? designationLabel(e.designation) : "";
       const applies = e.applies ?? {};
       const inner = applies.effect ?? {};
+      // The mark's timing and duration are content: "After this unit shoots,
+      // select …. Until your next Command phase, each time …".
+      const selectLead = sel.timing ? `${capitalize(describeTiming(sel.timing))}, select` : "Select";
+      const { trail: durTrail } = durationClauses(e.duration);
       const when =
         applies.to === "target"
-          ? "While it is your target"
-          : "Each time a friendly unit makes an attack against it";
-      const head = `${indent}${arrow}Select one ${scopeNoun} unit${desig}. ${when}`;
+          ? "while it is your target"
+          : "each time a friendly unit makes an attack against it";
+      const whenClause = durTrail ? `${capitalize(durTrail)}, ${when}` : capitalize(when);
+      const head = `${indent}${arrow}${selectLead} one ${scopeNoun} unit${desig}. ${whenClause}`;
       if (CONTAINER_TYPES.has(inner.type ?? "")) {
         return `${head}:\n` + describeEffect(inner, depth + 1, ctx);
       }
@@ -1515,7 +1612,11 @@ function renderTopLevel(
   usage?: AbilityUsage | null,
   trigger?: AbilityTriggerSpec | null,
 ): string {
-  const ctx: Ctx = { rangeInches: auraRadius(scope), engagementRange: scope?.range === "engagement-range" };
+  const ctx: Ctx = {
+    rangeInches: auraRadius(scope),
+    engagementRange: scope?.range === "engagement-range",
+    scopeRange: scope?.range,
+  };
   const { lead: durLead, trail } = durationClauses(scope?.duration);
   // An explicit usage limit supersedes the duration's coarse "once per battle" lead.
   const lead = usage && usage.frequency != null ? usageClause(usage) : durLead;
@@ -1548,9 +1649,12 @@ function renderTopLevel(
   }
 
   if (CONTAINER_TYPES.has(e.type ?? "")) {
-    // Containers render block; a trigger/duration lead-in prefixes the block when present.
+    // Containers render block; a trigger/duration lead-in prefixes the block when
+    // present. A designate-target carrying its own `duration` renders that
+    // duration itself — repeating the scope duration in the head would double it.
+    const ownDuration = e.type === "designate-target" && e.duration != null;
     const block = describeEffect(e, 0, ctx);
-    const head = [trig, lead || trail].filter((p) => p.length > 0).join(", ");
+    const head = [trig, lead || (ownDuration ? "" : trail)].filter((p) => p.length > 0).join(", ");
     return head ? capitalize(head) + ":\n" + block : block;
   }
 

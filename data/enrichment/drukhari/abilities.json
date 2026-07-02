@@ -29,7 +29,7 @@
   },
   {
     "ability_id": "eviscerating-fly-by",
-    "name": "Eviscerating Fly‑by",
+    "name": "Eviscerating Fly\u2011by",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -240,21 +240,38 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "friendly-unit-empowered-within-9"
+        }
+      },
+      "effect": {
+        "type": "dice-gated",
+        "dice": "D6",
+        "threshold": 5,
+        "comparison": "gte",
+        "on_success": {
+          "type": "resource-gain",
+          "target": "self",
+          "modifier": {
+            "pool_id": "pain-token-pool",
+            "amount": 1
+          }
+        }
       }
     },
     "scope": {
-      "range": "aura-9",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
       "cronos"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] add 1 to the roll if no model in this unit has a spirit vortex; Pain tokens spent for reasons other than Empowering do not trigger this ability"
   },
   {
     "ability_id": "leader",
@@ -1487,7 +1504,7 @@
   },
   {
     "ability_id": "torturer-s-craft",
-    "name": "Torturer’s Craft",
+    "name": "Torturer\u2019s Craft",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2055,7 +2072,7 @@
   },
   {
     "ability_id": "assassins-poisons",
-    "name": "Assassins’ Poisons",
+    "name": "Assassins\u2019 Poisons",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2107,7 +2124,7 @@
   },
   {
     "ability_id": "archon-s-will",
-    "name": "Archon’s Will",
+    "name": "Archon\u2019s Will",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2163,7 +2180,7 @@
   },
   {
     "ability_id": "archon-s-retinue",
-    "name": "Archon’s Retinue",
+    "name": "Archon\u2019s Retinue",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2701,28 +2718,72 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "is-attached"
-      },
-      "effect": {
-        "type": "ability-grant",
-        "target": "self",
-        "modifier": {
-          "ability_id": "flavor-text"
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "start-of-command-phase"
+            }
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "pain-token-pool",
+              "amount": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "enemy-unit-destroyed"
+            }
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "pain-token-pool",
+              "amount": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "enemy-unit-fails-battle-shock"
+            }
+          },
+          "effect": {
+            "type": "resource-gain",
+            "target": "self",
+            "modifier": {
+              "pool_id": "pain-token-pool",
+              "amount": 1
+            }
+          }
         }
-      }
+      ]
     },
     "scope": {
-      "range": "unit",
-      "duration": "phase"
+      "range": "any-on-battlefield",
+      "duration": "battle"
     },
     "faction_id": "drukhari",
     "ability_type": "faction",
     "behavior": "passive",
     "unit_ids": [
       "reaper"
-    ]
+    ],
+    "community_notes": "[APPROX] spend Pain tokens to Empower a unit until the end of the phase, activating all its Pain abilities; an Empowered Attached unit activates its Leader and Bodyguard Pain abilities together"
   },
   {
     "ability_id": "corsairs-and-travelling-players",
@@ -3125,7 +3186,7 @@
   },
   {
     "ability_id": "shadows-reach-kabalite-agonysts",
-    "name": "Shadows’ Reach",
+    "name": "Shadows\u2019 Reach",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -3728,7 +3789,7 @@
       "range": "any-visible",
       "duration": "battle"
     },
-    "community_notes": "[APPROX] Models the Trophy Hunters Contract: at the start of the first battle round one enemy CHARACTER is designated the Contract unit, and KABAL / BLADES FOR HIRE attacks against it gain [PRECISION]. The two other Contracts (Sow Fear and Terror → [SUSTAINED HITS 1] vs INFANTRY/MOUNTED; Show of Strength → [LETHAL HITS] vs MONSTER/VEHICLE), the KABAL/BLADES-FOR-HIRE attacker restriction, and the +3 Pain tokens gained when the Contract unit is destroyed are not modeled. Full rule in raw-text store."
+    "community_notes": "[APPROX] Models the Trophy Hunters Contract: at the start of the first battle round one enemy CHARACTER is designated the Contract unit, and KABAL / BLADES FOR HIRE attacks against it gain [PRECISION]. The two other Contracts (Sow Fear and Terror \u2192 [SUSTAINED HITS 1] vs INFANTRY/MOUNTED; Show of Strength \u2192 [LETHAL HITS] vs MONSTER/VEHICLE), the KABAL/BLADES-FOR-HIRE attacker restriction, and the +3 Pain tokens gained when the Contract unit is destroyed are not modeled. Full rule in raw-text store."
   },
   {
     "ability_id": "rain-of-cruelty",
@@ -3798,18 +3859,62 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "re-roll",
-      "target": "unit",
-      "modifier": {
-        "roll": "hit",
-        "subset": "ones"
-      }
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Winning the Wager"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "subset": "ones"
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Losing the Wager"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "hit",
+                  "subset": "ones"
+                }
+              },
+              {
+                "type": "re-roll",
+                "target": "unit",
+                "modifier": {
+                  "roll": "wound",
+                  "subset": "ones"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "scope": {
-      "range": "any-on-battlefield",
+      "range": "unit",
       "duration": "battle"
     },
-    "community_notes": "[APPROX] Encodes the 'winning the wager' benefit (re-roll Hit rolls of 1), the state DRUKHARI units begin the battle in. The wager state machine is not modeled: destroying an enemy unit flips your faction to winning (and the other faction — DRUKHARI vs HARLEQUINS — to losing); while losing, units instead re-roll Hit rolls of 1 and Wound rolls of 1. Full rule in raw-text store."
+    "community_notes": "[APPROX] DRUKHARI units start the battle winning the wager; each time a DRUKHARI unit destroys an enemy unit DRUKHARI units are winning and HARLEQUINS units are losing, and vice versa when a HARLEQUINS unit destroys an enemy unit"
   },
   {
     "ability_id": "alliance-of-agony",

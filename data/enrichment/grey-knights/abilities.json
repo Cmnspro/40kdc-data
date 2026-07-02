@@ -1435,7 +1435,7 @@
   },
   {
     "ability_id": "apothecary-s-narthecium",
-    "name": "Apothecary’s Narthecium",
+    "name": "Apothecary\u2019s Narthecium",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -1461,7 +1461,7 @@
   },
   {
     "ability_id": "ancient-s-banner",
-    "name": "Ancient’s Banner",
+    "name": "Ancient\u2019s Banner",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -2021,21 +2021,36 @@
     "ability_type": "detachment",
     "behavior": "passive",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "grant_type": "post-fallback-actions",
-        "allows": [
-          "shoot",
-          "declare-charge"
-        ],
-        "unit_type": "terminator",
-        "faction": "grey-knights"
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "GREY KNIGHTS TERMINATOR"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "shoot-after-fallback"
+            }
+          },
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "charge-after-fallback"
+            }
+          }
+        ]
       }
     },
     "scope": {
       "range": "unit",
-      "duration": "turn"
+      "duration": "battle"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },

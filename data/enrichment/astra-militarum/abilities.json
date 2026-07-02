@@ -714,21 +714,31 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
-      "target": "self",
-      "modifier": {
-        "ability_id": "flavor-text"
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "deep-strike-setup"
+        }
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "self",
+        "modifier": {
+          "grant_type": "shoot-after-action"
+        }
       }
     },
     "scope": {
-      "range": "unit",
+      "range": "self",
       "duration": "permanent"
     },
     "unit_ids": [
       "tempestus-aquilons"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] only the Tempestor Aquilon shoots, and only with its sentry weapon (sentry flamer / sentry grenade launcher / sentry hotshot volley gun), as if it were your Shooting phase"
   },
   {
     "ability_id": "final-duty",
@@ -3330,7 +3340,7 @@
   },
   {
     "ability_id": "omnissiah-s-blessing",
-    "name": "Omnissiah’s Blessing",
+    "name": "Omnissiah\u2019s Blessing",
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
@@ -4873,12 +4883,14 @@
       "type": "ability-grant",
       "target": "self",
       "modifier": {
-        "ability_id": "flavor-text"
+        "grant_type": "crew-tokens",
+        "count": 3,
+        "token_name": "Crew"
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "heavy-quad-launcher-team",
@@ -6793,7 +6805,7 @@
       "range": "unit",
       "duration": "permanent"
     },
-    "community_notes": "[APPROX] Applies to SQUADRON units on Advance (no Advance roll, +6\" Move). The clause allowing the Advance move to pass through — but not end within — enemy Engagement Range is not encoded. Full rule in raw-text store."
+    "community_notes": "[APPROX] Applies to SQUADRON units on Advance (no Advance roll, +6\" Move). The clause allowing the Advance move to pass through \u2014 but not end within \u2014 enemy Engagement Range is not encoded. Full rule in raw-text store."
   },
   {
     "ability_id": "born-soldiers",
@@ -7229,7 +7241,7 @@
     "usage": {
       "frequency": "once-per-turn"
     },
-    "community_notes": "[APPROX] The selected unit must be Battle-shocked and contain 2+ models, and the cost — one model in that unit is destroyed — is not encoded; the selector captures only the friendly ASTRA MILITARUM INFANTRY within 12\" constraint. Full rule in raw-text store."
+    "community_notes": "[APPROX] The selected unit must be Battle-shocked and contain 2+ models, and the cost \u2014 one model in that unit is destroyed \u2014 is not encoded; the selector captures only the friendly ASTRA MILITARUM INFANTRY within 12\" constraint. Full rule in raw-text store."
   },
   {
     "ability_id": "icon-of-discipline",
