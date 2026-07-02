@@ -4883,12 +4883,14 @@
       "type": "ability-grant",
       "target": "self",
       "modifier": {
-        "ability_id": "flavor-text"
+        "grant_type": "crew-tokens",
+        "count": 3,
+        "token_name": "Crew"
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "heavy-quad-launcher-team",

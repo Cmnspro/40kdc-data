@@ -1382,6 +1382,26 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     return "this ability is a descriptive note (no additional rules effect)"
                         .to_string();
                 }
+                Some("crew-tokens") => {
+                    let n = first(m, &["count"])
+                        .map(jval)
+                        .unwrap_or_else(|| "1".to_string());
+                    let token = if notnull(m, "token_name") {
+                        format!("{} tokens", jv(m, "token_name"))
+                    } else {
+                        "Crew tokens".to_string()
+                    };
+                    let being = if pronoun(&subj) == "their" {
+                        "they are"
+                    } else {
+                        "it is"
+                    };
+                    return format!(
+                        "place {n} {token} next to {subj} when {being} first set up, removing one each time {subj} {} a wound (the model itself represents {} final wound)",
+                        agree(&subj, "loses"),
+                        pronoun(&subj)
+                    );
+                }
                 _ => {}
             }
             let cap = if notnull(m, "capacity") {

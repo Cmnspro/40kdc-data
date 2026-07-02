@@ -1090,6 +1090,19 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             )
         if g == "flavor-text":
             return "this ability is a descriptive note (no additional rules effect)"
+        if g == "crew-tokens":
+            token_count = _jstr(m.get("count") if m.get("count") is not None else 1)
+            token = (
+                f"{_jstr(m.get('token_name'))} tokens"
+                if m.get("token_name") is not None
+                else "Crew tokens"
+            )
+            being = "they are" if _pronoun(subj) == "their" else "it is"
+            return (
+                f"place {token_count} {token} next to {subj} when {being} first set up,"
+                f" removing one each time {subj} {_v(subj, 'loses')} a wound (the model"
+                f" itself represents {_pronoun(subj)} final wound)"
+            )
         cap = f" ({_jstr(m['capacity'])})" if m.get("capacity") is not None else ""
         # A grant's `timing` modifier scopes when the granted ability applies.
         when = f"{describe_timing(_jstr(m['timing']))}, " if m.get("timing") is not None else ""

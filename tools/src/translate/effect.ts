@@ -1012,6 +1012,11 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
           return `${subj} ${v(subj, "treats")} the current battle round number as being one higher than it actually is when arriving from Reserves`;
         case "flavor-text":
           return "this ability is a descriptive note (no additional rules effect)";
+        case "crew-tokens": {
+          const n = jstr(m.count ?? 1);
+          const token = m.token_name != null ? `${jstr(m.token_name)} tokens` : "Crew tokens";
+          return `place ${n} ${token} next to ${subj} when ${pronoun(subj)=== "their" ? "they are" : "it is"} first set up, removing one each time ${subj} ${v(subj, "loses")} a wound (the model itself represents ${pronoun(subj)} final wound)`;
+        }
       }
       const cap = m.capacity != null ? ` (${jstr(m.capacity)})` : "";
       // A grant's `timing` modifier scopes when the granted ability applies.

@@ -3959,18 +3959,21 @@
       "type": "ability-grant",
       "target": "self",
       "modifier": {
-        "ability_id": "flavor-text"
+        "grant_type": "crew-tokens",
+        "count": 2,
+        "token_name": "Grot Crew"
       }
     },
     "scope": {
-      "range": "unit",
-      "duration": "permanent"
+      "range": "self",
+      "duration": "battle"
     },
     "unit_ids": [
       "big-gunz"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "[APPROX] tokens are placed per Mek Gun model (2 each), removing one each time that Big Gun model loses a wound"
   },
   {
     "ability_id": "speed-freeks",

@@ -1204,6 +1204,20 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			return subj + " " + ev(subj, "treats") + " the current battle round number as being one higher than it actually is when arriving from Reserves"
 		case "flavor-text":
 			return "this ability is a descriptive note (no additional rules effect)"
+		case "crew-tokens":
+			n := "1"
+			if m["count"] != nil {
+				n = ejstr(m["count"])
+			}
+			token := "Crew tokens"
+			if m["token_name"] != nil {
+				token = ejstr(m["token_name"]) + " tokens"
+			}
+			being := "it is"
+			if pronoun(subj) == "their" {
+				being = "they are"
+			}
+			return "place " + n + " " + token + " next to " + subj + " when " + being + " first set up, removing one each time " + subj + " " + ev(subj, "loses") + " a wound (the model itself represents " + pronoun(subj) + " final wound)"
 		}
 		cap := ""
 		if m["capacity"] != nil {
