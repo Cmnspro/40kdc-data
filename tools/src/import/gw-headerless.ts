@@ -92,13 +92,46 @@ function parsePts(raw: string): number | null {
   return Number.isNaN(n) ? null : n;
 }
 
+/** A line of only `+` characters — the BCP summary block's fence. */
+const RE_PLUS_FENCE = /^\++$/;
+/** A line inside that block identifying it as BCP's (not GW's own `+ …` fence). */
+const RE_BCP_SUMMARY_MARKER = /^\s*(?:Player Name|Team Name|Factions Used|Army Points)\s*:/im;
+
+/**
+ * BCP prepends a `++…++`-fenced summary block (`Player Name:` / `Factions Used:`
+ * / `Army Points: N` / …) to text-type lists. It is BCP metadata, not part of the
+ * pasted roster, and it derails the body grammar: the fence line gets consumed as
+ * the roster title, so the *real* title line (`House Rosecairn (1995 points)`)
+ * becomes a phantom unit and its points double the computed total. Strip the
+ * leading block when present. Only a block whose fence pair wraps a BCP marker is
+ * removed, so a framed GW export's own `+ FACTION KEYWORD:` fence is left intact.
+ */
+function stripBcpSummary(text: string): string {
+  const lines = text.split(/\r?\n/);
+  let open = 0;
+  while (open < lines.length && lines[open].trim() === "") open += 1;
+  if (open >= lines.length || !RE_PLUS_FENCE.test(lines[open].trim())) return text;
+  let close = -1;
+  for (let j = open + 1; j < lines.length; j += 1) {
+    if (RE_PLUS_FENCE.test(lines[j].trim())) {
+      close = j;
+      break;
+    }
+  }
+  if (close === -1) return text;
+  const block = lines.slice(open + 1, close).join("\n");
+  if (!RE_BCP_SUMMARY_MARKER.test(block)) return text;
+  return lines.slice(close + 1).join("\n");
+}
+
 /** Accept bullet-bearing plain text that no framed adapter claims. */
 function headerlessText(decoded: unknown): string | null {
   if (typeof decoded !== "string") return null;
-  if (!RE_BULLET_ANYWHERE.test(decoded)) return null; // need a bullet
-  if (decoded.includes("+ FACTION KEYWORD:")) return null; // framed GW → gwAdapter
-  if (RE_WITH_LINE.test(decoded)) return null; // WTC-full
-  const lines = decoded.split(/\r?\n/);
+  const text = stripBcpSummary(decoded);
+  if (!RE_BULLET_ANYWHERE.test(text)) return null; // need a bullet
+  if (text.includes("+ FACTION KEYWORD:")) return null; // framed GW → gwAdapter
+  if (RE_WITH_LINE.test(text)) return null; // WTC-full
+  const lines = text.split(/\r?\n/);
   // ListForge-text's `name - faction - detachment (N Points)` header → defer to
   // listForgeTextAdapter (registered ahead of us). Mirrors its own matcher so
   // the two stay disjoint, per the importer's single-match invariant.
@@ -115,7 +148,7 @@ function headerlessText(decoded: unknown): string | null {
     return null;
   }
   // Require a `Name (N pts|Points)` line somewhere — the unit/title signature.
-  return lines.some((l) => RE_PTS_LINE.test(l.trim())) ? decoded : null;
+  return lines.some((l) => RE_PTS_LINE.test(l.trim())) ? text : null;
 }
 
 interface Bullet {
