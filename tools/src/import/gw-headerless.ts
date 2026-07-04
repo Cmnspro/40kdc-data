@@ -25,13 +25,24 @@
  *   • 9x Khorne Berzerker              ← model group (has ◦ children) …
  *      ◦ 8x Bolt pistol                ← … children are squad-wide wargear
  *   • 4x Intercessor: Bolt rifle       ← model group (colon wargear, no children)
+ *
+ * Fire Dragons (120 points)            ← GW app v2.0.5 "Attached Units" nesting
+ * • Attached as: Bodyguard             ← attachment annotation (skipped)
+ *   • 4x Fire Dragon                   ← model group (deeper • child) …
+ *     • 4x Close combat weapon         ← … first weapon is bulleted …
+ *       4x Dragon fusion gun           ← … the rest are unbulleted continuations
  * ```
  *
- * **Model vs wargear** (the crux), unified across dialects: a top-level bullet
- * is a *model group* when it carries a `: wargear` colon **or** is followed by
- * deeper-indented child bullets; its `Nx` count (default 1) adds to the model
- * count. Otherwise it is plain wargear (an `Nx`/bare item) or an annotation
- * (`Warlord`, `… Character`, `Enhancements: …`).
+ * **Model vs wargear** (the crux), unified across dialects: a model group is a
+ * bulleted entry, at the shallowest model indent, that is followed by a *deeper
+ * bulleted* line (its squad-wide wargear); its `Nx` count (default 1) adds to
+ * the model count. Keying on the child being *bulleted* keeps a lone bulleted
+ * weapon trailed by unbulleted continuation lines (a Fire Prism's `Prism
+ * cannon`) as wargear, not a model. A bullet with a `: wargear` colon is also a
+ * model group. Everything else is wargear — a `Nx`/bare item, or the GW app's
+ * unbulleted continuation lines (v2.0.5 bullets only the *first* weapon under a
+ * model and emits the rest unbulleted, one indent deeper) — or an annotation
+ * (`Warlord`, `… Character`, `Enhancements: …`, `Attached as: …`).
  *
  * **Faction / detachment**: the GW export lists them as bare lines between the
  * title and the first section (`World Eaters` / `Berzerker Warband`). The first
@@ -71,6 +82,9 @@ const RE_NX_PREFIX = /^(\d+)x\s+(.+)$/i;
 const RE_ENHANCEMENT_ANNOT = /^(.+?)\s*\(\+\s*(\d+)\s*pts?\s*\)\s*$/i;
 /** `Enhancements: X` / `E: X` enhancement bullet. */
 const RE_ENHANCEMENT_LABEL = /^(?:e|enh|enhancement|enhancements)\s*:\s*(.+)$/i;
+/** `Attached as: <role>` — GW app v2.0.5 attachment annotation (captures the
+ * role so `(Character)` can flag the unit). */
+const RE_ATTACHED_AS = /^attached\s+as\s*:\s*(.+)$/i;
 const RE_WITH_LINE = /^[\t ]*\d+\s+with\b/m;
 const RE_BULLET_ANYWHERE = /^[\t ]*[•◦]/mu;
 /** ListForge-text first line: `<name> - <faction> - <detachment> (N Points)`.
@@ -158,10 +172,21 @@ interface Bullet {
   name: string;
   /** Comma-separated wargear listed after a `:` on a model bullet. */
   colon_wargear: string | null;
-  /** True for `Warlord` / `… Character` / `Enhancements:` annotations. */
+  /** True for `Warlord` / `… Character` / `Enhancements:` / `Attached as:`
+   * annotations. */
   is_annotation: boolean;
   /** `[name, points]` when this bullet declares an enhancement. */
   enhancement: [string, number | null] | null;
+  /** True when the source line carried a `•`/`◦` marker; false for the GW app's
+   * unbulleted continuation wargear lines. Model detection keys on this: a model
+   * is an entry followed by a *deeper bulleted* line, so a lone bulleted weapon
+   * with plain continuations (Fire Prism) is not mistaken for a model. */
+  bulleted: boolean;
+  /** True for an `Attached as: …` v2.0.5 annotation — never a model or wargear,
+   * even though it sits (bulleted) shallower than the models. */
+  is_attachment: boolean;
+  /** An `Attached as: … (Character)` annotation flags the unit as a character. */
+  sets_character: boolean;
 }
 
 interface UnitAcc {
@@ -171,12 +196,32 @@ interface UnitAcc {
   bullets: Bullet[];
 }
 
-function parseBullet(indent: number, body: string): Bullet {
+function parseBullet(indent: number, body: string, bulleted: boolean): Bullet {
+  const base = { indent, bulleted, is_attachment: false, sets_character: false } as const;
+
+  // `Attached as: <role>` — the v2.0.5 multi-detachment export tags each unit
+  // with how it attaches. Pure annotation: never a model or wargear. Its `:`
+  // must be caught before the generic colon split below, else the role is read
+  // as inline wargear. A `(Character)` role flags the unit as a character.
+  const attached = RE_ATTACHED_AS.exec(body);
+  if (attached) {
+    return {
+      ...base,
+      count: null,
+      name: "",
+      colon_wargear: null,
+      is_annotation: true,
+      enhancement: null,
+      is_attachment: true,
+      sets_character: /\(\s*Character\s*\)/i.test(attached[1]),
+    };
+  }
+
   // Enhancement label first — `Enhancements: X` must not read as a model.
   const label = RE_ENHANCEMENT_LABEL.exec(body);
   if (label) {
     return {
-      indent,
+      ...base,
       count: null,
       name: "",
       colon_wargear: null,
@@ -194,7 +239,7 @@ function parseBullet(indent: number, body: string): Bullet {
   if (annot) {
     const pts = Number.parseInt(annot[2], 10);
     return {
-      indent,
+      ...base,
       count,
       name: rest,
       colon_wargear: null,
@@ -208,7 +253,7 @@ function parseBullet(indent: number, body: string): Bullet {
   if (idx >= 0) {
     const wargear = rest.slice(idx + 1).trim();
     return {
-      indent,
+      ...base,
       count,
       name: rest.slice(0, idx).trim(),
       colon_wargear: wargear.length > 0 ? wargear : null,
@@ -219,7 +264,7 @@ function parseBullet(indent: number, body: string): Bullet {
 
   // Bare token: annotation iff it has no count (Warlord / Character / wargear).
   return {
-    indent,
+    ...base,
     count,
     name: rest,
     colon_wargear: null,
@@ -229,9 +274,35 @@ function parseBullet(indent: number, body: string): Bullet {
 }
 
 function finishUnit(acc: UnitAcc): ParsedUnit {
-  const topIndent = acc.bullets.length
-    ? Math.min(...acc.bullets.map((b) => b.indent))
+  // Models live at the shallowest *bulleted* indent that isn't an annotation,
+  // enhancement, or colon-wargear line. The GW v2.0.5 export prefixes each unit
+  // with an `Attached as:` bullet shallower than the models, so the old
+  // "min of all indents" would misplace the model level — filter those out.
+  const modelEligible = acc.bullets.filter(
+    (b) =>
+      b.bulleted &&
+      !b.is_attachment &&
+      !b.enhancement &&
+      b.colon_wargear === null,
+  );
+  const modelIndent = modelEligible.length
+    ? Math.min(...modelEligible.map((b) => b.indent))
     : 0;
+
+  // A model group: a bulleted entry at the model indent that is followed by a
+  // *deeper bulleted* line (its squad-wide wargear). Keying on the child being
+  // bulleted keeps a lone bulleted weapon trailed by plain continuation lines
+  // (Fire Prism's Prism cannon) as wargear, not a model. A count-less model
+  // name (`• Bloodreaper` with children) still counts as one model (`?? 1`).
+  const isModelGroup = (b: Bullet, next: Bullet | undefined): boolean =>
+    b.bulleted &&
+    b.colon_wargear === null &&
+    !b.enhancement &&
+    !b.is_attachment &&
+    b.indent === modelIndent &&
+    next !== undefined &&
+    next.bulleted &&
+    next.indent > b.indent;
 
   const wargear = new Map<string, number>();
   const addWargear = (raw_name: string, count: number): void => {
@@ -249,9 +320,11 @@ function finishUnit(acc: UnitAcc): ParsedUnit {
   for (let i = 0; i < acc.bullets.length; i += 1) {
     const b = acc.bullets[i];
 
-    // Child bullet: a model group's squad-wide wargear (count already total).
-    if (b.indent > topIndent) {
-      addWargear(b.name, b.count ?? 1);
+    // `Attached as: …` carries no model or gear; a `(Character)` role flags the
+    // unit as a character. Skip before model detection — it sits shallower than
+    // the models and would otherwise read as a model group.
+    if (b.is_attachment) {
+      if (b.sets_character) is_character = true;
       continue;
     }
 
@@ -274,9 +347,8 @@ function finishUnit(acc: UnitAcc): ParsedUnit {
       continue;
     }
 
-    // Model group: top-level bullet followed by deeper child bullets.
-    const next = acc.bullets[i + 1];
-    if (next && next.indent > topIndent) {
+    // Model group: counted bullet at the model indent with a deeper bulleted child.
+    if (isModelGroup(b, acc.bullets[i + 1])) {
       model_count += b.count ?? 1;
       continue;
     }
@@ -298,7 +370,8 @@ function finishUnit(acc: UnitAcc): ParsedUnit {
       continue;
     }
 
-    // Plain `Nx` wargear on a single-model unit.
+    // Everything else is wargear — a bulleted weapon under a model or an
+    // unbulleted continuation line, at any depth.
     addWargear(b.name, b.count ?? 1);
   }
 
@@ -371,12 +444,27 @@ export const gwHeaderlessAdapter: FormatAdapter = {
       // Bullets attach to the open unit.
       const bullet = RE_BULLET.exec(raw);
       if (bullet) {
-        if (current) current.bullets.push(parseBullet(bullet[1].length, bullet[2]));
+        if (current) {
+          current.bullets.push(parseBullet(bullet[1].length, bullet[2], true));
+        }
         continue;
       }
 
       // GW export footer.
       if (line.startsWith("Exported with")) continue;
+
+      // The GW app bullets only the first wargear line under a model and emits
+      // the rest unbulleted, one indent deeper (`      4x Shuriken pistol`).
+      // Capture those `Nx …` continuation lines as the open unit's wargear at
+      // their real indent so `finishUnit` can place them. A unit header also
+      // lacks a bullet but carries a `(N pts)` parenthetical, so it is excluded
+      // here and handled just below.
+      const nx = RE_NX_PREFIX.exec(line);
+      if (current && nx && !RE_PTS_LINE.test(line)) {
+        const indent = raw.length - raw.trimStart().length;
+        current.bullets.push(parseBullet(indent, line, false));
+        continue;
+      }
 
       // `## Section` markdown header (strip an optional `(N pts)` tail).
       const md = RE_MD_SECTION.exec(line);

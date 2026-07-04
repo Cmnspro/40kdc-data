@@ -24,9 +24,9 @@ use std::path::{Path, PathBuf};
 use serde_json::Value;
 use wh40kdc::import::{
     import_roster, import_roster_text, select_adapter, try_import_roster, FormatAdapter, GwAdapter,
-    ImportResult, ListForgeAdapter, ListForgeTextAdapter, NewRecruitJsonAdapter,
-    NewRecruitSimpleAdapter, NewRecruitWtcCompactAdapter, NewRecruitWtcFullAdapter, RosterFormat,
-    RosterJsonAdapter, RosterizerAdapter,
+    GwHeaderlessAdapter, ImportResult, ListForgeAdapter, ListForgeTextAdapter,
+    NewRecruitJsonAdapter, NewRecruitSimpleAdapter, NewRecruitWtcCompactAdapter,
+    NewRecruitWtcFullAdapter, RosterFormat, RosterJsonAdapter, RosterizerAdapter,
 };
 use wh40kdc::{normalize_name, Dataset};
 
@@ -43,6 +43,10 @@ fn conformance_adapters() -> Vec<Box<dyn FormatAdapter>> {
         Box::new(NewRecruitWtcCompactAdapter),
         Box::new(NewRecruitSimpleAdapter),
         Box::new(ListForgeTextAdapter),
+        // Fallback for bullet-bearing plain text without a summary fence (GW app
+        // headerless export). Placed after the framed text adapters, mirroring
+        // `import_roster`'s `adapters()` order.
+        Box::new(GwHeaderlessAdapter),
         Box::new(ListForgeAdapter),
     ]
 }

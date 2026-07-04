@@ -86,6 +86,52 @@ Bloodletters (110 pts)
     • 9x Hellblade
 `;
 
+// GW app v2.0.5 "Attached Units" export: models nest under `Attached as:`
+// annotations, and each model bullets only its first weapon — the rest are
+// unbulleted, deeper-indented continuation lines. Exercises the four cases the
+// v2.0.5 parser must handle: continuation-line capture, `Attached as:`
+// annotations, model + deeper-bulleted weapon, and a lone bulleted weapon with
+// plain continuations (Fire Prism) that must NOT read as a model.
+const GW_V2_ATTACHED = `Test List (2275 points)
+
+Aeldari
+Armoured Warhost
+
+Attached Units
+Attached Unit 1
+
+Warlock Conclave (120 points)
+• Attached as: Leader
+  • 4x Warlock
+    • 4x Destructor
+      4x Shuriken pistol
+      4x Singing Spear
+
+Eldrad Ulthran (130 points)
+• Attached as: Leader (Character)
+  • Warlord
+  • 1x Mind War
+    1x Shuriken pistol
+    1x The Staff of Ulthamar and witchblade
+
+OTHER DATASHEETS
+
+Fire Prism (150 points)
+  • 1x Prism cannon
+    1x Twin shuriken catapult
+    1x Wraithbone hull
+
+Fire Dragons (120 points)
+  • 1x Fire Dragon Exarch
+    • 1x Close combat weapon
+      1x Firepike
+  • 4x Fire Dragon
+    • 4x Close combat weapon
+      4x Dragon fusion gun
+
+Exported with App Version: v2.0.5 (128), Data Version: v886
+`;
+
 describe("gwHeaderlessAdapter.matches", () => {
   it("accepts the GW app export", () => {
     expect(gwHeaderlessAdapter.matches(GW_APP)).toBe(true);
@@ -166,6 +212,49 @@ describe("gwHeaderlessAdapter.parse", () => {
     );
     expect(p.units[1].model_count).toBe(10); // Bloodreaper + 9 Bloodletter
     expect(p.units[1].wargear.some((w) => w.raw_name === "Hellblade")).toBe(true);
+  });
+
+  it("captures unbulleted continuation weapons in the GW v2.0.5 attached format", () => {
+    const p = gwHeaderlessAdapter.parse(GW_V2_ATTACHED);
+    const byName = (name: string) => p.units.find((u) => u.raw_name === name)!;
+    const wg = (u: (typeof p.units)[number], name: string) =>
+      u.wargear.find((w) => w.raw_name === name);
+
+    // Model group with an `Attached as:` prefix: the model line is `Warlock`,
+    // and both the bulleted and the two unbulleted continuation weapons attach.
+    const conclave = byName("Warlock Conclave");
+    expect(conclave.model_count).toBe(4);
+    expect(wg(conclave, "Destructor")?.count).toBe(4);
+    expect(wg(conclave, "Shuriken pistol")?.count).toBe(4); // was dropped pre-fix
+    expect(wg(conclave, "Singing Spear")?.count).toBe(4); // was dropped pre-fix
+    // The model name and the attachment role must not leak into wargear.
+    expect(wg(conclave, "Warlock")).toBeUndefined();
+    expect(conclave.wargear.some((w) => /attached as|leader/i.test(w.raw_name))).toBe(
+      false,
+    );
+
+    // `Attached as: … (Character)` flags the unit; `Warlord` is still read.
+    const eldrad = byName("Eldrad Ulthran");
+    expect(eldrad.model_count).toBe(1);
+    expect(eldrad.is_character).toBe(true);
+    expect(eldrad.is_warlord).toBe(true);
+    expect(wg(eldrad, "Shuriken pistol")?.count).toBe(1);
+    expect(wg(eldrad, "The Staff of Ulthamar and witchblade")?.count).toBe(1);
+
+    // A lone bulleted weapon trailed by plain continuations is a single-model
+    // unit whose bullet is wargear, not a model group.
+    const prism = byName("Fire Prism");
+    expect(prism.model_count).toBe(1);
+    expect(wg(prism, "Prism cannon")?.count).toBe(1);
+    expect(wg(prism, "Twin shuriken catapult")?.count).toBe(1);
+    expect(wg(prism, "Wraithbone hull")?.count).toBe(1);
+
+    // Two model groups, each `model → • weapon → plain weapon`.
+    const dragons = byName("Fire Dragons");
+    expect(dragons.model_count).toBe(5); // 1 Exarch + 4
+    expect(wg(dragons, "Close combat weapon")?.count).toBe(5);
+    expect(wg(dragons, "Firepike")?.count).toBe(1);
+    expect(wg(dragons, "Dragon fusion gun")?.count).toBe(4);
   });
 });
 
