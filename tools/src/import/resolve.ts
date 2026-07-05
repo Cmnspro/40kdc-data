@@ -138,6 +138,23 @@ export function resolve(
   });
   const detachmentIds = detachments.map((d) => d.ref.id).filter((id): id is string => id !== null);
 
+  // --- Force Disposition. ---------------------------------------------------
+  // roster-json carries an already-resolved id; ListForge text carries the raw
+  // header name (e.g. "Priority Assets"), resolved here against the dataset.
+  let force_disposition = parsed.force_disposition ?? null;
+  if (!force_disposition && parsed.force_disposition_raw_name) {
+    const hit = ds.forceDispositions.find(parsed.force_disposition_raw_name);
+    if (hit) {
+      force_disposition = hit.id;
+    } else {
+      diag.warn(
+        "disposition-unresolved",
+        "Force Disposition name did not match any 40kdc disposition.",
+        parsed.force_disposition_raw_name,
+      );
+    }
+  }
+
   // --- Battle size. ---------------------------------------------------------
   const battle_size = mapBattleSize(parsed.battle_size_raw);
   if (parsed.battle_size_raw && battle_size === null) {
@@ -176,10 +193,10 @@ export function resolve(
     faction_id,
     detachments,
     battle_size,
-    // Only the canonical roster-json round-trip carries a picked Force
-    // Disposition; other source formats don't encode it yet, so it defaults to
-    // null and the roster-legality checker flags it (advisory).
-    force_disposition: parsed.force_disposition ?? null,
+    // roster-json carries a resolved id; ListForge text resolves its raw header
+    // name above. Formats that encode no disposition leave this null and the
+    // roster-legality checker flags it (advisory).
+    force_disposition,
     points: {
       declared_limit: parsed.declared_limit,
       detachment_cap,

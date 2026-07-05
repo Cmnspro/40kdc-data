@@ -10,7 +10,7 @@
 import { describe, it, expect } from "vitest";
 import { Dataset } from "../../src/data/dataset.js";
 import { tryImportRoster } from "../../src/import/import-roster.js";
-import { listForgeTextAdapter } from "../../src/import/listforge-text.js";
+import { listForgeTextAdapter, _internals } from "../../src/import/listforge-text.js";
 import { gwAdapter } from "../../src/import/gw.js";
 import { newRecruitSimpleAdapter } from "../../src/import/newrecruit-simple.js";
 
@@ -173,5 +173,140 @@ describe("listForgeTextAdapter.parse", () => {
     const json = JSON.stringify(parsed);
     expect(json.includes("description")).toBe(false);
     expect(json.includes("rules")).toBe(false);
+  });
+});
+
+// 11e ListForge headers gained a Force Disposition segment and comma-joined
+// multi-detachment tails: `<name> - <faction> - <disposition> - <det>[, <det>]`.
+// These pin the header slotting (the disposition must not be mistaken for the
+// faction) and end-to-end resolution against real dataset entities.
+describe("listForgeTextAdapter 11e header (disposition + multi-detachment)", () => {
+  // Modelled on real user exports (Votann two-detachment list, Necron list).
+  const VOTANN_HEADER =
+    "1.5k - Leagues of Votann - Priority Assets - Hearthfyre Arsenal, Hearthguard Covenant (1485 Points)";
+  const NECRON_HEADER =
+    "Starshatter - Necrons - Priority Assets - Starshatter Arsenal (2000 Points)";
+  const VOTANN_LIST = `${VOTANN_HEADER}
+
+Character:
+Kâhl (75 pts)
+  • Volkanite disintegrator
+`;
+
+  it("slots name/faction/disposition and comma-splits the detachment tail", () => {
+    const h = _internals.parseFirstLine(VOTANN_HEADER)!;
+    expect(h.name).toBe("1.5k");
+    expect(h.faction_raw_name).toBe("Leagues of Votann");
+    expect(h.disposition_raw_name).toBe("Priority Assets");
+    expect(h.detachment_raw_names).toEqual([
+      "Hearthfyre Arsenal",
+      "Hearthguard Covenant",
+    ]);
+  });
+
+  it("keeps a single-detachment 4-segment header as one detachment", () => {
+    const h = _internals.parseFirstLine(NECRON_HEADER)!;
+    expect(h.faction_raw_name).toBe("Necrons");
+    expect(h.disposition_raw_name).toBe("Priority Assets");
+    expect(h.detachment_raw_names).toEqual(["Starshatter Arsenal"]);
+  });
+
+  it("leaves legacy 3-segment headers with no disposition", () => {
+    const h = _internals.parseFirstLine(
+      "all gas no breaks - Chaos Daemons - Daemonic Incursion (1995 Points)",
+    )!;
+    expect(h.disposition_raw_name).toBeNull();
+    expect(h.detachment_raw_names).toEqual(["Daemonic Incursion"]);
+  });
+
+  it("resolves both detachments and the disposition end-to-end", () => {
+    const result = tryImportRoster(VOTANN_LIST, { dataset: ds });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.format).toBe("listforge-text");
+      expect(result.roster.faction_id).toBe("leagues-of-votann");
+      expect(result.roster.detachments.map((d) => d.ref.id)).toEqual([
+        "hearthfyre-arsenal",
+        "hearthguard-covenant",
+      ]);
+      expect(result.roster.force_disposition).toBe("priority-assets");
+    }
+  });
+});
+
+// ListForge emits attached leaders in an `Attached Units:` section: a combined
+// `Leader + Bodyguard (total pts)` marker, then the leader and bodyguard as
+// indented sub-units. Condensed from a real Votann export. Kâhl is a `leader`-
+// role epic hero, so the `support`-only inference (resolve Pass 2) never
+// attaches it — only this explicit encoding does.
+const ATTACHED = `1.5k - Leagues of Votann - Priority Assets - Hearthfyre Arsenal (1485 Points)
+
+Attached Units:
+Kâhl + Einhyr Hearthguard (205 pts)
+  Kâhl (75 pts)
+    • Volkanite disintegrator
+    • Warlord
+    • E: Ironskein
+  Einhyr Hearthguard (130 pts)
+    • Hesyr
+      • EtaCarn plasma gun
+    • 4x Einhyr Hearthguard
+      • 4x Volkanite disintegrator
+
+Character:
+Einhyr Champion (65 pts)
+  • Darkstar axe
+`;
+
+describe("listForgeTextAdapter Attached Units section", () => {
+  const parsed = listForgeTextAdapter.parse(ATTACHED);
+
+  it("skips the combined marker and emits leader + bodyguard as units", () => {
+    expect(parsed.units.map((u) => u.raw_name)).toEqual([
+      "Kâhl",
+      "Einhyr Hearthguard",
+      "Einhyr Champion",
+    ]);
+    // The marker's points are the sub-units' sum; counting it would double.
+    expect(parsed.total_computed).toBe(75 + 130 + 65);
+  });
+
+  it("flags the attached leader as a character and links its bodyguard", () => {
+    const kahl = parsed.units.find((u) => u.raw_name === "Kâhl")!;
+    expect(kahl.is_character).toBe(true);
+    expect(kahl.is_warlord).toBe(true);
+    expect(kahl.enhancement_raw_name).toBe("Ironskein");
+    expect(kahl.leader_attachment).toEqual({
+      bodyguard_raw_name: "Einhyr Hearthguard",
+      role: "leader",
+      provisional: false,
+    });
+  });
+
+  it("leaves the bodyguard a non-character unit with its models and wargear", () => {
+    const bg = parsed.units.find((u) => u.raw_name === "Einhyr Hearthguard")!;
+    expect(bg.is_character).toBe(false);
+    expect(bg.leader_attachment ?? null).toBeNull();
+    expect(bg.model_count).toBe(5); // Hesyr + 4x Einhyr Hearthguard
+  });
+
+  it("resets attachment state when a normal section follows", () => {
+    const champ = parsed.units.find((u) => u.raw_name === "Einhyr Champion")!;
+    expect(champ.is_character).toBe(true); // Character section
+    expect(champ.leader_attachment ?? null).toBeNull();
+  });
+
+  it("resolves the explicit leader→bodyguard attachment end-to-end", () => {
+    const result = tryImportRoster(ATTACHED, { dataset: ds });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      const kahl = result.roster.units.find((u) => u.ref.id === "kahl")!;
+      expect(kahl.leader_attachment).not.toBeNull();
+      expect(kahl.leader_attachment?.bodyguard_ref.id).toBe(
+        "einhyr-hearthguard",
+      );
+      expect(kahl.leader_attachment?.role).toBe("leader");
+      expect(kahl.leader_attachment?.provisional).toBe(false);
+    }
   });
 });
