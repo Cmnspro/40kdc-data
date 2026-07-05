@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BOARD, deploymentZones, resolveEmbedded, territoryDivider } from "./model.js";
+  import { boardForEmbedded, deploymentZones, resolveEmbedded, territoryDivider } from "./model.js";
 
   /**
    * Mini read-only render of an embedded layout for the library grid: the
@@ -14,15 +14,16 @@
   }
   let { layoutId, patternId = null }: Props = $props();
 
+  const board = $derived(boardForEmbedded(layoutId));
   const resolved = $derived(resolveEmbedded(layoutId));
   const zones = $derived(deploymentZones(patternId));
-  const divider = $derived(territoryDivider(patternId));
+  const divider = $derived(territoryDivider(patternId, board));
   const pts = (vs: { x: number; y: number }[]): string => vs.map((v) => `${v.x},${v.y}`).join(" ");
 </script>
 
-<svg class="thumb" viewBox="0 0 44 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-  <g transform="translate(44,0) rotate(90)">
-    <rect x="0" y="0" width={BOARD.width} height={BOARD.height} class="bg" />
+<svg class="thumb" viewBox="0 0 {board.height} {board.width}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <g transform="translate({board.height},0) rotate(90)">
+    <rect x="0" y="0" width={board.width} height={board.height} class="bg" />
     {#each zones as z, i (z.player + i)}
       <polygon
         points={pts(z.points)}

@@ -166,6 +166,16 @@
       "$ref": "../defs/common.schema.json#/$defs/entity-id",
       "description": "Id of the deployment-pattern (map) this layout is built on (e.g. `search-and-destroy`). Optional until confirmed."
     },
+    "board": {
+      "type": "object",
+      "description": "Board extents in inches (y-down). Absent means the 40kdc standard 60×44. A per-layout override for one-off boards (e.g. the 36×36 KOTC colosseum); resolver geometry is board-agnostic, so consumers use this only to size the table.",
+      "properties": {
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "required": ["width", "height"],
+      "additionalProperties": false
+    },
     "pieces": {
       "type": "array",
       "description": "Terrain pieces composing the layout. May be empty while a layout is registered by name ahead of its confirmed geometry.",

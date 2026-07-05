@@ -21,6 +21,7 @@
     snapFeatureToAreaCorner,
     setObjectiveRole,
     boardCentroid,
+    boardOf,
     objectiveMarkers,
     deletePiece,
     repairTwins,
@@ -67,8 +68,9 @@
   let deployment = $state<string | null>(
     initialLayout.deployment_pattern_id ?? defaultDeploymentFor(initialLayout.id),
   );
+  const board = $derived(boardOf(layout));
   const zones = $derived<DeployZone[]>(deploymentZones(deployment));
-  const divider = $derived<TerritoryDivider | null>(territoryDivider(deployment));
+  const divider = $derived<TerritoryDivider | null>(territoryDivider(deployment, board));
 
   let solverHover = $state<SolverHover | null>(null);
   let solverLines = $state<SolverLine[]>([]);
@@ -394,6 +396,7 @@
       <Inspector
         piece={selectedPiece}
         boardPos={selectedBoardPos}
+        {board}
         {areaOptions}
         {attachTargets}
         ondelete={remove}

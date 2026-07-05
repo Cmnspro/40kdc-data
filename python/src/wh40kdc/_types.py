@@ -447,6 +447,11 @@ class Piece(TypedDict):
     keystones: NotRequired[list[Keystone]]
 
 
+class Board(TypedDict):
+    width: float
+    height: float
+
+
 class TerrainLayout(TypedDict):
     id: EntityId
     name: str
@@ -455,6 +460,7 @@ class TerrainLayout(TypedDict):
     mission_matchup_id: NotRequired[EntityId]
     variant: NotRequired[int]
     deployment_pattern_id: NotRequired[EntityId]
+    board: NotRequired[Board]
     pieces: NotRequired[list[Piece]]
     game_version: GameVersionRef
 

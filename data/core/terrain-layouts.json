@@ -34671,5 +34671,741 @@
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
+  },
+  {
+    "id": "kotc-colosseum",
+    "name": "KOTC Colosseum",
+    "source": "kotc",
+    "description": "King of the Colosseum (Play On Tabletop): 36″×36″ arena. LoS-blocking impassable walls with four entryways (scale a wall at +4″), four ruins inside and four outside, five objectives, 9″ deployment strips.",
+    "board": {
+      "width": 36,
+      "height": 36
+    },
+    "deployment_pattern_id": "kotc-colosseum",
+    "pieces": [
+      {
+        "id": "colosseum-wall-ne",
+        "name": "Colosseum Wall (NE)",
+        "piece_type": "feature",
+        "template": "impassable-wall",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 5.0037,
+              "y": 6.7804
+            },
+            {
+              "x": 3.4839,
+              "y": 2.6616
+            },
+            {
+              "x": 0.8574,
+              "y": -0.8574
+            },
+            {
+              "x": -2.6616,
+              "y": -3.4839
+            },
+            {
+              "x": -6.7804,
+              "y": -5.0037
+            },
+            {
+              "x": -6.9051,
+              "y": -4.4168
+            },
+            {
+              "x": -2.9479,
+              "y": -2.9566
+            },
+            {
+              "x": 0.4331,
+              "y": -0.4331
+            },
+            {
+              "x": 2.9566,
+              "y": 2.9479
+            },
+            {
+              "x": 4.4168,
+              "y": 6.9051
+            }
+          ]
+        },
+        "position": {
+          "x": 27.9617,
+          "y": 8.0383
+        },
+        "height_inches": 4
+      },
+      {
+        "id": "colosseum-wall-nw",
+        "name": "Colosseum Wall (NW)",
+        "piece_type": "feature",
+        "template": "impassable-wall",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 6.7804,
+              "y": -5.0037
+            },
+            {
+              "x": 2.6616,
+              "y": -3.4839
+            },
+            {
+              "x": -0.8574,
+              "y": -0.8574
+            },
+            {
+              "x": -3.4839,
+              "y": 2.6616
+            },
+            {
+              "x": -5.0037,
+              "y": 6.7804
+            },
+            {
+              "x": -4.4168,
+              "y": 6.9051
+            },
+            {
+              "x": -2.9566,
+              "y": 2.9479
+            },
+            {
+              "x": -0.4331,
+              "y": -0.4331
+            },
+            {
+              "x": 2.9479,
+              "y": -2.9566
+            },
+            {
+              "x": 6.9051,
+              "y": -4.4168
+            }
+          ]
+        },
+        "position": {
+          "x": 8.0383,
+          "y": 8.0383
+        },
+        "height_inches": 4
+      },
+      {
+        "id": "colosseum-wall-sw",
+        "name": "Colosseum Wall (SW)",
+        "piece_type": "feature",
+        "template": "impassable-wall",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": -5.0037,
+              "y": -6.7804
+            },
+            {
+              "x": -3.4839,
+              "y": -2.6616
+            },
+            {
+              "x": -0.8574,
+              "y": 0.8574
+            },
+            {
+              "x": 2.6616,
+              "y": 3.4839
+            },
+            {
+              "x": 6.7804,
+              "y": 5.0037
+            },
+            {
+              "x": 6.9051,
+              "y": 4.4168
+            },
+            {
+              "x": 2.9479,
+              "y": 2.9566
+            },
+            {
+              "x": -0.4331,
+              "y": 0.4331
+            },
+            {
+              "x": -2.9566,
+              "y": -2.9479
+            },
+            {
+              "x": -4.4168,
+              "y": -6.9051
+            }
+          ]
+        },
+        "position": {
+          "x": 8.0383,
+          "y": 27.9617
+        },
+        "height_inches": 4
+      },
+      {
+        "id": "colosseum-wall-se",
+        "name": "Colosseum Wall (SE)",
+        "piece_type": "feature",
+        "template": "impassable-wall",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": -6.7804,
+              "y": 5.0037
+            },
+            {
+              "x": -2.6616,
+              "y": 3.4839
+            },
+            {
+              "x": 0.8574,
+              "y": 0.8574
+            },
+            {
+              "x": 3.4839,
+              "y": -2.6616
+            },
+            {
+              "x": 5.0037,
+              "y": -6.7804
+            },
+            {
+              "x": 4.4168,
+              "y": -6.9051
+            },
+            {
+              "x": 2.9566,
+              "y": -2.9479
+            },
+            {
+              "x": 0.4331,
+              "y": 0.4331
+            },
+            {
+              "x": -2.9479,
+              "y": 2.9566
+            },
+            {
+              "x": -6.9051,
+              "y": 4.4168
+            }
+          ]
+        },
+        "position": {
+          "x": 27.9617,
+          "y": 27.9617
+        },
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-inner-1",
+        "name": "Ruin (inner 1)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 11.5,
+          "y": 11.5
+        }
+      },
+      {
+        "id": "ruin-inner-1-walls",
+        "name": "Ruin (inner 1) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-inner-1",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-inner-2",
+        "name": "Ruin (inner 2)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 4,
+          "height": 6
+        },
+        "position": {
+          "x": 24.5,
+          "y": 11.5
+        }
+      },
+      {
+        "id": "ruin-inner-2-walls",
+        "name": "Ruin (inner 2) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 4,
+          "height": 6
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-inner-2",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-inner-3",
+        "name": "Ruin (inner 3)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 24.5,
+          "y": 24.5
+        }
+      },
+      {
+        "id": "ruin-inner-3-walls",
+        "name": "Ruin (inner 3) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-inner-3",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-inner-4",
+        "name": "Ruin (inner 4)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 4,
+          "height": 6
+        },
+        "position": {
+          "x": 11.5,
+          "y": 24.5
+        }
+      },
+      {
+        "id": "ruin-inner-4-walls",
+        "name": "Ruin (inner 4) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 4,
+          "height": 6
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-inner-4",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-outer-1",
+        "name": "Ruin (outer 1)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 4.0,
+          "y": 4.0
+        }
+      },
+      {
+        "id": "ruin-outer-1-walls",
+        "name": "Ruin (outer 1) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-outer-1",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-outer-2",
+        "name": "Ruin (outer 2)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 32.0,
+          "y": 4.0
+        }
+      },
+      {
+        "id": "ruin-outer-2-walls",
+        "name": "Ruin (outer 2) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-outer-2",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-outer-3",
+        "name": "Ruin (outer 3)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 32.0,
+          "y": 32.0
+        }
+      },
+      {
+        "id": "ruin-outer-3-walls",
+        "name": "Ruin (outer 3) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-outer-3",
+        "height_inches": 4
+      },
+      {
+        "id": "ruin-outer-4",
+        "name": "Ruin (outer 4)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 4.0,
+          "y": 32.0
+        }
+      },
+      {
+        "id": "ruin-outer-4-walls",
+        "name": "Ruin (outer 4) Walls",
+        "piece_type": "feature",
+        "footprint": {
+          "type": "rectangle",
+          "width": 6,
+          "height": 4
+        },
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "parent_area_id": "ruin-outer-4",
+        "height_inches": 4
+      },
+      {
+        "id": "obj-center",
+        "name": "Objective (Center)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 1.5,
+              "y": 0.0
+            },
+            {
+              "x": 1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": 0.0,
+              "y": 1.5
+            },
+            {
+              "x": -1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": -1.5,
+              "y": 0.0
+            },
+            {
+              "x": -1.0607,
+              "y": -1.0607
+            },
+            {
+              "x": -0.0,
+              "y": -1.5
+            },
+            {
+              "x": 1.0607,
+              "y": -1.0607
+            }
+          ]
+        },
+        "position": {
+          "x": 18.0,
+          "y": 18.0
+        },
+        "objective_role": "center",
+        "is_objective": true,
+        "objective": {
+          "control_range_inches": 3
+        }
+      },
+      {
+        "id": "obj-west",
+        "name": "Objective (West)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 1.5,
+              "y": 0.0
+            },
+            {
+              "x": 1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": 0.0,
+              "y": 1.5
+            },
+            {
+              "x": -1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": -1.5,
+              "y": 0.0
+            },
+            {
+              "x": -1.0607,
+              "y": -1.0607
+            },
+            {
+              "x": -0.0,
+              "y": -1.5
+            },
+            {
+              "x": 1.0607,
+              "y": -1.0607
+            }
+          ]
+        },
+        "position": {
+          "x": 9.0,
+          "y": 18.0
+        },
+        "objective_role": "expansion",
+        "is_objective": true,
+        "objective": {
+          "control_range_inches": 3
+        }
+      },
+      {
+        "id": "obj-east",
+        "name": "Objective (East)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 1.5,
+              "y": 0.0
+            },
+            {
+              "x": 1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": 0.0,
+              "y": 1.5
+            },
+            {
+              "x": -1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": -1.5,
+              "y": 0.0
+            },
+            {
+              "x": -1.0607,
+              "y": -1.0607
+            },
+            {
+              "x": -0.0,
+              "y": -1.5
+            },
+            {
+              "x": 1.0607,
+              "y": -1.0607
+            }
+          ]
+        },
+        "position": {
+          "x": 27.0,
+          "y": 18.0
+        },
+        "objective_role": "expansion",
+        "is_objective": true,
+        "objective": {
+          "control_range_inches": 3
+        }
+      },
+      {
+        "id": "obj-north",
+        "name": "Objective (North)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 1.5,
+              "y": 0.0
+            },
+            {
+              "x": 1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": 0.0,
+              "y": 1.5
+            },
+            {
+              "x": -1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": -1.5,
+              "y": 0.0
+            },
+            {
+              "x": -1.0607,
+              "y": -1.0607
+            },
+            {
+              "x": -0.0,
+              "y": -1.5
+            },
+            {
+              "x": 1.0607,
+              "y": -1.0607
+            }
+          ]
+        },
+        "position": {
+          "x": 18.0,
+          "y": 9.0
+        },
+        "objective_role": "expansion",
+        "is_objective": true,
+        "objective": {
+          "control_range_inches": 3
+        }
+      },
+      {
+        "id": "obj-south",
+        "name": "Objective (South)",
+        "piece_type": "area",
+        "footprint": {
+          "type": "polygon",
+          "points": [
+            {
+              "x": 1.5,
+              "y": 0.0
+            },
+            {
+              "x": 1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": 0.0,
+              "y": 1.5
+            },
+            {
+              "x": -1.0607,
+              "y": 1.0607
+            },
+            {
+              "x": -1.5,
+              "y": 0.0
+            },
+            {
+              "x": -1.0607,
+              "y": -1.0607
+            },
+            {
+              "x": -0.0,
+              "y": -1.5
+            },
+            {
+              "x": 1.0607,
+              "y": -1.0607
+            }
+          ]
+        },
+        "position": {
+          "x": 18.0,
+          "y": 27.0
+        },
+        "objective_role": "expansion",
+        "is_objective": true,
+        "objective": {
+          "control_range_inches": 3
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
   }
 ]

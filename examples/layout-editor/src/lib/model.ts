@@ -39,8 +39,21 @@ import type {
 // Type-only circular dependency (sets.ts imports Vec2/Mirror back): erased at compile.
 import type { TerrainSetDef } from "./sets.js";
 
-export const BOARD = { width: 60, height: 44 } as const;
+/** Board extents in inches. Most 40kdc layouts use the standard 60×44; one-offs
+ *  (the 36×36 KOTC colosseum) carry a per-layout `board` that overrides it. */
+export interface BoardDims {
+  width: number;
+  height: number;
+}
+export const DEFAULT_BOARD: BoardDims = { width: 60, height: 44 };
+/** Back-compat alias: the standard board, used as the fallback everywhere a
+ *  layout-specific board isn't threaded (twin defaults, thumbnails). */
+export const BOARD = DEFAULT_BOARD;
 export const BOARD_CENTER = { x: BOARD.width / 2, y: BOARD.height / 2 } as const;
+/** The active board for a layout (its override, or the 60×44 standard). */
+export function boardOf(layout: EditLayout): BoardDims {
+  return layout.board ?? DEFAULT_BOARD;
+}
 
 export type Mirror = "none" | "horizontal" | "vertical";
 export interface Vec2 {
@@ -116,6 +129,8 @@ export interface EditPiece {
   /** For a feature: the layout-local id of the area it is anchored to. */
   parent_area_id?: string;
   floor?: number;
+  /** Piece height in inches (overrides the template default; gates Plunging Fire). */
+  height_inches?: number;
   link_group?: string;
   /** Objective role of this area (or its link_group union): home/expansion/center. */
   objective_role?: "home" | "expansion" | "center";
@@ -137,6 +152,8 @@ export interface EditLayout {
   mission_matchup_id?: string;
   variant?: number;
   deployment_pattern_id?: string;
+  /** Per-layout board override (inches). Absent means the 60×44 standard. */
+  board?: BoardDims;
   pieces: EditPiece[];
 }
 
@@ -259,9 +276,9 @@ function inverseAreaFrame(board: Vec2, area: EditPiece): Vec2 {
   return mirrorVec(rotateCw(d, -area.rotation_degrees), area.mirror);
 }
 /** Clamp a board-space point to the table (2-dp), so pieces can't leave the map. */
-function clampToBoard(p: Vec2): Vec2 {
+function clampToBoard(p: Vec2, board: BoardDims = DEFAULT_BOARD): Vec2 {
   const c = (n: number, hi: number): number => Math.max(0, Math.min(hi, Math.round(n * 100) / 100));
-  return { x: c(p.x, BOARD.width), y: c(p.y, BOARD.height) };
+  return { x: c(p.x, board.width), y: c(p.y, board.height) };
 }
 /** The area a feature is parented to, if any (and still present). */
 function parentAreaOf(layout: EditLayout, piece: EditPiece): EditPiece | undefined {
@@ -395,8 +412,8 @@ const polyMean = (pts: Vec2[]): Vec2 => ({
  * the centre of every uncovered run flanked by *different* players. Returns the
  * (normally two) divider endpoints.
  */
-function perimeterGapMidpoints(def: Vec2[], atk: Vec2[]): Vec2[] {
-  const { width: W, height: H } = BOARD;
+function perimeterGapMidpoints(def: Vec2[], atk: Vec2[], board: BoardDims = DEFAULT_BOARD): Vec2[] {
+  const { width: W, height: H } = board;
   const STEP = 0.25;
   const EPS = 0.1;
   const samples: { p: Vec2; inward: Vec2 }[] = [];
@@ -453,7 +470,10 @@ function deploymentTerritories(patternId: string): DeployZone[] {
 }
 
 /** The dashed territory divider (line + per-end Attacker/Defender badges), or null. */
-export function territoryDivider(patternId: string | null): TerritoryDivider | null {
+export function territoryDivider(
+  patternId: string | null,
+  board: BoardDims = DEFAULT_BOARD,
+): TerritoryDivider | null {
   if (!patternId) return null;
 
   // Prefer the explicit territory boundary when territories are defined.
@@ -495,7 +515,7 @@ export function territoryDivider(patternId: string | null): TerritoryDivider | n
   const def = zones.find((z) => z.player === "defender");
   const atk = zones.find((z) => z.player === "attacker");
   if (!def || !atk) return null;
-  const ends = perimeterGapMidpoints(def.points, atk.points);
+  const ends = perimeterGapMidpoints(def.points, atk.points, board);
   if (ends.length < 2) return null;
   const [from, to] = ends;
   const u = { x: to.x - from.x, y: to.y - from.y };
@@ -530,6 +550,7 @@ export function defaultDeploymentFor(layoutId: string): string | null {
   if (layoutId.includes("hammer") && ids.has("hammer-and-anvil")) return "hammer-and-anvil";
   if (layoutId.includes("search") && ids.has("search-and-destroy")) return "search-and-destroy";
   if (layoutId.includes("sweeping") && ids.has("sweeping-engagement")) return "sweeping-engagement";
+  if (layoutId.includes("colosseum") && ids.has("kotc-colosseum")) return "kotc-colosseum";
   return null;
 }
 
@@ -644,6 +665,12 @@ export function libraryIndex(): LibraryIndex {
  * Memoized: dataset layouts are immutable for the life of the build.
  */
 const thumbCache = new Map<string, ResolvedPiece[]>();
+/** The board extents of an embedded layout (its override, or the 60×44 standard). */
+export function boardForEmbedded(id: string): BoardDims {
+  const raw = ds.terrainLayouts.get(id) as TerrainLayout | undefined;
+  return raw?.board ? { width: raw.board.width, height: raw.board.height } : DEFAULT_BOARD;
+}
+
 export function resolveEmbedded(id: string): ResolvedPiece[] {
   const hit = thumbCache.get(id);
   if (hit) return hit;
@@ -677,14 +704,14 @@ export function blankLayoutFor(matchupId: string, variant: number): EditLayout {
 const round2 = (n: number): number => Math.round(n * 100) / 100;
 const norm360 = (deg: number): number => ((deg % 360) + 360) % 360;
 
-export function twinPosition(p: Vec2): Vec2 {
-  return { x: round2(BOARD.width - p.x), y: round2(BOARD.height - p.y) };
+export function twinPosition(p: Vec2, board: BoardDims = DEFAULT_BOARD): Vec2 {
+  return { x: round2(board.width - p.x), y: round2(board.height - p.y) };
 }
 export function twinRotation(deg: number): number {
   return norm360(deg + 180);
 }
-export function isBoardCentre(p: Vec2): boolean {
-  return Math.abs(p.x - BOARD_CENTER.x) < 0.3 && Math.abs(p.y - BOARD_CENTER.y) < 0.3;
+export function isBoardCentre(p: Vec2, board: BoardDims = DEFAULT_BOARD): boolean {
+  return Math.abs(p.x - board.width / 2) < 0.3 && Math.abs(p.y - board.height / 2) < 0.3;
 }
 
 const byId = (layout: EditLayout, id: string): EditPiece | undefined =>
@@ -721,13 +748,14 @@ export function addTemplate(
   symmetric: boolean,
   at?: Vec2,
 ): EditPiece {
+  const b = boardOf(layout);
   const primary = makePiece(
     template,
-    at ? clampToBoard(at) : { x: BOARD.width * 0.32, y: BOARD.height * 0.32 },
+    at ? clampToBoard(at, b) : { x: b.width * 0.32, y: b.height * 0.32 },
   );
   layout.pieces.push(primary);
-  if (symmetric && !isBoardCentre(primary.position)) {
-    const twin = makePiece(template, twinPosition(primary.position));
+  if (symmetric && !isBoardCentre(primary.position, b)) {
+    const twin = makePiece(template, twinPosition(primary.position, b));
     twin.rotation_degrees = twinRotation(primary.rotation_degrees);
     twin.mirror = primary.mirror;
     primary.twin_id = twin.id;
@@ -753,16 +781,17 @@ export function addSet(
 ): EditPiece | null {
   const areaTmpl = templateById(set.area.template);
   if (!areaTmpl) return null;
+  const b = boardOf(layout);
   const area = makePiece(
     areaTmpl,
-    at ? clampToBoard(at) : { x: BOARD.width * 0.32, y: BOARD.height * 0.32 },
+    at ? clampToBoard(at, b) : { x: b.width * 0.32, y: b.height * 0.32 },
   );
   if (set.area.rotation) area.rotation_degrees = norm360(set.area.rotation);
   layout.pieces.push(area);
 
   let areaTwin: EditPiece | undefined;
-  if (symmetric && !isBoardCentre(area.position)) {
-    areaTwin = makePiece(areaTmpl, twinPosition(area.position));
+  if (symmetric && !isBoardCentre(area.position, b)) {
+    areaTwin = makePiece(areaTmpl, twinPosition(area.position, b));
     areaTwin.rotation_degrees = twinRotation(area.rotation_degrees);
     areaTwin.mirror = area.mirror;
     area.twin_id = areaTwin.id;
@@ -835,7 +864,8 @@ export function movePiece(layout: EditLayout, id: string, position: Vec2): void 
   if (!p) return;
   // Clamp the board centroid to the table so no piece (or runaway edit) can leave
   // the map. Applies to every path: drag, inspector fields, and solver placement.
-  const board = clampToBoard(position);
+  const b = boardOf(layout);
+  const board = clampToBoard(position, b);
   const area = parentAreaOf(layout, p);
   if (area) {
     p.position = inverseAreaFrame(board, area);
@@ -845,7 +875,7 @@ export function movePiece(layout: EditLayout, id: string, position: Vec2): void 
   }
   p.position = board;
   const t = twinOf(layout, p);
-  if (t) t.position = twinPosition(board);
+  if (t) t.position = twinPosition(board, b);
 }
 
 /**
@@ -1029,7 +1059,8 @@ export function mirrorKeystone(
   const tf = orientedFootprint(twin, layout);
   const anchor = pf?.verticesBoard[k.ref.index];
   if (!anchor || !tf) return null;
-  const reflected = { x: BOARD.width - anchor.x, y: BOARD.height - anchor.y };
+  const b = boardOf(layout);
+  const reflected = { x: b.width - anchor.x, y: b.height - anchor.y };
   let bestIndex = -1;
   let best = Infinity;
   tf.verticesBoard.forEach((v, i) => {
@@ -1202,12 +1233,12 @@ export function deletePiece(layout: EditLayout, id: string): void {
  * the +180 convention on the first orientation edit (cleaning up the scaffold).
  * A piece sitting on the board centre is self-symmetric and stays unpaired.
  */
-export function autoPairTwins(pieces: EditPiece[]): void {
+export function autoPairTwins(pieces: EditPiece[], board: BoardDims = DEFAULT_BOARD): void {
   const POS_TOL = 0.75;
   // Pass 1: board-space pieces (areas + unparented features) by point reflection.
   for (const p of pieces) {
-    if (p.twin_id || p.parent_area_id || isBoardCentre(p.position)) continue;
-    const want = twinPosition(p.position);
+    if (p.twin_id || p.parent_area_id || isBoardCentre(p.position, board)) continue;
+    const want = twinPosition(p.position, board);
     const match = pieces.find(
       (q) =>
         q.id !== p.id &&
@@ -1246,7 +1277,7 @@ export function autoPairTwins(pieces: EditPiece[]): void {
 /** Re-establish pairing across the whole layout (used when symmetry is toggled on). */
 export function repairTwins(layout: EditLayout): void {
   for (const p of layout.pieces) p.twin_id = undefined;
-  autoPairTwins(layout.pieces);
+  autoPairTwins(layout.pieces, boardOf(layout));
 }
 
 /** Drop all pairing, leaving every piece independent (used when symmetry is toggled off). */
@@ -1257,7 +1288,13 @@ export function unpairTwins(layout: EditLayout): void {
 /** A blank layout. */
 export function blankLayout(): EditLayout {
   counter = 0;
-  return { id: "untitled-layout", name: "Untitled Layout", source: "custom", pieces: [] };
+  return {
+    id: "untitled-layout",
+    name: "Untitled Layout",
+    source: "custom",
+    board: { ...DEFAULT_BOARD },
+    pieces: [],
+  };
 }
 
 /** Kebab-case entity id from a title, matching the `entity-id` convention
@@ -1293,13 +1330,15 @@ export function loadEmbedded(id: string, symmetric = true): EditLayout | undefin
     mirror: (p.mirror ?? "none") as Mirror,
     parent_area_id: p.parent_area_id,
     floor: p.floor,
+    height_inches: p.height_inches,
     link_group: p.link_group,
     objective_role: p.objective_role,
     is_objective: p.is_objective,
     objective: p.objective,
     keystones: p.keystones as EditKeystone[] | undefined,
   }));
-  if (symmetric) autoPairTwins(pieces);
+  const board = raw.board ? { width: raw.board.width, height: raw.board.height } : undefined;
+  if (symmetric) autoPairTwins(pieces, board ?? DEFAULT_BOARD);
   return {
     id: raw.id,
     name: raw.name,
@@ -1308,6 +1347,7 @@ export function loadEmbedded(id: string, symmetric = true): EditLayout | undefin
     mission_matchup_id: raw.mission_matchup_id,
     variant: raw.variant,
     deployment_pattern_id: raw.deployment_pattern_id,
+    board,
     pieces,
   };
 }
@@ -1325,6 +1365,9 @@ export function toCanonicalJson(layout: EditLayout): unknown {
       ...(layout.mission_matchup_id ? { mission_matchup_id: layout.mission_matchup_id } : {}),
       ...(layout.variant ? { variant: layout.variant } : {}),
       ...(layout.deployment_pattern_id ? { deployment_pattern_id: layout.deployment_pattern_id } : {}),
+      ...(layout.board && (layout.board.width !== DEFAULT_BOARD.width || layout.board.height !== DEFAULT_BOARD.height)
+        ? { board: { width: layout.board.width, height: layout.board.height } }
+        : {}),
       pieces: layout.pieces.map((p) => ({
         id: p.id,
         ...(p.name ? { name: p.name } : {}),
@@ -1336,6 +1379,7 @@ export function toCanonicalJson(layout: EditLayout): unknown {
         ...(p.mirror !== "none" ? { mirror: p.mirror } : {}),
         ...(p.parent_area_id ? { parent_area_id: p.parent_area_id } : {}),
         ...(p.floor ? { floor: p.floor } : {}),
+        ...(p.height_inches ? { height_inches: round(p.height_inches) } : {}),
         ...(p.link_group ? { link_group: p.link_group } : {}),
         ...(p.objective_role ? { objective_role: p.objective_role } : {}),
         ...(p.is_objective ? { is_objective: true } : {}),

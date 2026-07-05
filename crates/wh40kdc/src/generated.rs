@@ -14995,6 +14995,25 @@ impl ::std::convert::TryFrom<::std::string::String> for TerrainAreaKeyword {
 ///    "name"
 ///  ],
 ///  "properties": {
+///    "board": {
+///      "description": "Board extents in inches (y-down). Absent means the 40kdc standard 60×44. A per-layout override for one-off boards (e.g. the 36×36 KOTC colosseum); resolver geometry is board-agnostic, so consumers use this only to size the table.",
+///      "type": "object",
+///      "required": [
+///        "height",
+///        "width"
+///      ],
+///      "properties": {
+///        "height": {
+///          "type": "number",
+///          "exclusiveMinimum": 0.0
+///        },
+///        "width": {
+///          "type": "number",
+///          "exclusiveMinimum": 0.0
+///        }
+///      },
+///      "additionalProperties": false
+///    },
 ///    "deployment_pattern_id": {
 ///      "description": "Id of the deployment-pattern (map) this layout is built on (e.g. `search-and-destroy`). Optional until confirmed.",
 ///      "$ref": "#/$defs/entity-id"
@@ -15043,6 +15062,8 @@ impl ::std::convert::TryFrom<::std::string::String> for TerrainAreaKeyword {
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct TerrainLayout {
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub board: ::std::option::Option<TerrainLayoutBoard>,
     ///Id of the deployment-pattern (map) this layout is built on (e.g. `search-and-destroy`). Optional until confirmed.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub deployment_pattern_id: ::std::option::Option<EntityId>,
@@ -15063,6 +15084,38 @@ pub struct TerrainLayout {
     ///The card's trailing variant number within its mission matchup (1–3 at launch, since three layouts share each pairing). No hard maximum, to avoid a breaking change if more variants ship.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub variant: ::std::option::Option<::std::num::NonZeroU64>,
+}
+///Board extents in inches (y-down). Absent means the 40kdc standard 60×44. A per-layout override for one-off boards (e.g. the 36×36 KOTC colosseum); resolver geometry is board-agnostic, so consumers use this only to size the table.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "Board extents in inches (y-down). Absent means the 40kdc standard 60×44. A per-layout override for one-off boards (e.g. the 36×36 KOTC colosseum); resolver geometry is board-agnostic, so consumers use this only to size the table.",
+///  "type": "object",
+///  "required": [
+///    "height",
+///    "width"
+///  ],
+///  "properties": {
+///    "height": {
+///      "type": "number",
+///      "exclusiveMinimum": 0.0
+///    },
+///    "width": {
+///      "type": "number",
+///      "exclusiveMinimum": 0.0
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct TerrainLayoutBoard {
+    pub height: f64,
+    pub width: f64,
 }
 ///`TerrainLayoutName`
 ///

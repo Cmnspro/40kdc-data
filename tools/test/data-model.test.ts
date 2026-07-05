@@ -15,16 +15,21 @@ import { RAW_DATA } from "../src/data/bundle.generated.js";
 describe("terrain (embedded catalog + layout resolution)", () => {
   it("embeds the 11e template catalog and migrated layouts", () => {
     // 5 areas + 11 GW features (walls/old corners/old scenery removed; see the
-    // catalog-correction migration). Pieces carrying an elevated platform expose
-    // `upper_floor`; elevated-only / solid pieces set `ground_accessible: false`.
-    expect(dataset.terrainTemplates.all.length).toBe(16);
+    // catalog-correction migration), plus the KOTC `impassable-wall`. Pieces
+    // carrying an elevated platform expose `upper_floor`; elevated-only / solid
+    // pieces set `ground_accessible: false`.
+    expect(dataset.terrainTemplates.all.length).toBe(17);
     expect(dataset.terrainTemplates.get("area-large")).toBeDefined();
     expect(dataset.terrainTemplates.get("corner-ruin-balanced-left")?.upper_floor).toBeDefined();
     expect(dataset.terrainTemplates.get("gantry")?.ground_accessible).toBe(false);
+    expect(dataset.terrainTemplates.get("impassable-wall")?.ground_accessible).toBe(false);
     // removed in the catalog correction
     expect(dataset.terrainTemplates.get("wall-medium")).toBeUndefined();
     expect(dataset.terrainTemplates.get("scaffold")).toBeUndefined();
     expect(dataset.terrainLayouts.get("take-and-hold-mirror-1")).toBeDefined();
+    // The KOTC colosseum is a first-class dataset layout on a 36×36 board.
+    const colosseum = dataset.terrainLayouts.get("kotc-colosseum");
+    expect(colosseum?.board).toEqual({ width: 36, height: 36 });
     // removed: non-grid layouts (reference migrations + standalone) with no mission_matchup_id
     expect(dataset.terrainLayouts.get("gw-11e-crucible")).toBeUndefined();
     expect(dataset.terrainLayouts.get("gw-11e-hammer-anvil")).toBeUndefined();
