@@ -113,6 +113,99 @@ describe("deriveWargear", () => {
   });
 });
 
+/**
+ * A single-model datasheet with TWO independently swappable base slots —
+ *   slot A: bolt pistol → plasma pistol
+ *   slot B: chainsword  → power fist
+ * encoded (as the dump does) as ONE loadout_choice_set whose branches enumerate the
+ * cross-product: base / A-only / B-only / A+B. Pins that deriveWargear factors each
+ * branch into its per-slot DELTA vs the base loadout, so a single-slot swap replaces
+ * ONLY that slot's base weapon — never the whole base set (the over-listing shape).
+ */
+function crossProductDump(): MfmDump {
+  const wi = (id: string, name: string) => ({ id, wargearType: "weapon", localisations: { en: { name } } });
+  const lcwi = (id: string, wargearItemId: string, loadoutChoiceId: string) => ({ id, count: 1, wargearItemId, loadoutChoiceId });
+  return new MfmDump({
+    data: {
+      miniature: [{ id: "m-w", displayOrder: 0, localisations: { en: { name: "Warrior" } } }],
+      unit_composition: [
+        { id: "uc1", datasheetId: "ds1", isDefault: true, displayOrder: 1, points: 80, referenceGroupingKeywordId: null },
+      ],
+      unit_composition_miniature: [{ id: "ucm1", min: 1, max: 1, unitCompositionId: "uc1", miniatureId: "m-w" }],
+      wargear_item: [
+        wi("wi-bp", "Bolt pistol"),
+        wi("wi-pp", "Plasma pistol"),
+        wi("wi-cs", "Chainsword"),
+        wi("wi-pf", "Power fist"),
+      ],
+      // Base loadout (default>0): bolt pistol + chainsword on the single model.
+      wargear_option_group: [
+        { id: "g-w", displayOrder: 1, datasheetId: "ds1", miniatureId: "m-w", isStaticWargear: false },
+      ],
+      wargear_option: [
+        { id: "wo-bp", wargearItemId: "wi-bp", wargearOptionGroupId: "g-w", inputType: "checkbox", defaultValue: 1, points: 0, displayOrder: 1 },
+        { id: "wo-cs", wargearItemId: "wi-cs", wargearOptionGroupId: "g-w", inputType: "checkbox", defaultValue: 1, points: 0, displayOrder: 2 },
+      ],
+      loadout_choice_set: [
+        { id: "lcs-w", limit: 1, allowDuplicates: false, datasheetId: "ds1", miniatureId: "m-w", alternate: false },
+      ],
+      loadout_choice: [
+        { id: "lc1", loadoutChoiceSetId: "lcs-w" }, // base
+        { id: "lc2", loadoutChoiceSetId: "lcs-w" }, // A-only
+        { id: "lc3", loadoutChoiceSetId: "lcs-w" }, // B-only
+        { id: "lc4", loadoutChoiceSetId: "lcs-w" }, // A+B
+      ],
+      loadout_choice_wargear_item: [
+        lcwi("j1", "wi-bp", "lc1"), lcwi("j2", "wi-cs", "lc1"),
+        lcwi("j3", "wi-pp", "lc2"), lcwi("j4", "wi-cs", "lc2"),
+        lcwi("j5", "wi-bp", "lc3"), lcwi("j6", "wi-pf", "lc3"),
+        lcwi("j7", "wi-pp", "lc4"), lcwi("j8", "wi-pf", "lc4"),
+      ],
+      // No squad caps for this single model — empty, but the keys must exist.
+      limited_wargear_choice_set: [],
+      limited_wargear_choice: [],
+      limited_wargear_choice_wargear_item: [],
+      wargear_limit: [],
+    },
+  });
+}
+
+describe("deriveWargear — multi-slot replaces delta (over-listing guard)", () => {
+  const CP_VALID = new Set(["bolt-pistol", "plasma-pistol", "chainsword", "power-fist"]);
+  const resolveCP = (name: string) => {
+    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return CP_VALID.has(id) ? id : null;
+  };
+
+  it("factors a two-slot cross-product into per-slot replaces, not the whole base set", () => {
+    const d = deriveWargear(crossProductDump(), "ds1", resolveCP);
+    expect(d.unresolved).toEqual([]);
+    expect(d.defaultsByModel.get("Warrior")).toEqual(["bolt-pistol", "chainsword"]);
+
+    const byRepl = (repl: string) => d.options.find((o) => (o.replacement ?? []).join(",") === repl);
+    const aSwap = byRepl("plasma-pistol");
+    const bSwap = byRepl("power-fist");
+    const bothSwap = byRepl("plasma-pistol,power-fist");
+    expect(aSwap, "plasma-pistol swap option").toBeDefined();
+    expect(bSwap, "power-fist swap option").toBeDefined();
+    expect(bothSwap, "both-slot swap option").toBeDefined();
+
+    // Each single-slot swap removes ONLY its own base weapon — the per-slot delta.
+    expect(aSwap!.replaces).toEqual(["bolt-pistol"]);
+    expect(bSwap!.replaces).toEqual(["chainsword"]);
+    // The both-slot branch legitimately swaps both, so it (and only it) lists both.
+    expect(bothSwap!.replaces).toEqual(["bolt-pistol", "chainsword"]);
+
+    // Regression guard: no option that swaps in a single weapon may list more than
+    // one base weapon in `replaces`. Reverting to `removed = baseSet` trips this.
+    for (const o of d.options) {
+      if ((o.replacement ?? []).length === 1) {
+        expect(o.replaces ?? [], `single-weapon swap ${JSON.stringify(o.replacement)} over-lists replaces`).toHaveLength(1);
+      }
+    }
+  });
+});
+
 describe("dumpComposition + reconcileModels (Category ② synthesis)", () => {
   const dump = fixtureDump();
   const defaults = deriveWargear(dump, "ds1", resolve).defaultsByModel;

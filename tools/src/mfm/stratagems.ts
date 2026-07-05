@@ -28,7 +28,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { nameToId, detachmentScopedId } from "../converters/id-generator.js";
 import { MfmDump, REPO_ROOT, type DetachmentRow, type StratagemRow } from "./loader.js";
-import { repoDirs } from "./faction-map.js";
+import { repoDirs, repoDirForFactionName } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
@@ -91,31 +91,55 @@ export function deriveTrigger(whenRulesRaw: string | undefined | null): {
   return { phases: phases.length ? phases : null, player_turn };
 }
 
+/** Repo id for a dump stratagem: `detachmentScopedId` when detachment-scoped, bare
+ *  `nameToId` for the coreless few. Null if the name can't be slugged. The single
+ *  id rule shared by {@link buildStratCanon} and {@link stratagemInventory}. */
+export function stratagemRepoId(dump: MfmDump, s: StratagemRow): string | null {
+  const name = dump.enName(s);
+  if (!name) return null;
+  try {
+    if (s.detachmentId) {
+      const dn = dump.enName(dump.byId<DetachmentRow>("detachment").get(s.detachmentId));
+      if (!dn) return null;
+      return detachmentScopedId(name, dn);
+    }
+    return nameToId(name);
+  } catch {
+    return null;
+  }
+}
+
 /** Stratagem repo-id → canon cp_cost + derived trigger, from the dump. */
 export function buildStratCanon(dump: MfmDump): Map<string, Canon> {
-  const detName = dump.byId<DetachmentRow>("detachment");
   const m = new Map<string, Canon>();
   for (const s of dump.table<StratagemRow>("stratagem")) {
-    const name = dump.enName(s);
-    if (!name) continue;
-    let id: string;
-    try {
-      if (s.detachmentId) {
-        const dn = dump.enName(detName.get(s.detachmentId));
-        if (!dn) continue;
-        id = detachmentScopedId(name, dn);
-      } else {
-        id = nameToId(name);
-      }
-    } catch {
-      continue;
-    }
+    const id = stratagemRepoId(dump, s);
+    if (!id) continue;
     const when = (s.localisations?.en as { whenRules?: string } | undefined)?.whenRules;
     const { phases, player_turn } = deriveTrigger(when);
     const cp = s.cpCost != null ? parseInt(String(s.cpCost), 10) : null;
     m.set(id, { cp_cost: Number.isFinite(cp as number) ? (cp as number) : null, phases, player_turn });
   }
   return m;
+}
+
+/** dir → detachment-scoped stratagem repo-ids (the golden's `stratagems` category).
+ *  Routed by the stratagem's detachment faction. The coreless stratagems (no
+ *  detachmentId) live in the shared root store, so they are covered by the repo-id
+ *  reader's root∪dir union rather than carried per-dir here. */
+export function stratagemInventory(dump: MfmDump): Map<string, string[]> {
+  const out = new Map<string, string[]>();
+  for (const s of dump.table<StratagemRow>("stratagem")) {
+    if (!s.detachmentId) continue;
+    const id = stratagemRepoId(dump, s);
+    if (!id) continue;
+    const fkId = dump.factionKeywordOfDetachment(s.detachmentId);
+    const fkName = fkId ? dump.enName(dump.byId("faction_keyword").get(fkId)) : undefined;
+    const dir = repoDirForFactionName(fkName);
+    if (!dir) continue;
+    (out.get(dir) ?? out.set(dir, []).get(dir)!).push(id);
+  }
+  return out;
 }
 
 export interface DirStratResult {

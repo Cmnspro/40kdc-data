@@ -35,6 +35,7 @@
  */
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
 import {
   loadDump,
@@ -64,6 +65,7 @@ import { runSeedUnits, buildSeedUnitsReport } from "./mfm/seed-units.js";
 import { runAllies, buildAlliesReport } from "./mfm/allies.js";
 import { runWeaponVariants, buildWeaponVariantsReport } from "./mfm/weapon-variants.js";
 import { applyWrites, type StagedWrite } from "./mfm/apply.js";
+import { writeGolden } from "./mfm/golden.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
@@ -117,29 +119,112 @@ function slug(name: string | undefined): string | null {
   }
 }
 
-function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
-  const liveDatasheets = dump
-    .table<DatasheetRow>("datasheet")
-    .filter((d) => !d.isLegends);
-  const dsByDir = bucketByDir(
-    liveDatasheets,
-    (d) => dump.factionKeywordOfDatasheet(d.id!),
-    dump
-  );
-  const detByDir = bucketByDir(
+// ── dump → repo-id inventories (shared by coverage() and the golden command) ──
+// Each derivation is the single source of truth for one category's dump→repo id
+// mapping. coverage() consumes the *IdsByDir named maps (it needs display names for
+// its report); the golden command consumes the Set views (unitInventory etc.).
+// Keeping both on ONE derivation is what stops the golden from drifting away from
+// the ids ingest actually matches against the repo.
+
+/** dir → (unit repo-id → dump display name), over live (non-Legends) datasheets. */
+function unitIdsByDir(dump: MfmDump): Map<string, Map<string, string>> {
+  const live = dump.table<DatasheetRow>("datasheet").filter((d) => !d.isLegends);
+  const byDir = bucketByDir(live, (d) => dump.factionKeywordOfDatasheet(d.id!), dump);
+  const out = new Map<string, Map<string, string>>();
+  for (const [dir, rows] of byDir) {
+    const m = new Map<string, string>();
+    for (const ds of rows) {
+      const n = dump.enName(ds);
+      if (!n) continue;
+      try {
+        m.set(nameToId(n), n);
+      } catch {
+        /* unsluggable name — skip */
+      }
+    }
+    out.set(dir, m);
+  }
+  return out;
+}
+
+/** dir → (detachment repo-id → dump display name). */
+function detIdsByDir(dump: MfmDump): Map<string, Map<string, string>> {
+  const byDir = bucketByDir(
     dump.table<DetachmentRow>("detachment"),
     (d) => dump.factionKeywordOfDetachment(d.id!),
     dump
   );
-  const enhByDir = bucketByDir(
+  const out = new Map<string, Map<string, string>>();
+  for (const [dir, rows] of byDir) {
+    const m = new Map<string, string>();
+    for (const det of rows) {
+      const n = dump.enName(det);
+      if (!n) continue;
+      try {
+        m.set(nameToId(n), n);
+      } catch {
+        /* skip */
+      }
+    }
+    out.set(dir, m);
+  }
+  return out;
+}
+
+/** dir → (enhancement repo-id → "enh / detachment" label). */
+function enhIdsByDir(dump: MfmDump): Map<string, Map<string, string>> {
+  const byDir = bucketByDir(
     dump.table<EnhancementRow>("enhancement"),
     (e) => dump.factionKeywordOfDetachment(e.detachmentId),
     dump
   );
+  const out = new Map<string, Map<string, string>>();
+  for (const [dir, rows] of byDir) {
+    const m = new Map<string, string>();
+    for (const enh of rows) {
+      const en = dump.enName(enh);
+      const det = dump.byId<DetachmentRow>("detachment").get((enh as EnhancementRow).detachmentId);
+      const dn = dump.enName(det);
+      if (!en || !dn) continue;
+      try {
+        m.set(detachmentScopedId(en, dn), `${en} / ${dn}`);
+      } catch {
+        /* skip */
+      }
+    }
+    out.set(dir, m);
+  }
+  return out;
+}
+
+/** Set view of an id→name inventory (drops display names; keeps insertion order). */
+function setView(m: Map<string, Map<string, string>>): Map<string, Set<string>> {
+  const out = new Map<string, Set<string>>();
+  for (const [dir, inner] of m) out.set(dir, new Set(inner.keys()));
+  return out;
+}
+
+/** dir → set of dump-derived unit repo-ids (the golden's `units` category). */
+export function unitInventory(dump: MfmDump): Map<string, Set<string>> {
+  return setView(unitIdsByDir(dump));
+}
+/** dir → set of dump-derived detachment repo-ids (the golden's `detachments` category). */
+export function detachmentInventory(dump: MfmDump): Map<string, Set<string>> {
+  return setView(detIdsByDir(dump));
+}
+/** dir → set of dump-derived enhancement repo-ids (the golden's `enhancements` category). */
+export function enhancementInventory(dump: MfmDump): Map<string, Set<string>> {
+  return setView(enhIdsByDir(dump));
+}
+
+function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
+  const liveDatasheets = dump
+    .table<DatasheetRow>("datasheet")
+    .filter((d) => !d.isLegends);
 
   // Global dump id sets — the repo-only ("dropped by cull-legends") signal must be
   // routing-agnostic: a repo entity is a true gap only if NO dump entity anywhere
-  // shares its id. Per-dir buckets above stay as the routing diagnostic.
+  // shares its id. The per-dir inventories (unitIdsByDir etc.) stay the routing diagnostic.
   const globalUnitIds = new Set<string>();
   for (const ds of liveDatasheets) {
     const id = slug(dump.enName(ds));
@@ -171,18 +256,12 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
     if (fkName && !repoDirForFactionName(fkName)) unmapped.add(fkName);
   }
 
+  const unitsByDir = unitIdsByDir(dump);
+  const detsByDir = detIdsByDir(dump);
+  const enhsByDir = enhIdsByDir(dump);
   const dirs: DirCoverage[] = [];
   for (const dir of [...repoDirs()].sort()) {
-    const dumpUnitIds = new Map<string, string>(); // id → display name
-    for (const ds of dsByDir.get(dir) ?? []) {
-      const n = dump.enName(ds);
-      if (!n) continue;
-      try {
-        dumpUnitIds.set(nameToId(n), n);
-      } catch {
-        /* unsluggable name — skip */
-      }
-    }
+    const dumpUnitIds = unitsByDir.get(dir) ?? new Map<string, string>();
     const repoUnitIds = repoIds(dir, "units.json");
     const shared = SHARED_ROSTERS[dir] ?? [];
     const sharedIds = new Set(shared.flatMap((p) => [...repoIds(p, "units.json")]));
@@ -198,16 +277,7 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
     const unitsRepoOnly = [...repoUnitIds].filter((id) => !globalUnitIds.has(id)).sort();
 
     // detachments
-    const dumpDetIds = new Map<string, string>();
-    for (const det of detByDir.get(dir) ?? []) {
-      const n = dump.enName(det);
-      if (!n) continue;
-      try {
-        dumpDetIds.set(nameToId(n), n);
-      } catch {
-        /* skip */
-      }
-    }
+    const dumpDetIds = detsByDir.get(dir) ?? new Map<string, string>();
     const repoDetIds = repoIds(dir, "detachments.json");
     const detNew: string[] = [];
     let detMatched = 0;
@@ -218,18 +288,7 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
     const detRepoOnly = [...repoDetIds].filter((id) => !globalDetIds.has(id)).sort();
 
     // enhancements — id is detachmentScopedId(enhName, detName)
-    const dumpEnhIds = new Map<string, string>();
-    for (const enh of enhByDir.get(dir) ?? []) {
-      const en = dump.enName(enh);
-      const det = dump.byId<DetachmentRow>("detachment").get((enh as EnhancementRow).detachmentId);
-      const dn = dump.enName(det);
-      if (!en || !dn) continue;
-      try {
-        dumpEnhIds.set(detachmentScopedId(en, dn), `${en} / ${dn}`);
-      } catch {
-        /* skip */
-      }
-    }
+    const dumpEnhIds = enhsByDir.get(dir) ?? new Map<string, string>();
     const repoEnhIds = repoIds(dir, "enhancements.json");
     const enhNew: string[] = [];
     let enhMatched = 0;
@@ -802,6 +861,7 @@ async function main(): Promise<void> {
 
   const commands = [
     "coverage",
+    "golden",
     "dispositions",
     "enhancements",
     "points",
@@ -827,6 +887,7 @@ async function main(): Promise<void> {
 
   const dump = loadDump(dumpPath);
   if (cmd === "coverage") runCoverage(dump);
+  else if (cmd === "golden") writeGolden(dump);
   else if (cmd === "dispositions") await runDispositionsCmd(dump, write, includeCombatPatrol);
   else if (cmd === "enhancements") await runEnhancementsCmd(dump, write, includeCombatPatrol);
   else if (cmd === "points") await runPointsCmd(dump, write);
@@ -845,7 +906,20 @@ async function main(): Promise<void> {
   else if (cmd === "weapon-variants") await runWeaponVariantsCmd(dump, write, onlyDir);
 }
 
-main().catch((e) => {
-  console.error(e instanceof Error ? e.message : String(e));
-  process.exit(1);
-});
+/** True only when this module is the process entrypoint — so importing it (the golden
+ *  command's `golden.ts`, or the completeness test) never runs the CLI. */
+function isEntrypoint(): boolean {
+  try {
+    const argv1 = process.argv[1];
+    return !!argv1 && fs.realpathSync(argv1) === fs.realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (isEntrypoint()) {
+  main().catch((e) => {
+    console.error(e instanceof Error ? e.message : String(e));
+    process.exit(1);
+  });
+}
