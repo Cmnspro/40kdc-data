@@ -1,8 +1,7 @@
 <script lang="ts">
   import Handles from "./Handles.svelte";
   import {
-    BOARD,
-    BOARD_CENTER,
+    boardOf,
     orientedFootprint,
     upperFloorBoardVerts,
     isGroundBlocked,
@@ -58,8 +57,11 @@
   }: Props = $props();
 
   // The board is shown rotated 90° CW for portrait terrain cards. Board coords stay
-  // 60×44 y-down; the content group carries the rotation, and we map pointers back
-  // through its CTM so all geometry stays in true board space.
+  // y-down; the content group carries the rotation, and we map pointers back
+  // through its CTM so all geometry stays in true board space. `board` is the
+  // active layout's extents (the 60×44 standard, or a per-layout override).
+  const board = $derived(boardOf(layout));
+  const centre = $derived({ x: board.width / 2, y: board.height / 2 });
   let gEl = $state<SVGGElement | null>(null);
   let svgEl = $state<SVGSVGElement | null>(null);
   let drag = $state<{ id: string; offset: Vec2 } | null>(null);
@@ -88,9 +90,9 @@
     const ctm = gEl?.getScreenCTM();
     return ctm ? Math.hypot(ctm.a, ctm.b) : 12;
   }
-  /** Board (x,y) → display, matching the group's translate(BOARD.height,0) rotate(90), for upright labels. */
+  /** Board (x,y) → display, matching the group's translate(board.height,0) rotate(90), for upright labels. */
   function toDisplay(b: Vec2): Vec2 {
-    return { x: BOARD.height - b.y, y: b.x };
+    return { x: board.height - b.y, y: b.x };
   }
   const clamp = (n: number, hi: number): number => Math.max(0, Math.min(hi, Math.round(n * 100) / 100));
 
@@ -110,7 +112,7 @@
   function onPointerMove(e: PointerEvent): void {
     if (!drag) return;
     const b = toBoard(e);
-    onmove(drag.id, { x: clamp(b.x - drag.offset.x, BOARD.width), y: clamp(b.y - drag.offset.y, BOARD.height) });
+    onmove(drag.id, { x: clamp(b.x - drag.offset.x, board.width), y: clamp(b.y - drag.offset.y, board.height) });
   }
   function endDrag(): void {
     drag = null;
@@ -189,10 +191,10 @@
       line.edge === "left"
         ? { x: 0, y: t.y }
         : line.edge === "right"
-          ? { x: BOARD.width, y: t.y }
+          ? { x: board.width, y: t.y }
           : line.edge === "top"
             ? { x: t.x, y: 0 }
-            : { x: t.x, y: BOARD.height };
+            : { x: t.x, y: board.height };
     return { from, to: t, labelAt: labelAnchor(from, t), text: `${line.distance}″` };
   }
 
@@ -215,10 +217,10 @@
         d.keystone.edge === "left"
           ? { x: 0, y: t.y }
           : d.keystone.edge === "right"
-            ? { x: BOARD.width, y: t.y }
+            ? { x: board.width, y: t.y }
             : d.keystone.edge === "top"
               ? { x: t.x, y: 0 }
-              : { x: t.x, y: BOARD.height };
+              : { x: t.x, y: board.height };
       out.push({
         from,
         to: t,
@@ -237,27 +239,27 @@
   // with the board coordinate they pin as a suffix (board x0 runs along the top of
   // the card, x60 along the bottom; y44/y0 are the left/right ends).
   const edgeLabels = $derived([
-    { at: toDisplay({ x: 1.4, y: BOARD.height / 2 }), text: "top · x0" },
-    { at: toDisplay({ x: BOARD.width - 1.4, y: BOARD.height / 2 }), text: "bottom · x60" },
-    { at: toDisplay({ x: BOARD.width / 2, y: BOARD.height - 0.8 }), text: "left · y44" },
-    { at: toDisplay({ x: BOARD.width / 2, y: 0.8 }), text: "right · y0" },
+    { at: toDisplay({ x: 1.4, y: board.height / 2 }), text: "top · x0" },
+    { at: toDisplay({ x: board.width - 1.4, y: board.height / 2 }), text: `bottom · x${board.width}` },
+    { at: toDisplay({ x: board.width / 2, y: board.height - 0.8 }), text: `left · y${board.height}` },
+    { at: toDisplay({ x: board.width / 2, y: 0.8 }), text: "right · y0" },
   ]);
 </script>
 
 <svg
   bind:this={svgEl}
   class="board"
-  viewBox="0 0 44 60"
+  viewBox="0 0 {board.height} {board.width}"
   preserveAspectRatio="xMidYMid meet"
   role="application"
-  aria-label="Terrain board, 60 by 44 inches, shown portrait"
+  aria-label="Terrain board, {board.width} by {board.height} inches, shown portrait"
   onpointermove={onPointerMove}
   onpointerup={endDrag}
   onpointerleave={endDrag}
   onpointerdown={() => onselect(null)}
 >
-  <g class="board-layer" bind:this={gEl} transform="translate(44,0) rotate(90)">
-    <rect x="0" y="0" width={BOARD.width} height={BOARD.height} class="board-bg" />
+  <g class="board-layer" bind:this={gEl} transform="translate({board.height},0) rotate(90)">
+    <rect x="0" y="0" width={board.width} height={board.height} class="board-bg" />
 
     <!-- deployment zones (under the grid, like the printed card) -->
     {#each zones as z, i (z.player + i)}
@@ -270,16 +272,16 @@
     {/each}
 
     <!-- 1" grid with honor lines every 5" -->
-    {#each Array(BOARD.width + 1) as _, i (i)}
-      <line x1={i} y1="0" x2={i} y2={BOARD.height} class="grid {i % 5 === 0 ? 'major' : 'minor'}" />
+    {#each Array(board.width + 1) as _, i (i)}
+      <line x1={i} y1="0" x2={i} y2={board.height} class="grid {i % 5 === 0 ? 'major' : 'minor'}" />
     {/each}
-    {#each Array(BOARD.height + 1) as _, i (i)}
-      <line x1="0" y1={i} x2={BOARD.width} y2={i} class="grid {i % 5 === 0 ? 'major' : 'minor'}" />
+    {#each Array(board.height + 1) as _, i (i)}
+      <line x1="0" y1={i} x2={board.width} y2={i} class="grid {i % 5 === 0 ? 'major' : 'minor'}" />
     {/each}
 
     <!-- centre of symmetry -->
-    <line x1={BOARD_CENTER.x - 1} y1={BOARD_CENTER.y} x2={BOARD_CENTER.x + 1} y2={BOARD_CENTER.y} class="centre" />
-    <line x1={BOARD_CENTER.x} y1={BOARD_CENTER.y - 1} x2={BOARD_CENTER.x} y2={BOARD_CENTER.y + 1} class="centre" />
+    <line x1={centre.x - 1} y1={centre.y} x2={centre.x + 1} y2={centre.y} class="centre" />
+    <line x1={centre.x} y1={centre.y - 1} x2={centre.x} y2={centre.y + 1} class="centre" />
 
     <!-- territory divider: the dashed line splitting the two players' halves -->
     {#if divider}

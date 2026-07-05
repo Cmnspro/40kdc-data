@@ -393,9 +393,10 @@ fn collection_is_iterable() {
 fn terrain_catalog_and_layouts_are_embedded() {
     let ds = Dataset::embedded();
     // 5 areas + 11 GW features after the catalog correction (walls / old corners
-    // / old scenery removed). Elevated-only and solid pieces set ground_accessible
-    // = false; ruins/platforms carry an upper_floor.
-    assert_eq!(ds.terrain_templates.len(), 16);
+    // / old scenery removed), plus the KOTC `impassable-wall`. Elevated-only and
+    // solid pieces set ground_accessible = false; ruins/platforms carry an
+    // upper_floor.
+    assert_eq!(ds.terrain_templates.len(), 17);
     assert!(ds.terrain_templates.get("area-large").is_some());
     assert!(ds
         .terrain_templates
@@ -409,9 +410,23 @@ fn terrain_catalog_and_layouts_are_embedded() {
             .unwrap()
             .ground_accessible
     );
+    // The colosseum's impassable arena walls: solid, no ground placement.
+    assert!(
+        !ds.terrain_templates
+            .get("impassable-wall")
+            .unwrap()
+            .ground_accessible
+    );
     assert!(ds.terrain_templates.get("wall-medium").is_none());
     assert!(ds.terrain_templates.get("scaffold").is_none());
     assert!(ds.terrain_layouts.get("take-and-hold-mirror-1").is_some());
+    // The KOTC colosseum is a first-class dataset layout on a 36×36 board.
+    let colosseum = ds
+        .terrain_layouts
+        .get("kotc-colosseum")
+        .expect("kotc-colosseum layout embedded");
+    let board = colosseum.board.as_ref().expect("colosseum carries a board");
+    assert_eq!((board.width, board.height), (36.0, 36.0));
     // removed: non-grid layouts (reference migrations + standalone) with no mission_matchup_id
     assert!(ds.terrain_layouts.get("gw-11e-crucible").is_none());
     assert!(ds.terrain_layouts.get("gw-11e-hammer-anvil").is_none());

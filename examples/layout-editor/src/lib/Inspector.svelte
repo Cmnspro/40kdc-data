@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    BOARD,
+    type BoardDims,
     footprintOf,
     footprintVertices,
     orientedOffsets,
@@ -23,6 +23,8 @@
     piece: EditPiece | null;
     /** The selected piece's board-space centroid (so the fields read board inches even when parented). */
     boardPos: { x: number; y: number };
+    /** Active board extents (the keystone solver measures against these edges). */
+    board: BoardDims;
     /** Area pieces the selected feature may be anchored to. */
     areaOptions: { id: string; name: string }[];
     /** Other top-level areas the attachment solver can attach the selection to. */
@@ -45,6 +47,7 @@
   let {
     piece,
     boardPos,
+    board,
     areaOptions,
     attachTargets,
     keystones,
@@ -217,7 +220,7 @@
         footprint: fp as never,
         rotation: piece.rotation_degrees,
         mirror: piece.mirror,
-        board: { width: BOARD.width, height: BOARD.height },
+        board,
         lines: [
           { edge: toBoardEdge(hEdge), distance: hDist, feature: hRef },
           { edge: toBoardEdge(vEdge), distance: vDist, feature: vRef },
@@ -244,7 +247,7 @@
       const res = solveCentroidTriangulated({
         footprint: fp as never,
         mirror: piece.mirror,
-        board: { width: BOARD.width, height: BOARD.height },
+        board,
         lines: tri.map((t) => ({
           edge: toBoardEdge(t.edge),
           distance: t.dist,
@@ -279,7 +282,7 @@
     }
     try {
       const res = solveCentroidAttached({
-        board: { width: BOARD.width, height: BOARD.height },
+        board,
         a: {
           footprint: fpA as never,
           mirror: piece.mirror,
@@ -340,7 +343,7 @@
     }));
     try {
       const res = solveCentroidAgainstFixed({
-        board: { width: BOARD.width, height: BOARD.height },
+        board,
         moving: {
           footprint: fpA as never,
           mirror: piece.mirror,

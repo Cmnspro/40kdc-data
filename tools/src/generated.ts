@@ -1652,6 +1652,13 @@ export interface TerrainLayout {
    */
   deployment_pattern_id?: string;
   /**
+   * Board extents in inches (y-down). Absent means the 40kdc standard 60×44. A per-layout override for one-off boards (e.g. the 36×36 KOTC colosseum); resolver geometry is board-agnostic, so consumers use this only to size the table.
+   */
+  board?: {
+    width: number;
+    height: number;
+  };
+  /**
    * Terrain pieces composing the layout. May be empty while a layout is registered by name ahead of its confirmed geometry.
    */
   pieces?: Piece[];
