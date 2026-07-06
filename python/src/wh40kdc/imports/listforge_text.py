@@ -19,12 +19,22 @@ from the base64+gzip share-JSON the ``listforge`` adapter handles). Shape::
       • 9x Bloodletter
         • 9x Hellblade
 
-- The first non-blank line is ``<list name> - <faction> - <detachment>
-  (<N> Points)``. A list name containing `` - `` breaks the split — a
-  documented ListForge limitation, not ours.
+- The first non-blank line is ``<list name> - <faction> -
+  [<disposition> - ]<detachment(s)> (<N> Points)``. The name is a single
+  segment (a name containing `` - `` breaks the split — a documented ListForge
+  limitation, not ours), the faction the second, the LAST segment the
+  detachment list (comma-joined when a list fields several under an 11e
+  detachment-point cap), and any segment in between the selected Force
+  Disposition. Legacy 3-segment headers with no disposition still parse.
 - Sections are mixed-case battlefield-role lines ending with ``:``
   (``Epic Hero:``, ``Character:``, ``Battleline:``, …). Units under
   ``Epic Hero:`` or ``Character:`` are characters.
+- An ``Attached Units:`` section groups leader+bodyguard pairs. Each group is a
+  combined ``<Leader> + <Bodyguard> (<total> pts)`` header (a marker, not a
+  unit — its points are the sub-units' sum) followed by the leader and
+  bodyguard as indented sub-units, leader first. The leader is emitted as a
+  character carrying an explicit ``leader``-role ``leader_attachment`` to the
+  bodyguard, so ``resolve`` reconstructs the link directly.
 - Bullet classification mirrors the GW adapter: a top-level bullet with deeper
   children is a **model group** (its ``Nx`` count — implicitly 1 — adds to the
   model count); without children it's **wargear**. Child-bullet ``Nx`` counts
@@ -62,6 +72,11 @@ _SPLIT_LINES = re.compile(r"\r?\n")
 _ENHANCEMENT_PREFIX = "E: "
 _WARLORD_MARKER = "Warlord"
 _CHARACTER_SECTIONS = frozenset({"epic hero", "character"})
+# ListForge groups leader+bodyguard pairs under this section: a combined
+# `Leader + Bodyguard (total pts)` marker followed by the two units as indented
+# sub-entries (leader first), so the leader's attachment is explicit.
+_ATTACHED_SECTION = "attached units"
+_ATTACHED_SEP = " + "
 
 
 def _is_listforge_text(decoded: Any) -> str | None:
@@ -85,6 +100,13 @@ def _is_listforge_text(decoded: Any) -> str | None:
     return decoded
 
 
+def _split_detachments(segment: str) -> list[str]:
+    """Split a detachment segment on commas — 11e lists field several
+    detachments comma-joined in a single header segment (``"A, B"``); one
+    detachment stays one."""
+    return [s for s in (p.strip() for p in segment.split(",")) if s]
+
+
 def _parse_first_line(line: str) -> dict[str, Any] | None:
     m = _FIRST_LINE.match(line.strip())
     if not m:
@@ -92,13 +114,16 @@ def _parse_first_line(line: str) -> dict[str, Any] | None:
     parts = [s for s in (p.strip() for p in m.group(1).split(" - ")) if s]
     if len(parts) < 3:
         return None
-    # `<list name> - <faction> - <detachment>`; the name is everything before
-    # the trailing two segments so faction names with hyphens stay intact only
-    # when ListForge itself doesn't insert ` - ` (it doesn't).
+    # `<name> - <faction> - [<disposition> - ]<detachment(s)>`. The name is the
+    # first segment (ListForge never inserts ` - `), the faction the second, the
+    # LAST segment the comma-joined detachment list, and any segment in between
+    # is the selected Force Disposition. Legacy 3-segment headers have no
+    # disposition.
     return {
-        "name": " - ".join(parts[: len(parts) - 2]),
-        "faction_raw_name": parts[-2],
-        "detachment_raw_name": parts[-1],
+        "name": parts[0],
+        "faction_raw_name": parts[1],
+        "detachment_raw_names": _split_detachments(parts[-1]),
+        "disposition_raw_name": parts[-2] if len(parts) >= 4 else None,
         "total_reported": int(m.group(2)),
     }
 
@@ -155,6 +180,9 @@ def _finish_unit(acc: dict[str, Any]) -> dict[str, Any]:
         # displayed points stay as-is and no enhancement points are claimed.
         "enhancement_points": None,
         "wargear": [{"raw_name": n, "count": c} for n, c in wargear.items()],
+        # Always present (None for an ordinary unit) so the serialized key
+        # mirrors the TS adapter, which sets `leader_attachment` on every unit.
+        "leader_attachment": acc.get("leader_attachment"),
     }
 
 
@@ -172,6 +200,12 @@ def _parse(decoded: Any) -> dict[str, Any]:
     units: list[dict[str, Any]] = []
     current: dict[str, Any] | None = None
     section_is_character = False
+    # `Attached Units:` section state. A combined `Leader + Bodyguard` header
+    # sets `pending_bodyguard_name`; the next two sub-units are the leader
+    # (`group_member_index` 0, a character) and the bodyguard (index 1).
+    in_attached_section = False
+    pending_bodyguard_name: str | None = None
+    group_member_index = 0
 
     def finalize() -> None:
         nonlocal current
@@ -205,18 +239,55 @@ def _parse(decoded: Any) -> dict[str, Any]:
 
         if _SECTION_HEADER.match(line):
             finalize()
-            section_is_character = line[:-1].strip().lower() in _CHARACTER_SECTIONS
+            heading = line[:-1].strip().lower()
+            section_is_character = heading in _CHARACTER_SECTIONS
+            in_attached_section = heading == _ATTACHED_SECTION
+            pending_bodyguard_name = None
+            group_member_index = 0
             continue
 
         unit_match = _UNIT_HEADER.match(line)
         if unit_match:
+            raw_name = unit_match.group(1).strip()
+
+            # In the attached section, a `Leader + Bodyguard (total pts)` header
+            # is a grouping marker, not a unit: skip it (its points are the
+            # sub-units' sum, so emitting it would double-count) and remember
+            # the bodyguard name.
+            if in_attached_section and _ATTACHED_SEP in raw_name:
+                finalize()
+                pending_bodyguard_name = raw_name.split(_ATTACHED_SEP, 1)[1].strip()
+                group_member_index = 0
+                continue
+
             finalize()
+            # First sub-unit of a group (index 0) is the attaching leader — a
+            # character carrying an explicit `leader`-role attachment to the
+            # bodyguard; the second (index 1) is the bodyguard itself.
+            is_attached_leader = (
+                in_attached_section
+                and pending_bodyguard_name is not None
+                and group_member_index == 0
+            )
             current = {
-                "raw_name": unit_match.group(1).strip(),
+                "raw_name": raw_name,
                 "displayed_pts": int(unit_match.group(2)),
-                "is_character": section_is_character,
+                "is_character": (
+                    is_attached_leader if in_attached_section else section_is_character
+                ),
                 "bullets": [],
+                "leader_attachment": (
+                    {
+                        "bodyguard_raw_name": pending_bodyguard_name,
+                        "role": "leader",
+                        "provisional": False,
+                    }
+                    if is_attached_leader
+                    else None
+                ),
             }
+            if in_attached_section:
+                group_member_index += 1
 
     finalize()
 
@@ -235,9 +306,11 @@ def _parse(decoded: Any) -> dict[str, Any]:
         "name": header["name"],
         "generated_by": "List Forge",
         "faction_raw_name": header["faction_raw_name"],
-        "detachment_raw_names": (
-            [header["detachment_raw_name"]] if header["detachment_raw_name"] else []
-        ),
+        "detachment_raw_names": header["detachment_raw_names"],
+        # ListForge text always carries the header disposition slot (None for a
+        # legacy 3-segment header), so the key is always present — matching the
+        # TS adapter's explicit `force_disposition_raw_name`.
+        "force_disposition_raw_name": header["disposition_raw_name"],
         "battle_size_raw": infer_battle_size_raw(declared_limit),
         "declared_limit": declared_limit,
         "total_reported": header["total_reported"],

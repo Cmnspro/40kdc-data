@@ -15,7 +15,7 @@ from typing import Any
 
 from wh40kdc.imports import try_import_roster
 from wh40kdc.imports.gw import gw_adapter
-from wh40kdc.imports.listforge_text import listforge_text_adapter
+from wh40kdc.imports.listforge_text import _parse_first_line, listforge_text_adapter
 from wh40kdc.imports.newrecruit_simple import newrecruit_simple_adapter
 
 # Condensed from the reference Chaos Daemons export.
@@ -171,3 +171,113 @@ class TestParse:
         blob = json.dumps(self.parsed)
         assert "description" not in blob
         assert "rules" not in blob
+
+    def test_legacy_three_segment_header_has_null_disposition_slot(self) -> None:
+        # 3-segment header: the disposition slot is present but null.
+        assert "force_disposition_raw_name" in self.parsed
+        assert self.parsed["force_disposition_raw_name"] is None
+        # every unit carries the leader_attachment key, null here.
+        for u in self.parsed["units"]:
+            assert u["leader_attachment"] is None
+
+
+# 11e headers gained a Force Disposition segment and a comma-joined
+# multi-detachment tail: `<name> - <faction> - <disposition> - <det>[, <det>]`.
+class TestHeader11e:
+    def test_parses_disposition_and_comma_splits_detachment_tail(self) -> None:
+        h = _parse_first_line(
+            "1.5k - Leagues of Votann - Priority Assets - "
+            "Hearthfyre Arsenal, Hearthguard Covenant (1485 Points)"
+        )
+        assert h is not None
+        assert h["name"] == "1.5k"
+        assert h["faction_raw_name"] == "Leagues of Votann"
+        assert h["disposition_raw_name"] == "Priority Assets"
+        assert h["detachment_raw_names"] == [
+            "Hearthfyre Arsenal",
+            "Hearthguard Covenant",
+        ]
+
+    def test_keeps_single_detachment_four_segment_header_as_one(self) -> None:
+        h = _parse_first_line(
+            "Starshatter - Necrons - Priority Assets - Starshatter Arsenal (2000 Points)"
+        )
+        assert h is not None
+        assert h["faction_raw_name"] == "Necrons"
+        assert h["disposition_raw_name"] == "Priority Assets"
+        assert h["detachment_raw_names"] == ["Starshatter Arsenal"]
+
+    def test_leaves_legacy_three_segment_header_with_no_disposition(self) -> None:
+        h = _parse_first_line(
+            "all gas no breaks - Chaos Daemons - Daemonic Incursion (1995 Points)"
+        )
+        assert h is not None
+        assert h["disposition_raw_name"] is None
+        assert h["detachment_raw_names"] == ["Daemonic Incursion"]
+
+
+# ListForge emits attached leaders in an `Attached Units:` section: a combined
+# `Leader + Bodyguard (total pts)` marker, then the leader and bodyguard as
+# indented sub-units. Condensed from a real Votann export.
+ATTACHED = """1.5k - Leagues of Votann - Priority Assets - Hearthfyre Arsenal (1485 Points)
+
+Attached Units:
+Kâhl + Einhyr Hearthguard (205 pts)
+  Kâhl (75 pts)
+    • Volkanite disintegrator
+    • Warlord
+    • E: Ironskein
+  Einhyr Hearthguard (130 pts)
+    • Hesyr
+      • EtaCarn plasma gun
+    • 4x Einhyr Hearthguard
+      • 4x Volkanite disintegrator
+
+Character:
+Einhyr Champion (65 pts)
+  • Darkstar axe
+"""
+
+
+class TestAttachedUnits:
+    parsed = listforge_text_adapter.parse(ATTACHED)
+
+    def test_skips_marker_and_emits_leader_and_bodyguard(self) -> None:
+        assert [u["raw_name"] for u in self.parsed["units"]] == [
+            "Kâhl",
+            "Einhyr Hearthguard",
+            "Einhyr Champion",
+        ]
+        # The marker's points are the sub-units' sum; counting it would double.
+        assert self.parsed["total_computed"] == 75 + 130 + 65
+
+    def test_attached_leader_is_character_linked_to_bodyguard(self) -> None:
+        kahl = _by_name(self.parsed)["Kâhl"]
+        assert kahl["is_character"] is True
+        assert kahl["is_warlord"] is True
+        assert kahl["enhancement_raw_name"] == "Ironskein"
+        assert kahl["leader_attachment"] == {
+            "bodyguard_raw_name": "Einhyr Hearthguard",
+            "role": "leader",
+            "provisional": False,
+        }
+
+    def test_bodyguard_is_plain_unit_with_null_attachment(self) -> None:
+        bg = _by_name(self.parsed)["Einhyr Hearthguard"]
+        assert bg["is_character"] is False
+        assert bg["leader_attachment"] is None
+        assert bg["model_count"] == 5  # Hesyr + 4x Einhyr Hearthguard
+
+    def test_attachment_state_resets_when_a_normal_section_follows(self) -> None:
+        champ = _by_name(self.parsed)["Einhyr Champion"]
+        assert champ["is_character"] is True  # Character section
+        assert champ["leader_attachment"] is None
+
+    def test_resolves_the_explicit_attachment_end_to_end(self, dataset: Any) -> None:
+        result = try_import_roster(ATTACHED, dataset)
+        assert result["ok"] is True
+        kahl = next(u for u in result["roster"]["units"] if u["ref"]["id"] == "kahl")
+        assert kahl["leader_attachment"] is not None
+        assert kahl["leader_attachment"]["bodyguard_ref"]["id"] == "einhyr-hearthguard"
+        assert kahl["leader_attachment"]["role"] == "leader"
+        assert kahl["leader_attachment"]["provisional"] is False

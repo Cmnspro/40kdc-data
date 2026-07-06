@@ -335,13 +335,18 @@ pub struct ParsedUnit {
     /// otherwise.
     pub enhancement_points: Option<u64>,
     pub wargear: Vec<ParsedWargear>,
-    /// Explicit leader→bodyguard attachment, when the source encoded one (only
-    /// the canonical roster-json round-trip does). `None`/omitted otherwise, in
-    /// which case [`resolve`](super::resolve) falls back to `support`-only
-    /// inference. Elided from the serialized parsed stage when absent, matching
-    /// every other adapter (which never sets it).
+    /// Explicit leader→bodyguard attachment, when the source encoded one.
+    ///
+    /// Three serialized states, matching the TS `leader_attachment?` optional
+    /// field: the outer `None` elides the key (adapters that never encode an
+    /// attachment, and roster-json units without one), `Some(None)` emits an
+    /// explicit `null` (ListForge text, which sets the key on every unit),
+    /// and `Some(Some)` emits the attachment (an attached leader from either
+    /// the roster-json round-trip or ListForge's `Attached Units:` section).
+    /// Only an inner `Some` is an explicit attachment; [`resolve`](super::resolve)
+    /// treats `Some(None)` like `None` and falls back to `support`-only inference.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub leader_attachment: Option<ParsedLeaderAttachment>,
+    pub leader_attachment: Option<Option<ParsedLeaderAttachment>>,
 }
 
 /// An explicit leader→bodyguard attachment carried verbatim from a source that
@@ -378,6 +383,18 @@ pub struct ParsedRoster {
     /// optional (`force_disposition?`) field's `undefined`-elides-the-key shape.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub force_disposition: Option<String>,
+    /// Raw Force Disposition name from the source header (ListForge text carries
+    /// one, e.g. "Priority Assets"), resolved to a `force-disposition-id` during
+    /// [`resolve`](super::resolve). Distinct from [`force_disposition`], which is
+    /// an already-resolved id.
+    ///
+    /// Three serialized states, matching the TS `force_disposition_raw_name?`
+    /// optional field: the outer `None` elides the key (every adapter that
+    /// doesn't parse a header disposition), `Some(None)` emits an explicit
+    /// `null` (ListForge text with a legacy 3-segment header), and `Some(Some)`
+    /// emits the name (ListForge text with a 4+-segment header).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub force_disposition_raw_name: Option<Option<String>>,
     /// Points limit parsed from the battle-size label, if any.
     pub declared_limit: Option<u64>,
     /// Total points reported by the source cost block.
