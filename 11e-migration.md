@@ -301,6 +301,36 @@ Orks is the canary for the mechanical port. (The Bannernob is *not* in the 10e a
 
 ---
 
+## Section 7 — Game modes axis (non-competitive content)
+
+GW ships "40k-shaped but not competitive" content — **Combat Patrol** boxed rosters, **Boarding Actions**, **Crusade** narrative rules — alongside matched play. The dataset modelled only matched play, so this content had no home: the MFM dump's Combat Patrol rows (flagged `publication.isCombatPatrol`) were held back by the ingest and the completeness golden counted all 747 of them as accepted "gaps," neither authored nor honestly measured.
+
+This section adds a **`game_modes`** discriminator — a second variant axis parallel to `game_version` (the edition axis) — so competitive coverage is measured cleanly while non-competitive content is tracked separately and can be authored.
+
+### Representation
+
+- **`$defs/game-mode-id`** (`schemas/$defs/common.schema.json`) — closed enum `matched-play | combat-patrol | boarding-actions | crusade`, sibling to `battle-size`/`force-disposition-id`. General/forward-looking: only `combat-patrol` has a dump signal today; the others are schema-homed for hand-authoring until a source exists. `box-set` is deliberately NOT a value — that is product provenance, not a rules mode.
+- **`game_modes`** — an optional `array` of `game-mode-id` (`uniqueItems`, `minItems: 1`) on the seven army-construction entities that can be mode-scoped: `unit`, `detachment`, `enhancement`, `stratagem`, `weapon`, `unit-composition`, `wargear-option`. **Absent ⇒ `["matched-play"]`**, so all ~18k existing entities validate unchanged (mirrors `secondary-card.card_type` / `points_provisional` default semantics). Faction/mission/registry entities do not carry it — modes attach to army construction only.
+- **Registry** `data/core/game-modes.json` + `schemas/core/game-mode.schema.json` — one row per mode with `{ id, name, description?, is_competitive, game_version }`, mirroring the `game-versions.json` / `force-dispositions.json` registry-backed-enum house pattern. `is_competitive` (true only for `matched-play`) is the flag the golden reads to decide which modes count toward the headline competitive-coverage number.
+
+### Golden dimensioning
+
+The MFM completeness golden (`data/_audit/mfm-golden.json` / `mfm-gaps.json`) now carries a per-id **mode** dimension. Each inventory derivation (`unit/detachment/enhancement` in `ingest-mfm.ts`; `stratagem` in `mfm/stratagems.ts`; `composition/wargear/weapon` in `mfm/wargear.ts`) yields each id's mode in the SAME pass that derives the id — via `mfm/game-mode.ts` (`modeOfPublication`, matched-play-wins `mergeMode` for shared ids) — so id and mode can never drift. `buildGaps` tags each gap with its mode; the completeness test gates competitive coverage against the matched-play gap allowlist and reports each non-competitive mode on its own dimension. Result: Combat Patrol ids no longer inflate the competitive gap set (the 747 gaps split into **506 competitive + 241 combat-patrol**).
+
+This makes **Combat Patrol a first-class mode**, superseding the old CP-as-exclusion-flag treatment: `--include-combat-patrol` still gates whether CP content is *written*, but written CP content is now *stamped* `game_modes: ["combat-patrol"]` (in `seed-units` on create; in `dispositions`/`enhancements` on reconcile) and *measured* on the combat-patrol dimension rather than silently dropped.
+
+### Pilot — World Eaters Combat Patrol
+
+Authored end-to-end as proof: `seed-units --dir world-eaters --include-combat-patrol` created the 4 CP datasheets (`frenzied-reavers-jakhals`/`-khorne-berzerkers`/`-master-of-executions`, `vorrakh-lord-of-the-frenzied-reavers`) stamped `["combat-patrol"]`; the `frenzied-reavers` CP detachment (DP 1, Purge the Foe) + its 2 enhancements (Bane of the Craven, Fearsome Presence) were hand-authored from the dump, mode-tagged. After regen, WE competitive gaps are **unchanged** (5 Khorne daemon-ally datasheets + 4 matched-play `(Upgrade)` enhancements + `icon-of-khorne` — all genuine competitive content, not CP), and the authored CP ids moved out of the combat-patrol gap dimension. The 3 CP stratagems remain combat-patrol gaps: their required `timing` (`once-per-*`) is not derivable from the dump (the rules prose lives in the out-of-repo store), so they are honestly tracked, not fabricated. The seeded skeletons' `unit-composition` rows are the usual loadout follow-up, now filed on the combat-patrol dimension.
+
+### Follow-ons (not in this section)
+
+- Bulk-author the other ~23 factions' Combat Patrol content — the mechanical repeat of the pilot via the now-mode-aware ingest.
+- Make `composition-tiers`/`wargear`/`weapon-variants` mode-aware so a CP unit's compositions/loadouts are stamped `["combat-patrol"]` on reconcile (today only `seed-units`/`dispositions`/`enhancements` stamp).
+- Wire `game-modes.json` into the runtime data bundle (`RawData` / `FILE_TO_COLLECTION`) if the registry should be library-loadable, not just validated + read by the golden.
+- `boarding-actions` / `crusade` gain a golden coverage dimension once a data source for them exists.
+
+
 ## Next steps (forward queue)
 
 Section 6 (port) and Section 3 (DSL primitives) are both complete. The remaining work, in rough dependency order:

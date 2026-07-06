@@ -31,6 +31,7 @@ import { stratagemInventory } from "./stratagems.js";
 import { missionInventory } from "./missions.js";
 import { wargearOptionInventory, weaponInventory, compositionInventory } from "./wargear.js";
 import { runAllies } from "./allies.js";
+import { type GoldenMode, GOLDEN_MODES } from "./game-mode.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const AUDIT_DIR = path.join(REPO_ROOT, "data", "_audit");
@@ -54,8 +55,13 @@ export const GOLDEN_CATEGORIES = [
 export interface GoldenManifest {
   /** The dump's `data_version` when the golden was generated. */
   data_version: number;
-  /** category → scope (faction dir or `_root`) → sorted, de-duplicated repo ids. */
+  /** category → scope (faction dir or `_root`) → sorted, de-duplicated repo ids
+   *  (the FULL inventory across every game mode). */
   categories: Record<string, Record<string, string[]>>;
+  /** category → scope → (id → non-matched-play game mode). An id absent here is
+   *  matched-play (the competitive default), so the map stays compact. Lets the
+   *  completeness test split competitive from per-mode coverage. */
+  modes: Record<string, Record<string, Record<string, GoldenMode>>>;
 }
 
 /** Sort + de-duplicate an id iterable into a stable array. */
@@ -63,31 +69,56 @@ function dedupeSort(ids: Iterable<string>): string[] {
   return [...new Set(ids)].sort();
 }
 
-/** Fold a dir→ids inventory into a scope→sorted-ids record, dropping empty scopes. */
-function scopedRecord<T extends Iterable<string>>(m: Map<string, T>): Record<string, string[]> {
-  const out: Record<string, string[]> = {};
-  for (const [scope, ids] of m) {
-    const list = dedupeSort(ids);
-    if (list.length) out[scope] = list;
+/** The per-scope id lists + parallel id→mode map (non-matched-play only) that one
+ *  category contributes to the manifest. */
+interface FoldedCategory {
+  ids: Record<string, string[]>;
+  modes: Record<string, Record<string, GoldenMode>>;
+}
+
+/** Fold a dir→(id→mode) inventory into the manifest's per-scope id lists plus the
+ *  compact non-matched-play mode map, dropping empty scopes. */
+function foldScoped(m: Map<string, Map<string, GoldenMode>>): FoldedCategory {
+  const ids: Record<string, string[]> = {};
+  const modes: Record<string, Record<string, GoldenMode>> = {};
+  for (const [scope, byId] of m) {
+    const list = dedupeSort(byId.keys());
+    if (list.length) ids[scope] = list;
+    const nm: Record<string, GoldenMode> = {};
+    for (const [id, mode] of byId) if (mode !== "matched-play") nm[id] = mode;
+    if (Object.keys(nm).length) modes[scope] = nm;
   }
-  return out;
+  return { ids, modes };
+}
+
+/** A whole-dataset category (missions/allies) at `_root` — matched-play only. */
+function foldRoot(ids: Iterable<string>): FoldedCategory {
+  const list = dedupeSort(ids);
+  return { ids: list.length ? { _root: list } : {}, modes: {} };
 }
 
 /** Build the authoritative dump inventory. Each category runs through the same
- *  derivation ingest uses, so the golden mirrors what ingest would match. */
+ *  derivation ingest uses, so the golden mirrors what ingest would match — and
+ *  each id carries the game mode derived in that same pass. */
 export function buildGolden(dump: MfmDump): GoldenManifest {
-  const categories: Record<string, Record<string, string[]>> = {
-    units: scopedRecord(unitInventory(dump)),
-    detachments: scopedRecord(detachmentInventory(dump)),
-    enhancements: scopedRecord(enhancementInventory(dump)),
-    stratagems: scopedRecord(stratagemInventory(dump)),
-    unit_compositions: scopedRecord(compositionInventory(dump)),
-    wargear_options: scopedRecord(wargearOptionInventory(dump)),
-    weapons: scopedRecord(weaponInventory(dump)),
-    missions: { _root: dedupeSort(missionInventory(dump)) },
-    allies: { _root: dedupeSort(runAllies(dump).rules.map((r) => r.id)) },
+  const built: Record<string, FoldedCategory> = {
+    units: foldScoped(unitInventory(dump)),
+    detachments: foldScoped(detachmentInventory(dump)),
+    enhancements: foldScoped(enhancementInventory(dump)),
+    stratagems: foldScoped(stratagemInventory(dump)),
+    unit_compositions: foldScoped(compositionInventory(dump)),
+    wargear_options: foldScoped(wargearOptionInventory(dump)),
+    weapons: foldScoped(weaponInventory(dump)),
+    missions: foldRoot(missionInventory(dump)),
+    allies: foldRoot(runAllies(dump).rules.map((r) => r.id)),
   };
-  return { data_version: dump.version ?? 0, categories };
+  const categories: Record<string, Record<string, string[]>> = {};
+  const modes: Record<string, Record<string, Record<string, GoldenMode>>> = {};
+  for (const [category, folded] of Object.entries(built)) {
+    categories[category] = folded.ids;
+    if (Object.keys(folded.modes).length) modes[category] = folded.modes;
+  }
+  return { data_version: dump.version ?? 0, categories, modes };
 }
 
 /** Distinct string values of `key` across the JSON array at `p` (empty if absent). */
@@ -150,20 +181,47 @@ export function repoIds(category: string): Record<string, Set<string>> {
 }
 
 /** The accepted-gap allowlist: per category/scope, the golden ids the repo does
- *  NOT currently cover. Same shape as the golden. */
+ *  NOT currently cover, carrying each gap id's non-matched-play mode. Same shape
+ *  as the golden, so the completeness test can gate competitive coverage against
+ *  the matched-play gaps and report each non-competitive mode on its own. */
 export function buildGaps(golden: GoldenManifest): GoldenManifest {
   const categories: Record<string, Record<string, string[]>> = {};
+  const modes: Record<string, Record<string, Record<string, GoldenMode>>> = {};
   for (const [category, scopes] of Object.entries(golden.categories)) {
     const repo = repoIds(category);
     const gapScopes: Record<string, string[]> = {};
+    const modeScopes: Record<string, Record<string, GoldenMode>> = {};
     for (const [scope, ids] of Object.entries(scopes)) {
       const have = repo[scope] ?? new Set<string>();
       const missing = ids.filter((id) => !have.has(id));
       if (missing.length) gapScopes[scope] = missing;
+      const goldenModeScope = golden.modes[category]?.[scope];
+      if (goldenModeScope) {
+        const nm: Record<string, GoldenMode> = {};
+        for (const id of missing) {
+          const mode = goldenModeScope[id];
+          if (mode && mode !== "matched-play") nm[id] = mode;
+        }
+        if (Object.keys(nm).length) modeScopes[scope] = nm;
+      }
     }
     if (Object.keys(gapScopes).length) categories[category] = gapScopes;
+    if (Object.keys(modeScopes).length) modes[category] = modeScopes;
   }
-  return { data_version: golden.data_version, categories };
+  return { data_version: golden.data_version, categories, modes };
+}
+
+/** The ids of `category`/`scope` in `manifest` that belong to `mode`. Matched-play
+ *  is every id not listed in `manifest.modes` (the compact default). */
+export function idsForMode(
+  manifest: GoldenManifest,
+  category: string,
+  scope: string,
+  mode: GoldenMode,
+): string[] {
+  const all = manifest.categories[category]?.[scope] ?? [];
+  const modeMap = manifest.modes[category]?.[scope] ?? {};
+  return all.filter((id) => (modeMap[id] ?? "matched-play") === mode);
 }
 
 /** Recursively sort object keys so serialized artifacts have a stable diff.
@@ -194,11 +252,30 @@ export function writeGolden(dump: MfmDump): void {
   fs.writeFileSync(GOLDEN_PATH, stableJson(golden));
   fs.writeFileSync(GAPS_PATH, stableJson(gaps));
 
-  const count = (m: GoldenManifest) =>
-    Object.values(m.categories).reduce(
-      (a, scopes) => a + Object.values(scopes).reduce((b, ids) => b + ids.length, 0),
-      0
-    );
-  console.log(`Wrote ${path.relative(REPO_ROOT, GOLDEN_PATH)} — data_version ${golden.data_version}, ${count(golden)} golden ids.`);
-  console.log(`Wrote ${path.relative(REPO_ROOT, GAPS_PATH)} — ${count(gaps)} allowlisted gap ids.`);
+  const countByMode = (m: GoldenManifest): Record<string, number> => {
+    const counts: Record<string, number> = {};
+    for (const mode of GOLDEN_MODES) counts[mode] = 0;
+    for (const [category, scopes] of Object.entries(m.categories)) {
+      for (const scope of Object.keys(scopes)) {
+        for (const mode of GOLDEN_MODES) {
+          counts[mode] += idsForMode(m, category, scope, mode).length;
+        }
+      }
+    }
+    return counts;
+  };
+  const total = (c: Record<string, number>): number =>
+    GOLDEN_MODES.reduce((a, mode) => a + c[mode], 0);
+  const fmt = (c: Record<string, number>): string =>
+    GOLDEN_MODES.map((mode) => `${mode} ${c[mode]}`).join(", ");
+  const goldenCounts = countByMode(golden);
+  const gapCounts = countByMode(gaps);
+  console.log(
+    `Wrote ${path.relative(REPO_ROOT, GOLDEN_PATH)} — data_version ${golden.data_version}, ` +
+      `${total(goldenCounts)} golden ids (${fmt(goldenCounts)}).`,
+  );
+  console.log(
+    `Wrote ${path.relative(REPO_ROOT, GAPS_PATH)} — ` +
+      `${total(gapCounts)} allowlisted gap ids (${fmt(gapCounts)}).`,
+  );
 }

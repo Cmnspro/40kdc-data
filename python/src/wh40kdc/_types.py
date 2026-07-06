@@ -111,6 +111,12 @@ ForceDispositionId: TypeAlias = Literal[
 ]
 
 
+GameModeId: TypeAlias = Literal["matched-play", "combat-patrol", "boarding-actions", "crusade"]
+
+
+GameModes: TypeAlias = list[GameModeId]
+
+
 class Vec2(TypedDict):
     x: float
     y: float
@@ -264,6 +270,7 @@ class Detachment(TypedDict):
     granted_keywords: NotRequired[list[GrantedKeyword]]
     unit_minimums: NotRequired[list[UnitMinimum]]
     game_version: GameVersionRef
+    game_modes: NotRequired[GameModes]
 
 
 class Enhancement(TypedDict):
@@ -279,6 +286,7 @@ class Enhancement(TypedDict):
     ability_id: NotRequired[EntityId | None]
     is_unique: NotRequired[bool]
     game_version: GameVersionRef
+    game_modes: NotRequired[GameModes]
 
 
 class Faction(TypedDict):
@@ -296,6 +304,14 @@ class ForceDisposition(TypedDict):
     id: ForceDispositionId
     name: str
     text: NotRequired[str]
+    game_version: GameVersionRef
+
+
+class GameMode(TypedDict):
+    id: GameModeId
+    name: str
+    description: NotRequired[str]
+    is_competitive: bool
     game_version: GameVersionRef
 
 
@@ -395,6 +411,7 @@ class Stratagem(TypedDict):
     target_restrictions: NotRequired[TargetRestrictions | None]
     ability_id: NotRequired[EntityId | None]
     game_version: GameVersionRef
+    game_modes: NotRequired[GameModes]
 
 
 class TargetProfile(TypedDict):
@@ -522,6 +539,7 @@ class UnitComposition(TypedDict):
     models: list[Model]
     tiers: NotRequired[list[Tier]]
     game_version: GameVersionRef
+    game_modes: NotRequired[GameModes]
 
 
 class Profile(TypedDict):
@@ -593,6 +611,7 @@ class Unit(TypedDict):
     transport_capacity: NotRequired[TransportCapacity | None]
     game_version: GameVersionRef
     is_legend: NotRequired[bool]
+    game_modes: NotRequired[GameModes]
 
 
 class ModelConstraint(TypedDict):
@@ -616,6 +635,7 @@ class WargearOption(TypedDict):
     is_free: NotRequired[bool]
     additional_cost: NotRequired[int | None]
     game_version: GameVersionRef
+    game_modes: NotRequired[GameModes]
 
 
 class Wargear(TypedDict):
@@ -658,6 +678,7 @@ class Weapon(TypedDict):
     type: Literal["ranged", "melee"]
     profiles: list[Profile1]
     game_version: GameVersionRef
+    game_modes: NotRequired[GameModes]
 
 
 class Proximity(TypedDict):

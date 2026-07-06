@@ -170,6 +170,25 @@
       ],
       "description": "One of the five confirmed 11e launch Force Dispositions. Shared by force-disposition entities and the mission-matchup matrix."
     },
+    "game-mode-id": {
+      "type": "string",
+      "enum": [
+        "matched-play",
+        "combat-patrol",
+        "boarding-actions",
+        "crusade"
+      ],
+      "description": "The game mode an army-construction entity is legal or authored for, parallel to the game_version edition axis. 'matched-play' is the competitive default: when an entity omits `game_modes`, treat it as matched-play only. 'combat-patrol', 'boarding-actions', and 'crusade' are non-competitive modes; of these only combat-patrol currently has an ingest source and coverage measurement (the others are schema-homed for hand-authoring)."
+    },
+    "game-modes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/game-mode-id"
+      },
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "Game modes this entity is legal or authored for. Absent implies ['matched-play'] (the competitive default), so existing matched-play entities need not carry the field."
+    },
     "vec2": {
       "type": "object",
       "description": "A 2D point in board inches. Origin at a board corner; JSON uses y-down (downstream renderers may flip to y-up).",
@@ -847,6 +866,10 @@
         },
         "game_version": {
           "$ref": "#/$defs/game-version-ref"
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this detachment is legal or authored for; absent implies matched-play."
         }
       },
       "required": [
@@ -922,6 +945,10 @@
         },
         "game_version": {
           "$ref": "#/$defs/game-version-ref"
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this enhancement is legal or authored for; absent implies matched-play."
         }
       },
       "required": [
@@ -1018,6 +1045,41 @@
       "required": [
         "id",
         "name",
+        "game_version"
+      ],
+      "additionalProperties": false
+    },
+    "game-mode": {
+      "title": "Game Mode",
+      "description": "A 40k game mode — one axis of army-construction scope, parallel to the game_version edition axis. Army-construction entities carry an optional `game_modes` array of these ids; an absent array means the entity belongs to matched-play only. `is_competitive` marks which modes count toward the dataset's headline competitive-coverage metric.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/game-mode-id",
+          "description": "One of the confirmed game modes."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Community-authored summary of the mode (original prose only — no reproduced rules text)."
+        },
+        "is_competitive": {
+          "type": "boolean",
+          "description": "Whether this mode counts toward the dataset's headline competitive-coverage metric. Only matched-play is competitive; non-competitive modes are tracked on their own coverage dimension."
+        },
+        "game_version": {
+          "$ref": "#/$defs/game-version-ref"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "is_competitive",
         "game_version"
       ],
       "additionalProperties": false
@@ -1664,6 +1726,10 @@
         },
         "game_version": {
           "$ref": "#/$defs/game-version-ref"
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this stratagem is legal or authored for; absent implies matched-play."
         }
       },
       "required": [
@@ -2245,6 +2311,10 @@
         },
         "game_version": {
           "$ref": "#/$defs/game-version-ref"
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this unit composition is legal or authored for; absent implies matched-play."
         }
       },
       "required": [
@@ -2630,6 +2700,10 @@
         "is_legend": {
           "type": "boolean",
           "default": false
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this unit is legal or authored for; absent implies matched-play."
         }
       },
       "required": [
@@ -2732,6 +2806,10 @@
         },
         "game_version": {
           "$ref": "#/$defs/game-version-ref"
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this wargear option is legal or authored for; absent implies matched-play."
         }
       },
       "required": [
@@ -2964,6 +3042,10 @@
         },
         "game_version": {
           "$ref": "#/$defs/game-version-ref"
+        },
+        "game_modes": {
+          "$ref": "#/$defs/game-modes",
+          "description": "Game modes this weapon is legal or authored for; absent implies matched-play."
         }
       },
       "required": [

@@ -72,7 +72,11 @@
       "items": { "$ref": "#/$defs/unit-minimum" },
       "description": "Minimum unit counts the detachment requires while selected (e.g. Houndpack Lance: 'your army must include three or more WAR DOG units'). Each entry requires at least `min` units carrying `keyword`. Empty/absent when the detachment imposes no minimum."
     },
-    "game_version": { "$ref": "../defs/game-version-ref.schema.json" }
+    "game_version": { "$ref": "../defs/game-version-ref.schema.json" },
+    "game_modes": {
+      "$ref": "../defs/common.schema.json#/$defs/game-modes",
+      "description": "Game modes this detachment is legal or authored for; absent implies matched-play."
+    }
   },
   "required": ["id", "name", "faction_id", "game_version"],
   "additionalProperties": false,

@@ -3941,6 +3941,9 @@
         "eightbound",
         "exalted-eightbound",
         "forgefiend",
+        "frenzied-reavers-jakhals",
+        "frenzied-reavers-khorne-berzerkers",
+        "frenzied-reavers-master-of-executions",
         "goremongers",
         "helbrute",
         "heldrake",
@@ -3952,7 +3955,8 @@
         "lord-on-juggernaut",
         "master-of-executions",
         "maulerfiend",
-        "slaughterbound"
+        "slaughterbound",
+        "vorrakh-lord-of-the-frenzied-reavers"
       ]
     },
     "units": {
@@ -8112,5 +8116,456 @@
       ]
     }
   },
-  "data_version": 867
+  "data_version": 867,
+  "modes": {
+    "detachments": {
+      "adepta-sororitas": {
+        "sanctuary-guardians": "combat-patrol"
+      },
+      "adeptus-astartes": {
+        "assault-force": "combat-patrol"
+      },
+      "adeptus-custodes": {
+        "tristraens-gilded-blades": "combat-patrol"
+      },
+      "adeptus-mechanicus": {
+        "purge-corps-deltic-9": "combat-patrol"
+      },
+      "aeldari": {
+        "kygharils-protectors": "combat-patrol"
+      },
+      "agents-of-the-imperium": {
+        "inquisitors-hand": "combat-patrol"
+      },
+      "astra-militarum": {
+        "draydens-lance": "combat-patrol"
+      },
+      "black-templars": {
+        "vow-sworn-of-vedrenn": "combat-patrol"
+      },
+      "blood-angels": {
+        "sanguinary-spearhead": "combat-patrol"
+      },
+      "chaos-space-marines": {
+        "zarkans-daemonkin": "combat-patrol"
+      },
+      "dark-angels": {
+        "the-vengeful-brethren": "combat-patrol"
+      },
+      "death-guard": {
+        "maggot-lords": "combat-patrol"
+      },
+      "drukhari": {
+        "coven-of-agonies": "combat-patrol"
+      },
+      "emperors-children": {
+        "callous-blades": "combat-patrol"
+      },
+      "genestealer-cults": {
+        "claw-of-ascension": "combat-patrol"
+      },
+      "grey-knights": {
+        "crowes-sanctifiers": "combat-patrol"
+      },
+      "leagues-of-votann": {
+        "bane-slayers-bulwark": "combat-patrol"
+      },
+      "necrons": {
+        "amonhotekhs-guard": "combat-patrol"
+      },
+      "orks": {
+        "ardmob": "combat-patrol"
+      },
+      "space-wolves": {
+        "askars-wolfpack": "combat-patrol"
+      },
+      "tau-empire": {
+        "sudden-dawn-cadre": "combat-patrol"
+      },
+      "thousand-sons": {
+        "prism-of-zadophon": "combat-patrol"
+      },
+      "tyranids": {
+        "the-vardenghast-swarm": "combat-patrol"
+      },
+      "world-eaters": {
+        "frenzied-reavers": "combat-patrol"
+      }
+    },
+    "enhancements": {
+      "adepta-sororitas": {
+        "divine-miracle-sanctuary-guardians": "combat-patrol",
+        "righteous-fervour-sanctuary-guardians": "combat-patrol"
+      },
+      "adeptus-astartes": {
+        "battle-line-veterans-assault-force": "combat-patrol",
+        "blade-masters-assault-force": "combat-patrol"
+      },
+      "adeptus-custodes": {
+        "comrades-in-wrath-tristraens-gilded-blades": "combat-patrol",
+        "shattering-charge-tristraens-gilded-blades": "combat-patrol"
+      },
+      "adeptus-mechanicus": {
+        "empowered-mechanisms-purge-corps-deltic-9": "combat-patrol",
+        "miniaturised-autosimulacra-purge-corps-deltic-9": "combat-patrol"
+      },
+      "aeldari": {
+        "guided-jump-kygharils-protectors": "combat-patrol",
+        "seers-hand-kygharils-protectors": "combat-patrol"
+      },
+      "agents-of-the-imperium": {
+        "killer-reflexes-inquisitors-hand": "combat-patrol",
+        "sanctic-slayers-inquisitors-hand": "combat-patrol"
+      },
+      "astra-militarum": {
+        "call-up-the-reserves-draydens-lance": "combat-patrol",
+        "draydens-drill-draydens-lance": "combat-patrol"
+      },
+      "black-templars": {
+        "divine-endurance-vow-sworn-of-vedrenn": "combat-patrol",
+        "divine-protection-vow-sworn-of-vedrenn": "combat-patrol"
+      },
+      "blood-angels": {
+        "masterful-fighter-sanguinary-spearhead": "combat-patrol",
+        "overwhelming-charge-sanguinary-spearhead": "combat-patrol"
+      },
+      "chaos-space-marines": {
+        "infernal-infusion-zarkans-daemonkin": "combat-patrol",
+        "prey-on-the-weak-zarkans-daemonkin": "combat-patrol"
+      },
+      "dark-angels": {
+        "dutiful-defenders-the-vengeful-brethren": "combat-patrol",
+        "supreme-combatant-the-vengeful-brethren": "combat-patrol"
+      },
+      "death-guard": {
+        "bountiful-regeneration-maggot-lords": "combat-patrol",
+        "noisome-veil-maggot-lords": "combat-patrol"
+      },
+      "drukhari": {
+        "superior-soulcraft-coven-of-agonies": "combat-patrol",
+        "toxin-laced-blades-coven-of-agonies": "combat-patrol"
+      },
+      "emperors-children": {
+        "invigorating-agonies-callous-blades": "combat-patrol",
+        "martial-perfection-callous-blades": "combat-patrol"
+      },
+      "genestealer-cults": {
+        "heavy-munitions-claw-of-ascension": "combat-patrol",
+        "practiced-eye-claw-of-ascension": "combat-patrol"
+      },
+      "grey-knights": {
+        "purifying-force-crowes-sanctifiers": "combat-patrol",
+        "sanctified-auspexes-crowes-sanctifiers": "combat-patrol"
+      },
+      "leagues-of-votann": {
+        "brokhyr-barrage-bane-slayers-bulwark": "combat-patrol",
+        "indomitable-exemplar-bane-slayers-bulwark": "combat-patrol"
+      },
+      "necrons": {
+        "metalline-might-amonhotekhs-guard": "combat-patrol",
+        "unblemished-legions-amonhotekhs-guard": "combat-patrol"
+      },
+      "orks": {
+        "rallying-war-cry-ardmob": "combat-patrol"
+      },
+      "space-wolves": {
+        "aggressive-response-askars-wolfpack": "combat-patrol",
+        "lone-hunter-askars-wolfpack": "combat-patrol"
+      },
+      "tau-empire": {
+        "earth-caste-modifications-sudden-dawn-cadre": "combat-patrol",
+        "proximity-scanners-sudden-dawn-cadre": "combat-patrol"
+      },
+      "thousand-sons": {
+        "foresight-of-the-changer-prism-of-zadophon": "combat-patrol",
+        "warp-tainted-shells-prism-of-zadophon": "combat-patrol"
+      },
+      "tyranids": {
+        "adapted-organism-the-vardenghast-swarm": "combat-patrol",
+        "psychoclastic-overload-the-vardenghast-swarm": "combat-patrol"
+      },
+      "world-eaters": {
+        "bane-of-the-craven-frenzied-reavers": "combat-patrol",
+        "fearsome-presence-frenzied-reavers": "combat-patrol"
+      }
+    },
+    "stratagems": {
+      "adepta-sororitas": {
+        "fervent-devotion-sanctuary-guardians": "combat-patrol",
+        "fires-of-damnation-sanctuary-guardians": "combat-patrol",
+        "take-cover-sanctuary-guardians": "combat-patrol"
+      },
+      "adeptus-astartes": {
+        "decapitating-strike-assault-force": "combat-patrol",
+        "relentless-aggression-assault-force": "combat-patrol",
+        "terrifying-charge-assault-force": "combat-patrol"
+      },
+      "adeptus-custodes": {
+        "gilded-spear-tristraens-gilded-blades": "combat-patrol",
+        "inevitable-wrath-tristraens-gilded-blades": "combat-patrol",
+        "never-outmatched-tristraens-gilded-blades": "combat-patrol"
+      },
+      "adeptus-mechanicus": {
+        "lockdown-protocols-purge-corps-deltic-9": "combat-patrol",
+        "optimised-targeting-purge-corps-deltic-9": "combat-patrol",
+        "preservation-imperatives-purge-corps-deltic-9": "combat-patrol"
+      },
+      "aeldari": {
+        "fading-fusillade-kygharils-protectors": "combat-patrol",
+        "focused-strikes-kygharils-protectors": "combat-patrol",
+        "suppressing-storm-kygharils-protectors": "combat-patrol"
+      },
+      "agents-of-the-imperium": {
+        "inquisitorial-mandate-inquisitors-hand": "combat-patrol",
+        "superior-weaponry-inquisitors-hand": "combat-patrol",
+        "urban-enforcers-inquisitors-hand": "combat-patrol"
+      },
+      "astra-militarum": {
+        "first-wave-draydens-lance": "combat-patrol",
+        "focus-attacks-draydens-lance": "combat-patrol",
+        "veteran-skirmishers-draydens-lance": "combat-patrol"
+      },
+      "black-templars": {
+        "blessed-aura-vow-sworn-of-vedrenn": "combat-patrol",
+        "come-to-their-aid-vow-sworn-of-vedrenn": "combat-patrol",
+        "heavy-strikes-vow-sworn-of-vedrenn": "combat-patrol"
+      },
+      "blood-angels": {
+        "angelic-terror-sanguinary-spearhead": "combat-patrol",
+        "dauntless-bravery-sanguinary-spearhead": "combat-patrol",
+        "show-no-mercy-sanguinary-spearhead": "combat-patrol"
+      },
+      "chaos-space-marines": {
+        "alert-to-danger-zarkans-daemonkin": "combat-patrol",
+        "daemonic-frenzy-zarkans-daemonkin": "combat-patrol",
+        "vindictive-strategy-zarkans-daemonkin": "combat-patrol"
+      },
+      "dark-angels": {
+        "determined-to-the-last-the-vengeful-brethren": "combat-patrol",
+        "for-the-lion-the-vengeful-brethren": "combat-patrol",
+        "mission-focus-the-vengeful-brethren": "combat-patrol"
+      },
+      "death-guard": {
+        "inexorable-executioners-maggot-lords": "combat-patrol",
+        "sickening-horror-maggot-lords": "combat-patrol",
+        "vomitous-salvoes-maggot-lords": "combat-patrol"
+      },
+      "drukhari": {
+        "agonising-onslaught-coven-of-agonies": "combat-patrol",
+        "hardened-physiology-coven-of-agonies": "combat-patrol",
+        "powerful-creations-coven-of-agonies": "combat-patrol"
+      },
+      "emperors-children": {
+        "duellists-death-callous-blades": "combat-patrol",
+        "profane-desecration-callous-blades": "combat-patrol",
+        "shatter-strike-callous-blades": "combat-patrol"
+      },
+      "genestealer-cults": {
+        "cult-zealotry-claw-of-ascension": "combat-patrol",
+        "dedicated-to-the-end-claw-of-ascension": "combat-patrol",
+        "guerrilla-warriors-claw-of-ascension": "combat-patrol"
+      },
+      "grey-knights": {
+        "exigent-assignments-crowes-sanctifiers": "combat-patrol",
+        "psi-reactive-ammunition-crowes-sanctifiers": "combat-patrol",
+        "refusal-to-yield-crowes-sanctifiers": "combat-patrol"
+      },
+      "leagues-of-votann": {
+        "claimed-for-the-kindred-bane-slayers-bulwark": "combat-patrol",
+        "opportune-advance-bane-slayers-bulwark": "combat-patrol",
+        "point-blank-fusillade-bane-slayers-bulwark": "combat-patrol"
+      },
+      "necrons": {
+        "aggression-protocols-amonhotekhs-guard": "combat-patrol",
+        "gauss-storm-amonhotekhs-guard": "combat-patrol",
+        "reinforced-resilience-amonhotekhs-guard": "combat-patrol"
+      },
+      "orks": {
+        "get-stuck-in-ardmob": "combat-patrol",
+        "krump-em-ardmob": "combat-patrol",
+        "medi-squigs-ardmob": "combat-patrol"
+      },
+      "space-wolves": {
+        "bestial-dominance-askars-wolfpack": "combat-patrol",
+        "born-hunters-askars-wolfpack": "combat-patrol",
+        "bring-it-down-askars-wolfpack": "combat-patrol"
+      },
+      "tau-empire": {
+        "rapid-acquisition-sudden-dawn-cadre": "combat-patrol",
+        "suppressing-fire-sudden-dawn-cadre": "combat-patrol",
+        "swift-embarkation-sudden-dawn-cadre": "combat-patrol"
+      },
+      "thousand-sons": {
+        "embroiling-energies-prism-of-zadophon": "combat-patrol",
+        "spell-warded-armour-prism-of-zadophon": "combat-patrol",
+        "twist-of-fate-prism-of-zadophon": "combat-patrol"
+      },
+      "tyranids": {
+        "brute-speed-the-vardenghast-swarm": "combat-patrol",
+        "skulking-hunters-the-vardenghast-swarm": "combat-patrol",
+        "swarm-marked-the-vardenghast-swarm": "combat-patrol"
+      },
+      "world-eaters": {
+        "berserk-resilience-frenzied-reavers": "combat-patrol",
+        "horrifying-butchery-frenzied-reavers": "combat-patrol",
+        "rabid-response-frenzied-reavers": "combat-patrol"
+      }
+    },
+    "unit_compositions": {
+      "world-eaters": {
+        "frenzied-reavers-jakhals": "combat-patrol",
+        "frenzied-reavers-khorne-berzerkers": "combat-patrol",
+        "frenzied-reavers-master-of-executions": "combat-patrol",
+        "vorrakh-lord-of-the-frenzied-reavers": "combat-patrol"
+      }
+    },
+    "units": {
+      "adepta-sororitas": {
+        "sanctuary-canoness-adalya": "combat-patrol",
+        "sanctuary-guardians-arco-flagellants": "combat-patrol",
+        "sanctuary-guardians-battle-sisters-squad": "combat-patrol",
+        "sanctuary-guardians-celestian-sacresants": "combat-patrol"
+      },
+      "adeptus-astartes": {
+        "assault-force-captain": "combat-patrol",
+        "assault-force-intercessor-squad": "combat-patrol",
+        "assault-force-land-speeder": "combat-patrol",
+        "assault-force-librarian": "combat-patrol",
+        "assault-force-vanguard-veteran-squad-with-jump-packs": "combat-patrol"
+      },
+      "adeptus-custodes": {
+        "gilded-blades-allarus-custodians": "combat-patrol",
+        "gilded-blades-custodian-guard": "combat-patrol",
+        "gilded-blades-custodian-wardens": "combat-patrol",
+        "tristraen-of-the-gilded-blades": "combat-patrol"
+      },
+      "adeptus-mechanicus": {
+        "manipulus-skand": "combat-patrol",
+        "purge-corps-pteraxii-sterylizors": "combat-patrol",
+        "purge-corps-serberys-sulphurhounds": "combat-patrol",
+        "purge-corps-skitarii-vanguard": "combat-patrol"
+      },
+      "aeldari": {
+        "kygharils-protectors-dire-avengers": "combat-patrol",
+        "kygharils-protectors-warp-spiders": "combat-patrol",
+        "kygharils-protectors-wraithblades": "combat-patrol",
+        "spiritseer-kygharil": "combat-patrol"
+      },
+      "agents-of-the-imperium": {
+        "inquisitors-hand-eversor-assassin": "combat-patrol",
+        "inquisitors-hand-inquisitorial-agents": "combat-patrol",
+        "inquisitors-hand-vigilant-squad": "combat-patrol",
+        "preacher-teguen": "combat-patrol"
+      },
+      "astra-militarum": {
+        "draydens-lance-attilan-rough-riders": "combat-patrol",
+        "draydens-lance-command-squad": "combat-patrol",
+        "draydens-lance-kasrkin": "combat-patrol"
+      },
+      "black-templars": {
+        "emperors-champion-vedrenn": "combat-patrol",
+        "vow-sworn-bladeguard-veteran-squad": "combat-patrol",
+        "vow-sworn-crusader-squad": "combat-patrol",
+        "vow-sworn-sword-brethren-squad": "combat-patrol"
+      },
+      "blood-angels": {
+        "captain-raldeo": "combat-patrol",
+        "sanguinary-spearhead-assault-intercessor-squad": "combat-patrol",
+        "sanguinary-spearhead-sanguinary-guard": "combat-patrol"
+      },
+      "chaos-space-marines": {
+        "aranis-zarkan": "combat-patrol",
+        "zarkans-daemonkin-cultist-mob": "combat-patrol",
+        "zarkans-daemonkin-legionaries": "combat-patrol",
+        "zarkans-daemonkin-possessed": "combat-patrol"
+      },
+      "dark-angels": {
+        "master-zacharial": "combat-patrol",
+        "vengeful-brethren-bladeguard-veteran-squad": "combat-patrol",
+        "vengeful-brethren-hellblaster-squad": "combat-patrol",
+        "vengeful-brethren-intercessor-squad": "combat-patrol"
+      },
+      "death-guard": {
+        "maggot-lords-chaos-rhino": "combat-patrol",
+        "maggot-lords-deathshroud-terminators": "combat-patrol",
+        "maggot-lords-plague-marines": "combat-patrol",
+        "septimol-fulg-maggot-lords-tallyman": "combat-patrol",
+        "sholgor-the-putrid": "combat-patrol"
+      },
+      "drukhari": {
+        "coven-of-agonies-cronos": "combat-patrol",
+        "coven-of-agonies-talos": "combat-patrol",
+        "coven-of-agonies-wracks": "combat-patrol",
+        "xatrophos-nuul": "combat-patrol"
+      },
+      "emperors-children": {
+        "callous-blades-flawless-blades": "combat-patrol",
+        "callous-blades-infractors": "combat-patrol",
+        "lord-kaphrael-of-the-callous-blades": "combat-patrol"
+      },
+      "genestealer-cults": {
+        "claw-of-ascension-achilles-ridgerunner": "combat-patrol",
+        "claw-of-ascension-atalan-jackals": "combat-patrol",
+        "claw-of-ascension-hybrid-metamorphs": "combat-patrol",
+        "shanus-daskovian": "combat-patrol"
+      },
+      "grey-knights": {
+        "crowes-sanctifiers-brotherhood-terminator-squad": "combat-patrol",
+        "crowes-sanctifiers-strike-squad": "combat-patrol",
+        "crowes-sanctifiers-venerable-dreadnought": "combat-patrol",
+        "sanctifiers-castellan-crowe": "combat-patrol"
+      },
+      "leagues-of-votann": {
+        "bane-slayers-bulwark-brokhyr-thunderkyn": "combat-patrol",
+        "bane-slayers-bulwark-einhyr-hearthguard": "combat-patrol",
+        "bane-slayers-bulwark-hearthkyn-warriors": "combat-patrol",
+        "vynn-bane-slayer": "combat-patrol"
+      },
+      "necrons": {
+        "amonhotekhs-guard-canoptek-doomstalker": "combat-patrol",
+        "amonhotekhs-guard-canoptek-scarab-swarms": "combat-patrol",
+        "amonhotekhs-guard-necron-warriors": "combat-patrol",
+        "amonhotekhs-guard-skorpekh-destroyers": "combat-patrol",
+        "overlord-amonhotekh": "combat-patrol"
+      },
+      "orks": {
+        "ardmob-boyz": "combat-patrol",
+        "ardmob-gretchin": "combat-patrol",
+        "ardmob-warboss": "combat-patrol",
+        "ardmob-wartrakk": "combat-patrol",
+        "ardmob-weirdboy": "combat-patrol"
+      },
+      "space-wolves": {
+        "askars-wolfpack-blood-claws": "combat-patrol",
+        "askars-wolfpack-wolf-guard-terminators": "combat-patrol",
+        "askars-wolfpack-wulfen": "combat-patrol",
+        "fyrri-askar": "combat-patrol"
+      },
+      "tau-empire": {
+        "commander-cloudspear": "combat-patrol",
+        "sudden-dawn-cadre-breacher-team": "combat-patrol",
+        "sudden-dawn-cadre-devilfish": "combat-patrol",
+        "sudden-dawn-cadre-pathfinder-team": "combat-patrol"
+      },
+      "thousand-sons": {
+        "kaaskrek": "combat-patrol",
+        "prism-of-zadophon-rubric-marines": "combat-patrol",
+        "prism-of-zadophon-tzaangor-enlightened": "combat-patrol",
+        "zadophon-the-soul-eater": "combat-patrol"
+      },
+      "tyranids": {
+        "terror-of-vardenghast": "combat-patrol",
+        "vardenghast-swarm-barbgaunts": "combat-patrol",
+        "vardenghast-swarm-psychophage": "combat-patrol",
+        "vardenghast-swarm-termagants": "combat-patrol",
+        "vardenghast-swarm-von-ryans-leapers": "combat-patrol"
+      },
+      "world-eaters": {
+        "frenzied-reavers-jakhals": "combat-patrol",
+        "frenzied-reavers-khorne-berzerkers": "combat-patrol",
+        "frenzied-reavers-master-of-executions": "combat-patrol",
+        "vorrakh-lord-of-the-frenzied-reavers": "combat-patrol"
+      }
+    }
+  }
 }

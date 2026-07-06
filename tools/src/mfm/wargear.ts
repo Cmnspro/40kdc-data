@@ -45,6 +45,7 @@ import {
   type UnitCompositionRow,
   type UnitCompositionMiniatureRow,
 } from "./loader.js";
+import { type GoldenMode, modeOfPublication, mergeMode } from "./game-mode.js";
 import { repoDirForFactionName, repoDirs, FACTION_ALIASES, SHARED_ROSTERS } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
@@ -1381,21 +1382,23 @@ export function forEachDirDatasheet(dump: MfmDump, cb: (ctx: DirDatasheetCtx) =>
 
 /** dir → unit-ids the dump grants ≥1 wargear option (the golden's `wargear_options`
  *  category — catches a repo unit missing its loadout options entirely). */
-export function wargearOptionInventory(dump: MfmDump): Map<string, Set<string>> {
-  const out = new Map<string, Set<string>>();
+export function wargearOptionInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
   forEachDirDatasheet(dump, ({ dir, ds, unitId, resolve }) => {
     if (deriveWargear(dump, ds.id!, resolve).options.length === 0) return;
-    (out.get(dir) ?? out.set(dir, new Set<string>()).get(dir)!).add(unitId);
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    m.set(unitId, mergeMode(m.get(unitId), modeOfPublication(dump, ds.publicationId)));
   });
   return out;
 }
 
 /** dir → unit-ids the dump has a datasheet for (the golden's `unit_compositions`
  *  category — catches a repo unit with no `unit-compositions.json` row). */
-export function compositionInventory(dump: MfmDump): Map<string, Set<string>> {
-  const out = new Map<string, Set<string>>();
-  forEachDirDatasheet(dump, ({ dir, unitId }) => {
-    (out.get(dir) ?? out.set(dir, new Set<string>()).get(dir)!).add(unitId);
+export function compositionInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
+  forEachDirDatasheet(dump, ({ dir, ds, unitId }) => {
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    m.set(unitId, mergeMode(m.get(unitId), modeOfPublication(dump, ds.publicationId)));
   });
   return out;
 }
@@ -1405,20 +1408,24 @@ export function compositionInventory(dump: MfmDump): Map<string, Set<string>> {
  *  `nameToId` slug for each UNRESOLVED dump weapon — the genuinely-missing ids that
  *  land in `mfm-gaps.json` until authored. The only signal that catches a dump
  *  weapon the repo never references. */
-export function weaponInventory(dump: MfmDump): Map<string, Set<string>> {
-  const out = new Map<string, Set<string>>();
+export function weaponInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
   forEachDirDatasheet(dump, ({ dir, ds, resolve }) => {
     const dw = deriveWargear(dump, ds.id!, resolve);
-    const set = out.get(dir) ?? out.set(dir, new Set<string>()).get(dir)!;
-    for (const ids of dw.defaultsByModel.values()) for (const id of ids) set.add(id);
+    const mode = modeOfPublication(dump, ds.publicationId);
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    const add = (id: string): void => {
+      m.set(id, mergeMode(m.get(id), mode));
+    };
+    for (const ids of dw.defaultsByModel.values()) for (const id of ids) add(id);
     for (const o of dw.options) {
-      for (const id of o.replaces ?? []) set.add(id);
-      for (const id of o.replacement ?? []) set.add(id);
-      for (const g of o.replacement_choice ?? []) for (const id of g) set.add(id);
+      for (const id of o.replaces ?? []) add(id);
+      for (const id of o.replacement ?? []) add(id);
+      for (const g of o.replacement_choice ?? []) for (const id of g) add(id);
     }
     for (const u of dw.unresolved) {
       try {
-        set.add(nameToId(u.name));
+        add(nameToId(u.name));
       } catch {
         /* unsluggable — skip */
       }

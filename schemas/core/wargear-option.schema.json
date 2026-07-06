@@ -60,7 +60,11 @@
         { "type": "null" }
       ]
     },
-    "game_version": { "$ref": "../defs/game-version-ref.schema.json" }
+    "game_version": { "$ref": "../defs/game-version-ref.schema.json" },
+    "game_modes": {
+      "$ref": "../defs/common.schema.json#/$defs/game-modes",
+      "description": "Game modes this wargear option is legal or authored for; absent implies matched-play."
+    }
   },
   "required": ["id", "unit_id", "faction_id", "game_version"],
   "additionalProperties": false,

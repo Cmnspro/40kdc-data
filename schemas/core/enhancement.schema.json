@@ -39,7 +39,11 @@
       ]
     },
     "is_unique": { "type": "boolean", "default": true },
-    "game_version": { "$ref": "../defs/game-version-ref.schema.json" }
+    "game_version": { "$ref": "../defs/game-version-ref.schema.json" },
+    "game_modes": {
+      "$ref": "../defs/common.schema.json#/$defs/game-modes",
+      "description": "Game modes this enhancement is legal or authored for; absent implies matched-play."
+    }
   },
   "required": ["id", "name", "detachment_id", "cost", "game_version"],
   "additionalProperties": false

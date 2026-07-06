@@ -174,18 +174,20 @@ describe("buildSeedUnit", () => {
 
 // Integration over the real dump — only when _private/dump.json is present
 // (it is gitignored, so CI without it skips this). Guards the committed end-state:
-// the 21 matched-play units are seeded, the 98 Combat-Patrol-only units stay held
+// the matched-play units are seeded and the Combat-Patrol-only units stay held
 // back, and a re-run is idempotent. (Count assertions are steady-state, not deltas,
-// so they hold after the seed has been committed.)
+// so they hold after the seed has been committed.) The count is 94, not 98: the
+// World Eaters "Frenzied Reavers" Combat Patrol (4 units) is authored in the repo
+// as the game_modes-axis pilot, so those 4 are matched, not held back.
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("runSeedUnits over the real dump", () => {
-  it("holds back exactly 98 Combat-Patrol-only units, never skips, and is idempotent once seeded", () => {
+  it("holds back exactly 94 Combat-Patrol-only units, never skips, and is idempotent once seeded", () => {
     const r = runSeedUnits(loadDump());
     const created = r.dirs.reduce((a, d) => a + d.created.length, 0);
     const cpExcluded = r.dirs.reduce((a, d) => a + d.cpExcluded.length, 0);
     const skipped = r.dirs.reduce((a, d) => a + d.skipped.length, 0);
-    // The 98 CP-only units are never in the matched-play repo, so they are always
-    // held back. Nothing is unusable. created is 0 once the 21 are committed.
-    expect({ created, cpExcluded, skipped }).toEqual({ created: 0, cpExcluded: 98, skipped: 0 });
+    // The Combat-Patrol-only units without an authored repo entity are held back;
+    // nothing is unusable. created is 0 once the seeded units are committed.
+    expect({ created, cpExcluded, skipped }).toEqual({ created: 0, cpExcluded: 94, skipped: 0 });
   });
 
   it("routes SM-chapter dirs to their adeptus-astartes parent", () => {

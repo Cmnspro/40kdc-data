@@ -66,6 +66,11 @@ import { runAllies, buildAlliesReport } from "./mfm/allies.js";
 import { runWeaponVariants, buildWeaponVariantsReport } from "./mfm/weapon-variants.js";
 import { applyWrites, type StagedWrite } from "./mfm/apply.js";
 import { writeGolden } from "./mfm/golden.js";
+import {
+  type GoldenMode,
+  mergeMode,
+  modeOfPublication,
+} from "./mfm/game-mode.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
@@ -126,95 +131,125 @@ function slug(name: string | undefined): string | null {
 // Keeping both on ONE derivation is what stops the golden from drifting away from
 // the ids ingest actually matches against the repo.
 
-/** dir → (unit repo-id → dump display name), over live (non-Legends) datasheets. */
-function unitIdsByDir(dump: MfmDump): Map<string, Map<string, string>> {
+/** A dump entity's display label plus its game mode, carried together so the
+ *  golden's id derivation and its mode classification come from one pass and can
+ *  never drift apart. */
+interface DumpEntry {
+  name: string;
+  mode: GoldenMode;
+}
+
+/** dir → (unit repo-id → {name, mode}), over live (non-Legends) datasheets. */
+function unitIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const live = dump.table<DatasheetRow>("datasheet").filter((d) => !d.isLegends);
   const byDir = bucketByDir(live, (d) => dump.factionKeywordOfDatasheet(d.id!), dump);
-  const out = new Map<string, Map<string, string>>();
+  const out = new Map<string, Map<string, DumpEntry>>();
   for (const [dir, rows] of byDir) {
-    const m = new Map<string, string>();
+    const m = new Map<string, DumpEntry>();
     for (const ds of rows) {
       const n = dump.enName(ds);
       if (!n) continue;
+      let id: string;
       try {
-        m.set(nameToId(n), n);
+        id = nameToId(n);
       } catch {
-        /* unsluggable name — skip */
+        continue; // unsluggable name — skip
       }
+      const prev = m.get(id);
+      m.set(id, {
+        name: prev?.name ?? n,
+        mode: mergeMode(prev?.mode, modeOfPublication(dump, ds.publicationId)),
+      });
     }
     out.set(dir, m);
   }
   return out;
 }
 
-/** dir → (detachment repo-id → dump display name). */
-function detIdsByDir(dump: MfmDump): Map<string, Map<string, string>> {
+/** dir → (detachment repo-id → {name, mode}). */
+function detIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const byDir = bucketByDir(
     dump.table<DetachmentRow>("detachment"),
     (d) => dump.factionKeywordOfDetachment(d.id!),
     dump
   );
-  const out = new Map<string, Map<string, string>>();
+  const out = new Map<string, Map<string, DumpEntry>>();
   for (const [dir, rows] of byDir) {
-    const m = new Map<string, string>();
+    const m = new Map<string, DumpEntry>();
     for (const det of rows) {
       const n = dump.enName(det);
       if (!n) continue;
+      let id: string;
       try {
-        m.set(nameToId(n), n);
+        id = nameToId(n);
       } catch {
-        /* skip */
+        continue; // skip
       }
+      const prev = m.get(id);
+      m.set(id, {
+        name: prev?.name ?? n,
+        mode: mergeMode(prev?.mode, det.isCombatPatrol ? "combat-patrol" : "matched-play"),
+      });
     }
     out.set(dir, m);
   }
   return out;
 }
 
-/** dir → (enhancement repo-id → "enh / detachment" label). */
-function enhIdsByDir(dump: MfmDump): Map<string, Map<string, string>> {
+/** dir → (enhancement repo-id → {"enh / detachment" label, mode}). */
+function enhIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const byDir = bucketByDir(
     dump.table<EnhancementRow>("enhancement"),
     (e) => dump.factionKeywordOfDetachment(e.detachmentId),
     dump
   );
-  const out = new Map<string, Map<string, string>>();
+  const out = new Map<string, Map<string, DumpEntry>>();
   for (const [dir, rows] of byDir) {
-    const m = new Map<string, string>();
+    const m = new Map<string, DumpEntry>();
     for (const enh of rows) {
       const en = dump.enName(enh);
-      const det = dump.byId<DetachmentRow>("detachment").get((enh as EnhancementRow).detachmentId);
+      const det = dump.byId<DetachmentRow>("detachment").get(enh.detachmentId);
       const dn = dump.enName(det);
       if (!en || !dn) continue;
+      let id: string;
       try {
-        m.set(detachmentScopedId(en, dn), `${en} / ${dn}`);
+        id = detachmentScopedId(en, dn);
       } catch {
-        /* skip */
+        continue; // skip
       }
+      const prev = m.get(id);
+      m.set(id, {
+        name: prev?.name ?? `${en} / ${dn}`,
+        mode: mergeMode(prev?.mode, enh.isCombatPatrol ? "combat-patrol" : "matched-play"),
+      });
     }
     out.set(dir, m);
   }
   return out;
 }
 
-/** Set view of an id→name inventory (drops display names; keeps insertion order). */
-function setView(m: Map<string, Map<string, string>>): Map<string, Set<string>> {
-  const out = new Map<string, Set<string>>();
-  for (const [dir, inner] of m) out.set(dir, new Set(inner.keys()));
+/** dir → (id → game mode) view of an id→entry inventory (drops display names). */
+function modeView(m: Map<string, Map<string, DumpEntry>>): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
+  for (const [dir, inner] of m) {
+    const mm = new Map<string, GoldenMode>();
+    for (const [id, entry] of inner) mm.set(id, entry.mode);
+    out.set(dir, mm);
+  }
   return out;
 }
 
-/** dir → set of dump-derived unit repo-ids (the golden's `units` category). */
-export function unitInventory(dump: MfmDump): Map<string, Set<string>> {
-  return setView(unitIdsByDir(dump));
+/** dir → (dump-derived unit repo-id → game mode) — the golden's `units` category. */
+export function unitInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  return modeView(unitIdsByDir(dump));
 }
-/** dir → set of dump-derived detachment repo-ids (the golden's `detachments` category). */
-export function detachmentInventory(dump: MfmDump): Map<string, Set<string>> {
-  return setView(detIdsByDir(dump));
+/** dir → (dump-derived detachment repo-id → game mode) — the golden's `detachments` category. */
+export function detachmentInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  return modeView(detIdsByDir(dump));
 }
-/** dir → set of dump-derived enhancement repo-ids (the golden's `enhancements` category). */
-export function enhancementInventory(dump: MfmDump): Map<string, Set<string>> {
-  return setView(enhIdsByDir(dump));
+/** dir → (dump-derived enhancement repo-id → game mode) — the golden's `enhancements` category. */
+export function enhancementInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  return modeView(enhIdsByDir(dump));
 }
 
 function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
@@ -261,7 +296,7 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
   const enhsByDir = enhIdsByDir(dump);
   const dirs: DirCoverage[] = [];
   for (const dir of [...repoDirs()].sort()) {
-    const dumpUnitIds = unitsByDir.get(dir) ?? new Map<string, string>();
+    const dumpUnitIds = unitsByDir.get(dir) ?? new Map<string, DumpEntry>();
     const repoUnitIds = repoIds(dir, "units.json");
     const shared = SHARED_ROSTERS[dir] ?? [];
     const sharedIds = new Set(shared.flatMap((p) => [...repoIds(p, "units.json")]));
@@ -269,32 +304,32 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
     const unitsNew: string[] = [];
     let unitsMatched = 0;
     let unitsSharedSkipped = 0;
-    for (const [id, name] of dumpUnitIds) {
+    for (const [id, entry] of dumpUnitIds) {
       if (repoUnitIds.has(id)) unitsMatched++;
       else if (sharedIds.has(id)) unitsSharedSkipped++;
-      else unitsNew.push(`${name} (${id})`);
+      else unitsNew.push(`${entry.name} (${id})`);
     }
     const unitsRepoOnly = [...repoUnitIds].filter((id) => !globalUnitIds.has(id)).sort();
 
     // detachments
-    const dumpDetIds = detsByDir.get(dir) ?? new Map<string, string>();
+    const dumpDetIds = detsByDir.get(dir) ?? new Map<string, DumpEntry>();
     const repoDetIds = repoIds(dir, "detachments.json");
     const detNew: string[] = [];
     let detMatched = 0;
-    for (const [id, name] of dumpDetIds) {
+    for (const [id, entry] of dumpDetIds) {
       if (repoDetIds.has(id)) detMatched++;
-      else detNew.push(`${name} (${id})`);
+      else detNew.push(`${entry.name} (${id})`);
     }
     const detRepoOnly = [...repoDetIds].filter((id) => !globalDetIds.has(id)).sort();
 
     // enhancements — id is detachmentScopedId(enhName, detName)
-    const dumpEnhIds = enhsByDir.get(dir) ?? new Map<string, string>();
+    const dumpEnhIds = enhsByDir.get(dir) ?? new Map<string, DumpEntry>();
     const repoEnhIds = repoIds(dir, "enhancements.json");
     const enhNew: string[] = [];
     let enhMatched = 0;
-    for (const [id, label] of dumpEnhIds) {
+    for (const [id, entry] of dumpEnhIds) {
       if (repoEnhIds.has(id)) enhMatched++;
-      else enhNew.push(`${label} (${id})`);
+      else enhNew.push(`${entry.name} (${id})`);
     }
     const enhRepoOnly = [...repoEnhIds].filter((id) => !globalEnhIds.has(id)).sort();
 

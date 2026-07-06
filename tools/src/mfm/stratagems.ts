@@ -30,6 +30,7 @@ import { nameToId, detachmentScopedId } from "../converters/id-generator.js";
 import { MfmDump, REPO_ROOT, type DetachmentRow, type StratagemRow } from "./loader.js";
 import { repoDirs, repoDirForFactionName } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
+import { type GoldenMode, modeOfPublication, mergeMode } from "./game-mode.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 
@@ -127,8 +128,8 @@ export function buildStratCanon(dump: MfmDump): Map<string, Canon> {
  *  Routed by the stratagem's detachment faction. The coreless stratagems (no
  *  detachmentId) live in the shared root store, so they are covered by the repo-id
  *  reader's root∪dir union rather than carried per-dir here. */
-export function stratagemInventory(dump: MfmDump): Map<string, string[]> {
-  const out = new Map<string, string[]>();
+export function stratagemInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
   for (const s of dump.table<StratagemRow>("stratagem")) {
     if (!s.detachmentId) continue;
     const id = stratagemRepoId(dump, s);
@@ -137,7 +138,8 @@ export function stratagemInventory(dump: MfmDump): Map<string, string[]> {
     const fkName = fkId ? dump.enName(dump.byId("faction_keyword").get(fkId)) : undefined;
     const dir = repoDirForFactionName(fkName);
     if (!dir) continue;
-    (out.get(dir) ?? out.set(dir, []).get(dir)!).push(id);
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    m.set(id, mergeMode(m.get(id), modeOfPublication(dump, s.publicationId)));
   }
   return out;
 }

@@ -38,9 +38,13 @@ import {
 import { repoDirForFactionName, repoDirs, SHARED_ROSTERS } from "./faction-map.js";
 import { deriveDatasheet, cleanTier, type Tier, type AlliedTier } from "./points.js";
 import type { StagedWrite } from "./apply.js";
+import { type GoldenMode, isCombatPatrolPublication } from "./game-mode.js";
 
 const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const CONFIRMED = { edition: "11th", dataslate: "launch" };
+/** Combat-Patrol-only entities carry this so the golden files them on the
+ *  combat-patrol coverage dimension instead of inflating competitive gaps. */
+const COMBAT_PATROL_ONLY: readonly GoldenMode[] = ["combat-patrol"];
 
 interface Profile {
   name?: string;
@@ -64,6 +68,7 @@ interface SeedUnit {
   faction_keywords?: string[];
   model_count: { min: number; max: number };
   game_version: { edition: string; dataslate: string };
+  game_modes?: GoldenMode[];
   is_legend: boolean;
   points_provisional: boolean;
 }
@@ -218,6 +223,9 @@ export function buildSeedUnit(dump: MfmDump, ds: DatasheetRow, dir: string): See
   const faction_keywords = buildFactionKeywords(dump, ds.id!, dir);
   const role = deriveRole(keywords);
   const model_count = buildModelCount(dump, ds.id!);
+  // Combat-Patrol-box datasheets are stamped with the combat-patrol game mode so
+  // they are tracked on the non-competitive coverage dimension, not matched-play.
+  const cp = isCombatPatrolPublication(dump, ds.publicationId);
 
   // Points come straight from the dump (it IS the MFM). deriveDatasheet returns the
   // same native + allied tiers the `points` reconcile subcommand uses; the reconcile
@@ -244,6 +252,7 @@ export function buildSeedUnit(dump: MfmDump, ds: DatasheetRow, dir: string): See
     ...(faction_keywords.length ? { faction_keywords } : {}),
     model_count,
     game_version: { ...CONFIRMED },
+    ...(cp ? { game_modes: [...COMBAT_PATROL_ONLY] } : {}),
     is_legend: false,
     points_provisional: !priced,
   };
