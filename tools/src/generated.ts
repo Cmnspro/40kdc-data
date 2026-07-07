@@ -2185,6 +2185,10 @@ export interface Weapon {
   name: string;
   type: "ranged" | "melee";
   /**
+   * Kebab-case identifier
+   */
+  faction_id?: string;
+  /**
    * @minItems 1
    */
   profiles: [

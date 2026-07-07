@@ -8,6 +8,10 @@
     "id": { "$ref": "../defs/common.schema.json#/$defs/entity-id" },
     "name": { "type": "string", "minLength": 1, "maxLength": 128 },
     "type": { "enum": ["ranged", "melee"] },
+    "faction_id": {
+      "$ref": "../defs/common.schema.json#/$defs/entity-id",
+      "description": "Owning faction, stamped at bundle time from the weapon's data/core/<faction>/ directory. Enables faction-scoped resolution of a unit's weapon_ids so a bare weapon id shared across factions (e.g. 'close-combat-weapon') resolves to the wielder's own faction copy rather than whichever faction bundled first."
+    },
     "profiles": {
       "type": "array",
       "items": {

@@ -18877,6 +18877,10 @@ impl<'de> ::serde::Deserialize<'de> for WargearOptionModelConstraintModelName {
 ///    "type"
 ///  ],
 ///  "properties": {
+///    "faction_id": {
+///      "description": "Owning faction, stamped at bundle time from the weapon's data/core/<faction>/ directory. Enables faction-scoped resolution of a unit's weapon_ids so a bare weapon id shared across factions (e.g. 'close-combat-weapon') resolves to the wielder's own faction copy rather than whichever faction bundled first.",
+///      "$ref": "#/$defs/entity-id"
+///    },
 ///    "game_modes": {
 ///      "description": "Game modes this weapon is legal or authored for; absent implies matched-play.",
 ///      "$ref": "#/$defs/game-modes"
@@ -19020,6 +19024,9 @@ impl<'de> ::serde::Deserialize<'de> for WargearOptionModelConstraintModelName {
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct Weapon {
+    ///Owning faction, stamped at bundle time from the weapon's data/core/<faction>/ directory. Enables faction-scoped resolution of a unit's weapon_ids so a bare weapon id shared across factions (e.g. 'close-combat-weapon') resolves to the wielder's own faction copy rather than whichever faction bundled first.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub faction_id: ::std::option::Option<EntityId>,
     ///Game modes this weapon is legal or authored for; absent implies matched-play.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub game_modes: ::std::option::Option<GameModes>,

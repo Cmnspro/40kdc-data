@@ -149,9 +149,24 @@ fn bundle_data() -> Result<()> {
             std::fs::read_to_string(file).with_context(|| format!("reading {}", file.display()))?;
         let parsed: Value = serde_json::from_str(&raw)
             .with_context(|| format!("parsing {} as JSON", file.display()))?;
-        let Value::Array(items) = parsed else {
+        let Value::Array(mut items) = parsed else {
             bail!("expected a JSON array in {}", file.display());
         };
+        // Stamp each weapon with its owning faction (its data/<sub>/<faction>/
+        // dir) so a unit's weapon_ids resolve within its own faction; a bare id
+        // shared across factions (e.g. "close-combat-weapon") otherwise collapses
+        // to whichever faction bundled first (issue #59). Mirrors the TS bundler.
+        if key == "weapons" {
+            if let Some(faction) = faction_of_path(file) {
+                for item in &mut items {
+                    if let Value::Object(map) = item {
+                        if !map.contains_key("faction_id") {
+                            map.insert("faction_id".to_string(), Value::String(faction.clone()));
+                        }
+                    }
+                }
+            }
+        }
         bundle.get_mut(key).expect("key pre-seeded").extend(items);
     }
 
@@ -206,4 +221,17 @@ fn collect_files(dir: &Path, out: &mut Vec<PathBuf>) -> Result<()> {
         }
     }
     Ok(())
+}
+
+/// The faction a data file belongs to: its parent directory name when the file
+/// sits in `data/<core|enrichment>/<faction>/…`. Returns `None` for a file
+/// directly under `core`/`enrichment` (faction-less), matching the TS bundler.
+fn faction_of_path(file: &Path) -> Option<String> {
+    let parent = file.parent()?;
+    let grand = parent.parent()?.file_name()?.to_str()?;
+    if grand == "core" || grand == "enrichment" {
+        parent.file_name()?.to_str().map(str::to_string)
+    } else {
+        None
+    }
 }

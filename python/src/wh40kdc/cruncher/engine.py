@@ -340,12 +340,12 @@ def _unit_keywords_lower(unit: dict[str, Any]) -> list[str]:
 def _profile_buffs_for(
     attacker: dict[str, Any], dataset: Dataset, ctx: EngineContext
 ) -> list[Buff]:
-    weapon_view = dataset.weapons.get(attacker["weapon"]["id"])
-    if weapon_view is None:
-        # Weapon isn't in the dataset (probably a hand-built test fixture);
-        # fall back to walking its catalog keywords manually.
-        return _manual_weapon_keyword_buffs(attacker, dataset, ctx)
-    return weapon_view.profile_buffs(attacker["profileIndex"], ctx)
+    # Resolve buffs from the attacker's OWN weapon object, never a re-lookup by
+    # id: a bare weapon id shared across factions (close-combat-weapon, power-fist,
+    # …) first-wins-resolves to whichever faction bundled first, so re-resolving
+    # would feed the WRONG faction's profile/keywords into buff math (issue #59).
+    # attacker["weapon"] is authoritative and carries its full profiles.
+    return _manual_weapon_keyword_buffs(attacker, dataset, ctx)
 
 
 def _manual_weapon_keyword_buffs(

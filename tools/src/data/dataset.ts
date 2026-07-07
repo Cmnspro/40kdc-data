@@ -166,7 +166,15 @@ export class Dataset {
     this.weapons = new Collection({
       items: raw.weapons,
       idOf: (w) => w.id,
+      // A bare weapon id is shared across factions with divergent stats (each
+      // faction file defines its own e.g. "close-combat-weapon"); key on
+      // (faction_id, id) so every faction's copy is retained and a unit resolves
+      // its own faction's weapon (issue #59), not whichever bundled first. No
+      // guardUnscoped: get()/getAny stay first-wins for the many catalog/import
+      // callsites that pass an explicit id without faction context.
+      dedupeKeyOf: (w) => `${w.faction_id ?? ""}::${w.id}`,
       nameOf: (w) => w.name,
+      factionOf: (w) => w.faction_id,
       wrap: (w) => new WeaponView(w, this),
     });
     this.weaponKeywords = new Collection({

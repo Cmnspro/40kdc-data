@@ -348,6 +348,39 @@
     }
   },
   {
+    "id": "twin-penitent-flails-penitent-engines",
+    "name": "Twin penitent flails",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Twin penitent flails",
+        "range": "Melee",
+        "stats": {
+          "A": 8,
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "twin-linked"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
     "id": "penitent-buzz-blade",
     "name": "Penitent buzz-blade",
     "type": "melee",

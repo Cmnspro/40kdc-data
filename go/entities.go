@@ -22,7 +22,16 @@ func (u *UnitView) Faction() (*FactionView, bool) {
 }
 
 func (u *UnitView) Weapons() []*WeaponView {
-	return resolveAll(getStrList(u.Raw, "weapon_ids"), u.ds.Weapons.Get)
+	// Resolve within the unit's own faction (a bare id shared across factions
+	// resolves to the wielder's copy — issue #59), falling back to global
+	// first-wins for a genuinely cross-faction id.
+	faction := getStr(u.Raw, "faction_id")
+	return resolveAll(getStrList(u.Raw, "weapon_ids"), func(id string) (*WeaponView, bool) {
+		if w, ok := u.ds.Weapons.GetInFaction(id, faction); ok {
+			return w, true
+		}
+		return u.ds.Weapons.Get(id)
+	})
 }
 
 func (u *UnitView) Abilities() []*AbilityView {

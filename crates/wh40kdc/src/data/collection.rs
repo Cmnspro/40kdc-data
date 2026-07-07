@@ -31,6 +31,9 @@ pub struct Collection<T> {
     by_id: HashMap<String, usize>,
     by_norm: HashMap<String, Vec<usize>>,
     by_faction: HashMap<String, Vec<usize>>,
+    /// Per-faction id index: faction_id → (id → item index). Lets an id shared
+    /// across factions resolve to a specific faction's copy (see `get_in_faction`).
+    by_faction_id: HashMap<String, HashMap<String, usize>>,
     /// Normalized name per item (parallel to `items`), for the substring fallback.
     norm_names: Vec<Option<String>>,
 }
@@ -82,6 +85,7 @@ impl<T> Collection<T> {
         let mut by_id: HashMap<String, usize> = HashMap::new();
         let mut by_norm: HashMap<String, Vec<usize>> = HashMap::new();
         let mut by_faction: HashMap<String, Vec<usize>> = HashMap::new();
+        let mut by_faction_id: HashMap<String, HashMap<String, usize>> = HashMap::new();
         let mut norm_names: Vec<Option<String>> = Vec::with_capacity(items.len());
         let mut seen: std::collections::HashSet<String> = std::collections::HashSet::new();
 
@@ -112,6 +116,11 @@ impl<T> Collection<T> {
 
             if let Some(faction) = faction_of(&item) {
                 by_faction.entry(faction.to_string()).or_default().push(idx);
+                by_faction_id
+                    .entry(faction.to_string())
+                    .or_default()
+                    .entry(id_of(&item))
+                    .or_insert(idx);
             }
 
             kept.push(item);
@@ -122,6 +131,7 @@ impl<T> Collection<T> {
             by_id,
             by_norm,
             by_faction,
+            by_faction_id,
             norm_names,
         }
     }
@@ -144,6 +154,18 @@ impl<T> Collection<T> {
     /// Look up by exact id.
     pub fn get(&self, id: &str) -> Option<&T> {
         self.by_id.get(id).map(|&i| &self.items[i])
+    }
+
+    /// Look up by exact id *within a faction*. Returns the record with `id`
+    /// belonging to `faction_id`, or `None`. Use when an id is shared across
+    /// factions and faction context is known — [`get`](Self::get) returns
+    /// whichever copy registered first, which may be the wrong faction's. Mirror
+    /// of the TS `getInFaction`.
+    pub fn get_in_faction(&self, id: &str, faction_id: &str) -> Option<&T> {
+        self.by_faction_id
+            .get(faction_id)
+            .and_then(|m| m.get(id))
+            .map(|&i| &self.items[i])
     }
 
     /// Whether a record with this exact id exists.

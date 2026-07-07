@@ -676,6 +676,7 @@ class Weapon(TypedDict):
     id: EntityId
     name: str
     type: Literal["ranged", "melee"]
+    faction_id: NotRequired[EntityId]
     profiles: list[Profile1]
     game_version: GameVersionRef
     game_modes: NotRequired[GameModes]

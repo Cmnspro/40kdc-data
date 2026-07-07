@@ -46,9 +46,17 @@ export class UnitView {
     return this.ds.factions.get(this.raw.faction_id);
   }
 
-  /** Weapons referenced by `weapon_ids`; unresolved ids are skipped. */
+  /**
+   * Weapons referenced by `weapon_ids`, resolved within the unit's own faction —
+   * a bare id shared across factions (e.g. `close-combat-weapon`) resolves to the
+   * wielder's own copy (issue #59), falling back to global first-wins only for a
+   * genuinely cross-faction id. Unresolved ids are skipped.
+   */
   get weapons(): WeaponView[] {
-    return resolveAll(this.raw.weapon_ids, (id) => this.ds.weapons.get(id));
+    return resolveAll(
+      this.raw.weapon_ids,
+      (id) => this.ds.weapons.getInFaction(id, this.raw.faction_id) ?? this.ds.weapons.getAny(id),
+    );
   }
 
   /** Abilities referenced by `ability_ids`; unresolved ids are skipped. */

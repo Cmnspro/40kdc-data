@@ -50,8 +50,16 @@ class UnitView:
 
     @property
     def weapons(self) -> list[WeaponView]:
-        """Weapons referenced by ``weapon_ids``; unresolved ids are skipped."""
-        return _resolve_all(self.raw.get("weapon_ids"), self._ds.weapons.get)
+        """Weapons referenced by ``weapon_ids``, resolved within the unit's own
+        faction — a bare id shared across factions (e.g. ``close-combat-weapon``)
+        resolves to the wielder's own copy (issue #59), falling back to global
+        first-wins for a genuinely cross-faction id. Unresolved ids are skipped."""
+        faction_id = self.raw.get("faction_id", "")
+        return _resolve_all(
+            self.raw.get("weapon_ids"),
+            lambda id_: self._ds.weapons.get_in_faction(id_, faction_id)
+            or self._ds.weapons.get(id_),
+        )
 
     @property
     def abilities(self) -> list[AbilityView]:

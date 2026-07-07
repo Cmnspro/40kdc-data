@@ -76,6 +76,14 @@ func NewDataset(raw rawData) *Dataset {
 	}, collectionOpts{
 		idOf:   func(i any) string { return getStr(i.(map[string]any), "id") },
 		nameOf: func(i any) string { return getStr(i.(map[string]any), "name") },
+		// A bare weapon id is shared across factions with divergent stats; key on
+		// (faction_id, id) so every faction's copy is kept and a unit resolves its
+		// own faction's weapon (issue #59), not whichever bundled first.
+		dedupeKeyOf: func(i any) string {
+			m := i.(map[string]any)
+			return getStr(m, "faction_id") + "::" + getStr(m, "id")
+		},
+		factionOf: func(i any) string { return getStr(i.(map[string]any), "faction_id") },
 	})
 	ds.WeaponKeywords = newCollection(raw["weapon_keywords"], func(i any) *WeaponKeywordView {
 		return &WeaponKeywordView{Raw: i.(map[string]any), ds: ds}
