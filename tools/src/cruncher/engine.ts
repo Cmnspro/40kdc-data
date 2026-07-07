@@ -277,20 +277,12 @@ function profileBuffsFor(
   dataset: Dataset,
   ctx: EngineContext,
 ): Buff[] {
-  const weaponView = dataset.weapons.get(attacker.weapon.id);
-  if (!weaponView) {
-    // Weapon isn't in the dataset (probably a hand-built test fixture); fall
-    // back to walking its catalog keywords manually.
-    return manualWeaponKeywordBuffs(attacker, dataset, ctx);
-  }
-  return weaponView.profileBuffs(attacker.profileIndex, ctx);
-}
-
-function manualWeaponKeywordBuffs(
-  attacker: AttackProfileRef,
-  dataset: Dataset,
-  ctx: EngineContext,
-): Buff[] {
+  // Resolve a profile's intrinsic keyword buffs from the attacker's OWN weapon
+  // object — NEVER a dataset.weapons.get(id) re-lookup. A bare weapon id shared
+  // across factions (close-combat-weapon, power-fist, lascannon, …) first-wins-
+  // resolves to whichever faction bundled first, so re-resolving would feed the
+  // WRONG faction's profile/keywords into buff math (issue #59). attacker.weapon
+  // is authoritative and carries its full profiles + keyword references.
   const profile = attacker.weapon.profiles[attacker.profileIndex];
   if (!profile) return [];
   const out: Buff[] = [];

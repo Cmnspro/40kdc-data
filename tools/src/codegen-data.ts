@@ -12,7 +12,7 @@
  * build/test/pack.
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { emptyRawData, type RawData } from "./data/types.js";
@@ -67,7 +67,9 @@ const ID_KEY: Partial<Record<keyof RawData, string>> = {
 /** Recursively collect bundleable `.json` files, skipping excluded dirs/examples. */
 function collectFiles(dir: string): string[] {
   const out: string[] = [];
-  for (const entry of readdirSync(dir)) {
+  // Sort so the bundle order (and thus first-wins for any shared id) is
+  // reproducible across filesystems, not dependent on readdir() enumeration.
+  for (const entry of readdirSync(dir).sort()) {
     if (EXCLUDED_DIRS.has(entry)) continue;
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) {
@@ -85,6 +87,14 @@ function baseName(file: string): string {
   return basename(file, ".json");
 }
 
+/** The faction a data file belongs to: the first path segment under `root`
+ *  (e.g. `.../data/core/necrons/weapons.json` → `necrons`). Undefined when the
+ *  file sits directly in the root (faction-less), so the caller can skip it. */
+function factionOfFile(root: string, file: string): string | undefined {
+  const seg = relative(root, file).split(sep)[0];
+  return seg && !seg.endsWith(".json") ? seg : undefined;
+}
+
 function build(): RawData {
   const data = emptyRawData();
   for (const root of DATA_ROOTS) {
@@ -94,6 +104,19 @@ function build(): RawData {
       const parsed = JSON.parse(readFileSync(file, "utf-8")) as unknown;
       if (!Array.isArray(parsed)) {
         throw new Error(`expected a JSON array in ${file}`);
+      }
+      // Stamp each weapon with its owning faction (its data/core/<faction>/ dir)
+      // so a unit's weapon_ids resolve within its own faction. A bare id shared
+      // across factions (e.g. "close-combat-weapon") otherwise collapses to
+      // whichever faction bundled first — issue #59. Faction-less weapons (none
+      // today) keep no faction_id and fall back to global first-wins.
+      if (collection === "weapons") {
+        const faction = factionOfFile(root, file);
+        if (faction) {
+          for (const w of parsed as Record<string, unknown>[]) {
+            if (w && typeof w === "object" && w.faction_id === undefined) w.faction_id = faction;
+          }
+        }
       }
       (data[collection] as unknown[]).push(...parsed);
     }
@@ -115,6 +138,20 @@ function reportDuplicateIds(data: RawData): void {
     if (dupes.size > 0) {
       console.warn(`  ⚠ ${collection}: ${dupes.size} duplicate ${key}(s), e.g. ${[...dupes].slice(0, 3).join(", ")}`);
     }
+  }
+  // Weapons legitimately share bare ids across factions (each faction file may
+  // define its own "close-combat-weapon"); the resolver disambiguates by
+  // faction. A TRUE duplicate is the same (faction_id, id) pair — an authoring
+  // error, so flag it.
+  const wseen = new Set<string>();
+  const wdupes = new Set<string>();
+  for (const w of data.weapons) {
+    const key = `${w.faction_id ?? ""}::${w.id}`;
+    if (wseen.has(key)) wdupes.add(w.id);
+    else wseen.add(key);
+  }
+  if (wdupes.size > 0) {
+    console.warn(`  ⚠ weapons: ${wdupes.size} duplicate (faction_id,id) pair(s), e.g. ${[...wdupes].slice(0, 3).join(", ")}`);
   }
 }
 

@@ -227,8 +227,18 @@ impl Dataset {
             raw.weapons,
             |w| w.id.to_string(),
             |w| Some(w.name.as_str()),
-            |_| None,
-            |w| w.id.to_string(),
+            // A bare weapon id is shared across factions with divergent stats;
+            // key on (faction_id, id) so every faction's copy is kept and a unit
+            // resolves its own faction's weapon (issue #59), not whichever bundled
+            // first. Mirrors the TS weapons collection.
+            |w| w.faction_id.as_ref().map(|f| f.as_str()),
+            |w| {
+                format!(
+                    "{}::{}",
+                    w.faction_id.as_ref().map(|f| f.as_str()).unwrap_or(""),
+                    w.id.as_str()
+                )
+            },
         );
         let weapon_keywords = id_name_collection(
             raw.weapon_keywords,
@@ -471,11 +481,18 @@ impl Dataset {
             .collect()
     }
 
-    /// Weapons referenced by `weapon_ids`; unresolved ids are skipped.
+    /// Weapons referenced by `weapon_ids`, resolved within the unit's own faction
+    /// (a bare id shared across factions resolves to the wielder's copy — issue
+    /// #59), falling back to global first-wins for a genuinely cross-faction id.
+    /// Unresolved ids are skipped.
     pub fn weapons_of(&self, unit: &Unit) -> Vec<&Weapon> {
         unit.weapon_ids
             .iter()
-            .filter_map(|id| self.weapons.get(id.as_str()))
+            .filter_map(|id| {
+                self.weapons
+                    .get_in_faction(id.as_str(), unit.faction_id.as_str())
+                    .or_else(|| self.weapons.get(id.as_str()))
+            })
             .collect()
     }
 

@@ -80,6 +80,12 @@ class Dataset:
             raw["weapons"],
             id_of=lambda w: w["id"],
             name_of=lambda w: w.get("name"),
+            # A bare weapon id is shared across factions with divergent stats; key
+            # on (faction_id, id) so every faction's copy is kept and a unit
+            # resolves its own faction's weapon (issue #59), not whichever bundled
+            # first.
+            dedupe_key_of=lambda w: f"{w.get('faction_id', '')}::{w['id']}",
+            faction_of=lambda w: w.get("faction_id"),
             wrap=lambda w: WeaponView(w, self),
         )
         self.weapon_keywords: Collection[dict[str, Any], WeaponKeywordView] = Collection(

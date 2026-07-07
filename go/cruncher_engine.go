@@ -34,12 +34,11 @@ func (w *WeaponView) profileBuffs(i int, ctx map[string]any) []any {
 }
 
 func profileBuffsFor(attacker map[string]any, ds *Dataset, ctx map[string]any) []any {
-	weapon, _ := getMap(attacker, "weapon")
-	wv, ok := ds.Weapons.Get(getStr(weapon, "id"))
-	if !ok {
-		return manualWeaponKeywordBuffs(attacker, ds, ctx)
-	}
-	return wv.profileBuffs(asInt(attacker["profileIndex"]), ctx)
+	// Resolve buffs from the attacker's OWN weapon object, never a re-lookup by
+	// id: a bare weapon id shared across factions first-wins-resolves to whichever
+	// faction bundled first, feeding the WRONG faction's keywords into buff math
+	// (issue #59). attacker["weapon"] is authoritative and carries its profiles.
+	return manualWeaponKeywordBuffs(attacker, ds, ctx)
 }
 
 func manualWeaponKeywordBuffs(attacker map[string]any, ds *Dataset, ctx map[string]any) []any {
