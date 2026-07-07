@@ -62,6 +62,7 @@ import {
 } from "./mfm/wargear.js";
 import { runAttachmentRoles, buildAttachmentReport } from "./mfm/attachment.js";
 import { runSeedUnits, buildSeedUnitsReport } from "./mfm/seed-units.js";
+import { runSeedDetachments, buildSeedDetachmentsReport } from "./mfm/seed-detachments.js";
 import { runAllies, buildAlliesReport } from "./mfm/allies.js";
 import { runWeaponVariants, buildWeaponVariantsReport } from "./mfm/weapon-variants.js";
 import { applyWrites, type StagedWrite } from "./mfm/apply.js";
@@ -841,6 +842,30 @@ async function runSeedUnitsCmd(
   }
 }
 
+async function runSeedDetachmentsCmd(
+  dump: MfmDump,
+  write: boolean,
+  onlyDir?: string,
+  includeCombatPatrol = false,
+): Promise<void> {
+  const report = runSeedDetachments(dump, { onlyDir, includeCombatPatrol });
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-seed-detachments.md");
+  fs.writeFileSync(reportPath, buildSeedDetachmentsReport(report, write));
+
+  const dets = report.dirs.reduce((a, d) => a + d.createdDetachments.length, 0);
+  const enhs = report.dirs.reduce((a, d) => a + d.createdEnhancements.length, 0);
+  const cpExcluded = report.dirs.reduce((a, d) => a + d.cpExcluded.length, 0);
+  const skipped = report.dirs.reduce((a, d) => a + d.skipped.length, 0);
+  console.log(`Seed-detachments report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Seed-detachments — created ${dets} detachment(s), ${enhs} enhancement(s), ` +
+      `held back ${cpExcluded} Combat-Patrol, skipped ${skipped} existing.`,
+  );
+  await applyWrites(report.staged, { write, label: "seed-detachments" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runAlliesCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runAllies(dump);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -910,6 +935,7 @@ async function main(): Promise<void> {
     "composition-tiers",
     "attachment-role",
     "seed-units",
+    "seed-detachments",
     "allies",
     "weapon-variants",
   ];
@@ -937,6 +963,8 @@ async function main(): Promise<void> {
   else if (cmd === "attachment-role") await runAttachmentRoleCmd(dump, write, onlyDir);
   else if (cmd === "seed-units")
     await runSeedUnitsCmd(dump, write, onlyDir, includeCombatPatrol);
+  else if (cmd === "seed-detachments")
+    await runSeedDetachmentsCmd(dump, write, onlyDir, includeCombatPatrol);
   else if (cmd === "allies") await runAlliesCmd(dump, write);
   else if (cmd === "weapon-variants") await runWeaponVariantsCmd(dump, write, onlyDir);
 }

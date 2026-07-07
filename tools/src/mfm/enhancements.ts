@@ -64,10 +64,13 @@ function cleanEnhName(name: string): string {
   return name.replace(/\s*\([^)]*\)\s*$/, "").trim();
 }
 
-/** Enhancement repo-id → canon base points cost, from the dump. */
-export function buildEnhCanon(dump: MfmDump): Map<string, number> {
+/** Enhancement repo-id → canon base points cost, from the dump. Combat-Patrol
+ *  enhancements carry a null `basePointsCost` (CP has no enhancement points), so
+ *  the value is `number | null` and callers must not overwrite an authored cost
+ *  with null. */
+export function buildEnhCanon(dump: MfmDump): Map<string, number | null> {
   const detName = dump.byId<DetachmentRow>("detachment");
-  const m = new Map<string, number>();
+  const m = new Map<string, number | null>();
   for (const e of dump.table<EnhancementRow>("enhancement")) {
     const en = dump.enName(e);
     const dn = dump.enName(detName.get(e.detachmentId));
@@ -130,14 +133,20 @@ export function runEnhancements(
       }
       matchedIds.add(e.id);
       res.matched++;
-      if (e.cost !== cost) res.costChanged.push({ id: e.id, from: e.cost, to: cost });
+      // The dump carries no points cost for Combat-Patrol enhancements
+      // (basePointsCost is null; CP has no enhancement points). Leave the authored
+      // cost untouched (0 by convention) rather than overwriting it with null;
+      // still reconcile game mode + confirm below.
+      if (cost !== null) {
+        if (e.cost !== cost) res.costChanged.push({ id: e.id, from: e.cost, to: cost });
+      }
       const needsConfirm =
         e.points_provisional !== false ||
         e.game_version?.dataslate !== CONFIRMED.dataslate ||
         e.game_version?.edition !== CONFIRMED.edition;
       if (needsConfirm) res.confirmed++;
       // Mutate in-memory in BOTH modes; the dry-run rehearsal validates the result.
-      e.cost = cost;
+      if (cost !== null) e.cost = cost;
       e.points_provisional = false;
       if (e.game_version) {
         e.game_version.edition = CONFIRMED.edition;

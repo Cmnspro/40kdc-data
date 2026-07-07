@@ -293,7 +293,7 @@ function unitsPath(dir: string): string {
  * units.json; otherwise its shared-roster parent that does (SM chapters file
  * under adeptus-astartes). Null when no home exists (a unit-less dir).
  */
-function effectiveDir(dir: string): string | null {
+export function effectiveDir(dir: string): string | null {
   if (fs.existsSync(unitsPath(dir))) return dir;
   for (const parent of SHARED_ROSTERS[dir] ?? []) {
     if (fs.existsSync(unitsPath(parent))) return parent;

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "fs";
 import { MfmDump, DEFAULT_DUMP_PATH, REPO_ROOT, loadDump } from "../src/mfm/loader.js";
-import { buildSeedUnit, runSeedUnits } from "../src/mfm/seed-units.js";
+import { buildSeedUnit, runSeedUnits, effectiveDir } from "../src/mfm/seed-units.js";
 
 /**
  * buildSeedUnit is pure over the dump tables (no filesystem), so it runs without
@@ -174,26 +174,27 @@ describe("buildSeedUnit", () => {
 
 // Integration over the real dump — only when _private/dump.json is present
 // (it is gitignored, so CI without it skips this). Guards the committed end-state:
-// the matched-play units are seeded and the Combat-Patrol-only units stay held
-// back, and a re-run is idempotent. (Count assertions are steady-state, not deltas,
-// so they hold after the seed has been committed.) The count is 94, not 98: the
-// World Eaters "Frenzied Reavers" Combat Patrol (4 units) is authored in the repo
-// as the game_modes-axis pilot, so those 4 are matched, not held back.
+// every live dump datasheet — matched-play AND Combat-Patrol — is now authored in
+// the repo (the Combat-Patrol boxes were seeded alongside the game_modes axis), so
+// a plain re-run holds back nothing and creates nothing. (Count assertions are
+// steady-state, not deltas, so they hold after the seed has been committed.)
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("runSeedUnits over the real dump", () => {
-  it("holds back exactly 94 Combat-Patrol-only units, never skips, and is idempotent once seeded", () => {
+  it("creates, holds back, and skips nothing once every datasheet is seeded (idempotent)", () => {
     const r = runSeedUnits(loadDump());
     const created = r.dirs.reduce((a, d) => a + d.created.length, 0);
     const cpExcluded = r.dirs.reduce((a, d) => a + d.cpExcluded.length, 0);
     const skipped = r.dirs.reduce((a, d) => a + d.skipped.length, 0);
-    // The Combat-Patrol-only units without an authored repo entity are held back;
-    // nothing is unusable. created is 0 once the seeded units are committed.
-    expect({ created, cpExcluded, skipped }).toEqual({ created: 0, cpExcluded: 94, skipped: 0 });
+    // Every Combat-Patrol datasheet now has a repo entity, so none is held back;
+    // a re-run over the committed repo is a pure no-op.
+    expect({ created, cpExcluded, skipped }).toEqual({ created: 0, cpExcluded: 0, skipped: 0 });
   });
 
   it("routes SM-chapter dirs to their adeptus-astartes parent", () => {
-    const r = runSeedUnits(loadDump(), { includeCombatPatrol: true });
-    const bt = r.dirs.find((d) => d.dir === "black-templars");
-    expect(bt?.routedTo).toBe("adeptus-astartes");
+    // black-templars has no units.json of its own, so its units (matched-play and
+    // the now-seeded Combat-Patrol boxes alike) live in the shared adeptus-astartes
+    // roster.
+    expect(effectiveDir("black-templars")).toBe("adeptus-astartes");
+    expect(effectiveDir("adeptus-astartes")).toBe("adeptus-astartes");
   });
 
   it("has the 21 matched-play units in the repo, Knight Destrier priced", () => {
