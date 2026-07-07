@@ -45,6 +45,7 @@ import {
   type UnitCompositionRow,
   type UnitCompositionMiniatureRow,
 } from "./loader.js";
+import { type GoldenMode, modeOfPublication, mergeMode } from "./game-mode.js";
 import { repoDirForFactionName, repoDirs, FACTION_ALIASES, SHARED_ROSTERS } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
@@ -278,6 +279,24 @@ export function makeResolver(
     }
     return null;
   };
+}
+
+/** Faction-wide valid weapon-id vocabulary for `dir`: every id in `weapons.json`,
+ *  plus every id already referenced by a unit (`weapon_ids`) or an existing option
+ *  (so a dump weapon missing from `weapons.json` but present as a unit weapon still
+ *  resolves). Shared by {@link runWargear} and {@link forEachDirDatasheet} so the
+ *  golden resolves dump weapon names through the exact vocabulary ingest uses. */
+export function dirValidIds(dir: string, units: UnitRecord[], wopts: WargearOptionRecord[]): Set<string> {
+  const validIds = new Set<string>(
+    readJson<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? "")
+  );
+  for (const u of units) for (const id of u.weapon_ids ?? []) validIds.add(id);
+  for (const o of wopts) {
+    for (const id of o.replaces ?? []) validIds.add(id);
+    for (const id of o.replacement ?? []) validIds.add(id);
+    for (const g of o.replacement_choice ?? []) for (const id of g) validIds.add(id);
+  }
+  return validIds;
 }
 
 /** Multiset difference `a − b` (per-id counts), preserving a's order. */
@@ -1104,7 +1123,6 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
     const upath = path.join(CORE_DIR, dir, "units.json");
     const wpath = path.join(CORE_DIR, dir, "wargear-options.json");
     const cpath = path.join(CORE_DIR, dir, "unit-compositions.json");
-    const weaponsPath = path.join(CORE_DIR, dir, "weapons.json");
     if (!fs.existsSync(upath)) continue;
 
     const units = readJson<UnitRecord>(upath);
@@ -1117,16 +1135,9 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
     for (const c of comps) (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
     const wopts = readJson<WargearOptionRecord>(wpath);
 
-    // Faction-wide valid id vocabulary: every weapon + every id already referenced
-    // by a unit or an existing option (so dump weapons missing from weapons.json
-    // but present as a unit weapon_id still resolve).
-    const validIds = new Set<string>(readJson<{ id?: string }>(weaponsPath).map((w) => w.id ?? ""));
-    for (const u of units) for (const id of u.weapon_ids ?? []) validIds.add(id);
-    for (const o of wopts) {
-      for (const id of o.replaces ?? []) validIds.add(id);
-      for (const id of o.replacement ?? []) validIds.add(id);
-      for (const g of o.replacement_choice ?? []) for (const id of g) validIds.add(id);
-    }
+    // Faction-wide valid id vocabulary (weapons.json ∪ unit/option-referenced ids),
+    // shared with forEachDirDatasheet so the golden resolves names exactly as ingest.
+    const validIds = dirValidIds(dir, units, wopts);
     const autoResolved: AutoResolution[] = [];
     const resolve = makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {});
 
@@ -1307,6 +1318,120 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
     );
   }
   return { dirs: results, staged };
+}
+
+/** Context handed to the {@link forEachDirDatasheet} callback for one repo unit. */
+export interface DirDatasheetCtx {
+  dir: string;
+  ds: DatasheetRow;
+  unitId: string;
+  /** Per-unit resolver (faction aliases + any WEAPON_ALIASES_BY_UNIT override). */
+  resolve: (name: string) => string | null;
+}
+
+/**
+ * Walk every live dump datasheet that maps to an existing repo unit, exactly as
+ * {@link runWargear} does — same candidate-dir routing (home faction first,
+ * shared-roster fallback), same first-dir-wins dedupe, same per-unit resolver — and
+ * invoke `cb` once per (dir, repo unit). The inventory builders below sit on top of
+ * this so their dump→repo derivation cannot drift from the reconcile path.
+ */
+export function forEachDirDatasheet(dump: MfmDump, cb: (ctx: DirDatasheetCtx) => void): void {
+  const dirs = repoDirs();
+  const byDir = new Map<string, DatasheetRow[]>();
+  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+    if (ds.isLegends) continue;
+    for (const dir of candidateDirs(dump, ds)) {
+      if (!dirs.has(dir)) continue;
+      (byDir.get(dir) ?? byDir.set(dir, []).get(dir)!).push(ds);
+    }
+  }
+  for (const dir of [...dirs].sort()) {
+    const upath = path.join(CORE_DIR, dir, "units.json");
+    if (!fs.existsSync(upath)) continue;
+    const units = readJson<UnitRecord>(upath);
+    const wopts = readJson<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
+    const validIds = dirValidIds(dir, units, wopts);
+    const autoResolved: AutoResolution[] = [];
+    const resolve = makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {});
+    const byId = new Map(units.map((u) => [u.id, u]));
+    const matchedRepoIds = new Set<string>();
+    const dsList = (byDir.get(dir) ?? [])
+      .slice()
+      .sort((a, b) => homeScore(dump, a, dir) - homeScore(dump, b, dir));
+    for (const ds of dsList) {
+      const name = dump.enName(ds);
+      if (!name) continue;
+      let id: string;
+      try {
+        id = nameToId(name);
+      } catch {
+        continue;
+      }
+      if (!byId.has(id)) continue; // dump datasheet with no repo unit → caught by unitInventory
+      if (matchedRepoIds.has(id)) continue; // first candidate dir wins
+      matchedRepoIds.add(id);
+      const unitAliases = WEAPON_ALIASES_BY_UNIT[dir]?.[id];
+      const unitResolve = unitAliases
+        ? makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {}, unitAliases)
+        : resolve;
+      cb({ dir, ds, unitId: id, resolve: unitResolve });
+    }
+  }
+}
+
+/** dir → unit-ids the dump grants ≥1 wargear option (the golden's `wargear_options`
+ *  category — catches a repo unit missing its loadout options entirely). */
+export function wargearOptionInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
+  forEachDirDatasheet(dump, ({ dir, ds, unitId, resolve }) => {
+    if (deriveWargear(dump, ds.id!, resolve).options.length === 0) return;
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    m.set(unitId, mergeMode(m.get(unitId), modeOfPublication(dump, ds.publicationId)));
+  });
+  return out;
+}
+
+/** dir → unit-ids the dump has a datasheet for (the golden's `unit_compositions`
+ *  category — catches a repo unit with no `unit-compositions.json` row). */
+export function compositionInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
+  forEachDirDatasheet(dump, ({ dir, ds, unitId }) => {
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    m.set(unitId, mergeMode(m.get(unitId), modeOfPublication(dump, ds.publicationId)));
+  });
+  return out;
+}
+
+/** dir → weapon repo-ids the dump implies for the dir's units (the golden's `weapons`
+ *  category). Every resolved default + option id (covered by construction) plus a
+ *  `nameToId` slug for each UNRESOLVED dump weapon — the genuinely-missing ids that
+ *  land in `mfm-gaps.json` until authored. The only signal that catches a dump
+ *  weapon the repo never references. */
+export function weaponInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
+  const out = new Map<string, Map<string, GoldenMode>>();
+  forEachDirDatasheet(dump, ({ dir, ds, resolve }) => {
+    const dw = deriveWargear(dump, ds.id!, resolve);
+    const mode = modeOfPublication(dump, ds.publicationId);
+    const m = out.get(dir) ?? out.set(dir, new Map<string, GoldenMode>()).get(dir)!;
+    const add = (id: string): void => {
+      m.set(id, mergeMode(m.get(id), mode));
+    };
+    for (const ids of dw.defaultsByModel.values()) for (const id of ids) add(id);
+    for (const o of dw.options) {
+      for (const id of o.replaces ?? []) add(id);
+      for (const id of o.replacement ?? []) add(id);
+      for (const g of o.replacement_choice ?? []) for (const id of g) add(id);
+    }
+    for (const u of dw.unresolved) {
+      try {
+        add(nameToId(u.name));
+      } catch {
+        /* unsluggable — skip */
+      }
+    }
+  });
+  return out;
 }
 
 export interface BudgetReport {

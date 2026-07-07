@@ -100,14 +100,16 @@ fn lower(roster: &Roster) -> ParsedRoster {
             // Carry an explicit attachment verbatim so resolve reconstructs it
             // exactly (lossless round-trip) rather than re-inferring — which
             // would drop a leader-role attachment entirely. See module docs.
-            leader_attachment: u
-                .leader_attachment
-                .as_ref()
-                .map(|la| ParsedLeaderAttachment {
+            // Inner `Some` marks an explicit attachment; a unit without one
+            // lowers to the outer `None`, eliding the key (matching TS
+            // `undefined`), not an explicit `null`.
+            leader_attachment: u.leader_attachment.as_ref().map(|la| {
+                Some(ParsedLeaderAttachment {
                     bodyguard_raw_name: la.bodyguard_ref.raw_name.clone(),
                     role: la.role,
                     provisional: la.provisional,
-                }),
+                })
+            }),
         })
         .collect();
 
@@ -131,6 +133,8 @@ fn lower(roster: &Roster) -> ParsedRoster {
             .to_string()
         }),
         force_disposition: roster.force_disposition.clone(),
+        // roster-json carries a resolved id, never a raw header name.
+        force_disposition_raw_name: None,
         declared_limit: roster.points.declared_limit,
         total_reported: roster.points.total_reported,
         total_computed: roster.points.total_computed,

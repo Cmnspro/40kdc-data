@@ -28,6 +28,7 @@ describe("schema-loader", () => {
     expect(ids).toContain("https://40kdc.dev/schemas/core/unit-composition.schema.json");
     expect(ids).toContain("https://40kdc.dev/schemas/core/roster.schema.json");
     expect(ids).toContain("https://40kdc.dev/schemas/core/force-disposition.schema.json");
+    expect(ids).toContain("https://40kdc.dev/schemas/core/game-mode.schema.json");
     expect(ids).toContain("https://40kdc.dev/schemas/core/deployment-pattern.schema.json");
     expect(ids).toContain("https://40kdc.dev/schemas/core/mission.schema.json");
     expect(ids).toContain("https://40kdc.dev/schemas/core/mission-matchup.schema.json");
@@ -91,5 +92,28 @@ describe("schema-loader", () => {
 
     // The enum is still closed — a fabricated condition type must fail.
     expect(validate!({ type: "was-not-a-real-condition" })).toBe(false);
+  });
+
+  it("gates the optional game_modes field to the game-mode enum (absent implies matched-play)", () => {
+    const ajv = createValidator();
+    const validate = ajv.getSchema("https://40kdc.dev/schemas/core/detachment.schema.json");
+    expect(validate).toBeDefined();
+
+    const base = {
+      id: "test-detachment",
+      name: "Test Detachment",
+      faction_id: "test-faction",
+      game_version: { edition: "11th", dataslate: "pre-launch-provisional" },
+    };
+
+    // Absent game_modes is legal — the matched-play default keeps existing data valid.
+    expect(validate!({ ...base })).toBe(true);
+    // A known non-competitive mode is legal.
+    expect(validate!({ ...base, game_modes: ["combat-patrol"] })).toBe(true);
+    // The enum is closed — a fabricated mode must fail.
+    expect(validate!({ ...base, game_modes: ["not-a-mode"] })).toBe(false);
+    // The array must be non-empty and its members unique.
+    expect(validate!({ ...base, game_modes: [] })).toBe(false);
+    expect(validate!({ ...base, game_modes: ["combat-patrol", "combat-patrol"] })).toBe(false);
   });
 });

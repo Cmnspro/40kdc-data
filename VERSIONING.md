@@ -16,6 +16,19 @@ Every entity and enrichment entry carries a `game_version` object:
 - **edition**: The game edition (e.g., `10th`, `11th`)
 - **dataslate**: Quarterly balance update identifier (e.g., `2025-q3`)
 
+## Game Modes
+
+Orthogonal to `game_version` (the *edition* axis), army-construction entities carry an optional **`game_modes`** array — the *mode* axis — naming the game mode(s) the entity is legal or authored for:
+
+```json
+{ "game_modes": ["combat-patrol"] }
+```
+
+- An **absent** `game_modes` means `["matched-play"]` (the competitive default), so every existing matched-play entity validates unchanged.
+- The vocabulary is the closed enum `game-mode-id` in `schemas/$defs/common.schema.json`: `matched-play` (competitive) plus `combat-patrol`, `boarding-actions`, `crusade` (non-competitive). Per-mode metadata — notably `is_competitive` — lives in the registry `data/core/game-modes.json`, mirroring `game-versions.json` / `force-dispositions.json`.
+- Only the army-construction entities carry it: `unit`, `detachment`, `enhancement`, `stratagem`, `weapon`, `unit-composition`, `wargear-option`. Faction / mission / registry entities do not.
+- The MFM completeness golden dimensions coverage by mode: the headline competitive number excludes non-matched-play content, and each non-competitive mode is tracked on its own dimension. Only `combat-patrol` is auto-detected from the dump (`publication.isCombatPatrol`); the rest are schema-homed for hand-authoring. See `11e-migration.md` § "Game modes axis" for the full rationale.
+
 ## Git Tags
 
 Releases are tagged as `{edition}/{dataslate}`:

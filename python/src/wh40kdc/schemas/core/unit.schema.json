@@ -177,7 +177,11 @@
       ]
     },
     "game_version": { "$ref": "../defs/game-version-ref.schema.json" },
-    "is_legend": { "type": "boolean", "default": false }
+    "is_legend": { "type": "boolean", "default": false },
+    "game_modes": {
+      "$ref": "../defs/common.schema.json#/$defs/game-modes",
+      "description": "Game modes this unit is legal or authored for; absent implies matched-play."
+    }
   },
   "required": ["id", "name", "faction_id", "profiles", "game_version"],
   "additionalProperties": false

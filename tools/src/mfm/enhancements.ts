@@ -33,6 +33,7 @@ interface EnhRecord {
   cost: number;
   points_provisional?: boolean;
   game_version?: { edition: string; dataslate: string };
+  game_modes?: string[];
   [k: string]: unknown;
 }
 
@@ -112,6 +113,9 @@ export function runEnhancements(
   const matchedIds = new Set<string>();
   const dirs: DirEnhResult[] = [];
   const staged: StagedWrite[] = [];
+  // CP enhancements carry the combat-patrol game mode so a reconcile of authored
+  // Combat Patrol content keeps it filed on the non-competitive dimension.
+  const cpIds = combatPatrolEnhIds(dump);
 
   for (const dir of [...repoDirs()].sort()) {
     const p = path.join(CORE_DIR, dir, "enhancements.json");
@@ -139,13 +143,14 @@ export function runEnhancements(
         e.game_version.edition = CONFIRMED.edition;
         e.game_version.dataslate = CONFIRMED.dataslate;
       }
+      if (cpIds.has(e.id)) e.game_modes = ["combat-patrol"];
     }
     staged.push({ path: p, value: enhs });
     dirs.push(res);
   }
 
   const unmatched = [...canon.keys()].filter((id) => !matchedIds.has(id));
-  const cp = combatPatrolEnhIds(dump);
+  const cp = cpIds;
   const cpExcluded: string[] = [];
   const newInDump: string[] = [];
   for (const id of unmatched) {

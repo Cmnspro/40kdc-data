@@ -156,6 +156,22 @@ export type ForceDispositionId =
   | "priority-assets"
   | "reconnaissance";
 /**
+ * The game mode an army-construction entity is legal or authored for, parallel to the game_version edition axis. 'matched-play' is the competitive default: when an entity omits `game_modes`, treat it as matched-play only. 'combat-patrol', 'boarding-actions', and 'crusade' are non-competitive modes; of these only combat-patrol currently has an ingest source and coverage measurement (the others are schema-homed for hand-authoring).
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "game-mode-id".
+ */
+export type GameModeId = "matched-play" | "combat-patrol" | "boarding-actions" | "crusade";
+/**
+ * Game modes this entity is legal or authored for. Absent implies ['matched-play'] (the competitive default), so existing matched-play entities need not carry the field.
+ *
+ * @minItems 1
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "game-modes".
+ */
+export type GameModes = [GameModeId, ...GameModeId[]];
+/**
  * A terrain piece's 2D footprint in local inches (y-down): an axis-aligned rectangle with its min corner at the local origin, a right triangle with the right angle at the local origin and legs along +x/+y, or an explicit polygon (>= 3 points). The placement resolver re-centers the footprint on its polygon area centroid, so the local-origin convention does not affect where the piece lands — only its shape matters.
  *
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
@@ -232,6 +248,18 @@ export type ZoneShape =
  * via the `definition` "side".
  */
 export type Side = "attacker" | "defender";
+/**
+ * Game modes this detachment is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes1 = [GameModeId, ...GameModeId[]];
+/**
+ * Game modes this enhancement is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes2 = [GameModeId, ...GameModeId[]];
 /**
  * Eligibility predicate for which units may perform the action.
  */
@@ -380,6 +408,18 @@ export type KeywordList6 = Keyword[];
  * OR set: the target must carry at least one keyword listed here. Use for rules that target a unit with one of several keywords (e.g. Crushing Impact's MONSTER/VEHICLE, Explosives' EXPLOSIVES/GRENADES). Mirrors the `army_keywords_any` OR-gate on allied-rule.schema.json.
  */
 export type KeywordList7 = Keyword[];
+/**
+ * Game modes this stratagem is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes3 = [GameModeId, ...GameModeId[]];
+/**
+ * Game modes this unit composition is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes4 = [GameModeId, ...GameModeId[]];
 export type AbilityEffect1 =
   | SingleEffect
   | ChoiceEffect
@@ -394,6 +434,24 @@ export type AbilityEffect1 =
   | StanceSelectEffect
   | RiskRewardEffect
   | IssueOrdersEffect;
+/**
+ * Game modes this unit is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes5 = [GameModeId, ...GameModeId[]];
+/**
+ * Game modes this wargear option is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes6 = [GameModeId, ...GameModeId[]];
+/**
+ * Game modes this weapon is legal or authored for; absent implies matched-play.
+ *
+ * @minItems 1
+ */
+export type GameModes7 = [GameModeId, ...GameModeId[]];
 /**
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
  * via the `definition` "condition".
@@ -710,6 +768,7 @@ export interface Detachment {
    */
   unit_minimums?: UnitMinimum[];
   game_version: GameVersionReference;
+  game_modes?: GameModes1;
 }
 /**
  * A purchasable upgrade for a character unit, provided by a detachment.
@@ -739,6 +798,7 @@ export interface Enhancement {
   ability_id?: EntityId | null;
   is_unique?: boolean;
   game_version: GameVersionReference;
+  game_modes?: GameModes2;
 }
 /**
  * A playable faction or sub-faction.
@@ -778,6 +838,28 @@ export interface ForceDisposition {
    * Community-authored description of the disposition's effect (original prose only — no reproduced rules text).
    */
   text?: string;
+  game_version: GameVersionReference;
+}
+/**
+ * A 40k game mode — one axis of army-construction scope, parallel to the game_version edition axis. Army-construction entities carry an optional `game_modes` array of these ids; an absent array means the entity belongs to matched-play only. `is_competitive` marks which modes count toward the dataset's headline competitive-coverage metric.
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "game-mode".
+ */
+export interface GameMode {
+  /**
+   * The game mode an army-construction entity is legal or authored for, parallel to the game_version edition axis. 'matched-play' is the competitive default: when an entity omits `game_modes`, treat it as matched-play only. 'combat-patrol', 'boarding-actions', and 'crusade' are non-competitive modes; of these only combat-patrol currently has an ingest source and coverage measurement (the others are schema-homed for hand-authoring).
+   */
+  id: "matched-play" | "combat-patrol" | "boarding-actions" | "crusade";
+  name: string;
+  /**
+   * Community-authored summary of the mode (original prose only — no reproduced rules text).
+   */
+  description?: string;
+  /**
+   * Whether this mode counts toward the dataset's headline competitive-coverage metric. Only matched-play is competitive; non-competitive modes are tracked on their own coverage dimension.
+   */
+  is_competitive: boolean;
   game_version: GameVersionReference;
 }
 /**
@@ -1476,6 +1558,7 @@ export interface Stratagem {
   } | null;
   ability_id?: EntityId | null;
   game_version: GameVersionReference;
+  game_modes?: GameModes3;
 }
 /**
  * A named target archetype for damage comparison. References a real dataset unit (faction_id + unit_id) rather than copying its stat line, so the profile stays in sync with dataset updates. Stats, keywords, and defensive abilities are resolved from the referenced unit at use time.
@@ -1840,6 +1923,7 @@ export interface UnitComposition {
     }[]
   ];
   game_version: GameVersionReference;
+  game_modes?: GameModes4;
 }
 /**
  * This model's base. Absent when no base could be resolved for the model.
@@ -2002,6 +2086,7 @@ export interface Unit {
   } | null;
   game_version: GameVersionReference;
   is_legend?: boolean;
+  game_modes?: GameModes5;
 }
 /**
  * A wargear option available to models within a unit: a weapon/wargear swap, a pure add-on, or a choice between alternatives. Models start with the unit's base loadout; an option modifies that loadout for the number of models its `model_constraint` permits.
@@ -2046,6 +2131,7 @@ export interface WargearOption {
   is_free?: boolean;
   additional_cost?: number | null;
   game_version: GameVersionReference;
+  game_modes?: GameModes6;
 }
 /**
  * A non-weapon item a model may carry — an icon, attachment, or other piece of equipment with no weapon profile. Weapons live in weapon.schema.json; this entity exists so wargear-option swaps and add-ons can reference equipment that is not a weapon.
@@ -2158,6 +2244,7 @@ export interface Weapon {
     }[]
   ];
   game_version: GameVersionReference;
+  game_modes?: GameModes7;
 }
 /**
  * A single reactive trigger: the game `event` (closed dispatch key), `subject` (whose action triggered it), `proximity` (spatial gate in inches), optional `move_types` (restricts a move event to given move kinds), `condition` (extra gate reusing the condition tree), `optional` ('you can' reactions), `cost` (stratagem-style CP), and `window` (how long the granted reaction stays open).

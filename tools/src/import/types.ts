@@ -27,6 +27,7 @@ export type WarningCode =
   | "weapon-unresolved"
   | "enhancement-unresolved"
   | "detachment-unresolved"
+  | "disposition-unresolved"
   | "detachment-points-exceeded"
   | "battle-size-unmapped"
   | "points-mismatch"
@@ -251,10 +252,17 @@ export interface ParsedRoster {
   /** Raw battle-size label (e.g. "2. Strike Force (2000 Point limit)"). */
   battle_size_raw: string | null;
   /**
-   * Selected Force Disposition id, when the source carried one (only the
-   * canonical roster-json round-trip does today). Absent/null otherwise.
+   * Selected Force Disposition id, when the source carried a resolved one (only
+   * the canonical roster-json round-trip does today). Absent/null otherwise.
    */
   force_disposition?: string | null;
+  /**
+   * Raw Force Disposition name from the source header (ListForge text carries
+   * one, e.g. "Priority Assets"), resolved to a `force-disposition-id` during
+   * {@link resolve}. Distinct from {@link force_disposition}, which is an
+   * already-resolved id. Absent/null when the source encodes no disposition.
+   */
+  force_disposition_raw_name?: string | null;
   /** Points limit parsed from the battle-size label, if any. */
   declared_limit: number | null;
   /** Total points reported by the source cost block. */

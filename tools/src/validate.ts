@@ -32,6 +32,7 @@ const SCHEMA_MAP: Record<string, string> = {
   "weapon-keywords": "https://40kdc.dev/schemas/core/weapon-keyword.schema.json",
   "unit-keywords": "https://40kdc.dev/schemas/core/unit-keyword.schema.json",
   "game-versions": "https://40kdc.dev/schemas/core/game-version.schema.json",
+  "game-modes": "https://40kdc.dev/schemas/core/game-mode.schema.json",
   detachments: "https://40kdc.dev/schemas/core/detachment.schema.json",
   allies: "https://40kdc.dev/schemas/core/allied-rule.schema.json",
   enhancements: "https://40kdc.dev/schemas/core/enhancement.schema.json",

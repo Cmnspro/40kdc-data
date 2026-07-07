@@ -22,9 +22,15 @@
  *     • 9x Hellblade
  * ```
  *
- * - The first non-blank line is `<list name> - <faction> - <detachment>
- *   (<N> Points)`. A list name containing ` - ` breaks the split — a documented
- *   ListForge limitation, not ours.
+ * - The first non-blank line is
+ *   `<list name> - <faction> - [<disposition> - ]<detachment(s)> (<N> Points)`.
+ *   The list name is a single segment (ListForge never inserts ` - `; a name
+ *   that contains it breaks the split — a documented ListForge limitation, not
+ *   ours). The faction is the second segment; the LAST segment is the detachment
+ *   list (comma-joined when a list fields several under an 11e detachment-point
+ *   cap); any segment between faction and detachment is the selected Force
+ *   Disposition (e.g. `Priority Assets`). Legacy 3-segment headers with no
+ *   disposition still parse.
  * - Sections are mixed-case battlefield-role lines ending with `:`
  *   (`Epic Hero:`, `Character:`, `Battleline:`, …). Units under `Epic Hero:` or
  *   `Character:` are characters.
@@ -36,6 +42,13 @@
  * - `E: <name>` is the enhancement annotation (ListForge reports no points for
  *   it, so `enhancement_points` stays null and unit points stay as displayed).
  *   A bare `Warlord` bullet flags the warlord.
+ * - An `Attached Units:` section groups leader+bodyguard pairs. Each group is a
+ *   combined `<Leader> + <Bodyguard> (<total> pts)` header (a marker, not a
+ *   unit — its points are the sub-units' sum) followed by the leader and
+ *   bodyguard as indented `Name (N pts)` sub-units, leader first. The leader is
+ *   emitted as a character carrying an explicit `leader`-role
+ *   `leader_attachment` to the bodyguard, so {@link resolve} reconstructs the
+ *   link directly instead of falling back to `support`-only inference.
  *
  * **Disjointness**: the `(N Points)` first-line suffix is unique to this
  * format — newrecruit-simple's first line ends `- [N pts]`, the GW export
@@ -45,7 +58,12 @@
  * @packageDocumentation
  */
 import type { FormatAdapter } from "./adapter.js";
-import type { ParsedRoster, ParsedUnit, ParsedWargear } from "./types.js";
+import type {
+  ParsedLeaderAttachment,
+  ParsedRoster,
+  ParsedUnit,
+  ParsedWargear,
+} from "./types.js";
 import { inferBattleSizeRaw } from "./newrecruit-text.js";
 
 const FIRST_LINE = /^(.+)\s\(\s*(\d+)\s*Points?\s*\)\s*$/i;
@@ -59,6 +77,11 @@ const WITH_LINE = /^[\t ]*\d+\s+with\b/m;
 const ENHANCEMENT_PREFIX = "E: ";
 const WARLORD_MARKER = "Warlord";
 const CHARACTER_SECTIONS = new Set(["epic hero", "character"]);
+/** ListForge groups leader+bodyguard pairs under this section. Each group is a
+ * combined `Leader + Bodyguard (total pts)` header followed by the two units as
+ * indented sub-entries (leader first), so the leader's attachment is explicit. */
+const ATTACHED_SECTION = "attached units";
+const ATTACHED_SEP = " + ";
 
 /** Accept plain text whose first non-blank line is the ListForge
  * `name - faction - detachment (N Points)` header, with `•` bullets and no
@@ -79,8 +102,18 @@ function isListForgeText(decoded: unknown): string | null {
 interface Header {
   name: string;
   faction_raw_name: string | null;
-  detachment_raw_name: string | null;
+  detachment_raw_names: string[];
+  disposition_raw_name: string | null;
   total_reported: number | null;
+}
+
+/** Split a detachment segment on commas — 11e lists field several detachments
+ * comma-joined in a single header segment (`"A, B"`); one detachment stays one. */
+function splitDetachments(segment: string): string[] {
+  return segment
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 function parseFirstLine(line: string): Header | null {
@@ -88,13 +121,17 @@ function parseFirstLine(line: string): Header | null {
   if (!m) return null;
   const parts = m[1].split(" - ").map((s) => s.trim()).filter(Boolean);
   if (parts.length < 3) return null;
-  // `<list name> - <faction> - <detachment>`; the name is everything before
-  // the trailing two segments so faction names with hyphens stay intact only
-  // when ListForge itself doesn't insert ` - ` (it doesn't).
+  // `<name> - <faction> - [<disposition> - ]<detachment(s)>`. The name is the
+  // first segment (ListForge never inserts ` - `), the faction the second, the
+  // LAST segment the comma-joined detachment list, and any segment in between
+  // is the selected Force Disposition. Legacy 3-segment headers have no
+  // disposition; the middle slice is then empty.
   return {
-    name: parts.slice(0, parts.length - 2).join(" - "),
-    faction_raw_name: parts[parts.length - 2],
-    detachment_raw_name: parts[parts.length - 1],
+    name: parts[0],
+    faction_raw_name: parts[1],
+    detachment_raw_names: splitDetachments(parts[parts.length - 1]),
+    disposition_raw_name:
+      parts.length >= 4 ? parts[parts.length - 2] : null,
     total_reported: Number.parseInt(m[2], 10),
   };
 }
@@ -110,6 +147,9 @@ interface UnitAcc {
   displayed_pts: number | null;
   is_character: boolean;
   bullets: Bullet[];
+  /** Set on an attached leader (from the `Attached Units:` section) linking it
+   * to its bodyguard; null for every ordinary unit. */
+  leader_attachment: ParsedLeaderAttachment | null;
 }
 
 function finishUnit(acc: UnitAcc): ParsedUnit {
@@ -175,6 +215,7 @@ function finishUnit(acc: UnitAcc): ParsedUnit {
     wargear: [...wargear].map(
       ([raw_name, count]): ParsedWargear => ({ raw_name, count }),
     ),
+    leader_attachment: acc.leader_attachment,
   };
 }
 
@@ -196,6 +237,12 @@ export const listForgeTextAdapter: FormatAdapter = {
     const units: ParsedUnit[] = [];
     let current: UnitAcc | null = null;
     let sectionIsCharacter = false;
+    // `Attached Units:` section state. A combined `Leader + Bodyguard` header
+    // sets `pendingBodyguardName`; the next two sub-units are the leader
+    // (`groupMemberIndex` 0, a character) and the bodyguard (index 1).
+    let inAttachedSection = false;
+    let pendingBodyguardName: string | null = null;
+    let groupMemberIndex = 0;
 
     const finalize = (): void => {
       if (current) {
@@ -229,21 +276,53 @@ export const listForgeTextAdapter: FormatAdapter = {
 
       if (SECTION_HEADER.test(line)) {
         finalize();
-        sectionIsCharacter = CHARACTER_SECTIONS.has(
-          line.slice(0, -1).trim().toLowerCase(),
-        );
+        const sectionKey = line.slice(0, -1).trim().toLowerCase();
+        sectionIsCharacter = CHARACTER_SECTIONS.has(sectionKey);
+        inAttachedSection = sectionKey === ATTACHED_SECTION;
+        pendingBodyguardName = null;
+        groupMemberIndex = 0;
         continue;
       }
 
       const unitMatch = UNIT_HEADER.exec(line);
       if (unitMatch) {
+        const rawName = unitMatch[1].trim();
+
+        // In the attached section, a `Leader + Bodyguard (total pts)` header is
+        // a grouping marker, not a unit: it names the pair and prefaces the two
+        // real sub-units. Skip it (its points are the sum of the sub-units', so
+        // emitting it would double-count) and remember the bodyguard name.
+        if (inAttachedSection && rawName.includes(ATTACHED_SEP)) {
+          finalize();
+          pendingBodyguardName = rawName
+            .slice(rawName.indexOf(ATTACHED_SEP) + ATTACHED_SEP.length)
+            .trim();
+          groupMemberIndex = 0;
+          continue;
+        }
+
         finalize();
+        // First sub-unit of a group (index 0) is the attaching leader — a
+        // character carrying an explicit `leader`-role attachment to the
+        // bodyguard; the second (index 1) is the bodyguard unit itself.
+        const isAttachedLeader =
+          inAttachedSection &&
+          pendingBodyguardName !== null &&
+          groupMemberIndex === 0;
         current = {
-          raw_name: unitMatch[1].trim(),
+          raw_name: rawName,
           displayed_pts: Number.parseInt(unitMatch[2], 10),
-          is_character: sectionIsCharacter,
+          is_character: inAttachedSection ? isAttachedLeader : sectionIsCharacter,
           bullets: [],
+          leader_attachment: isAttachedLeader
+            ? {
+                bodyguard_raw_name: pendingBodyguardName as string,
+                role: "leader",
+                provisional: false,
+              }
+            : null,
         };
+        if (inAttachedSection) groupMemberIndex += 1;
       }
     }
     finalize();
@@ -263,7 +342,8 @@ export const listForgeTextAdapter: FormatAdapter = {
       name: header.name,
       generated_by: "List Forge",
       faction_raw_name: header.faction_raw_name,
-      detachment_raw_names: header.detachment_raw_name ? [header.detachment_raw_name] : [],
+      detachment_raw_names: header.detachment_raw_names,
+      force_disposition_raw_name: header.disposition_raw_name,
       battle_size_raw: inferBattleSizeRaw(declared_limit),
       declared_limit,
       total_reported: header.total_reported,

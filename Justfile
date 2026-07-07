@@ -112,3 +112,10 @@ version-lockstep:
         exit 1; \
      fi; \
      echo "  in sync: $npm_ver"
+
+# Regenerate the MFM completeness golden (data/_audit/mfm-golden.json + mfm-gaps.json).
+# Needs _private/dump.json locally; the artifacts are hand-committed and are NOT part of
+# verify-clean (CI can't read the dump). Re-run and commit the diff when a new MFM lands,
+# then curate mfm-gaps.json for any newly-authored data (see test/mfm-completeness.test.ts).
+mfm-golden:
+    cd tools && npm run mfm:golden

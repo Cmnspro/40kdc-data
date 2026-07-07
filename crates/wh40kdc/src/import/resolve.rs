@@ -544,7 +544,10 @@ fn apply_leader_attachments(
     // Compute first (immutable borrow), then apply (mutable) to avoid overlap.
     let mut explicit: Vec<(usize, ResolvedRef, AttachmentRole, bool)> = Vec::new();
     for (i, parsed) in parsed_units.iter().enumerate() {
-        let Some(att) = &parsed.leader_attachment else {
+        // Only an inner `Some` is an explicit attachment; `Some(None)` (an
+        // adapter that sets the key on every unit, e.g. ListForge text) is
+        // treated like `None` and left to Pass 2 inference.
+        let Some(Some(att)) = &parsed.leader_attachment else {
             continue;
         };
         let key = normalize_name(&att.bodyguard_raw_name);
@@ -593,7 +596,7 @@ fn apply_leader_attachments(
     // them (mutable borrow) to avoid overlapping borrows.
     let mut planned: Vec<(usize, String, String)> = Vec::new(); // (leader idx, bodyguard id, bodyguard raw name)
     for (i, (unit, parsed)) in units.iter().zip(parsed_units).enumerate() {
-        if parsed.leader_attachment.is_some() {
+        if matches!(parsed.leader_attachment, Some(Some(_))) {
             continue; // explicit already applied in pass 1
         }
         let Some(leader_id) = &unit.ref_.id else {

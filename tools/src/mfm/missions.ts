@@ -173,6 +173,13 @@ export function buildMissionScoringCanon(dump: MfmDump): Map<string, DumpScoring
   return out;
 }
 
+/** Repo card-ids for every dump mission the scoring ingest reconciles (secondary +
+ *  generic primary). Reuses {@link buildMissionScoringCanon}'s keys so the golden's
+ *  `missions` category can never drift from what the ingest actually matches. */
+export function missionInventory(dump: MfmDump): string[] {
+  return [...buildMissionScoringCanon(dump).keys()];
+}
+
 export interface AwardChange {
   cardId: string;
   index: number;

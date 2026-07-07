@@ -40,6 +40,7 @@ interface DetRecord {
   faction_id: string;
   detachment_points?: number | null;
   force_dispositions?: string[];
+  game_modes?: string[];
   game_version?: { edition: string; dataslate: string };
   [k: string]: unknown;
 }
@@ -157,6 +158,9 @@ export function runDispositions(
   const matchedSlugs = new Set<string>();
   const dirs: DirDispResult[] = [];
   const staged: StagedWrite[] = [];
+  // CP detachments carry the combat-patrol game mode so a reconcile of authored
+  // Combat Patrol content keeps it filed on the non-competitive dimension.
+  const cpSlugs = combatPatrolDetSlugs(dump);
 
   for (const dir of [...repoDirs()].sort()) {
     const p = path.join(CORE_DIR, dir, "detachments.json");
@@ -197,13 +201,14 @@ export function runDispositions(
       // reconciled until later phases.
       det.detachment_points = targetDp;
       det.force_dispositions = targetDisp;
+      if (cpSlugs.has(det.id)) det.game_modes = ["combat-patrol"];
     }
     staged.push({ path: p, value: dets });
     dirs.push(res);
   }
 
   const unmatched = [...bySlug.keys()].filter((s) => !matchedSlugs.has(s));
-  const cp = combatPatrolDetSlugs(dump);
+  const cp = cpSlugs;
   const cpExcluded: string[] = [];
   const newInDump: string[] = [];
   for (const s of unmatched) {

@@ -3896,6 +3896,10 @@ for DesignateTargetEffectSelectScope {
 ///      },
 ///      "uniqueItems": true
 ///    },
+///    "game_modes": {
+///      "description": "Game modes this detachment is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -3980,6 +3984,9 @@ pub struct Detachment {
     ///11e: ids of the Force Disposition entities this detachment grants. Empty until assigned.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub force_dispositions: ::std::option::Option<Vec<EntityId>>,
+    ///Game modes this detachment is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     ///Construction keywords this detachment grants to matching units while it is selected (e.g. Houndpack Lance grants 'Battleline' to 'War Dog' units). A unit carrying any keyword in a grant's `to_keywords` gains that grant's `keyword` for army-construction purposes (datasheet-count caps, battlefield role). Empty/absent when the detachment grants no construction keywords. Distinct from combat keywords, which live in the ability DSL.
     #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
@@ -5043,6 +5050,10 @@ impl ::std::convert::From<IssueOrdersEffect> for EffectNode {
 ///        }
 ///      ]
 ///    },
+///    "game_modes": {
+///      "description": "Game modes this enhancement is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -5091,6 +5102,9 @@ pub struct Enhancement {
     pub detachment_id: EntityId,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub exclusion_keywords: ::std::option::Option<KeywordList>,
+    ///Game modes this enhancement is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     pub id: EntityId,
     #[serde(default = "defaults::default_bool::<true>")]
@@ -6154,6 +6168,332 @@ impl ::std::convert::TryFrom<::std::string::String> for GameEvent {
         value: ::std::string::String,
     ) -> ::std::result::Result<Self, self::error::ConversionError> {
         value.parse()
+    }
+}
+///A 40k game mode — one axis of army-construction scope, parallel to the game_version edition axis. Army-construction entities carry an optional `game_modes` array of these ids; an absent array means the entity belongs to matched-play only. `is_competitive` marks which modes count toward the dataset's headline competitive-coverage metric.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "title": "Game Mode",
+///  "description": "A 40k game mode — one axis of army-construction scope, parallel to the game_version edition axis. Army-construction entities carry an optional `game_modes` array of these ids; an absent array means the entity belongs to matched-play only. `is_competitive` marks which modes count toward the dataset's headline competitive-coverage metric.",
+///  "type": "object",
+///  "required": [
+///    "game_version",
+///    "id",
+///    "is_competitive",
+///    "name"
+///  ],
+///  "properties": {
+///    "description": {
+///      "description": "Community-authored summary of the mode (original prose only — no reproduced rules text).",
+///      "type": "string",
+///      "minLength": 1
+///    },
+///    "game_version": {
+///      "$ref": "#/$defs/game-version-ref"
+///    },
+///    "id": {
+///      "description": "One of the confirmed game modes.",
+///      "$ref": "#/$defs/game-mode-id"
+///    },
+///    "is_competitive": {
+///      "description": "Whether this mode counts toward the dataset's headline competitive-coverage metric. Only matched-play is competitive; non-competitive modes are tracked on their own coverage dimension.",
+///      "type": "boolean"
+///    },
+///    "name": {
+///      "type": "string",
+///      "maxLength": 128,
+///      "minLength": 1
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct GameMode {
+    ///Community-authored summary of the mode (original prose only — no reproduced rules text).
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub description: ::std::option::Option<GameModeDescription>,
+    pub game_version: GameVersionRef,
+    ///One of the confirmed game modes.
+    pub id: GameModeId,
+    ///Whether this mode counts toward the dataset's headline competitive-coverage metric. Only matched-play is competitive; non-competitive modes are tracked on their own coverage dimension.
+    pub is_competitive: bool,
+    pub name: GameModeName,
+}
+///Community-authored summary of the mode (original prose only — no reproduced rules text).
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "Community-authored summary of the mode (original prose only — no reproduced rules text).",
+///  "type": "string",
+///  "minLength": 1
+///}
+/// ```
+/// </details>
+#[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+#[serde(transparent)]
+pub struct GameModeDescription(::std::string::String);
+impl ::std::ops::Deref for GameModeDescription {
+    type Target = ::std::string::String;
+    fn deref(&self) -> &::std::string::String {
+        &self.0
+    }
+}
+impl ::std::convert::From<GameModeDescription> for ::std::string::String {
+    fn from(value: GameModeDescription) -> Self {
+        value.0
+    }
+}
+impl ::std::str::FromStr for GameModeDescription {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        if value.chars().count() < 1usize {
+            return Err("shorter than 1 characters".into());
+        }
+        Ok(Self(value.to_string()))
+    }
+}
+impl ::std::convert::TryFrom<&str> for GameModeDescription {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String> for GameModeDescription {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String> for GameModeDescription {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl<'de> ::serde::Deserialize<'de> for GameModeDescription {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        ::std::string::String::deserialize(deserializer)?
+            .parse()
+            .map_err(|e: self::error::ConversionError| {
+                <D::Error as ::serde::de::Error>::custom(e.to_string())
+            })
+    }
+}
+///The game mode an army-construction entity is legal or authored for, parallel to the game_version edition axis. 'matched-play' is the competitive default: when an entity omits `game_modes`, treat it as matched-play only. 'combat-patrol', 'boarding-actions', and 'crusade' are non-competitive modes; of these only combat-patrol currently has an ingest source and coverage measurement (the others are schema-homed for hand-authoring).
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "The game mode an army-construction entity is legal or authored for, parallel to the game_version edition axis. 'matched-play' is the competitive default: when an entity omits `game_modes`, treat it as matched-play only. 'combat-patrol', 'boarding-actions', and 'crusade' are non-competitive modes; of these only combat-patrol currently has an ingest source and coverage measurement (the others are schema-homed for hand-authoring).",
+///  "type": "string",
+///  "enum": [
+///    "matched-play",
+///    "combat-patrol",
+///    "boarding-actions",
+///    "crusade"
+///  ]
+///}
+/// ```
+/// </details>
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    Eq,
+    Hash,
+    Ord,
+    PartialEq,
+    PartialOrd
+)]
+pub enum GameModeId {
+    #[serde(rename = "matched-play")]
+    MatchedPlay,
+    #[serde(rename = "combat-patrol")]
+    CombatPatrol,
+    #[serde(rename = "boarding-actions")]
+    BoardingActions,
+    #[serde(rename = "crusade")]
+    Crusade,
+}
+impl ::std::fmt::Display for GameModeId {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        match *self {
+            Self::MatchedPlay => f.write_str("matched-play"),
+            Self::CombatPatrol => f.write_str("combat-patrol"),
+            Self::BoardingActions => f.write_str("boarding-actions"),
+            Self::Crusade => f.write_str("crusade"),
+        }
+    }
+}
+impl ::std::str::FromStr for GameModeId {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        match value {
+            "matched-play" => Ok(Self::MatchedPlay),
+            "combat-patrol" => Ok(Self::CombatPatrol),
+            "boarding-actions" => Ok(Self::BoardingActions),
+            "crusade" => Ok(Self::Crusade),
+            _ => Err("invalid value".into()),
+        }
+    }
+}
+impl ::std::convert::TryFrom<&str> for GameModeId {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String> for GameModeId {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String> for GameModeId {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+///`GameModeName`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "string",
+///  "maxLength": 128,
+///  "minLength": 1
+///}
+/// ```
+/// </details>
+#[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+#[serde(transparent)]
+pub struct GameModeName(::std::string::String);
+impl ::std::ops::Deref for GameModeName {
+    type Target = ::std::string::String;
+    fn deref(&self) -> &::std::string::String {
+        &self.0
+    }
+}
+impl ::std::convert::From<GameModeName> for ::std::string::String {
+    fn from(value: GameModeName) -> Self {
+        value.0
+    }
+}
+impl ::std::str::FromStr for GameModeName {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        if value.chars().count() > 128usize {
+            return Err("longer than 128 characters".into());
+        }
+        if value.chars().count() < 1usize {
+            return Err("shorter than 1 characters".into());
+        }
+        Ok(Self(value.to_string()))
+    }
+}
+impl ::std::convert::TryFrom<&str> for GameModeName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String> for GameModeName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String> for GameModeName {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl<'de> ::serde::Deserialize<'de> for GameModeName {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        ::std::string::String::deserialize(deserializer)?
+            .parse()
+            .map_err(|e: self::error::ConversionError| {
+                <D::Error as ::serde::de::Error>::custom(e.to_string())
+            })
+    }
+}
+///Game modes this entity is legal or authored for. Absent implies ['matched-play'] (the competitive default), so existing matched-play entities need not carry the field.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "Game modes this entity is legal or authored for. Absent implies ['matched-play'] (the competitive default), so existing matched-play entities need not carry the field.",
+///  "type": "array",
+///  "items": {
+///    "$ref": "#/$defs/game-mode-id"
+///  },
+///  "minItems": 1,
+///  "uniqueItems": true
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(transparent)]
+pub struct GameModes(pub Vec<GameModeId>);
+impl ::std::ops::Deref for GameModes {
+    type Target = Vec<GameModeId>;
+    fn deref(&self) -> &Vec<GameModeId> {
+        &self.0
+    }
+}
+impl ::std::convert::From<GameModes> for Vec<GameModeId> {
+    fn from(value: GameModes) -> Self {
+        value.0
+    }
+}
+impl ::std::convert::From<Vec<GameModeId>> for GameModes {
+    fn from(value: Vec<GameModeId>) -> Self {
+        Self(value)
     }
 }
 ///`GameVersion`
@@ -14278,6 +14618,10 @@ impl<'de> ::serde::Deserialize<'de> for StatValueString {
 ///        }
 ///      ]
 ///    },
+///    "game_modes": {
+///      "description": "Game modes this stratagem is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -14357,6 +14701,9 @@ pub struct Stratagem {
     ///Null for core stratagems
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub detachment_id: ::std::option::Option<EntityId>,
+    ///Game modes this stratagem is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     pub id: EntityId,
     pub name: StratagemName,
@@ -16303,6 +16650,10 @@ impl ::std::convert::TryFrom<::std::string::String> for TriggerSubject {
 ///    "faction_keywords": {
 ///      "$ref": "#/$defs/keyword-list"
 ///    },
+///    "game_modes": {
+///      "description": "Game modes this unit is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -16555,6 +16906,9 @@ pub struct Unit {
     pub faction_id: EntityId,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub faction_keywords: ::std::option::Option<KeywordList>,
+    ///Game modes this unit is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     pub id: EntityId,
     #[serde(default)]
@@ -16805,6 +17159,10 @@ impl ::std::convert::TryFrom<::std::string::String> for UnitAttachmentRole {
 ///      "description": "Owning faction. A chassis shared across factions has a distinct composition per faction under the same `unit_id`, so compositions are keyed by (faction_id, unit_id).",
 ///      "$ref": "#/$defs/entity-id"
 ///    },
+///    "game_modes": {
+///      "description": "Game modes this unit composition is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -16926,6 +17284,9 @@ impl ::std::convert::TryFrom<::std::string::String> for UnitAttachmentRole {
 pub struct UnitComposition {
     ///Owning faction. A chassis shared across factions has a distinct composition per faction under the same `unit_id`, so compositions are keyed by (faction_id, unit_id).
     pub faction_id: EntityId,
+    ///Game modes this unit composition is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     pub models: ::std::vec::Vec<UnitCompositionModelsItem>,
     ///The discrete buildable squad sizes (GW's per-datasheet unit-composition rows). Each tier gives a per-model count range; a legal squad must match exactly one tier. When absent, the squad is treated as a single implicit tier equal to `models[]`. The top-level `models[]` min/max are the aggregate envelope (min-of-mins / max-of-maxes) across the tiers, so consumers that read only `models[]` still see the full range.
@@ -18262,6 +18623,10 @@ impl<'de> ::serde::Deserialize<'de> for WargearName {
 ///      "description": "Owning faction. A chassis shared across factions reuses the same `id` for different option sets (e.g. `chaos-terminators-wgo-mfm-4` differs in World Eaters vs Emperors Children), so the option is keyed by (faction_id, unit_id, id) — `id` is unique only within a faction.",
 ///      "$ref": "#/$defs/entity-id"
 ///    },
+///    "game_modes": {
+///      "description": "Game modes this wargear option is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -18346,6 +18711,9 @@ pub struct WargearOption {
     pub additional_cost: ::std::option::Option<u64>,
     ///Owning faction. A chassis shared across factions reuses the same `id` for different option sets (e.g. `chaos-terminators-wgo-mfm-4` differs in World Eaters vs Emperors Children), so the option is keyed by (faction_id, unit_id, id) — `id` is unique only within a faction.
     pub faction_id: EntityId,
+    ///Game modes this wargear option is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     pub id: EntityId,
     #[serde(default = "defaults::default_bool::<true>")]
@@ -18509,6 +18877,10 @@ impl<'de> ::serde::Deserialize<'de> for WargearOptionModelConstraintModelName {
 ///    "type"
 ///  ],
 ///  "properties": {
+///    "game_modes": {
+///      "description": "Game modes this weapon is legal or authored for; absent implies matched-play.",
+///      "$ref": "#/$defs/game-modes"
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -18648,6 +19020,9 @@ impl<'de> ::serde::Deserialize<'de> for WargearOptionModelConstraintModelName {
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct Weapon {
+    ///Game modes this weapon is legal or authored for; absent implies matched-play.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub game_modes: ::std::option::Option<GameModes>,
     pub game_version: GameVersionRef,
     pub id: EntityId,
     pub name: WeaponName,
