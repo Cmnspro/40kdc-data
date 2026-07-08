@@ -89,7 +89,7 @@ export interface DetachmentFactionDpCostRow {
 export interface ForceDispositionRow extends DumpRow {}
 export interface EnhancementRow extends DumpRow {
   detachmentId: string;
-  basePointsCost: number;
+  basePointsCost: number | null;
   limit: number;
   enhancementType: string;
   isEquipableByEpicHero: boolean;
