@@ -395,10 +395,20 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: go/v${{ steps.ver.outputs.version }}
         run: |
-          git tag "$TAG"
-          git push origin "$TAG"
-          gh release create "$TAG" go/dist/* \
-            --title "wh40kdc Go module v${{ steps.ver.outputs.version }}" \
-            --notes "go get github.com/wn-mitch/40kdc-data/go@v${{ steps.ver.outputs.version }}"
+          # The proxy self-gate above is eventually-consistent: it can still read
+          # "not published" for a few minutes after the tag lands, so a second push
+          # at the same version re-enters this step. Creating the tag is the publish
+          # act, so treat an existing tag as "already published" and skip re-tagging
+          # (a bare `git tag`/`git push` would fail on the existing ref). The proxy
+          # warm is idempotent and runs regardless so a lagging index catches up.
+          if git ls-remote --exit-code --tags origin "$TAG" >/dev/null 2>&1; then
+            echo "tag $TAG already exists — Go module already published; skipping tag/release."
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+            gh release create "$TAG" go/dist/* \
+              --title "wh40kdc Go module v${{ steps.ver.outputs.version }}" \
+              --notes "go get github.com/wn-mitch/40kdc-data/go@v${{ steps.ver.outputs.version }}"
+          fi
           GOPROXY=https://proxy.golang.org GO111MODULE=on \
             go list -m "github.com/wn-mitch/40kdc-data/go@v${{ steps.ver.outputs.version }}" || true
