@@ -46,10 +46,12 @@ export function pwaPlugin(app: PwaAppConfig): PluginOption {
     },
     workbox: {
       // The apps embed the whole 40kdc dataset, so the main JS chunk is several
-      // MB. That data *is* the app and must be cached for offline use, so lift
-      // Workbox's 2 MiB precache cap. Keep an explicit ceiling (not Infinity) so
-      // a runaway bundle fails the build loudly.
-      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+      // MB and grows with every points/MFM data drop (the 1.0.24 wargear-cost +
+      // defiler refresh pushed it past 8 MiB). That data *is* the app and must be
+      // cached for offline use, so lift Workbox's 2 MiB precache cap. Keep an
+      // explicit ceiling (not Infinity) so a genuinely runaway bundle still fails
+      // the build loudly — bump it a data drop at a time as the embedded set grows.
+      maximumFileSizeToCacheInBytes: 16 * 1024 * 1024,
       // App shell (JS/CSS/HTML) is precached by default. Runtime-cache the
       // Google Fonts CDN so the webfonts survive offline.
       runtimeCaching: [
