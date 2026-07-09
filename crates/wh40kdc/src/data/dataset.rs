@@ -8,7 +8,7 @@
 //! `dataset.phases_of(&ability)`) — a borrowing view object would be
 //! self-referential. The join graph is identical.
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 use std::sync::OnceLock;
 
 use crate::generated::{
@@ -222,7 +222,10 @@ impl Dataset {
             // The same unit id is shared across factions (e.g. ministorum-priest);
             // keep each faction's copy, collapse only true within-faction dupes.
             |u| format!("{}::{}", u.faction_id.as_str(), u.id.as_str()),
-        );
+        )
+        // Per-faction copies genuinely diverge (points, keywords, profiles), so
+        // a faction-less get() of a shared id is a bug — mirror of the TS guard.
+        .with_unscoped_guard("unit");
         let weapons = Collection::build(
             raw.weapons,
             |w| w.id.to_string(),
@@ -239,7 +242,11 @@ impl Dataset {
                     w.id.as_str()
                 )
             },
-        );
+        )
+        // Per-faction copies diverge (stats), so a faction-less get() of a
+        // shared id is a bug — catalog/import callsites that genuinely lack
+        // faction context opt out via get_any.
+        .with_unscoped_guard("weapon");
         let weapon_keywords = id_name_collection(
             raw.weapon_keywords,
             |k| k.id.to_string(),
@@ -257,13 +264,28 @@ impl Dataset {
             |_| None,
             |f| f.id.to_string(),
         );
+        // An ability_id is shared across factions (each faction's enrichment
+        // authors its own copy of e.g. "deadly-demise-d3", and the copies
+        // legitimately diverge); dedupe on (faction_id, id) so every faction's
+        // copy is retained and a unit resolves its own faction's ability — the
+        // same scheme as weapons (issue #59). `faction_id` is stamped at
+        // bundle time from the enrichment directory; only the shared `_core`
+        // pool stays faction-less, reachable through the first-wins fallback.
         let abilities = Collection::build(
             raw.abilities,
             |a| a.ability_id.to_string(),
             |a| Some(a.name.as_str()),
             |a| a.faction_id.as_ref().map(|e| e.as_str()),
-            |a| a.ability_id.to_string(),
-        );
+            |a| {
+                format!(
+                    "{}::{}",
+                    a.faction_id.as_ref().map(|e| e.as_str()).unwrap_or(""),
+                    a.ability_id.as_str()
+                )
+            },
+        )
+        // Per-faction copies diverge (DSL fidelity, unit_ids) — same guard as weapons.
+        .with_unscoped_guard("ability");
 
         let target_profiles = Collection::build(
             raw.target_profiles,
@@ -281,7 +303,10 @@ impl Dataset {
             // Codex-compatible chapter/supplement view (shared id, distinct
             // faction); keep each faction's copy, collapse only within-faction dupes.
             |d| format!("{}::{}", d.faction_id.as_str(), d.id.as_str()),
-        );
+        )
+        // Shared detachments diverge per chapter (detachment_rule_id,
+        // stratagem_ids, enhancement_ids, detachment_points) — same guard as units.
+        .with_unscoped_guard("detachment");
         let allied_rules = id_name_collection(
             raw.allied_rules,
             |r| r.id.to_string(),
@@ -491,7 +516,7 @@ impl Dataset {
             .filter_map(|id| {
                 self.weapons
                     .get_in_faction(id.as_str(), unit.faction_id.as_str())
-                    .or_else(|| self.weapons.get(id.as_str()))
+                    .or_else(|| self.weapons.get_any(id.as_str()))
             })
             .collect()
     }
@@ -513,10 +538,19 @@ impl Dataset {
     }
 
     /// Abilities referenced by `ability_ids`; unresolved ids are skipped.
+    ///
+    /// Resolves within the unit's own faction first — an ability_id shared
+    /// across factions has per-faction copies that diverge. The fallback
+    /// catches the faction-less `_core` pool (and any id absent from this
+    /// faction's enrichment). Mirror of TS `UnitView.abilities`.
     pub fn abilities_of(&self, unit: &Unit) -> Vec<&Ability> {
         unit.ability_ids
             .iter()
-            .filter_map(|id| self.abilities.get(id.as_str()))
+            .filter_map(|id| {
+                self.abilities
+                    .get_in_faction(id.as_str(), unit.faction_id.as_str())
+                    .or_else(|| self.abilities.get_any(id.as_str()))
+            })
             .collect()
     }
 
@@ -551,7 +585,15 @@ impl Dataset {
     /// `Dataset.reactiveTriggers`.
     pub fn reactive_triggers(&self) -> Vec<ReactiveTrigger<'_>> {
         let mut out: Vec<ReactiveTrigger<'_>> = Vec::new();
+        // The abilities collection retains one copy per faction of a shared
+        // ability_id; this aggregation is faction-less (ReactiveTrigger carries
+        // no faction), so emit each ability id once — first registered copy
+        // wins, matching the collection's own by-id index and the TS mirror.
+        let mut seen_ids: HashSet<&str> = HashSet::new();
         for ability in self.abilities.all() {
+            if !seen_ids.insert(ability.ability_id.as_str()) {
+                continue;
+            }
             let Some(raw) = ability.trigger.as_ref() else {
                 continue;
             };
@@ -728,6 +770,7 @@ impl Dataset {
     /// attach to this unit?" means scanning the attachment list. Returns an
     /// empty vec for a unit nothing attaches to (including leader units).
     pub fn leaders_attachable_to(&self, bodyguard_unit_id: &str) -> Vec<&Unit> {
+        let bodyguard = self.units.get_any(bodyguard_unit_id);
         let mut out: Vec<&Unit> = self
             .leader_attachments
             .iter()
@@ -735,8 +778,14 @@ impl Dataset {
                 la.eligible_bodyguard_ids
                     .iter()
                     .any(|id| id.as_str() == bodyguard_unit_id)
+                    // Keyword eligibility (e.g. an Inquisitor leading any
+                    // Imperium Battleline Infantry unit): match the bodyguard's
+                    // keyword set.
+                    || bodyguard.is_some_and(|b| matches_bodyguard_keywords(la, b))
             })
-            .filter_map(|la| self.units.get(la.leader_id.as_str()))
+            // Attachment data is faction-agnostic (no faction context here);
+            // accept first-wins for a shared leader chassis via get_any.
+            .filter_map(|la| self.units.get_any(la.leader_id.as_str()))
             .collect();
         out.sort_by(|a, b| a.name.cmp(&b.name));
         out
@@ -755,11 +804,21 @@ impl Dataset {
                 continue;
             }
             for bodyguard_id in &la.eligible_bodyguard_ids {
-                if !seen.insert(bodyguard_id.as_str()) {
-                    continue;
+                // Faction-agnostic attachment data — get_any, as above.
+                if let Some(unit) = self.units.get_any(bodyguard_id.as_str()) {
+                    if seen.insert(unit.id.as_str()) {
+                        out.push(unit);
+                    }
                 }
-                if let Some(unit) = self.units.get(bodyguard_id.as_str()) {
-                    out.push(unit);
+            }
+            // Keyword eligibility: every unit whose keyword set contains all of
+            // the entry's keywords is also a valid bodyguard (e.g. Imperium
+            // Battleline Infantry for an Inquisitor).
+            if !la.eligible_bodyguard_keywords.is_empty() {
+                for unit in self.units.all() {
+                    if matches_bodyguard_keywords(la, unit) && seen.insert(unit.id.as_str()) {
+                        out.push(unit);
+                    }
                 }
             }
         }
@@ -821,6 +880,20 @@ fn unit_keyword_set(unit: &Unit) -> std::collections::HashSet<String> {
         .chain(unit.faction_keywords.iter().flat_map(|k| k.0.iter()))
         .map(|k| k.to_lowercase())
         .collect()
+}
+
+/// Whether `unit` satisfies an attachment entry's optional keyword eligibility:
+/// its keyword set (keywords ∪ faction_keywords, case-insensitive) contains ALL
+/// of `eligible_bodyguard_keywords`. Empty keywords never match (the entry then
+/// relies solely on `eligible_bodyguard_ids`).
+fn matches_bodyguard_keywords(la: &LeaderAttachment, unit: &Unit) -> bool {
+    if la.eligible_bodyguard_keywords.is_empty() {
+        return false;
+    }
+    let have = unit_keyword_set(unit);
+    la.eligible_bodyguard_keywords
+        .iter()
+        .all(|k| have.contains(&k.to_lowercase()))
 }
 
 /// Build ability-id→units, weapon-id→units, and keyword→units reverse indexes

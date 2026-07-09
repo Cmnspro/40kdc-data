@@ -421,7 +421,7 @@ fn handle_check_unit_legality(state: &mut RunnerState, args: &Value) -> Value {
             .by_faction(fid)
             .into_iter()
             .find(|u| u.id.as_str() == unit_id),
-        None => ds.units.get(unit_id),
+        None => ds.units.get_any(unit_id),
     };
     let Some(unit) = unit else {
         return err_value(
@@ -667,7 +667,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }),
         "abilities_of" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -682,7 +682,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "weapons_of" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -697,7 +697,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "wargear_options_of" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -712,7 +712,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "base_loadout" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -740,7 +740,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "maximal_loadout" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -768,7 +768,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "phases_of" => {
             let id = str_arg("abilityId");
-            let Some(ability) = ds.abilities.get(id) else {
+            let Some(ability) = ds.abilities.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "ability", "id": id })),
@@ -783,7 +783,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "faction_of" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -796,7 +796,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "base_size_of" => {
             let id = str_arg("unitId");
-            let Some(unit) = ds.units.get(id) else {
+            let Some(unit) = ds.units.get_any(id) else {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -809,7 +809,7 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
         }
         "model_bases_of" => {
             let id = str_arg("unitId");
-            if ds.units.get(id).is_none() {
+            if ds.units.get_any(id).is_none() {
                 return err_value(
                     ErrorKind::UnknownEntity,
                     Some(json!({ "kind": "unit", "id": id })),
@@ -900,6 +900,24 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
             let rule_id = str_arg("ruleId");
             ok_value(Value::Array(
                 ds.ally_units_for(rule_id)
+                    .into_iter()
+                    .map(|u| Value::String(u.id.to_string()))
+                    .collect(),
+            ))
+        }
+        "leaders_attachable_to" => {
+            let bodyguard_id = str_arg("bodyguardId");
+            ok_value(Value::Array(
+                ds.leaders_attachable_to(bodyguard_id)
+                    .into_iter()
+                    .map(|u| Value::String(u.id.to_string()))
+                    .collect(),
+            ))
+        }
+        "bodyguards_attachable_from" => {
+            let leader_id = str_arg("leaderId");
+            ok_value(Value::Array(
+                ds.bodyguards_attachable_from(leader_id)
                     .into_iter()
                     .map(|u| Value::String(u.id.to_string()))
                     .collect(),
@@ -1044,13 +1062,13 @@ fn build_engine_input<'a>(
             Some(json!({ "detail": format!("{op_name}.context required") })),
         )
     })?;
-    let weapon = ds.weapons.get(&attacker.weapon_id).ok_or_else(|| {
+    let weapon = ds.weapons.get_any(&attacker.weapon_id).ok_or_else(|| {
         err_value(
             ErrorKind::UnknownEntity,
             Some(json!({ "kind": "weapon", "id": attacker.weapon_id })),
         )
     })?;
-    let unit = ds.units.get(&target.unit_id).ok_or_else(|| {
+    let unit = ds.units.get_any(&target.unit_id).ok_or_else(|| {
         err_value(
             ErrorKind::UnknownEntity,
             Some(json!({ "kind": "unit", "id": target.unit_id })),

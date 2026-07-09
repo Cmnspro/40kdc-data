@@ -238,7 +238,7 @@ def _handle_check_unit_legality(state: RunnerState, args: Any) -> Response:
     u = (
         ds.units.get_in_faction(unit_id, faction_id)
         if isinstance(faction_id, str)
-        else ds.units.get(unit_id)
+        else ds.units.get_any(unit_id)
     )
     if u is None:
         return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": unit_id})
@@ -380,22 +380,22 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
             a = ds.abilities.find(input_.get("query", ""))
             return _ok(a.id if a else None)
         if query == "abilities_of":
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             return _ok([x.id for x in u.abilities])
         if query == "weapons_of":
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             return _ok([x.id for x in u.weapons])
         if query == "wargear_options_of":
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             return _ok([x["id"] for x in u.wargear_options])
         if query in ("base_loadout", "maximal_loadout"):
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             # The corpus always supplies modelCount; missing coerces to 0.
@@ -413,22 +413,22 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
             # Encode the id→count map as sorted "id:count" strings for set compare.
             return _ok(sorted(f"{id_}:{n}" for id_, n in lo.items()))
         if query == "phases_of":
-            ab = ds.abilities.get(input_.get("abilityId") or "")
+            ab = ds.abilities.get_any(input_.get("abilityId") or "")
             if ab is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "ability", "id": input_.get("abilityId")})
             return _ok(list(ab.phases))
         if query == "faction_of":
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             return _ok(u.faction.id if u.faction else None)
         if query == "base_size_of":
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             return _ok(encode_base(u.raw.get("base_size_mm")))
         if query == "model_bases_of":
-            u = ds.units.get(unit_id)
+            u = ds.units.get_any(unit_id)
             if u is None:
                 return _err("UNKNOWN_ENTITY", {"kind": "unit", "id": input_.get("unitId")})
             comp = next((c for c in ds.unit_compositions if c.get("unit_id") == unit_id), None)
@@ -460,6 +460,10 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
             )
         if query == "ally_units_for":
             return _ok([u.id for u in ds.ally_units_for(input_.get("ruleId") or "")])
+        if query == "leaders_attachable_to":
+            return _ok([u.id for u in ds.leaders_attachable_to(input_.get("bodyguardId") or "")])
+        if query == "bodyguards_attachable_from":
+            return _ok([u.id for u in ds.bodyguards_attachable_from(input_.get("leaderId") or "")])
         if query == "reactive_trigger_ability_ids":
             return _ok(sorted(rt["ability_id"] for rt in ds.reactive_triggers()))
         if query == "events_with_triggers":
@@ -513,10 +517,10 @@ def _build_engine_input(
     if not a.get("context"):
         return None, _err("INVALID_INPUT", {"detail": f"{op_name}.context required"})
     ds = state.dataset()
-    weapon = ds.weapons.get(attacker["weaponId"])
+    weapon = ds.weapons.get_any(attacker["weaponId"])
     if weapon is None:
         return None, _err("UNKNOWN_ENTITY", {"kind": "weapon", "id": attacker["weaponId"]})
-    unit = ds.units.get(target["unitId"])
+    unit = ds.units.get_any(target["unitId"])
     if unit is None:
         return None, _err("UNKNOWN_ENTITY", {"kind": "unit", "id": target["unitId"]})
     target_input: dict[str, Any] = {"unit": unit.raw, "profileIndex": target["profileIndex"]}

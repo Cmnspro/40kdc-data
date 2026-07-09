@@ -117,8 +117,9 @@ def _scoped_weapon_id(ds: Dataset, hit: Any, raw_name: str) -> str | None:
     stripped = strip_leading_the(raw_name)
     if stripped:
         targets.add(normalize_name(stripped))
+    faction_id = hit.raw.get("faction_id", "")
     for wid in ids:
-        w = ds.weapons.get(wid)
+        w = ds.weapons.get_in_faction(wid, faction_id) or ds.weapons.get_any(wid)
         if w is not None and normalize_name(w.name) in targets:
             return w.id
     return None
@@ -543,7 +544,7 @@ def _apply_leader_attachments(
         resolved_unit = (
             (ds.units.get_in_faction(leader_id, faction_id) or ds.units.get(leader_id))
             if faction_id
-            else ds.units.get(leader_id)
+            else ds.units.get_any(leader_id)
         )
         if resolved_unit is None or resolved_unit.raw.get("attachment_role") != "support":
             continue

@@ -148,7 +148,7 @@
       "edition": "11th",
       "dataslate": "launch"
     },
-    "is_free": true,
+    "is_free": false,
     "replaces": [
       "twin-iliastus-accelerator-cannon",
       "twin-lastrum-bolt-cannon",
@@ -228,6 +228,25 @@
     ],
     "model_constraint": {
       "any_number": true
+    }
+  },
+  {
+    "id": "custodian-guard-wgo-mfm-2",
+    "unit_id": "custodian-guard",
+    "faction_id": "adeptus-custodes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "guardian-spear"
+    ],
+    "replacement": [
+      "vexilla"
+    ],
+    "model_constraint": {
+      "max_count": 1
     }
   },
   {

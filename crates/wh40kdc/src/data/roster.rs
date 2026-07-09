@@ -11,7 +11,7 @@ use std::collections::{BTreeMap, HashMap, HashSet};
 
 use crate::data::battle_sizes::{detachment_cap_for_battle_size, points_limit_for_battle_size};
 use crate::data::loadout::{check_unit_legality, loadout_models, loadout_tiers, Violation};
-use crate::data::pricing::base_unit_points;
+use crate::data::pricing::{base_unit_points, wargear_points};
 use crate::generated::{Unit, UnitRole};
 use crate::import::{BattleSize, Roster};
 use crate::Dataset;
@@ -179,7 +179,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
                     .into_iter()
                     .find(|u| u.id.as_str() == unit_id)
             })
-            .or_else(|| dataset.units.get(unit_id))
+            .or_else(|| dataset.units.get_any(unit_id))
     };
 
     let views: Vec<Option<&Unit>> = spec
@@ -218,7 +218,13 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
     let detachments: Vec<&crate::generated::Detachment> = spec
         .detachment_ids
         .iter()
-        .filter_map(|id| dataset.detachments.get(id))
+        // Shared detachment ids (Codex chapters) resolve within the roster's
+        // faction; fall back first-wins when the spec names no faction.
+        .filter_map(|id| {
+            faction
+                .and_then(|f| dataset.detachments.get_in_faction(id, f))
+                .or_else(|| dataset.detachments.get_any(id))
+        })
         .collect();
     let primary = detachments.first().copied();
 
@@ -338,7 +344,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
         }
     }
 
-    // --- Points total (ordinal-aware) + enhancement costs. --------------------
+    // --- Points total (ordinal-aware) + wargear + enhancement costs. ----------
     let mut ordinals: HashMap<String, u64> = HashMap::new();
     let mut total: u64 = 0;
     for (idx, su) in spec.units.iter().enumerate() {
@@ -346,6 +352,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
         let ord = ordinals.entry(su.unit_id.clone()).or_insert(0);
         *ord += 1;
         total += base_unit_points(view, su.model_count, *ord);
+        total += wargear_points(view, &su.counts);
         if let Some(enh_id) = &su.enhancement_id {
             total += dataset
                 .enhancements

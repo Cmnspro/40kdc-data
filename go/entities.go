@@ -30,12 +30,22 @@ func (u *UnitView) Weapons() []*WeaponView {
 		if w, ok := u.ds.Weapons.GetInFaction(id, faction); ok {
 			return w, true
 		}
-		return u.ds.Weapons.Get(id)
+		return u.ds.Weapons.GetAny(id)
 	})
 }
 
 func (u *UnitView) Abilities() []*AbilityView {
-	return resolveAll(getStrList(u.Raw, "ability_ids"), u.ds.Abilities.Get)
+	// Resolve within the unit's own faction first — an ability_id shared
+	// across factions has per-faction copies that diverge. The fallback
+	// catches the faction-less _core pool (and any id absent from this
+	// faction's enrichment).
+	faction := getStr(u.Raw, "faction_id")
+	return resolveAll(getStrList(u.Raw, "ability_ids"), func(id string) (*AbilityView, bool) {
+		if a, ok := u.ds.Abilities.GetInFaction(id, faction); ok {
+			return a, true
+		}
+		return u.ds.Abilities.GetAny(id)
+	})
 }
 
 func (u *UnitView) WargearOptions() []any {

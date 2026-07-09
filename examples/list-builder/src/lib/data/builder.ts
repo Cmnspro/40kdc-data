@@ -19,6 +19,7 @@ import {
 	pointsTierMissing,
 	tryImportRoster,
 	validateLoadout,
+	wargearPoints,
 	weaponBounds,
 	type AlliedRule,
 	type Detachment,
@@ -128,7 +129,7 @@ export function unitRaw(
 		const scoped = ds.units.getInFaction(datasheetId, fid);
 		if (scoped) return scoped.raw;
 	}
-	return ds.units.get(datasheetId)?.raw;
+	return ds.units.getAny(datasheetId)?.raw;
 }
 
 /**
@@ -449,6 +450,27 @@ export function reconcileLoadout(
 }
 
 /**
+ * Change a unit's model count while PRESERVING its wargear. Clamps the requested
+ * count into the datasheet's [min,max] range, then reconciles the existing loadout
+ * against the new bounds (keeps the player's swaps, clamps counts that now exceed
+ * the new max, tops up always-on base weapons). Mirrors what adding a unit and
+ * importing a roster already do via {@link reconcileLoadout} — the model-count
+ * stepper must NOT reset selections to the datasheet default.
+ */
+export function withModelCount(
+	bu: BuilderUnit,
+	requested: number,
+	armyFactionId?: string,
+): BuilderUnit {
+	const range = buRaw(bu, armyFactionId)?.model_count ?? null;
+	const min = range?.min ?? 1;
+	const max = range?.max ?? Math.max(min, requested);
+	const next = Math.min(max, Math.max(min, requested));
+	const loadout = reconcileLoadout(bu.datasheetId, next, bu.loadout, bu.factionId ?? armyFactionId);
+	return { ...bu, modelCount: next, loadout };
+}
+
+/**
  * Project a builder unit onto the `DatacardData` the shared `Datacard` component
  * renders: the equipped weapon ids split into ranged/melee (a weapon is ranged
  * when any profile has a numeric range — the same test `Datacard` uses). Lets the
@@ -460,7 +482,7 @@ export function builderUnitToDatacardData(bu: BuilderUnit, armyFactionId?: strin
 	const ranged: string[] = [];
 	const melee: string[] = [];
 	for (const id of equipped) {
-		const w = ds.weapons.get(id);
+		const w = (armyFactionId ? ds.weapons.getInFaction(id, armyFactionId) : undefined) ?? ds.weapons.getAny(id);
 		const isRanged = !!w && w.raw.profiles.some((p) => typeof p.range === 'number');
 		(isRanged ? ranged : melee).push(id);
 	}
@@ -507,8 +529,9 @@ export function unitPoints(bu: BuilderUnit, armyFactionId?: string, ordinal = 1)
 	const unit = buRaw(bu, armyFactionId);
 	if (!unit) return 0;
 	const base = baseUnitPoints(unit, bu.modelCount, ordinal);
+	const wargear = wargearPoints(unit, bu.loadout);
 	const enh = bu.enhancementId ? (ds.enhancements.get(bu.enhancementId)?.cost ?? 0) : 0;
-	return base + enh;
+	return base + wargear + enh;
 }
 
 export function totalPoints(state: BuilderState): number {
@@ -624,7 +647,7 @@ export function clampCount(
 
 /** Display name for a weapon/wargear id. */
 export function itemName(id: string): string {
-	return ds.weapons.get(id)?.name ?? ds.wargear.get(id)?.name ?? id;
+	return ds.weapons.getAny(id)?.name ?? ds.wargear.get(id)?.name ?? id;
 }
 
 /** Display name for an enhancement id (falls back to the id when unknown). */
@@ -953,9 +976,9 @@ function allyViolations(state: BuilderState): BuilderViolation[] {
 }
 
 /**
- * Core 10e army-construction caps (advisory): datasheet-name limits (≤3 of a
- * datasheet, ≤6 for Battleline / Dedicated Transport), Enhancement caps (≤3
- * total, each unique, none on Epic Heroes), and Epic Hero uniqueness.
+ * Core army-construction caps (advisory): datasheet-name limits (≤3 of a
+ * datasheet, ≤6 for Battleline / Dedicated Transport), Enhancement rules (each
+ * unique, none on Epic Heroes), and Epic Hero uniqueness.
  */
 function constructionViolations(state: BuilderState): BuilderViolation[] {
 	const out: BuilderViolation[] = [];
@@ -978,9 +1001,9 @@ function constructionViolations(state: BuilderState): BuilderViolation[] {
 		if (count > cap) out.push({ unitKey: null, message: `${count}× ${name} (max ${cap} of a datasheet)` });
 	}
 
-	// Enhancements: ≤3 total, each unique, none on Epic Heroes.
+	// Enhancements: each unique, none on Epic Heroes. (The old army-wide "max 3
+	// Enhancements" cap was removed from the rules and is no longer enforced.)
 	const enhUsed = state.units.flatMap((u) => (u.enhancementId ? [u.enhancementId] : []));
-	if (enhUsed.length > 3) out.push({ unitKey: null, message: `${enhUsed.length} Enhancements (max 3)` });
 	const dupes = new Set(enhUsed.filter((id, i) => enhUsed.indexOf(id) !== i));
 	for (const id of dupes) {
 		out.push({ unitKey: null, message: `Enhancement '${ds.enhancements.get(id)?.name ?? id}' used more than once` });
@@ -1123,7 +1146,7 @@ export function builderToRoster(state: BuilderState): Roster {
 		const name = unit?.name ?? bu.datasheetId;
 		const enh = bu.enhancementId ? ds.enhancements.get(bu.enhancementId) : undefined;
 		const weaponRef = (id: string, count: number) => {
-			const w = ds.weapons.get(id) ?? ds.wargear.get(id);
+			const w = ds.weapons.getAny(id) ?? ds.wargear.get(id);
 			return { ref: ref(id, w?.name ?? id), count };
 		};
 		const wargear = [...bu.loadout.entries()]

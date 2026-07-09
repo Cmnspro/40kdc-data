@@ -114,6 +114,73 @@ fn by_faction_disambiguates_a_shared_unit() {
     }
 }
 
+// --- unscoped-lookup guard ---------------------------------------------------
+
+#[test]
+#[should_panic(expected = "Ambiguous unit lookup")]
+fn get_panics_for_a_shared_unit_id_without_a_faction() {
+    // The tripwire that turns a silent wrong-faction lookup into a loud error:
+    // chaos-land-raider exists under several Chaos factions, so a faction-less
+    // get() would return the first-registered copy (wrong divergent fields).
+    // Debug builds (all test runs) panic; use get_in_faction or get_any.
+    let ds = Dataset::embedded();
+    let _ = ds.units.get("chaos-land-raider");
+}
+
+#[test]
+fn get_any_is_the_explicit_first_wins_opt_out() {
+    let ds = Dataset::embedded();
+    let unit = ds
+        .units
+        .get_any("chaos-land-raider")
+        .expect("get_any resolves the shared id first-wins");
+    assert_eq!(unit.id.as_str(), "chaos-land-raider");
+}
+
+#[test]
+fn get_still_works_for_unambiguous_ids_on_a_guarded_collection() {
+    let ds = Dataset::embedded();
+    assert!(ds.units.get("kharn-the-betrayer").is_some());
+}
+
+#[test]
+#[should_panic(expected = "Ambiguous detachment lookup")]
+fn get_panics_for_a_shared_detachment_id_without_a_faction() {
+    let ds = Dataset::embedded();
+    // Codex SM detachments are replicated into every chapter view.
+    let shared = ds
+        .detachments
+        .all()
+        .iter()
+        .map(|d| d.id.as_str())
+        .find(|id| {
+            ds.detachments
+                .all()
+                .iter()
+                .filter(|d| d.id.as_str() == *id)
+                .count()
+                > 1
+        })
+        .expect("at least one chapter-replicated detachment id exists");
+    let _ = ds.detachments.get(shared);
+}
+
+#[test]
+#[should_panic(expected = "Ambiguous weapon lookup")]
+fn get_panics_for_a_shared_weapon_id_without_a_faction() {
+    // lascannon exists under many factions with divergent stats; a
+    // faction-less get() would silently crunch the wrong faction's profile.
+    let ds = Dataset::embedded();
+    let _ = ds.weapons.get("lascannon");
+}
+
+#[test]
+#[should_panic(expected = "Ambiguous ability lookup")]
+fn get_panics_for_a_shared_ability_id_without_a_faction() {
+    let ds = Dataset::embedded();
+    let _ = ds.abilities.get("idol-of-blessed-blood");
+}
+
 // --- internationalization ---------------------------------------------------
 
 #[test]
@@ -213,7 +280,7 @@ fn phases_union_across_a_mapping() {
     let ds = Dataset::embedded();
     let ability = ds
         .abilities
-        .get("deadly-demise-d3")
+        .get_any("deadly-demise-d3")
         .expect("deadly-demise-d3 exists");
     let mut phases: Vec<Phase> = ds.phases_of(ability).to_vec();
     phases.sort_unstable();
@@ -225,7 +292,7 @@ fn phases_empty_for_ability_without_a_mapping() {
     let ds = Dataset::embedded();
     let leader = ds
         .abilities
-        .get("leader")
+        .get_any("leader")
         .expect("the core `leader` ability exists");
     assert!(ds.phases_of(leader).is_empty());
 }
@@ -341,7 +408,7 @@ fn skips_dangling_link_ids_rather_than_panicking() {
     .expect("ghost RawData deserializes");
 
     let ds = Dataset::from_raw(raw);
-    let ghost = ds.units.get("ghost").expect("ghost is present");
+    let ghost = ds.units.get_any("ghost").expect("ghost is present");
     assert!(ds.weapons_of(ghost).is_empty());
     assert!(ds.abilities_of(ghost).is_empty());
     assert!(ds.faction_of(ghost).is_none());
@@ -359,25 +426,64 @@ fn exposes_the_embedded_data() {
 }
 
 #[test]
-fn deduplicates_abilities_by_id() {
+fn deduplicates_abilities_by_faction_and_id() {
+    // A shared ability_id keeps one copy per faction (the copies legitimately
+    // diverge); only true within-faction duplicates collapse. Mirror of the TS
+    // data-model test.
     let ds = Dataset::embedded();
-    let ids: std::collections::HashSet<&str> = ds
+    let keys: std::collections::HashSet<String> = ds
         .abilities
         .all()
         .iter()
-        .map(|a| a.ability_id.as_str())
+        .map(|a| {
+            format!(
+                "{}::{}",
+                a.faction_id.as_ref().map(|e| e.as_str()).unwrap_or(""),
+                a.ability_id.as_str()
+            )
+        })
         .collect();
     assert_eq!(
-        ids.len(),
+        keys.len(),
         ds.abilities.len(),
-        "no duplicate ability ids in .all()"
+        "no duplicate (faction_id, ability_id) pairs in .all()"
     );
+    let idols = ds
+        .abilities
+        .all()
+        .iter()
+        .filter(|a| a.ability_id.as_str() == "idol-of-blessed-blood")
+        .count();
+    assert_eq!(
+        idols, 2,
+        "both factions' idol-of-blessed-blood copies survive dedupe"
+    );
+}
+
+#[test]
+fn resolves_a_shared_ability_id_to_the_units_own_factions_copy() {
+    // `idol-of-blessed-blood` is authored in both world-eaters and
+    // chaos-space-marines (shared Khorne Lord of Skulls datasheet); each
+    // faction's unit must see its own faction's copy. Mirror of the TS test.
+    let ds = Dataset::embedded();
+    for faction in ["world-eaters", "chaos-space-marines"] {
+        let unit = ds
+            .units
+            .get_in_faction("khorne-lord-of-skulls", faction)
+            .expect("khorne-lord-of-skulls exists in both factions");
+        let idol = ds
+            .abilities_of(unit)
+            .into_iter()
+            .find(|a| a.ability_id.as_str() == "idol-of-blessed-blood")
+            .unwrap_or_else(|| panic!("idol-of-blessed-blood on {faction} lord of skulls"));
+        assert_eq!(idol.faction_id.as_ref().map(|e| e.as_str()), Some(faction));
+    }
 }
 
 #[test]
 fn folds_shared_core_abilities_into_the_collection() {
     let ds = Dataset::embedded();
-    assert!(ds.abilities.get("benefit-of-cover").is_some());
+    assert!(ds.abilities.get_any("benefit-of-cover").is_some());
 }
 
 #[test]

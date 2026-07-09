@@ -10,6 +10,7 @@ import {
 	emptyBuilderState,
 	baseUnitPoints,
 	pointsTierMissing,
+	unitPoints,
 	unitsForFaction,
 	detachmentsForFaction,
 	eligibleEnhancements,
@@ -34,6 +35,9 @@ import {
 	cloneBuilderUnit,
 	loadoutSummary,
 	reconcileLoadout,
+	withModelCount,
+	loadoutBounds,
+	clampCount,
 	itemName,
 	unitTypeKeywords,
 	alliesForState,
@@ -89,6 +93,57 @@ describe('builder points', () => {
 		const minModels = Math.min(...(u.points ?? []).map((t) => t.models));
 		expect(pointsTierMissing(u, minModels - 1)).toBe(true);
 		expect(pointsTierMissing(u, minModels)).toBe(false);
+	});
+
+	// Regression for the reported crash: resizing a range-priced unit (Venatari
+	// Custodians: 3 models @160, or 4–6 models @320) must price every size in the
+	// range at 320 — not fall through to the 3-model tier (160) — and a count
+	// outside the range must be flagged, never silently mispriced.
+	it('prices every size of a range-priced unit and flags oversize (Venatari resize)', () => {
+		const fac = 'adeptus-custodes';
+		const raw = unitRaw('venatari-custodians', undefined, fac)!;
+		expect(baseUnitPoints(raw, 3)).toBe(160);
+		for (const n of [4, 5, 6]) expect(baseUnitPoints(raw, n)).toBe(320);
+		const mk = (mc: number, key: string): BuilderUnit => ({
+			key,
+			datasheetId: 'venatari-custodians',
+			modelCount: mc,
+			loadout: defaultLoadout(raw, mc),
+			enhancementId: null,
+			isWarlord: false,
+		});
+		// A 5-model squad totals 320 (the regression priced it at 160).
+		expect(totalPoints({ ...emptyBuilderState(), factionId: fac, units: [mk(5, 'v')] })).toBe(320);
+		// Below the floor and above the ceiling are flagged; legal sizes are not.
+		expect(pointsTierMissing(raw, 2)).toBe(true);
+		expect(pointsTierMissing(raw, 6)).toBe(false);
+		expect(pointsTierMissing(raw, 7)).toBe(true);
+		const over = { ...emptyBuilderState(), factionId: fac, units: [mk(7, 'o')] };
+		expect(builderViolations(over).some((iss) => iss.unitKey === 'o')).toBe(true);
+	});
+
+	// Issue 75: a unit's displayed cost includes its per-item MFM wargear costs
+	// summed over the final loadout. A Terminator Assault Squad's five thunder
+	// hammers (5 pts each) are a priced default, so unitPoints = base + 25.
+	it('charges wargear_costs over the loadout (Terminator Assault Squad hammers)', () => {
+		const fac = 'adeptus-astartes';
+		const raw = unitRaw('terminator-assault-squad', undefined, fac)!;
+		expect(raw.wargear_costs).toContainEqual({ item_id: 'thunder-hammer', cost: 5 });
+		const bu: BuilderUnit = {
+			key: 'tas',
+			datasheetId: 'terminator-assault-squad',
+			modelCount: 5,
+			loadout: defaultLoadout(raw, 5), // five thunder hammers by default
+			enhancementId: null,
+			isWarlord: false,
+		};
+		const base = baseUnitPoints(raw, 5);
+		const hammers = bu.loadout.get('thunder-hammer') ?? 0;
+		expect(hammers).toBe(5);
+		expect(unitPoints(bu, fac)).toBe(base + hammers * 5); // base + 25
+		// Swapping hammers away for free lightning claws drops the surcharge.
+		const noHammers: BuilderUnit = { ...bu, loadout: new Map(bu.loadout).set('thunder-hammer', 0) };
+		expect(unitPoints(noHammers, fac)).toBe(base);
 	});
 
 	it('sums unit points across the draft', () => {
@@ -291,8 +346,8 @@ describe('builder violations are advisory', () => {
 describe('detachment tag conflicts', () => {
 	it('flags two detachments that share a tag (only one of that type)', () => {
 		// Necrons Awakened Dynasty + Hand of the Dynasty both carry the `dynasty` tag.
-		const a = ds.detachments.get('awakened-dynasty');
-		const b = ds.detachments.get('hand-of-the-dynasty');
+		const a = ds.detachments.getAny('awakened-dynasty');
+		const b = ds.detachments.getAny('hand-of-the-dynasty');
 		expect((a?.tags ?? []).includes('dynasty')).toBe(true);
 		expect((b?.tags ?? []).includes('dynasty')).toBe(true);
 		const state: BuilderState = {
@@ -461,6 +516,47 @@ describe('builder loadout reconciliation', () => {
 			units: [bu],
 		}).filter((v) => v.unitKey === 'k' && /close-combat-weapon/.test(v.message));
 		expect(issues).toHaveLength(0);
+	});
+
+	it('preserves wargear when the model count changes, and clamps to the datasheet range', () => {
+		// Regression: the model-count stepper used to rebuild the loadout from the
+		// datasheet default, wiping every wargear swap the player had made (reported
+		// on Custodian Guard 4→5). withModelCount must reconcile, not reset.
+		const raw = unitRaw('custodian-guard');
+		if (!raw?.model_count) return; // dataset may not carry Custodes
+		const { min, max } = raw.model_count;
+		expect(max, 'need a real count range to exercise the change').toBeGreaterThan(min);
+
+		const bu: BuilderUnit = {
+			key: 'k',
+			datasheetId: 'custodian-guard',
+			modelCount: min,
+			loadout: defaultLoadout(raw, min),
+			enhancementId: null,
+			isWarlord: false,
+		};
+
+		// Pick an optional weapon (min<max) and choose a non-default count for it.
+		const bounds = loadoutBounds(bu);
+		const swap = [...bounds.entries()].find(([, b]) => b.max > b.min && b.max >= 1);
+		expect(swap, 'custodian-guard should expose a swappable wargear option').toBeTruthy();
+		const [swapId, swapBound] = swap!;
+		const chosen = clampCount(bounds, swapId, swapBound.min + 1);
+		bu.loadout.set(swapId, chosen);
+
+		// The bug: growing the unit must keep the swap, not reset it to default.
+		const grown = withModelCount(bu, min + 1);
+		expect(grown.modelCount).toBe(min + 1);
+		expect(grown.loadout.get(swapId), 'wargear swap survives a model-count change').toBe(chosen);
+
+		// Always-on base weapons (min===max) top up to the new count.
+		for (const [id, b] of loadoutBounds(grown)) {
+			if (b.min === b.max && b.max > 0) expect(grown.loadout.get(id)).toBe(b.max);
+		}
+
+		// Requests outside the datasheet range clamp to it.
+		expect(withModelCount(bu, max + 5).modelCount).toBe(max);
+		expect(withModelCount(bu, 0).modelCount).toBe(min);
 	});
 });
 
@@ -719,10 +815,10 @@ describe('leader attachment (11e)', () => {
 
 	it('offers eligible bodyguards and emits + round-trips the attachment', () => {
 		const { leaderId, bodyguardId } = leaderAndBodyguard();
-		expect(isLeader(ds.units.get(leaderId)!.raw)).toBe(true);
+		expect(isLeader(ds.units.getAny(leaderId)!.raw)).toBe(true);
 
 		const lead: BuilderUnit = { ...makeUnit(leaderId, 1), key: 'L' };
-		const body: BuilderUnit = { ...makeUnit(bodyguardId, ds.units.get(bodyguardId)!.raw.model_count?.min ?? 1), key: 'B' };
+		const body: BuilderUnit = { ...makeUnit(bodyguardId, ds.units.getAny(bodyguardId)!.raw.model_count?.min ?? 1), key: 'B' };
 		const state: BuilderState = { ...emptyBuilderState(), factionId: 'adeptus-astartes', units: [lead, body] };
 
 		// The bodyguard is offered to the leader.

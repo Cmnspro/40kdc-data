@@ -124,7 +124,7 @@ pub mod error {
 ///      "$ref": "#/$defs/effect"
 ///    },
 ///    "faction_id": {
-///      "description": "For faction-type abilities, the faction this rule belongs to",
+///      "description": "Owning faction. Authored explicitly on faction/detachment-scoped abilities; otherwise stamped at bundle time from the ability's data/enrichment/<faction>/ directory (records in the shared _core pool stay null). Enables faction-scoped resolution of a unit's ability_ids so an ability_id shared across factions resolves to the unit's own faction's copy rather than whichever faction bundled first.",
 ///      "oneOf": [
 ///        {
 ///          "$ref": "#/$defs/entity-id"
@@ -267,7 +267,7 @@ pub struct Ability {
     #[serde(default)]
     pub disputed: bool,
     pub effect: Effect,
-    ///For faction-type abilities, the faction this rule belongs to
+    ///Owning faction. Authored explicitly on faction/detachment-scoped abilities; otherwise stamped at bundle time from the ability's data/enrichment/<faction>/ directory (records in the shared _core pool stay null). Enables faction-scoped resolution of a unit's ability_ids so an ability_id shared across factions resolves to the unit's own faction's copy rather than whichever faction bundled first.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub faction_id: ::std::option::Option<EntityId>,
     pub game_version: GameVersionRef,
@@ -7331,6 +7331,15 @@ impl ::std::convert::From<Vec<Keyword>> for KeywordList {
 ///      },
 ///      "minItems": 1
 ///    },
+///    "eligible_bodyguard_keywords": {
+///      "description": "Optional keyword-based eligibility: any unit whose keyword set (keywords ∪ faction_keywords, case-insensitive) contains ALL of these is also an eligible bodyguard, in addition to eligible_bodyguard_ids. Models rules like an Inquisitor leading any IMPERIUM BATTLELINE INFANTRY unit.",
+///      "type": "array",
+///      "items": {
+///        "type": "string",
+///        "minLength": 1
+///      },
+///      "minItems": 1
+///    },
 ///    "game_version": {
 ///      "$ref": "#/$defs/game-version-ref"
 ///    },
@@ -7346,8 +7355,88 @@ impl ::std::convert::From<Vec<Keyword>> for KeywordList {
 #[serde(deny_unknown_fields)]
 pub struct LeaderAttachment {
     pub eligible_bodyguard_ids: ::std::vec::Vec<EntityId>,
+    ///Optional keyword-based eligibility: any unit whose keyword set (keywords ∪ faction_keywords, case-insensitive) contains ALL of these is also an eligible bodyguard, in addition to eligible_bodyguard_ids. Models rules like an Inquisitor leading any IMPERIUM BATTLELINE INFANTRY unit.
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub eligible_bodyguard_keywords: ::std::vec::Vec<
+        LeaderAttachmentEligibleBodyguardKeywordsItem,
+    >,
     pub game_version: GameVersionRef,
     pub leader_id: EntityId,
+}
+///`LeaderAttachmentEligibleBodyguardKeywordsItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "string",
+///  "minLength": 1
+///}
+/// ```
+/// </details>
+#[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+#[serde(transparent)]
+pub struct LeaderAttachmentEligibleBodyguardKeywordsItem(::std::string::String);
+impl ::std::ops::Deref for LeaderAttachmentEligibleBodyguardKeywordsItem {
+    type Target = ::std::string::String;
+    fn deref(&self) -> &::std::string::String {
+        &self.0
+    }
+}
+impl ::std::convert::From<LeaderAttachmentEligibleBodyguardKeywordsItem>
+for ::std::string::String {
+    fn from(value: LeaderAttachmentEligibleBodyguardKeywordsItem) -> Self {
+        value.0
+    }
+}
+impl ::std::str::FromStr for LeaderAttachmentEligibleBodyguardKeywordsItem {
+    type Err = self::error::ConversionError;
+    fn from_str(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        if value.chars().count() < 1usize {
+            return Err("shorter than 1 characters".into());
+        }
+        Ok(Self(value.to_string()))
+    }
+}
+impl ::std::convert::TryFrom<&str> for LeaderAttachmentEligibleBodyguardKeywordsItem {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &str,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<&::std::string::String>
+for LeaderAttachmentEligibleBodyguardKeywordsItem {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: &::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl ::std::convert::TryFrom<::std::string::String>
+for LeaderAttachmentEligibleBodyguardKeywordsItem {
+    type Error = self::error::ConversionError;
+    fn try_from(
+        value: ::std::string::String,
+    ) -> ::std::result::Result<Self, self::error::ConversionError> {
+        value.parse()
+    }
+}
+impl<'de> ::serde::Deserialize<'de> for LeaderAttachmentEligibleBodyguardKeywordsItem {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        ::std::string::String::deserialize(deserializer)?
+            .parse()
+            .map_err(|e: self::error::ConversionError| {
+                <D::Error as ::serde::de::Error>::custom(e.to_string())
+            })
+    }
 }
 ///An 11e primary mission (the objective a player scores). Which mission a player plays is selected by the Force Disposition matchup matrix (see mission-matchup), keyed on the player's own disposition and their opponent's. Victory points are capped per game and per battle round.
 ///
@@ -13538,11 +13627,12 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///        "modifier-immunity",
 ///        "stratagem-cost-modifier",
 ///        "targeting-permission",
-///        "unit-attachment"
+///        "unit-attachment",
+///        "fight-eligibility-extension"
 ///      ]
 ///    }
 ///  },
-///  "$comment": "Optional weapon narrowing on cruncher-interpreted modifiers (stat-modifier/roll-modifier/re-roll/keyword-grant): `weapon_type` ('melee'|'ranged'), `weapon_name` (one named weapon), or `weapon_keyword` (a weapon ability such as 'Torrent'|'Blast'|'Pistol' — restricts the effect to weapons carrying that keyword). When `type` is `re-roll`, `modifier` must carry `roll` (string) and `subset` (`ones` | `all-failures`). Rerolls always target failures; the subset decides whether only 1s are rerolled or every failed die. The constraint is enforced by AJV at validation time and stripped from the codegen bundle (typify can't model if/then/else) — the generated TS/Rust types therefore see `modifier` as an open object, matching its other-`type` callers. When `type` is `feel-no-pain`, `modifier` carries `threshold` (the FNP save target) and optionally `scope` ∈ {`all`, `mortal`}; an absent scope defaults to `all` (fires on every unsaved wound). The two scopes compose independently against the mortal-wound stream. Tag effects (`terrain-area-tag`, `objective-tag`, `unit-tag`) set a transient marker on the named subject; `modifier` carries `tag` (string) and optionally `source` ('this-action'|'destroying-unit') and `clears_on` ('turn-rollover'|'never'). `target` for tag effects names the kind of entity the tag is applied to ('unit', 'self') — a placeholder, since the marker target is the objective/terrain/unit specified by the action context, not a combat target. Parameterized weapon keywords on `keyword-grant`/`unit-keyword-grant`: a granted keyword may carry its rating either baked into the `keyword` string ('Sustained Hits 1') or structurally via `value` (Sustained Hits/Rapid Fire/Melta N); Anti-X keywords may use `anti_keyword` + `anti_threshold` (rendered '[ANTI-INFANTRY 4+]'). When `type` is `auto-result`, `modifier` carries `result` (`pass`|`fail`, or an integer the named roll counts as) plus `test` (e.g. 'battle-shock') or `roll` (e.g. 'hit'). When `type` is `firing-deck`, `modifier` carries `value` (the Firing Deck rating). `disembark-after-move` needs no modifier. When `type` is `rule-state`, a named rule is switched on/off for `target`: `modifier` carries `direction` (`suppressed` | `granted`), `rule_kind` (`core-rule` | `keyword` | `ability` | `faction-rule`), `rule` (the rule slug — constrained to the closed core-rule vocabulary when `rule_kind` is `core-rule`; a free slug resolved by integrity.ts against the matching ability/faction-rule entity when `rule_kind` is `ability`/`faction-rule`; a free string when `rule_kind` is `keyword`), and — carried over from `forgo-faction-rule` — optional `scope` and `cost`. `target` names whose printed datasheet line the rule is a property OF (the rule-text attachment point), not a buff/debuff stance: a self-immunity is `self`, an aura debuff projected onto enemies is `enemy-within-aura`. `forgo-faction-rule` is exactly `rule-state` with `direction: suppressed`, `rule_kind: faction-rule`. Pooled-resource economy (shape #1): `resource-gain`/`resource-spend` move plain COUNT tokens (Pain tokens, Yield Points) by `amount` from a free-string `pool_id`; `resource-spend` may additionally carry a `cap` ({ `count` (int), `per` ('turn'|'phase'|'battle') }) bounding how often the bearer may spend from that pool. For pools whose tokens carry a FIXED FACE VALUE (Adepta Sororitas Miracle dice), two dedicated effects apply: `pool-add-die` adds a die SHOWING a value to the pool — `modifier` carries `pool_id` (free string), `value` (integer 1-6, or the string 'highest' for 'the highest result you could roll'), and optional `count` (integer or dice-expression string, default 1); and `replace-roll-from-pool` discards a die from the pool to substitute its value for a roll — `modifier` carries `pool_id` and `rolls` (array of roll names the substitution may apply to, e.g. ['hit','wound','save','advance','charge','desperate-escape','hazardous','leadership']). `replace-roll-from-pool` revives the dice-substitution sub-shape retired at v1.0.0; the cruncher leaves both pool effects unsupported (fail-safe) since pool state is not tracked by the buff layer. When `type` is `disembark`, `modifier` carries `distance` (inches the disembarking unit may be set up wholly within of the transport, extending the default 3\") and `allow_engagement_range` (boolean — removes the core restriction against disembarking within Engagement Range of enemies); deployment mechanic, left unsupported by the cruncher like `disembark-after-move`/`deep-strike`."
+///  "$comment": "Optional weapon narrowing on cruncher-interpreted modifiers (stat-modifier/roll-modifier/re-roll/keyword-grant): `weapon_type` ('melee'|'ranged'), `weapon_name` (one named weapon), or `weapon_keyword` (a weapon ability such as 'Torrent'|'Blast'|'Pistol' — restricts the effect to weapons carrying that keyword). When `type` is `re-roll`, `modifier` must carry `roll` (string) and `subset` (`ones` | `all-failures`). Rerolls always target failures; the subset decides whether only 1s are rerolled or every failed die. The constraint is enforced by AJV at validation time and stripped from the codegen bundle (typify can't model if/then/else) — the generated TS/Rust types therefore see `modifier` as an open object, matching its other-`type` callers. When `type` is `feel-no-pain`, `modifier` carries `threshold` (the FNP save target) and optionally `scope` ∈ {`all`, `mortal`, `psychic`, `psychic-and-mortal`}; an absent scope defaults to `all` (fires on every unsaved wound). Narrowed scopes compose independently against the mortal-wound stream and are excluded from general attack-damage math by the cruncher. Tag effects (`terrain-area-tag`, `objective-tag`, `unit-tag`) set a transient marker on the named subject; `modifier` carries `tag` (string) and optionally `source` ('this-action'|'destroying-unit') and `clears_on` ('turn-rollover'|'never'). `target` for tag effects names the kind of entity the tag is applied to ('unit', 'self') — a placeholder, since the marker target is the objective/terrain/unit specified by the action context, not a combat target. Parameterized weapon keywords on `keyword-grant`/`unit-keyword-grant`: a granted keyword may carry its rating either baked into the `keyword` string ('Sustained Hits 1') or structurally via `value` (Sustained Hits/Rapid Fire/Melta N); Anti-X keywords may use `anti_keyword` + `anti_threshold` (rendered '[ANTI-INFANTRY 4+]'). When `type` is `auto-result`, `modifier` carries `result` (`pass`|`fail`, or an integer the named roll counts as) plus `test` (e.g. 'battle-shock') or `roll` (e.g. 'hit'). When `type` is `firing-deck`, `modifier` carries `value` (the Firing Deck rating). `disembark-after-move` needs no modifier. When `type` is `rule-state`, a named rule is switched on/off for `target`: `modifier` carries `direction` (`suppressed` | `granted`), `rule_kind` (`core-rule` | `keyword` | `ability` | `faction-rule`), `rule` (the rule slug — constrained to the closed core-rule vocabulary when `rule_kind` is `core-rule`; a free slug resolved by integrity.ts against the matching ability/faction-rule entity when `rule_kind` is `ability`/`faction-rule`; a free string when `rule_kind` is `keyword`), and — carried over from `forgo-faction-rule` — optional `scope` and `cost`. `target` names whose printed datasheet line the rule is a property OF (the rule-text attachment point), not a buff/debuff stance: a self-immunity is `self`, an aura debuff projected onto enemies is `enemy-within-aura`. `forgo-faction-rule` is exactly `rule-state` with `direction: suppressed`, `rule_kind: faction-rule`. Pooled-resource economy (shape #1): `resource-gain`/`resource-spend` move plain COUNT tokens (Pain tokens, Yield Points) by `amount` from a free-string `pool_id`; `resource-spend` may additionally carry a `cap` ({ `count` (int), `per` ('turn'|'phase'|'battle') }) bounding how often the bearer may spend from that pool. For pools whose tokens carry a FIXED FACE VALUE (Adepta Sororitas Miracle dice), two dedicated effects apply: `pool-add-die` adds a die SHOWING a value to the pool — `modifier` carries `pool_id` (free string), `value` (integer 1-6, the string 'highest' for 'the highest result you could roll', or 'rolled' for a die whose face is rolled rather than chosen), optional `count` (integer or dice-expression string, default 1), optional `count_per_pool` (a pool id: add one die per point currently in THAT pool — Icon of Khorne's per-Bloodshed-point dice), and optional `consumes_pool` (boolean, only with `count_per_pool`: the counting pool empties after the dice are added); and `replace-roll-from-pool` discards a die from the pool to substitute its value for a roll — `modifier` carries `pool_id` and `rolls` (array of roll names the substitution may apply to, e.g. ['hit','wound','save','advance','charge','desperate-escape','hazardous','leadership']). `replace-roll-from-pool` revives the dice-substitution sub-shape retired at v1.0.0; the cruncher leaves both pool effects unsupported (fail-safe) since pool state is not tracked by the buff layer. When `type` is `disembark`, `modifier` carries `distance` (inches the disembarking unit may be set up wholly within of the transport, extending the default 3\") and `allow_engagement_range` (boolean — removes the core restriction against disembarking within Engagement Range of enemies); deployment mechanic, left unsupported by the cruncher like `disembark-after-move`/`deep-strike`. When `type` is `fight-eligibility-extension`, `modifier` carries `range` (inches): when determining which models in the target unit are eligible to fight, models within `range`\" of one or more enemy models are eligible and can target enemy units within `range`\" — the 'extended fight eligibility' family of rules; left unsupported by the cruncher (model-count geometry is not tracked by the buff layer)."
 ///}
 /// ```
 /// </details>
@@ -13733,7 +13823,8 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///    "modifier-immunity",
 ///    "stratagem-cost-modifier",
 ///    "targeting-permission",
-///    "unit-attachment"
+///    "unit-attachment",
+///    "fight-eligibility-extension"
 ///  ]
 ///}
 /// ```
@@ -13849,6 +13940,8 @@ pub enum SingleEffectType {
     TargetingPermission,
     #[serde(rename = "unit-attachment")]
     UnitAttachment,
+    #[serde(rename = "fight-eligibility-extension")]
+    FightEligibilityExtension,
 }
 impl ::std::fmt::Display for SingleEffectType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
@@ -13902,6 +13995,7 @@ impl ::std::fmt::Display for SingleEffectType {
             Self::StratagemCostModifier => f.write_str("stratagem-cost-modifier"),
             Self::TargetingPermission => f.write_str("targeting-permission"),
             Self::UnitAttachment => f.write_str("unit-attachment"),
+            Self::FightEligibilityExtension => f.write_str("fight-eligibility-extension"),
         }
     }
 }
@@ -13960,6 +14054,7 @@ impl ::std::str::FromStr for SingleEffectType {
             "stratagem-cost-modifier" => Ok(Self::StratagemCostModifier),
             "targeting-permission" => Ok(Self::TargetingPermission),
             "unit-attachment" => Ok(Self::UnitAttachment),
+            "fight-eligibility-extension" => Ok(Self::FightEligibilityExtension),
             _ => Err("invalid value".into()),
         }
     }
@@ -16589,6 +16684,10 @@ impl ::std::convert::TryFrom<::std::string::String> for TriggerSubject {
 ///            "type": "integer",
 ///            "minimum": 1.0
 ///          },
+///          "models_max": {
+///            "type": "integer",
+///            "minimum": 1.0
+///          },
 ///          "unit_count_max": {
 ///            "oneOf": [
 ///              {
@@ -16703,6 +16802,12 @@ impl ::std::convert::TryFrom<::std::string::String> for TriggerSubject {
 ///            "minimum": 0.0
 ///          },
 ///          "models": {
+///            "description": "Lowest model count this tier's cost applies to. For a single-size tier this is the only size; for a GW range-priced tier (block pricing) it is the range floor and `models_max` is the ceiling. `baseUnitPoints` prices a squad at the highest `models` threshold its count reaches.",
+///            "type": "integer",
+///            "minimum": 1.0
+///          },
+///          "models_max": {
+///            "description": "Inclusive upper model count for a range-priced tier (GW block pricing, e.g. Venatari Custodians are 4–6 models for 320). `models` is the range floor; every size in [models, models_max] costs `cost`. Absent when the tier prices a single size (equivalent to models_max == models).",
 ///            "type": "integer",
 ///            "minimum": 1.0
 ///          },
@@ -16872,6 +16977,29 @@ impl ::std::convert::TryFrom<::std::string::String> for TriggerSubject {
 ///        "additionalProperties": false
 ///      }
 ///    },
+///    "wargear_costs": {
+///      "description": "Per-item MFM wargear prices that the option-level `additional_cost` on wargear-option records cannot express: priced default-loadout items (e.g. a Terminator Assault Squad's thunder hammers, which are the default with only a swap-away option to hang a cost on) and heterogeneous choice groups where only some items in a group cost points. Each entry charges `cost` points for every copy of `item_id` in the unit's FINAL loadout (defaults included). Additive and optional — a consumer that ignores it prices this wargear as free, exactly as before. Sourced authoritatively from the MFM dump (`wargear_option.points`).",
+///      "type": "array",
+///      "items": {
+///        "type": "object",
+///        "required": [
+///          "cost",
+///          "item_id"
+///        ],
+///        "properties": {
+///          "cost": {
+///            "description": "Points charged per copy of `item_id` present in the final loadout.",
+///            "type": "integer",
+///            "minimum": 0.0
+///          },
+///          "item_id": {
+///            "description": "The weapon or wargear id this per-copy cost applies to, matched against the unit's final loadout.",
+///            "$ref": "#/$defs/entity-id"
+///          }
+///        },
+///        "additionalProperties": false
+///      }
+///    },
 ///    "weapon_ids": {
 ///      "type": "array",
 ///      "items": {
@@ -16932,6 +17060,9 @@ pub struct Unit {
     ///Limited-wargear squad allowances the per-weapon bounds cannot express: a GW `limited_wargear_choice_set` that is either (a) SHARED across several weapons (a 'for every N models, one model can take one of A/B/C' line) or (b) a FLAT per-unit cap ('up to 1 per unit'). A loadout is legal only if the summed count of a budget's items is at most the cap: `floor(model_count * count / per_models)` for a ratio, or just `count` when `per_models` is 0 (a flat per-unit cap). Single-weapon per-N allowances are NOT budgets — the per-weapon bounds already model them (they correctly sum a weapon's capacity across the model types that may take it).
     #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
     pub wargear_budgets: ::std::vec::Vec<UnitWargearBudgetsItem>,
+    ///Per-item MFM wargear prices that the option-level `additional_cost` on wargear-option records cannot express: priced default-loadout items (e.g. a Terminator Assault Squad's thunder hammers, which are the default with only a swap-away option to hang a cost on) and heterogeneous choice groups where only some items in a group cost points. Each entry charges `cost` points for every copy of `item_id` in the unit's FINAL loadout (defaults included). Additive and optional — a consumer that ignores it prices this wargear as free, exactly as before. Sourced authoritatively from the MFM dump (`wargear_option.points`).
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub wargear_costs: ::std::vec::Vec<UnitWargearCostsItem>,
     #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
     pub weapon_ids: ::std::vec::Vec<EntityId>,
 }
@@ -17032,6 +17163,10 @@ impl<'de> ::serde::Deserialize<'de> for UnitAliasesItem {
 ///      "type": "integer",
 ///      "minimum": 1.0
 ///    },
+///    "models_max": {
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
 ///    "unit_count_max": {
 ///      "oneOf": [
 ///        {
@@ -17059,6 +17194,8 @@ pub struct UnitAlliedPointsItem {
     ///The host-army faction/super-faction keyword this cost applies under (e.g. `imperium`).
     pub host_faction: EntityId,
     pub models: ::std::num::NonZeroU64,
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub models_max: ::std::option::Option<::std::num::NonZeroU64>,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub unit_count_max: ::std::option::Option<::std::num::NonZeroU64>,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
@@ -18057,6 +18194,12 @@ impl<'de> ::serde::Deserialize<'de> for UnitName {
 ///      "minimum": 0.0
 ///    },
 ///    "models": {
+///      "description": "Lowest model count this tier's cost applies to. For a single-size tier this is the only size; for a GW range-priced tier (block pricing) it is the range floor and `models_max` is the ceiling. `baseUnitPoints` prices a squad at the highest `models` threshold its count reaches.",
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
+///    "models_max": {
+///      "description": "Inclusive upper model count for a range-priced tier (GW block pricing, e.g. Venatari Custodians are 4–6 models for 320). `models` is the range floor; every size in [models, models_max] costs `cost`. Absent when the tier prices a single size (equivalent to models_max == models).",
 ///      "type": "integer",
 ///      "minimum": 1.0
 ///    },
@@ -18084,7 +18227,11 @@ impl<'de> ::serde::Deserialize<'de> for UnitName {
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
 pub struct UnitPointsItem {
     pub cost: u64,
+    ///Lowest model count this tier's cost applies to. For a single-size tier this is the only size; for a GW range-priced tier (block pricing) it is the range floor and `models_max` is the ceiling. `baseUnitPoints` prices a squad at the highest `models` threshold its count reaches.
     pub models: ::std::num::NonZeroU64,
+    ///Inclusive upper model count for a range-priced tier (GW block pricing, e.g. Venatari Custodians are 4–6 models for 320). `models` is the range floor; every size in [models, models_max] costs `cost`. Absent when the tier prices a single size (equivalent to models_max == models).
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub models_max: ::std::option::Option<::std::num::NonZeroU64>,
     ///Inclusive upper army-copy count for this tier's band, or null for an open-ended top band ('3rd+ unit'). Absent when unit_count_min is absent.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub unit_count_max: ::std::option::Option<::std::num::NonZeroU64>,
@@ -18360,6 +18507,40 @@ pub struct UnitWargearBudgetsItem {
     pub items: ::std::vec::Vec<EntityId>,
     ///Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).
     pub per_models: u64,
+}
+///`UnitWargearCostsItem`
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "type": "object",
+///  "required": [
+///    "cost",
+///    "item_id"
+///  ],
+///  "properties": {
+///    "cost": {
+///      "description": "Points charged per copy of `item_id` present in the final loadout.",
+///      "type": "integer",
+///      "minimum": 0.0
+///    },
+///    "item_id": {
+///      "description": "The weapon or wargear id this per-copy cost applies to, matched against the unit's final loadout.",
+///      "$ref": "#/$defs/entity-id"
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct UnitWargearCostsItem {
+    ///Points charged per copy of `item_id` present in the final loadout.
+    pub cost: u64,
+    ///The weapon or wargear id this per-copy cost applies to, matched against the unit's final loadout.
+    pub item_id: EntityId,
 }
 ///A 2D point in board inches. Origin at a board corner; JSON uses y-down (downstream renderers may flip to y-up).
 ///

@@ -29,19 +29,102 @@ export const FACTION_HOME_KEYWORD: Record<string, string> = {
   "emperors-children": "Emperor’s Children",
 };
 
+/**
+ * How one per-faction data file type's ids may collide across faction
+ * directories. Every basename that appears under a `data/{core,enrichment}/
+ * <faction>/` directory MUST be declared here — an undeclared basename fails
+ * validation, so a new entity type cannot ship without a collision decision
+ * (the durable fix for the recurring cross-faction id-shadowing bugs: weapons
+ * in issue #59, the idol-of-blessed-blood ability, the imperial-fists
+ * stratagem drift).
+ *
+ *  - `faction-scoped` — the same id may appear under several factions with
+ *    copies that legitimately diverge; the linked API keeps every copy
+ *    (dedupe on `(faction_id, id)`) and resolves faction-first, so the only
+ *    invariant is id uniqueness *within* a faction dir.
+ *  - `replicated-identical` — the same id may appear under several factions
+ *    ONLY as byte-identical copies (canonical JSON): the linked API collapses
+ *    them first-wins, so any divergence silently shadows all but one copy.
+ *    Cross-faction drift fails validation.
+ *  - `unique` — an id may exist in exactly one faction dir; a cross-faction
+ *    duplicate is an error outright (promote to one of the classes above the
+ *    first time sharing is genuinely needed).
+ *  - `merged` — records carry no per-record id; consumers union/scan all of
+ *    them, so no uniqueness constraint applies.
+ */
+type CollisionPolicy =
+  | { policy: "faction-scoped"; idKey: string }
+  | { policy: "replicated-identical"; idKey: string }
+  | { policy: "unique"; idKey: string }
+  | { policy: "merged" };
+
+export const COLLISION_POLICIES: Record<string, CollisionPolicy> = {
+  units: { policy: "faction-scoped", idKey: "id" },
+  weapons: { policy: "faction-scoped", idKey: "id" },
+  detachments: { policy: "faction-scoped", idKey: "id" },
+  "wargear-options": { policy: "faction-scoped", idKey: "id" },
+  "unit-compositions": { policy: "faction-scoped", idKey: "unit_id" },
+  abilities: { policy: "faction-scoped", idKey: "ability_id" },
+  // Attachment records are keyed by leader; a shared leader chassis carries a
+  // distinct bodyguard list per faction, and consumers scan (never collapse).
+  "leader-attachments": { policy: "faction-scoped", idKey: "leader_id" },
+  // Chapter-replicated content: every copy must stay byte-identical or the
+  // linked API's first-wins collapse hides real differences (the drift class
+  // fixed for the bastion-task-force stratagems/enhancements).
+  stratagems: { policy: "replicated-identical", idKey: "id" },
+  enhancements: { policy: "replicated-identical", idKey: "id" },
+  wargear: { policy: "replicated-identical", idKey: "id" },
+  factions: { policy: "unique", idKey: "id" },
+  "resource-pools": { policy: "unique", idKey: "id" },
+  "hull-shapes": { policy: "unique", idKey: "id" },
+  // Phase assignments carry no id; the dataset unions them per source.
+  "phase-mappings": { policy: "merged" },
+};
+
+/**
+ * Known, accepted cross-faction drift in `replicated-identical` files, keyed
+ * `<basename>/<id>`. EMPTY by design — all pre-existing drift was re-synced
+ * when the gate landed. Add an entry only with a comment justifying why the
+ * copies genuinely cannot be identical; never to silence a fixable re-sync.
+ * A stale entry (no longer drifted) is reported so the list stays minimal.
+ */
+export const KNOWN_REPLICATED_DRIFT: ReadonlySet<string> = new Set<string>([]);
+
+/**
+ * Basenames whose within-faction duplicate-id detection is owned by the
+ * older, message-rich checks above (kept for their targeted diagnostics);
+ * the table-driven pass skips them to avoid double-reporting.
+ */
+const LEGACY_DUP_CHECKED = new Set(["units", "wargear-options", "unit-compositions"]);
+
+interface PointsTierLike {
+  models?: number;
+  models_max?: number;
+  cost?: number;
+  unit_count_min?: number;
+  unit_count_max?: number | null;
+}
 interface UnitLike {
   id?: string;
   ability_ids?: string[];
   faction_keywords?: string[];
   weapon_ids?: string[];
+  points?: PointsTierLike[];
+  model_count?: { min?: number; max?: number };
 }
 interface CompModelLike {
   name?: string;
+  min?: number;
+  max?: number;
   default_weapon_ids?: string[];
+}
+interface CompTierLike {
+  models?: CompModelLike[];
 }
 interface CompLike {
   unit_id?: string;
   models?: CompModelLike[];
+  tiers?: CompTierLike[];
 }
 interface AbilityLike {
   ability_id?: string;
@@ -479,6 +562,67 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
         result.passed++;
       }
     }
+
+    // Points ↔ composition-tier coverage. A composition's `tiers` are the
+    // structural authority for the legal squad sizes; `points` is the priced
+    // projection. Every whole-squad model count a tier admits must resolve to
+    // exactly one `points` tier — otherwise a builder that resizes into the gap
+    // misprices or crashes (the Venatari 4–6 range regression: tiers said 4–6
+    // was legal, points priced only 3 and 6). This is the invariant that would
+    // have caught that bug; a range-priced tier must carry `models_max`.
+    //
+    // Units whose tier size-ranges OVERLAP are choice-based / optional-attachment
+    // shapes a flat size→cost array cannot model (e.g. Outrider Squad's Invader
+    // ATV builds, per-build wargear prices); their price is derived per build, so
+    // skip the coverage check rather than false-flag — mirroring the ambiguity
+    // guard in tools/src/mfm/points.ts deriveDatasheet.
+    const unitsById = new Map(units.map((u) => [u.id ?? "", u]));
+    for (const c of comps) {
+      const u = unitsById.get(c.unit_id ?? "");
+      const points = u?.points;
+      const tiers = c.tiers;
+      if (!u || !points?.length || !tiers?.length) continue; // nothing to cross-check
+      const ranges = tiers
+        .map((t) => {
+          const rows = t.models ?? [];
+          return {
+            min: rows.reduce((n, m) => n + (m.min ?? 0), 0),
+            max: rows.reduce((n, m) => n + (m.max ?? 0), 0),
+          };
+        })
+        .filter((r) => r.max > 0);
+      if (!ranges.length) continue;
+      const overlap = ranges.some((a, i) =>
+        ranges.some((b, j) => i < j && a.min <= b.max && b.min <= a.max),
+      );
+      if (overlap) continue; // choice-based pricing — not a flat size→cost map
+      // First-copy prices (army ordinal 1): every legal size must be covered.
+      const firstCopy = points.filter((p) => p.unit_count_min == null || p.unit_count_min <= 1);
+      const active = firstCopy.length ? firstCopy : points;
+      const covers = (n: number) =>
+        active.some((p) => (p.models ?? 0) <= n && n <= (p.models_max ?? p.models ?? 0));
+      const shown = points
+        .map((p) => (p.models_max && p.models_max !== p.models ? `${p.models}-${p.models_max}` : `${p.models}`))
+        .join(", ");
+      const errs: Array<{ path: string; message: string }> = [];
+      for (const r of ranges) {
+        let gap: number | undefined;
+        for (let n = r.min; n <= r.max; n++)
+          if (!covers(n)) {
+            gap = n;
+            break;
+          }
+        if (gap !== undefined)
+          errs.push({
+            path: `/${c.unit_id}`,
+            message: `unit "${c.unit_id}": composition tier admits ${gap} model(s) but no points tier prices that size (points sizes: ${shown}) — a range-priced tier is missing its models_max, or points and composition tiers are misaligned`,
+          });
+      }
+      if (errs.length > 0) {
+        result.failed++;
+        result.errors.push({ file: resolve(dir, "units.json"), index: 0, errors: errs });
+      }
+    }
   }
 
   // A stale allowlist entry (no longer an orphan) must be removed so the list
@@ -496,6 +640,165 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
       errors: stale.map((k) => ({
         path: "/KNOWN_LOADOUT_ORPHANS",
         message: `allowlist entry "${k}" is no longer an orphan — remove it`,
+      })),
+    });
+  }
+
+  // ── Cross-faction collision policy (see COLLISION_POLICIES) ──
+  //
+  // One table-driven pass over every per-faction data file: undeclared file
+  // types fail, within-faction duplicate ids fail, `replicated-identical`
+  // copies must be canonically equal across factions, and `unique` ids may
+  // live in only one faction dir. This is the repo-wide gate that replaces
+  // per-entity whack-a-mole fixes for id shadowing.
+  const factionFiles = await glob("{core,enrichment}/*/*.json", { cwd: root, absolute: true });
+  factionFiles.sort();
+  const canonical = (v: unknown): string =>
+    JSON.stringify(v, (_key, value) =>
+      value !== null && typeof value === "object" && !Array.isArray(value)
+        ? Object.fromEntries(Object.entries(value as Record<string, unknown>).sort(([a], [b]) => (a < b ? -1 : 1)))
+        : value,
+    );
+  /** basename → id → [{faction, file, blob}] for the cross-faction passes. */
+  const byBasename = new Map<string, Map<string, { faction: string; file: string; blob: string }[]>>();
+  const seenDrift = new Set<string>();
+
+  for (const file of factionFiles) {
+    const faction = basename(dirname(file));
+    const name = basename(file, ".json");
+    // Scratch/report dirs and files are not dataset content; the shared
+    // `_core` enrichment pool is.
+    if (faction.startsWith("_") && faction !== "_core") continue;
+    if (name.startsWith("_")) continue;
+
+    const policy = COLLISION_POLICIES[name];
+    if (!policy) {
+      result.failed++;
+      result.errors.push({
+        file,
+        index: 0,
+        errors: [
+          {
+            path: "/",
+            message:
+              `data file type "${name}.json" has no declared collision policy — add "${name}" to ` +
+              `COLLISION_POLICIES in tools/src/integrity.ts (faction-scoped / replicated-identical / ` +
+              `unique / merged) so cross-faction id collisions can't silently shadow records`,
+          },
+        ],
+      });
+      continue;
+    }
+    if (policy.policy === "merged") continue;
+
+    let records: Record<string, unknown>[];
+    try {
+      records = readArray<Record<string, unknown>>(file);
+    } catch {
+      continue; // structural problems are the AJV pass's job
+    }
+    if (!Array.isArray(records)) continue;
+
+    // Within-faction id uniqueness (all id-bearing classes). The linked API
+    // collapses same-(faction,id) records first-wins, silently shadowing the
+    // later one. Skip types the older targeted checks already cover.
+    if (!LEGACY_DUP_CHECKED.has(name)) {
+      const counts = new Map<string, number>();
+      for (const r of records) {
+        const id = r[policy.idKey];
+        if (typeof id === "string") counts.set(id, (counts.get(id) ?? 0) + 1);
+      }
+      const dups = [...counts].filter(([, n]) => n > 1).map(([id]) => id);
+      if (dups.length > 0) {
+        result.failed++;
+        result.errors.push({
+          file,
+          index: 0,
+          errors: dups.map((id) => ({
+            path: "/",
+            message: `duplicate ${policy.idKey} "${id}" appears ${counts.get(id)}× in ${faction}/${name}.json — ids must be unique within a faction; the later entry is silently shadowed (first-wins)`,
+          })),
+        });
+      }
+    }
+
+    let group = byBasename.get(name);
+    if (!group) {
+      group = new Map();
+      byBasename.set(name, group);
+    }
+    for (const r of records) {
+      const id = r[policy.idKey];
+      if (typeof id !== "string") continue;
+      const entry = group.get(id) ?? [];
+      entry.push({ faction, file, blob: canonical(r) });
+      group.set(id, entry);
+    }
+  }
+
+  for (const [name, group] of byBasename) {
+    const policy = COLLISION_POLICIES[name];
+    if (!policy || policy.policy === "merged" || policy.policy === "faction-scoped") continue;
+    result.totalFiles++;
+    for (const [id, copies] of group) {
+      const factions = [...new Set(copies.map((c) => c.faction))];
+      if (factions.length < 2) continue;
+      result.totalItems++;
+      if (policy.policy === "unique") {
+        result.failed++;
+        result.errors.push({
+          file: copies[0].file,
+          index: 0,
+          errors: [
+            {
+              path: "/",
+              message: `${name} id "${id}" exists under ${factions.length} factions (${factions.join(", ")}) — this type's ids are declared unique; either rename the copies or promote "${name}" to a shared collision policy`,
+            },
+          ],
+        });
+        continue;
+      }
+      // replicated-identical
+      const blobs = new Set(copies.map((c) => c.blob));
+      if (blobs.size > 1) {
+        const key = `${name}/${id}`;
+        if (KNOWN_REPLICATED_DRIFT.has(key)) {
+          seenDrift.add(key);
+          result.passed++;
+          continue;
+        }
+        result.failed++;
+        result.errors.push({
+          file: copies[0].file,
+          index: 0,
+          errors: [
+            {
+              path: "/",
+              message: `${name} id "${id}" has drifted across factions (${factions.join(", ")}) — replicated copies must be byte-identical (the linked API collapses them first-wins, so drift silently shadows all but one copy); re-sync from the authoritative copy`,
+            },
+          ],
+        });
+      } else {
+        result.passed++;
+      }
+    }
+  }
+
+  // Stale drift-allowlist entries must be removed (mirror of the loadout-orphan
+  // staleness rule) so the list can't mask a future regression. Only entries
+  // whose file type was actually scanned are eligible — a partial dataset
+  // (test fixture) never spuriously flags them.
+  const staleDrift = [...KNOWN_REPLICATED_DRIFT].filter(
+    (k) => byBasename.has(k.split("/")[0]) && !seenDrift.has(k),
+  );
+  if (staleDrift.length > 0) {
+    result.failed++;
+    result.errors.push({
+      file: "tools/src/integrity.ts",
+      index: 0,
+      errors: staleDrift.map((k) => ({
+        path: "/KNOWN_REPLICATED_DRIFT",
+        message: `drift-allowlist entry "${k}" is no longer drifted — remove it`,
       })),
     });
   }

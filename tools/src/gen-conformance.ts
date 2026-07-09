@@ -290,6 +290,8 @@ type LinkedApiQuery =
       comparison: "ordered";
     }
   | { name: string; query: "ally_units_for"; args: { ruleId: string }; comparison: "set" }
+  | { name: string; query: "leaders_attachable_to"; args: { bodyguardId: string }; comparison: "set" }
+  | { name: string; query: "bodyguards_attachable_from"; args: { leaderId: string }; comparison: "set" }
   | { name: string; query: "reactive_trigger_ability_ids"; args: Record<string, never>; comparison: "ordered" }
   | { name: string; query: "events_with_triggers"; args: Record<string, never>; comparison: "ordered" }
   | { name: string; query: "triggers_for_event"; args: { event: string }; comparison: "ordered" };
@@ -348,6 +350,15 @@ const LINKED_API_QUERIES: LinkedApiQuery[] = [
   { name: "ally_units_for imperial-knights-questor-forgepact (5 AdMech datasheets)", query: "ally_units_for", args: { ruleId: "imperial-knights-questor-forgepact" }, comparison: "set" },
   { name: "ally_units_for agents-of-the-imperium-allies (29 datasheets)", query: "ally_units_for", args: { ruleId: "agents-of-the-imperium-allies" }, comparison: "set" },
   { name: "ally_units_for chaos-knights-allies (20 datasheets)", query: "ally_units_for", args: { ruleId: "chaos-knights-allies" }, comparison: "set" },
+  // leader attachment (both directions); compared as set (accessors sort by name).
+  // inquisitor-draxus mixes explicit eligible_bodyguard_ids with keyword eligibility
+  // (Imperium ∧ Battleline ∧ Infantry), so the expected pool is her 6 Agents units
+  // plus every Imperium Battleline Infantry datasheet. kharn-the-betrayer has no
+  // keyword rule (id-list only) — the baseline that keyword logic must not perturb.
+  { name: "bodyguards_attachable_from inquisitor-draxus (id-list + Imperium Battleline Infantry keywords)", query: "bodyguards_attachable_from", args: { leaderId: "inquisitor-draxus" }, comparison: "set" },
+  { name: "bodyguards_attachable_from kharn-the-betrayer (id-list only)", query: "bodyguards_attachable_from", args: { leaderId: "kharn-the-betrayer" }, comparison: "set" },
+  { name: "leaders_attachable_to cadian-shock-troops (Battleline → includes inquisitor-draxus)", query: "leaders_attachable_to", args: { bodyguardId: "cadian-shock-troops" }, comparison: "set" },
+  { name: "leaders_attachable_to kasrkin (not Battleline → excludes inquisitor-draxus)", query: "leaders_attachable_to", args: { bodyguardId: "kasrkin" }, comparison: "set" },
   // base_loadout(unit, modelCount): the pinned legal default loadout, encoded as a
   // sorted "weaponId:count" multiset. chaos-terminators is a uniform squad (per-model
   // scaling); crusader-squad exercises leader+bulk per-figure allocation.
@@ -393,7 +404,7 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       return u.weapons.map((w) => w.id);
     }
     case "phases_of": {
-      const a = ds.abilities.get(q.args.abilityId);
+      const a = ds.abilities.getAny(q.args.abilityId);
       if (!a) throw new Error(`phases_of: unknown ability ${q.args.abilityId}`);
       return [...a.phases].sort();
     }
@@ -445,6 +456,10 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       return ds.alliesFor(q.args.factionId, q.args.detachmentIds ?? []).map((r) => r.id);
     case "ally_units_for":
       return ds.allyUnitsFor(q.args.ruleId).map((u) => u.id).sort();
+    case "leaders_attachable_to":
+      return ds.leadersAttachableTo(q.args.bodyguardId).map((u) => u.id).sort();
+    case "bodyguards_attachable_from":
+      return ds.bodyguardsAttachableFrom(q.args.leaderId).map((u) => u.id).sort();
     case "reactive_trigger_ability_ids":
       return ds.reactiveTriggers().map((rt) => rt.abilityId);
     case "events_with_triggers":
@@ -481,7 +496,7 @@ function loadAttributionInput(ds: Dataset, filename: string): {
 } {
   const path = join(CONFORMANCE, "cruncher", filename);
   const c = JSON.parse(readFileSync(path, "utf8")) as CruncherCaseInput;
-  const weapon = ds.weapons.get(c.attacker.weaponId);
+  const weapon = ds.weapons.getAny(c.attacker.weaponId);
   const unit = ds.units.getAny(c.target.unitId);
   if (!weapon) throw new Error(`attribution: unknown weapon ${c.attacker.weaponId}`);
   if (!unit) throw new Error(`attribution: unknown unit ${c.target.unitId}`);
@@ -1104,15 +1119,36 @@ function genEffectTranslation(): void {
     }
     if (typeof e !== "object" || e === null) return;
     const rec = e as Record<string, unknown>;
-    if (typeof rec.type === "string") out.add(rec.type);
+    if (typeof rec.type === "string") {
+      out.add(rec.type);
+      // Variant-aware keys for types whose modifier picks a distinct render
+      // branch — the per-type cap alone would leave later-alphabet variants
+      // (a psychic-scoped FNP, a rolled pool die) unpinned cross-impl.
+      const m = (rec.modifier ?? {}) as Record<string, unknown>;
+      if (rec.type === "feel-no-pain" && typeof m.scope === "string") {
+        out.add(`feel-no-pain@${m.scope}`);
+      }
+      if (rec.type === "pool-add-die") {
+        const kind = m.value === "rolled" || m.value === "highest" ? m.value : "shown";
+        const per = m.count_per_pool != null ? "@per-pool" : "";
+        out.add(`pool-add-die@${kind}${per}`);
+      }
+    }
     for (const key of ["effect", "on_success", "on_fail", "steps", "options", "condition"]) {
       if (key in rec) collectTypes(rec[key], out);
     }
   };
 
+  // One copy per ability id: the collection retains per-faction copies of a
+  // shared id, but identical copies would only fill the per-type exemplar
+  // caps with redundant cases (pushing out genuinely distinct later-alphabet
+  // shapes). First-registered copy wins — the stable sort preserves bundle
+  // order within an id, matching the collection's own byId index.
+  const seenIds = new Set<string>();
   const abilities = ds.abilities.all
     .slice()
-    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+    .filter((a) => (seenIds.has(a.id) ? false : (seenIds.add(a.id), true)));
 
   const seen = new Map<string, number>();
   const CAP = 5;

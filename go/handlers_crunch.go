@@ -22,11 +22,11 @@ func (s *RunnerState) buildEngineInput(a map[string]any, opName string) (map[str
 		return nil, errResp("INVALID_INPUT", detail(opName+".context required"))
 	}
 	ds := s.dataset()
-	weapon, ok := ds.Weapons.Get(getStr(attacker, "weaponId"))
+	weapon, ok := ds.Weapons.GetAny(getStr(attacker, "weaponId"))
 	if !ok {
 		return nil, errResp("UNKNOWN_ENTITY", map[string]any{"kind": "weapon", "id": attacker["weaponId"]})
 	}
-	unit, ok := ds.Units.Get(getStr(target, "unitId"))
+	unit, ok := ds.Units.GetAny(getStr(target, "unitId"))
 	if !ok {
 		return nil, errResp("UNKNOWN_ENTITY", map[string]any{"kind": "unit", "id": target["unitId"]})
 	}

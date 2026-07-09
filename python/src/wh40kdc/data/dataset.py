@@ -56,6 +56,21 @@ class ReactiveTrigger(TypedDict):
     trigger: dict[str, Any]
 
 
+def _matches_bodyguard_keywords(la: dict[str, Any], unit: dict[str, Any]) -> bool:
+    """Whether ``unit`` satisfies an attachment entry's optional keyword eligibility.
+
+    True when the unit's keyword set (``keywords`` ∪ ``faction_keywords``,
+    case-insensitive) contains ALL of ``eligible_bodyguard_keywords``. Absent or
+    empty keywords never match (the entry then relies solely on
+    ``eligible_bodyguard_ids``). Mirror of TS ``matchesBodyguardKeywords``.
+    """
+    req = la.get("eligible_bodyguard_keywords") or []
+    if not req:
+        return False
+    have = {k.lower() for k in (unit.get("keywords") or []) + (unit.get("faction_keywords") or [])}
+    return all(k.lower() in have for k in req)
+
+
 class Dataset:
     """The whole dataset, with linked accessors over every entity collection."""
 
@@ -74,6 +89,11 @@ class Dataset:
             name_of=lambda u: u.get("name"),
             aliases_of=lambda u: u.get("aliases"),
             faction_of=lambda u: u.get("faction_id"),
+            # Per-faction copies genuinely diverge (points, keywords,
+            # profiles), so a faction-less get() of a shared id is a bug —
+            # mirror of the TS guard.
+            guard_unscoped=True,
+            entity_label="unit",
             wrap=lambda u: UnitView(u, self),
         )
         self.weapons: Collection[dict[str, Any], WeaponView] = Collection(
@@ -86,6 +106,11 @@ class Dataset:
             # first.
             dedupe_key_of=lambda w: f"{w.get('faction_id', '')}::{w['id']}",
             faction_of=lambda w: w.get("faction_id"),
+            # Per-faction copies diverge (stats), so a faction-less get() of a
+            # shared id is a bug — catalog/import callsites that genuinely lack
+            # faction context opt out via get_any.
+            guard_unscoped=True,
+            entity_label="weapon",
             wrap=lambda w: WeaponView(w, self),
         )
         self.weapon_keywords: Collection[dict[str, Any], WeaponKeywordView] = Collection(
@@ -100,11 +125,23 @@ class Dataset:
             name_of=lambda f: f.get("name"),
             wrap=lambda f: FactionView(f, self),
         )
+        # An ability_id is shared across factions (each faction's enrichment
+        # authors its own copy of e.g. "deadly-demise-d3", and the copies
+        # legitimately diverge); dedupe on (faction_id, id) so every faction's
+        # copy is retained and a unit resolves its own faction's ability — the
+        # same scheme as weapons (issue #59). `faction_id` is stamped at bundle
+        # time from the enrichment directory; only the shared `_core` pool
+        # stays faction-less, reachable through the first-wins fallback.
         self.abilities: Collection[dict[str, Any], AbilityView] = Collection(
             raw["abilities"],
             id_of=lambda a: a["ability_id"],
+            dedupe_key_of=lambda a: f"{a.get('faction_id') or ''}::{a['ability_id']}",
             name_of=lambda a: a.get("name"),
             faction_of=lambda a: a.get("faction_id"),
+            # Per-faction copies diverge (DSL fidelity, unit_ids) — same guard
+            # as weapons.
+            guard_unscoped=True,
+            entity_label="ability",
             wrap=lambda a: AbilityView(a, self),
         )
 
@@ -122,6 +159,11 @@ class Dataset:
             name_of=lambda d: d.get("name"),
             dedupe_key_of=lambda d: f"{d['faction_id']}::{d['id']}",
             faction_of=lambda d: d.get("faction_id"),
+            # Shared detachments diverge per chapter (detachment_rule_id,
+            # stratagem_ids, enhancement_ids, detachment_points) — same guard
+            # as units.
+            guard_unscoped=True,
+            entity_label="detachment",
             wrap=lambda d: d,
         )
         # Allied rules aren't owned by one faction; allies_for matches on army_keywords_any.
@@ -206,7 +248,15 @@ class Dataset:
         of TS ``reactiveTriggers``.
         """
         out: list[ReactiveTrigger] = []
+        # The abilities collection retains one copy per faction of a shared
+        # ability_id; this aggregation is faction-less (ReactiveTrigger carries
+        # no faction), so emit each ability id once — first registered copy
+        # wins, matching the collection's own by-id index and the TS mirror.
+        seen_ids: set[str] = set()
         for a in self.abilities.all:
+            if a.id in seen_ids:
+                continue
+            seen_ids.add(a.id)
             raw = a.raw.get("trigger")
             if not raw:
                 continue
@@ -370,11 +420,18 @@ class Dataset:
         the attachment list. Sorted by name. Empty for a unit that no leader
         can attach to (including leader units).
         """
+        bodyguard = self.units.get_any(bodyguard_unit_id)
         out = []
         for la in self.leader_attachments:
-            if bodyguard_unit_id not in la.get("eligible_bodyguard_ids", []):
+            # Keyword eligibility (e.g. an Inquisitor leading any Imperium
+            # Battleline Infantry unit) matches on the bodyguard's keyword set.
+            if bodyguard_unit_id not in la.get("eligible_bodyguard_ids", []) and not (
+                bodyguard is not None and _matches_bodyguard_keywords(la, bodyguard.raw)
+            ):
                 continue
-            unit = self.units.get(la["leader_id"])
+            # Attachment data is faction-agnostic (no faction context
+            # here); accept first-wins for a shared chassis via get_any.
+            unit = self.units.get_any(la["leader_id"])
             if unit is not None:
                 out.append(unit)
         return sorted(out, key=lambda u: u.name)
@@ -390,13 +447,20 @@ class Dataset:
             if la.get("leader_id") != leader_unit_id:
                 continue
             for bodyguard_id in la.get("eligible_bodyguard_ids", []):
-                if bodyguard_id in seen:
+                # Faction-agnostic attachment data — get_any, as above.
+                unit = self.units.get_any(bodyguard_id)
+                if unit is None or unit.id in seen:
                     continue
-                unit = self.units.get(bodyguard_id)
-                if unit is None:
-                    continue
-                seen.add(bodyguard_id)
+                seen.add(unit.id)
                 out.append(unit)
+            # Keyword eligibility: every unit whose keyword set contains all of
+            # the entry's keywords is also a valid bodyguard (e.g. Imperium
+            # Battleline Infantry for an Inquisitor).
+            if la.get("eligible_bodyguard_keywords"):
+                for unit in self.units.all:
+                    if unit.id not in seen and _matches_bodyguard_keywords(la, unit.raw):
+                        seen.add(unit.id)
+                        out.append(unit)
         return sorted(out, key=lambda u: u.name)
 
     def eligible_abilities(self, input: dict[str, Any], phase: str) -> list[dict[str, Any]]:
@@ -440,9 +504,16 @@ class Dataset:
         groups: dict[str, dict[str, Any]] = {}
         ctx = self._derived_context(input, context)
 
-        # Intrinsic weapon-profile keywords — always on.
+        # Intrinsic weapon-profile keywords — always on. Weapon ids are
+        # shared across factions with divergent stats, so resolve within the
+        # input unit's faction (get_any fallback for a cross-faction id).
+        weapon_faction = self._weapon_faction(input)
         for ref in input.get("weaponProfiles") or []:
-            weapon = self.weapons.get(ref["weaponId"])
+            weapon = (
+                self.weapons.get_in_faction(ref["weaponId"], weapon_faction)
+                if weapon_faction
+                else None
+            ) or self.weapons.get_any(ref["weaponId"])
             if weapon is None:
                 continue
             wk = weapon.profile_buffs(ref.get("profileIndex"), ctx)
@@ -498,6 +569,15 @@ class Dataset:
 
         return {"buffs": buffs, "groups": list(groups.values())}
 
+    def _weapon_faction(self, input: dict[str, Any]) -> str | None:
+        """The faction to scope ``weaponProfiles`` lookups by: the explicit
+        ``factionId`` when given, else the input unit's own faction."""
+        faction = input.get("factionId")
+        if faction:
+            return faction
+        unit = self.units.get_any(input.get("unitId") or "")
+        return unit.raw.get("faction_id") if unit is not None else None
+
     def _derived_context(
         self, input: dict[str, Any], context: dict[str, Any]
     ) -> dict[str, Any]:
@@ -515,10 +595,16 @@ class Dataset:
         out: list[dict[str, Any]] = []
         ctx = self._derived_context(input, context)
 
-        # Weapon-profile keywords are attacker-only.
+        # Weapon-profile keywords are attacker-only. Faction-scoped like
+        # stackable_buffs_for — first-wins would crunch the wrong faction's stats.
         if perspective == "attacker":
+            weapon_faction = self._weapon_faction(input)
             for ref in input.get("weaponProfiles") or []:
-                weapon = self.weapons.get(ref["weaponId"])
+                weapon = (
+                    self.weapons.get_in_faction(ref["weaponId"], weapon_faction)
+                    if weapon_faction
+                    else None
+                ) or self.weapons.get_any(ref["weaponId"])
                 if weapon is None:
                     continue
                 out.extend(weapon.profile_buffs(ref.get("profileIndex"), ctx))

@@ -70,6 +70,10 @@ func NewDataset(raw rawData) *Dataset {
 		nameOf:    func(i any) string { return getStr(i.(map[string]any), "name") },
 		aliasesOf: func(i any) []string { return getStrList(i.(map[string]any), "aliases") },
 		factionOf: factionIDOf,
+		// Per-faction copies genuinely diverge (points, keywords, profiles),
+		// so a faction-less Get of a shared id is a bug — mirror of the TS guard.
+		guardUnscoped: true,
+		entityLabel:   "unit",
 	})
 	ds.Weapons = newCollection(raw["weapons"], func(i any) *WeaponView {
 		return &WeaponView{Raw: i.(map[string]any), ds: ds}
@@ -84,6 +88,10 @@ func NewDataset(raw rawData) *Dataset {
 			return getStr(m, "faction_id") + "::" + getStr(m, "id")
 		},
 		factionOf: func(i any) string { return getStr(i.(map[string]any), "faction_id") },
+		// Per-faction copies diverge (stats), so a faction-less Get of a
+		// shared id is a bug — faction-less callsites opt out via GetAny.
+		guardUnscoped: true,
+		entityLabel:   "weapon",
 	})
 	ds.WeaponKeywords = newCollection(raw["weapon_keywords"], func(i any) *WeaponKeywordView {
 		return &WeaponKeywordView{Raw: i.(map[string]any), ds: ds}
@@ -100,9 +108,21 @@ func NewDataset(raw rawData) *Dataset {
 	ds.Abilities = newCollection(raw["abilities"], func(i any) *AbilityView {
 		return &AbilityView{Raw: i.(map[string]any), ds: ds}
 	}, collectionOpts{
-		idOf:      func(i any) string { return getStr(i.(map[string]any), "ability_id") },
+		idOf: func(i any) string { return getStr(i.(map[string]any), "ability_id") },
+		// An ability_id is shared across factions with per-faction copies that
+		// legitimately diverge; key on (faction_id, id) so every faction's copy
+		// is kept and a unit resolves its own faction's ability — same scheme
+		// as weapons (issue #59). faction_id is stamped at bundle time; only
+		// the shared _core pool stays faction-less (first-wins fallback).
+		dedupeKeyOf: func(i any) string {
+			m := i.(map[string]any)
+			return getStr(m, "faction_id") + "::" + getStr(m, "ability_id")
+		},
 		nameOf:    func(i any) string { return getStr(i.(map[string]any), "name") },
 		factionOf: factionIDOf,
+		// Per-faction copies diverge (DSL fidelity, unit_ids) — same guard as weapons.
+		guardUnscoped: true,
+		entityLabel:   "ability",
 	})
 
 	ds.TargetProfiles = idCollection(raw["target_profiles"], factionIDOf)
@@ -114,6 +134,10 @@ func NewDataset(raw rawData) *Dataset {
 			return getStr(m, "faction_id") + "::" + getStr(m, "id")
 		},
 		factionOf: factionIDOf,
+		// Shared detachments diverge per chapter (detachment_rule_id,
+		// stratagem_ids, enhancement_ids, detachment_points) — same guard as units.
+		guardUnscoped: true,
+		entityLabel:   "detachment",
 	})
 	ds.AlliedRules = idCollection(raw["allied_rules"], nil)
 	ds.Enhancements = idCollection(raw["enhancements"], nil)
@@ -313,6 +337,93 @@ func (ds *Dataset) allyUnitsFor(ruleID string) []*UnitView {
 	return out
 }
 
+// matchesBodyguardKeywords reports whether unit satisfies an attachment entry's
+// optional keyword eligibility: its keyword set (keywords ∪ faction_keywords,
+// case-insensitive) contains ALL of eligible_bodyguard_keywords. Empty keywords
+// never match (the entry then relies solely on eligible_bodyguard_ids). Go
+// mirror of TS matchesBodyguardKeywords.
+func matchesBodyguardKeywords(la, unit map[string]any) bool {
+	req := getStrList(la, "eligible_bodyguard_keywords")
+	if len(req) == 0 {
+		return false
+	}
+	have := map[string]struct{}{}
+	for _, k := range append(getStrList(unit, "keywords"), getStrList(unit, "faction_keywords")...) {
+		have[lower(k)] = struct{}{}
+	}
+	return allIn(have, lowerAll(req))
+}
+
+// leadersAttachableTo returns the leaders whose leader-attachment data lists
+// bodyguardUnitID among its eligible bodyguards — by explicit id or by keyword
+// eligibility (e.g. an Inquisitor leading any Imperium Battleline Infantry
+// unit) — sorted by name. Faction-agnostic (GetAny). Go mirror of TS
+// Dataset.leadersAttachableTo.
+func (ds *Dataset) leadersAttachableTo(bodyguardUnitID string) []*UnitView {
+	var bodyguard map[string]any
+	if bg, ok := ds.Units.GetAny(bodyguardUnitID); ok {
+		bodyguard = bg.Raw
+	}
+	var out []*UnitView
+	for _, laAny := range ds.LeaderAttachments {
+		la := laAny.(map[string]any)
+		eligible := false
+		for _, id := range getStrList(la, "eligible_bodyguard_ids") {
+			if id == bodyguardUnitID {
+				eligible = true
+				break
+			}
+		}
+		if !eligible && bodyguard != nil {
+			eligible = matchesBodyguardKeywords(la, bodyguard)
+		}
+		if !eligible {
+			continue
+		}
+		if leader, ok := ds.Units.GetAny(getStr(la, "leader_id")); ok {
+			out = append(out, leader)
+		}
+	}
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Name() < out[j].Name() })
+	return out
+}
+
+// bodyguardsAttachableFrom is the inverse of leadersAttachableTo: the body units
+// the given leader can attach to — by explicit id or keyword eligibility —
+// deduped by id and sorted by name. Go mirror of TS
+// Dataset.bodyguardsAttachableFrom.
+func (ds *Dataset) bodyguardsAttachableFrom(leaderUnitID string) []*UnitView {
+	seen := map[string]struct{}{}
+	var out []*UnitView
+	add := func(u *UnitView) {
+		if _, dup := seen[u.ID()]; dup {
+			return
+		}
+		seen[u.ID()] = struct{}{}
+		out = append(out, u)
+	}
+	for _, laAny := range ds.LeaderAttachments {
+		la := laAny.(map[string]any)
+		if getStr(la, "leader_id") != leaderUnitID {
+			continue
+		}
+		for _, id := range getStrList(la, "eligible_bodyguard_ids") {
+			if u, ok := ds.Units.GetAny(id); ok {
+				add(u)
+			}
+		}
+		if len(getStrList(la, "eligible_bodyguard_keywords")) > 0 {
+			for _, u := range ds.Units.All() {
+				if matchesBodyguardKeywords(la, u.Raw) {
+					add(u)
+				}
+			}
+		}
+	}
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Name() < out[j].Name() })
+	return out
+}
+
 // ReactiveTrigger is an ability's reactive trigger block plus the units that
 // list it. Go mirror of the TS ReactiveTrigger shape.
 type ReactiveTrigger struct {
@@ -328,7 +439,16 @@ type ReactiveTrigger struct {
 // abilities). Go mirror of TS Dataset.reactiveTriggers.
 func (ds *Dataset) ReactiveTriggers() []ReactiveTrigger {
 	var out []ReactiveTrigger
+	// The abilities collection retains one copy per faction of a shared
+	// ability_id; this aggregation is faction-less (ReactiveTrigger carries no
+	// faction), so emit each ability id once — first registered copy wins,
+	// matching the collection's own by-id index and the TS mirror.
+	seenIDs := map[string]struct{}{}
 	for _, ability := range ds.Abilities.All() {
+		if _, dup := seenIDs[ability.ID()]; dup {
+			continue
+		}
+		seenIDs[ability.ID()] = struct{}{}
 		raw := ability.Raw["trigger"]
 		if raw == nil {
 			continue

@@ -169,12 +169,15 @@ export class Dataset {
       // A bare weapon id is shared across factions with divergent stats (each
       // faction file defines its own e.g. "close-combat-weapon"); key on
       // (faction_id, id) so every faction's copy is retained and a unit resolves
-      // its own faction's weapon (issue #59), not whichever bundled first. No
-      // guardUnscoped: get()/getAny stay first-wins for the many catalog/import
-      // callsites that pass an explicit id without faction context.
+      // its own faction's weapon (issue #59), not whichever bundled first.
       dedupeKeyOf: (w) => `${w.faction_id ?? ""}::${w.id}`,
       nameOf: (w) => w.name,
       factionOf: (w) => w.faction_id,
+      // Per-faction copies diverge (stats), so a faction-less get() of a
+      // shared id is a bug — catalog/import callsites that genuinely lack
+      // faction context opt out via getAny.
+      guardUnscoped: true,
+      entityLabel: "weapon",
       wrap: (w) => new WeaponView(w, this),
     });
     this.weaponKeywords = new Collection({
@@ -192,8 +195,20 @@ export class Dataset {
     this.abilities = new Collection({
       items: raw.abilities,
       idOf: (a) => a.ability_id,
+      // An ability_id is shared across factions (each faction's enrichment
+      // authors its own copy of e.g. "deadly-demise-d3", and the copies
+      // legitimately diverge); key on (faction_id, id) so every faction's copy
+      // is retained and a unit resolves its own faction's ability — the same
+      // scheme as weapons (issue #59). `faction_id` is stamped at bundle time
+      // from the enrichment directory; only the shared `_core` pool stays
+      // faction-less, reachable through the getAny fallback.
+      dedupeKeyOf: (a) => `${a.faction_id ?? ""}::${a.ability_id}`,
       nameOf: (a) => a.name,
       factionOf: (a) => a.faction_id,
+      // Per-faction copies diverge (DSL fidelity, unit_ids), so a
+      // faction-less get() of a shared id is a bug — same guard as weapons.
+      guardUnscoped: true,
+      entityLabel: "ability",
       wrap: (a) => new AbilityView(a, this),
     });
 
@@ -289,7 +304,14 @@ export class Dataset {
    */
   reactiveTriggers(): ReactiveTrigger[] {
     const out: ReactiveTrigger[] = [];
+    // The abilities collection retains one copy per faction of a shared
+    // ability_id; this aggregation is faction-less (ReactiveTrigger carries no
+    // faction), so emit each ability id once — first registered copy wins,
+    // matching the collection's own byId index.
+    const seenIds = new Set<string>();
     for (const a of this.abilities.all) {
+      if (seenIds.has(a.id)) continue;
+      seenIds.add(a.id);
       const raw = a.raw.trigger;
       if (!raw) continue;
       // `trigger` may be a single object or an array (the ability fires on any);
@@ -433,8 +455,15 @@ export class Dataset {
    * array for a unit that no leader can attach to (including leader units).
    */
   leadersAttachableTo(bodyguardUnitId: string): UnitView[] {
+    const bodyguard = this.units.getAny(bodyguardUnitId);
     return this.leaderAttachments
-      .filter((la) => la.eligible_bodyguard_ids.includes(bodyguardUnitId))
+      .filter(
+        (la) =>
+          la.eligible_bodyguard_ids.includes(bodyguardUnitId) ||
+          // Keyword eligibility (e.g. an Inquisitor leading any Imperium
+          // Battleline Infantry unit): match on the bodyguard's keyword set.
+          (bodyguard !== undefined && matchesBodyguardKeywords(la, bodyguard.raw)),
+      )
       // Attachment data is faction-agnostic (no faction context here); accept
       // first-wins for a shared leader/bodyguard chassis via getAny.
       .map((la) => this.units.getAny(la.leader_id))
@@ -453,14 +482,19 @@ export class Dataset {
   bodyguardsAttachableFrom(leaderUnitId: string): UnitView[] {
     const seen = new Set<string>();
     const out: UnitView[] = [];
+    const add = (unit: UnitView | undefined) => {
+      if (!unit || seen.has(unit.id)) return;
+      seen.add(unit.id);
+      out.push(unit);
+    };
     for (const la of this.leaderAttachments) {
       if (la.leader_id !== leaderUnitId) continue;
-      for (const bodyguardId of la.eligible_bodyguard_ids) {
-        if (seen.has(bodyguardId)) continue;
-        const unit = this.units.getAny(bodyguardId);
-        if (!unit) continue;
-        seen.add(bodyguardId);
-        out.push(unit);
+      for (const bodyguardId of la.eligible_bodyguard_ids) add(this.units.getAny(bodyguardId));
+      // Keyword eligibility: every unit whose keyword set contains all of the
+      // entry's keywords is also a valid bodyguard (e.g. Imperium Battleline
+      // Infantry for an Inquisitor).
+      if (la.eligible_bodyguard_keywords?.length) {
+        for (const view of this.units.all) if (matchesBodyguardKeywords(la, view.raw)) add(view);
       }
     }
     return out.sort((a, b) => a.name.localeCompare(b.name));
@@ -557,9 +591,15 @@ export class Dataset {
       attackerAttached: context.attackerAttached ?? (input.attachedUnitIds?.length ?? 0) > 0,
     };
 
-    // Intrinsic weapon-profile keywords — always on.
+    // Intrinsic weapon-profile keywords — always on. Weapon ids are shared
+    // across factions with divergent stats, so resolve within the input
+    // unit's faction (getAny fallback for a genuinely cross-faction id).
+    const weaponFaction =
+      input.factionId ?? this.units.getAny(input.unitId)?.raw.faction_id;
     for (const ref of input.weaponProfiles ?? []) {
-      const weapon = this.weapons.get(ref.weaponId);
+      const weapon =
+        (weaponFaction ? this.weapons.getInFaction(ref.weaponId, weaponFaction) : undefined) ??
+        this.weapons.getAny(ref.weaponId);
       if (!weapon) continue;
       const wk = weapon.profileBuffs(ref.profileIndex, ctx);
       if (wk.length === 0) continue;
@@ -632,10 +672,15 @@ export class Dataset {
       attackerAttached: context.attackerAttached ?? (input.attachedUnitIds?.length ?? 0) > 0,
     };
 
-    // Weapon-profile keywords are attacker-only.
+    // Weapon-profile keywords are attacker-only. Faction-scoped like
+    // stackableBuffsFor — first-wins here would crunch the wrong faction's stats.
     if (perspective === "attacker") {
+      const weaponFaction =
+        input.factionId ?? this.units.getAny(input.unitId)?.raw.faction_id;
       for (const ref of input.weaponProfiles ?? []) {
-        const weapon = this.weapons.get(ref.weaponId);
+        const weapon =
+          (weaponFaction ? this.weapons.getInFaction(ref.weaponId, weaponFaction) : undefined) ??
+          this.weapons.getAny(ref.weaponId);
         if (!weapon) continue;
         out.push(...weapon.profileBuffs(ref.profileIndex, ctx));
       }
@@ -728,6 +773,19 @@ function unitKeywordSet(unit: Unit): Set<string> {
   for (const k of unit.keywords ?? []) out.add(k.toLowerCase());
   for (const k of unit.faction_keywords ?? []) out.add(k.toLowerCase());
   return out;
+}
+
+/**
+ * Does `unit` satisfy an attachment entry's optional keyword eligibility — i.e.
+ * its keyword set (keywords ∪ faction_keywords, case-insensitive) contains ALL
+ * of `eligible_bodyguard_keywords`? Absent/empty keywords never match (the entry
+ * then relies solely on `eligible_bodyguard_ids`).
+ */
+function matchesBodyguardKeywords(la: LeaderAttachment, unit: Unit): boolean {
+  const req = la.eligible_bodyguard_keywords;
+  if (!req || req.length === 0) return false;
+  const have = unitKeywordSet(unit);
+  return req.every((k) => have.has(k.toLowerCase()));
 }
 
 /** Map an EligibleAbility back to the BuffSource the translator expects. */

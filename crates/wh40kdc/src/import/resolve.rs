@@ -589,7 +589,7 @@ fn apply_leader_attachments(
                     .into_iter()
                     .find(|u| u.id.as_str() == id)
             })
-            .or_else(|| ds.units.get(id))
+            .or_else(|| ds.units.get_any(id))
     };
 
     // First compute the attachments (immutable borrow of units), then apply
@@ -708,7 +708,8 @@ fn scoped_weapon_id<'a>(ds: &'a Dataset, unit: &crate::Unit, raw_name: &str) -> 
     }
     let matches = |id: &str| -> Option<&'a str> {
         ds.weapons
-            .get(id)
+            .get_in_faction(id, unit.faction_id.as_str())
+            .or_else(|| ds.weapons.get_any(id))
             .filter(|w| targets.iter().any(|t| *t == normalize_name(&w.name)))
             .map(|w| w.id.as_str())
     };

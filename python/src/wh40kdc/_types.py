@@ -332,9 +332,13 @@ class HullShape(TypedDict):
     game_version: GameVersionRef
 
 
+EligibleBodyguardKeyword: TypeAlias = str
+
+
 class LeaderAttachment(TypedDict):
     leader_id: EntityId
     eligible_bodyguard_ids: list[EntityId]
+    eligible_bodyguard_keywords: NotRequired[list[EligibleBodyguardKeyword]]
     game_version: GameVersionRef
 
 
@@ -556,6 +560,7 @@ class Profile(TypedDict):
 class Point(TypedDict):
     models: int
     cost: int
+    models_max: NotRequired[int]
     unit_count_min: NotRequired[int]
     unit_count_max: NotRequired[int | None]
 
@@ -564,8 +569,14 @@ class AlliedPoint(TypedDict):
     host_faction: EntityId
     models: int
     cost: int
+    models_max: NotRequired[int]
     unit_count_min: NotRequired[int]
     unit_count_max: NotRequired[int | None]
+
+
+class WargearCost(TypedDict):
+    item_id: EntityId
+    cost: int
 
 
 class ModelCount(TypedDict):
@@ -600,6 +611,7 @@ class Unit(TypedDict):
     points: NotRequired[list[Point]]
     allied_points: NotRequired[list[AlliedPoint]]
     points_provisional: NotRequired[bool]
+    wargear_costs: NotRequired[list[WargearCost]]
     keywords: NotRequired[KeywordList]
     faction_keywords: NotRequired[KeywordList]
     excluded_faction_keywords: NotRequired[KeywordList | None]
@@ -858,6 +870,7 @@ class SingleEffect(TypedDict):
         "stratagem-cost-modifier",
         "targeting-permission",
         "unit-attachment",
+        "fight-eligibility-extension",
     ]
     target: Literal[
         "self",
