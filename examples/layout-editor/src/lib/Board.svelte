@@ -506,7 +506,7 @@
   }
   .piece.twin {
     stroke: oklch(0.52 0.13 195);
-    stroke-width: 0.26;
+    stroke-width: 0.2;
     stroke-dasharray: 0.6 0.4;
   }
   .piece.selected {
@@ -518,8 +518,8 @@
      selected. */
   .piece.needs-review {
     stroke: oklch(0.58 0.21 25);
-    stroke-width: 0.5;
-    stroke-dasharray: 0.7 0.4;
+    stroke-width: 0.22;
+    stroke-dasharray: 0.4 0.3;
   }
   .upper {
     fill: none;

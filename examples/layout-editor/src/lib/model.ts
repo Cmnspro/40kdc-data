@@ -245,6 +245,40 @@ export function bbox(verts: Vec2[]): { minX: number; maxX: number; minY: number;
   return { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) };
 }
 
+/**
+ * The footprint vertex indices closest to each of the 4 bounding-box corners —
+ * the "cardinal corners" a keystone is almost always pinned against. Templates
+ * with detail vertices ("nubs") carry ~20 extra points that are never used for
+ * measurement; this collapses them to the 4 that matter (e.g. `area-medium`'s
+ * 25 vertices → `{0,13,14,15}`). Footprints with ≤4 vertices are all corners.
+ * Vertex order matches {@link footprintVertices}.
+ */
+export function cardinalCornerIndices(fp: TerrainTemplate["footprint"]): number[] {
+  const verts = footprintVertices(fp as never) as Vec2[];
+  if (verts.length <= 4) return verts.map((_, i) => i);
+  const b = bbox(verts);
+  const corners: Vec2[] = [
+    { x: b.minX, y: b.minY },
+    { x: b.maxX, y: b.minY },
+    { x: b.maxX, y: b.maxY },
+    { x: b.minX, y: b.maxY },
+  ];
+  const out: number[] = [];
+  for (const c of corners) {
+    let best = 0;
+    let bestD = Infinity;
+    for (let i = 0; i < verts.length; i++) {
+      const d = Math.hypot(verts[i].x - c.x, verts[i].y - c.y);
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    if (!out.includes(best)) out.push(best);
+  }
+  return out;
+}
+
 function mirrorVec(v: Vec2, m: Mirror): Vec2 {
   if (m === "horizontal") return { x: -v.x, y: v.y };
   if (m === "vertical") return { x: v.x, y: -v.y };
@@ -256,6 +290,52 @@ function rotateCw(v: Vec2, deg: number): Vec2 {
   const c = Math.cos(r);
   const s = Math.sin(r);
   return { x: c * v.x - s * v.y, y: s * v.x + c * v.y };
+}
+
+// ── orientation-only 2×2 helpers (for pose-preserving re-parenting) ───────────
+// A piece's orientation is `rotate(mirror(v))`; as a linear map that's an
+// orthogonal 2×2 (columns = images of the basis). Composing/inverting these lets
+// us keep a feature's *board* orientation fixed when the area under it is
+// flipped or rotated — the translation half is handled by `inverseAreaFrame`.
+interface Mat2 {
+  a: number; // col0.x — image of (1,0)
+  b: number; // col0.y
+  c: number; // col1.x — image of (0,1)
+  d: number; // col1.y
+}
+/** The orientation of `rotate(mirror(·))` as a 2×2 linear map. */
+function orientMatrix(rotation: number, mirror: Mirror): Mat2 {
+  const c0 = rotateCw(mirrorVec({ x: 1, y: 0 }, mirror), rotation);
+  const c1 = rotateCw(mirrorVec({ x: 0, y: 1 }, mirror), rotation);
+  return { a: c0.x, b: c0.y, c: c1.x, d: c1.y };
+}
+/** m · n (apply n first, then m). */
+function mat2Mul(m: Mat2, n: Mat2): Mat2 {
+  return {
+    a: m.a * n.a + m.c * n.b,
+    b: m.b * n.a + m.d * n.b,
+    c: m.a * n.c + m.c * n.d,
+    d: m.b * n.c + m.d * n.d,
+  };
+}
+/** Inverse of an orthogonal matrix is its transpose. */
+function mat2Transpose(m: Mat2): Mat2 {
+  return { a: m.a, b: m.c, c: m.b, d: m.d };
+}
+/**
+ * Recover `{ rotation, mirror }` from an orthogonal orientation matrix. A
+ * reflection (det < 0) is expressed as a rotation composed with a horizontal
+ * mirror (any axis-aligned reflection is equivalent to one, so a `vertical`
+ * input may come back as `horizontal` + rotation — same resolved geometry).
+ */
+function decomposeOrient(m: Mat2): { rotation: number; mirror: Mirror } {
+  const det = m.a * m.d - m.c * m.b;
+  const clean = (deg: number): number => norm360(Math.round(deg * 1e4) / 1e4);
+  if (det >= 0) {
+    return { rotation: clean((Math.atan2(m.b, m.a) * 180) / Math.PI), mirror: "none" };
+  }
+  // reflection = rotate(θ) · mirror-horizontal ⇒ col0 = (−cosθ, −sinθ).
+  return { rotation: clean((Math.atan2(-m.b, -m.a) * 180) / Math.PI), mirror: "horizontal" };
 }
 
 // ── parent-area composition (a feature anchored to an area) ───────────────────
@@ -288,6 +368,10 @@ function parentAreaOf(layout: EditLayout, piece: EditPiece): EditPiece | undefin
 export function boardCentroid(layout: EditLayout, piece: EditPiece): Vec2 {
   const area = parentAreaOf(layout, piece);
   return area ? applyAreaFrame(piece.position, area) : { x: piece.position.x, y: piece.position.y };
+}
+/** The features parented to `areaId` (empty for a piece that has none). */
+function childFeaturesOf(layout: EditLayout, areaId: string): EditPiece[] {
+  return layout.pieces.filter((p) => p.parent_area_id === areaId);
 }
 
 /**
@@ -892,15 +976,47 @@ export function orientPiece(
 ): void {
   const p = byId(layout, id);
   if (!p) return;
+  const t = twinOf(layout, p);
+
+  // Pin any features parented to this area (and its twin area) in place: flipping
+  // or rotating an area changes only the area's OWN shape — the features sitting
+  // on it keep their exact board pose (position AND orientation), so nothing
+  // flies off or spins. Snapshot each child's board centroid + the area's old
+  // orientation BEFORE the frame changes; afterwards re-express both halves of
+  // the child's local pose against the new frame. (For a parented *feature* the
+  // child list is empty, so it orients exactly as before.)
+  const pinned: { child: EditPiece; area: EditPiece; board: Vec2; oldAreaLin: Mat2 }[] = [];
+  const snapshot = (area: EditPiece): void => {
+    const oldAreaLin = orientMatrix(area.rotation_degrees ?? 0, area.mirror ?? "none");
+    for (const c of childFeaturesOf(layout, area.id)) {
+      pinned.push({ child: c, area, board: boardCentroid(layout, c), oldAreaLin });
+    }
+  };
+  snapshot(p);
+  if (t && t.id !== p.id) snapshot(t);
+
   if (patch.rotation_degrees !== undefined) p.rotation_degrees = norm360(patch.rotation_degrees);
   if (patch.mirror !== undefined) p.mirror = patch.mirror;
-  const t = twinOf(layout, p);
-  if (!t) return;
-  const parented = !!parentAreaOf(layout, p);
-  if (patch.rotation_degrees !== undefined) {
-    t.rotation_degrees = parented ? p.rotation_degrees : twinRotation(patch.rotation_degrees);
+  if (t && t.id !== p.id) {
+    const parented = !!parentAreaOf(layout, p);
+    if (patch.rotation_degrees !== undefined) {
+      t.rotation_degrees = parented ? p.rotation_degrees : twinRotation(patch.rotation_degrees);
+    }
+    if (patch.mirror !== undefined) t.mirror = patch.mirror;
   }
-  if (patch.mirror !== undefined) t.mirror = patch.mirror;
+
+  for (const { child, area, board, oldAreaLin } of pinned) {
+    // newChildLin = newArea⁻¹ · oldArea · oldChild — the child orientation that,
+    // composed through the area's NEW frame, reproduces its old board orientation.
+    const newAreaLin = orientMatrix(area.rotation_degrees ?? 0, area.mirror ?? "none");
+    const childLin = orientMatrix(child.rotation_degrees ?? 0, child.mirror ?? "none");
+    const { rotation, mirror } = decomposeOrient(
+      mat2Mul(mat2Mul(mat2Transpose(newAreaLin), oldAreaLin), childLin),
+    );
+    child.rotation_degrees = rotation;
+    child.mirror = mirror;
+    child.position = inverseAreaFrame(board, area);
+  }
 }
 
 /**
@@ -985,6 +1101,38 @@ export function snapFeatureToAreaCorner(layout: EditLayout, id: string): void {
   p.position = inverseAreaFrame(newBoard, area);
   const t = twinOf(layout, p);
   if (t) t.position = { x: p.position.x, y: p.position.y };
+}
+
+/**
+ * Re-anchor a feature to the area it actually sits on: pick the area whose
+ * centroid is nearest the feature's current board centroid and re-parent to it,
+ * keeping the feature's board position fixed (via `setParentArea`). Fixes a
+ * feature mistakenly attached to the mirror-twin area — its stored area-local
+ * offset balloons to ~half a board and a mirror/rotate then flings it off-table.
+ * No-op when the nearest area is already the parent (or there are no areas).
+ */
+export function reanchorToNearestArea(layout: EditLayout, id: string): void {
+  const p = byId(layout, id);
+  if (!p || p.piece_type !== "feature") return;
+  const c = boardCentroid(layout, p);
+  let nearest: EditPiece | undefined;
+  let bestD = Infinity;
+  for (const a of layout.pieces) {
+    if (a.piece_type !== "area" || a.id === p.id) continue;
+    const d = Math.hypot(a.position.x - c.x, a.position.y - c.y);
+    if (d < bestD) {
+      bestD = d;
+      nearest = a;
+    }
+  }
+  if (nearest && nearest.id !== p.parent_area_id) setParentArea(layout, id, nearest.id);
+}
+
+/** Re-anchor every feature to the area it sits on (whole-layout repair sweep). */
+export function reanchorAllFeatures(layout: EditLayout): void {
+  for (const p of layout.pieces) {
+    if (p.piece_type === "feature" && p.id) reanchorToNearestArea(layout, p.id);
+  }
 }
 
 /** Set a piece's link group, mirroring the same value onto its twin. */

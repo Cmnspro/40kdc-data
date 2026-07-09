@@ -3,6 +3,7 @@
     type BoardDims,
     footprintOf,
     footprintVertices,
+    cardinalCornerIndices,
     orientedOffsets,
     solveCentroid,
     solveCentroidTriangulated,
@@ -79,6 +80,11 @@
   const refLabel = (r: SolverRef): string =>
     r.kind === "vertex" ? `v${r.index}` : r.side;
 
+  // The keystone vertex pickers default to the 4 cardinal corners — the only
+  // vertices anyone measures against — hiding the ~20 detail "nub" vertices a
+  // high-accuracy area footprint carries. Toggle to reveal every vertex.
+  let showAllVerts = $state(false);
+
   type FeatureChoice = { label: string; ref: SolverRef };
   // `line: "h"` is a horizontal card dimension (from a left/right edge, pins
   // board Y); `line: "v"` is vertical (top/bottom edge, pins board X). Faces are
@@ -98,8 +104,10 @@
             { label: "top face", ref: { kind: "face", side: "min-x" } },
             { label: "bottom face", ref: { kind: "face", side: "max-x" } },
           ];
-    const verts: FeatureChoice[] = Array.from({ length: n }, (_, i) => ({
-      label: `v${i}`,
+    const corners = new Set(cardinalCornerIndices(fp));
+    const idx = showAllVerts ? Array.from({ length: n }, (_, i) => i) : [...corners];
+    const verts: FeatureChoice[] = idx.map((i) => ({
+      label: showAllVerts && corners.has(i) ? `v${i} · corner` : `v${i}`,
       ref: { kind: "vertex", index: i },
     }));
     return [...faces, ...verts];
@@ -129,6 +137,15 @@
     const fp = footprintOf(piece);
     return fp ? footprintVertices(fp as never).length : 0;
   });
+  // Vertex indices the corner-picker button grids offer: the 4 cardinal corners
+  // by default, or every vertex when `showAllVerts` is on. Keeps the triangulate
+  // / attach pickers in step with the two-line dropdowns above.
+  const vertIndices = $derived.by(() => {
+    if (!piece) return [];
+    const fp = footprintOf(piece);
+    if (!fp) return [];
+    return showAllVerts ? Array.from({ length: vertexCount }, (_, i) => i) : cardinalCornerIndices(fp);
+  });
 
   // Attachment (lock + attach) state — the cluster-card pattern: each piece's
   // card pins ONE corner with two dimension lines; the attachment to the
@@ -156,6 +173,12 @@
     if (!targetPiece) return 0;
     const fp = footprintOf(targetPiece);
     return fp ? footprintVertices(fp as never).length : 0;
+  });
+  const targetVertIndices = $derived.by(() => {
+    if (!targetPiece) return [];
+    const fp = footprintOf(targetPiece);
+    if (!fp) return [];
+    return showAllVerts ? Array.from({ length: targetVertexCount }, (_, i) => i) : cardinalCornerIndices(fp);
   });
   /** The attach picker's ref for slot i — a corner, or the edge v[i]→v[i+1]. */
   const attachRef = (i: number): SolverHover["ref"] =>
@@ -496,6 +519,14 @@
     <fieldset class="solver">
       <legend>Solve centroid from a reference card</legend>
       <div class="mode">
+        <button
+          class="feat vtoggle {showAllVerts ? 'on' : ''}"
+          title="The corner pickers list only the 4 cardinal corners by default; toggle to show every footprint vertex (nubs included)"
+          onclick={() => (showAllVerts = !showAllVerts)}
+          >{showAllVerts ? "vertices: all" : "vertices: corners"}</button
+        >
+      </div>
+      <div class="mode">
         <button class="feat {solverMode === 'two' ? 'on' : ''}" onclick={() => (solverMode = "two")}
           >2 lines · known angle</button
         >
@@ -600,7 +631,7 @@
               aria-label={`triangulation distance ${i + 1}`}
             />″ to
             <span class="features inline">
-              {#each Array.from({ length: vertexCount }, (_, vi) => vi) as vi (vi)}
+              {#each vertIndices as vi (vi)}
                 <button
                   class="feat {t.vertex === vi ? 'on' : ''}"
                   onpointerenter={() => onsolverhover({ ref: { kind: "vertex", index: vi } })}
@@ -679,7 +710,7 @@
             </select>
             <input type="number" step="0.05" value={aFixedLine.dist} oninput={(e) => (aFixedLine.dist = num(e))} aria-label="this piece's lock line distance" />″ to
             <span class="features inline">
-              {#each Array.from({ length: vertexCount }, (_, vi) => vi) as vi (vi)}
+              {#each vertIndices as vi (vi)}
                 <button
                   class="feat {aFixedLine.vertex === vi ? 'on' : ''}"
                   onpointerenter={() => onsolverhover({ ref: { kind: "vertex", index: vi } })}
@@ -692,7 +723,7 @@
         {:else}
           <span class="sub">This piece — locked corner</span>
           <div class="features">
-            {#each Array.from({ length: vertexCount }, (_, vi) => vi) as vi (vi)}
+            {#each vertIndices as vi (vi)}
               <button
                 class="feat {aLockVertex === vi ? 'on' : ''}"
                 onpointerenter={() => onsolverhover({ ref: { kind: "vertex", index: vi } })}
@@ -744,7 +775,7 @@
           {#if anchorMode === "both"}
             <span class="sub">Its keystone anchor corner</span>
             <div class="features">
-              {#each Array.from({ length: targetVertexCount }, (_, vi) => vi) as vi (vi)}
+              {#each targetVertIndices as vi (vi)}
                 <button
                   class="feat {bLockVertex === vi ? 'on' : ''}"
                   onpointerenter={() => onsolverhover({ pieceId: targetPiece.id, ref: { kind: "vertex", index: vi } })}

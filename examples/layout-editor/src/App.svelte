@@ -18,6 +18,7 @@
     keystoneDisplays,
     layoutWarnings,
     setParentArea,
+    reanchorAllFeatures,
     snapToAreaCenter,
     snapFeatureToAreaCorner,
     setObjectiveRole,
@@ -234,6 +235,9 @@
   function onsnapcorner(id: string): void {
     snapFeatureToAreaCorner(layout, id);
   }
+  function onreanchor(): void {
+    reanchorAllFeatures(layout);
+  }
   function onobjectiverole(id: string, role: ObjectiveRole | undefined): void {
     setObjectiveRole(layout, id, role);
   }
@@ -316,6 +320,13 @@
         title="Rotate keystone labels to face each player (needs a deployment overlay for the divider)"
       >
         {keystoneFacing ? "↻ Facing on" : "↻ Facing off"}
+      </button>
+      <button
+        class="sym"
+        onclick={onreanchor}
+        title="Re-anchor every feature to the area it sits on (fixes features parented to the wrong / mirror-twin area)"
+      >
+        ⚓ Re-anchor
       </button>
       <button class="library-btn" onclick={() => (libraryOpen = true)} title="Browse layouts by mission pairing">
         ⊞ Library

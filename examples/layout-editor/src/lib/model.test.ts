@@ -1,5 +1,17 @@
 import { describe, it, expect } from "vitest";
-import { layoutWarnings, isRoundKeystone, type EditLayout, type EditPiece } from "./model.js";
+import {
+  layoutWarnings,
+  isRoundKeystone,
+  orientPiece,
+  verticesOf,
+  boardCentroid,
+  cardinalCornerIndices,
+  reanchorToNearestArea,
+  reanchorAllFeatures,
+  templateById,
+  type EditLayout,
+  type EditPiece,
+} from "./model.js";
 
 /** A rectangle piece placed centroid-at-`position` (inline footprint, no catalog dep). */
 function rect(
@@ -104,5 +116,94 @@ describe("keystone-not-round warnings", () => {
     expect(ks).toHaveLength(1);
     expect(ks[0].message).toContain("15.92");
     expect(ks[0].pieceIds).toEqual(["k"]);
+  });
+});
+
+describe("cardinalCornerIndices", () => {
+  it("returns every vertex of a 4-corner rectangle", () => {
+    expect(cardinalCornerIndices({ type: "rectangle", width: 6, height: 4 })).toEqual([0, 1, 2, 3]);
+  });
+
+  it("collapses the nubbed area-medium footprint to its 4 cardinal corners", () => {
+    const fp = templateById("area-medium")?.footprint;
+    expect(fp).toBeTruthy();
+    expect(new Set(cardinalCornerIndices(fp!))).toEqual(new Set([0, 13, 14, 15]));
+  });
+});
+
+describe("orientPiece pins child features in place", () => {
+  function areaWithFeature(patch: Partial<EditPiece> = {}): EditLayout {
+    // A 20×20 area with an L-ish feature offset to one corner (rotated + off-centre
+    // so a naive centroid-only pin would still spin or flip it).
+    const area = rect("a", 20, 20, { x: 30, y: 22 });
+    const feat = rect("f", 4, 6, { x: 5, y: -3 }, {
+      piece_type: "feature",
+      parent_area_id: "a",
+      rotation_degrees: 90,
+      ...patch,
+    });
+    return layout([area, feat]);
+  }
+
+  function expectFeatureUnmoved(before: EditLayout, run: (l: EditLayout) => void): void {
+    const l = areaWithFeature();
+    const v0 = verticesOf(before, "f");
+    run(l);
+    const v1 = verticesOf(l, "f");
+    expect(v1).toHaveLength(v0.length);
+    for (let i = 0; i < v0.length; i++) {
+      expect(v1[i].x).toBeCloseTo(v0[i].x, 6);
+      expect(v1[i].y).toBeCloseTo(v0[i].y, 6);
+    }
+  }
+
+  it("flipping the area leaves the feature's board vertices unchanged", () => {
+    expectFeatureUnmoved(areaWithFeature(), (l) => orientPiece(l, "a", { mirror: "horizontal" }));
+  });
+
+  it("rotating the area 90° leaves the feature's board vertices unchanged", () => {
+    expectFeatureUnmoved(areaWithFeature(), (l) => orientPiece(l, "a", { rotation_degrees: 90 }));
+  });
+
+  it("does not fling a far-anchored feature off-table when its area is mirrored", () => {
+    // Reproduce the "corner-short on the mirror-twin area" bug: a feature anchored
+    // with a large area-local offset. A mirror must not translate it at all.
+    const area = rect("a", 6, 4, { x: 49, y: 31 }, { rotation_degrees: 270 });
+    const feat = rect("f", 2, 3, { x: 15.93, y: -38.52 }, {
+      piece_type: "feature",
+      parent_area_id: "a",
+    });
+    const l = layout([area, feat]);
+    const before = boardCentroid(l, feat);
+    orientPiece(l, "a", { mirror: "horizontal" });
+    const after = boardCentroid(l, l.pieces.find((p) => p.id === "f")!);
+    expect(after.x).toBeCloseTo(before.x, 6);
+    expect(after.y).toBeCloseTo(before.y, 6);
+  });
+});
+
+describe("reanchorToNearestArea", () => {
+  it("re-points a feature to the area it actually sits on, preserving board position", () => {
+    // area "a" at left, area "b" at right; feature declared on "a" but its local
+    // offset lands it on top of "b" (the swapped-parent bug).
+    const a = rect("a", 10, 10, { x: 6, y: 6 });
+    const b = rect("b", 10, 10, { x: 30, y: 6 });
+    const f = rect("f", 4, 4, { x: 24, y: 0 }, { piece_type: "feature", parent_area_id: "a" });
+    const l = layout([a, b, f]);
+    const before = boardCentroid(l, f);
+    reanchorToNearestArea(l, "f");
+    const feat = l.pieces.find((p) => p.id === "f")!;
+    expect(feat.parent_area_id).toBe("b");
+    const after = boardCentroid(l, feat);
+    expect(after.x).toBeCloseTo(before.x, 6);
+    expect(after.y).toBeCloseTo(before.y, 6);
+  });
+
+  it("is a no-op for a feature already on its nearest area", () => {
+    const a = rect("a", 10, 10, { x: 6, y: 6 });
+    const f = rect("f", 4, 4, { x: 0, y: 0 }, { piece_type: "feature", parent_area_id: "a" });
+    const l = layout([a, f]);
+    reanchorAllFeatures(l);
+    expect(l.pieces.find((p) => p.id === "f")!.parent_area_id).toBe("a");
   });
 });
