@@ -29,6 +29,10 @@ function stat(v: unknown): string {
 }
 
 type WeaponRow = {
+	// Unique reconciliation key for the keyed each — the display name is NOT
+	// unique (a weapon can have two profiles with the same name, e.g.
+	// venatari-lance), which would trip Svelte's each_key_duplicate.
+	key: string;
 	name: string;
 	range: string | null;
 	attacks: string;
@@ -45,7 +49,8 @@ function weaponRows(ids: string[]): WeaponRow[] {
 			ds.weapons.getAny(id);
 		if (!view) return [];
 		const multi = view.raw.profiles.length > 1;
-		return view.raw.profiles.map((p) => ({
+		return view.raw.profiles.map((p, pi) => ({
+			key: `${id}#${pi}`,
 			name: multi ? `${view.name} — ${p.name}` : view.name,
 			range: typeof p.range === 'number' ? `${p.range}"` : null,
 			attacks: stat(p.stats.A),
@@ -117,7 +122,7 @@ const keywords = $derived([
 				<summary class="text-text-muted cursor-pointer text-xs font-bold uppercase tracking-wider">
 					<span class="expand-indicator text-xs">▸</span> Ranged
 				</summary>
-				{#each rangedRows as w (w.name)}
+				{#each rangedRows as w (w.key)}
 					<div class="mt-0.5">
 						<div class="text-text text-xs font-medium">{w.name}</div>
 						<div class="text-text-muted font-mono flex flex-wrap gap-x-2 text-xs">
@@ -139,7 +144,7 @@ const keywords = $derived([
 				<summary class="text-text-muted cursor-pointer text-xs font-bold uppercase tracking-wider">
 					<span class="expand-indicator text-xs">▸</span> Melee
 				</summary>
-				{#each meleeRows as w (w.name)}
+				{#each meleeRows as w (w.key)}
 					<div class="mt-0.5">
 						<div class="text-text text-xs font-medium">{w.name}</div>
 						<div class="text-text-muted font-mono flex flex-wrap gap-x-2 text-xs">
