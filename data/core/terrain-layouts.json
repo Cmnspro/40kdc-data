@@ -173,23 +173,30 @@
         "piece_type": "area",
         "template": "area-long-line",
         "position": {
-          "x": 23.5547,
-          "y": 9.5311
+          "x": 23.56,
+          "y": 9.53
         },
         "rotation_degrees": 46.79,
         "keystones": [
           {
-            "edge": "left",
+            "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 17
+              "index": 0
             }
           },
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 17
+              "index": 16
+            }
+          },
+          {
+            "edge": "left",
+            "ref": {
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -200,23 +207,30 @@
         "piece_type": "area",
         "template": "area-long-line",
         "position": {
-          "x": 36.4453,
-          "y": 34.4689
+          "x": 36.44,
+          "y": 34.47
         },
         "rotation_degrees": 226.79,
         "keystones": [
           {
-            "edge": "right",
+            "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 17
+              "index": 0
             }
           },
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 17
+              "index": 16
+            }
+          },
+          {
+            "edge": "right",
+            "ref": {
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -954,10 +968,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 15.93,
-          "y": -38.52
+          "x": 2.153,
+          "y": 0.4596
         },
-        "parent_area_id": "area-medium-7"
+        "parent_area_id": "area-medium-8"
       },
       {
         "id": "corner-short-10",
@@ -965,10 +979,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 15.93,
-          "y": -38.52
+          "x": 2.153,
+          "y": 0.4596
         },
-        "parent_area_id": "area-medium-8"
+        "parent_area_id": "area-medium-7"
       },
       {
         "id": "corner-short-11",
@@ -976,11 +990,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 20,
-          "y": -37.47
+          "x": -1.917,
+          "y": -0.5904
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-medium-7"
+        "parent_area_id": "area-medium-8"
       },
       {
         "id": "corner-short-12",
@@ -988,11 +1002,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 20,
-          "y": -37.47
+          "x": -1.917,
+          "y": -0.5904
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-medium-8"
+        "parent_area_id": "area-medium-7"
       },
       {
         "id": "area-large-13",
@@ -1303,25 +1317,26 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 34.9585,
-          "y": 10.0302
+          "x": 35.04,
+          "y": 10.03
         },
         "keystones": [
           {
             "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-36",
@@ -1329,8 +1344,8 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 25.0415,
-          "y": 33.9698
+          "x": 24.96,
+          "y": 33.97
         },
         "rotation_degrees": 180,
         "keystones": [
@@ -1338,17 +1353,18 @@
             "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "generator-37",
@@ -1359,8 +1375,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-35"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-35",
+        "mirror": "horizontal"
       },
       {
         "id": "generator-38",
@@ -1371,8 +1388,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-36"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-36",
+        "mirror": "horizontal"
       },
       {
         "id": "area-short-line-39",
@@ -1539,11 +1557,11 @@
         "piece_type": "feature",
         "template": "corner-tiny",
         "position": {
-          "x": 6.07,
-          "y": -3.44
+          "x": -1.67,
+          "y": 5.74
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-trapezoid-43"
+        "parent_area_id": "area-trapezoid-44"
       },
       {
         "id": "corner-tiny-48",
@@ -1551,11 +1569,11 @@
         "piece_type": "feature",
         "template": "corner-tiny",
         "position": {
-          "x": 6.07,
-          "y": -3.44
+          "x": -1.67,
+          "y": 5.74
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-trapezoid-44"
+        "parent_area_id": "area-trapezoid-43"
       }
     ],
     "game_version": {
@@ -1635,23 +1653,23 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 17.1042,
-          "y": 26.227
+          "x": 17.11,
+          "y": 26.39
         },
         "rotation_degrees": 62.73,
         "keystones": [
           {
-            "edge": "left",
+            "edge": "bottom",
             "ref": {
               "kind": "vertex",
               "index": 15
             }
           },
           {
-            "edge": "bottom",
+            "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 15
+              "index": 0
             }
           }
         ]
@@ -1662,23 +1680,23 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 42.8958,
-          "y": 17.773
+          "x": 42.89,
+          "y": 17.61
         },
         "rotation_degrees": 242.73,
         "keystones": [
           {
-            "edge": "right",
+            "edge": "top",
             "ref": {
               "kind": "vertex",
               "index": 15
             }
           },
           {
-            "edge": "top",
+            "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 15
+              "index": 0
             }
           }
         ]
@@ -1885,7 +1903,7 @@
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 13
             }
           }
         ]
@@ -1912,7 +1930,7 @@
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 13
             }
           }
         ]
@@ -1985,7 +2003,7 @@
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 8
+              "index": 1
             }
           }
         ]
@@ -2012,7 +2030,7 @@
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 8
+              "index": 1
             }
           }
         ]
@@ -2290,7 +2308,7 @@
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 1
             }
           }
         ]
@@ -2317,7 +2335,7 @@
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 1
             }
           }
         ]
@@ -2472,22 +2490,23 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 37.9585,
-          "y": 10.0302
+          "x": 38.04,
+          "y": 10.03
         },
+        "mirror": "horizontal",
         "keystones": [
           {
             "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
         ]
@@ -2498,23 +2517,24 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 22.0415,
-          "y": 33.9698
+          "x": 21.96,
+          "y": 33.97
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "keystones": [
           {
             "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
         ]
@@ -2604,7 +2624,8 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
+        "rotation_degrees": 270,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-7"
       },
       {
@@ -2616,7 +2637,8 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
+        "rotation_degrees": 270,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-8"
       },
       {
@@ -2710,9 +2732,10 @@
         "piece_type": "feature",
         "template": "corner-tiny",
         "position": {
-          "x": 26.07,
-          "y": 17.28
-        }
+          "x": -1.73,
+          "y": 5.87
+        },
+        "parent_area_id": "area-trapezoid-16"
       },
       {
         "id": "corner-tiny-20",
@@ -2720,10 +2743,10 @@
         "piece_type": "feature",
         "template": "corner-tiny",
         "position": {
-          "x": 33.93,
-          "y": 26.72
+          "x": -1.73,
+          "y": 5.87
         },
-        "rotation_degrees": 180
+        "parent_area_id": "area-trapezoid-15"
       },
       {
         "id": "area-large-21",
@@ -2789,11 +2812,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-right",
         "position": {
-          "x": -33.1281,
-          "y": 15.7081
+          "x": 4.6663,
+          "y": -0.8247
         },
-        "rotation_degrees": 180,
-        "parent_area_id": "area-large-21"
+        "parent_area_id": "area-large-22"
       },
       {
         "id": "corner-ruin-right-24",
@@ -2801,11 +2823,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-right",
         "position": {
-          "x": -33.1281,
-          "y": 15.7081
+          "x": 4.6663,
+          "y": -0.8247
         },
-        "rotation_degrees": 180,
-        "parent_area_id": "area-large-22"
+        "parent_area_id": "area-large-21"
       },
       {
         "id": "corner-ruin-balanced-left-25",
@@ -2837,23 +2858,23 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 48.5049,
-          "y": 29.951
+          "x": 48.5,
+          "y": 29.93
         },
-        "rotation_degrees": 311.81,
+        "rotation_degrees": 312.17,
         "keystones": [
-          {
-            "edge": "right",
-            "ref": {
-              "kind": "vertex",
-              "index": 0
-            }
-          },
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 15
+            }
+          },
+          {
+            "edge": "right",
+            "ref": {
+              "kind": "vertex",
+              "index": 15
             }
           }
         ]
@@ -2864,23 +2885,23 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 11.4951,
-          "y": 14.049
+          "x": 11.5,
+          "y": 14.07
         },
-        "rotation_degrees": 131.81,
+        "rotation_degrees": 132.17,
         "keystones": [
-          {
-            "edge": "left",
-            "ref": {
-              "kind": "vertex",
-              "index": 0
-            }
-          },
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 15
+            }
+          },
+          {
+            "edge": "left",
+            "ref": {
+              "kind": "vertex",
+              "index": 15
             }
           }
         ]
@@ -2891,9 +2912,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.1001,
-          "y": -0.601
+          "x": -2.1038,
+          "y": -0.5878
         },
+        "rotation_degrees": 359.64,
         "parent_area_id": "area-medium-27"
       },
       {
@@ -2902,9 +2924,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.1001,
-          "y": -0.601
+          "x": -2.1038,
+          "y": -0.5878
         },
+        "rotation_degrees": 359.64,
         "parent_area_id": "area-medium-28"
       },
       {
@@ -2913,10 +2936,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.0718,
-          "y": 0.5162
+          "x": 2.075,
+          "y": 0.5032
         },
-        "rotation_degrees": 180,
+        "rotation_degrees": 179.64,
         "parent_area_id": "area-medium-27"
       },
       {
@@ -2925,10 +2948,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.0718,
-          "y": 0.5162
+          "x": 2.075,
+          "y": 0.5032
         },
-        "rotation_degrees": 180,
+        "rotation_degrees": 179.64,
         "parent_area_id": "area-medium-28"
       },
       {
@@ -2937,23 +2960,23 @@
         "piece_type": "area",
         "template": "area-short-line",
         "position": {
-          "x": 49.5037,
-          "y": 36.2461
+          "x": 49.48,
+          "y": 36.24
         },
-        "rotation_degrees": 43,
+        "rotation_degrees": 42.96,
         "keystones": [
-          {
-            "edge": "right",
-            "ref": {
-              "kind": "vertex",
-              "index": 1
-            }
-          },
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 1
+              "index": 0
+            }
+          },
+          {
+            "edge": "right",
+            "ref": {
+              "kind": "vertex",
+              "index": 0
             }
           }
         ]
@@ -2964,23 +2987,23 @@
         "piece_type": "area",
         "template": "area-short-line",
         "position": {
-          "x": 10.4963,
-          "y": 7.7539
+          "x": 10.52,
+          "y": 7.76
         },
-        "rotation_degrees": 223,
+        "rotation_degrees": 222.96,
         "keystones": [
-          {
-            "edge": "left",
-            "ref": {
-              "kind": "vertex",
-              "index": 1
-            }
-          },
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 1
+              "index": 0
+            }
+          },
+          {
+            "edge": "left",
+            "ref": {
+              "kind": "vertex",
+              "index": 0
             }
           }
         ]
@@ -2994,6 +3017,7 @@
           "x": 0,
           "y": 0
         },
+        "rotation_degrees": 0.04,
         "parent_area_id": "area-short-line-33"
       },
       {
@@ -3005,6 +3029,7 @@
           "x": 0,
           "y": 0
         },
+        "rotation_degrees": 0.04,
         "parent_area_id": "area-short-line-34"
       },
       {
@@ -3228,8 +3253,8 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 26.9585,
-          "y": 11.0302
+          "x": 27.04,
+          "y": 11.03
         },
         "keystones": [
           {
@@ -3242,11 +3267,12 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 14
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-14",
@@ -3254,8 +3280,8 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 33.0415,
-          "y": 32.9698
+          "x": 32.96,
+          "y": 32.97
         },
         "rotation_degrees": 180,
         "keystones": [
@@ -3269,11 +3295,12 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 14
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "generator-15",
@@ -3284,8 +3311,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-13"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-13",
+        "mirror": "horizontal"
       },
       {
         "id": "generator-16",
@@ -3296,8 +3324,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-14"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-14",
+        "mirror": "horizontal"
       },
       {
         "id": "area-short-line-17",
@@ -3320,8 +3349,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 9
             }
           }
         ]
@@ -3347,8 +3376,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 9
             }
           }
         ]
@@ -3390,8 +3419,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -3419,8 +3448,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -4237,11 +4266,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 51.51,
-          "y": 11.04
+          "x": 4.2791,
+          "y": 2.4817
         },
         "rotation_degrees": 90,
-        "mirror": "horizontal"
+        "mirror": "horizontal",
+        "parent_area_id": "area-large-17"
       },
       {
         "id": "corner-short-20",
@@ -4249,11 +4279,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 8.49,
-          "y": 32.96
+          "x": 4.2791,
+          "y": 2.4817
         },
-        "rotation_degrees": 270,
-        "mirror": "horizontal"
+        "rotation_degrees": 90,
+        "mirror": "horizontal",
+        "parent_area_id": "area-large-18"
       },
       {
         "id": "corner-ruin-left-21",
@@ -4423,15 +4454,15 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 26.9585,
-          "y": 11.0302
+          "x": 27.04,
+          "y": 11.03
         },
         "keystones": [
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 14
             }
           },
           {
@@ -4441,7 +4472,8 @@
               "side": "min-x"
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-32",
@@ -4449,16 +4481,16 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 33.0415,
-          "y": 32.9698
+          "x": 32.96,
+          "y": 32.97
         },
         "rotation_degrees": 180,
         "keystones": [
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 14
             }
           },
           {
@@ -4468,7 +4500,8 @@
               "side": "max-x"
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "generator-33",
@@ -4479,8 +4512,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-31"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-31",
+        "mirror": "horizontal"
       },
       {
         "id": "generator-34",
@@ -4491,8 +4525,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-32"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-32",
+        "mirror": "horizontal"
       },
       {
         "id": "area-short-line-35",
@@ -4585,8 +4620,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -4614,8 +4649,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -4657,11 +4692,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-right",
         "position": {
-          "x": -39.43,
-          "y": -27.45
+          "x": 2.9682,
+          "y": 2.3334
         },
         "rotation_degrees": 270,
-        "parent_area_id": "area-large-39"
+        "parent_area_id": "area-large-40"
       },
       {
         "id": "corner-ruin-right-44",
@@ -4669,11 +4704,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-right",
         "position": {
-          "x": -39.43,
-          "y": -27.45
+          "x": 2.9682,
+          "y": 2.3334
         },
         "rotation_degrees": 270,
-        "parent_area_id": "area-large-40"
+        "parent_area_id": "area-large-39"
       }
     ],
     "game_version": {
@@ -5567,15 +5602,15 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 28.9585,
-          "y": 11.0302
+          "x": 29.04,
+          "y": 11.03
         },
         "keystones": [
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 14
             }
           },
           {
@@ -5585,7 +5620,8 @@
               "side": "min-x"
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-10",
@@ -5593,16 +5629,16 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 31.0415,
-          "y": 32.9698
+          "x": 30.96,
+          "y": 32.97
         },
         "rotation_degrees": 180,
         "keystones": [
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 14
             }
           },
           {
@@ -5612,7 +5648,8 @@
               "side": "max-x"
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "generator-11",
@@ -5623,8 +5660,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-9"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-9",
+        "mirror": "horizontal"
       },
       {
         "id": "generator-12",
@@ -5635,8 +5673,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-10"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-10",
+        "mirror": "horizontal"
       },
       {
         "id": "area-short-line-13",
@@ -6255,11 +6294,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-left",
         "position": {
-          "x": 5.5,
-          "y": -2.73
+          "x": -1.1,
+          "y": 5.03
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-trapezoid-1"
+        "parent_area_id": "area-trapezoid-2"
       },
       {
         "id": "corner-ruin-balanced-left-4",
@@ -6267,11 +6306,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-left",
         "position": {
-          "x": 5.5,
-          "y": -2.73
+          "x": -1.1,
+          "y": 5.03
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-trapezoid-2"
+        "parent_area_id": "area-trapezoid-1"
       },
       {
         "id": "corner-tiny-5",
@@ -6512,11 +6551,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-left",
         "position": {
-          "x": -25.74,
-          "y": 12.64
+          "x": -2.7218,
+          "y": 2.2434
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-large-15"
+        "parent_area_id": "area-large-16"
       },
       {
         "id": "corner-ruin-left-18",
@@ -6524,11 +6563,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-left",
         "position": {
-          "x": -25.74,
-          "y": 12.64
+          "x": -2.7218,
+          "y": 2.2434
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-large-16"
+        "parent_area_id": "area-large-15"
       },
       {
         "id": "corner-ruin-right-19",
@@ -6536,11 +6575,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-right",
         "position": {
-          "x": -33.18,
-          "y": 15.89
+          "x": 4.7182,
+          "y": -1.0066
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-large-15"
+        "parent_area_id": "area-large-16"
       },
       {
         "id": "corner-ruin-right-20",
@@ -6548,11 +6587,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-right",
         "position": {
-          "x": -33.18,
-          "y": 15.89
+          "x": 4.7182,
+          "y": -1.0066
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-large-16"
+        "parent_area_id": "area-large-15"
       },
       {
         "id": "area-large-21",
@@ -6618,10 +6657,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-right",
         "position": {
-          "x": 4.39,
-          "y": 31.19
+          "x": -3.8518,
+          "y": 1.6934
         },
-        "parent_area_id": "area-large-21"
+        "parent_area_id": "area-large-22"
       },
       {
         "id": "corner-ruin-balanced-right-24",
@@ -6629,10 +6668,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-right",
         "position": {
-          "x": 4.39,
-          "y": 31.19
+          "x": -3.8518,
+          "y": 1.6934
         },
-        "parent_area_id": "area-large-22"
+        "parent_area_id": "area-large-21"
       },
       {
         "id": "corner-short-25",
@@ -6679,8 +6718,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -6706,8 +6745,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -7443,10 +7482,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-right",
         "position": {
-          "x": -33.2112,
-          "y": 8.4959
+          "x": -3.8658,
+          "y": 1.7102
         },
-        "parent_area_id": "area-large-27"
+        "parent_area_id": "area-large-28"
       },
       {
         "id": "corner-ruin-balanced-right-30",
@@ -7454,10 +7493,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-right",
         "position": {
-          "x": -33.2112,
-          "y": 8.4959
+          "x": -3.8658,
+          "y": 1.7102
         },
-        "parent_area_id": "area-large-28"
+        "parent_area_id": "area-large-27"
       },
       {
         "id": "corner-ruin-right-31",
@@ -8239,11 +8278,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-left",
         "position": {
-          "x": -15.65,
-          "y": -38.07
+          "x": -4.8118,
+          "y": -1.0466
         },
-        "rotation_degrees": 180,
-        "parent_area_id": "area-large-17"
+        "parent_area_id": "area-large-18"
       },
       {
         "id": "corner-ruin-left-28",
@@ -8251,11 +8289,10 @@
         "piece_type": "feature",
         "template": "corner-ruin-left",
         "position": {
-          "x": -15.65,
-          "y": -38.07
+          "x": -4.8118,
+          "y": -1.0466
         },
-        "rotation_degrees": 180,
-        "parent_area_id": "area-large-18"
+        "parent_area_id": "area-large-17"
       },
       {
         "id": "corner-short-29",
@@ -8263,12 +8300,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -25.3,
-          "y": -37.02
+          "x": 4.8382,
+          "y": -2.0966
         },
-        "rotation_degrees": 180,
         "mirror": "horizontal",
-        "parent_area_id": "area-large-17"
+        "parent_area_id": "area-large-18"
       },
       {
         "id": "corner-short-30",
@@ -8276,12 +8312,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -25.3,
-          "y": -37.02
+          "x": 4.8382,
+          "y": -2.0966
         },
-        "rotation_degrees": 180,
         "mirror": "horizontal",
-        "parent_area_id": "area-large-18"
+        "parent_area_id": "area-large-17"
       },
       {
         "id": "area-large-31",
@@ -8298,8 +8333,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -8327,8 +8362,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -8578,11 +8613,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 42.64,
-          "y": 9
+          "x": 4.4091,
+          "y": 2.4417
         },
         "rotation_degrees": 90,
-        "mirror": "horizontal"
+        "mirror": "horizontal",
+        "parent_area_id": "area-large-1"
       },
       {
         "id": "corner-short-6",
@@ -8590,11 +8626,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 17.36,
-          "y": 35
+          "x": 4.4091,
+          "y": 2.4417
         },
-        "rotation_degrees": 270,
-        "mirror": "horizontal"
+        "rotation_degrees": 90,
+        "mirror": "horizontal",
+        "parent_area_id": "area-large-2"
       },
       {
         "id": "area-long-line-7",
@@ -9311,11 +9348,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-left",
         "position": {
-          "x": 5.68,
-          "y": -2.88
+          "x": -1.28,
+          "y": 5.18
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-trapezoid-1"
+        "parent_area_id": "area-trapezoid-2"
       },
       {
         "id": "corner-ruin-balanced-left-4",
@@ -9323,11 +9360,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-left",
         "position": {
-          "x": 5.68,
-          "y": -2.88
+          "x": -1.28,
+          "y": 5.18
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-trapezoid-2"
+        "parent_area_id": "area-trapezoid-1"
       },
       {
         "id": "corner-tiny-5",
@@ -9493,11 +9530,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-right",
         "position": {
-          "x": -0.09,
-          "y": -6.8
+          "x": 4.1376,
+          "y": 1.6719
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-medium-9"
+        "parent_area_id": "area-large-7"
       },
       {
         "id": "corner-ruin-balanced-right-14",
@@ -9505,11 +9542,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-balanced-right",
         "position": {
-          "x": -0.09,
-          "y": -6.8
+          "x": 4.1376,
+          "y": 1.6719
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-medium-10"
+        "parent_area_id": "area-large-8"
       },
       {
         "id": "corner-short-15",
@@ -9517,12 +9554,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -8.96,
-          "y": -6.55
+          "x": -4.7324,
+          "y": 1.9219
         },
         "rotation_degrees": 180,
         "mirror": "horizontal",
-        "parent_area_id": "area-medium-9"
+        "parent_area_id": "area-large-7"
       },
       {
         "id": "corner-short-16",
@@ -9530,12 +9567,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -8.96,
-          "y": -6.55
+          "x": -4.7324,
+          "y": 1.9219
         },
         "rotation_degrees": 180,
         "mirror": "horizontal",
-        "parent_area_id": "area-medium-10"
+        "parent_area_id": "area-large-8"
       },
       {
         "id": "area-long-line-17",
@@ -9725,11 +9762,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-left",
         "position": {
-          "x": -21.44,
-          "y": 24.47
+          "x": -3.0218,
+          "y": 2.4134
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-large-25"
+        "parent_area_id": "area-large-26"
       },
       {
         "id": "corner-ruin-left-28",
@@ -9737,11 +9774,11 @@
         "piece_type": "feature",
         "template": "corner-ruin-left",
         "position": {
-          "x": -21.44,
-          "y": 24.47
+          "x": -3.0218,
+          "y": 2.4134
         },
         "rotation_degrees": 90,
-        "parent_area_id": "area-large-26"
+        "parent_area_id": "area-large-25"
       },
       {
         "id": "corner-ruin-right-29",
@@ -9954,8 +9991,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 0
             }
           },
           {
@@ -9981,8 +10018,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 0
             }
           },
           {
@@ -11132,8 +11169,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -11161,8 +11198,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -11765,8 +11802,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 8
             }
           }
         ]
@@ -11793,8 +11830,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 8
             }
           }
         ]
@@ -11836,8 +11873,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -11857,8 +11894,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -12939,8 +12976,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 15
             }
           },
           {
@@ -12968,8 +13005,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 15
             }
           },
           {
@@ -20715,25 +20752,26 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 37.9585,
-          "y": 10.0302
+          "x": 38.04,
+          "y": 10.03
         },
         "keystones": [
           {
             "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-44",
@@ -20741,8 +20779,8 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 22.0415,
-          "y": 33.9698
+          "x": 21.96,
+          "y": 33.97
         },
         "rotation_degrees": 180,
         "keystones": [
@@ -20750,17 +20788,18 @@
             "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "generator-45",
@@ -20771,8 +20810,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-43"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-43",
+        "mirror": "horizontal"
       },
       {
         "id": "generator-46",
@@ -20783,8 +20823,9 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
-        "parent_area_id": "area-medium-44"
+        "rotation_degrees": 270,
+        "parent_area_id": "area-medium-44",
+        "mirror": "horizontal"
       }
     ],
     "game_version": {
@@ -21493,25 +21534,26 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 27.9585,
-          "y": 11.0302
+          "x": 28.04,
+          "y": 11.03
         },
         "keystones": [
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 13
+              "index": 14
             }
           },
           {
             "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 15
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-40",
@@ -21519,8 +21561,8 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 32.0415,
-          "y": 32.9698
+          "x": 31.96,
+          "y": 32.97
         },
         "rotation_degrees": 180,
         "keystones": [
@@ -21528,17 +21570,18 @@
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 13
+              "index": 14
             }
           },
           {
             "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 15
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-41",
@@ -21546,10 +21589,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
-        "parent_area_id": "area-medium-39"
+        "parent_area_id": "area-medium-39",
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-42",
@@ -21557,10 +21601,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
-        "parent_area_id": "area-medium-40"
+        "parent_area_id": "area-medium-40",
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-43",
@@ -21568,11 +21613,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-medium-39"
+        "parent_area_id": "area-medium-39",
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-44",
@@ -21580,11 +21626,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-medium-40"
+        "parent_area_id": "area-medium-40",
+        "mirror": "horizontal"
       }
     ],
     "game_version": {
@@ -23100,8 +23147,8 @@
           {
             "edge": "bottom",
             "ref": {
-              "kind": "face",
-              "side": "max-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -23129,8 +23176,8 @@
           {
             "edge": "top",
             "ref": {
-              "kind": "face",
-              "side": "min-y"
+              "kind": "vertex",
+              "index": 23
             }
           },
           {
@@ -23211,8 +23258,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -23238,8 +23285,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 16
             }
           }
         ]
@@ -23611,8 +23658,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 13
             }
           }
         ]
@@ -23638,8 +23685,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 13
             }
           }
         ]
@@ -23712,8 +23759,8 @@
           {
             "edge": "left",
             "ref": {
-              "kind": "face",
-              "side": "min-x"
+              "kind": "vertex",
+              "index": 9
             }
           }
         ]
@@ -23740,8 +23787,8 @@
           {
             "edge": "right",
             "ref": {
-              "kind": "face",
-              "side": "max-x"
+              "kind": "vertex",
+              "index": 9
             }
           }
         ]
@@ -25294,8 +25341,8 @@
         "piece_type": "area",
         "template": "area-short-line",
         "position": {
-          "x": 25.984,
-          "y": 6.0564
+          "x": 25.98,
+          "y": 6.01
         },
         "rotation_degrees": 90,
         "link_group": "1",
@@ -25322,8 +25369,8 @@
         "piece_type": "area",
         "template": "area-short-line",
         "position": {
-          "x": 34.016,
-          "y": 37.9436
+          "x": 34.02,
+          "y": 37.99
         },
         "rotation_degrees": 270,
         "link_group": "1",
@@ -25372,9 +25419,10 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 29.9585,
-          "y": 9.0302
+          "x": 30.04,
+          "y": 9.03
         },
+        "mirror": "horizontal",
         "link_group": "1",
         "keystones": [
           {
@@ -25399,10 +25447,11 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 30.0415,
-          "y": 34.9698
+          "x": 29.96,
+          "y": 34.97
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "link_group": "1",
         "keystones": [
           {
@@ -25430,7 +25479,8 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
+        "rotation_degrees": 270,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-45"
       },
       {
@@ -25442,7 +25492,8 @@
           "x": 0,
           "y": 0
         },
-        "rotation_degrees": 90,
+        "rotation_degrees": 270,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-46"
       }
     ],
@@ -32172,18 +32223,19 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 29.9585,
-          "y": 11.0302
+          "x": 30.04,
+          "y": 11.03
         },
         "keystones": [
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "area-medium-34",
@@ -32191,8 +32243,8 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 30.0415,
-          "y": 32.9698
+          "x": 29.96,
+          "y": 32.97
         },
         "rotation_degrees": 180,
         "keystones": [
@@ -32200,10 +32252,11 @@
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
-        ]
+        ],
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-35",
@@ -32211,10 +32264,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
-        "parent_area_id": "area-medium-33"
+        "parent_area_id": "area-medium-33",
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-36",
@@ -32222,10 +32276,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
-        "parent_area_id": "area-medium-34"
+        "parent_area_id": "area-medium-34",
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-37",
@@ -32233,11 +32288,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-medium-33"
+        "parent_area_id": "area-medium-33",
+        "mirror": "horizontal"
       },
       {
         "id": "corner-short-38",
@@ -32245,11 +32301,12 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
-        "parent_area_id": "area-medium-34"
+        "parent_area_id": "area-medium-34",
+        "mirror": "horizontal"
       },
       {
         "id": "area-large-39",
@@ -32768,22 +32825,23 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 35.9585,
-          "y": 11.0302
+          "x": 36.04,
+          "y": 11.03
         },
+        "mirror": "horizontal",
         "keystones": [
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
         ]
@@ -32794,23 +32852,24 @@
         "piece_type": "area",
         "template": "area-medium",
         "position": {
-          "x": 24.0415,
-          "y": 32.9698
+          "x": 23.96,
+          "y": 32.97
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "keystones": [
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           },
           {
             "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 14
+              "index": 13
             }
           }
         ]
@@ -32821,9 +32880,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-23"
       },
       {
@@ -32832,9 +32892,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-24"
       },
       {
@@ -32843,10 +32904,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-23"
       },
       {
@@ -32855,10 +32917,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-24"
       },
       {
@@ -32929,24 +32992,25 @@
         "piece_type": "area",
         "template": "area-long-line",
         "position": {
-          "x": 40.4677,
-          "y": 24.1293
+          "x": 40.45,
+          "y": 24.14
         },
         "rotation_degrees": 58.23,
+        "mirror": "vertical",
         "link_group": "3",
         "keystones": [
           {
             "edge": "bottom",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 1
             }
           },
           {
             "edge": "right",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 1
             }
           }
         ]
@@ -32957,24 +33021,25 @@
         "piece_type": "area",
         "template": "area-long-line",
         "position": {
-          "x": 19.5323,
-          "y": 19.8707
+          "x": 19.55,
+          "y": 19.86
         },
         "rotation_degrees": 238.23,
+        "mirror": "vertical",
         "link_group": "3",
         "keystones": [
           {
             "edge": "top",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 1
             }
           },
           {
             "edge": "left",
             "ref": {
               "kind": "vertex",
-              "index": 0
+              "index": 1
             }
           }
         ]
@@ -32988,6 +33053,8 @@
           "x": 0,
           "y": 0
         },
+        "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-long-line-33"
       },
       {
@@ -32999,6 +33066,8 @@
           "x": 0,
           "y": 0
         },
+        "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-long-line-34"
       },
       {
@@ -33010,7 +33079,7 @@
           "x": 2.93,
           "y": 0
         },
-        "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-long-line-33"
       },
       {
@@ -33022,7 +33091,7 @@
           "x": 2.93,
           "y": 0
         },
-        "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-long-line-34"
       },
       {
@@ -33034,7 +33103,7 @@
           "x": -2.93,
           "y": 0
         },
-        "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-long-line-33"
       },
       {
@@ -33046,7 +33115,7 @@
           "x": -2.93,
           "y": 0
         },
-        "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-long-line-34"
       },
       {
@@ -33061,13 +33130,6 @@
         "rotation_degrees": 328.23,
         "link_group": "3",
         "keystones": [
-          {
-            "edge": "bottom",
-            "ref": {
-              "kind": "vertex",
-              "index": 0
-            }
-          },
           {
             "edge": "right",
             "ref": {
@@ -33089,13 +33151,6 @@
         "rotation_degrees": 148.23,
         "link_group": "3",
         "keystones": [
-          {
-            "edge": "top",
-            "ref": {
-              "kind": "vertex",
-              "index": 0
-            }
-          },
           {
             "edge": "left",
             "ref": {
@@ -33892,10 +33947,10 @@
         "piece_type": "area",
         "template": "area-trapezoid",
         "position": {
-          "x": 27.76,
-          "y": 20.85
+          "x": 27.8105,
+          "y": 20.8301
         },
-        "rotation_degrees": 234.98,
+        "rotation_degrees": 235.7131,
         "mirror": "horizontal",
         "link_group": "1",
         "objective_role": "center",
@@ -33930,10 +33985,10 @@
         "piece_type": "area",
         "template": "area-trapezoid",
         "position": {
-          "x": 32.24,
-          "y": 23.15
+          "x": 32.1895,
+          "y": 23.1699
         },
-        "rotation_degrees": 54.98,
+        "rotation_degrees": 55.7131,
         "mirror": "horizontal",
         "link_group": "1",
         "objective_role": "center",
@@ -34399,6 +34454,7 @@
           "x": 27.9585,
           "y": 11.0302
         },
+        "mirror": "horizontal",
         "link_group": "2",
         "keystones": [
           {
@@ -34420,6 +34476,7 @@
           "y": 32.9698
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "link_group": "2",
         "keystones": [
           {
@@ -34437,9 +34494,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-29"
       },
       {
@@ -34448,9 +34506,10 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": -2.05,
+          "x": 2.05,
           "y": -0.6
         },
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-30"
       },
       {
@@ -34459,10 +34518,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-29"
       },
       {
@@ -34471,10 +34531,11 @@
         "piece_type": "feature",
         "template": "corner-short",
         "position": {
-          "x": 2.05,
+          "x": -2.05,
           "y": 0.6
         },
         "rotation_degrees": 180,
+        "mirror": "horizontal",
         "parent_area_id": "area-medium-30"
       },
       {
