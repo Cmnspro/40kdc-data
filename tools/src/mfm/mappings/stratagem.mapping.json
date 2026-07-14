@@ -1,0 +1,504 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/stratagem.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "stratagem"
+  ],
+  "fields": {
+    "/ability_id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Ability entities and their links are authored from the separate prose-store workflow, not emitted by the stratagem reconciler."
+    },
+    "/category": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.stratagem.detachmentId"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/stratagems.ts#buildStratCanon",
+          "operation": "Map presence of detachmentId to the core-versus-detachment category (non-null => detachment, null => core)."
+        }
+      ],
+      "filters": [
+        "A null detachmentId yields the core category; a non-null value yields the detachment category."
+      ],
+      "precedence": [
+        "The derived category replaces the authored value on any disagreement (idempotent set/confirm)."
+      ],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#buildStratCanon",
+        "tools/src/mfm/stratagems.ts#runStratagems"
+      ],
+      "reason": "runStratagems sets the core-versus-detachment category from detachmentId presence; the repo is already fully consistent, so it drifts only if a future dataslate mis-scopes a record."
+    },
+    "/cp_cost": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.stratagem.cpCost"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/stratagems.ts#buildStratCanon",
+          "operation": "Parse the authoritative cpCost scalar as an integer and discard non-finite results."
+        }
+      ],
+      "filters": [
+        "Only rows whose derived repository id matches an existing stratagem record are applied."
+      ],
+      "precedence": [
+        "A finite dump cpCost replaces the existing cp_cost; absent or unparsable values leave it unchanged."
+      ],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#buildStratCanon",
+        "tools/src/mfm/stratagems.ts#runStratagems"
+      ],
+      "reason": "cpCost is the sole stratagem field currently written from the MFM dump."
+    },
+    "/detachment_id": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.detachmentId",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "stratagem.detachmentId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/stratagems.ts#stratagemRepoId",
+          "operation": "Use the applicable detachment's English name only while deriving the stratagem repository id."
+        }
+      ],
+      "filters": [
+        "Core stratagem rows have a null detachmentId."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#stratagemRepoId",
+        "tools/src/mfm/stratagems.ts#stratagemInventory"
+      ],
+      "reason": "The current traversal uses the MFM detachment only for identity and inventory routing; it does not resolve or write the repository detachment reference."
+    },
+    "/game_modes": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.stratagem.publicationId",
+        "data.publication.isCombatPatrol"
+      ],
+      "joins": [
+        {
+          "relation": "stratagem.publicationId",
+          "direction": "parent",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/game-mode.ts#modeOfPublication",
+          "operation": "Classify the owning publication as combat-patrol when isCombatPatrol is true, otherwise matched-play."
+        }
+      ],
+      "filters": [
+        "The publication is reached from the current stratagem's publicationId."
+      ],
+      "precedence": [
+        "mergeMode retains matched-play when the same repository id is reachable through both modes."
+      ],
+      "consumers": [
+        "tools/src/mfm/game-mode.ts#modeOfPublication",
+        "tools/src/mfm/stratagems.ts#stratagemInventory"
+      ],
+      "reason": "Publication mode is consumed by the MFM golden inventory; current reconciliation does not write game_modes onto stratagem entities."
+    },
+    "/game_modes/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.stratagem.publicationId",
+        "data.publication.isCombatPatrol"
+      ],
+      "joins": [
+        {
+          "relation": "stratagem.publicationId",
+          "direction": "parent",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/game-mode.ts#modeOfPublication",
+          "operation": "Emit the golden mode implied by the owning publication."
+        }
+      ],
+      "filters": [
+        "The publication is reached from the current stratagem's publicationId."
+      ],
+      "precedence": [
+        "mergeMode retains matched-play when the same repository id is reachable through both modes."
+      ],
+      "consumers": [
+        "tools/src/mfm/game-mode.ts#modeOfPublication",
+        "tools/src/mfm/stratagems.ts#stratagemInventory"
+      ],
+      "reason": "Publication mode is consumed by the MFM golden inventory; current reconciliation does not write game_modes onto stratagem entities."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "stratagems.ts deliberately leaves game_version authored because only cp_cost is dump-verified."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dataslate value remains authored rather than inferred from an MFM stratagem row."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The edition value remains authored rather than inferred from an MFM stratagem row."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.stratagem.localisations.*.name",
+        "data.stratagem.detachmentId",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "stratagem.detachmentId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/stratagems.ts#stratagemRepoId",
+          "operation": "Slug the English name alone for core rows or with the applicable detachment name for detachment rows."
+        }
+      ],
+      "filters": [
+        "Rows without an English name or a resolvable applicable detachment name are skipped."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#stratagemRepoId",
+        "tools/src/mfm/stratagems.ts#buildStratCanon",
+        "tools/src/mfm/stratagems.ts#stratagemInventory"
+      ],
+      "reason": "The derived id matches existing repository records for reconciliation and inventory coverage; it does not create entity records."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "partial",
+      "sources": [
+        "data.stratagem.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Current matching reads the English localized name."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#stratagemRepoId"
+      ],
+      "reason": "The MFM name is used to match existing entities, but current reconciliation does not overwrite authored entity names."
+    },
+    "/phases": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem_phase.phase"
+      ],
+      "joins": [
+        {
+          "relation": "stratagem_phase.stratagemId",
+          "direction": "children",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [],
+      "filters": [
+        "Phase rows must belong to the current stratagem."
+      ],
+      "precedence": [],
+      "consumers": [],
+      "reason": "REJECTED source: stratagem_phase is a buggy denormalized index whose rows routinely contradict the card's own whenRules (Insane Bravery 'Command phase' tagged chargePhase, Holy Avarice 'Your Shooting phase' tagged commandPhase, Scriptural Prognosis 'opponent's Shooting phase or the Fight phase' tagged all five). Writing from it would regress authored phases, so authored phases win and stratagems.ts derives phases from whenRules prose for review only."
+    },
+    "/phases/*": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem_phase.phase"
+      ],
+      "joins": [
+        {
+          "relation": "stratagem_phase.stratagemId",
+          "direction": "children",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [],
+      "filters": [
+        "Phase rows must belong to the current stratagem."
+      ],
+      "precedence": [],
+      "consumers": [],
+      "reason": "REJECTED source: see /phases — stratagem_phase disagrees with the card whenRules too often to write; authored phases win, prose parse is review-only."
+    },
+    "/player_turn": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.stratagem.key"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/stratagems.ts#buildStratCanon",
+          "operation": "Map the first-class stratagem key enum to player_turn (yourTurn=>your-turn, eitherPlayer=>either, opponentsTurn=>opponent-turn)."
+        }
+      ],
+      "filters": [
+        "Only rows whose derived repository id matches an existing stratagem record are applied."
+      ],
+      "precedence": [
+        "The dump key replaces the authored player_turn on any disagreement; it is a first-class column the English whenRules corroborate (e.g. a Fight-phase reaction is eitherPlayer because the Fight phase falls in both turns)."
+      ],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#buildStratCanon",
+        "tools/src/mfm/stratagems.ts#runStratagems"
+      ],
+      "reason": "player_turn is written from the authoritative stratagem.key column, correcting authored rows that disagree. (The lossy whenRules prose parse is retained for the phases review report only.)"
+    },
+    "/target_restrictions": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Target and restriction prose belongs to the separate raw-text store; no current structured extraction writes this object."
+    },
+    "/target_restrictions/excluded_keywords": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Keyword exclusions remain authored from prose-store inputs; MFM provides no structured target-keyword relation here."
+    },
+    "/target_restrictions/excluded_keywords/*": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Keyword exclusions remain authored from prose-store inputs; MFM provides no structured target-keyword relation here."
+    },
+    "/target_restrictions/notes": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Freeform restriction notes remain authored from prose-store inputs and are not copied from MFM rules prose."
+    },
+    "/target_restrictions/required_keywords": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Required keyword gates remain authored from prose-store inputs; MFM provides no structured target-keyword relation here."
+    },
+    "/target_restrictions/required_keywords/*": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Required keyword gates remain authored from prose-store inputs; MFM provides no structured target-keyword relation here."
+    },
+    "/target_restrictions/required_keywords_any": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Alternative keyword gates remain authored from prose-store inputs; MFM provides no structured target-keyword relation here."
+    },
+    "/target_restrictions/required_keywords_any/*": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.stratagem.localisations.*.targetRules",
+        "data.stratagem.localisations.*.restrictionRules"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Alternative keyword gates remain authored from prose-store inputs; MFM provides no structured target-keyword relation here."
+    },
+    "/timing": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The MFM dump has no structured once-per timing field, so timing remains authored from prose-store interpretation."
+    },
+    "/type": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.stratagem.category"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/stratagems.ts#buildStratCanon",
+          "operation": "Map the dump category enum to the printed stratagem type (battleTactic=>battle-tactic, strategicPloy=>strategic-ploy, epicDeed=>epic-deed, wargear=>wargear)."
+        }
+      ],
+      "filters": [
+        "Only rows whose derived repository id matches an existing stratagem record are applied."
+      ],
+      "precedence": [
+        "Fill-only: the optional type is set solely where the repo left it unset; a null dump category never blanks an authored type (11e packs omit the printed type for new detachments), and no both-present disagreement is written."
+      ],
+      "consumers": [
+        "tools/src/mfm/stratagems.ts#buildStratCanon",
+        "tools/src/mfm/stratagems.ts#runStratagems"
+      ],
+      "reason": "The optional printed type is filled from the dump category where the repo left it unset; the dump and repo never conflict where both are present."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.stratagem.displayOrder",
+      "candidate_pointer": null,
+      "reason": "Source presentation order has no stratagem core-schema field and is not consumed."
+    },
+    {
+      "source": "data.stratagem.localisations",
+      "candidate_pointer": null,
+      "reason": "The locale map is structural container metadata, not a core entity property."
+    },
+    {
+      "source": "data.stratagem.localisations.*",
+      "candidate_pointer": null,
+      "reason": "The locale payload container has no core entity destination."
+    },
+    {
+      "source": "data.stratagem.localisations.*.effectRules",
+      "candidate_pointer": "/ability_id",
+      "reason": "Effect prose is routed to the separate raw-text store; ability links are not inferred from it here."
+    },
+    {
+      "source": "data.stratagem.localisations.*.lore",
+      "candidate_pointer": null,
+      "reason": "Narrative prose has no core stratagem property."
+    },
+    {
+      "source": "data.stratagem.localisations.*.secondaryEffect",
+      "candidate_pointer": null,
+      "reason": "Alternate-effect prose is raw-text-store material and has no representable core field."
+    },
+    {
+      "source": "data.stratagem.secondaryEffectAdditionalCPCost",
+      "candidate_pointer": "/cp_cost",
+      "reason": "The core schema represents only one CP cost, so alternate-effect additional CP is intentionally not conflated with cp_cost."
+    },
+    {
+      "source": "data.stratagem.secondaryEffectIsMutuallyExclusive",
+      "candidate_pointer": null,
+      "reason": "The core schema has no field for standard-versus-alternate effect exclusivity."
+    }
+  ]
+}

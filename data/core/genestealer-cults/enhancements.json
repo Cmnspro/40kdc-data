@@ -446,7 +446,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -464,7 +464,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -483,7 +483,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "talons-of-the-sire-purestrain-broodswarm",
@@ -500,7 +500,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -518,7 +518,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -537,7 +537,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "heavy-munitions-claw-of-ascension",
@@ -552,7 +552,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Achilles Ridgerunners",
+      "Claw of Ascension"
+    ]
   },
   {
     "id": "practiced-eye-claw-of-ascension",
@@ -567,6 +571,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Claw of Ascension",
+      "Jackal Alphus"
+    ]
   }
 ]

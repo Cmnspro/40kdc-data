@@ -113,6 +113,14 @@ version-lockstep:
      fi; \
      echo "  in sync: $npm_ver"
 
+# Validate or regenerate the committed MFM source-shape contract.
+mfm-contract mode="check":
+    cd tools && npm run mfm:contract -- --{{mode}}
+
+# Compare a pinned BSData checkout to MFM; warnings are written only under _private.
+mfm-bsdata bsdata ref:
+    cd tools && npm run mfm:bsdata -- --bsdata "{{bsdata}}" --source-ref "{{ref}}"
+
 # Regenerate the MFM completeness golden (data/_audit/mfm-golden.json + mfm-gaps.json).
 # Needs _private/dump.json locally; the artifacts are hand-committed and are NOT part of
 # verify-clean (CI can't read the dump). Re-run and commit the diff when a new MFM lands,

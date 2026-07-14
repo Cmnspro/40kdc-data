@@ -591,7 +591,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "tools-of-dominion-hand-of-the-dynasty",
@@ -609,7 +609,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "recursive-reanimation-skyshroud-spearhead",
@@ -627,7 +627,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "deepening-madness-skyshroud-spearhead",
@@ -645,7 +645,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "prelocational-optimiser-the-phaerons-armoury",
@@ -662,7 +662,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -681,7 +681,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "metalline-might-amonhotekhs-guard",
@@ -696,7 +696,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Amonhotekh's Guard",
+      "Overlord"
+    ]
   },
   {
     "id": "unblemished-legions-amonhotekhs-guard",
@@ -711,6 +715,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Amonhotekh's Guard",
+      "Necron Warriors"
+    ]
   }
 ]

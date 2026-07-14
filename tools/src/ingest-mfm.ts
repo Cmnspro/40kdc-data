@@ -37,17 +37,16 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
-import {
-  loadDump,
-  MfmDump,
-  REPO_ROOT,
-  type DatasheetRow,
-  type DetachmentRow,
-  type EnhancementRow,
-} from "./mfm/loader.js";
+import { loadDump,
+MfmDump, type DatasheetRow,
+type DetachmentRow,
+type EnhancementRow, } from "./mfm/loader.js";
+import { REPO_ROOT, readJsonArray, CORE_DIR } from "./mfm/repo-files.js";
 import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-map.js";
 import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
 import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
+import { runFactionFields, buildFactionFieldsReport } from "./mfm/faction-fields.js";
+import { runDetachmentFields, buildDetFieldsReport } from "./mfm/detachment-fields.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
@@ -74,20 +73,18 @@ import {
   modeOfPublication,
 } from "./mfm/game-mode.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
 const UNMATCHED_DIR = path.join(REPO_ROOT, "_private", "mfm");
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 function repoIds(dir: string, file: string): Set<string> {
-  return new Set(readJson<{ id: string }>(path.join(CORE_DIR, dir, file)).map((e) => e.id));
+  return new Set(readJsonArray<{ id: string }>(path.join(CORE_DIR, dir, file)).map((e) => e.id));
 }
 
 /** Bucket dump datasheets / detachments / enhancements by their resolved repo dir. */
 function bucketByDir<T extends { id?: string }>(
-  rows: T[],
+  rows: readonly T[],
   factionKeywordOf: (row: T) => string | null,
   dump: MfmDump
 ): Map<string, T[]> {
@@ -102,7 +99,7 @@ function bucketByDir<T extends { id?: string }>(
   return out;
 }
 
-interface DirCoverage {
+export interface DirCoverage {
   dir: string;
   unitsMatched: number;
   unitsNew: string[]; // in dump, no repo entity (excludes shared-roster dups)
@@ -143,7 +140,7 @@ interface DumpEntry {
 
 /** dir → (unit repo-id → {name, mode}), over live (non-Legends) datasheets. */
 function unitIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
-  const live = dump.table<DatasheetRow>("datasheet").filter((d) => !d.isLegends);
+  const live = dump.table("datasheet").filter((d) => !d.isLegends);
   const byDir = bucketByDir(live, (d) => dump.factionKeywordOfDatasheet(d.id!), dump);
   const out = new Map<string, Map<string, DumpEntry>>();
   for (const [dir, rows] of byDir) {
@@ -171,7 +168,7 @@ function unitIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
 /** dir → (detachment repo-id → {name, mode}). */
 function detIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const byDir = bucketByDir(
-    dump.table<DetachmentRow>("detachment"),
+    dump.table("detachment"),
     (d) => dump.factionKeywordOfDetachment(d.id!),
     dump
   );
@@ -201,7 +198,7 @@ function detIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
 /** dir → (enhancement repo-id → {"enh / detachment" label, mode}). */
 function enhIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const byDir = bucketByDir(
-    dump.table<EnhancementRow>("enhancement"),
+    dump.table("enhancement"),
     (e) => dump.factionKeywordOfDetachment(e.detachmentId),
     dump
   );
@@ -210,7 +207,7 @@ function enhIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
     const m = new Map<string, DumpEntry>();
     for (const enh of rows) {
       const en = dump.enName(enh);
-      const det = dump.byId<DetachmentRow>("detachment").get(enh.detachmentId);
+      const det = dump.byId("detachment").get(enh.detachmentId);
       const dn = dump.enName(det);
       if (!en || !dn) continue;
       let id: string;
@@ -254,9 +251,8 @@ export function enhancementInventory(dump: MfmDump): Map<string, Map<string, Gol
   return modeView(enhIdsByDir(dump));
 }
 
-function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
-  const liveDatasheets = dump
-    .table<DatasheetRow>("datasheet")
+export function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
+  const liveDatasheets = dump.table("datasheet")
     .filter((d) => !d.isLegends);
 
   // Global dump id sets — the repo-only ("dropped by cull-legends") signal must be
@@ -268,14 +264,14 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
     if (id) globalUnitIds.add(id);
   }
   const globalDetIds = new Set<string>();
-  for (const det of dump.table<DetachmentRow>("detachment")) {
+  for (const det of dump.table("detachment")) {
     const id = slug(dump.enName(det));
     if (id) globalDetIds.add(id);
   }
   const globalEnhIds = new Set<string>();
-  for (const enh of dump.table<EnhancementRow>("enhancement")) {
+  for (const enh of dump.table("enhancement")) {
     const en = dump.enName(enh);
-    const dn = dump.enName(dump.byId<DetachmentRow>("detachment").get(enh.detachmentId));
+    const dn = dump.enName(dump.byId("detachment").get(enh.detachmentId));
     if (en && dn) {
       try {
         globalEnhIds.add(detachmentScopedId(en, dn));
@@ -361,6 +357,30 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
   return { dirs, unmappedFactions: [...unmapped].sort() };
 }
 
+export interface WholeDatasetCounts {
+  stratagems: { repo: number; dump: number };
+  missions: { repo: number; dumpPrimary: number; dumpSecondary: number };
+  forceDispositions: { repo: number; dump: number };
+  detachmentDispositionMap: number;
+}
+
+/** Whole-dataset repo-vs-dump counts for categories the dump dwarfs the repo on. */
+export function wholeDatasetCounts(dump: MfmDump): WholeDatasetCounts {
+  return {
+    stratagems: {
+      repo: readJsonArray<{ id: string }>(path.join(CORE_DIR, "stratagems.json")).length,
+      dump: dump.table("stratagem").length,
+    },
+    missions: {
+      repo: readJsonArray<{ id: string }>(path.join(CORE_DIR, "missions.json")).length,
+      dumpPrimary: dump.table("primary_mission").length,
+      dumpSecondary: dump.table("secondary_mission").length,
+    },
+    forceDispositions: { repo: 5, dump: dump.table("force_disposition").length },
+    detachmentDispositionMap: dump.table("detachment_force_disposition").length,
+  };
+}
+
 function buildReport(dump: MfmDump, cov: ReturnType<typeof coverage>): string {
   const { dirs, unmappedFactions } = cov;
   const sum = (f: (d: DirCoverage) => number) => dirs.reduce((a, d) => a + f(d), 0);
@@ -387,19 +407,18 @@ function buildReport(dump: MfmDump, cov: ReturnType<typeof coverage>): string {
   L.push("");
 
   // Whole-dataset categories the dump dwarfs the repo on.
-  const repoStrat = readJson<{ id: string }>(path.join(CORE_DIR, "stratagems.json")).length;
-  const repoMiss = readJson<{ id: string }>(path.join(CORE_DIR, "missions.json")).length;
+  const wdc = wholeDatasetCounts(dump);
   L.push("## Whole-dataset categories");
   L.push("");
   L.push("| Category | Repo | Dump |");
   L.push("|---|--:|--:|");
-  L.push(`| Stratagems | ${repoStrat} | ${dump.table("stratagem").length} |`);
+  L.push(`| Stratagems | ${wdc.stratagems.repo} | ${wdc.stratagems.dump} |`);
   L.push(
-    `| Missions | ${repoMiss} | ${dump.table("primary_mission").length} primary + ${dump.table("secondary_mission").length} secondary |`
+    `| Missions | ${wdc.missions.repo} | ${wdc.missions.dumpPrimary} primary + ${wdc.missions.dumpSecondary} secondary |`
   );
-  L.push(`| Force dispositions | 5 | ${dump.table("force_disposition").length} |`);
+  L.push(`| Force dispositions | ${wdc.forceDispositions.repo} | ${wdc.forceDispositions.dump} |`);
   L.push(
-    `| Detachment→disposition map | — | ${dump.table("detachment_force_disposition").length} (1:1) |`
+    `| Detachment→disposition map | — | ${wdc.detachmentDispositionMap} (1:1) |`
   );
   L.push("");
 
@@ -543,6 +562,68 @@ async function runEnhancementsCmd(
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runFactionFieldsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runFactionFields(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-faction-fields.md");
+  fs.writeFileSync(reportPath, buildFactionFieldsReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-faction-fields.json"),
+    JSON.stringify(
+      {
+        unresolvedDirs: report.unresolvedDirs,
+        ruleReview: report.dirs.filter((d) => d.ruleReview).map((d) => ({ dir: d.dir, ...d.ruleReview })),
+        parentReview: report.dirs.filter((d) => d.parentReview).map((d) => ({ dir: d.dir, ...d.parentReview })),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const n = (f: (d: (typeof report.dirs)[number]) => unknown) =>
+    report.dirs.reduce((a, d) => a + (f(d) ? 1 : 0), 0);
+  console.log(`Faction fields report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `rule filled ${n((d) => d.ruleFilled)}, parent filled ${n((d) => d.parentFilled)}, ` +
+      `aliases added ${report.dirs.reduce((a, d) => a + d.aliasesAdded.length, 0)}, ` +
+      `reviews ${n((d) => d.ruleReview) + n((d) => d.parentReview)}, unresolved dirs ${report.unresolvedDirs.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "faction-fields" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runDetachmentFieldsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runDetachmentFields(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-detachment-fields.md");
+  fs.writeFileSync(reportPath, buildDetFieldsReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-detachment-fields.json"),
+    JSON.stringify(
+      {
+        tagsReview: report.dirs.flatMap((d) => d.tagsReview.map((r) => ({ dir: d.dir, ...r }))),
+        requiredKeywordsReview: report.dirs.flatMap((d) => d.reqReview.map((r) => ({ dir: d.dir, ...r }))),
+        unresolvedKeywords: report.dirs.flatMap((d) => d.unresolvedKeywords.map((r) => ({ dir: d.dir, ...r }))),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) => report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Detachment fields report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `tags filled ${sum((d) => d.tagsFilled.length)} (confirm ${sum((d) => d.tagsConfirmed)}, review ${sum((d) => d.tagsReview.length)}), ` +
+      `required_keywords filled ${sum((d) => d.reqFilled.length)} (confirm ${sum((d) => d.reqConfirmed)}, review ${sum((d) => d.reqReview.length)}).`
+  );
+  await applyWrites(report.staged, { write, label: "detachment-fields" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runPointsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runPoints(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -633,7 +714,9 @@ async function runStratagemsCmd(dump: MfmDump, write: boolean): Promise<void> {
   console.log(`Stratagems report → ${path.relative(REPO_ROOT, reportPath)}`);
   console.log(
     `Matched ${sum((d) => d.matched)}, cp applied ${sum((d) => d.cpChanged.length)}, ` +
-      `phases (review) ${sum((d) => d.phasesChanged.length)}, turn (review) ${sum((d) => d.turnChanged.length)}, ` +
+      `turn applied ${sum((d) => d.turnApplied.length)}, type filled ${sum((d) => d.typeFilled.length)}, ` +
+      `type conflict ${sum((d) => d.typeConflict.length)}, category set ${sum((d) => d.categoryChanged.length)}, ` +
+      `phases (review) ${sum((d) => d.phasesReview.length)}, ` +
       `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump}.`
   );
   await applyWrites(report.staged, { write, label: "stratagems" });
@@ -938,6 +1021,8 @@ async function main(): Promise<void> {
     "golden",
     "dispositions",
     "enhancements",
+    "faction-fields",
+    "detachment-fields",
     "points",
     "cull-legends",
     "stratagems",
@@ -966,6 +1051,8 @@ async function main(): Promise<void> {
   else if (cmd === "golden") writeGolden(dump);
   else if (cmd === "dispositions") await runDispositionsCmd(dump, write, includeCombatPatrol);
   else if (cmd === "enhancements") await runEnhancementsCmd(dump, write, includeCombatPatrol);
+  else if (cmd === "faction-fields") await runFactionFieldsCmd(dump, write);
+  else if (cmd === "detachment-fields") await runDetachmentFieldsCmd(dump, write);
   else if (cmd === "points") await runPointsCmd(dump, write);
   else if (cmd === "cull-legends") await runCullCmd(dump, write);
   else if (cmd === "stratagems") await runStratagemsCmd(dump, write);

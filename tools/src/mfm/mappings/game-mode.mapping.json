@@ -1,0 +1,92 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/game-mode.schema.json",
+  "mapping_version": 1,
+  "root_tables": [],
+  "fields": {
+    "/description": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Game-mode summaries are original repository-authored text, not MFM rule content."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The game-version reference is repository-authored context; dump metadata is snapshot provenance rather than an edition or dataslate mapping."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Dataslate identity is repository-authored game-version context, not derived from the MFM snapshot."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Edition identity is repository-authored game-version context, not derived from the MFM snapshot."
+    },
+    "/id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Game-mode identifiers are repository-authored taxonomy, with no native MFM game-mode entity."
+    },
+    "/is_competitive": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Competitive-status classification is repository-authored coverage policy, not an MFM game-mode fact."
+    },
+    "/name": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Game-mode names are repository-authored taxonomy, with no native MFM game-mode entity."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.publication.isCombatPatrol",
+      "candidate_pointer": null,
+      "reason": "This publication flag only derives game_modes references on other entities; it does not establish a game-mode entity identity or name."
+    }
+  ]
+}

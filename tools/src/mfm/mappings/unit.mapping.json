@@ -1,0 +1,2298 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/unit.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "datasheet"
+  ],
+  "fields": {
+    "/ability_ids": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/author-reconcile.ts#reconcileFaction",
+          "operation": "Invert authored ability unit references onto the unit record."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/author-reconcile.ts#reconcileFaction"
+      ],
+      "reason": "Ability links come from community-authored enrichment records rather than MFM prose."
+    },
+    "/ability_ids/*": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/author-reconcile.ts#reconcileFaction",
+          "operation": "Invert authored ability unit references onto the unit record."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/author-reconcile.ts#reconcileFaction"
+      ],
+      "reason": "Ability links come from community-authored enrichment records rather than MFM prose."
+    },
+    "/aliases": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Aliases are repository-authored interoperability labels, not MFM facts."
+    },
+    "/aliases/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Aliases are repository-authored interoperability labels, not MFM facts."
+    },
+    "/allied_points": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*/cost": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*/host_faction": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*/models": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*/models_max": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*/unit_count_max": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/allied_points/*/unit_count_min": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition.referenceGroupingKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition.referenceGroupingKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Separate host-faction composition pricing from native tiers."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize the selected source tier."
+        }
+      ],
+      "filters": [
+        "Retain only unambiguous host-faction pricing groups."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Allied tiers are the composition prices scoped by their reference grouping faction keyword."
+    },
+    "/attachment_role": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_bodyguard_group.bodyguardType"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_bodyguard_group.datasheetId",
+          "direction": "children",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Apply the leader-wins rule when source rows mark both leader and support."
+        }
+      ],
+      "filters": [
+        "Exclude Combat Patrol datasheets; scope groups to the current datasheet."
+      ],
+      "precedence": [
+        "Leader wins over support for mixed-role source rows."
+      ],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "Attachment role is derived from the authoritative bodyguard-group role with the documented leader-wins flattening rule."
+    },
+    "/base_size_mm": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/base_size_mm/diameter": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/base_size_mm/draft": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/base_size_mm/length": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/base_size_mm/shape": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/base_size_mm/size": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/base_size_mm/width": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.datasheet.localisations.*.baseSize"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+    },
+    "/excluded_faction_keywords": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Negative faction access is curated repository data; the MFM applicability rows do not encode the same exclusion contract."
+    },
+    "/excluded_faction_keywords/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Negative faction access is curated repository data; the MFM applicability rows do not encode the same exclusion contract."
+    },
+    "/faction_id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.publicationId",
+        "data.publication.factionKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet.publicationId",
+          "direction": "parent",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "publication.factionKeywordId",
+          "direction": "parent",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/faction-map.ts#repoDirForFactionName",
+          "operation": "Resolve the publication owner keyword to the repository faction directory."
+        }
+      ],
+      "filters": [
+        "Prefer publication ownership; shared-roster filing may select the parent repository directory."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Faction ownership follows the datasheet publication, never datasheet applicability overlays."
+    },
+    "/faction_keywords": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_faction_keyword.factionKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_faction_keyword.datasheetId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "datasheet_faction_keyword.factionKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildFactionKeywords",
+          "operation": "Resolve faction-keyword applicability and normalize repository keyword labels."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Faction keywords are applicability overlays and do not replace publication ownership."
+    },
+    "/faction_keywords/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_faction_keyword.factionKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_faction_keyword.datasheetId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "datasheet_faction_keyword.factionKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildFactionKeywords",
+          "operation": "Resolve faction-keyword applicability and normalize repository keyword labels."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Faction keywords are applicability overlays and do not replace publication ownership."
+    },
+    "/game_modes": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.publication.isCombatPatrol"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet.publicationId",
+          "direction": "parent",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/game-mode.ts#isCombatPatrolPublication",
+          "operation": "Stamp Combat Patrol mode from the owning publication."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Combat Patrol publication state derives the unit game-mode reference."
+    },
+    "/game_modes/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.publication.isCombatPatrol"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet.publicationId",
+          "direction": "parent",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/game-mode.ts#isCombatPatrolPublication",
+          "operation": "Stamp Combat Patrol mode from the owning publication."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Combat Patrol publication state derives the unit game-mode reference."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Game version is repository release context, not inferred from dump metadata."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Game version is repository release context, not inferred from dump metadata."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Game version is repository release context, not inferred from dump metadata."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Slug the English datasheet name into the repository entity id."
+        }
+      ],
+      "filters": [
+        "Use the selected non-Legends datasheet in the resolved faction directory."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The unit id is deterministically slugged from the authoritative datasheet name."
+    },
+    "/is_legend": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.isLegends",
+        "data.publication.isLegends"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet.publicationId",
+          "direction": "parent",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/legends-cull.ts#runLegendsCull",
+          "operation": "Cull or stamp Legends entities according to datasheet and publication state."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/legends-cull.ts#runLegendsCull"
+      ],
+      "reason": "Legends status follows source datasheet/publication flags while live seeding emits false."
+    },
+    "/keywords": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "miniature_keyword.miniatureId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "miniature_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildKeywords",
+          "operation": "Union and order miniature keyword display names for the datasheet."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Unit keywords are derived from miniature keyword assignments."
+    },
+    "/keywords/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "miniature_keyword.miniatureId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "miniature_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildKeywords",
+          "operation": "Union and order miniature keyword display names for the datasheet."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Unit keywords are derived from miniature keyword assignments."
+    },
+    "/model_count": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildModelCount",
+          "operation": "Aggregate composition row minima and maxima into the unit envelope."
+        }
+      ],
+      "filters": [
+        "Use buildable compositions for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Model-count bounds are aggregated from authoritative composition rows."
+    },
+    "/model_count/max": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildModelCount",
+          "operation": "Aggregate composition row minima and maxima into the unit envelope."
+        }
+      ],
+      "filters": [
+        "Use buildable compositions for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Model-count bounds are aggregated from authoritative composition rows."
+    },
+    "/model_count/min": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildModelCount",
+          "operation": "Aggregate composition row minima and maxima into the unit envelope."
+        }
+      ],
+      "filters": [
+        "Use buildable compositions for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Model-count bounds are aggregated from authoritative composition rows."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Select the trimmed English localisation."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The display name comes directly from the selected datasheet localisation."
+    },
+    "/points": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points/*/cost": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points/*/models": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points/*/models_max": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points/*/unit_count_max": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points/*/unit_count_min": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points",
+        "data.unit_composition_miniature.min",
+        "data.unit_composition_miniature.max",
+        "data.datasheet_points_step.stepAt",
+        "data.datasheet_points_step.stepPoints"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "unit_composition_miniature.unitCompositionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "unit_composition_miniature.miniatureId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "datasheet_points_step.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/points.ts#deriveDatasheet",
+          "operation": "Build native composition tiers and apply datasheet step pricing."
+        },
+        {
+          "symbol": "tools/src/mfm/points.ts#cleanTier",
+          "operation": "Normalize source tiers to repository point-band fields."
+        }
+      ],
+      "filters": [
+        "Exclude ambiguous duplicate pricing and classify host-faction overlays separately."
+      ],
+      "precedence": [
+        "Composition points establish the base tier; datasheet point steps split or override ordinal bands."
+      ],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit",
+        "tools/src/mfm/points.ts#runPoints"
+      ],
+      "reason": "Point tiers are derived from composition pricing and datasheet point-step bands."
+    },
+    "/points_provisional": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.unit_composition.points"
+      ],
+      "joins": [
+        {
+          "relation": "unit_composition.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildSeedUnit",
+          "operation": "Mark pricing provisional when no unambiguous native tier can be derived."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The provisional flag records whether the authoritative pricing graph could be resolved without ambiguity."
+    },
+    "/profiles": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.datasheetId",
+        "data.miniature.statlineHidden"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Construct one profile for each distinct visible miniature stat line."
+        }
+      ],
+      "filters": [
+        "Ignore hidden stat lines and deduplicate identical visible profiles."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Profiles are derived from visible miniature stat lines."
+    },
+    "/profiles/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.datasheetId",
+        "data.miniature.statlineHidden"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Construct one profile for each distinct visible miniature stat line."
+        }
+      ],
+      "filters": [
+        "Ignore hidden stat lines and deduplicate identical visible profiles."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Profiles are derived from visible miniature stat lines."
+    },
+    "/profiles/*/Ld": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.leadership"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/profiles/*/M": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.movement"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/profiles/*/OC": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.objectiveControl"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/profiles/*/Sv": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.save"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/profiles/*/T": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.toughness"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/profiles/*/W": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.wounds"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/profiles/*/invuln_sv": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.invulnerable_save.save"
+      ],
+      "joins": [
+        {
+          "relation": "invulnerable_save.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseSkill",
+          "operation": "Parse a structured save value into the nullable integer profile field."
+        }
+      ],
+      "filters": [
+        "Use only rows for the current datasheet and only whole-unit or safely normalizable scopes; seed a destination only when its profile field is null, except that a recognized scoped source clears a stale unconditional value."
+      ],
+      "precedence": [
+        "Recognized scoped sources clear stale unconditional values; otherwise existing non-null profile values win. Conflicting universal source values fail."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#projectUnit",
+        "tools/src/mfm/project-loadout.ts#main"
+      ],
+      "reason": "Coverage is partial: this pass seeds representable whole-unit profile fields, while model-specific rows and prose-only caveats remain unprojected warnings."
+    },
+    "/profiles/*/invuln_sv_melee": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.invulnerable_save.meleeSave"
+      ],
+      "joins": [
+        {
+          "relation": "invulnerable_save.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseSkill",
+          "operation": "Parse a structured save value into the nullable integer profile field."
+        }
+      ],
+      "filters": [
+        "Use only rows for the current datasheet and only whole-unit or safely normalizable scopes; seed a destination only when its profile field is null."
+      ],
+      "precedence": [
+        "Existing non-null scoped profile values win; conflicting universal source values fail."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#projectUnit",
+        "tools/src/mfm/project-loadout.ts#main"
+      ],
+      "reason": "Coverage is partial: this pass seeds representable whole-unit profile fields, while model-specific rows and prose-only caveats remain unprojected warnings."
+    },
+    "/profiles/*/invuln_sv_ranged": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.invulnerable_save.rangedSave"
+      ],
+      "joins": [
+        {
+          "relation": "invulnerable_save.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseSkill",
+          "operation": "Parse a structured save value into the nullable integer profile field."
+        }
+      ],
+      "filters": [
+        "Use only rows for the current datasheet and only whole-unit or safely normalizable scopes; seed a destination only when its profile field is null."
+      ],
+      "precedence": [
+        "Existing non-null scoped profile values win; conflicting universal source values fail."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#projectUnit",
+        "tools/src/mfm/project-loadout.ts#main"
+      ],
+      "reason": "Coverage is partial: this pass seeds representable whole-unit profile fields, while model-specific rows and prose-only caveats remain unprojected warnings."
+    },
+    "/profiles/*/name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#buildProfiles",
+          "operation": "Parse and project the visible miniature profile value."
+        }
+      ],
+      "filters": [
+        "Only visible miniature stat lines for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "The profile value is parsed from the matching miniature source field."
+    },
+    "/role": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.miniature_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "miniature_keyword.miniatureId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "miniature_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/seed-units.ts#deriveRole",
+          "operation": "Map the resolved miniature keyword set to the repository battlefield role."
+        }
+      ],
+      "filters": [
+        "Union keywords across visible and hidden miniatures for the current datasheet."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-units.ts#buildSeedUnit"
+      ],
+      "reason": "Role is derived from the datasheet miniature keyword vocabulary."
+    },
+    "/transport_capacity": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No reviewed structured MFM source represents the repository transport-capacity contract."
+    },
+    "/transport_capacity/capacity": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No reviewed structured MFM source represents the repository transport-capacity contract."
+    },
+    "/transport_capacity/exclusion_keywords": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No reviewed structured MFM source represents the repository transport-capacity contract."
+    },
+    "/transport_capacity/exclusion_keywords/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No reviewed structured MFM source represents the repository transport-capacity contract."
+    },
+    "/transport_capacity/keyword_restrictions": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No reviewed structured MFM source represents the repository transport-capacity contract."
+    },
+    "/transport_capacity/keyword_restrictions/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No reviewed structured MFM source represents the repository transport-capacity contract."
+    },
+    "/wargear_budgets": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount",
+        "data.wargear_limit.duplicateLimit"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearBudgets",
+          "operation": "Reduce supported limited-choice caps into shared or flat unit budgets."
+        }
+      ],
+      "filters": [
+        "Exclude single-weapon ratios already represented by per-weapon bounds and unresolved choice items."
+      ],
+      "precedence": [
+        "Use the tightest structurally supported cap for overlapping source limits."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearBudgets"
+      ],
+      "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
+    },
+    "/wargear_budgets/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount",
+        "data.wargear_limit.duplicateLimit"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearBudgets",
+          "operation": "Reduce supported limited-choice caps into shared or flat unit budgets."
+        }
+      ],
+      "filters": [
+        "Exclude single-weapon ratios already represented by per-weapon bounds and unresolved choice items."
+      ],
+      "precedence": [
+        "Use the tightest structurally supported cap for overlapping source limits."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearBudgets"
+      ],
+      "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
+    },
+    "/wargear_budgets/*/count": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount",
+        "data.wargear_limit.duplicateLimit"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearBudgets",
+          "operation": "Reduce supported limited-choice caps into shared or flat unit budgets."
+        }
+      ],
+      "filters": [
+        "Exclude single-weapon ratios already represented by per-weapon bounds and unresolved choice items."
+      ],
+      "precedence": [
+        "Use the tightest structurally supported cap for overlapping source limits."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearBudgets"
+      ],
+      "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
+    },
+    "/wargear_budgets/*/items": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount",
+        "data.wargear_limit.duplicateLimit"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearBudgets",
+          "operation": "Reduce supported limited-choice caps into shared or flat unit budgets."
+        }
+      ],
+      "filters": [
+        "Exclude single-weapon ratios already represented by per-weapon bounds and unresolved choice items."
+      ],
+      "precedence": [
+        "Use the tightest structurally supported cap for overlapping source limits."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearBudgets"
+      ],
+      "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
+    },
+    "/wargear_budgets/*/items/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount",
+        "data.wargear_limit.duplicateLimit"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearBudgets",
+          "operation": "Reduce supported limited-choice caps into shared or flat unit budgets."
+        }
+      ],
+      "filters": [
+        "Exclude single-weapon ratios already represented by per-weapon bounds and unresolved choice items."
+      ],
+      "precedence": [
+        "Use the tightest structurally supported cap for overlapping source limits."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearBudgets"
+      ],
+      "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
+    },
+    "/wargear_budgets/*/per_models": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount",
+        "data.wargear_limit.duplicateLimit"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearBudgets",
+          "operation": "Reduce supported limited-choice caps into shared or flat unit budgets."
+        }
+      ],
+      "filters": [
+        "Exclude single-weapon ratios already represented by per-weapon bounds and unresolved choice items."
+      ],
+      "precedence": [
+        "Use the tightest structurally supported cap for overlapping source limits."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearBudgets"
+      ],
+      "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
+    },
+    "/wargear_costs": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_option.points",
+        "data.wargear_option.wargearItemId"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_option.wargearItemId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearCosts",
+          "operation": "Project authoritative per-item prices that option-level costs cannot express."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Per-item source prices override no inferred free default."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearCosts"
+      ],
+      "reason": "Per-item costs come from priced source options after supported loadout resolution."
+    },
+    "/wargear_costs/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_option.points",
+        "data.wargear_option.wargearItemId"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_option.wargearItemId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearCosts",
+          "operation": "Project authoritative per-item prices that option-level costs cannot express."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Per-item source prices override no inferred free default."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearCosts"
+      ],
+      "reason": "Per-item costs come from priced source options after supported loadout resolution."
+    },
+    "/wargear_costs/*/cost": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_option.points",
+        "data.wargear_option.wargearItemId"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_option.wargearItemId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearCosts",
+          "operation": "Project authoritative per-item prices that option-level costs cannot express."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Per-item source prices override no inferred free default."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearCosts"
+      ],
+      "reason": "Per-item costs come from priced source options after supported loadout resolution."
+    },
+    "/wargear_costs/*/item_id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_option.points",
+        "data.wargear_option.wargearItemId"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_option.wargearItemId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#runWargearCosts",
+          "operation": "Project authoritative per-item prices that option-level costs cannot express."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Per-item source prices override no inferred free default."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#runWargearCosts"
+      ],
+      "reason": "Per-item costs come from priced source options after supported loadout resolution."
+    },
+    "/weapon_ids": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item_profile.wargearItemId"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#projectUnit",
+          "operation": "Collect resolved weapon ids from base loadouts and supported choice paths."
+        }
+      ],
+      "filters": [
+        "Only resolved weapon items reachable through the supported base, ordinary-choice, and limited-choice traversals."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#projectUnit",
+        "tools/src/mfm/project-loadout.ts#main"
+      ],
+      "reason": "The unit weapon vocabulary is derived from the supported structural loadout graph."
+    },
+    "/weapon_ids/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item_profile.wargearItemId"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#projectUnit",
+          "operation": "Collect resolved weapon ids from base loadouts and supported choice paths."
+        }
+      ],
+      "filters": [
+        "Only resolved weapon items reachable through the supported base, ordinary-choice, and limited-choice traversals."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#projectUnit",
+        "tools/src/mfm/project-loadout.ts#main"
+      ],
+      "reason": "The unit weapon vocabulary is derived from the supported structural loadout graph."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.datasheet.bannerImage",
+      "candidate_pointer": null,
+      "reason": "Artwork references are excluded from published core entity data."
+    },
+    {
+      "source": "data.datasheet.rowImage",
+      "candidate_pointer": null,
+      "reason": "Artwork references are excluded from published core entity data."
+    },
+    {
+      "source": "data.datasheet.localisations.*.lore",
+      "candidate_pointer": null,
+      "reason": "Localized lore remains outside the core entity dataset."
+    },
+    {
+      "source": "data.datasheet.localisations.*.unitComposition",
+      "candidate_pointer": "/model_count",
+      "reason": "Prose composition text is not used when structured composition tables are available."
+    },
+    {
+      "source": "data.invulnerable_save.localisations.*.rules",
+      "candidate_pointer": "/profiles/*/invuln_sv",
+      "reason": "Unstructured caveats remain warnings unless they match the narrow reviewed attack-scope normalization."
+    }
+  ]
+}

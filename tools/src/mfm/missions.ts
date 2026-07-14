@@ -41,14 +41,20 @@
  * dataset (AJV + integrity) and only persists on --write — a clean dry run
  * guarantees a clean write.
  */
-import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import { formatCompact } from "../compact-json.js";
-import { MfmDump, REPO_ROOT, type DumpRow } from "./loader.js";
+import {
+  MfmDump,
+  type PrimaryMissionObjectiveRow,
+  type PrimaryMissionObjectiveScoringRow,
+  type PrimaryMissionRow,
+  type SecondaryMissionObjectiveRow,
+  type SecondaryMissionObjectiveScoringRow,
+  type SecondaryMissionRow,
+} from "./loader.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import type { StagedWrite } from "./apply.js";
-
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const CARDS_PATH = path.join(CORE_DIR, "secondary-cards.json");
 
 /** Scoring-track tag on an award; `undefined` is the flat "scores either way" track. */
@@ -82,21 +88,11 @@ interface Card {
   [k: string]: unknown;
 }
 
-interface ScoringRow extends DumpRow {
-  scoringType?: string;
-  victoryPoints: number;
-  victoryPointsCap?: number | null;
-  isCumulative?: boolean;
-  isMutuallyExclusive?: boolean;
-  displayOrder?: number;
-}
-interface ObjectiveRow extends DumpRow {
-  displayOrder?: number;
-}
+type MissionRow = PrimaryMissionRow | SecondaryMissionRow;
+type ObjectiveRow = PrimaryMissionObjectiveRow | SecondaryMissionObjectiveRow;
+type ScoringRow = PrimaryMissionObjectiveScoringRow | SecondaryMissionObjectiveScoringRow;
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 const byDisplayOrder = (a: { displayOrder?: number }, b: { displayOrder?: number }): number =>
   (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
@@ -110,54 +106,37 @@ function modeFromScoringType(st: string | undefined): AwardMode {
 
 const modeKey = (m: AwardMode): string => m ?? "none";
 
-interface AssembleConfig {
-  mission: string;
-  objective: string;
-  scoring: string;
-  missionFk: string;
-  objectiveFk: string;
-}
-const SECONDARY_CFG: AssembleConfig = {
-  mission: "secondary_mission",
-  objective: "secondary_mission_objective",
-  scoring: "secondary_mission_objective_scoring",
-  missionFk: "secondaryMissionId",
-  objectiveFk: "secondaryMissionObjectiveId",
-};
-const PRIMARY_CFG: AssembleConfig = {
-  mission: "primary_mission",
-  objective: "primary_mission_objective",
-  scoring: "primary_mission_objective_scoring",
-  missionFk: "primaryMissionId",
-  objectiveFk: "primaryMissionObjectiveId",
-};
-
-function assembleInto(out: Map<string, DumpScoring[]>, dump: MfmDump, cfg: AssembleConfig, kind: "secondary" | "primary"): void {
-  const objByMission = dump.groupBy<ObjectiveRow>(cfg.objective, cfg.missionFk);
-  const scoreByObj = dump.groupBy<ScoringRow>(cfg.scoring, cfg.objectiveFk);
-  for (const m of dump.table(cfg.mission)) {
+function assembleRows(
+  out: Map<string, DumpScoring[]>,
+  dump: MfmDump,
+  kind: "secondary" | "primary",
+  missions: readonly MissionRow[],
+  objByMission: ReadonlyMap<string, readonly ObjectiveRow[]>,
+  scoreByObj: ReadonlyMap<string, readonly ScoringRow[]>,
+): void {
+  for (const mission of missions) {
     // Detachment-scoped primaries are crusade/narrative reskins the repo omits.
-    if (kind === "primary" && (m as { detachmentId?: string | null }).detachmentId) continue;
-    const name = dump.enName(m);
-    if (!name || !m.id) continue;
+    if (kind === "primary" && "detachmentId" in mission && mission.detachmentId) continue;
+    const name = dump.enName(mission);
+    if (!name) continue;
     let id: string;
     try {
       id = nameToId(name);
     } catch {
       continue;
     }
-    const objs = [...(objByMission.get(m.id) ?? [])].sort(byDisplayOrder);
+    const objectives = [...(objByMission.get(mission.id) ?? [])].sort(byDisplayOrder);
     const rows: DumpScoring[] = [];
-    for (const o of objs) {
-      const scores = [...(scoreByObj.get(o.id!) ?? [])].sort(byDisplayOrder);
-      for (const s of scores) {
+    for (const objective of objectives) {
+      const scores = [...(scoreByObj.get(objective.id) ?? [])].sort(byDisplayOrder);
+      for (const score of scores) {
         rows.push({
-          mode: modeFromScoringType(s.scoringType),
-          vp: s.victoryPoints,
-          cap: s.victoryPointsCap ?? null,
-          cumulative: !!s.isCumulative,
-          mutex: !!s.isMutuallyExclusive,
-          objKey: String(o.displayOrder ?? o.id),
+          mode: "scoringType" in score ? modeFromScoringType(score.scoringType ?? undefined) : undefined,
+          vp: score.victoryPoints,
+          cap: "victoryPointsCap" in score ? score.victoryPointsCap ?? null : null,
+          cumulative: !!score.isCumulative,
+          mutex: !!score.isMutuallyExclusive,
+          objKey: String(objective.displayOrder ?? objective.id),
         });
       }
     }
@@ -165,11 +144,37 @@ function assembleInto(out: Map<string, DumpScoring[]>, dump: MfmDump, cfg: Assem
   }
 }
 
+function assembleInto(
+  out: Map<string, DumpScoring[]>,
+  dump: MfmDump,
+  kind: "secondary" | "primary",
+): void {
+  if (kind === "secondary") {
+    assembleRows(
+      out,
+      dump,
+      kind,
+      dump.table("secondary_mission"),
+      dump.groupBy("secondary_mission_objective", "secondaryMissionId"),
+      dump.groupBy("secondary_mission_objective_scoring", "secondaryMissionObjectiveId"),
+    );
+    return;
+  }
+  assembleRows(
+    out,
+    dump,
+    kind,
+    dump.table("primary_mission"),
+    dump.groupBy("primary_mission_objective", "primaryMissionId"),
+    dump.groupBy("primary_mission_objective_scoring", "primaryMissionObjectiveId"),
+  );
+}
+
 /** repo card-id → ordered dump scoring rows, for both secondary and generic primary missions. */
 export function buildMissionScoringCanon(dump: MfmDump): Map<string, DumpScoring[]> {
   const out = new Map<string, DumpScoring[]>();
-  assembleInto(out, dump, SECONDARY_CFG, "secondary");
-  assembleInto(out, dump, PRIMARY_CFG, "primary");
+  assembleInto(out, dump, "secondary");
+  assembleInto(out, dump, "primary");
   return out;
 }
 
@@ -299,7 +304,7 @@ export interface MissionsReport {
 
 export function runMissions(dump: MfmDump, _write: boolean): MissionsReport {
   const canon = buildMissionScoringCanon(dump);
-  const cards = readJson<Card>(CARDS_PATH);
+  const cards = readJsonArray<Card>(CARDS_PATH);
 
   const report: MissionsReport = {
     matched: 0,
@@ -312,8 +317,7 @@ export function runMissions(dump: MfmDump, _write: boolean): MissionsReport {
     shapeMismatch: [],
     dumpOnly: [],
     repoOnly: [],
-    primaryReskinsExcluded: dump
-      .table<{ detachmentId?: string | null }>("primary_mission")
+    primaryReskinsExcluded: dump.table("primary_mission")
       .filter((m) => !!m.detachmentId).length,
     staged: [],
   };

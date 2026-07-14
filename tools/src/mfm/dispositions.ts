@@ -23,16 +23,14 @@ import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import {
   MfmDump,
-  REPO_ROOT,
   type DetachmentRow,
   type DetachmentForceDispositionRow,
-  type DetachmentFactionDpCostRow,
   type ForceDispositionRow,
 } from "./loader.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import { repoDirForFactionName, repoDirs } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 
 interface DetRecord {
   id: string;
@@ -65,14 +63,12 @@ export interface DispReport {
   staged: StagedWrite[];
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /** UUID → repo disposition id (nameToId of the English name). */
 export function dispositionIdMap(dump: MfmDump): Map<string, string> {
   const m = new Map<string, string>();
-  for (const fd of dump.table<ForceDispositionRow>("force_disposition")) {
+  for (const fd of dump.table("force_disposition")) {
     const n = dump.enName(fd);
     if (fd.id && n) m.set(fd.id, nameToId(n));
   }
@@ -88,13 +84,10 @@ export function buildCanon(dump: MfmDump): {
   overrideBySlugDir: Map<string, number>;
 } {
   const dispOf = dispositionIdMap(dump);
-  const detDisp = dump.groupBy<DetachmentForceDispositionRow>(
-    "detachment_force_disposition",
-    "detachmentId"
-  );
+  const detDisp = dump.groupBy("detachment_force_disposition", "detachmentId");
   const bySlug = new Map<string, Canon>();
   const uuidToSlug = new Map<string, string>();
-  for (const det of dump.table<DetachmentRow>("detachment")) {
+  for (const det of dump.table("detachment")) {
     const name = dump.enName(det);
     if (!det.id || !name) continue;
     let slug: string;
@@ -113,9 +106,7 @@ export function buildCanon(dump: MfmDump): {
 
   // Per-faction DP overrides → keyed by `${slug}@@${dir}`.
   const overrideBySlugDir = new Map<string, number>();
-  for (const row of dump.table<DetachmentFactionDpCostRow>(
-    "detachment_faction_detachment_points_cost"
-  )) {
+  for (const row of dump.table("detachment_faction_detachment_points_cost")) {
     const slug = uuidToSlug.get(row.detachmentId);
     const fkName = dump.enName(dump.byId("faction_keyword").get(row.factionKeywordId));
     const dir = repoDirForFactionName(fkName);
@@ -132,7 +123,7 @@ export function buildCanon(dump: MfmDump): {
  */
 export function combatPatrolDetSlugs(dump: MfmDump): Set<string> {
   const slugs = new Set<string>();
-  for (const det of dump.table<DetachmentRow>("detachment")) {
+  for (const det of dump.table("detachment")) {
     if (!det.isCombatPatrol) continue;
     const name = dump.enName(det);
     if (!name) continue;
@@ -165,7 +156,7 @@ export function runDispositions(
   for (const dir of [...repoDirs()].sort()) {
     const p = path.join(CORE_DIR, dir, "detachments.json");
     if (!fs.existsSync(p)) continue;
-    const dets = readJson<DetRecord>(p);
+    const dets = readJsonArray<DetRecord>(p);
     const res: DirDispResult = {
       dir,
       matched: 0,

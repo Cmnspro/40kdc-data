@@ -1,0 +1,129 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/force-disposition.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "force_disposition",
+    "detachment_force_disposition"
+  ],
+  "fields": {
+    "/id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.force_disposition.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "detachment_force_disposition.forceDispositionId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/dispositions.ts#dispositionIdMap",
+          "operation": "Convert the English localized name to the repository force-disposition id with nameToId while retaining the dump UUID as the edge key."
+        }
+      ],
+      "filters": [
+        "Use only force-disposition rows with both an id and an English localized name."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/dispositions.ts#dispositionIdMap",
+        "tools/src/mfm/dispositions.ts#buildCanon",
+        "tools/src/mfm/dispositions.ts#runDispositions"
+      ],
+      "reason": "The current reconciliation derives stable repository ids from disposition names and uses the verified general edge to assign those ids to matching detachments; it does not generate or rewrite force-disposition entity records."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "partial",
+      "sources": [
+        "data.force_disposition.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Select the English localized name used by dispositionIdMap."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/dispositions.ts#dispositionIdMap"
+      ],
+      "reason": "The current reconciliation reads the English display name to establish the repository identifier, but does not update the entity name field."
+    },
+    "/text": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Force-disposition text is community-authored repository prose and is not copied from MFM."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The game-version reference is authored repository release metadata rather than an MFM force-disposition field."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dataslate label is authored repository release metadata and is not derived from the dump snapshot."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The edition label is authored repository metadata and is not inferred from MFM metadata."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.force_disposition.id",
+      "candidate_pointer": "/id",
+      "reason": "The dump UUID is a verified relationship key; dispositionIdMap derives the repository identity from the localized name instead of exposing the UUID as the entity id."
+    },
+    {
+      "source": "data.force_disposition.localisations",
+      "candidate_pointer": null,
+      "reason": "The locale container is structural; only its selected localized name is relevant to the core entity."
+    },
+    {
+      "source": "data.force_disposition.localisations.*",
+      "candidate_pointer": null,
+      "reason": "The localized payload wrapper is structural; the core schema has no locale-payload field."
+    },
+    {
+      "source": "data.detachment_force_disposition.detachmentId",
+      "candidate_pointer": null,
+      "reason": "This edge endpoint identifies the detachment destination and is consumed by buildCanon when reconciling detachment force_dispositions, not by the force-disposition entity schema."
+    },
+    {
+      "source": "data.detachment_force_disposition.forceDispositionId",
+      "candidate_pointer": "/id",
+      "reason": "This edge endpoint is the dump UUID used to reach a disposition; it is translated through dispositionIdMap rather than emitted as the repository force-disposition id."
+    }
+  ]
+}

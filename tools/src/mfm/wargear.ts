@@ -30,31 +30,28 @@
 import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
-import {
-  MfmDump,
-  REPO_ROOT,
-  type DatasheetRow,
-  type PublicationRow,
-  type FactionKeywordRow,
-  type MiniatureRow,
-  type WargearItemRow,
-  type WargearOptionRow,
-  type WargearOptionGroupRow,
-  type BaseMiniatureLoadoutRow,
-  type BaseMiniatureLoadoutWargearOptionRow,
-  type LoadoutChoiceSetRow,
-  type LoadoutChoiceRow,
-  type LoadoutChoiceWargearItemRow,
-  type LimitedWargearChoiceSetRow,
-  type WargearLimitRow,
-  type UnitCompositionRow,
-  type UnitCompositionMiniatureRow,
-} from "./loader.js";
+import { MfmDump, type DatasheetRow,
+type PublicationRow,
+type FactionKeywordRow,
+type MiniatureRow,
+type WargearItemRow,
+type WargearOptionRow,
+type WargearOptionGroupRow,
+type BaseMiniatureLoadoutRow,
+type BaseMiniatureLoadoutWargearOptionRow,
+type LoadoutChoiceSetRow,
+type LoadoutChoiceRow,
+type LoadoutChoiceWargearItemRow,
+type LimitedWargearChoiceSetRow,
+type WargearLimitRow,
+type UnitCompositionRow,
+type UnitCompositionMiniatureRow, } from "./loader.js";
+import { REPO_ROOT, readJsonArray, CORE_DIR } from "./repo-files.js";
 import { type GoldenMode, modeOfPublication, mergeMode } from "./game-mode.js";
 import { repoDirForFactionName, repoDirs, FACTION_ALIASES, SHARED_ROSTERS } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
-export const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 const UNMATCHED_DIR = path.join(REPO_ROOT, "_private", "mfm");
 /** The game_version stamp every dump-sourced ingest writes (authoritative, launch dataslate). */
 export const CONFIRMED = { edition: "11th", dataslate: "launch" };
@@ -111,9 +108,7 @@ interface WargearOptionRecord {
   [k: string]: unknown;
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /**
  * Reviewed dump-name → repo-id overrides, by faction, for weapon-name divergences
@@ -313,6 +308,55 @@ export function unitScopedResolver(
   };
 }
 
+/**
+ * Wargear items reachable through the three loadout paths ingestion currently
+ * supports: ordinary choices, base miniature loadouts, and limited choices.
+ * Other cataloged paths remain explicit source-map gaps.
+ */
+export function wargearItemsForDatasheet(
+  dump: MfmDump,
+  datasheetId: string,
+): readonly WargearItemRow[] {
+  const wargearItems = dump.byId("wargear_item");
+  const options = dump.byId("wargear_option");
+  const found = new Map<string, WargearItemRow>();
+  const add = (itemId: string | null | undefined): void => {
+    if (!itemId) return;
+    const item = wargearItems.get(itemId);
+    if (item) found.set(item.id, item);
+  };
+
+  for (const set of dump.groupBy("loadout_choice_set", "datasheetId").get(datasheetId) ?? []) {
+    for (const choice of dump.groupBy("loadout_choice", "loadoutChoiceSetId").get(set.id) ?? []) {
+      for (const item of dump.groupBy("loadout_choice_wargear_item", "loadoutChoiceId").get(choice.id) ?? []) {
+        add(item.wargearItemId);
+      }
+    }
+  }
+
+  for (const loadout of dump.groupBy("base_miniature_loadout", "datasheetId").get(datasheetId) ?? []) {
+    for (const optionRef of dump
+      .groupBy("base_miniature_loadout_wargear_option", "baseMiniatureLoadoutId")
+      .get(loadout.id) ?? []) {
+      add(options.get(optionRef.wargearOptionId)?.wargearItemId);
+    }
+  }
+
+  for (const set of dump.groupBy("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? []) {
+    for (const choice of dump
+      .groupBy("limited_wargear_choice", "limitedWargearChoiceSetId")
+      .get(set.id) ?? []) {
+      for (const item of dump
+        .groupBy("limited_wargear_choice_wargear_item", "limitedWargearChoiceId")
+        .get(choice.id) ?? []) {
+        add(item.wargearItemId);
+      }
+    }
+  }
+
+  return [...found.values()];
+}
+
 /** Faction-wide valid weapon-id vocabulary for `dir`: every id in `weapons.json`,
  *  plus every id already referenced by a unit (`weapon_ids`) or an existing option
  *  (so a dump weapon missing from `weapons.json` but present as a unit weapon still
@@ -320,7 +364,7 @@ export function unitScopedResolver(
  *  golden resolves dump weapon names through the exact vocabulary ingest uses. */
 export function dirValidIds(dir: string, units: UnitRecord[], wopts: WargearOptionRecord[]): Set<string> {
   const validIds = new Set<string>(
-    readJson<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? "")
+    readJsonArray<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? "")
   );
   for (const u of units) for (const id of u.weapon_ids ?? []) validIds.add(id);
   for (const o of wopts) {
@@ -359,7 +403,7 @@ function sameMultiset(a: string[], b: string[]): boolean {
 
 /** The dump's *default* unit composition row for a datasheet (isDefault, else lowest displayOrder). */
 function defaultUnitComposition(dump: MfmDump, datasheetId: string): UnitCompositionRow | undefined {
-  const ucs = (dump.groupBy<UnitCompositionRow>("unit_composition", "datasheetId").get(datasheetId) ?? [])
+  const ucs = (dump.groupBy("unit_composition", "datasheetId").get(datasheetId) ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
   return ucs.find((c) => c.isDefault) ?? ucs[0];
@@ -370,8 +414,7 @@ function modelCountByMiniId(dump: MfmDump, datasheetId: string): Map<string, num
   const out = new Map<string, number>();
   const uc = defaultUnitComposition(dump, datasheetId);
   if (!uc) return out;
-  const minis = dump
-    .groupBy<UnitCompositionMiniatureRow>("unit_composition_miniature", "unitCompositionId")
+  const minis = dump.groupBy("unit_composition_miniature", "unitCompositionId")
     .get(uc.id!);
   for (const m of minis ?? []) out.set(m.miniatureId, (out.get(m.miniatureId) ?? 0) + m.min);
   return out;
@@ -408,15 +451,12 @@ function baseFromMiniatureLoadout(
   if (!dump.tables["base_miniature_loadout"] || !dump.tables["base_miniature_loadout_wargear_option"]) {
     return out; // dump (or test fixture) without the legacy tables — no fallback
   }
-  const miniById = dump.byId<MiniatureRow>("miniature");
+  const miniById = dump.byId("miniature");
   const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
-  const woById = dump.byId<WargearOptionRow>("wargear_option");
-  const bmlOpts = dump.groupBy<BaseMiniatureLoadoutWargearOptionRow>(
-    "base_miniature_loadout_wargear_option",
-    "baseMiniatureLoadoutId",
-  );
-  for (const b of dump.groupBy<BaseMiniatureLoadoutRow>("base_miniature_loadout", "datasheetId").get(datasheetId) ?? []) {
+  const wiName = dump.byId("wargear_item");
+  const woById = dump.byId("wargear_option");
+  const bmlOpts = dump.groupBy("base_miniature_loadout_wargear_option", "baseMiniatureLoadoutId");
+  for (const b of dump.groupBy("base_miniature_loadout", "datasheetId").get(datasheetId) ?? []) {
     if (skip.has(b.miniatureId)) continue;
     const ids: string[] = [];
     let unresolvedWeapon = false;
@@ -446,11 +486,11 @@ function deriveDefaults(
   unresolved: { name: string; context: string }[],
   notes: string[],
 ): { byName: Map<string, string[]>; byMiniId: Map<string, string[]> } {
-  const miniById = dump.byId<MiniatureRow>("miniature");
+  const miniById = dump.byId("miniature");
   const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
-  const woByGroup = dump.groupBy<WargearOptionRow>("wargear_option", "wargearOptionGroupId");
-  const groups = (dump.groupBy<WargearOptionGroupRow>("wargear_option_group", "datasheetId").get(datasheetId) ?? [])
+  const wiName = dump.byId("wargear_item");
+  const woByGroup = dump.groupBy("wargear_option", "wargearOptionGroupId");
+  const groups = (dump.groupBy("wargear_option_group", "datasheetId").get(datasheetId) ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
   const modelCounts = modelCountByMiniId(dump, datasheetId);
@@ -543,17 +583,11 @@ function miniScopedSingleCaps(
   resolve: (name: string) => string | null,
 ): Map<string, number> {
   const sets =
-    dump.groupBy<LimitedWargearChoiceSetRow>("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? [];
-  const limitsBySet = dump.groupBy<WargearLimitRow>("wargear_limit", "limitedWargearChoiceSetId");
-  const choicesBySet = dump.groupBy<{ id: string; limitedWargearChoiceSetId: string }>(
-    "limited_wargear_choice",
-    "limitedWargearChoiceSetId",
-  );
-  const itemsByChoice = dump.groupBy<{ limitedWargearChoiceId: string; wargearItemId: string }>(
-    "limited_wargear_choice_wargear_item",
-    "limitedWargearChoiceId",
-  );
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
+    dump.groupBy("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? [];
+  const limitsBySet = dump.groupBy("wargear_limit", "limitedWargearChoiceSetId");
+  const choicesBySet = dump.groupBy("limited_wargear_choice", "limitedWargearChoiceSetId");
+  const itemsByChoice = dump.groupBy("limited_wargear_choice_wargear_item", "limitedWargearChoiceId");
+  const wiName = dump.byId("wargear_item");
 
   const out = new Map<string, number>();
   for (const s of sets) {
@@ -600,9 +634,9 @@ function swapInputTypesByMiniWeapon(
   datasheetId: string,
   resolve: (name: string) => string | null,
 ): Map<string, Set<string>> {
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
-  const woByGroup = dump.groupBy<WargearOptionRow>("wargear_option", "wargearOptionGroupId");
-  const groups = dump.groupBy<WargearOptionGroupRow>("wargear_option_group", "datasheetId").get(datasheetId) ?? [];
+  const wiName = dump.byId("wargear_item");
+  const woByGroup = dump.groupBy("wargear_option", "wargearOptionGroupId");
+  const groups = dump.groupBy("wargear_option_group", "datasheetId").get(datasheetId) ?? [];
   const out = new Map<string, Set<string>>();
   for (const g of groups) {
     if (!g.miniatureId) continue;
@@ -681,17 +715,11 @@ export function limitedSetBudgets(
   resolve: (name: string) => string | null,
 ): WargearBudget[] {
   const sets =
-    dump.groupBy<LimitedWargearChoiceSetRow>("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? [];
-  const limitsBySet = dump.groupBy<WargearLimitRow>("wargear_limit", "limitedWargearChoiceSetId");
-  const choicesBySet = dump.groupBy<{ id: string; limitedWargearChoiceSetId: string }>(
-    "limited_wargear_choice",
-    "limitedWargearChoiceSetId",
-  );
-  const itemsByChoice = dump.groupBy<{ limitedWargearChoiceId: string; wargearItemId: string }>(
-    "limited_wargear_choice_wargear_item",
-    "limitedWargearChoiceId",
-  );
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
+    dump.groupBy("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? [];
+  const limitsBySet = dump.groupBy("wargear_limit", "limitedWargearChoiceSetId");
+  const choicesBySet = dump.groupBy("limited_wargear_choice", "limitedWargearChoiceSetId");
+  const itemsByChoice = dump.groupBy("limited_wargear_choice_wargear_item", "limitedWargearChoiceId");
+  const wiName = dump.byId("wargear_item");
 
   const out: WargearBudget[] = [];
   for (const s of [...sets].sort((a, b) => a.id.localeCompare(b.id))) {
@@ -757,15 +785,11 @@ export function deriveWargear(
     notes,
   );
 
-  const miniName = (id: string) => dump.enName(dump.byId<MiniatureRow>("miniature").get(id)) ?? id;
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
-  const choicesBySet = dump.groupBy<LoadoutChoiceRow>("loadout_choice", "loadoutChoiceSetId");
-  const itemsByChoice = dump.groupBy<LoadoutChoiceWargearItemRow>(
-    "loadout_choice_wargear_item",
-    "loadoutChoiceId",
-  );
-  const sets = dump
-    .groupBy<LoadoutChoiceSetRow>("loadout_choice_set", "datasheetId")
+  const miniName = (id: string) => dump.enName(dump.byId("miniature").get(id)) ?? id;
+  const wiName = dump.byId("wargear_item");
+  const choicesBySet = dump.groupBy("loadout_choice", "loadoutChoiceSetId");
+  const itemsByChoice = dump.groupBy("loadout_choice_wargear_item", "loadoutChoiceId");
+  const sets = dump.groupBy("loadout_choice_set", "datasheetId")
     .get(datasheetId);
 
   // Multi-model = the datasheet has >1 miniature type (drives whether an option is
@@ -896,13 +920,13 @@ export interface DumpMini {
  * datasheet has no composition rows in the dump.
  */
 export function dumpComposition(dump: MfmDump, datasheetId: string): DumpMini[] {
-  const miniById = dump.byId<MiniatureRow & { displayOrder?: number }>("miniature");
+  const miniById = dump.byId("miniature");
   const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
   const order = (id: string) => miniById.get(id)?.displayOrder ?? 0;
   const uc = defaultUnitComposition(dump, datasheetId);
   if (!uc) return [];
   const minis = (
-    dump.groupBy<UnitCompositionMiniatureRow>("unit_composition_miniature", "unitCompositionId").get(uc.id!) ?? []
+    dump.groupBy("unit_composition_miniature", "unitCompositionId").get(uc.id!) ?? []
   )
     .slice()
     .sort((a, b) => order(a.miniatureId) - order(b.miniatureId));
@@ -948,10 +972,10 @@ export interface AggregatedComposition {
  * attachments) are dropped, matching {@link dumpComposition}.
  */
 export function aggregateComposition(dump: MfmDump, datasheetId: string): AggregatedComposition {
-  const miniById = dump.byId<MiniatureRow & { displayOrder?: number }>("miniature");
+  const miniById = dump.byId("miniature");
   const miniName = (id: string) => dump.enName(miniById.get(id)) ?? id;
   const order = (id: string) => miniById.get(id)?.displayOrder ?? 0;
-  const comps = (dump.groupBy<UnitCompositionRow>("unit_composition", "datasheetId").get(datasheetId) ?? [])
+  const comps = (dump.groupBy("unit_composition", "datasheetId").get(datasheetId) ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
 
@@ -960,7 +984,7 @@ export function aggregateComposition(dump: MfmDump, datasheetId: string): Aggreg
   let skip: "duplicate-names" | undefined;
   for (const c of comps) {
     const minis = (
-      dump.groupBy<UnitCompositionMiniatureRow>("unit_composition_miniature", "unitCompositionId").get(c.id!) ?? []
+      dump.groupBy("unit_composition_miniature", "unitCompositionId").get(c.id!) ?? []
     )
       .slice()
       .sort((a, b) => order(a.miniatureId) - order(b.miniatureId));
@@ -1099,9 +1123,9 @@ export function reconcileModels(
  * actually contains the unit id wins (handled by the caller's matched-set guard).
  */
 export function candidateDirs(dump: MfmDump, ds: DatasheetRow): string[] {
-  const pub = dump.byId<PublicationRow>("publication").get(ds.publicationId);
+  const pub = dump.byId("publication").get(ds.publicationId);
   const name = pub?.factionKeywordId
-    ? dump.enName(dump.byId<FactionKeywordRow>("faction_keyword").get(pub.factionKeywordId))
+    ? dump.enName(dump.byId("faction_keyword").get(pub.factionKeywordId))
     : undefined;
   if (!name) return [];
   const out: string[] = [];
@@ -1121,9 +1145,9 @@ export function candidateDirs(dump: MfmDump, ds: DatasheetRow): string[] {
 
 /** 0 when `dir` is the datasheet's own home faction dir, 1 when it's a shared-roster import. */
 export function homeScore(dump: MfmDump, ds: DatasheetRow, dir: string): number {
-  const pub = dump.byId<PublicationRow>("publication").get(ds.publicationId);
+  const pub = dump.byId("publication").get(ds.publicationId);
   const name = pub?.factionKeywordId
-    ? dump.enName(dump.byId<FactionKeywordRow>("faction_keyword").get(pub.factionKeywordId))
+    ? dump.enName(dump.byId("faction_keyword").get(pub.factionKeywordId))
     : undefined;
   return name && repoDirForFactionName(name) === dir ? 0 : 1;
 }
@@ -1154,7 +1178,7 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
   const dirs = repoDirs();
   // Bucket datasheets by candidate repo dir.
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -1171,15 +1195,15 @@ export function runWargear(dump: MfmDump, write: boolean, onlyDir?: string): War
     const cpath = path.join(CORE_DIR, dir, "unit-compositions.json");
     if (!fs.existsSync(upath)) continue;
 
-    const units = readJson<UnitRecord>(upath);
+    const units = readJsonArray<UnitRecord>(upath);
     const byId = new Map(units.map((u) => [u.id, u]));
-    const comps = readJson<CompRecord>(cpath);
+    const comps = readJsonArray<CompRecord>(cpath);
     // A unit can carry several compositions (different build tiers) — index ALL
     // of them so derived defaults and manual overrides patch every one, not just
     // the last (a Map keyed by unit_id would silently drop the earlier tiers).
     const compsByUnit = new Map<string, CompRecord[]>();
     for (const c of comps) (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
-    const wopts = readJson<WargearOptionRecord>(wpath);
+    const wopts = readJsonArray<WargearOptionRecord>(wpath);
 
     // Faction-wide valid id vocabulary (weapons.json ∪ unit/option-referenced ids),
     // shared with forEachDirDatasheet so the golden resolves names exactly as ingest.
@@ -1383,7 +1407,7 @@ export interface DirDatasheetCtx {
 export function forEachDirDatasheet(dump: MfmDump, cb: (ctx: DirDatasheetCtx) => void): void {
   const dirs = repoDirs();
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -1393,8 +1417,8 @@ export function forEachDirDatasheet(dump: MfmDump, cb: (ctx: DirDatasheetCtx) =>
   for (const dir of [...dirs].sort()) {
     const upath = path.join(CORE_DIR, dir, "units.json");
     if (!fs.existsSync(upath)) continue;
-    const units = readJson<UnitRecord>(upath);
-    const wopts = readJson<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
+    const units = readJsonArray<UnitRecord>(upath);
+    const wopts = readJsonArray<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
     const validIds = dirValidIds(dir, units, wopts);
     const autoResolved: AutoResolution[] = [];
     const resolve = makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {});
@@ -1491,7 +1515,7 @@ export interface BudgetReport {
 export function runWargearBudgets(dump: MfmDump, onlyDir?: string): BudgetReport {
   const dirs = repoDirs();
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -1505,12 +1529,12 @@ export function runWargearBudgets(dump: MfmDump, onlyDir?: string): BudgetReport
     if (onlyDir && dir !== onlyDir) continue;
     const upath = path.join(CORE_DIR, dir, "units.json");
     if (!fs.existsSync(upath)) continue;
-    const units = readJson<UnitRecord>(upath);
+    const units = readJsonArray<UnitRecord>(upath);
     const byId = new Map(units.map((u) => [u.id, u]));
-    const wopts = readJson<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
+    const wopts = readJsonArray<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
 
     const validIds = new Set<string>(
-      readJson<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? ""),
+      readJsonArray<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? ""),
     );
     for (const u of units) for (const id of u.weapon_ids ?? []) validIds.add(id);
     for (const o of wopts) {
@@ -1591,9 +1615,9 @@ export function pricedWargearItems(
   datasheetId: string,
   resolve: (name: string) => string | null,
 ): WargearCost[] {
-  const wiName = dump.byId<WargearItemRow>("wargear_item");
-  const woByGroup = dump.groupBy<WargearOptionRow>("wargear_option", "wargearOptionGroupId");
-  const groups = dump.groupBy<WargearOptionGroupRow>("wargear_option_group", "datasheetId").get(datasheetId) ?? [];
+  const wiName = dump.byId("wargear_item");
+  const woByGroup = dump.groupBy("wargear_option", "wargearOptionGroupId");
+  const groups = dump.groupBy("wargear_option_group", "datasheetId").get(datasheetId) ?? [];
   const byItem = new Map<string, number>();
   for (const g of groups) {
     for (const o of woByGroup.get(g.id) ?? []) {
@@ -1635,7 +1659,7 @@ export interface WargearCostsReport {
 export function runWargearCosts(dump: MfmDump, onlyDir?: string): WargearCostsReport {
   const dirs = repoDirs();
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -1650,19 +1674,19 @@ export function runWargearCosts(dump: MfmDump, onlyDir?: string): WargearCostsRe
     const upath = path.join(CORE_DIR, dir, "units.json");
     const wpath = path.join(CORE_DIR, dir, "wargear-options.json");
     if (!fs.existsSync(upath)) continue;
-    const units = readJson<UnitRecord>(upath);
+    const units = readJsonArray<UnitRecord>(upath);
     const byId = new Map(units.map((u) => [u.id, u]));
-    const wopts = readJson<WargearOptionRecord>(wpath);
+    const wopts = readJsonArray<WargearOptionRecord>(wpath);
 
     // A priced item can be non-weapon wargear the unit carries (e.g. the Banner of
     // Macragge on the Chapter Ancient): those live in `wargear.json` and the model's
     // `default_weapon_ids`, not `weapons.json`. Extend the pricing vocabulary with both
     // so such items resolve — the weapon reconcile's narrower `dirValidIds` never sees them.
     const validIds = dirValidIds(dir, units, wopts);
-    for (const w of readJson<{ id?: string }>(path.join(CORE_DIR, dir, "wargear.json"))) {
+    for (const w of readJsonArray<{ id?: string }>(path.join(CORE_DIR, dir, "wargear.json"))) {
       if (w.id) validIds.add(w.id);
     }
-    for (const c of readJson<CompRecord>(path.join(CORE_DIR, dir, "unit-compositions.json"))) {
+    for (const c of readJsonArray<CompRecord>(path.join(CORE_DIR, dir, "unit-compositions.json"))) {
       for (const m of c.models ?? []) for (const id of m.default_weapon_ids ?? []) validIds.add(id);
     }
     const autoResolved: AutoResolution[] = [];
@@ -1744,7 +1768,7 @@ export interface CompNamesReport {
 export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesReport {
   const dirs = repoDirs();
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -1759,7 +1783,7 @@ export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesR
     if (onlyDir && dir !== onlyDir) continue;
     const cpath = path.join(CORE_DIR, dir, "unit-compositions.json");
     if (!fs.existsSync(cpath)) continue;
-    const comps = readJson<CompRecord>(cpath);
+    const comps = readJsonArray<CompRecord>(cpath);
     const compsByUnit = new Map<string, CompRecord[]>();
     for (const c of comps)
       (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
@@ -1869,7 +1893,7 @@ function matchNamesNormalized(repoNames: string[], dumpNames: string[]): string[
 export function runCompositionTiers(dump: MfmDump, onlyDir?: string): CompTiersReport {
   const dirs = repoDirs();
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -1886,11 +1910,11 @@ export function runCompositionTiers(dump: MfmDump, onlyDir?: string): CompTiersR
     const cpath = path.join(CORE_DIR, dir, "unit-compositions.json");
     const upath = path.join(CORE_DIR, dir, "units.json");
     if (!fs.existsSync(cpath)) continue;
-    const comps = readJson<CompRecord & { tiers?: { models: DumpTier }[] }>(cpath);
+    const comps = readJsonArray<CompRecord & { tiers?: { models: DumpTier }[] }>(cpath);
     const compsByUnit = new Map<string, (CompRecord & { tiers?: { models: DumpTier }[] })[]>();
     for (const c of comps)
       (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
-    const units = readJson<UnitRecord & { model_count?: { min: number; max: number } }>(upath);
+    const units = readJsonArray<UnitRecord & { model_count?: { min: number; max: number } }>(upath);
     const unitsById = new Map(units.map((u) => [u.id, u]));
 
     const dsList = (byDir.get(dir) ?? [])

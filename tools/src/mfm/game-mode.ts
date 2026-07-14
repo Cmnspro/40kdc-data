@@ -36,7 +36,7 @@ export function isCombatPatrolPublication(
   publicationId: string | undefined | null,
 ): boolean {
   if (!publicationId) return false;
-  return dump.byId<PublicationRow>("publication").get(publicationId)?.isCombatPatrol === true;
+  return dump.byId("publication").get(publicationId)?.isCombatPatrol === true;
 }
 
 /** The game mode a dump publication implies. */

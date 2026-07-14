@@ -33,17 +33,17 @@
  *   npx tsx src/mfm/project-loadout.ts --dir <faction> --unit <unit_id> [--unit ...] [--write]
  *   npx tsx src/mfm/project-loadout.ts --dir <faction> --all-skeletons [--write]
  */
-import * as fs from "fs";
 import * as path from "path";
 import { pathToFileURL } from "node:url";
 import {
   loadDump,
   MfmDump,
-  REPO_ROOT,
   type DatasheetRow,
+  type InvulnerableSaveRow,
   type MiniatureRow,
   type WargearItemRow,
 } from "./loader.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import {
   deriveWargear,
   aggregateComposition,
@@ -56,7 +56,7 @@ import { repoDirForFactionName } from "./faction-map.js";
 import { nameToId } from "../converters/id-generator.js";
 import { applyWrites, type StagedWrite } from "./apply.js";
 
-const DATA_CORE = path.join(REPO_ROOT, "data", "core");
+const DATA_CORE = CORE_DIR;
 
 export interface GameVersion {
   edition: string;
@@ -218,14 +218,6 @@ function parseSkill(s: string | null | undefined): number | null {
   return n >= 2 && n <= 6 ? n : null;
 }
 
-/** One `invulnerable_save` dump row (only the fields this projection reads). */
-interface InvulnerableSaveRow {
-  miniatureId?: string | null;
-  save?: string | null;
-  rangedSave?: string | null;
-  meleeSave?: string | null;
-  localisations?: { en?: { rules?: string | null } | null } | null;
-}
 
 /**
  * The whole-unit invulnerable-save projection: an unconditional `invuln_sv` plus
@@ -259,6 +251,8 @@ const INVULN_MELEE_MODEL = /^this model has a (\d)\+ invulnerable save against m
  * narrows a `save` to one attack scope. The value is ALWAYS the parsed
  * save/rangedSave/meleeSave column — a footnote `<N>+` is only an equality guard,
  * never a value source. Universal rows disagreeing on any output field throw.
+ * Coverage remains partial because model-specific rows and mechanics outside the
+ * schema's unconditional/ranged/melee fields cannot be projected losslessly.
  */
 export function projectInvulnerableSave(rows: readonly unknown[]): InvulnerableSaveProjection {
   const warnings: string[] = [];
@@ -389,7 +383,7 @@ async function runInvulnsOnly(opts: {
       console.error(`[${dir}] ${unitId}: no unambiguous dump datasheet`);
       continue;
     }
-    const rows = dump.groupBy<InvulnerableSaveRow>("invulnerable_save", "datasheetId").get(ds.id!) ?? [];
+    const rows = dump.groupBy("invulnerable_save", "datasheetId").get(ds.id!) ?? [];
     const projection = projectInvulnerableSave(rows);
     console.log(`\n## ${unitId}\n   invuln: ${invulnSummary(projection)}`);
     for (const w of projection.warnings) console.log(`   ⚠ ${w}`);
@@ -422,13 +416,13 @@ export interface MintContext {
 /** Build a repo weapon record from the dump's wargear_item + its profiles. */
 export function mintWeapon(ctx: MintContext, item: WargearItemRow, id: string, name: string): WeaponRecord {
   const { dump } = ctx;
-  const profiles = (dump.groupBy<any>("wargear_item_profile", "wargearItemId").get(item.id!) ?? [])
+  const profiles = (dump.groupBy("wargear_item_profile", "wargearItemId").get(item.id!) ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
   if (profiles.length === 0) throw new Error(`weapon "${name}" has no profile rows in the dump`);
 
-  const abilByProfile = dump.groupBy<any>("wargear_item_profile_wargear_ability", "wargearItemProfileId");
-  const abilById = dump.byId<any>("wargear_ability");
+  const abilByProfile = dump.groupBy("wargear_item_profile_wargear_ability", "wargearItemProfileId");
+  const abilById = dump.byId("wargear_ability");
 
   const built: WeaponProfile[] = profiles.map((p) => {
     const ranged = p.type !== "melee";
@@ -471,20 +465,17 @@ export function mintWeapon(ctx: MintContext, item: WargearItemRow, id: string, n
  * in a unit's loadout (e.g. a banner or icon a special model carries). These have
  * no weapon profile — they are equipment whose game effect is an authored ability —
  * so they land in `wargear.json` (not `weapons.json`) yet still participate in the
- * loadout so a per-item MFM cost (`wargear_costs`) can attach. Category is left to
- * the dump's own grouping where present, else omitted (the schema allows absent).
+ * loadout so a per-item MFM cost (`wargear_costs`) can attach. Category remains
+ * unset because MFM's `wargearType` has no approved repository transform.
  */
 export function mintWargear(ctx: MintContext, item: WargearItemRow, id: string, name: string): WargearRecord {
-  const rec: WargearRecord = { id, name, game_version: ctx.gv };
-  const category = (item as { category?: string }).category?.trim();
-  if (category) rec.category = category;
-  return rec;
+  return { id, name, game_version: ctx.gv };
 }
 
 // ───────────────────────── datasheet lookup ─────────────────────────
 export function findDatasheet(dump: MfmDump, unitId: string, dir: string): DatasheetRow | null {
   const matches: DatasheetRow[] = [];
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     const name = dump.enName(ds);
     if (!name) continue;
@@ -546,7 +537,7 @@ function projectUnit(
 
   // Name → wargear_item, to classify an unresolved name (weapon → mint; other → skip).
   const itemByName = new Map<string, WargearItemRow>();
-  for (const it of dump.table<WargearItemRow>("wargear_item")) {
+  for (const it of dump.table("wargear_item")) {
     const n = dump.enName(it);
     if (n) itemByName.set(n.trim().toLowerCase(), it);
   }
@@ -658,7 +649,7 @@ function projectUnit(
   // projection normalizes structured scoped columns and the narrow English
   // attack-scope footnotes; a recognized scoped save stays off the unconditional field.
   const invuln = projectInvulnerableSave(
-    dump.groupBy<InvulnerableSaveRow>("invulnerable_save", "datasheetId").get(dsId) ?? [],
+    dump.groupBy("invulnerable_save", "datasheetId").get(dsId) ?? [],
   );
   for (const w of invuln.warnings) warnings.push(w);
 
@@ -686,9 +677,7 @@ function projectUnit(
 }
 
 // ───────────────────────── apply ─────────────────────────
-function readArr<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 async function main() {
   const argv = process.argv.slice(2);
@@ -741,11 +730,11 @@ async function main() {
   const optionsPath = path.join(factionRoot, "wargear-options.json");
 
   const files: FactionFiles = {
-    units: readArr<UnitRecord>(unitsPath),
-    weapons: readArr<WeaponRecord>(weaponsPath),
-    wargear: readArr<WargearRecord>(wargearPath),
-    comps: readArr<any>(compsPath),
-    options: readArr<any>(optionsPath),
+    units: readJsonArray<UnitRecord>(unitsPath),
+    weapons: readJsonArray<WeaponRecord>(weaponsPath),
+    wargear: readJsonArray<WargearRecord>(wargearPath),
+    comps: readJsonArray<any>(compsPath),
+    options: readJsonArray<any>(optionsPath),
   };
 
   let targets = unitIds;

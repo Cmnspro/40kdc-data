@@ -28,7 +28,7 @@ import { createValidator } from "../schema-loader.js";
 import { validateFiles, type ValidationResult } from "../validate.js";
 import { checkReferentialIntegrity } from "../integrity.js";
 import { formatReport } from "../report.js";
-import { REPO_ROOT } from "./loader.js";
+import { REPO_ROOT } from "./repo-files.js";
 
 const DATA_ROOT = path.join(REPO_ROOT, "data");
 

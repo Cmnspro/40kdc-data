@@ -21,12 +21,10 @@ import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { nameToId } from "./converters/id-generator.js";
-import { loadDump, type DatasheetRow, type DumpRow, type WargearOptionRow } from "./mfm/loader.js";
+import { DEFAULT_DUMP_PATH, loadDump } from "./mfm/loader.js";
+import { CORE_DIR, readJsonArray } from "./mfm/repo-files.js";
 import { repoDirForFactionName } from "./mfm/faction-map.js";
 
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
-const REPO_ROOT = resolve(__dirname, "..", "..");
-const CORE_DIR = join(REPO_ROOT, "data", "core");
 const REPORT = join(CORE_DIR, "_reports", "mfm-wargear-crosscheck.md");
 
 interface WargearOption {
@@ -36,9 +34,7 @@ interface WargearOption {
   replacement_choice?: string[][];
 }
 
-function readJSON<T>(path: string): T[] {
-  return existsSync(path) ? (JSON.parse(readFileSync(path, "utf-8")) as T[]) : [];
-}
+
 function safeId(name: string | undefined): string | null {
   if (!name) return null;
   try {
@@ -56,7 +52,7 @@ function repoDirs(): string[] {
 
 function dumpArg(): string {
   const i = process.argv.indexOf("--dump");
-  return i !== -1 ? process.argv[i + 1] : join(REPO_ROOT, "_private", "dump.json");
+  return i !== -1 ? process.argv[i + 1] : DEFAULT_DUMP_PATH;
 }
 
 function main(): void {
@@ -64,9 +60,9 @@ function main(): void {
 
   // datasheetId → set of optional wargear-item ids (from the choice tables).
   const optionItemsByDatasheet = new Map<string, Set<string>>();
-  const optionsByGroup = dump.groupBy<WargearOptionRow>("wargear_option", "wargearOptionGroupId");
-  const wargearItem = dump.byId<DumpRow>("wargear_item");
-  for (const group of dump.table<DumpRow & { datasheetId?: string }>("wargear_option_group")) {
+  const optionsByGroup = dump.groupBy("wargear_option", "wargearOptionGroupId");
+  const wargearItem = dump.byId("wargear_item");
+  for (const group of dump.table("wargear_option_group")) {
     const dsId = group.datasheetId;
     if (!dsId) continue;
     const set = optionItemsByDatasheet.get(dsId) ?? optionItemsByDatasheet.set(dsId, new Set()).get(dsId)!;
@@ -78,12 +74,12 @@ function main(): void {
 
   // Build, per faction, unit_id → GW dump option-item set (live datasheets only).
   const dumpByFaction = new Map<string, Map<string, Set<string>>>();
-  for (const ds of dump.table<DatasheetRow & { isLegends?: boolean }>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends || !ds.id) continue;
     const items = optionItemsByDatasheet.get(ds.id);
     if (!items || items.size === 0) continue;
     const fkId = dump.factionKeywordOfDatasheet(ds.id);
-    const fkName = dump.enName(dump.byId<DumpRow>("faction_keyword").get(fkId ?? ""));
+    const fkName = dump.enName(dump.byId("faction_keyword").get(fkId ?? ""));
     const faction = repoDirForFactionName(fkName);
     const unitId = safeId(dump.enName(ds));
     if (!faction || !unitId) continue;
@@ -105,7 +101,7 @@ function main(): void {
   const noOverlapList: string[] = [];
 
   for (const faction of repoDirs()) {
-    const bsOpts = readJSON<WargearOption>(join(CORE_DIR, faction, "wargear-options.json"));
+    const bsOpts = readJsonArray<WargearOption>(join(CORE_DIR, faction, "wargear-options.json"));
     const dumpUnits = dumpByFaction.get(faction) ?? new Map<string, Set<string>>();
     if (bsOpts.length === 0 && dumpUnits.size === 0) continue;
     const bsByUnit = new Map<string, Set<string>>();

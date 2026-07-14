@@ -1,0 +1,138 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/hull-shape.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "datasheet"
+  ],
+  "fields": {
+    "/bounds_height_in": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM has no polygon geometry from which to calculate a hull outline's bounds."
+    },
+    "/bounds_width_in": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM has no polygon geometry from which to calculate a hull outline's bounds."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Hull-shape versioning is repository-authored context, not an MFM geometry field."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Dataslate labels are repository-authored version context, not MFM geometry data."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Edition labels are repository-authored version context, not MFM geometry data."
+    },
+    "/id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Reusable hull-outline identifiers are authored independently of MFM datasheets."
+    },
+    "/name": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "A reusable hull-outline name is authored; MFM base-size text is only a categorical presentation hint."
+    },
+    "/points": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM has no source for a hull's ordered polygon vertices."
+    },
+    "/points/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM has no source for individual hull polygon vertices."
+    },
+    "/points/*/x": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM has no source for hull vertex coordinates."
+    },
+    "/points/*/y": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM has no source for hull vertex coordinates."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.datasheet.localisations.*.baseSize",
+      "candidate_pointer": "/name",
+      "reason": "The categorical base-size text can indicate a Hull presentation, but it cannot identify a reusable outline or supply its vertices or bounds."
+    }
+  ]
+}

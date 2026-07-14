@@ -25,59 +25,28 @@
  * ids/labels/names and those text-only fields, preserving existing rule ids
  * where a pool maps onto a current hand-authored rule.
  */
-import * as fs from "fs";
+import { readdirSync } from "node:fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import {
   MfmDump,
-  REPO_ROOT,
-  type DumpRow,
+  type AlliedFactionAllowedWarlordMiniatureRow,
+  type AlliedFactionDatasheetRow,
+  type AlliedFactionKeywordRow,
+  type AlliedFactionPointsLimitRow,
+  type AlliedFactionRequiredDetachmentRow,
+  type AlliedFactionRow,
+  type BattleSizeRow,
   type DatasheetRow,
   type DetachmentRow,
-  type MiniatureRow,
+  type FactionKeywordAlliedFactionRow,
   type FactionKeywordRow,
+  type KeywordRow,
+  type MiniatureRow,
 } from "./loader.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
-
-// ─────────────────── dump row shapes (the allied_faction family) ───────────────────
-
-interface AlliedFactionRow {
-  id: string;
-  canTakeEnhancements: boolean;
-  requiredWarlordMiniatureId: string | null;
-}
-interface FactionKeywordAlliedFactionRow {
-  alliedFactionId: string;
-  factionKeywordId: string;
-}
-interface AlliedFactionDatasheetRow {
-  alliedFactionId: string;
-  datasheetId: string;
-}
-interface AlliedFactionRequiredDetachmentRow {
-  alliedFactionId: string;
-  detachmentId: string;
-}
-interface AlliedFactionPointsLimitRow {
-  alliedFactionId: string;
-  battleSizeId: string;
-  pointsLimit: number;
-}
-interface AlliedFactionKeywordRow {
-  id: string;
-  limitCount: number;
-  keywordId: string;
-  alliedFactionId: string;
-  battleSizeId: string;
-}
-interface AlliedFactionAllowedWarlordMiniatureRow {
-  alliedFactionId: string;
-  miniatureId: string;
-}
-interface KeywordRow extends DumpRow {}
-interface BattleSizeRow extends DumpRow {}
 
 // ─────────────────── output shape ───────────────────
 
@@ -250,14 +219,11 @@ interface CoreEntity {
   id: string;
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /** Faction dirs under data/core (skipping the `_`-prefixed bookkeeping dirs). */
 function coreDirs(): string[] {
-  return fs
-    .readdirSync(CORE_DIR, { withFileTypes: true })
+  return readdirSync(CORE_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory() && !d.name.startsWith("_"))
     .map((d) => d.name);
 }
@@ -266,7 +232,7 @@ function coreDirs(): string[] {
 function loadUnitFactions(): Map<string, Set<string>> {
   const out = new Map<string, Set<string>>();
   for (const dir of coreDirs()) {
-    for (const u of readJson<CoreUnit>(path.join(CORE_DIR, dir, "units.json"))) {
+    for (const u of readJsonArray<CoreUnit>(path.join(CORE_DIR, dir, "units.json"))) {
       const set = out.get(u.id) ?? out.set(u.id, new Set()).get(u.id)!;
       set.add(u.faction_id);
     }
@@ -278,7 +244,7 @@ function loadUnitFactions(): Map<string, Set<string>> {
 function loadDetachmentIds(): Set<string> {
   const out = new Set<string>();
   for (const dir of coreDirs()) {
-    for (const d of readJson<CoreEntity>(path.join(CORE_DIR, dir, "detachments.json"))) {
+    for (const d of readJsonArray<CoreEntity>(path.join(CORE_DIR, dir, "detachments.json"))) {
       out.add(d.id);
     }
   }
@@ -330,42 +296,21 @@ export function runAllies(dump: MfmDump): AlliesReport {
   const unitFactions = loadUnitFactions();
   const detachmentIds = loadDetachmentIds();
 
-  const fk = dump.byId<FactionKeywordRow>("faction_keyword");
-  const ds = dump.byId<DatasheetRow>("datasheet");
-  const det = dump.byId<DetachmentRow>("detachment");
-  const kw = dump.byId<KeywordRow>("keyword");
-  const mini = dump.byId<MiniatureRow>("miniature");
+  const fk = dump.byId("faction_keyword");
+  const ds = dump.byId("datasheet");
+  const det = dump.byId("detachment");
+  const kw = dump.byId("keyword");
+  const mini = dump.byId("miniature");
 
-  const hostsByAf = dump.groupBy<FactionKeywordAlliedFactionRow>(
-    "faction_keyword_allied_faction",
-    "alliedFactionId"
-  );
-  const dsByAf = dump.groupBy<AlliedFactionDatasheetRow>(
-    "allied_faction_datasheet",
-    "alliedFactionId"
-  );
-  const detByAf = dump.groupBy<AlliedFactionRequiredDetachmentRow>(
-    "allied_faction_required_detachment",
-    "alliedFactionId"
-  );
-  const ptsByAf = dump.groupBy<AlliedFactionPointsLimitRow>(
-    "allied_faction_points_limit",
-    "alliedFactionId"
-  );
-  const kwLimByAf = dump.groupBy<AlliedFactionKeywordRow>(
-    "allied_faction_keyword",
-    "alliedFactionId"
-  );
-  const warlordByAf = dump.groupBy<AlliedFactionAllowedWarlordMiniatureRow>(
-    "allied_faction_allowed_warlord_miniature",
-    "alliedFactionId"
-  );
+  const hostsByAf = dump.groupBy("faction_keyword_allied_faction", "alliedFactionId");
+  const dsByAf = dump.groupBy("allied_faction_datasheet", "alliedFactionId");
+  const detByAf = dump.groupBy("allied_faction_required_detachment", "alliedFactionId");
+  const ptsByAf = dump.groupBy("allied_faction_points_limit", "alliedFactionId");
+  const kwLimByAf = dump.groupBy("allied_faction_keyword", "alliedFactionId");
+  const warlordByAf = dump.groupBy("allied_faction_allowed_warlord_miniature", "alliedFactionId");
   // The pool's "source" faction keyword(s) — used for labels/skip logging when
   // the overlay has no entry (a new GW pool, or a skipped Titan pool).
-  const parentByAf = dump.groupBy<FactionKeywordAlliedFactionRow>(
-    "allied_faction_parent_faction_keyword",
-    "alliedFactionId"
-  );
+  const parentByAf = dump.groupBy("allied_faction_parent_faction_keyword", "alliedFactionId");
 
   // battle_size GUID → enum.
   const battleSizeEnum = new Map<string, BattleSizeEnum>();
@@ -374,7 +319,7 @@ export function runAllies(dump: MfmDump): AlliesReport {
     "Strike Force": "strike-force",
     Onslaught: "onslaught",
   };
-  for (const bs of dump.table<BattleSizeRow>("battle_size")) {
+  for (const bs of dump.table("battle_size")) {
     const e = BS_NAME_TO_ENUM[dump.enName(bs) ?? ""];
     if (bs.id && e) battleSizeEnum.set(bs.id, e);
   }
@@ -388,7 +333,7 @@ export function runAllies(dump: MfmDump): AlliesReport {
     staged: [],
   };
 
-  for (const af of dump.table<AlliedFactionRow>("allied_faction")) {
+  for (const af of dump.table("allied_faction")) {
     const overlay = OVERLAY[af.id];
 
     // (2) datasheets → resolved unit ids + the faction(s) each lives in.

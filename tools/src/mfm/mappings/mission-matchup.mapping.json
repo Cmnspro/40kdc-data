@@ -1,0 +1,201 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/mission-matchup.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "force_disposition_mission"
+  ],
+  "fields": {
+    "/disposition": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.force_disposition_mission.friendlyForceDispositionId",
+        "data.force_disposition.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "force_disposition_mission.friendlyForceDispositionId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Normalize the friendly force-disposition display name to its repository id."
+        }
+      ],
+      "filters": [
+        "Use the English localized display name."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/dispositions.ts#dispositionIdMap"
+      ],
+      "reason": "The verified friendly disposition relation and existing disposition slugger establish the value, but no current MFM pass authors mission-matchup records."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The matchup release/version label is repository-authored; dump snapshot metadata is not an entity game-version source."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dataslate label is repository-authored and is not inferred from dump snapshot metadata."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The edition label is repository-authored and is not inferred from dump snapshot metadata."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.force_disposition_mission.friendlyForceDispositionId",
+        "data.force_disposition_mission.oppositionForceDispositionId",
+        "data.force_disposition.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "force_disposition_mission.friendlyForceDispositionId",
+          "direction": "parent",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "force_disposition_mission.oppositionForceDispositionId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Normalize each ordered disposition display name and join the friendly and opposition slugs with '-vs-'."
+        }
+      ],
+      "filters": [
+        "Use English localized display names for both sides."
+      ],
+      "precedence": [
+        "Preserve the ordered friendly-versus-opposition slug pair; do not replace it with the dump row id."
+      ],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon"
+      ],
+      "reason": "The deterministic repository key is derivable from the two verified disposition relations, while current mission ingestion does not author matchup records."
+    },
+    "/mission_id": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.force_disposition_mission.primaryMissionId",
+        "data.primary_mission.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "force_disposition_mission.primaryMissionId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Normalize the linked primary-mission English display name to the repository mission id."
+        }
+      ],
+      "filters": [
+        "Use the English localized display name.",
+        "Retain only primary missions represented by the repository mission inventory."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "The verified primary-mission relation identifies the mission; existing mission reconciliation consumes that primary-mission identity but does not yet write mission-matchup records."
+    },
+    "/opponent_disposition": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.force_disposition_mission.oppositionForceDispositionId",
+        "data.force_disposition.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "force_disposition_mission.oppositionForceDispositionId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Normalize the opposition force-disposition display name to its repository id."
+        }
+      ],
+      "filters": [
+        "Use the English localized display name."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/dispositions.ts#dispositionIdMap"
+      ],
+      "reason": "The verified opposition disposition relation and existing disposition slugger establish the value, but no current MFM pass authors mission-matchup records."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.force_disposition_mission_recommended_preset.forceDispositionMissionId",
+      "candidate_pointer": null,
+      "reason": "This verified recommendation edge starts a preset/layout/deployment chain, but mission-matchup has no property for that recommendation."
+    },
+    {
+      "source": "data.force_disposition_mission_recommended_preset.missionPresetId",
+      "candidate_pointer": null,
+      "reason": "The recommended preset may inform a future layout or deployment link, but no mission-matchup destination property represents it."
+    },
+    {
+      "source": "data.mission_preset.missionLayoutId",
+      "candidate_pointer": null,
+      "reason": "The preset-to-layout relation is a candidate chain for layout selection, not a current mission-matchup field."
+    },
+    {
+      "source": "data.mission_preset.missionDeploymentId",
+      "candidate_pointer": null,
+      "reason": "The preset-to-deployment relation is a candidate chain for deployment selection, not a current mission-matchup field."
+    },
+    {
+      "source": "data.mission_layout_linked_deployment.missionLayoutId",
+      "candidate_pointer": null,
+      "reason": "The layout/deployment applicability edge is recorded for a future mapping but has no mission-matchup destination property."
+    },
+    {
+      "source": "data.mission_layout_linked_deployment.missionDeploymentId",
+      "candidate_pointer": null,
+      "reason": "The layout/deployment applicability edge is recorded for a future mapping but has no mission-matchup destination property."
+    }
+  ]
+}

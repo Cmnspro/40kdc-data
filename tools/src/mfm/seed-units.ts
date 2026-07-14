@@ -16,31 +16,28 @@
  *
  * IP: this reads ONLY numeric/id/enum tables — `miniature` (stat line), keywords,
  * faction keywords, compositions. It NEVER dereferences the GW prose under
- * `localisations.en.{lore,rules,unitComposition}`. `invuln_sv` is seeded `null`
- * because the dump exposes invuln only in ability prose, which is forbidden here.
+ * `invuln_sv` remains `null` in this skeleton pass: `project-loadout.ts`
+ * consumes the structured `invulnerable_save` table later, where whole-unit
+ * versus model/attack-scoped representability can be handled explicitly.
  */
 import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import { FACTION_HOME_KEYWORD } from "../integrity.js";
-import {
-  MfmDump,
-  REPO_ROOT,
-  type DatasheetRow,
-  type PublicationRow,
-  type FactionKeywordRow,
-  type MiniatureRow,
-  type MiniatureKeywordRow,
-  type DatasheetFactionKeywordRow,
-  type UnitCompositionRow,
-  type UnitCompositionMiniatureRow,
-} from "./loader.js";
+import { MfmDump, type DatasheetRow,
+type PublicationRow,
+type FactionKeywordRow,
+type MiniatureRow,
+type MiniatureKeywordRow,
+type DatasheetFactionKeywordRow,
+type UnitCompositionRow,
+type UnitCompositionMiniatureRow, } from "./loader.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import { repoDirForFactionName, repoDirs, SHARED_ROSTERS } from "./faction-map.js";
 import { deriveDatasheet, cleanTier, type Tier, type AlliedTier } from "./points.js";
 import type { StagedWrite } from "./apply.js";
 import { type GoldenMode, isCombatPatrolPublication } from "./game-mode.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const CONFIRMED = { edition: "11th", dataslate: "launch" };
 /** Combat-Patrol-only entities carry this so the golden files them on the
  *  combat-patrol coverage dimension instead of inflating competitive gaps. */
@@ -101,7 +98,7 @@ function statInt(raw: string | undefined, field: string, name: string): number {
  * miniature `displayOrder`.
  */
 function buildProfiles(dump: MfmDump, datasheetId: string, unitName: string): Profile[] {
-  const minis = (dump.groupBy<MiniatureRow>("miniature", "datasheetId").get(datasheetId) ?? [])
+  const minis = (dump.groupBy("miniature", "datasheetId").get(datasheetId) ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
   const visible = minis.filter((m) => !m.statlineHidden);
@@ -126,10 +123,10 @@ function buildProfiles(dump: MfmDump, datasheetId: string, unitName: string): Pr
 
 /** Union of keyword names across the datasheet's miniatures, deduped, in display order. */
 function buildKeywords(dump: MfmDump, datasheetId: string): string[] {
-  const minis = (dump.groupBy<MiniatureRow>("miniature", "datasheetId").get(datasheetId) ?? [])
+  const minis = (dump.groupBy("miniature", "datasheetId").get(datasheetId) ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
-  const mkByMini = dump.groupBy<MiniatureKeywordRow>("miniature_keyword", "miniatureId");
+  const mkByMini = dump.groupBy("miniature_keyword", "miniatureId");
   const kwById = dump.byId("keyword");
   const out: string[] = [];
   const seen = new Set<string>();
@@ -155,7 +152,7 @@ function buildFactionKeywords(dump: MfmDump, datasheetId: string, dir: string): 
   const home = FACTION_HOME_KEYWORD[dir];
   if (home) return [home];
   const rows = (
-    dump.groupBy<DatasheetFactionKeywordRow>("datasheet_faction_keyword", "datasheetId").get(datasheetId) ?? []
+    dump.groupBy("datasheet_faction_keyword", "datasheetId").get(datasheetId) ?? []
   )
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
@@ -189,11 +186,8 @@ function deriveRole(keywords: string[]): string | undefined {
  * later — here we only need a schema-valid (≥1, max≥min) placeholder.
  */
 function buildModelCount(dump: MfmDump, datasheetId: string): { min: number; max: number } {
-  const comps = dump.groupBy<UnitCompositionRow>("unit_composition", "datasheetId").get(datasheetId) ?? [];
-  const miniByComp = dump.groupBy<UnitCompositionMiniatureRow>(
-    "unit_composition_miniature",
-    "unitCompositionId"
-  );
+  const comps = dump.groupBy("unit_composition", "datasheetId").get(datasheetId) ?? [];
+  const miniByComp = dump.groupBy("unit_composition_miniature", "unitCompositionId");
   let min = Infinity;
   let max = 0;
   for (const c of comps) {
@@ -304,13 +298,13 @@ export function effectiveDir(dir: string): string | null {
 export function runSeedUnits(dump: MfmDump, opts: SeedUnitsOptions = {}): SeedUnitsReport {
   const { onlyDir, includeCombatPatrol = false } = opts;
   const allDirs = repoDirs();
-  const pub = dump.byId<PublicationRow>("publication");
-  const fkName = dump.byId<FactionKeywordRow>("faction_keyword");
+  const pub = dump.byId("publication");
+  const fkName = dump.byId("faction_keyword");
 
   // Bucket live (non-Legends) datasheets by source dir (publication faction
   // keyword → repo dir) — the same routing coverage/points use.
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     const fkId = pub.get(ds.publicationId)?.factionKeywordId ?? null;
     const dir = repoDirForFactionName(fkId ? dump.enName(fkName.get(fkId)) : undefined);
@@ -324,9 +318,7 @@ export function runSeedUnits(dump: MfmDump, opts: SeedUnitsOptions = {}): SeedUn
     let s = repoIdsOf.get(dir);
     if (!s) {
       const p = unitsPath(dir);
-      s = new Set(
-        fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as UnitRecord[]).map((u) => u.id) : [],
-      );
+      s = new Set(readJsonArray<UnitRecord>(p).map((unit) => unit.id));
       repoIdsOf.set(dir, s);
     }
     return s;

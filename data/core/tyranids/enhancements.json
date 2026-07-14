@@ -231,7 +231,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Monster"
+    ]
   },
   {
     "id": "instinctive-defence-assimilation-swarm",
@@ -591,7 +594,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "cryptophotaic-camouflage-ambush-predators",
@@ -609,7 +612,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "destabilising-predation-talons-of-the-norn-queen",
@@ -627,7 +630,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "synaptoprescience-talons-of-the-norn-queen",
@@ -645,7 +648,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "adapted-organism-the-vardenghast-swarm",
@@ -660,7 +663,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Vardenghast Swarm",
+      "Winged Tyranid Prime"
+    ]
   },
   {
     "id": "psychoclastic-overload-the-vardenghast-swarm",
@@ -675,6 +682,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Psychophage",
+      "Vardenghast Swarm"
+    ]
   }
 ]

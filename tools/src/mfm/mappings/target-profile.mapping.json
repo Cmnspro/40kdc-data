@@ -1,0 +1,124 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/target-profile.schema.json",
+  "mapping_version": 1,
+  "root_tables": [],
+  "fields": {
+    "/id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/compare.ts#resolveTarget"
+      ],
+      "reason": "Target-profile identity is a repository-authored comparison-archetype identifier; MFM has no target-profile entity."
+    },
+    "/name": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/compare.ts#resolveTarget"
+      ],
+      "reason": "The comparison-archetype label is repository-authored; MFM has no target-profile entity."
+    },
+    "/description": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Comparison-archetype description is repository-authored rather than an MFM field."
+    },
+    "/faction_id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/compare.ts#resolveTarget"
+      ],
+      "reason": "Repository-authored foreign key into the faction dataset; the referenced faction is independently MFM-derived, but no MFM extraction creates target profiles."
+    },
+    "/unit_id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/compare.ts#resolveTarget"
+      ],
+      "reason": "Repository-authored foreign key into the unit dataset; the referenced unit is independently MFM-derived, but no MFM extraction creates target profiles."
+    },
+    "/model_count_override": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/compare.ts#resolveTarget"
+      ],
+      "reason": "The optional comparison squad-size override is repository-authored and intentionally distinct from datasheet model-count metadata."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Target-profile version context is repository-authored; the dump snapshot version is not an entity game-version mapping."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Edition is repository-authored target-profile version context, not derived from MFM metadata."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Dataslate label is repository-authored target-profile version context, not derived from MFM metadata."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.datasheet.maxModelCount",
+      "candidate_pointer": "/model_count_override",
+      "reason": "Datasheet maximum model count is not equivalent to a target profile's optional comparison override, which may intentionally be absent or choose another size."
+    }
+  ]
+}

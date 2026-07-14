@@ -448,7 +448,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "auramite-sarcophagus-might-of-the-moritoi",
@@ -467,7 +467,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "encircling-hunter-silent-hunters",
@@ -503,7 +503,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "mnemo-locked-shrine-cipher-tharanatoi-hammerblow",
@@ -556,7 +556,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adeptus Custodes",
+      "Gilded Blades Allarus Custodians"
+    ]
   },
   {
     "id": "shattering-charge-tristraens-gilded-blades",
@@ -571,6 +575,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Blade Champion",
+      "Tristraen's Gilded Blades"
+    ]
   }
 ]

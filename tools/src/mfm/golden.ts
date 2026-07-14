@@ -24,7 +24,8 @@
  */
 import * as fs from "fs";
 import * as path from "path";
-import { MfmDump, REPO_ROOT } from "./loader.js";
+import { MfmDump } from "./loader.js";
+import { CORE_DIR, REPO_ROOT } from "./repo-files.js";
 import { repoDirs } from "./faction-map.js";
 import { unitInventory, detachmentInventory, enhancementInventory } from "../ingest-mfm.js";
 import { stratagemInventory } from "./stratagems.js";
@@ -33,7 +34,6 @@ import { wargearOptionInventory, weaponInventory, compositionInventory } from ".
 import { runAllies } from "./allies.js";
 import { type GoldenMode, GOLDEN_MODES } from "./game-mode.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
 const AUDIT_DIR = path.join(REPO_ROOT, "data", "_audit");
 export const GOLDEN_PATH = path.join(AUDIT_DIR, "mfm-golden.json");
 export const GAPS_PATH = path.join(AUDIT_DIR, "mfm-gaps.json");

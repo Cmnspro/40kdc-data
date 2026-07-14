@@ -29,9 +29,9 @@
  *
  * @packageDocumentation
  */
-import * as fs from "fs";
 import * as path from "path";
-import { MfmDump, REPO_ROOT, type WargearItemRow } from "./loader.js";
+import { MfmDump } from "./loader.js";
+import { readJsonArray, CORE_DIR } from "./repo-files.js";
 import {
   mintWeapon,
   findDatasheet,
@@ -39,11 +39,12 @@ import {
   type WeaponRecord,
   type GameVersion,
 } from "./project-loadout.js";
+import { wargearItemsForDatasheet } from "./wargear.js";
 import { nameToId } from "../converters/id-generator.js";
 import { repoDirs } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 
 interface CoreWeapon {
   id: string;
@@ -82,9 +83,7 @@ interface OptionRow {
   [k: string]: unknown;
 }
 
-function readArr<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 // ── fingerprinting (name-independent: stats + keywords + range, order-free) ──
 
@@ -120,50 +119,6 @@ function weaponFp(profiles: WeaponProfile[]): string {
 
 // ── dump loadout walk: the weapon wargear_items a datasheet actually fields ──
 
-function weaponItemsForDatasheet(
-  dump: MfmDump,
-  dsId: string,
-): { itemId: string; name: string }[] {
-  const wiById = dump.byId<WargearItemRow>("wargear_item");
-  const items = new Map<string, string>(); // itemId -> en name
-  const add = (itemId: string | null | undefined): void => {
-    if (!itemId) return;
-    const wi = wiById.get(itemId);
-    if (!wi || wi.wargearType !== "weapon") return;
-    const n = dump.enName(wi);
-    if (n) items.set(itemId, n.trim());
-  };
-
-  // 1. loadout_choice_set → loadout_choice → loadout_choice_wargear_item
-  for (const s of dump.groupBy<{ id: string }>("loadout_choice_set", "datasheetId").get(dsId) ?? [])
-    for (const c of dump.groupBy<{ id: string }>("loadout_choice", "loadoutChoiceSetId").get(s.id) ?? [])
-      for (const it of dump
-        .groupBy<{ wargearItemId: string }>("loadout_choice_wargear_item", "loadoutChoiceId")
-        .get(c.id) ?? [])
-        add(it.wargearItemId);
-
-  // 2. base_miniature_loadout → base_miniature_loadout_wargear_option → wargear_option
-  const woById = dump.byId<{ wargearItemId?: string }>("wargear_option");
-  for (const b of dump.groupBy<{ id: string }>("base_miniature_loadout", "datasheetId").get(dsId) ?? [])
-    for (const r of dump
-      .groupBy<{ wargearOptionId: string }>("base_miniature_loadout_wargear_option", "baseMiniatureLoadoutId")
-      .get(b.id) ?? [])
-      add(woById.get(r.wargearOptionId)?.wargearItemId);
-
-  // 3. limited_wargear_choice_set → limited_wargear_choice → …_wargear_item
-  for (const s of dump
-    .groupBy<{ id: string }>("limited_wargear_choice_set", "datasheetId")
-    .get(dsId) ?? [])
-    for (const c of dump
-      .groupBy<{ id: string }>("limited_wargear_choice", "limitedWargearChoiceSetId")
-      .get(s.id) ?? [])
-      for (const it of dump
-        .groupBy<{ wargearItemId: string }>("limited_wargear_choice_wargear_item", "limitedWargearChoiceId")
-        .get(c.id) ?? [])
-        add(it.wargearItemId);
-
-  return [...items].map(([itemId, name]) => ({ itemId, name }));
-}
 
 // ── reference rewiring ──
 
@@ -225,11 +180,11 @@ export function runWeaponVariants(dump: MfmDump, onlyDir?: string): WeaponVarian
     const compsPath = path.join(CORE_DIR, dir, "unit-compositions.json");
     const optsPath = path.join(CORE_DIR, dir, "wargear-options.json");
 
-    const weapons = readArr<CoreWeapon>(wpnPath);
+    const weapons = readJsonArray<CoreWeapon>(wpnPath);
     if (weapons.length === 0) continue;
-    const units = readArr<UnitRow>(unitsPath);
-    const comps = readArr<CompRow>(compsPath);
-    const options = readArr<OptionRow>(optsPath);
+    const units = readJsonArray<UnitRow>(unitsPath);
+    const comps = readJsonArray<CompRow>(compsPath);
+    const options = readJsonArray<OptionRow>(optsPath);
 
     // Conflicting ids: an id whose entries do not all share one fingerprint.
     const entriesById = new Map<string, CoreWeapon[]>();
@@ -286,11 +241,13 @@ export function runWeaponVariants(dump: MfmDump, onlyDir?: string): WeaponVarian
       }
       const gv: GameVersion = unit.game_version ?? { edition: "11th", dataslate: "launch" };
       const ctx = { dump, gv, warnings: [] as string[] };
-      const wiById = dump.byId<WargearItemRow>("wargear_item");
 
       // baseId -> (fingerprint -> minted record) for this datasheet's weapons.
       const byBase = new Map<string, Map<string, WeaponRecord>>();
-      for (const { itemId, name } of weaponItemsForDatasheet(dump, ds.id!)) {
+      for (const wargearItem of wargearItemsForDatasheet(dump, ds.id)) {
+        if (wargearItem.wargearType !== "weapon") continue;
+        const name = dump.enName(wargearItem);
+        if (!name) continue;
         let baseId: string;
         try {
           baseId = nameToId(name);
@@ -298,8 +255,7 @@ export function runWeaponVariants(dump: MfmDump, onlyDir?: string): WeaponVarian
           continue;
         }
         if (!conflicting.has(baseId)) continue;
-        const wi = wiById.get(itemId);
-        if (!wi) continue;
+        const wi = wargearItem;
         let minted: WeaponRecord;
         try {
           minted = mintWeapon(ctx, wi, baseId, name);

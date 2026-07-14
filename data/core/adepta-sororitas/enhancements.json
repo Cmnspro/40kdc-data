@@ -393,7 +393,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "writ-of-compunction-sacred-champions",
@@ -411,7 +411,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "perfervid-haste-sacred-champions",
@@ -447,7 +447,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3,
+    "exclusion_keywords": [
+      "Penitent"
+    ]
   },
   {
     "id": "divine-miracle-sanctuary-guardians",
@@ -462,7 +465,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adepta Sororitas",
+      "Sanctuary Guardians Battle Sisters Squad"
+    ]
   },
   {
     "id": "righteous-fervour-sanctuary-guardians",
@@ -477,6 +484,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adepta Sororitas",
+      "Sanctuary Canoness Adalya"
+    ]
   }
 ]

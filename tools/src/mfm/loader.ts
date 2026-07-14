@@ -1,310 +1,174 @@
-/**
- * loader.ts — read the GW MFM data dump (_private/dump.json) once and
- * expose its ~120 relational tables behind typed, cached lookups.
- *
- * The dump is a GW-canon relational snapshot: every table is a flat array of
- * rows, rows are linked by UUID foreign keys, and display text lives under
- * `localisations.<lang>.name`. This module is the single source of joins for
- * every ingest phase — build an index once, reuse it everywhere.
- *
- * IMPORTANT (IP): the dump carries GW rules/lore prose (e.g. enhancement
- * `localisations.en.rules`). That prose must NEVER be written into this repo —
- * only numeric/structural fields. Prose routes to the out-of-repo store. This
- * loader exposes the raw rows; callers are responsible for taking only the
- * fields they're allowed to persist here.
- */
-import * as fs from "fs";
-import * as path from "path";
-import { fileURLToPath } from "url";
+import { existsSync, readFileSync } from "node:fs";
+import * as path from "node:path";
+import {
+  MFM_RELATIONS,
+  type MfmDumpPayload,
+  type MfmIdTableName,
+  type MfmMetadata,
+  type MfmRelationName,
+  type MfmRelationSource,
+  type MfmRelationTarget,
+  type MfmRow,
+  type MfmStringKey,
+  type MfmTableMap,
+  type MfmTableName,
+} from "./dump.generated.js";
+import { REPO_ROOT } from "./repo-files.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export const REPO_ROOT = path.resolve(__dirname, "..", "..", "..");
+export type * from "./dump.generated.js";
+
 export const DEFAULT_DUMP_PATH = path.join(REPO_ROOT, "_private", "dump.json");
 
-/** A localisations block: `{ en: { name, rules, lore, ... }, de: {...}, ... }`. */
-export type Localisations = Record<string, Record<string, string> | undefined>;
+export type MfmDumpInit = {
+  metadata?: Partial<MfmMetadata>;
+  data: Partial<MfmTableMap>;
+};
 
-/** Common shape: most dump entities carry an `id` and may be localised. */
-export interface DumpRow {
-  id?: string;
-  localisations?: Localisations;
-  [k: string]: unknown;
-}
+type LocalizedRow = {
+  localisations?: {
+    en?: {
+      name?: string | null;
+    };
+  };
+};
 
-// ─────────────────── typed rows for the tables ingest touches ───────────────────
-
-export interface PublicationRow extends DumpRow {
-  factionKeywordId: string | null;
-  isLegends: boolean;
-  isCombatPatrol: boolean;
-}
-export interface FactionKeywordRow extends DumpRow {}
-export interface DatasheetRow extends DumpRow {
-  publicationId: string;
-  isLegends: boolean;
-  maxModelCount: number | null;
-  displayOrder: number;
-}
-export interface DatasheetFactionKeywordRow {
-  id: string;
-  displayOrder: number;
-  datasheetId: string;
-  factionKeywordId: string;
-}
-export interface UnitCompositionRow extends DumpRow {
-  datasheetId: string;
-  isDefault: boolean;
-  displayOrder: number;
-  points: number | null;
-  referenceGroupingKeywordId: string | null;
-}
-export interface UnitCompositionMiniatureRow {
-  id: string;
-  min: number;
-  max: number;
-  unitCompositionId: string;
-  miniatureId: string;
-}
-export interface DatasheetPointsStepRow {
-  id: string;
-  datasheetId: string;
-  stepAt: number;
-  stepPoints: number;
-}
-export interface DetachmentRow extends DumpRow {
-  publicationId: string;
-  isCombatPatrol: boolean;
-  detachmentPointsCost: number | null;
-  pointsCost: number | null;
-}
-export interface DetachmentForceDispositionRow {
-  detachmentId: string;
-  forceDispositionId: string;
-}
-export interface DetachmentFactionDpCostRow {
-  detachmentId: string;
-  factionKeywordId: string;
-  detachmentPointsCost: number;
-}
-export interface ForceDispositionRow extends DumpRow {}
-export interface EnhancementRow extends DumpRow {
-  detachmentId: string;
-  basePointsCost: number | null;
-  limit: number;
-  enhancementType: string;
-  isEquipableByEpicHero: boolean;
-  isEquipableByNonCharacterUnit: boolean;
-  cannotBeWarlord: boolean;
-  isCombatPatrol: boolean;
-}
-export interface StratagemRow extends DumpRow {
-  key: string;
-  category: string | null;
-  cpCost: string | null;
-  detachmentId: string | null;
-  publicationId: string;
-}
-export interface WargearOptionRow {
-  id: string;
-  inputType: string;
-  defaultValue: number;
-  points: number;
-  displayOrder: number;
-  wargearItemId: string;
-  wargearOptionGroupId: string;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-// ── wargear / loadout tables (phase 5) ──
-// `miniature` also carries the model's stat line (as display strings) used by the
-// seed-units ingest. `statlineHidden` marks a model that shares a visible model's
-// statline (e.g. a sergeant on the trooper line) and so introduces no new profile.
-export interface MiniatureRow extends DumpRow {
-  datasheetId: string;
-  displayOrder: number;
-  statlineHidden: boolean;
-  isIndividualModels: boolean;
-  movement: string;
-  toughness: string;
-  save: string;
-  wounds: string;
-  leadership: string;
-  objectiveControl: string;
-}
-export interface MiniatureKeywordRow {
-  id: string;
-  displayOrder: number;
-  miniatureId: string;
-  keywordId: string;
-}
-export interface WargearItemRow extends DumpRow {
-  wargearType: string; // "weapon" | "other" | ...
-}
-export interface WargearOptionGroupRow {
-  id: string;
-  displayOrder: number;
-  datasheetId: string;
-  miniatureId: string | null;
-  isStaticWargear: boolean;
-}
-export interface BaseMiniatureLoadoutRow {
-  id: string;
-  datasheetId: string;
-  miniatureId: string;
-}
-export interface BaseMiniatureLoadoutWargearOptionRow {
-  id: string;
-  count: number;
-  wargearOptionId: string;
-  baseMiniatureLoadoutId: string;
-}
-export interface LoadoutChoiceSetRow {
-  id: string;
-  limit: number;
-  allowDuplicates: boolean;
-  datasheetId: string;
-  miniatureId: string | null;
-  alternate: boolean;
-}
-export interface LoadoutChoiceRow {
-  id: string;
-  loadoutChoiceSetId: string;
-}
-export interface LoadoutChoiceWargearItemRow {
-  id: string;
-  count: number;
-  wargearItemId: string;
-  loadoutChoiceId: string;
-}
-export interface LimitedWargearChoiceSetRow {
-  id: string;
-  mandatory: boolean;
-  datasheetId: string;
-  miniatureId: string | null;
-}
-export interface LimitedWargearChoiceRow {
-  id: string;
-  limitedWargearChoiceSetId: string;
-}
-export interface LimitedWargearChoiceWargearItemRow {
-  id: string;
-  count: number;
-  wargearItemId: string;
-  limitedWargearChoiceId: string;
-}
-export interface WargearLimitRow {
-  id: string;
-  modelCount: number;
-  choiceLimit: number;
-  duplicateLimit: number | null;
-  limitedWargearChoiceSetId: string;
-}
-
-// ── leader/bodyguard attachment tables (attachment-role ingest) ──
-// `datasheet_bodyguard_group.datasheetId` is the *leader* (the attaching
-// character); `bodyguardType` is its role. The eligible bodyguards are the
-// `datasheet_bodyguard_group_datasheet` rows joined by group id. `factionKeywordId`
-// is null in this dump — faction scope comes from the leader datasheet's publication.
-export interface DatasheetBodyguardGroupRow {
-  id: string;
-  datasheetId: string;
-  bodyguardType: "leader" | "support";
-  factionKeywordId: string | null;
-  excludedDetachmentId: string | null;
-  requiredDetachmentId: string | null;
-  requiresAllUnitsHaveKeywordId: string | null;
-}
-export interface DatasheetBodyguardGroupDatasheetRow {
-  datasheetBodyguardGroupId: string;
-  datasheetId: string;
-}
-
-// ───────────────────────────── the loader ─────────────────────────────
-
+/** Cached, typed access to the relational GW MFM snapshot. */
 export class MfmDump {
   readonly version: number | undefined;
-  readonly tables: Record<string, DumpRow[]>;
-  private readonly idIndexes = new Map<string, Map<string, DumpRow>>();
-  private readonly groupIndexes = new Map<string, Map<string, DumpRow[]>>();
+  readonly tables: Partial<MfmTableMap>;
+  private readonly idIndexes = new Map<MfmIdTableName, ReadonlyMap<string, unknown>>();
+  private readonly groupIndexes = new Map<string, ReadonlyMap<string, readonly unknown[]>>();
 
-  constructor(payload: { metadata?: { data_version?: number }; data: Record<string, DumpRow[]> }) {
+  constructor(payload: MfmDumpInit) {
     this.version = payload.metadata?.data_version;
     this.tables = payload.data;
   }
 
-  /** Raw rows of a table. Throws if the table is absent (typo guard). */
-  table<T = DumpRow>(name: string): T[] {
-    const t = this.tables[name];
-    if (!t) throw new Error(`GW MFM dump has no table "${name}"`);
-    return t as unknown as T[];
+  /** Raw rows of a known table. Throws when a focused fixture omitted it. */
+  table<N extends MfmTableName>(name: N): readonly MfmRow<N>[] {
+    const rows = this.tables[name];
+    if (!rows) throw new Error(`GW MFM dump has no table "${name}"`);
+    return rows;
   }
 
-  /** `id` → row index for a table, built once and cached. */
-  byId<T = DumpRow>(name: string): Map<string, T> {
-    let idx = this.idIndexes.get(name);
-    if (!idx) {
-      idx = new Map();
-      for (const row of this.table(name)) if (row.id) idx.set(row.id, row);
-      this.idIndexes.set(name, idx);
-    }
-    return idx as unknown as Map<string, T>;
-  }
-
-  /** Group a table's rows by an arbitrary foreign-key field, cached per (table, key). */
-  groupBy<T = DumpRow>(name: string, key: string): Map<string, T[]> {
-    const cacheKey = `${name}::${key}`;
-    let idx = this.groupIndexes.get(cacheKey);
-    if (!idx) {
-      idx = new Map();
+  /** `id` to row index for a table with a verified string `id` identity. */
+  byId<N extends MfmIdTableName>(name: N): ReadonlyMap<string, MfmRow<N>> {
+    let index = this.idIndexes.get(name);
+    if (!index) {
+      const built = new Map<string, MfmRow<N>>();
       for (const row of this.table(name)) {
-        const fk = (row as Record<string, unknown>)[key];
-        if (fk == null) continue;
-        const k = String(fk);
-        (idx.get(k) ?? idx.set(k, []).get(k)!).push(row);
+        const existing = built.get(row.id);
+        if (existing) throw new Error(`GW MFM table "${name}" has duplicate identity "${row.id}"`);
+        built.set(row.id, row);
       }
-      this.groupIndexes.set(cacheKey, idx);
+      index = built;
+      this.idIndexes.set(name, index);
     }
-    return idx as unknown as Map<string, T[]>;
+    // The cache key fixes N; values were built from table(name) above.
+    const typedIndex = index as ReadonlyMap<string, MfmRow<N>>;
+    return typedIndex;
   }
 
-  /** English display name for a localised row (`localisations.en.name`). */
-  enName(row: DumpRow | undefined): string | undefined {
+  /** Group rows by a string or nullable-string column, cached by table and key. */
+  groupBy<N extends MfmTableName, K extends MfmStringKey<N>>(
+    name: N,
+    key: K,
+  ): ReadonlyMap<string, readonly MfmRow<N>[]> {
+    const cacheKey = `${name}::${key}`;
+    let index = this.groupIndexes.get(cacheKey);
+    if (!index) {
+      const built = new Map<string, MfmRow<N>[]>();
+      for (const row of this.table(name)) {
+        const value = row[key];
+        if (typeof value !== "string") continue;
+        const group = built.get(value) ?? [];
+        group.push(row);
+        built.set(value, group);
+      }
+      index = built;
+      this.groupIndexes.set(cacheKey, index);
+    }
+    // The cache key fixes N and K; values were built from table(name) above.
+    const typedIndex = index as ReadonlyMap<string, readonly MfmRow<N>[]>;
+    return typedIndex;
+  }
+
+  /** Follow one verified relation from its source row to its optional parent. */
+  parent<R extends MfmRelationName>(
+    relation: R,
+    row: MfmRelationSource<R>,
+  ): MfmRelationTarget<R> | undefined {
+    const spec = MFM_RELATIONS[relation];
+    if (!isRecord(row)) return undefined;
+    const targetId = row[spec.sourceField];
+    if (typeof targetId !== "string") return undefined;
+    const targetTable: MfmIdTableName = spec.targetTable;
+    const target = this.byId(targetTable).get(targetId);
+    // The generated relation contract fixes the target table for R.
+    const typedTarget = target as MfmRelationTarget<R> | undefined;
+    return typedTarget;
+  }
+
+  /** Follow one verified relation backwards to all matching source rows. */
+  children<R extends MfmRelationName>(relation: R, targetId: string): readonly MfmRelationSource<R>[] {
+    const spec = MFM_RELATIONS[relation];
+    const sourceTable: MfmTableName = spec.sourceTable;
+    const sourceField = spec.sourceField;
+    const cacheKey = `${sourceTable}::${sourceField}`;
+    let index = this.groupIndexes.get(cacheKey);
+    if (!index) {
+      const built = new Map<string, unknown[]>();
+      for (const row of this.table(sourceTable)) {
+        if (!isRecord(row)) continue;
+        const value = row[sourceField];
+        if (typeof value !== "string") continue;
+        const group = built.get(value) ?? [];
+        group.push(row);
+        built.set(value, group);
+      }
+      index = built;
+      this.groupIndexes.set(cacheKey, index);
+    }
+    const rows = index.get(targetId) ?? [];
+    // The generated relation contract fixes the source table for R.
+    const typedRows = rows as readonly MfmRelationSource<R>[];
+    return typedRows;
+  }
+
+  /** Trimmed English display name for a localized row. */
+  enName(row: LocalizedRow | undefined): string | undefined {
     return row?.localisations?.en?.name?.trim() || undefined;
   }
 
-  // ── domain joins ──
-
-  /** The faction-keyword id that "owns" a datasheet, via its publication. */
+  /** Faction-keyword ownership for a datasheet through its publication. */
   factionKeywordOfDatasheet(datasheetId: string): string | null {
-    const ds = this.byId<DatasheetRow>("datasheet").get(datasheetId);
-    if (!ds) return null;
-    const pub = this.byId<PublicationRow>("publication").get(ds.publicationId);
-    return pub?.factionKeywordId ?? null;
+    const datasheet = this.byId("datasheet").get(datasheetId);
+    if (!datasheet) return null;
+    return this.parent("datasheet.publicationId", datasheet)?.factionKeywordId ?? null;
   }
 
-  /** The faction-keyword id that "owns" a detachment, via its publication. */
+  /** Faction-keyword ownership for a detachment through its publication. */
   factionKeywordOfDetachment(detachmentId: string): string | null {
-    const det = this.byId<DetachmentRow>("detachment").get(detachmentId);
-    if (!det) return null;
-    const pub = this.byId<PublicationRow>("publication").get(det.publicationId);
-    return pub?.factionKeywordId ?? null;
+    const detachment = this.byId("detachment").get(detachmentId);
+    if (!detachment) return null;
+    return this.parent("detachment.publicationId", detachment)?.factionKeywordId ?? null;
   }
 
-  /** The single force-disposition id mapped to a detachment (dump is 1:1), or null. */
+  /** The first source disposition mapped to a detachment, or null when absent. */
   dispositionOfDetachment(detachmentId: string): string | null {
-    const rows = this.groupBy<DetachmentForceDispositionRow>(
-      "detachment_force_disposition",
-      "detachmentId"
-    ).get(detachmentId);
-    return rows?.[0]?.forceDispositionId ?? null;
+    return this.children("detachment_force_disposition.detachmentId", detachmentId)[0]?.forceDispositionId ?? null;
   }
 }
 
-/** Read and parse the dump from disk (defaults to _private/dump.json). */
-export function loadDump(p: string = DEFAULT_DUMP_PATH): MfmDump {
-  if (!fs.existsSync(p)) {
-    throw new Error(
-      `GW MFM dump not found at ${p}. Place the export there (it is .gitignored under _private/).`
-    );
+/** Read the exact generated dump payload from disk. */
+export function loadDump(filePath: string = DEFAULT_DUMP_PATH): MfmDump {
+  if (!existsSync(filePath)) {
+    throw new Error(`GW MFM dump not found at ${filePath}. Place the export there (it is .gitignored under _private/).`);
   }
-  return new MfmDump(JSON.parse(fs.readFileSync(p, "utf8")));
+  const payload: MfmDumpPayload = JSON.parse(readFileSync(filePath, "utf8"));
+  return new MfmDump(payload);
 }

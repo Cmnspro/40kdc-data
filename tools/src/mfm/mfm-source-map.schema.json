@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MFM source map for one core entity schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "entity_schema",
+    "mapping_version",
+    "root_tables",
+    "fields",
+    "unmapped_mfm_fields"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "../mfm-source-map.schema.json"
+    },
+    "entity_schema": {
+      "type": "string",
+      "pattern": "^schemas/core/[a-z0-9-]+\\.schema\\.json$"
+    },
+    "mapping_version": {
+      "const": 1
+    },
+    "root_tables": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "fields": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^/"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/field"
+      }
+    },
+    "unmapped_mfm_fields": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unmapped"
+      }
+    }
+  },
+  "$defs": {
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provenance",
+        "coverage",
+        "sources",
+        "joins",
+        "transforms",
+        "filters",
+        "precedence",
+        "consumers",
+        "reason"
+      ],
+      "properties": {
+        "provenance": {
+          "enum": [
+            "direct",
+            "joined",
+            "derived",
+            "runtime-input",
+            "repo-authored",
+            "prose-store-only",
+            "not-in-mfm",
+            "unresolved-candidate"
+          ]
+        },
+        "coverage": {
+          "enum": [
+            "implemented",
+            "partial",
+            "unimplemented",
+            "not-applicable"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "joins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/join"
+          }
+        },
+        "transforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transform"
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "precedence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "consumers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[^#]+#[A-Za-z_$][A-Za-z0-9_$]*$"
+          },
+          "uniqueItems": true
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "coverage": {
+                "enum": [
+                  "implemented",
+                  "partial"
+                ]
+              }
+            },
+            "required": [
+              "coverage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "consumers": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "enum": [
+                  "direct",
+                  "joined",
+                  "derived"
+                ]
+              }
+            },
+            "required": [
+              "provenance"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sources": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "const": "joined"
+              }
+            },
+            "required": [
+              "provenance"
+            ]
+          },
+          "then": {
+            "properties": {
+              "joins": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "const": "runtime-input"
+              }
+            },
+            "required": [
+              "provenance"
+            ]
+          },
+          "then": {
+            "properties": {
+              "coverage": {
+                "const": "not-applicable"
+              },
+              "sources": {
+                "maxItems": 0
+              },
+              "joins": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "const": "unresolved-candidate"
+              }
+            },
+            "required": [
+              "provenance"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sources": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "join": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relation",
+        "direction",
+        "purpose"
+      ],
+      "properties": {
+        "relation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "enum": [
+            "parent",
+            "children"
+          ]
+        },
+        "purpose": {
+          "enum": [
+            "ownership",
+            "applicability",
+            "eligibility",
+            "general"
+          ]
+        }
+      }
+    },
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "operation"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "pattern": "^[^#]+#[A-Za-z_$][A-Za-z0-9_$]*$"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "unmapped": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "candidate_pointer",
+        "reason"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_pointer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

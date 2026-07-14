@@ -41,7 +41,8 @@ import {
   type DatasheetBodyguardGroupDatasheetRow,
 } from "./loader.js";
 import { repoDirs } from "./faction-map.js";
-import { CORE_DIR, CONFIRMED, candidateDirs, homeScore } from "./wargear.js";
+import { CONFIRMED, candidateDirs, homeScore } from "./wargear.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import type { StagedWrite } from "./apply.js";
 
 interface UnitRecord {
@@ -56,13 +57,11 @@ interface LeaderAttachmentRecord {
   [k: string]: unknown;
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /** True when a datasheet's publication is a Combat Patrol box (excluded). */
 function isCombatPatrolDatasheet(dump: MfmDump, ds: DatasheetRow): boolean {
-  const pub = dump.byId<PublicationRow>("publication").get(ds.publicationId);
+  const pub = dump.byId("publication").get(ds.publicationId);
   return !!pub?.isCombatPatrol;
 }
 
@@ -94,7 +93,7 @@ export function runAttachmentRoles(dump: MfmDump, onlyDir?: string): AttachmentR
   const dirs = repoDirs();
   // Bucket non-Legends datasheets by candidate repo dir (home + shared-roster parents).
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -102,12 +101,9 @@ export function runAttachmentRoles(dump: MfmDump, onlyDir?: string): AttachmentR
     }
   }
 
-  const groupsByDs = dump.groupBy<DatasheetBodyguardGroupRow>("datasheet_bodyguard_group", "datasheetId");
-  const eligByGroup = dump.groupBy<DatasheetBodyguardGroupDatasheetRow>(
-    "datasheet_bodyguard_group_datasheet",
-    "datasheetBodyguardGroupId",
-  );
-  const dsById = dump.byId<DatasheetRow>("datasheet");
+  const groupsByDs = dump.groupBy("datasheet_bodyguard_group", "datasheetId");
+  const eligByGroup = dump.groupBy("datasheet_bodyguard_group_datasheet", "datasheetBodyguardGroupId");
+  const dsById = dump.byId("datasheet");
 
   const results: DirAttachmentResult[] = [];
   const staged: StagedWrite[] = [];
@@ -117,10 +113,10 @@ export function runAttachmentRoles(dump: MfmDump, onlyDir?: string): AttachmentR
     if (!fs.existsSync(upath)) continue;
     const lapath = path.join(CORE_DIR, dir, "leader-attachments.json");
 
-    const units = readJson<UnitRecord>(upath);
+    const units = readJsonArray<UnitRecord>(upath);
     const byId = new Map(units.map((u) => [u.id, u]));
     const unitIds = new Set(units.map((u) => u.id));
-    const existingLa = readJson<LeaderAttachmentRecord>(lapath);
+    const existingLa = readJsonArray<LeaderAttachmentRecord>(lapath);
 
     const res: DirAttachmentResult = {
       dir,
