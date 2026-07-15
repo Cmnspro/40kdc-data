@@ -8,7 +8,7 @@
   "fields": {
     "/disposition": {
       "provenance": "joined",
-      "coverage": "partial",
+      "coverage": "implemented",
       "sources": [
         "data.force_disposition_mission.friendlyForceDispositionId",
         "data.force_disposition.localisations.*.name"
@@ -22,18 +22,22 @@
       ],
       "transforms": [
         {
-          "symbol": "tools/src/converters/id-generator.ts#nameToId",
-          "operation": "Normalize the friendly force-disposition display name to its repository id."
+          "symbol": "tools/src/mfm/dispositions.ts#dispositionIdMap",
+          "operation": "Resolve the friendly force-disposition id to its repository disposition slug."
         }
       ],
       "filters": [
         "Use the English localized display name."
       ],
-      "precedence": [],
-      "consumers": [
-        "tools/src/mfm/dispositions.ts#dispositionIdMap"
+      "precedence": [
+        "The dump disposition is authoritative; a matched record's field is corrected to it."
       ],
-      "reason": "The verified friendly disposition relation and existing disposition slugger establish the value, but no current MFM pass authors mission-matchup records."
+      "consumers": [
+        "tools/src/mfm/dispositions.ts#dispositionIdMap",
+        "tools/src/mfm/mission-matchups.ts#buildMatchupCanon",
+        "tools/src/mfm/mission-matchups.ts#runMissionMatchups"
+      ],
+      "reason": "runMissionMatchups derives the friendly disposition slug from force_disposition_mission and writes it onto the matchup record (fill on seed, correct on drift, confirm otherwise)."
     },
     "/game_version": {
       "provenance": "repo-authored",
@@ -70,7 +74,7 @@
     },
     "/id": {
       "provenance": "derived",
-      "coverage": "partial",
+      "coverage": "implemented",
       "sources": [
         "data.force_disposition_mission.friendlyForceDispositionId",
         "data.force_disposition_mission.oppositionForceDispositionId",
@@ -90,8 +94,8 @@
       ],
       "transforms": [
         {
-          "symbol": "tools/src/converters/id-generator.ts#nameToId",
-          "operation": "Normalize each ordered disposition display name and join the friendly and opposition slugs with '-vs-'."
+          "symbol": "tools/src/mfm/mission-matchups.ts#buildMatchupCanon",
+          "operation": "Resolve each ordered disposition id to its slug and join the friendly and opposition slugs with '-vs-'."
         }
       ],
       "filters": [
@@ -101,13 +105,15 @@
         "Preserve the ordered friendly-versus-opposition slug pair; do not replace it with the dump row id."
       ],
       "consumers": [
-        "tools/src/mfm/missions.ts#buildMissionScoringCanon"
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/mission-matchups.ts#buildMatchupCanon",
+        "tools/src/mfm/mission-matchups.ts#runMissionMatchups"
       ],
-      "reason": "The deterministic repository key is derivable from the two verified disposition relations, while current mission ingestion does not author matchup records."
+      "reason": "runMissionMatchups derives the deterministic '<disposition>-vs-<opponent>' key from the two disposition relations and keys the matchup record by it (seeding any dump pairing the repo lacks)."
     },
     "/mission_id": {
       "provenance": "joined",
-      "coverage": "partial",
+      "coverage": "implemented",
       "sources": [
         "data.force_disposition_mission.primaryMissionId",
         "data.primary_mission.localisations.*.name"
@@ -129,16 +135,20 @@
         "Use the English localized display name.",
         "Retain only primary missions represented by the repository mission inventory."
       ],
-      "precedence": [],
+      "precedence": [
+        "The dump primary-mission identity is authoritative; a matched record's mission_id is corrected to it."
+      ],
       "consumers": [
         "tools/src/mfm/missions.ts#buildMissionScoringCanon",
-        "tools/src/mfm/missions.ts#runMissions"
+        "tools/src/mfm/missions.ts#runMissions",
+        "tools/src/mfm/mission-matchups.ts#buildMatchupCanon",
+        "tools/src/mfm/mission-matchups.ts#runMissionMatchups"
       ],
-      "reason": "The verified primary-mission relation identifies the mission; existing mission reconciliation consumes that primary-mission identity but does not yet write mission-matchup records."
+      "reason": "runMissionMatchups resolves the linked primary mission to its repository id and writes it onto the matchup record."
     },
     "/opponent_disposition": {
       "provenance": "joined",
-      "coverage": "partial",
+      "coverage": "implemented",
       "sources": [
         "data.force_disposition_mission.oppositionForceDispositionId",
         "data.force_disposition.localisations.*.name"
@@ -152,18 +162,22 @@
       ],
       "transforms": [
         {
-          "symbol": "tools/src/converters/id-generator.ts#nameToId",
-          "operation": "Normalize the opposition force-disposition display name to its repository id."
+          "symbol": "tools/src/mfm/dispositions.ts#dispositionIdMap",
+          "operation": "Resolve the opposition force-disposition id to its repository disposition slug."
         }
       ],
       "filters": [
         "Use the English localized display name."
       ],
-      "precedence": [],
-      "consumers": [
-        "tools/src/mfm/dispositions.ts#dispositionIdMap"
+      "precedence": [
+        "The dump disposition is authoritative; a matched record's field is corrected to it."
       ],
-      "reason": "The verified opposition disposition relation and existing disposition slugger establish the value, but no current MFM pass authors mission-matchup records."
+      "consumers": [
+        "tools/src/mfm/dispositions.ts#dispositionIdMap",
+        "tools/src/mfm/mission-matchups.ts#buildMatchupCanon",
+        "tools/src/mfm/mission-matchups.ts#runMissionMatchups"
+      ],
+      "reason": "runMissionMatchups derives the opposition disposition slug from force_disposition_mission and writes it onto the matchup record."
     }
   },
   "unmapped_mfm_fields": [

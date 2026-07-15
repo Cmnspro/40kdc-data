@@ -51,6 +51,7 @@ import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
 import { runMissions, buildMissionsReport } from "./mfm/missions.js";
+import { runMissionMatchups, buildMatchupReport } from "./mfm/mission-matchups.js";
 import { runChapterScope, buildChapterScopeReport } from "./mfm/chapter-scope.js";
 import {
   runWargear,
@@ -757,6 +758,29 @@ async function runMissionsCmd(dump: MfmDump, write: boolean): Promise<void> {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runMissionMatchupsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runMissionMatchups(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-mission-matchups.md");
+  fs.writeFileSync(reportPath, buildMatchupReport(report, write));
+
+  if (report.repoOnly.length || report.unresolvedDump.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-mission-matchups.json"),
+      JSON.stringify({ repoOnly: report.repoOnly, unresolvedDump: report.unresolvedDump }, null, 2) + "\n"
+    );
+  }
+
+  console.log(`Mission-matchups report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${report.matched}, seeded ${report.seeded.length}, corrected ${report.corrected.length}, ` +
+      `repo-only ${report.repoOnly.length}, unresolved-dump ${report.unresolvedDump.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "mission-matchups" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runChapterScopeCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runChapterScope(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -1027,6 +1051,7 @@ async function main(): Promise<void> {
     "cull-legends",
     "stratagems",
     "missions",
+    "mission-matchups",
     "chapter-scope",
     "wargear",
     "wargear-budgets",
@@ -1057,6 +1082,7 @@ async function main(): Promise<void> {
   else if (cmd === "cull-legends") await runCullCmd(dump, write);
   else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
   else if (cmd === "missions") await runMissionsCmd(dump, write);
+  else if (cmd === "mission-matchups") await runMissionMatchupsCmd(dump, write);
   else if (cmd === "chapter-scope") await runChapterScopeCmd(dump, write);
   else if (cmd === "wargear") await runWargearCmd(dump, write, onlyDir);
   else if (cmd === "wargear-budgets") await runWargearBudgetsCmd(dump, write, onlyDir);

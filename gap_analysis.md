@@ -19,8 +19,8 @@ Regenerate after a new dump upload (order matters):
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
 | A — fields | Contract field entries | 663 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 225 / 109 / 272 / 57 |
-| A — fields | **Actionable field-gap groups** | **119** |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 229 / 105 / 272 / 57 |
+| A — fields | **Actionable field-gap groups** | **115** |
 | A — fields | **Actionable unmapped dump fields** | **48** |
 | B — tables | **Populated tables, no consumer (structured)** | **43** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
@@ -196,15 +196,6 @@ Unmapped dump fields with a candidate repo destination:
 |---|---|---|
 | `data.mission_pack.primaryMissionScoreBattleRoundLimit` | `/vp_per_round_cap` | This is a mission-pack-global limit, not a verified per-mission value; the core field retains its authored default. |
 | `data.mission_pack.primaryMissionScoreGameLimit` | `/vp_per_game_cap` | This is a mission-pack-global limit, not a verified per-mission value; the core field retains its authored default. |
-
-### mission-matchup (`schemas/core/mission-matchup.schema.json`)
-
-| Field | Coverage | Provenance | Dump source(s) | Reason |
-|---|---|---|---|---|
-| `/id` | partial | derived | `data.force_disposition_mission.friendlyForceDispositionId`<br>`data.force_disposition_mission.oppositionForceDispositionId`<br>`data.force_disposition.localisations.*.name` | The deterministic repository key is derivable from the two verified disposition relations, while current mission ingestion does not author matchup records. |
-| `/mission_id` | partial | joined | `data.force_disposition_mission.primaryMissionId`<br>`data.primary_mission.localisations.*.name` | The verified primary-mission relation identifies the mission; existing mission reconciliation consumes that primary-mission identity but does not yet write mission-matchup records. |
-| `/disposition` | partial | joined | `data.force_disposition_mission.friendlyForceDispositionId`<br>`data.force_disposition.localisations.*.name` | The verified friendly disposition relation and existing disposition slugger establish the value, but no current MFM pass authors mission-matchup records. |
-| `/opponent_disposition` | partial | joined | `data.force_disposition_mission.oppositionForceDispositionId`<br>`data.force_disposition.localisations.*.name` | The verified opposition disposition relation and existing disposition slugger establish the value, but no current MFM pass authors mission-matchup records. |
 
 ### roster (`schemas/core/roster.schema.json`)
 
