@@ -5,6 +5,22 @@
  *
  *   - restrictions.required_keywords ← detachment_faction_keyword (applicability)
  *   - tags                           ← detachment_unique_keyword (mutual-exclusivity)
+ *   - detachment_rule_ids            ← detachment_rule (named rule → ability link)
+ *
+ * ── detachment_rule_ids: structural rule-ability association ──
+ * detachment_rule lists the named rule(s) a detachment carries. The rule PROSE is
+ * authored enrichment (DSL / raw-text store) and never enters this repo; only the
+ * structural id LINK is dump-derived here. Each dump rule display name is slugged
+ * with {@link nameToId} (the same bare-id form the authored rule abilities use,
+ * e.g. "Warp Rifts" → `warp-rifts`) and reconciled against the detachment's authored
+ * `detachment_rule_id` (deprecated singular) + `detachment_rule_ids`. A link is only
+ * ever WRITTEN when its slug resolves to an ability already authored in the dir's
+ * enrichment — an unresolved id would fail `integrity.ts`, and inventing the ability
+ * from the dump would import prose we must not. So the projection is honestly
+ * PARTIAL: detachments whose rule ability is not yet authored (mostly the new 11e
+ * Space Marine chapter detachments) are surfaced as an authoring worklist, not
+ * filled. Authored links that disagree with the dump slug (an ad-hoc scoped id, or
+ * a rule the repo has not linked) are surfaced for review, never overwritten.
  *
  * The derivation helpers ({@link requiredKeywordsForDetachment},
  * {@link tagsForDetachment}) are pure and are ALSO consumed by the matched-play
@@ -34,7 +50,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import { MfmDump } from "./loader.js";
-import { CORE_DIR, readJsonArray } from "./repo-files.js";
+import { CORE_DIR, ENRICHMENT_DIR, readJsonArray } from "./repo-files.js";
 import { repoDirForFactionName, repoDirs } from "./faction-map.js";
 import { keywordLabel, factionKeywordLabel } from "./keywords.js";
 import type { StagedWrite } from "./apply.js";
@@ -44,6 +60,8 @@ interface DetRecord {
   name: string;
   faction_id: string;
   tags?: string[];
+  detachment_rule_id?: string | null;
+  detachment_rule_ids?: string[] | null;
   restrictions?: { required_keywords?: string[]; excluded_keywords?: string[]; notes?: string } | null;
   [k: string]: unknown;
 }
@@ -106,6 +124,60 @@ export function tagsForDetachment(dump: MfmDump, detId: string, unresolved?: str
 }
 
 /**
+ * Bare slug ids for a detachment's dump rule(s) — one `nameToId` per
+ * `detachment_rule` row's English display name, sorted and de-duplicated. This is
+ * the same bare-id form the authored rule abilities use (`ability_id`), so it can be
+ * reconciled directly against `detachment_rule_id`/`detachment_rule_ids`. A name that
+ * cannot slug (throws the entity-id pattern) is skipped. Reads only ids and display
+ * names — never rule prose.
+ */
+export function ruleIdsForDetachment(dump: MfmDump, detId: string): string[] {
+  const ids = new Set<string>();
+  for (const r of dump.children("detachment_rule.detachmentId", detId)) {
+    const name = dump.enName(r);
+    if (!name) continue;
+    try {
+      ids.add(nameToId(name));
+    } catch {
+      /* name that cannot form a valid entity id (e.g. all-punctuation) — skip */
+    }
+  }
+  return [...ids].sort((a, b) => a.localeCompare(b));
+}
+
+/** The authored links a detachment already carries (deprecated singular ∪ plural). */
+function authoredRuleLinks(det: DetRecord): string[] {
+  const s = new Set<string>();
+  if (det.detachment_rule_id) s.add(det.detachment_rule_id);
+  for (const id of det.detachment_rule_ids ?? []) s.add(id);
+  return [...s].sort((a, b) => a.localeCompare(b));
+}
+
+/**
+ * Ability ids (`ability_id ?? id`) authored in a dir's enrichment, cached per dir.
+ * Used to gate a rule-link FILL: only a slug that already resolves to an authored
+ * ability may be written (an unresolved id fails `integrity.ts`, and the rule prose
+ * is authored separately, never minted from the dump). Missing file ⇒ empty set.
+ */
+function makeAbilityIdLoader(): (dir: string) => Set<string> {
+  const cache = new Map<string, Set<string>>();
+  return (dir: string): Set<string> => {
+    const hit = cache.get(dir);
+    if (hit) return hit;
+    const p = path.join(ENRICHMENT_DIR, dir, "abilities.json");
+    const set = new Set<string>();
+    if (fs.existsSync(p)) {
+      for (const a of readJsonArray<{ id?: string; ability_id?: string }>(p)) {
+        const aid = a.ability_id ?? a.id;
+        if (aid) set.add(aid);
+      }
+    }
+    cache.set(dir, set);
+    return set;
+  };
+}
+
+/**
  * Repo detachment-id → dump detachment UUID, per repo dir. A dump detachment is
  * registered under EVERY dir the repo might file it in: its publication-ownership
  * dir AND — when it is chapter-locked — each chapter dir named by its required
@@ -152,6 +224,10 @@ export interface DirDetFieldResult {
   reqFilled: { id: string; to: string[] }[];
   reqConfirmed: number;
   reqReview: { id: string; authored: string[]; derived: string[] }[];
+  ruleFilled: { id: string; to: string[] }[];
+  ruleConfirmed: number;
+  ruleReview: { id: string; authored: string[]; derived: string[] }[];
+  ruleUnauthored: { id: string; derived: string[] }[];
   unresolvedKeywords: { id: string; ids: string[] }[];
 }
 
@@ -169,6 +245,7 @@ function same(a: readonly string[] | null | undefined, b: readonly string[] | nu
 
 export function runDetachmentFields(dump: MfmDump): DetFieldsReport {
   const detIdByRepoId = dumpDetIdByRepoId(dump);
+  const abilityIds = makeAbilityIdLoader();
   const dirs: DirDetFieldResult[] = [];
   const staged: StagedWrite[] = [];
 
@@ -186,6 +263,10 @@ export function runDetachmentFields(dump: MfmDump): DetFieldsReport {
       reqFilled: [],
       reqConfirmed: 0,
       reqReview: [],
+      ruleFilled: [],
+      ruleConfirmed: 0,
+      ruleReview: [],
+      ruleUnauthored: [],
       unresolvedKeywords: [],
     };
     let changed = false;
@@ -230,6 +311,32 @@ export function runDetachmentFields(dump: MfmDump): DetFieldsReport {
         }
       }
 
+      // detachment_rule_ids — structural link, FILL-ONLY and resolve-gated. Only
+      // slugs that already resolve to an authored ability may be written (an
+      // unresolved id would fail integrity; the rule prose is authored separately).
+      // Authored links that disagree with the dump are surfaced; a detachment whose
+      // rule ability is not yet authored is an authoring worklist entry, not a fill.
+      const derivedRules = ruleIdsForDetachment(dump, detId);
+      if (derivedRules.length > 0) {
+        const authoredRules = authoredRuleLinks(det);
+        if (authoredRules.length === 0) {
+          const resolvable = derivedRules.filter((id) => abilityIds(dir).has(id));
+          if (resolvable.length > 0) {
+            det.detachment_rule_ids = resolvable;
+            res.ruleFilled.push({ id: det.id, to: resolvable });
+            changed = true;
+          }
+          // Any dump rule with no authored ability (all of them when nothing was
+          // resolvable) is the authoring worklist — surfaced, never invented.
+          const unauthored = derivedRules.filter((id) => !abilityIds(dir).has(id));
+          if (unauthored.length > 0) res.ruleUnauthored.push({ id: det.id, derived: unauthored });
+        } else if (same(authoredRules, derivedRules)) {
+          res.ruleConfirmed++;
+        } else {
+          res.ruleReview.push({ id: det.id, authored: authoredRules, derived: derivedRules });
+        }
+      }
+
       if (unresolved.length) res.unresolvedKeywords.push({ id: det.id, ids: [...new Set(unresolved)] });
     }
 
@@ -246,21 +353,27 @@ export function buildDetFieldsReport(report: DetFieldsReport, write: boolean): s
   const L: string[] = [];
   L.push(`# MFM detachment fields — ${write ? "APPLIED" : "DRY RUN"}`);
   L.push("");
-  L.push("Fill-only reconcile of `tags` (mutual-exclusivity unique keyword → slug) and");
-  L.push("`restrictions.required_keywords` (chapter-lock applicability keyword). Authored");
-  L.push("values are confirmed or surfaced for review, never overwritten. Prose untouched.");
+  L.push("Fill-only reconcile of `tags` (mutual-exclusivity unique keyword → slug),");
+  L.push("`restrictions.required_keywords` (chapter-lock applicability keyword), and");
+  L.push("`detachment_rule_ids` (named-rule → ability link, written only when the slug");
+  L.push("resolves to an authored ability). Authored values are confirmed or surfaced");
+  L.push("for review, never overwritten. Rule prose is authored separately — untouched.");
   L.push("");
-  L.push("| Dir | Matched | tags-fill | tags-ok | tags-rev | req-fill | req-ok | req-rev |");
-  L.push("|---|--:|--:|--:|--:|--:|--:|--:|");
+  L.push("| Dir | Matched | tags-fill | tags-ok | tags-rev | req-fill | req-ok | req-rev | rule-fill | rule-ok | rule-rev | rule-unauth |");
+  L.push("|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|");
   for (const d of dirs.filter((d) => d.matched)) {
-    if (!d.tagsFilled.length && !d.tagsConfirmed && !d.tagsReview.length && !d.reqFilled.length && !d.reqConfirmed && !d.reqReview.length)
+    if (
+      !d.tagsFilled.length && !d.tagsConfirmed && !d.tagsReview.length &&
+      !d.reqFilled.length && !d.reqConfirmed && !d.reqReview.length &&
+      !d.ruleFilled.length && !d.ruleConfirmed && !d.ruleReview.length && !d.ruleUnauthored.length
+    )
       continue;
     L.push(
-      `| ${d.dir} | ${d.matched} | ${d.tagsFilled.length} | ${d.tagsConfirmed} | ${d.tagsReview.length} | ${d.reqFilled.length} | ${d.reqConfirmed} | ${d.reqReview.length} |`,
+      `| ${d.dir} | ${d.matched} | ${d.tagsFilled.length} | ${d.tagsConfirmed} | ${d.tagsReview.length} | ${d.reqFilled.length} | ${d.reqConfirmed} | ${d.reqReview.length} | ${d.ruleFilled.length} | ${d.ruleConfirmed} | ${d.ruleReview.length} | ${d.ruleUnauthored.length} |`,
     );
   }
   L.push(
-    `| **TOTAL** | **${sum((d) => d.matched)}** | **${sum((d) => d.tagsFilled.length)}** | **${sum((d) => d.tagsConfirmed)}** | **${sum((d) => d.tagsReview.length)}** | **${sum((d) => d.reqFilled.length)}** | **${sum((d) => d.reqConfirmed)}** | **${sum((d) => d.reqReview.length)}** |`,
+    `| **TOTAL** | **${sum((d) => d.matched)}** | **${sum((d) => d.tagsFilled.length)}** | **${sum((d) => d.tagsConfirmed)}** | **${sum((d) => d.tagsReview.length)}** | **${sum((d) => d.reqFilled.length)}** | **${sum((d) => d.reqConfirmed)}** | **${sum((d) => d.reqReview.length)}** | **${sum((d) => d.ruleFilled.length)}** | **${sum((d) => d.ruleConfirmed)}** | **${sum((d) => d.ruleReview.length)}** | **${sum((d) => d.ruleUnauthored.length)}** |`,
   );
   L.push("");
   for (const d of dirs) {
@@ -269,6 +382,9 @@ export function buildDetFieldsReport(report: DetFieldsReport, write: boolean): s
     d.tagsReview.forEach((c) => details.push(`- tags REVIEW ${c.id}: authored [${c.authored.join(", ")}] vs dump [${c.derived.join(", ")}]`));
     d.reqFilled.forEach((c) => details.push(`- required_keywords filled ${c.id}: [${c.to.join(", ")}]`));
     d.reqReview.forEach((c) => details.push(`- required_keywords REVIEW ${c.id}: authored [${c.authored.join(", ")}] vs dump [${c.derived.join(", ")}]`));
+    d.ruleFilled.forEach((c) => details.push(`- detachment_rule_ids filled ${c.id}: [${c.to.join(", ")}]`));
+    d.ruleReview.forEach((c) => details.push(`- detachment_rule_ids REVIEW ${c.id}: authored [${c.authored.join(", ")}] vs dump [${c.derived.join(", ")}]`));
+    d.ruleUnauthored.forEach((c) => details.push(`- detachment_rule_ids UNAUTHORED ${c.id}: dump rule(s) [${c.derived.join(", ")}] have no authored ability yet`));
     d.unresolvedKeywords.forEach((c) => details.push(`- unresolved keyword ids ${c.id}: ${c.ids.join(", ")}`));
     if (details.length) L.push(`## ${d.dir}`, ...details, "");
   }

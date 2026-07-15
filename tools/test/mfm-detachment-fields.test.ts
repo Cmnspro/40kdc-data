@@ -7,6 +7,7 @@ import {
   runDetachmentFields,
   requiredKeywordsForDetachment,
   tagsForDetachment,
+  ruleIdsForDetachment,
   type DirDetFieldResult,
 } from "../src/mfm/detachment-fields.js";
 
@@ -90,6 +91,30 @@ describe("detachment-field derivation (synthetic)", () => {
   });
 });
 
+describe("detachment-rule id derivation (synthetic)", () => {
+  it("slugs each dump rule display name to a sorted, de-duplicated bare id", () => {
+    const dump = new MfmDump({
+      data: {
+        detachment: [{ id: "d", localisations: { en: { name: "X" } } }],
+        detachment_rule: [
+          { id: "r1", detachmentId: "d", displayOrder: 1, localisations: { en: { name: "Warp Rifts" } } },
+          { id: "r2", detachmentId: "d", displayOrder: 0, localisations: { en: { name: "Prey on the Weak" } } },
+          // apostrophe/diacritic normalization mirrors the authored ability-id form.
+          { id: "r3", detachmentId: "d", displayOrder: 2, localisations: { en: { name: "Vulkan’s Quest" } } },
+        ],
+      },
+    });
+    expect(ruleIdsForDetachment(dump, "d")).toEqual(["prey-on-the-weak", "vulkans-quest", "warp-rifts"]);
+  });
+
+  it("returns an empty list when the detachment has no dump rule", () => {
+    const dump = new MfmDump({
+      data: { detachment: [{ id: "d", localisations: { en: { name: "X" } } }], detachment_rule: [] },
+    });
+    expect(ruleIdsForDetachment(dump, "d")).toEqual([]);
+  });
+});
+
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("detachment-fields over the real dump", () => {
   const report = runDetachmentFields(loadDump());
   const byDir = new Map<string, DirDetFieldResult>(report.dirs.map((d) => [d.dir, d]));
@@ -121,5 +146,38 @@ describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("detachment-fields over the r
 
   it("only stages dirs it actually changed", () => {
     for (const s of report.staged) expect(s.path).toMatch(/detachments\.json$/);
+  });
+
+  it("verifies detachment_rule links against the dump — confirm-heavy, no invented fills", () => {
+    // The rule abilities are already authored, so the reconcile confirms the vast
+    // majority and never invents a link (a fill only fires when a slug resolves to
+    // an authored ability, which none currently need).
+    expect(sum((d) => d.ruleConfirmed)).toBeGreaterThan(100);
+    expect(sum((d) => d.ruleFilled.length)).toBe(0);
+  });
+
+  it("surfaces authored rule links the dump disagrees with, never overwriting them", () => {
+    const reviews = report.dirs.flatMap((d) => d.ruleReview);
+    // Armoured Infantry: the dump lists a second rule (order) the repo has not linked.
+    const armoured = reviews.find((r) => r.id === "armoured-infantry");
+    expect(armoured?.derived).toEqual(["order", "squadron-command"]);
+    expect(armoured?.authored).toEqual(["squadron-command"]);
+    // The authored value on disk is untouched (surfaced, not overwritten).
+    const rec = JSON.parse(
+      fs.readFileSync(path.join(CORE_DIR, "astra-militarum", "detachments.json"), "utf8"),
+    ).find((d: { id: string }) => d.id === "armoured-infantry") as {
+      detachment_rule_id?: string;
+      detachment_rule_ids?: string[];
+    };
+    expect(rec.detachment_rule_id ?? rec.detachment_rule_ids?.join()).not.toContain("order");
+    // The two scoped-vs-bare id-form drifts are also surfaced (not auto-normalized).
+    expect(reviews.some((r) => r.id === "murdertalon-raiders")).toBe(true);
+    expect(reviews.some((r) => r.id === "more-dakka")).toBe(true);
+  });
+
+  it("surfaces detachments whose dump rule has no authored ability as a worklist", () => {
+    // The new 11e chapter detachments carry a dump rule the repo has not authored an
+    // ability for yet — reported, never filled (prose is authored separately).
+    expect(sum((d) => d.ruleUnauthored.length)).toBeGreaterThan(0);
   });
 });

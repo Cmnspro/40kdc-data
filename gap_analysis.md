@@ -19,10 +19,10 @@ Regenerate after a new dump upload (order matters):
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
 | A — fields | Contract field entries | 663 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 229 / 111 / 263 / 60 |
-| A — fields | **Actionable field-gap groups** | **116** |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 229 / 114 / 260 / 60 |
+| A — fields | **Actionable field-gap groups** | **119** |
 | A — fields | **Actionable unmapped dump fields** | **47** |
-| B — tables | **Populated tables, no consumer (structured)** | **43** |
+| B — tables | **Populated tables, no consumer (structured)** | **42** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
 | C — entities | **Units new in dump** | **0** |
 | C — entities | **Detachments new in dump** | **7** |
@@ -85,7 +85,10 @@ Unmapped dump fields with a candidate repo destination:
 | `/game_modes` (+1) | partial | derived | `data.detachment.isCombatPatrol` | Current tooling only derives Combat Patrol mode; other mode context remains authored. |
 | `/restrictions` | partial | joined | `data.detachment_faction_keyword.factionKeywordId`<br>`data.faction_keyword.localisations.*.name` | The restrictions object is partially projected: its required_keywords is derived from the chapter-lock applicability, while excluded_keywords and notes remain authored. |
 | `/enhancement_ids` (+1) | partial | derived | `data.enhancement.detachmentId`<br>`data.enhancement.localisations.*.name`<br>`data.detachment.localisations.*.name` | Only the Combat Patrol seeder currently derives and writes enhancement links from MFM. |
+| `/detachment_rule_id` | partial | joined | `data.detachment_rule.localisations.*.name` | Deprecated single-rule link. The dump's detachment_rule join confirms or surfaces it for review; it is folded into the authored-link set but is not the write target. |
+| `/detachment_rule_ids` | partial | joined | `data.detachment_rule.localisations.*.name` | Structural named-rule → ability links are joined from detachment_rule. PARTIAL: detachments whose rule ability is not yet authored (chiefly the new 11e chapter detachments) are surfaced as an authoring worklist rather than filled, since the ability entity — and its prose — is authored separately. |
 | `/tags/*` | partial | derived | `data.detachment_unique_keyword.keywordId`<br>`data.keyword.localisations.*.name` | Each mutual-exclusivity tag is the slug of one unique-keyword label. |
+| `/detachment_rule_ids/*` | partial | joined | `data.detachment_rule.localisations.*.name` | Each member is a joined named-rule → ability link, emitted only after enrichment resolution. |
 | `/restrictions/excluded_keywords` | unimplemented | unresolved-candidate | `data.detachment_excluded_datasheet.datasheetId` | Datasheet eligibility exclusions are not equivalent to the repository keyword restriction shape. |
 | `/restrictions/required_keywords` | partial | joined | `data.detachment_faction_keyword.factionKeywordId`<br>`data.faction_keyword.localisations.*.name` | Applicability IS a required-keyword restriction precisely when it excludes the owning roster keyword — the chapter-lock case the transform isolates. |
 | `/restrictions/excluded_keywords/*` | unimplemented | unresolved-candidate | `data.detachment_excluded_datasheet.datasheetId` | Datasheet eligibility exclusions are not equivalent to individual repository keyword restrictions. |
@@ -411,7 +414,6 @@ Populated dump tables carrying structured data that no mapping reads.
 | `rule_container` | 408 | display-name, identifier, numeric, structural |  | Groups ordered rule presentation components under a rule section, optionally for a stratagem. |
 | `conditional_keyword` | 380 | identifier |  | Defines a datasheet keyword whose availability depends on roster conditions. |
 | `allied_faction_datasheet` | 320 | identifier |  | Associates allied-faction rules with datasheets to which they apply. |
-| `detachment_rule` | 306 | display-name, identifier, numeric, structural |  | Defines a named rule associated with a detachment. |
 | `datasheet_damage` | 243 | display-name, identifier, numeric, prose, structural |  | Associates damage-state presentation with a datasheet. |
 | `detachment_linked_datasheet` | 107 | identifier, numeric, structural |  | Associates a detachment with a datasheet and its linked selection conditions. |
 | `faction_keyword_allied_faction` | 87 | identifier |  | Associates faction keywords with permitted allied-faction rules. |

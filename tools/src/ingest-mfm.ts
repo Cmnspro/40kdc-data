@@ -609,6 +609,8 @@ async function runDetachmentFieldsCmd(dump: MfmDump, write: boolean): Promise<vo
       {
         tagsReview: report.dirs.flatMap((d) => d.tagsReview.map((r) => ({ dir: d.dir, ...r }))),
         requiredKeywordsReview: report.dirs.flatMap((d) => d.reqReview.map((r) => ({ dir: d.dir, ...r }))),
+        ruleReview: report.dirs.flatMap((d) => d.ruleReview.map((r) => ({ dir: d.dir, ...r }))),
+        ruleUnauthored: report.dirs.flatMap((d) => d.ruleUnauthored.map((r) => ({ dir: d.dir, ...r }))),
         unresolvedKeywords: report.dirs.flatMap((d) => d.unresolvedKeywords.map((r) => ({ dir: d.dir, ...r }))),
       },
       null,
@@ -620,7 +622,8 @@ async function runDetachmentFieldsCmd(dump: MfmDump, write: boolean): Promise<vo
   console.log(`Detachment fields report → ${path.relative(REPO_ROOT, reportPath)}`);
   console.log(
     `tags filled ${sum((d) => d.tagsFilled.length)} (confirm ${sum((d) => d.tagsConfirmed)}, review ${sum((d) => d.tagsReview.length)}), ` +
-      `required_keywords filled ${sum((d) => d.reqFilled.length)} (confirm ${sum((d) => d.reqConfirmed)}, review ${sum((d) => d.reqReview.length)}).`
+      `required_keywords filled ${sum((d) => d.reqFilled.length)} (confirm ${sum((d) => d.reqConfirmed)}, review ${sum((d) => d.reqReview.length)}), ` +
+      `detachment_rule_ids filled ${sum((d) => d.ruleFilled.length)} (confirm ${sum((d) => d.ruleConfirmed)}, review ${sum((d) => d.ruleReview.length)}, unauthored ${sum((d) => d.ruleUnauthored.length)}).`
   );
   await applyWrites(report.staged, { write, label: "detachment-fields" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");

@@ -45,18 +45,37 @@
       "reason": "Ownership follows detachment publication ownership; applicability associations do not establish faction_id."
     },
     "/detachment_rule_id": {
-      "provenance": "repo-authored",
-      "coverage": "unimplemented",
-      "sources": [], "joins": [], "transforms": [], "filters": [], "precedence": [], "consumers": [],
-      "reason": "Deprecated rule link is maintained from authored ability records; no current MFM rule projection populates it."
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": ["data.detachment_rule.localisations.*.name"],
+      "joins": [{"relation": "detachment_rule.detachmentId", "direction": "children", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/detachment-fields.ts#ruleIdsForDetachment", "operation": "Slug each dump rule display name to its bare entity id and reconcile against the authored link."}],
+      "filters": ["The deprecated singular link is verified against the dump join but never rewritten; new links are written to detachment_rule_ids."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/detachment-fields.ts#runDetachmentFields"],
+      "reason": "Deprecated single-rule link. The dump's detachment_rule join confirms or surfaces it for review; it is folded into the authored-link set but is not the write target."
     },
     "/detachment_rule_ids": {
-      "provenance": "repo-authored", "coverage": "unimplemented", "sources": [], "joins": [], "transforms": [], "filters": [], "precedence": [], "consumers": [],
-      "reason": "Detachment-rule ability links are authored enrichment references rather than projected dump prose."
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": ["data.detachment_rule.localisations.*.name"],
+      "joins": [{"relation": "detachment_rule.detachmentId", "direction": "children", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/detachment-fields.ts#ruleIdsForDetachment", "operation": "Slug each dump rule display name to its bare entity id (nameToId), sorted and de-duplicated."}],
+      "filters": ["A link is written only when its slug resolves to an ability already authored in the dir's enrichment (an unresolved id would fail integrity; rule prose is authored separately, never minted from the dump).", "Authored links that disagree with the dump slug are surfaced for review, never overwritten."],
+      "precedence": ["Existing authored links win; fill only when the detachment has no authored rule link and the dump slug resolves to an authored ability."],
+      "consumers": ["tools/src/mfm/detachment-fields.ts#runDetachmentFields"],
+      "reason": "Structural named-rule → ability links are joined from detachment_rule. PARTIAL: detachments whose rule ability is not yet authored (chiefly the new 11e chapter detachments) are surfaced as an authoring worklist rather than filled, since the ability entity — and its prose — is authored separately."
     },
     "/detachment_rule_ids/*": {
-      "provenance": "repo-authored", "coverage": "unimplemented", "sources": [], "joins": [], "transforms": [], "filters": [], "precedence": [], "consumers": [],
-      "reason": "Detachment-rule ability links are authored enrichment references rather than projected dump prose."
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": ["data.detachment_rule.localisations.*.name"],
+      "joins": [{"relation": "detachment_rule.detachmentId", "direction": "children", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/detachment-fields.ts#ruleIdsForDetachment", "operation": "Each member is the bare entity id (nameToId) of one dump rule display name."}],
+      "filters": ["Each member is emitted only when it resolves to an authored enrichment ability."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/detachment-fields.ts#runDetachmentFields"],
+      "reason": "Each member is a joined named-rule → ability link, emitted only after enrichment resolution."
     },
     "/detachment_points": {
       "provenance": "derived",
