@@ -31,8 +31,9 @@ describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("seed-detachments over the re
   it("authors every CP enhancement at cost 0, unique, combat-patrol, scoped to its detachment", () => {
     const candidates = collect();
     const allEnh = candidates.flatMap((c) => c.enhancements);
-    // 47 CP enhancements across the 24 boxes (Orks carry only one).
-    expect(allEnh).toHaveLength(47);
+    // 48 CP enhancements across the 24 boxes — two per box (data_version 895
+    // added the second Ork enhancement; through 867 Orks carried only one).
+    expect(allEnh).toHaveLength(48);
     for (const c of candidates) {
       for (const e of c.enhancements) {
         expect(e.cost, `${e.id} cost`).toBe(0);

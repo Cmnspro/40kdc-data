@@ -10,7 +10,7 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 | adeptus-custodes | 35 | 0 | 0 | 0 | 0 | 0 |
 | adeptus-mechanicus | 38 | 0 | 0 | 0 | 0 | 0 |
 | aeldari | 76 | 0 | 0 | 0 | 0 | 0 |
-| agents-of-the-imperium | 33 | 0 | 0 | 0 | 0 | 0 |
+| agents-of-the-imperium | 33 | 0 | 0 | 4 | 0 | 0 |
 | astra-militarum | 75 | 0 | 0 | 0 | 0 | 0 |
 | chaos-daemons | 53 | 0 | 0 | 0 | 0 | 0 |
 | chaos-knights | 20 | 0 | 0 | 0 | 0 | 0 |
@@ -28,7 +28,7 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 | thousand-sons | 32 | 0 | 0 | 0 | 0 | 0 |
 | tyranids | 57 | 0 | 0 | 0 | 0 | 0 |
 | world-eaters | 29 | 0 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **1093** | **0** | **0** | **14** | **2** | **0** |
+| **TOTAL** | **1093** | **0** | **0** | **18** | **2** | **0** |
 
 ## adeptus-astartes
 
@@ -46,6 +46,14 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 **Size structure differs — review (kept repo value):**
 - decimus-kill-team: repo sizes [10, 10] vs dump [5, 10]
 - talonstrike-kill-team: repo sizes [15, 15] vs dump [3, 15]
+
+## agents-of-the-imperium
+
+**Ambiguous (multiple same-size base comps — kept repo value):**
+- callidus-assassin
+- eversor-assassin
+- culexus-assassin
+- vindicare-assassin
 
 ## necrons
 

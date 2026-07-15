@@ -31,7 +31,10 @@ export interface MfmTableMap {
    * @maxItems 0
    */
   allied_faction_allegiance_ability: [];
-  allied_faction_allowed_warlord_miniature: AlliedFactionAllowedWarlordMiniatureRow[];
+  /**
+   * @maxItems 0
+   */
+  allied_faction_allowed_warlord_miniature: [];
   allied_faction_datasheet: AlliedFactionDatasheetRow[];
   allied_faction_keyword: AlliedFactionKeywordRow[];
   allied_faction_keyword_slotless_keyword_group: AlliedFactionKeywordSlotlessKeywordGroupRow[];
@@ -398,22 +401,6 @@ export interface AlliedFactionRow {
    * Identifies the miniature required as warlord by the allied-faction rule.
    */
   requiredWarlordMiniatureId: null;
-}
-/**
- * Associates allied-faction rules with miniatures allowed to be warlords.
- *
- * This interface was referenced by `MfmDumpPayload`'s JSON-Schema
- * via the `definition` "AlliedFactionAllowedWarlordMiniatureRow".
- */
-export interface AlliedFactionAllowedWarlordMiniatureRow {
-  /**
-   * Identifies the allied-faction rule participating in this association.
-   */
-  alliedFactionId: string;
-  /**
-   * Identifies the miniature participating in this association.
-   */
-  miniatureId: string;
 }
 /**
  * Associates allied-faction rules with datasheets to which they apply.

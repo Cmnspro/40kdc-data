@@ -30,7 +30,6 @@ import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
 import {
   MfmDump,
-  type AlliedFactionAllowedWarlordMiniatureRow,
   type AlliedFactionDatasheetRow,
   type AlliedFactionKeywordRow,
   type AlliedFactionPointsLimitRow,
@@ -412,8 +411,14 @@ export function runAllies(dump: MfmDump): AlliesReport {
       .sort((a, b) => BATTLE_SIZE_ORDER[a.battle_size] - BATTLE_SIZE_ORDER[b.battle_size]);
 
     // (9) warlord allowlist: allowed-warlord minis (+ a required mini) → datasheets.
+    // The association table is unobserved as of data_version 895 (emptied by
+    // the app export), so its generated row type carries no fields; keep
+    // consuming it loosely so rows re-enter the allowlist when a future
+    // snapshot repopulates the table.
     const warlordMiniIds = new Set(
-      (warlordByAf.get(af.id) ?? []).map((r) => r.miniatureId)
+      (warlordByAf.get(af.id) ?? [])
+        .map((r) => (r as { miniatureId?: string }).miniatureId)
+        .filter((id): id is string => typeof id === "string")
     );
     if (af.requiredWarlordMiniatureId) warlordMiniIds.add(af.requiredWarlordMiniatureId);
     const warlordDatasheetIds = [

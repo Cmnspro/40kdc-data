@@ -33,7 +33,7 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 | imperial-fists | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | imperial-knights | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 4 |
 | iron-hands | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| leagues-of-votann | 54 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| leagues-of-votann | 54 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | necrons | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | orks | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 8 |
 | raven-guard | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -45,7 +45,7 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 | ultramarines | 77 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | white-scars | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | world-eaters | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2209** | **0** | **0** | **0** | **0** | **0** | **8** | **30** |
+| **TOTAL** | **2209** | **0** | **1** | **0** | **0** | **0** | **8** | **30** |
 
 ## (core)
 
@@ -82,6 +82,11 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 
 **Phases — authored vs prose-derived (review only, NOT applied):**
 - preternatural-agility-spectacle-of-spite: [charge,movement] vs [charge]
+
+## leagues-of-votann
+
+**Player-turn ← key (applied):**
+- built-to-last-armoured-trailblazers: either → opponent-turn
 
 Stratagems in dump with no repo match (author via faction-pack flow): 2
 

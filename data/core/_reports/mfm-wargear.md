@@ -8,7 +8,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | adepta-sororitas | 37 | 56 | 0 | 0 | 12 | 0 | 0 | 0 | 0 |
 | adeptus-astartes | 194 | 264 | 0 | 0 | 58 | 1 | 10 | 0 | 0 |
 | adeptus-custodes | 35 | 23 | 0 | 0 | 7 | 0 | 0 | 0 | 0 |
-| adeptus-mechanicus | 38 | 34 | 0 | 0 | 9 | 0 | 8 | 0 | 0 |
+| adeptus-mechanicus | 38 | 34 | 0 | 0 | 10 | 0 | 8 | 0 | 0 |
 | aeldari | 76 | 92 | 6 | 0 | 32 | 2 | 1 | 0 | 0 |
 | agents-of-the-imperium | 33 | 47 | 0 | 0 | 42 | 2 | 4 | 0 | 0 |
 | astra-militarum | 75 | 159 | 0 | 0 | 33 | 0 | 7 | 0 | 0 |
@@ -28,7 +28,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | thousand-sons | 32 | 41 | 0 | 0 | 6 | 0 | 0 | 6 | 0 |
 | tyranids | 57 | 17 | 0 | 0 | 2 | 1 | 1 | 0 | 0 |
 | world-eaters | 29 | 40 | 0 | 0 | 0 | 0 | 1 | 5 | 0 |
-| **TOTAL** | **1093** | **1260** | **12** | **0** | **341** | **15** | **49** | **214** | **0** |
+| **TOTAL** | **1093** | **1260** | **12** | **0** | **342** | **15** | **49** | **214** | **0** |
 
 ## adepta-sororitas
 

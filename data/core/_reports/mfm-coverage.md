@@ -1,4 +1,4 @@
-# MFM coverage — dump data_version 867
+# MFM coverage — dump data_version 895
 
 Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 **Repo-only** = in repo, absent from the (Legends-free) dump → dropped (Legends/Forge-World; see cull-legends).
@@ -155,12 +155,12 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 ## orks
 
 **Enhancements new in dump** (6):
-- Extra Platin’ / ’Ardmob (extra-platin-ardmob)
 - Slippery Git / Taktikal Brigade (slippery-git-taktikal-brigade)
 - Dakkamek / Speedwaaagh! (dakkamek-speedwaaagh)
 - Kustom Shokk Box / Speedwaaagh! (kustom-shokk-box-speedwaaagh)
 - Master Meknologist / Speedwaaagh! (master-meknologist-speedwaaagh)
 - Supa-Burny Fuel / Speedwaaagh! (supa-burny-fuel-speedwaaagh)
+- Extra Platin’ / ’Ardmob (extra-platin-ardmob)
 
 ## tyranids
 

@@ -16,7 +16,7 @@ so the pack-global caps project per mission). Prose is never touched.
 | cumulative changes | 0 |
 | exclusive_group added | 0 |
 | exclusive_group review (dump-uncorroborated) | 0 |
-| Shape mismatches (skipped) | 2 |
+| Shape mismatches (skipped) | 0 |
 | Repo cards with no dump match | 0 |
 | Dump cards with no repo match | 0 |
 | Primary reskins excluded (by design) | 24 |
@@ -25,9 +25,4 @@ so the pack-global caps project per mission). Prose is never touched.
 | source review (dump differs, kept) | 0 |
 | VP caps confirmed | 50 |
 | VP caps review (dump differs, kept) | 0 |
-
-## Shape mismatches — award/row counts differ, card left untouched
-
-- immovable-object: none repo 3 vs dump 5
-- surveil-the-foe: none repo 4 vs dump 2
 

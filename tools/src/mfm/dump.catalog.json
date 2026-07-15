@@ -270,29 +270,13 @@
       "row_shape": "unobserved"
     },
     "allied_faction_allowed_warlord_miniature": {
-      "description": "Associates allied-faction rules with miniatures allowed to be warlords.",
-      "fields": {
-        "alliedFactionId": {
-          "description": "Identifies the allied-faction rule participating in this association.",
-          "ip_class": "identifier",
-          "relation": "allied_faction_allowed_warlord_miniature.alliedFactionId",
-          "shape_review": "observed"
-        },
-        "miniatureId": {
-          "description": "Identifies the miniature participating in this association.",
-          "ip_class": "identifier",
-          "relation": "allied_faction_allowed_warlord_miniature.miniatureId",
-          "shape_review": "observed"
-        }
-      },
+      "description": "Associates allied-faction rules with miniatures allowed to be warlords. Populated through data_version 867 (28 rows); emptied by the app's data_version 895 export, so the shape reverts to unobserved until a future snapshot repopulates it.",
+      "fields": {},
       "identity": {
-        "fields": [
-          "alliedFactionId",
-          "miniatureId"
-        ],
-        "status": "verified"
+        "fields": [],
+        "status": "none"
       },
-      "row_shape": "observed"
+      "row_shape": "unobserved"
     },
     "allied_faction_datasheet": {
       "description": "Associates allied-faction rules with datasheets to which they apply.",
