@@ -758,6 +758,11 @@ async function runMissionsCmd(dump: MfmDump, write: boolean): Promise<void> {
       `cumulative ${report.cumulativeChanged.length}, exclusive_group added ${report.exclusiveAdded.length}, ` +
       `shape-mismatch ${report.shapeMismatch.length}, repo-only ${report.repoOnly.length}.`
   );
+  const e = report.entities;
+  console.log(
+    `Mission entities: matched ${e.matched}, source filled ${e.sourceFilled.length} ` +
+      `(review ${e.sourceReview.length}), VP caps confirmed ${e.capConfirmed} (review ${e.capReview.length}).`
+  );
   await applyWrites(report.staged, { write, label: "missions" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }

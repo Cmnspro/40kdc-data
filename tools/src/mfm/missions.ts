@@ -56,6 +56,7 @@ import {
 import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import type { StagedWrite } from "./apply.js";
 const CARDS_PATH = path.join(CORE_DIR, "secondary-cards.json");
+const MISSIONS_PATH = path.join(CORE_DIR, "missions.json");
 
 /** Scoring-track tag on an award; `undefined` is the flat "scores either way" track. */
 export type AwardMode = "fixed" | "tactical" | undefined;
@@ -284,6 +285,111 @@ export function reconcileCard(card: Card, rows: DumpScoring[]): CardReconcileRes
   return { changes, exclusiveReview };
 }
 
+/**
+ * The mission ENTITY (`data/core/missions.json`) — distinct from the scoring
+ * cards above — carries a `source` citation and the primary-VP caps. The dump
+ * models these on the owning `mission_pack`, reached from each `primary_mission`
+ * via `missionPackId`. All 25 generic (non-detachment-scoped) primary missions
+ * belong to the one matched-play pack (Chapter Approved 2026-2027), so the
+ * pack-global caps project uniformly per mission — the reviewed single-pack
+ * condition that makes a per-mission assignment sound (the awards pass above
+ * deliberately does NOT set caps for the same reason it can't verify: it works
+ * per scoring row, where the pack is not in scope).
+ */
+interface MissionEntity {
+  id: string;
+  source?: string;
+  vp_per_round_cap?: number;
+  vp_per_game_cap?: number;
+  [k: string]: unknown;
+}
+
+interface MissionPackFacts {
+  source: string;
+  roundCap: number;
+  gameCap: number;
+}
+
+/** Repo mission id → its pack's source name + primary-VP caps (generic primaries only). */
+export function missionEntityCanon(dump: MfmDump): Map<string, MissionPackFacts> {
+  const packById = dump.byId("mission_pack");
+  const out = new Map<string, MissionPackFacts>();
+  for (const m of dump.table("primary_mission")) {
+    if (m.detachmentId) continue; // detachment-scoped reskins the repo omits
+    const name = dump.enName(m);
+    if (!name) continue;
+    let id: string;
+    try {
+      id = nameToId(name);
+    } catch {
+      continue;
+    }
+    const pack = packById.get(m.missionPackId);
+    const source = pack ? dump.enName(pack) : undefined;
+    if (!pack || !source) continue;
+    out.set(id, {
+      source,
+      roundCap: pack.primaryMissionScoreBattleRoundLimit,
+      gameCap: pack.primaryMissionScoreGameLimit,
+    });
+  }
+  return out;
+}
+
+export interface MissionEntityReport {
+  matched: number;
+  sourceFilled: { id: string; to: string }[];
+  sourceReview: { id: string; authored: string; dump: string }[];
+  capConfirmed: number;
+  capReview: { id: string; field: string; authored: number; dump: number }[];
+  staged: StagedWrite[];
+}
+
+/**
+ * Reconcile the mission ENTITY `source` + primary-VP caps from the owning pack.
+ * FILL-ONLY and non-destructive: `source` is filled when absent and surfaced (not
+ * overwritten) when it disagrees; the caps (schema-defaulted, always present) are
+ * confirmed against the pack and a disagreement is surfaced for review, never
+ * silently rewritten. Persisted in the file's compact style.
+ */
+export function reconcileMissionEntities(dump: MfmDump): MissionEntityReport {
+  const canon = missionEntityCanon(dump);
+  const missions = readJsonArray<MissionEntity>(MISSIONS_PATH);
+  const report: MissionEntityReport = {
+    matched: 0,
+    sourceFilled: [],
+    sourceReview: [],
+    capConfirmed: 0,
+    capReview: [],
+    staged: [],
+  };
+  let dirty = false;
+  for (const m of missions) {
+    const facts = canon.get(m.id);
+    if (!facts) continue;
+    report.matched++;
+
+    if (m.source == null) {
+      m.source = facts.source;
+      report.sourceFilled.push({ id: m.id, to: facts.source });
+      dirty = true;
+    } else if (m.source !== facts.source) {
+      report.sourceReview.push({ id: m.id, authored: m.source, dump: facts.source });
+    }
+
+    for (const [field, dumpVal] of [
+      ["vp_per_round_cap", facts.roundCap],
+      ["vp_per_game_cap", facts.gameCap],
+    ] as const) {
+      const authored = m[field] as number | undefined;
+      if (authored === dumpVal) report.capConfirmed++;
+      else if (authored != null) report.capReview.push({ id: m.id, field, authored, dump: dumpVal });
+    }
+  }
+  if (dirty) report.staged.push({ path: MISSIONS_PATH, value: missions, text: formatCompact(missions) });
+  return report;
+}
+
 export interface MissionsReport {
   matched: number;
   cardsChanged: number;
@@ -299,6 +405,8 @@ export interface MissionsReport {
   repoOnly: string[];
   /** Detachment-scoped primary missions excluded by design (crusade/narrative reskins). */
   primaryReskinsExcluded: number;
+  /** Mission-entity source + VP-cap reconcile (missions.json), distinct from the cards. */
+  entities: MissionEntityReport;
   staged: StagedWrite[];
 }
 
@@ -319,6 +427,7 @@ export function runMissions(dump: MfmDump, _write: boolean): MissionsReport {
     repoOnly: [],
     primaryReskinsExcluded: dump.table("primary_mission")
       .filter((m) => !!m.detachmentId).length,
+    entities: reconcileMissionEntities(dump),
     staged: [],
   };
 
@@ -356,6 +465,8 @@ export function runMissions(dump: MfmDump, _write: boolean): MissionsReport {
   // Persist in the file's hand-authored compact style so the diff is only the
   // changed values, not a full reflow.
   if (dirty) report.staged.push({ path: CARDS_PATH, value: cards, text: formatCompact(cards) });
+  // The mission-entity reconcile (missions.json) stages independently.
+  report.staged.push(...report.entities.staged);
   return report;
 }
 
@@ -365,9 +476,10 @@ export function buildMissionsReport(report: MissionsReport, write: boolean): str
   L.push("");
   L.push("Reconciles mission scoring-card numbers (vp/vp_per, vp_max, cumulative) from the");
   L.push("GW MFM dump for both secondary cards and the 25 generic primary missions.");
-  L.push("`exclusive_group` is an additive guard (filled only when missing). Primary");
-  L.push("`vp_per_game_cap`/`vp_per_round_cap` are NOT reconciled — the dump carries no");
-  L.push("per-mission cap (those are mission-pack-global rules). Prose is never touched.");
+  L.push("`exclusive_group` is an additive guard (filled only when missing). The mission");
+  L.push("ENTITY (missions.json) additionally gets its `source` filled and its primary-VP");
+  L.push("caps confirmed from the owning mission_pack (all 25 share one matched-play pack,");
+  L.push("so the pack-global caps project per mission). Prose is never touched.");
   L.push("");
   L.push("| Metric | Count |");
   L.push("|---|--:|");
@@ -382,7 +494,23 @@ export function buildMissionsReport(report: MissionsReport, write: boolean): str
   L.push(`| Repo cards with no dump match | ${report.repoOnly.length} |`);
   L.push(`| Dump cards with no repo match | ${report.dumpOnly.length} |`);
   L.push(`| Primary reskins excluded (by design) | ${report.primaryReskinsExcluded} |`);
+  L.push(`| Mission-entity matched | ${report.entities.matched} |`);
+  L.push(`| source filled | ${report.entities.sourceFilled.length} |`);
+  L.push(`| source review (dump differs, kept) | ${report.entities.sourceReview.length} |`);
+  L.push(`| VP caps confirmed | ${report.entities.capConfirmed} |`);
+  L.push(`| VP caps review (dump differs, kept) | ${report.entities.capReview.length} |`);
   L.push("");
+
+  if (report.entities.sourceReview.length || report.entities.capReview.length) {
+    L.push("## Mission-entity review — authored value the dump contradicts (NOT changed)", "");
+    report.entities.sourceReview.forEach((r) =>
+      L.push(`- ${r.id} source: authored "${r.authored}" vs dump "${r.dump}"`),
+    );
+    report.entities.capReview.forEach((r) =>
+      L.push(`- ${r.id} ${r.field}: authored ${r.authored} vs dump ${r.dump}`),
+    );
+    L.push("");
+  }
 
   const list = (title: string, items: AwardChange[]) => {
     if (!items.length) return;

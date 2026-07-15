@@ -19,9 +19,9 @@ Regenerate after a new dump upload (order matters):
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
 | A — fields | Contract field entries | 663 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 231 / 114 / 258 / 60 |
-| A — fields | **Actionable field-gap groups** | **117** |
-| A — fields | **Actionable unmapped dump fields** | **46** |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 234 / 114 / 255 / 60 |
+| A — fields | **Actionable field-gap groups** | **116** |
+| A — fields | **Actionable unmapped dump fields** | **44** |
 | B — tables | **Populated tables, no consumer (structured)** | **42** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
 | C — entities | **Units new in dump** | **0** |
@@ -182,17 +182,9 @@ Unmapped dump fields with a candidate repo destination:
 |---|---|---|---|---|
 | `/id` | partial | derived | `data.primary_mission.id`<br>`data.primary_mission.detachmentId`<br>`data.primary_mission.localisations.*.name` | Missions.ts recognizes generic primary missions by normalized English name for scoring-card reconciliation, but it does not write mission entities. |
 | `/name` | partial | direct | `data.primary_mission.detachmentId`<br>`data.primary_mission.localisations.*.name` | The current mission ingest uses the generic primary-mission English name to match scoring cards, rather than projecting a mission entity record. |
-| `/source` | unimplemented | unresolved-candidate | `data.primary_mission.missionPackId`<br>`data.mission_pack.localisations.*.name` | The primary mission belongs to a mission pack, but no reviewed transformation establishes that the mission-pack display name is the core source label. |
 | `/description` | unimplemented | prose-store-only | `data.primary_mission.localisations.*.description`<br>`data.primary_mission.localisations.*.lore` | Mission description and lore are GW prose; the core field requires an original community-authored summary and the missions ingest never copies prose. |
 | `/deployment_pattern_ids` | unimplemented | unresolved-candidate | `data.primary_mission.missionPackId`<br>`data.mission_layout.id`<br>`data.mission_deployment.id`<br>`data.mission_layout_linked_deployment.missionLayoutId`<br>`data.mission_layout_linked_deployment.missionDeploymentId` | The dump has mission-pack-scoped layouts and deployments, but no verified relation assigning a deployment pattern to an individual primary mission. |
 | `/deployment_pattern_ids/*` | unimplemented | unresolved-candidate | `data.primary_mission.missionPackId`<br>`data.mission_layout.id`<br>`data.mission_deployment.id`<br>`data.mission_layout_linked_deployment.missionLayoutId`<br>`data.mission_layout_linked_deployment.missionDeploymentId` | No current extractor converts dump layouts or deployments into deployment-pattern entity IDs for an individual primary mission. |
-
-Unmapped dump fields with a candidate repo destination:
-
-| Dump source | Candidate field | Reason |
-|---|---|---|
-| `data.mission_pack.primaryMissionScoreBattleRoundLimit` | `/vp_per_round_cap` | This is a mission-pack-global limit, not a verified per-mission value; the core field retains its authored default. |
-| `data.mission_pack.primaryMissionScoreGameLimit` | `/vp_per_game_cap` | This is a mission-pack-global limit, not a verified per-mission value; the core field retains its authored default. |
 
 ### roster (`schemas/core/roster.schema.json`)
 

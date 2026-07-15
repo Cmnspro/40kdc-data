@@ -1,10 +1,11 @@
-# MFM missions — DRY RUN
+# MFM missions — APPLIED
 
 Reconciles mission scoring-card numbers (vp/vp_per, vp_max, cumulative) from the
 GW MFM dump for both secondary cards and the 25 generic primary missions.
-`exclusive_group` is an additive guard (filled only when missing). Primary
-`vp_per_game_cap`/`vp_per_round_cap` are NOT reconciled — the dump carries no
-per-mission cap (those are mission-pack-global rules). Prose is never touched.
+`exclusive_group` is an additive guard (filled only when missing). The mission
+ENTITY (missions.json) additionally gets its `source` filled and its primary-VP
+caps confirmed from the owning mission_pack (all 25 share one matched-play pack,
+so the pack-global caps project per mission). Prose is never touched.
 
 | Metric | Count |
 |---|--:|
@@ -19,6 +20,11 @@ per-mission cap (those are mission-pack-global rules). Prose is never touched.
 | Repo cards with no dump match | 0 |
 | Dump cards with no repo match | 0 |
 | Primary reskins excluded (by design) | 24 |
+| Mission-entity matched | 25 |
+| source filled | 25 |
+| source review (dump differs, kept) | 0 |
+| VP caps confirmed | 50 |
+| VP caps review (dump differs, kept) | 0 |
 
 ## Shape mismatches — award/row counts differ, card left untouched
 

@@ -192,8 +192,8 @@
       "reason": "The current mission ingest uses the generic primary-mission English name to match scoring cards, rather than projecting a mission entity record."
     },
     "/source": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "implemented",
       "sources": [
         "data.primary_mission.missionPackId",
         "data.mission_pack.localisations.*.name"
@@ -205,37 +205,84 @@
           "purpose": "general"
         }
       ],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The primary mission belongs to a mission pack, but no reviewed transformation establishes that the mission-pack display name is the core source label."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#reconcileMissionEntities",
+          "operation": "Fill the mission source from the owning mission-pack display name when the entity has none."
+        }
+      ],
+      "filters": [
+        "Only the 25 generic (non-detachment-scoped) primary missions are matched; a source that disagrees with the pack is surfaced, never overwritten."
+      ],
+      "precedence": [
+        "Existing authored source wins; fill only when absent."
+      ],
+      "consumers": [
+        "tools/src/mfm/missions.ts#reconcileMissionEntities"
+      ],
+      "reason": "The mission source is filled from the owning mission-pack display name, reached via primary_mission.missionPackId."
     },
     "/vp_per_game_cap": {
-      "provenance": "repo-authored",
-      "coverage": "unimplemented",
-      "sources": [],
-      "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [
-        "Retain the schema's authored default of 45."
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.primary_mission.missionPackId",
+        "data.mission_pack.primaryMissionScoreGameLimit"
       ],
-      "consumers": [],
-      "reason": "The dump score limit is mission-pack-global rather than a per-primary-mission cap, and missions.ts does not reconcile this field."
+      "joins": [
+        {
+          "relation": "primary_mission.missionPackId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#reconcileMissionEntities",
+          "operation": "Confirm the per-game VP cap against the owning pack's primaryMissionScoreGameLimit; a disagreement is surfaced for review."
+        }
+      ],
+      "filters": [
+        "All 25 generic primary missions belong to the one matched-play pack (Chapter Approved 2026-2027), so the pack-global cap projects uniformly per mission."
+      ],
+      "precedence": [
+        "The authored value is confirmed against the pack; a mismatch is surfaced, never silently rewritten."
+      ],
+      "consumers": [
+        "tools/src/mfm/missions.ts#reconcileMissionEntities"
+      ],
+      "reason": "The per-game VP cap is confirmed from the owning mission-pack's primaryMissionScoreGameLimit (single matched-play pack, so pack-global equals per-mission)."
     },
     "/vp_per_round_cap": {
-      "provenance": "repo-authored",
-      "coverage": "unimplemented",
-      "sources": [],
-      "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [
-        "Retain the schema's authored default of 15."
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.primary_mission.missionPackId",
+        "data.mission_pack.primaryMissionScoreBattleRoundLimit"
       ],
-      "consumers": [],
-      "reason": "The dump score limit is mission-pack-global rather than a per-primary-mission cap, and missions.ts does not reconcile this field."
+      "joins": [
+        {
+          "relation": "primary_mission.missionPackId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#reconcileMissionEntities",
+          "operation": "Confirm the per-round VP cap against the owning pack's primaryMissionScoreBattleRoundLimit; a disagreement is surfaced for review."
+        }
+      ],
+      "filters": [
+        "All 25 generic primary missions belong to the one matched-play pack (Chapter Approved 2026-2027), so the pack-global cap projects uniformly per mission."
+      ],
+      "precedence": [
+        "The authored value is confirmed against the pack; a mismatch is surfaced, never silently rewritten."
+      ],
+      "consumers": [
+        "tools/src/mfm/missions.ts#reconcileMissionEntities"
+      ],
+      "reason": "The per-round VP cap is confirmed from the owning mission-pack's primaryMissionScoreBattleRoundLimit (single matched-play pack, so pack-global equals per-mission)."
     }
   },
   "unmapped_mfm_fields": [
@@ -243,16 +290,6 @@
       "source": "data.primary_mission.localisations.*.agendaAchievedText",
       "candidate_pointer": null,
       "reason": "Agenda-completion prose has no core mission destination and must not be copied from the dump."
-    },
-    {
-      "source": "data.mission_pack.primaryMissionScoreGameLimit",
-      "candidate_pointer": "/vp_per_game_cap",
-      "reason": "This is a mission-pack-global limit, not a verified per-mission value; the core field retains its authored default."
-    },
-    {
-      "source": "data.mission_pack.primaryMissionScoreBattleRoundLimit",
-      "candidate_pointer": "/vp_per_round_cap",
-      "reason": "This is a mission-pack-global limit, not a verified per-mission value; the core field retains its authored default."
     }
   ]
 }

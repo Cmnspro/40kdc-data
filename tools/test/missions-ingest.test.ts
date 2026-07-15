@@ -1,8 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { MfmDump } from "../src/mfm/loader.js";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { DEFAULT_DUMP_PATH, loadDump, MfmDump } from "../src/mfm/loader.js";
+import { CORE_DIR } from "../src/mfm/repo-files.js";
 import {
   buildMissionScoringCanon,
+  missionEntityCanon,
   reconcileCard,
+  reconcileMissionEntities,
   type DumpScoring,
 } from "../src/mfm/missions.js";
 
@@ -142,5 +147,61 @@ describe("reconcileCard", () => {
     expect(res.shapeMismatch).toEqual([{ mode: "none", repo: 3, dump: 5 }]);
     expect(res.changes).toEqual([]);
     expect(JSON.stringify(card)).toBe(before); // untouched
+  });
+});
+
+/**
+ * Mission-ENTITY reconcile (missions.json) — source + primary-VP caps from the
+ * owning mission_pack. The synthetic canon pins the join + the detachment-scoped
+ * exclusion; the dump-guarded block pins the applied end-state (all 25 matched-play
+ * missions cite the one Chapter Approved 2026-2027 pack, caps confirmed, no reviews).
+ */
+describe("missionEntityCanon (synthetic)", () => {
+  it("maps a generic primary mission to its pack source + caps, excluding reskins", () => {
+    const dump = new MfmDump({
+      data: {
+        mission_pack: [
+          {
+            id: "mp1",
+            primaryMissionScoreBattleRoundLimit: 15,
+            primaryMissionScoreGameLimit: 45,
+            localisations: { en: { name: "Chapter Approved 2026-2027" } },
+          },
+        ],
+        primary_mission: [
+          { id: "pm1", missionPackId: "mp1", localisations: { en: { name: "Battlefield Dominance" } } },
+          // detachment-scoped reskin — excluded.
+          { id: "pm2", missionPackId: "mp1", detachmentId: "d1", localisations: { en: { name: "Crusade Reskin" } } },
+        ],
+      },
+    });
+    const canon = missionEntityCanon(dump);
+    expect(canon.get("battlefield-dominance")).toEqual({
+      source: "Chapter Approved 2026-2027",
+      roundCap: 15,
+      gameCap: 45,
+    });
+    expect(canon.has("crusade-reskin")).toBe(false);
+  });
+});
+
+describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("mission-entity reconcile over the real dump", () => {
+  const report = reconcileMissionEntities(loadDump());
+
+  it("is idempotent after apply — every mission cites the pack, caps confirmed, no reviews", () => {
+    expect(report.matched).toBe(25);
+    expect(report.sourceFilled).toEqual([]); // already applied
+    expect(report.sourceReview).toEqual([]);
+    expect(report.capConfirmed).toBe(50); // 25 missions × 2 caps
+    expect(report.capReview).toEqual([]);
+    expect(report.staged).toEqual([]);
+  });
+
+  it("stamped the single matched-play pack as source on every mission", () => {
+    const missions = JSON.parse(
+      fs.readFileSync(path.join(CORE_DIR, "missions.json"), "utf8"),
+    ) as { id: string; source?: string }[];
+    expect(missions).toHaveLength(25);
+    for (const m of missions) expect(m.source).toBe("Chapter Approved 2026-2027");
   });
 });
