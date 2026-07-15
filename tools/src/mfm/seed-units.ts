@@ -121,6 +121,14 @@ function buildProfiles(dump: MfmDump, datasheetId: string, unitName: string): Pr
   return profiles;
 }
 
+/**
+ * Dump `miniature_keyword` names that are model-build / kit tags, not datasheet
+ * game keywords — a GW datasheet's KEYWORDS line never lists them (e.g. "Frame",
+ * the sprue designation shared by the Land Raider Crusader/Redeemer builds).
+ * Filtered out so they never land in a unit's `keywords`.
+ */
+const NON_GAME_KEYWORDS = new Set(["Frame"]);
+
 /** Union of keyword names across the datasheet's miniatures, deduped, in display order. */
 function buildKeywords(dump: MfmDump, datasheetId: string): string[] {
   const minis = (dump.groupBy("miniature", "datasheetId").get(datasheetId) ?? [])
@@ -134,7 +142,7 @@ function buildKeywords(dump: MfmDump, datasheetId: string): string[] {
     const mks = (mkByMini.get(m.id!) ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
     for (const mk of mks) {
       const nm = dump.enName(kwById.get(mk.keywordId));
-      if (!nm || seen.has(nm)) continue;
+      if (!nm || seen.has(nm) || NON_GAME_KEYWORDS.has(nm)) continue;
       seen.add(nm);
       out.push(nm);
     }
