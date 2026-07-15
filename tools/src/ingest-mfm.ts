@@ -45,6 +45,7 @@ import { REPO_ROOT, readJsonArray, CORE_DIR } from "./mfm/repo-files.js";
 import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-map.js";
 import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
 import { runEnhancements, buildEnhReport, normalizeEnhancementNames } from "./mfm/enhancements.js";
+import { seedStratagems } from "./mfm/seed-stratagems.js";
 import { runFactionFields, buildFactionFieldsReport } from "./mfm/faction-fields.js";
 import { runDetachmentFields, buildDetFieldsReport } from "./mfm/detachment-fields.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
@@ -768,6 +769,49 @@ async function runStratagemsCmd(dump: MfmDump, write: boolean): Promise<void> {
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runSeedStratagemsCmd(
+  dump: MfmDump,
+  write: boolean,
+  includeCombatPatrol = false,
+): Promise<void> {
+  const report = seedStratagems(dump, { includeCombatPatrol });
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-seed-stratagems.md");
+  const byDir = new Map<string, { id: string; name: string }[]>();
+  for (const s of report.seeded) (byDir.get(s.dir) ?? byDir.set(s.dir, []).get(s.dir)!).push(s);
+  const md =
+    `# MFM stratagem seeding (unseeded competitive set)\n\n` +
+    `Creates repo stratagem entities for dump stratagems with no repo entity. Structural\n` +
+    `fields are dump-derived; phases are prose-parsed and timing defaults to\n` +
+    `\`once-per-phase\`, so every seed is stamped \`pre-launch-provisional\` for review.\n` +
+    `Prose routes to the store via \`mfm-backfill-store\`, never here.\n\n` +
+    `- **Seeded:** ${report.seeded.length}\n` +
+    `- **Held back (Combat Patrol):** ${report.heldBackCombatPatrol.length}\n` +
+    `- **Skipped (coreless — manual review):** ${report.skippedCoreless.length}${report.skippedCoreless.length ? ` (${report.skippedCoreless.map((id) => `\`${id}\``).join(", ")})` : ""}\n` +
+    `- **Skipped (no repo dir):** ${report.skippedNoDir.length}\n` +
+    `- **Skipped (no canon):** ${report.skippedNoCanon.length}\n\n` +
+    [...byDir.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([dir, ss]) => `## ${dir} (${ss.length})\n\n${ss.sort((x, y) => x.id.localeCompare(y.id)).map((s) => `- \`${s.id}\` — ${s.name}`).join("\n")}`)
+      .join("\n\n") +
+    "\n";
+  fs.writeFileSync(reportPath, md);
+
+  console.log(`Seed-stratagems report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Seeded ${report.seeded.length}, held back ${report.heldBackCombatPatrol.length} Combat-Patrol, ` +
+      `skipped ${report.skippedCoreless.length} coreless / ${report.skippedNoDir.length} no-dir / ${report.skippedNoCanon.length} no-canon.`,
+  );
+  if (write && report.seeded.length) {
+    console.log(
+      `Follow-through: run \`npx tsx src/mfm-backfill-store.ts --write\` to push the seeded ` +
+        `stratagems' prose to the store, then rebuild index.json.`,
+    );
+  }
+  await applyWrites(report.staged, { write, label: "seed-stratagems" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runMissionsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runMissions(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -1123,6 +1167,7 @@ async function main(): Promise<void> {
     "points",
     "cull-legends",
     "stratagems",
+    "seed-stratagems",
     "missions",
     "mission-matchups",
     "base-sizes",
@@ -1156,6 +1201,7 @@ async function main(): Promise<void> {
   else if (cmd === "points") await runPointsCmd(dump, write);
   else if (cmd === "cull-legends") await runCullCmd(dump, write);
   else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
+  else if (cmd === "seed-stratagems") await runSeedStratagemsCmd(dump, write, includeCombatPatrol);
   else if (cmd === "missions") await runMissionsCmd(dump, write);
   else if (cmd === "mission-matchups") await runMissionMatchupsCmd(dump, write);
   else if (cmd === "base-sizes") await runBaseSizesCmd(dump, write);

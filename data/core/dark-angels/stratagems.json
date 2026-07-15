@@ -1,13 +1,126 @@
 [
   {
-    "id": "unmatched-fortitude-inner-circle-task-force",
-    "name": "UNMATCHED FORTITUDE",
+    "id": "a-deadly-prize-vanguard-spearhead",
+    "name": "A DEADLY PRIZE",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "inner-circle-task-force",
+    "type": "wargear",
+    "detachment_id": "vanguard-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "adaptive-operations-subversion-assets",
+    "name": "Adaptive Operations",
+    "category": "detachment",
+    "detachment_id": "subversion-assets",
     "cp_cost": 1,
     "phases": [
       "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "adaptive-strategy-gladius-task-force",
+    "name": "ADAPTIVE STRATEGY",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "gladius-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "advanced-deployment-armoured-speartip",
+    "name": "Advanced Deployment",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "armoured-speartip",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ancient-fury-ironstorm-spearhead",
+    "name": "ANCIENT FURY",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "ironstorm-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "angels-defiant-bastion-task-force",
+    "name": "Angels Defiant",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "bastion-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "anti-grav-surge-fulguris-task-force",
+    "name": "Anti-grav Surge",
+    "category": "detachment",
+    "detachment_id": "fulguris-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -39,486 +152,11 @@
     }
   },
   {
-    "id": "unforgiven-fury-unforgiven-task-force",
-    "name": "UNFORGIVEN FURY",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "unforgiven-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "fire-discipline-unforgiven-task-force",
-    "name": "FIRE DISCIPLINE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "unforgiven-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "unbreakable-lines-unforgiven-task-force",
-    "name": "UNBREAKABLE LINES",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "unforgiven-task-force",
-    "cp_cost": 2,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "wrath-of-the-lion-inner-circle-task-force",
-    "name": "WRATH OF THE LION",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "inner-circle-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "martial-mastery-inner-circle-task-force",
-    "name": "MARTIAL MASTERY",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "inner-circle-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "relic-teleportarium-inner-circle-task-force",
-    "name": "RELIC TELEPORTARIUM",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "inner-circle-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "duty-unto-death-inner-circle-task-force",
-    "name": "DUTY UNTO DEATH",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "inner-circle-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "intractable-unforgiven-task-force",
-    "name": "INTRACTABLE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "unforgiven-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "grim-retribution-unforgiven-task-force",
-    "name": "GRIM RETRIBUTION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "unforgiven-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "overpowering-exaction-lions-blade-task-force",
-    "name": "Overpowering Exaction",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "lions-blade-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "knights-of-iron-lions-blade-task-force",
-    "name": "Knights of Iron",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "lions-blade-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement",
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "illuminating-fire-lions-blade-task-force",
-    "name": "Illuminating Fire",
+    "id": "armour-of-contempt-lions-blade-task-force",
+    "name": "Armour of Contempt",
     "category": "detachment",
     "type": "battle-tactic",
     "detachment_id": "lions-blade-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "inescapable-wrath-lions-blade-task-force",
-    "name": "Inescapable Wrath",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "lions-blade-task-force",
-    "cp_cost": 2,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "strength-in-unity-lions-blade-task-force",
-    "name": "Strength in Unity",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "lions-blade-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "inescapable-justice-wrath-of-the-rock",
-    "name": "Inescapable Justice",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "wrath-of-the-rock",
-    "cp_cost": 2,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "tactical-mastery-wrath-of-the-rock",
-    "name": "Tactical Mastery",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "wrath-of-the-rock",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "lions-will-wrath-of-the-rock",
-    "name": "Lion’s Will",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "wrath-of-the-rock",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "relics-of-the-dark-age-wrath-of-the-rock",
-    "name": "Relics of the Dark Age",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "wrath-of-the-rock",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "leonine-aggression-wrath-of-the-rock",
-    "name": "Leonine Aggression",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "wrath-of-the-rock",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "searing-bursts-dark-age-arsenal",
-    "name": "Searing Bursts",
-    "category": "detachment",
-    "detachment_id": "dark-age-arsenal",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "no-sacrifice-too-great-dark-age-arsenal",
-    "name": "No Sacrifice Too Great",
-    "category": "detachment",
-    "detachment_id": "dark-age-arsenal",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "revelation-of-guilt-dark-age-arsenal",
-    "name": "Revelation of Guilt",
-    "category": "detachment",
-    "detachment_id": "dark-age-arsenal",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "skyborne-surveillance-darkflight-pursuit",
-    "name": "Skyborne Surveillance",
-    "category": "detachment",
-    "detachment_id": "darkflight-pursuit",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "wings-of-shadow-darkflight-pursuit",
-    "name": "Wings of Shadow",
-    "category": "detachment",
-    "detachment_id": "darkflight-pursuit",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "we-are-vengeance-darkflight-pursuit",
-    "name": "We Are Vengeance",
-    "category": "detachment",
-    "detachment_id": "darkflight-pursuit",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "exacting-punishment-interrogation-conclave",
-    "name": "Exacting Punishment",
-    "category": "detachment",
-    "detachment_id": "interrogation-conclave",
     "cp_cost": 1,
     "phases": [
       "shooting",
@@ -527,569 +165,18 @@
     "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "armour-of-contempt-lions-blade-task-force",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "terrifying-zeal-interrogation-conclave",
-    "name": "Terrifying Zeal",
-    "category": "detachment",
-    "detachment_id": "interrogation-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "wages-of-cowardice-interrogation-conclave",
-    "name": "Wages of Cowardice",
-    "category": "detachment",
-    "detachment_id": "interrogation-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "death-on-the-wind-company-of-hunters",
-    "name": "DEATH ON THE WIND",
+    "id": "armour-of-contempt-unforgiven-task-force",
+    "name": "Armour of Contempt",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "company-of-hunters",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "high-speed-focus-company-of-hunters",
-    "name": "HIGH-SPEED FOCUS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "company-of-hunters",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "rapid-reappraisal-company-of-hunters",
-    "name": "RAPID REAPPRAISAL",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "company-of-hunters",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hunters-trail-company-of-hunters",
-    "name": "HUNTER’S TRAIL",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "company-of-hunters",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "talon-strike-company-of-hunters",
-    "name": "TALON STRIKE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "company-of-hunters",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "heroes-of-the-chapter-1st-company-task-force",
-    "name": "HEROES OF THE CHAPTER",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "1st-company-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "legendary-fortitude-1st-company-task-force",
-    "name": "LEGENDARY FORTITUDE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "1st-company-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "terrifying-proficiency-1st-company-task-force",
-    "name": "TERRIFYING PROFICIENCY",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "1st-company-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "duty-and-honour-1st-company-task-force",
-    "name": "DUTY AND HONOUR",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "1st-company-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "orbital-teleportarium-1st-company-task-force",
-    "name": "ORBITAL TELEPORTARIUM",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "1st-company-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "honour-the-chapter-gladius-task-force",
-    "name": "HONOUR THE CHAPTER",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "gladius-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "storm-of-fire-gladius-task-force",
-    "name": "STORM OF FIRE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "gladius-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "only-in-death-does-duty-end-gladius-task-force",
-    "name": "ONLY IN DEATH DOES DUTY END",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "gladius-task-force",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "adaptive-strategy-gladius-task-force",
-    "name": "ADAPTIVE STRATEGY",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "gladius-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "squad-tactics-gladius-task-force",
-    "name": "SQUAD TACTICS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "gladius-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "blitzing-fusillade-stormlance-task-force",
-    "name": "BLITZING FUSILLADE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "stormlance-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "shock-assault-stormlance-task-force",
-    "name": "SHOCK ASSAULT",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "stormlance-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ride-hard-ride-fast-stormlance-task-force",
-    "name": "RIDE HARD, RIDE FAST",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "stormlance-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "wind-swift-evasion-stormlance-task-force",
-    "name": "WIND-SWIFT EVASION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "stormlance-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "full-throttle-stormlance-task-force",
-    "name": "FULL THROTTLE",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "stormlance-task-force",
-    "cp_cost": 2,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "strike-from-the-shadows-vanguard-spearhead",
-    "name": "STRIKE FROM THE SHADOWS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "vanguard-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "surgical-strikes-vanguard-spearhead",
-    "name": "SURGICAL STRIKES",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "vanguard-spearhead",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "calculated-feint-vanguard-spearhead",
-    "name": "CALCULATED FEINT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "vanguard-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "guerrilla-tactics-vanguard-spearhead",
-    "name": "GUERRILLA TACTICS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "vanguard-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "a-deadly-prize-vanguard-spearhead",
-    "name": "A DEADLY PRIZE",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "vanguard-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "suppression-strafing-orbital-assault-force",
-    "name": "Suppression Strafing",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "orbital-assault-force",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "blind-screen-orbital-assault-force",
-    "name": "Blind Screen",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "orbital-assault-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "tactical-decapitation-orbital-assault-force",
-    "name": "Tactical Decapitation",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "orbital-assault-force",
+    "detachment_id": "unforgiven-task-force",
     "cp_cost": 1,
     "phases": [
       "shooting",
@@ -1098,42 +185,43 @@
     "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "armour-of-contempt-unforgiven-task-force",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "shock-onslaught-orbital-assault-force",
-    "name": "Shock Onslaught",
+    "id": "armour-of-contempt-wrath-of-the-rock",
+    "name": "Armour of Contempt",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "orbital-assault-force",
+    "type": "battle-tactic",
+    "detachment_id": "wrath-of-the-rock",
     "cp_cost": 1,
     "phases": [
+      "shooting",
       "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "armour-of-contempt-wrath-of-the-rock",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "onward-for-the-emperor-orbital-assault-force",
-    "name": "Onward for the Emperor",
+    "id": "augmented-targeting-ceramite-sentinels",
+    "name": "Augmented Targeting",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "orbital-assault-force",
+    "type": "battle-tactic",
+    "detachment_id": "ceramite-sentinels",
     "cp_cost": 1,
     "phases": [
-      "fight"
+      "shooting"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1162,69 +250,12 @@
     }
   },
   {
-    "id": "no-threat-too-great-anvil-siege-force",
-    "name": "NO THREAT TOO GREAT",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "anvil-siege-force",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "rigid-discipline-anvil-siege-force",
-    "name": "RIGID DISCIPLINE",
+    "id": "blind-screen-orbital-assault-force",
+    "name": "Blind Screen",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "anvil-siege-force",
+    "detachment_id": "orbital-assault-force",
     "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "not-one-backwards-step-anvil-siege-force",
-    "name": "NOT ONE BACKWARDS STEP",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "anvil-siege-force",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hail-of-vengeance-anvil-siege-force",
-    "name": "HAIL OF VENGEANCE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "anvil-siege-force",
-    "cp_cost": 2,
     "phases": [
       "shooting"
     ],
@@ -1238,31 +269,11 @@
     }
   },
   {
-    "id": "crucible-of-battle-firestorm-assault-force",
-    "name": "CRUCIBLE OF BATTLE",
+    "id": "blitzing-fusillade-stormlance-task-force",
+    "name": "BLITZING FUSILLADE",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "firestorm-assault-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "onslaught-of-fire-firestorm-assault-force",
-    "name": "ONSLAUGHT OF FIRE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "firestorm-assault-force",
+    "detachment_id": "stormlance-task-force",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1296,14 +307,33 @@
     }
   },
   {
-    "id": "immolation-protocols-firestorm-assault-force",
-    "name": "IMMOLATION PROTOCOLS",
+    "id": "calculated-feint-vanguard-spearhead",
+    "name": "CALCULATED FEINT",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "firestorm-assault-force",
-    "cp_cost": 2,
+    "type": "strategic-ploy",
+    "detachment_id": "vanguard-spearhead",
+    "cp_cost": 1,
     "phases": [
-      "shooting"
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ceramite-sledgehammer-armoured-speartip",
+    "name": "Ceramite Sledgehammer",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "armoured-speartip",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -1315,13 +345,32 @@
     }
   },
   {
-    "id": "rapid-embarkation-firestorm-assault-force",
-    "name": "RAPID EMBARKATION",
+    "id": "cloaked-position-subversion-assets",
+    "name": "Cloaked Position",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "firestorm-assault-force",
+    "detachment_id": "subversion-assets",
     "cp_cost": 1,
     "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "codex-discipline-bastion-task-force",
+    "name": "Codex Discipline",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "bastion-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
       "fight"
     ],
     "player_turn": "either",
@@ -1334,97 +383,17 @@
     }
   },
   {
-    "id": "unbowed-conviction-ironstorm-spearhead",
-    "name": "UNBOWED CONVICTION",
+    "id": "crucible-of-battle-firestorm-assault-force",
+    "name": "CRUCIBLE OF BATTLE",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "ironstorm-spearhead",
+    "detachment_id": "firestorm-assault-force",
     "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mercy-is-weakness-ironstorm-spearhead",
-    "name": "MERCY IS WEAKNESS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "ironstorm-spearhead",
-    "cp_cost": 2,
     "phases": [
       "fight",
       "shooting"
     ],
     "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "vengeful-animus-ironstorm-spearhead",
-    "name": "VENGEFUL ANIMUS",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "ironstorm-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ancient-fury-ironstorm-spearhead",
-    "name": "ANCIENT FURY",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "ironstorm-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "power-of-the-machine-spirit-ironstorm-spearhead",
-    "name": "POWER OF THE MACHINE SPIRIT",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "ironstorm-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1452,46 +421,11 @@
     }
   },
   {
-    "id": "reactive-evasion-fulguris-task-force",
-    "name": "Reactive Evasion",
+    "id": "death-on-the-wind-company-of-hunters",
+    "name": "DEATH ON THE WIND",
     "category": "detachment",
-    "detachment_id": "fulguris-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "anti-grav-surge-fulguris-task-force",
-    "name": "Anti-grav Surge",
-    "category": "detachment",
-    "detachment_id": "fulguris-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "adaptive-operations-subversion-assets",
-    "name": "Adaptive Operations",
-    "category": "detachment",
-    "detachment_id": "subversion-assets",
+    "type": "battle-tactic",
+    "detachment_id": "company-of-hunters",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1506,13 +440,517 @@
     }
   },
   {
-    "id": "cloaked-position-subversion-assets",
-    "name": "Cloaked Position",
+    "id": "duty-and-honour-1st-company-task-force",
+    "name": "DUTY AND HONOUR",
     "category": "detachment",
-    "detachment_id": "subversion-assets",
+    "type": "strategic-ploy",
+    "detachment_id": "1st-company-task-force",
     "cp_cost": 1,
     "phases": [
       "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "duty-unto-death-inner-circle-task-force",
+    "name": "DUTY UNTO DEATH",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "inner-circle-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "evasive-repositioning-ceramite-sentinels",
+    "name": "Evasive Repositioning",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "ceramite-sentinels",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "exacting-punishment-interrogation-conclave",
+    "name": "Exacting Punishment",
+    "category": "detachment",
+    "detachment_id": "interrogation-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "fire-discipline-unforgiven-task-force",
+    "name": "FIRE DISCIPLINE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "unforgiven-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "full-throttle-stormlance-task-force",
+    "name": "FULL THROTTLE",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "stormlance-task-force",
+    "cp_cost": 2,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "grim-retribution-unforgiven-task-force",
+    "name": "GRIM RETRIBUTION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "unforgiven-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "guerrilla-tactics-vanguard-spearhead",
+    "name": "GUERRILLA TACTICS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "vanguard-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "guided-disruption-bastion-task-force",
+    "name": "Guided Disruption",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "bastion-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "hail-of-vengeance-anvil-siege-force",
+    "name": "HAIL OF VENGEANCE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "anvil-siege-force",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "heresy-undone-bastion-task-force",
+    "name": "Heresy Undone",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "bastion-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "heroes-of-the-chapter-1st-company-task-force",
+    "name": "HEROES OF THE CHAPTER",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "1st-company-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "high-speed-focus-company-of-hunters",
+    "name": "HIGH-SPEED FOCUS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "company-of-hunters",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "honour-the-chapter-gladius-task-force",
+    "name": "HONOUR THE CHAPTER",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "gladius-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "hunters-trail-company-of-hunters",
+    "name": "HUNTER’S TRAIL",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "company-of-hunters",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "illuminating-fire-lions-blade-task-force",
+    "name": "Illuminating Fire",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "lions-blade-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "immolation-protocols-firestorm-assault-force",
+    "name": "IMMOLATION PROTOCOLS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "firestorm-assault-force",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "inescapable-justice-wrath-of-the-rock",
+    "name": "Inescapable Justice",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "wrath-of-the-rock",
+    "cp_cost": 2,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "inescapable-wrath-lions-blade-task-force",
+    "name": "Inescapable Wrath",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "lions-blade-task-force",
+    "cp_cost": 2,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "intractable-unforgiven-task-force",
+    "name": "INTRACTABLE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "unforgiven-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "kill-shot-headhunter-task-force",
+    "name": "Kill Shot",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "headhunter-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "knights-of-iron-lions-blade-task-force",
+    "name": "Knights of Iron",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "lions-blade-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement",
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "legendary-fortitude-1st-company-task-force",
+    "name": "LEGENDARY FORTITUDE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "1st-company-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "leonine-aggression-wrath-of-the-rock",
+    "name": "Leonine Aggression",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "wrath-of-the-rock",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "light-of-vengeance-bastion-task-force",
+    "name": "Light of Vengeance",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "bastion-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "lions-will-wrath-of-the-rock",
+    "name": "Lion’s Will",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "wrath-of-the-rock",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "machine-vengeance-headhunter-task-force",
+    "name": "Machine Vengeance",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "headhunter-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -1547,16 +985,16 @@
     }
   },
   {
-    "id": "ceramite-sledgehammer-armoured-speartip",
-    "name": "Ceramite Sledgehammer",
+    "id": "martial-mastery-inner-circle-task-force",
+    "name": "MARTIAL MASTERY",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "armoured-speartip",
+    "type": "epic-deed",
+    "detachment_id": "inner-circle-task-force",
     "cp_cost": 1,
     "phases": [
-      "movement"
+      "fight"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1566,30 +1004,30 @@
     }
   },
   {
-    "id": "advanced-deployment-armoured-speartip",
-    "name": "Advanced Deployment",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "armoured-speartip",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "purgation-doctrine-armoured-speartip",
-    "name": "Purgation Doctrine",
+    "id": "mercy-is-weakness-ironstorm-spearhead",
+    "name": "MERCY IS WEAKNESS",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "armoured-speartip",
+    "detachment_id": "ironstorm-spearhead",
+    "cp_cost": 2,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "no-sacrifice-too-great-dark-age-arsenal",
+    "name": "No Sacrifice Too Great",
+    "category": "detachment",
+    "detachment_id": "dark-age-arsenal",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1604,115 +1042,14 @@
     }
   },
   {
-    "id": "codex-discipline-bastion-task-force",
-    "name": "Codex Discipline",
+    "id": "no-threat-too-great-anvil-siege-force",
+    "name": "NO THREAT TOO GREAT",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "bastion-task-force",
-    "cp_cost": 1,
+    "detachment_id": "anvil-siege-force",
+    "cp_cost": 2,
     "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "shock-bombardment-bastion-task-force",
-    "name": "Shock Bombardment",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "bastion-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "guided-disruption-bastion-task-force",
-    "name": "Guided Disruption",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "bastion-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "angels-defiant-bastion-task-force",
-    "name": "Angels Defiant",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "bastion-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "light-of-vengeance-bastion-task-force",
-    "name": "Light of Vengeance",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "bastion-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "heresy-undone-bastion-task-force",
-    "name": "Heresy Undone",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "bastion-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "charge"
+      "shooting"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -1724,14 +1061,33 @@
     }
   },
   {
-    "id": "unyielding-might-ceramite-sentinels",
-    "name": "Unyielding Might",
+    "id": "not-one-backwards-step-anvil-siege-force",
+    "name": "NOT ONE BACKWARDS STEP",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "ceramite-sentinels",
+    "type": "strategic-ploy",
+    "detachment_id": "anvil-siege-force",
     "cp_cost": 1,
     "phases": [
       "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "only-in-death-does-duty-end-gladius-task-force",
+    "name": "ONLY IN DEATH DOES DUTY END",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "gladius-task-force",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -1743,16 +1099,93 @@
     }
   },
   {
-    "id": "stand-to-the-end-ceramite-sentinels",
-    "name": "Stand to the End",
+    "id": "onslaught-of-fire-firestorm-assault-force",
+    "name": "ONSLAUGHT OF FIRE",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "ceramite-sentinels",
+    "type": "battle-tactic",
+    "detachment_id": "firestorm-assault-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "onward-for-the-emperor-orbital-assault-force",
+    "name": "Onward for the Emperor",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "orbital-assault-force",
     "cp_cost": 1,
     "phases": [
       "fight"
     ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "orbital-teleportarium-1st-company-task-force",
+    "name": "ORBITAL TELEPORTARIUM",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "1st-company-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "overpowering-exaction-lions-blade-task-force",
+    "name": "Overpowering Exaction",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "lions-blade-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "fight"
+    ],
     "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "power-of-the-machine-spirit-ironstorm-spearhead",
+    "name": "POWER OF THE MACHINE SPIRIT",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "ironstorm-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1782,11 +1215,11 @@
     }
   },
   {
-    "id": "augmented-targeting-ceramite-sentinels",
-    "name": "Augmented Targeting",
+    "id": "purgation-doctrine-armoured-speartip",
+    "name": "Purgation Doctrine",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "ceramite-sentinels",
+    "detachment_id": "armoured-speartip",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1801,16 +1234,16 @@
     }
   },
   {
-    "id": "evasive-repositioning-ceramite-sentinels",
-    "name": "Evasive Repositioning",
+    "id": "rapid-embarkation-firestorm-assault-force",
+    "name": "RAPID EMBARKATION",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "ceramite-sentinels",
+    "detachment_id": "firestorm-assault-force",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "fight"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1839,6 +1272,43 @@
     }
   },
   {
+    "id": "rapid-reappraisal-company-of-hunters",
+    "name": "RAPID REAPPRAISAL",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "company-of-hunters",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reactive-evasion-fulguris-task-force",
+    "name": "Reactive Evasion",
+    "category": "detachment",
+    "detachment_id": "fulguris-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
     "id": "reactive-repositioning-headhunter-task-force",
     "name": "Reactive Repositioning",
     "category": "detachment",
@@ -1849,6 +1319,386 @@
       "movement"
     ],
     "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "relic-teleportarium-inner-circle-task-force",
+    "name": "RELIC TELEPORTARIUM",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "inner-circle-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "relics-of-the-dark-age-wrath-of-the-rock",
+    "name": "Relics of the Dark Age",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "wrath-of-the-rock",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "revelation-of-guilt-dark-age-arsenal",
+    "name": "Revelation of Guilt",
+    "category": "detachment",
+    "detachment_id": "dark-age-arsenal",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ride-hard-ride-fast-stormlance-task-force",
+    "name": "RIDE HARD, RIDE FAST",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "stormlance-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "rigid-discipline-anvil-siege-force",
+    "name": "RIGID DISCIPLINE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "anvil-siege-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "searing-bursts-dark-age-arsenal",
+    "name": "Searing Bursts",
+    "category": "detachment",
+    "detachment_id": "dark-age-arsenal",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shock-assault-stormlance-task-force",
+    "name": "SHOCK ASSAULT",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "stormlance-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shock-bombardment-bastion-task-force",
+    "name": "Shock Bombardment",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "bastion-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shock-onslaught-orbital-assault-force",
+    "name": "Shock Onslaught",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "orbital-assault-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "skyborne-surveillance-darkflight-pursuit",
+    "name": "Skyborne Surveillance",
+    "category": "detachment",
+    "detachment_id": "darkflight-pursuit",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "squad-tactics-gladius-task-force",
+    "name": "SQUAD TACTICS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "gladius-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "stand-to-the-end-ceramite-sentinels",
+    "name": "Stand to the End",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "ceramite-sentinels",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "storm-of-fire-gladius-task-force",
+    "name": "STORM OF FIRE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "gladius-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "strength-in-unity-lions-blade-task-force",
+    "name": "Strength in Unity",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "lions-blade-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "strike-from-the-shadows-vanguard-spearhead",
+    "name": "STRIKE FROM THE SHADOWS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "vanguard-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "suppression-strafing-orbital-assault-force",
+    "name": "Suppression Strafing",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "orbital-assault-force",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "surgical-strikes-vanguard-spearhead",
+    "name": "SURGICAL STRIKES",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "vanguard-spearhead",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "tactical-decapitation-orbital-assault-force",
+    "name": "Tactical Decapitation",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "orbital-assault-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "tactical-mastery-wrath-of-the-rock",
+    "name": "Tactical Mastery",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "wrath-of-the-rock",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "talon-strike-company-of-hunters",
+    "name": "TALON STRIKE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "company-of-hunters",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1877,14 +1727,14 @@
     }
   },
   {
-    "id": "kill-shot-headhunter-task-force",
-    "name": "Kill Shot",
+    "id": "terrifying-proficiency-1st-company-task-force",
+    "name": "TERRIFYING PROFICIENCY",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "headhunter-task-force",
+    "type": "strategic-ploy",
+    "detachment_id": "1st-company-task-force",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "fight"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -1896,16 +1746,226 @@
     }
   },
   {
-    "id": "machine-vengeance-headhunter-task-force",
-    "name": "Machine Vengeance",
+    "id": "terrifying-zeal-interrogation-conclave",
+    "name": "Terrifying Zeal",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "headhunter-task-force",
+    "detachment_id": "interrogation-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unbowed-conviction-ironstorm-spearhead",
+    "name": "UNBOWED CONVICTION",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "ironstorm-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unbreakable-lines-unforgiven-task-force",
+    "name": "UNBREAKABLE LINES",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "unforgiven-task-force",
+    "cp_cost": 2,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unforgiven-fury-unforgiven-task-force",
+    "name": "UNFORGIVEN FURY",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "unforgiven-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unmatched-fortitude-inner-circle-task-force",
+    "name": "UNMATCHED FORTITUDE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "inner-circle-task-force",
     "cp_cost": 1,
     "phases": [
       "shooting"
     ],
     "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unyielding-might-ceramite-sentinels",
+    "name": "Unyielding Might",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "ceramite-sentinels",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "vengeful-animus-ironstorm-spearhead",
+    "name": "VENGEFUL ANIMUS",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "ironstorm-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "wages-of-cowardice-interrogation-conclave",
+    "name": "Wages of Cowardice",
+    "category": "detachment",
+    "detachment_id": "interrogation-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "we-are-vengeance-darkflight-pursuit",
+    "name": "We Are Vengeance",
+    "category": "detachment",
+    "detachment_id": "darkflight-pursuit",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "wind-swift-evasion-stormlance-task-force",
+    "name": "WIND-SWIFT EVASION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "stormlance-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "wings-of-shadow-darkflight-pursuit",
+    "name": "Wings of Shadow",
+    "category": "detachment",
+    "detachment_id": "darkflight-pursuit",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "wrath-of-the-lion-inner-circle-task-force",
+    "name": "WRATH OF THE LION",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "inner-circle-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,

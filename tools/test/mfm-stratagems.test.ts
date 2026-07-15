@@ -5,6 +5,7 @@ import { DEFAULT_DUMP_PATH, loadDump, MfmDump } from "../src/mfm/loader.js";
 import { CORE_DIR } from "../src/mfm/repo-files.js";
 import { nameToId, detachmentScopedId } from "../src/converters/id-generator.js";
 import { buildStratCanon, runStratagems, deriveTrigger } from "../src/mfm/stratagems.js";
+import { seedStratagems } from "../src/mfm/seed-stratagems.js";
 
 /**
  * WS4 stratagem field reconcile. The canon derivation (dump row → first-class
@@ -132,5 +133,39 @@ describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("stratagem reconcile over the
   it("only stages stratagems.json files", () => {
     const report = runStratagems(dump, false);
     for (const s of report.staged) expect(s.path).toMatch(/stratagems\.json$/);
+  });
+});
+
+describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("seedStratagems over the real dump", () => {
+  const dump = loadDump();
+  const report = seedStratagems(dump);
+
+  it("is idempotent — the competitive set is already seeded (0 new)", () => {
+    expect(report.seeded.length).toBe(0);
+    for (const s of report.staged) expect(s.path).toMatch(/stratagems\.json$/);
+  });
+
+  it("holds back Combat-Patrol publications by default", () => {
+    expect(report.heldBackCombatPatrol.length).toBeGreaterThan(0);
+  });
+
+  it("skips coreless dump stratagems (universal core set is complete; spelling mismatches)", () => {
+    // The dump's one-word "Counteroffensive" must NOT seed a duplicate of the
+    // authored core "counter-offensive"; coreless rows are held for manual review.
+    expect(report.skippedCoreless).toContain("counteroffensive");
+  });
+
+  it("emits a legal provisional skeleton when it does seed (includeCombatPatrol)", () => {
+    const cp = seedStratagems(dump, { includeCombatPatrol: true });
+    const rec = cp.seeded[0];
+    expect(rec).toBeDefined();
+    // Every seeded record is detachment-scoped and stamped provisional.
+    const staged = cp.staged.flatMap((w) => w.value as { id: string; category: string; phases: string[]; timing: string; player_turn: string; game_version: { dataslate: string } }[]);
+    const seededRec = staged.find((r) => r.id === rec.id)!;
+    expect(seededRec.category).toBe("detachment");
+    expect(seededRec.phases.length).toBeGreaterThan(0);
+    expect(seededRec.timing).toBe("once-per-phase");
+    expect(["your-turn", "opponent-turn", "either"]).toContain(seededRec.player_turn);
+    expect(seededRec.game_version.dataslate).toBe("pre-launch-provisional");
   });
 });
