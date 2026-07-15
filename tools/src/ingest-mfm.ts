@@ -52,6 +52,7 @@ import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
 import { runMissions, buildMissionsReport } from "./mfm/missions.js";
 import { runMissionMatchups, buildMatchupReport } from "./mfm/mission-matchups.js";
+import { runBaseSizes, buildBaseSizeReport } from "./mfm/base-sizes.js";
 import { runChapterScope, buildChapterScopeReport } from "./mfm/chapter-scope.js";
 import {
   runWargear,
@@ -781,6 +782,29 @@ async function runMissionMatchupsCmd(dump: MfmDump, write: boolean): Promise<voi
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runBaseSizesCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runBaseSizes(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-base-sizes.md");
+  fs.writeFileSync(reportPath, buildBaseSizeReport(report, write));
+
+  if (report.review.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-base-sizes.json"),
+      JSON.stringify({ review: report.review }, null, 2) + "\n"
+    );
+  }
+
+  console.log(`Base-sizes report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Filled ${report.filled.length}, de-drafted ${report.dedrafted.length}, ` +
+      `corrected ${report.corrected.length}, confirmed ${report.confirmed}, review ${report.review.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "base-sizes" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runChapterScopeCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runChapterScope(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -1052,6 +1076,7 @@ async function main(): Promise<void> {
     "stratagems",
     "missions",
     "mission-matchups",
+    "base-sizes",
     "chapter-scope",
     "wargear",
     "wargear-budgets",
@@ -1083,6 +1108,7 @@ async function main(): Promise<void> {
   else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
   else if (cmd === "missions") await runMissionsCmd(dump, write);
   else if (cmd === "mission-matchups") await runMissionMatchupsCmd(dump, write);
+  else if (cmd === "base-sizes") await runBaseSizesCmd(dump, write);
   else if (cmd === "chapter-scope") await runChapterScopeCmd(dump, write);
   else if (cmd === "wargear") await runWargearCmd(dump, write, onlyDir);
   else if (cmd === "wargear-budgets") await runWargearBudgetsCmd(dump, write, onlyDir);

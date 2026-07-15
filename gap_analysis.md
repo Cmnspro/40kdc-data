@@ -19,9 +19,9 @@ Regenerate after a new dump upload (order matters):
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
 | A — fields | Contract field entries | 663 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 229 / 105 / 272 / 57 |
-| A — fields | **Actionable field-gap groups** | **115** |
-| A — fields | **Actionable unmapped dump fields** | **48** |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 229 / 111 / 263 / 60 |
+| A — fields | **Actionable field-gap groups** | **116** |
+| A — fields | **Actionable unmapped dump fields** | **47** |
 | B — tables | **Populated tables, no consumer (structured)** | **43** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
 | C — entities | **Units new in dump** | **0** |
@@ -282,8 +282,9 @@ Unmapped dump fields with a candidate repo destination:
 
 | Field | Coverage | Provenance | Dump source(s) | Reason |
 |---|---|---|---|---|
-| `/base_size_mm` (+6) | unimplemented | unresolved-candidate | `data.datasheet.localisations.*.baseSize` | The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object. |
+| `/base_size_mm` (+5) | partial | derived | `data.datasheet.localisations.*.baseSize` | runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial. |
 | `/wargear_budgets` (+5) | partial | derived | `data.wargear_limit.choiceLimit`<br>`data.wargear_limit.modelCount`<br>`data.wargear_limit.duplicateLimit` | Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented. |
+| `/base_size_mm/size` | not-applicable | unresolved-candidate | `data.datasheet.localisations.*.baseSize` | The flying-base size class is never dump-derived: runBaseSizes parses only round/oval strings, so Large/Small Flying Base is a skipped category and this sub-field stays repo-authored. |
 | `/profiles/*/invuln_sv` | partial | derived | `data.invulnerable_save.save` | Coverage is partial: this pass seeds representable whole-unit profile fields, while model-specific rows and prose-only caveats remain unprojected warnings. |
 | `/profiles/*/invuln_sv_melee` | partial | derived | `data.invulnerable_save.meleeSave` | Coverage is partial: this pass seeds representable whole-unit profile fields, while model-specific rows and prose-only caveats remain unprojected warnings. |
 | `/profiles/*/invuln_sv_ranged` | partial | derived | `data.invulnerable_save.rangedSave` | Coverage is partial: this pass seeds representable whole-unit profile fields, while model-specific rows and prose-only caveats remain unprojected warnings. |
@@ -332,7 +333,7 @@ Unmapped dump fields with a candidate repo destination:
 
 | Field | Coverage | Provenance | Dump source(s) | Reason |
 |---|---|---|---|---|
-| `/category` | unimplemented | unresolved-candidate | `data.wargear_item.wargearType` | wargearType is category-like evidence, but no reviewed transformation establishes equivalence with the repository category field. |
+| `/category` | not-applicable | unresolved-candidate | `data.wargear_item.wargearType` | Not dump-sourceable at repo granularity: wargearType is only weapon|wargear — a coarse entity-type discriminator the repo already models structurally (weapons.json vs wargear.json), not the free-form category. The repo category is a fine-grained community grouping (icon/banner/token/standard/upgrade/equipment) with no structured dump field (wargear_item exposes only id/localisations/noMultiProfileIcon/wargearType), so it stays repo-authored. |
 
 Unmapped dump fields with a candidate repo destination:
 
@@ -346,7 +347,7 @@ Unmapped dump fields with a candidate repo destination:
 |---|---|---|---|---|
 | `/replaces` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.loadout_choice_wargear_item.count`<br>`data.wargear_item.localisations.*.name`<br>`data.base_miniature_loadout.datasheetId`<br>`data.base_miniature_loadout.miniatureId`<br>`data.base_miniature_loadout_wargear_option.wargearOptionId`<br>`data.base_miniature_loadout_wargear_option.count`<br>`data.wargear_option.wargearItemId`<br>`data.wargear_option.defaultValue` | Replacement removals are derived deltas, not direct MFM fields, and are partial when item names cannot resolve to repository ids. |
 | `/replacement` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.loadout_choice_wargear_item.count`<br>`data.wargear_item.localisations.*.name` | A single derived branch becomes replacement; unresolved names leave the graph partially projected. |
-| `/additional_cost` | unimplemented | unresolved-candidate | `data.wargear_option.points` | wargear_option.points is a plausible source, but current wargear.ts does not project it to option additional_cost. |
+| `/additional_cost` | not-applicable | unresolved-candidate | `data.wargear_option.points` | Deliberately not populated: option points ARE imported, but as the authoritative per-item unit wargear_costs (see unit.mapping.json /wargear_costs, sourced from data.wargear_option.points via pricedWargearItems and charged per copy in the final loadout). additional_cost is the retired interim per-option encoding that wargear_costs subsumes — runWargearCosts strips it in the same write so no consumer double-charges. The schema field stays optional but is left null. |
 | `/model_constraint` | partial | derived | `data.loadout_choice_set.miniatureId`<br>`data.wargear_option.inputType`<br>`data.wargear_option.defaultValue`<br>`data.limited_wargear_choice_set.miniatureId`<br>`data.wargear_limit.modelCount`<br>`data.wargear_limit.choiceLimit` | The projection implements the supported ratio and checkbox paths but deliberately leaves shared, flat, datasheet-wide, duplicate, mandatory, alternate, and all-model semantics outside an option constraint. |
 | `/replacement_choice` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.loadout_choice_wargear_item.count`<br>`data.wargear_item.localisations.*.name` | Alternative replacement branches are derived from the supported ordinary loadout choice graph. |
 | `/replaces/*` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.wargear_item.localisations.*.name`<br>`data.wargear_option.wargearItemId` | Each removal is a resolved repository item id produced by branch differencing. |
@@ -367,7 +368,6 @@ Unmapped dump fields with a candidate repo destination:
 | `data.all_model_wargear_choice_wargear_item.count` | `/replacement` | All-model choice item multiplicity is not consumed. |
 | `data.all_model_wargear_choice_wargear_item.wargearItemId` | `/replacement` | All-model choice items are not projected into option replacements. |
 | `data.wargear_limit.duplicateLimit` | `/model_constraint/max_count` | Current cap logic ignores duplicateLimit; max_count is reserved for checkbox-only swaps. |
-| `data.wargear_option.points` | `/additional_cost` | Option points remain unprojected by current wargear.ts. |
 
 ### weapon (`schemas/core/weapon.schema.json`)
 

@@ -187,14 +187,14 @@
     },
     "/additional_cost": {
       "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "coverage": "not-applicable",
       "sources": ["data.wargear_option.points"],
       "joins": [],
       "transforms": [],
       "filters": [],
       "precedence": [],
       "consumers": [],
-      "reason": "wargear_option.points is a plausible source, but current wargear.ts does not project it to option additional_cost."
+      "reason": "Deliberately not populated: option points ARE imported, but as the authoritative per-item unit wargear_costs (see unit.mapping.json /wargear_costs, sourced from data.wargear_option.points via pricedWargearItems and charged per copy in the final loadout). additional_cost is the retired interim per-option encoding that wargear_costs subsumes — runWargearCosts strips it in the same write so no consumer double-charges. The schema field stays optional but is left null."
     },
     "/game_version": {
       "provenance": "repo-authored",
@@ -232,6 +232,6 @@
     {"source": "data.loadout_choice_set.alternate", "candidate_pointer": null, "reason": "Current derivation records alternate sets only as review notes and does not change emitted fields."},
     {"source": "data.limited_wargear_choice_set.mandatory", "candidate_pointer": null, "reason": "Mandatory limited-choice semantics are not represented by generated options."},
     {"source": "data.wargear_limit.duplicateLimit", "candidate_pointer": "/model_constraint/max_count", "reason": "Current cap logic ignores duplicateLimit; max_count is reserved for checkbox-only swaps."},
-    {"source": "data.wargear_option.points", "candidate_pointer": "/additional_cost", "reason": "Option points remain unprojected by current wargear.ts."}
+    {"source": "data.wargear_option.points", "candidate_pointer": null, "reason": "Consumed cross-entity as the unit wargear_costs per-item price (unit.mapping.json /wargear_costs via pricedWargearItems), not projected to any wargear-option field; the interim /additional_cost encoding it would have used is retired (stripped by runWargearCosts)."}
   ]
 }

@@ -495,73 +495,128 @@
       "reason": "Attachment role is derived from the authoritative bodyguard-group role with the documented leader-wins flattening rule."
     },
     "/base_size_mm": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "partial",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
       "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/base-sizes.ts#parseBaseSize",
+          "operation": "Parse a confident single round ('40mm') or oval ('120 x 92mm Oval Base') baseSize string to the base-size object; return null (skip) for categories, per-model/multi strings, and ambiguous single-number ovals."
+        }
+      ],
+      "filters": [
+        "Only single clean round or oval strings are parsed; Hull/Flying/Unique categories, per-model/multi strings, and ambiguous single-number ovals are skipped and the authored value is kept."
+      ],
+      "precedence": [
+        "A parsed value fills an empty field and corrects or de-drafts a provisional (draft) one; a non-draft authored value the dump contradicts is surfaced for review, never overwritten (the dump carries 0.5-1mm oval rounding errors)."
+      ],
+      "consumers": [
+        "tools/src/mfm/base-sizes.ts#runBaseSizes"
+      ],
+      "reason": "runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial."
     },
     "/base_size_mm/diameter": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "partial",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
       "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/base-sizes.ts#parseBaseSize",
+          "operation": "Parse a confident single round ('40mm') or oval ('120 x 92mm Oval Base') baseSize string to the base-size object; return null (skip) for categories, per-model/multi strings, and ambiguous single-number ovals."
+        }
+      ],
+      "filters": [
+        "Only single clean round or oval strings are parsed; Hull/Flying/Unique categories, per-model/multi strings, and ambiguous single-number ovals are skipped and the authored value is kept."
+      ],
+      "precedence": [
+        "A parsed value fills an empty field and corrects or de-drafts a provisional (draft) one; a non-draft authored value the dump contradicts is surfaced for review, never overwritten (the dump carries 0.5-1mm oval rounding errors)."
+      ],
+      "consumers": [
+        "tools/src/mfm/base-sizes.ts#runBaseSizes"
+      ],
+      "reason": "runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial."
     },
     "/base_size_mm/draft": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "partial",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
       "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/base-sizes.ts#parseBaseSize",
+          "operation": "Parse a confident single round ('40mm') or oval ('120 x 92mm Oval Base') baseSize string to the base-size object; return null (skip) for categories, per-model/multi strings, and ambiguous single-number ovals."
+        }
+      ],
+      "filters": [
+        "Only single clean round or oval strings are parsed; Hull/Flying/Unique categories, per-model/multi strings, and ambiguous single-number ovals are skipped and the authored value is kept."
+      ],
+      "precedence": [
+        "A parsed value fills an empty field and corrects or de-drafts a provisional (draft) one; a non-draft authored value the dump contradicts is surfaced for review, never overwritten (the dump carries 0.5-1mm oval rounding errors)."
+      ],
+      "consumers": [
+        "tools/src/mfm/base-sizes.ts#runBaseSizes"
+      ],
+      "reason": "runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial."
     },
     "/base_size_mm/length": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "partial",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
       "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/base-sizes.ts#parseBaseSize",
+          "operation": "Parse a confident single round ('40mm') or oval ('120 x 92mm Oval Base') baseSize string to the base-size object; return null (skip) for categories, per-model/multi strings, and ambiguous single-number ovals."
+        }
+      ],
+      "filters": [
+        "Only single clean round or oval strings are parsed; Hull/Flying/Unique categories, per-model/multi strings, and ambiguous single-number ovals are skipped and the authored value is kept."
+      ],
+      "precedence": [
+        "A parsed value fills an empty field and corrects or de-drafts a provisional (draft) one; a non-draft authored value the dump contradicts is surfaced for review, never overwritten (the dump carries 0.5-1mm oval rounding errors)."
+      ],
+      "consumers": [
+        "tools/src/mfm/base-sizes.ts#runBaseSizes"
+      ],
+      "reason": "runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial."
     },
     "/base_size_mm/shape": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "partial",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
       "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/base-sizes.ts#parseBaseSize",
+          "operation": "Parse a confident single round ('40mm') or oval ('120 x 92mm Oval Base') baseSize string to the base-size object; return null (skip) for categories, per-model/multi strings, and ambiguous single-number ovals."
+        }
+      ],
+      "filters": [
+        "Only single clean round or oval strings are parsed; Hull/Flying/Unique categories, per-model/multi strings, and ambiguous single-number ovals are skipped and the authored value is kept."
+      ],
+      "precedence": [
+        "A parsed value fills an empty field and corrects or de-drafts a provisional (draft) one; a non-draft authored value the dump contradicts is surfaced for review, never overwritten (the dump carries 0.5-1mm oval rounding errors)."
+      ],
+      "consumers": [
+        "tools/src/mfm/base-sizes.ts#runBaseSizes"
+      ],
+      "reason": "runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial."
     },
     "/base_size_mm/size": {
       "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "coverage": "not-applicable",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
@@ -570,20 +625,31 @@
       "filters": [],
       "precedence": [],
       "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "reason": "The flying-base size class is never dump-derived: runBaseSizes parses only round/oval strings, so Large/Small Flying Base is a skipped category and this sub-field stays repo-authored."
     },
     "/base_size_mm/width": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "partial",
       "sources": [
         "data.datasheet.localisations.*.baseSize"
       ],
       "joins": [],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "The dump exposes a display base-size label, but no reviewed transform currently produces the repository base-size object."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/base-sizes.ts#parseBaseSize",
+          "operation": "Parse a confident single round ('40mm') or oval ('120 x 92mm Oval Base') baseSize string to the base-size object; return null (skip) for categories, per-model/multi strings, and ambiguous single-number ovals."
+        }
+      ],
+      "filters": [
+        "Only single clean round or oval strings are parsed; Hull/Flying/Unique categories, per-model/multi strings, and ambiguous single-number ovals are skipped and the authored value is kept."
+      ],
+      "precedence": [
+        "A parsed value fills an empty field and corrects or de-drafts a provisional (draft) one; a non-draft authored value the dump contradicts is surfaced for review, never overwritten (the dump carries 0.5-1mm oval rounding errors)."
+      ],
+      "consumers": [
+        "tools/src/mfm/base-sizes.ts#runBaseSizes"
+      ],
+      "reason": "runBaseSizes derives the representative base from the dump baseSize for confident round/oval datasheets; categories, per-model bases, and hand-authored conflicts remain authored, so coverage is partial."
     },
     "/excluded_faction_keywords": {
       "provenance": "repo-authored",
