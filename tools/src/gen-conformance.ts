@@ -309,7 +309,8 @@ type LinkedApiQuery =
   | { name: string; query: "bodyguards_attachable_from"; args: { leaderId: string }; comparison: "set" }
   | { name: string; query: "reactive_trigger_ability_ids"; args: Record<string, never>; comparison: "ordered" }
   | { name: string; query: "events_with_triggers"; args: Record<string, never>; comparison: "ordered" }
-  | { name: string; query: "triggers_for_event"; args: { event: string }; comparison: "ordered" };
+  | { name: string; query: "triggers_for_event"; args: { event: string }; comparison: "ordered" }
+  | { name: string; query: "get_enhancement"; args: { id: string }; comparison: "scalar" };
 
 const LINKED_API_QUERIES: LinkedApiQuery[] = [
   // find_unit: diacritic-insensitive lookup, miss returns null.
@@ -321,6 +322,13 @@ const LINKED_API_QUERIES: LinkedApiQuery[] = [
   { name: "find_faction by display name", query: "find_faction", args: { query: "World Eaters" }, comparison: "scalar" },
   // find_ability: ability name lookup.
   { name: "find_ability by name", query: "find_ability", args: { query: "Berzerker Frenzy" }, comparison: "scalar" },
+  // get_enhancement: exact id, a since-renamed id resolved via the share-registry
+  // alias map (old id → current id), and a miss. Pins renamed-id resolution so a
+  // persisted roster/share link authored before an enhancement id was normalized
+  // to the RAW GW form still resolves to the current record.
+  { name: "get_enhancement direct hit", query: "get_enhancement", args: { id: "a-chink-in-their-armour-host-of-ascension" }, comparison: "scalar" },
+  { name: "get_enhancement resolves a renamed id via alias", query: "get_enhancement", args: { id: "a-chink-in-their-armour" }, comparison: "scalar" },
+  { name: "get_enhancement miss returns null", query: "get_enhancement", args: { id: "not-a-real-enhancement-xyz" }, comparison: "scalar" },
   // abilities_of(unit): ordered, iterates unit.ability_ids array.
   { name: "abilities_of intercessor-squad", query: "abilities_of", args: { unitId: "intercessor-squad" }, comparison: "ordered" },
   { name: "abilities_of kharn-the-betrayer", query: "abilities_of", args: { unitId: "kharn-the-betrayer" }, comparison: "ordered" },
@@ -408,6 +416,8 @@ function runLinkedQuery(ds: Dataset, q: LinkedApiQuery): string | null | string[
       return ds.factions.find(q.args.query)?.id ?? null;
     case "find_ability":
       return ds.abilities.find(q.args.query)?.id ?? null;
+    case "get_enhancement":
+      return ds.enhancements.get(q.args.id)?.id ?? null;
     case "abilities_of": {
       const u = ds.units.getAny(q.args.unitId);
       if (!u) throw new Error(`abilities_of: unknown unit ${q.args.unitId}`);

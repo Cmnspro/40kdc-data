@@ -263,7 +263,8 @@ impl Dataset {
             |f| Some(f.name.as_str()),
             |_| None,
             |f| f.id.to_string(),
-        );
+        )
+        .with_id_aliases(crate::share::embedded_registry().aliases.clone());
         // An ability_id is shared across factions (each faction's enrichment
         // authors its own copy of e.g. "deadly-demise-d3", and the copies
         // legitimately diverge); dedupe on (faction_id, id) so every faction's
@@ -304,6 +305,7 @@ impl Dataset {
             // faction); keep each faction's copy, collapse only within-faction dupes.
             |d| format!("{}::{}", d.faction_id.as_str(), d.id.as_str()),
         )
+        .with_id_aliases(crate::share::embedded_registry().aliases.clone())
         // Shared detachments diverge per chapter (detachment_rule_id,
         // stratagem_ids, enhancement_ids, detachment_points) — same guard as units.
         .with_unscoped_guard("detachment");
@@ -853,7 +855,10 @@ fn id_name_collection<T>(
     id_of: impl Fn(&T) -> String,
     name_of: impl Fn(&T) -> Option<&str>,
 ) -> Collection<T> {
+    // Resolve a persisted reference to a renamed id (harmless for record types
+    // absent from the registry — their ids are never alias keys).
     Collection::build(items, &id_of, name_of, |_| None, |i| id_of(i))
+        .with_id_aliases(crate::share::embedded_registry().aliases.clone())
 }
 
 /// Union the phases of every phase-mapping, keyed `source_type:source_id`.

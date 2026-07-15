@@ -53,6 +53,17 @@ export interface CollectionConfig<T, V> {
    * record's display name. The canonical name always wins a collision.
    */
   aliasesOf?: (item: T) => readonly string[] | null | undefined;
+  /**
+   * Renamed-id map (old id → current id), consulted by id lookups
+   * ({@link Collection.get}/{@link Collection.getAny}/{@link Collection.getInFaction}/
+   * {@link Collection.has}) only when the exact id misses. Lets a persisted
+   * reference to a since-renamed id (e.g. a saved roster or share link authored
+   * before an enhancement id was normalized) still resolve to the current
+   * record. The map is expected to be pre-flattened (each key maps directly to a
+   * terminal live id), so a single hop suffices. Typically the share registry's
+   * `aliases`.
+   */
+  idAliases?: Readonly<Record<string, string>>;
   /** Owning faction id, if applicable — drives {@link Collection.byFaction}. */
   factionOf?: (item: T) => string | null | undefined;
   /**
@@ -88,6 +99,7 @@ export class Collection<T, V> implements Iterable<V> {
   private readonly byFactionId = new Map<string, T[]>();
   private readonly idOf: (item: T) => string;
   private readonly nameOf?: (item: T) => string | undefined;
+  private readonly idAliases?: Readonly<Record<string, string>>;
   private readonly wrapFn: (item: T) => V;
   /** Ids registered under >1 faction; only populated when guarding. */
   private readonly ambiguousIds?: Set<string>;
@@ -97,6 +109,7 @@ export class Collection<T, V> implements Iterable<V> {
   constructor(cfg: CollectionConfig<T, V>) {
     this.idOf = cfg.idOf;
     this.nameOf = cfg.nameOf;
+    this.idAliases = cfg.idAliases;
     this.wrapFn = cfg.wrap;
     this.entityLabel = cfg.entityLabel ?? "entity";
     const dedupeKeyOf = cfg.dedupeKeyOf ?? cfg.idOf;
@@ -168,8 +181,20 @@ export class Collection<T, V> implements Iterable<V> {
           `or getAny("${id}") when faction is genuinely unknown (import / conformance).`,
       );
     }
-    const item = this.byId.get(id);
+    const item = this.rawById(id);
     return item ? this.wrapFn(item) : undefined;
+  }
+
+  /**
+   * Raw record for an id: exact `byId`, falling back to the {@link idAliases}
+   * map (old id → current id) on a miss so a persisted reference to a renamed
+   * id still resolves. Aliases are pre-flattened, so one hop is enough.
+   */
+  private rawById(id: string): T | undefined {
+    const direct = this.byId.get(id);
+    if (direct) return direct;
+    const aliased = this.idAliases?.[id];
+    return aliased !== undefined ? this.byId.get(aliased) : undefined;
   }
 
   /**
@@ -179,7 +204,7 @@ export class Collection<T, V> implements Iterable<V> {
    * tripwire; for an unguarded one it is identical to {@link get}.
    */
   getAny(id: string): V | undefined {
-    const item = this.byId.get(id);
+    const item = this.rawById(id);
     return item ? this.wrapFn(item) : undefined;
   }
 
@@ -191,14 +216,16 @@ export class Collection<T, V> implements Iterable<V> {
    * `undefined` when no record with that id belongs to `factionId`.
    */
   getInFaction(id: string, factionId: string): V | undefined {
+    // Resolve a renamed id to its current form before scoping to the faction.
+    const resolvedId = this.byId.has(id) ? id : this.idAliases?.[id] ?? id;
     const list = this.byFactionId.get(factionId);
-    const item = list?.find((i) => this.idOf(i) === id);
+    const item = list?.find((i) => this.idOf(i) === resolvedId);
     return item ? this.wrapFn(item) : undefined;
   }
 
-  /** Whether a record with this exact id exists. */
+  /** Whether a record with this exact id (or a renamed alias of it) exists. */
   has(id: string): boolean {
-    return this.byId.has(id);
+    return this.rawById(id) !== undefined;
   }
 
   /**
@@ -222,7 +249,7 @@ export class Collection<T, V> implements Iterable<V> {
    * to surface (rather than silently collapse) names shared across factions.
    */
   findAll(query: string): V[] {
-    const byId = this.byId.get(query);
+    const byId = this.rawById(query);
     if (byId) return [this.wrapFn(byId)];
 
     const key = normalizeName(query);

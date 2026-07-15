@@ -102,8 +102,9 @@ func NewDataset(raw rawData) *Dataset {
 	ds.Factions = newCollection(raw["factions"], func(i any) *FactionView {
 		return &FactionView{Raw: i.(map[string]any), ds: ds}
 	}, collectionOpts{
-		idOf:   func(i any) string { return getStr(i.(map[string]any), "id") },
-		nameOf: func(i any) string { return getStr(i.(map[string]any), "name") },
+		idOf:      func(i any) string { return getStr(i.(map[string]any), "id") },
+		nameOf:    func(i any) string { return getStr(i.(map[string]any), "name") },
+		idAliases: embeddedRegistryAliases(),
 	})
 	ds.Abilities = newCollection(raw["abilities"], func(i any) *AbilityView {
 		return &AbilityView{Raw: i.(map[string]any), ds: ds}
@@ -134,6 +135,7 @@ func NewDataset(raw rawData) *Dataset {
 			return getStr(m, "faction_id") + "::" + getStr(m, "id")
 		},
 		factionOf: factionIDOf,
+		idAliases: embeddedRegistryAliases(),
 		// Shared detachments diverge per chapter (detachment_rule_id,
 		// stratagem_ids, enhancement_ids, detachment_points) — same guard as units.
 		guardUnscoped: true,

@@ -587,6 +587,8 @@ function runLinkedApi(ds: Dataset, c: LinkedApiCase): string | null | string[] {
       return [...ds.triggerIndex().keys()];
     case "triggers_for_event":
       return (ds.triggerIndex().get(c.args.event as GameEvent) ?? []).map((rt) => rt.abilityId);
+    case "get_enhancement":
+      return ds.enhancements.get(c.args.id)?.id ?? null;
     default:
       throw new Error(`unknown linked-api query: ${c.query}`);
   }

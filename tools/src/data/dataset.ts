@@ -42,6 +42,10 @@ import {
 } from "./entities.js";
 import { emptyRawData, type RawData } from "./types.js";
 import { RAW_DATA } from "./bundle.generated.js";
+// Renamed-id map (old id → current id) so id lookups of a since-renamed entity
+// (e.g. an enhancement id normalized to the RAW GW form) still resolve — the
+// same authored rename map the share codec applies on decode.
+import { SHARE_REGISTRY } from "../share/registry.generated.js";
 import { resolveLayout, type ResolvedPiece } from "../terrain/resolve.js";
 import type { Buff, BuffSource, EngineContext } from "../cruncher/buffs.js";
 import {
@@ -190,6 +194,7 @@ export class Dataset {
       items: raw.factions,
       idOf: (f) => f.id,
       nameOf: (f) => f.name,
+      idAliases: SHARE_REGISTRY.aliases,
       wrap: (f) => new FactionView(f, this),
     });
     this.abilities = new Collection({
@@ -227,6 +232,7 @@ export class Dataset {
       nameOf: (d) => d.name,
       dedupeKeyOf: (d) => `${d.faction_id}::${d.id}`,
       factionOf: (d) => d.faction_id,
+      idAliases: SHARE_REGISTRY.aliases,
       // Shared Space Marine detachments diverge per chapter (detachment_rule_id,
       // stratagem_ids, enhancement_ids, detachment_points), so a faction-less
       // get() of a shared id is a bug — same guard as the units collection.
@@ -757,6 +763,9 @@ function idCollection<T extends { id: string }>(
     idOf: (i) => i.id,
     nameOf: (i) => (i as { name?: string }).name,
     factionOf,
+    // Resolve a persisted reference to a renamed id (harmless for record types
+    // absent from the registry — their ids are never alias keys).
+    idAliases: SHARE_REGISTRY.aliases,
     wrap: (i) => i,
   });
 }

@@ -2,9 +2,11 @@ import { describe, it, expect } from "vitest";
 
 import {
   abilities,
+  Collection,
   Dataset,
   dataset,
   emptyRawData,
+  enhancements,
   factions,
   normalizeName,
   units,
@@ -162,6 +164,55 @@ describe("Collection.find / findAll", () => {
     expect(units.getInFaction("chaos-land-raider", "world-eaters")?.raw.faction_id).toBe(
       "world-eaters",
     );
+  });
+});
+
+describe("Collection id-alias resolution (renamed ids)", () => {
+  // The share-registry alias map (old id → current id) is wired into the
+  // enhancements collection, so a persisted roster/share reference to a
+  // since-renamed enhancement id still resolves to the current record.
+  it("resolves a renamed enhancement id via get/getAny/has", () => {
+    const renamed = "a-chink-in-their-armour"; // → …-host-of-ascension
+    const current = "a-chink-in-their-armour-host-of-ascension";
+    expect(enhancements.get(renamed)?.id).toBe(current);
+    expect(enhancements.getAny(renamed)?.id).toBe(current);
+    expect(enhancements.has(renamed)).toBe(true);
+  });
+
+  it("returns the record unchanged for a current (non-aliased) id", () => {
+    const id = "a-chink-in-their-armour-host-of-ascension";
+    expect(enhancements.get(id)?.id).toBe(id);
+  });
+
+  it("a bogus id still misses", () => {
+    expect(enhancements.get("not-a-real-enhancement-xyz")).toBeUndefined();
+    expect(enhancements.has("not-a-real-enhancement-xyz")).toBe(false);
+  });
+
+  it("consults idAliases only on a byId miss (canonical id always wins)", () => {
+    // A synthetic collection: the alias must never shadow a live canonical id.
+    const coll = new Collection<{ id: string; name: string }, { id: string; name: string }>({
+      items: [
+        { id: "new-x", name: "New X" },
+        { id: "old-x", name: "Old X (still live)" },
+      ],
+      idOf: (i) => i.id,
+      nameOf: (i) => i.name,
+      idAliases: { "old-x": "new-x" },
+      wrap: (i) => i,
+    });
+    // "old-x" is a live id → returns itself, NOT the aliased "new-x".
+    expect(coll.get("old-x")?.name).toBe("Old X (still live)");
+    // A dangling old id (no live record) resolves through the alias.
+    const coll2 = new Collection<{ id: string }, { id: string }>({
+      items: [{ id: "new-y" }],
+      idOf: (i) => i.id,
+      idAliases: { "old-y": "new-y" },
+      wrap: (i) => i,
+    });
+    expect(coll2.get("old-y")?.id).toBe("new-y");
+    expect(coll2.find("old-y")?.id).toBe("new-y");
+    expect(coll2.get("nope")).toBeUndefined();
   });
 });
 

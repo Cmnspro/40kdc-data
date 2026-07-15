@@ -668,6 +668,12 @@ fn handle_linked_query(state: &mut RunnerState, args: &Value) -> Value {
             Some(a) => Value::String(a.ability_id.to_string()),
             None => Value::Null,
         }),
+        // Returns the resolved enhancement's current id (or null). Exercises
+        // renamed-id resolution: a since-renamed id resolves to its new record.
+        "get_enhancement" => ok_value(match ds.enhancements.get(str_arg("id")) {
+            Some(e) => Value::String(e.id.to_string()),
+            None => Value::Null,
+        }),
         "abilities_of" => {
             let id = str_arg("unitId");
             let Some(unit) = ds.units.get_any(id) else {

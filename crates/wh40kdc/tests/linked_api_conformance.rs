@@ -41,6 +41,11 @@ fn run_query(ds: &Dataset, query: &str, args: &Value) -> Value {
             .find_ability(arg_str("query"))
             .map(|a| Value::String(a.ability_id.to_string()))
             .unwrap_or(Value::Null),
+        "get_enhancement" => ds
+            .enhancements
+            .get(arg_str("id"))
+            .map(|e| Value::String(e.id.to_string()))
+            .unwrap_or(Value::Null),
         "abilities_of" => {
             let id = arg_str("unitId");
             let u = ds

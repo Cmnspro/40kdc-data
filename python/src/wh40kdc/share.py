@@ -120,6 +120,18 @@ def share_registry_version() -> int:
     return _embedded_index().version
 
 
+@lru_cache(maxsize=1)
+def embedded_registry_aliases() -> dict[str, str]:
+    """The embedded registry's rename map (old id -> current id).
+
+    Exposed so the linked-API :class:`~wh40kdc.data.dataset.Dataset` can resolve
+    id lookups of a since-renamed entity (see ``Collection`` ``id_aliases``).
+    """
+    text = resources.files("wh40kdc").joinpath("_share_registry.json").read_text(encoding="utf-8")
+    aliases: dict[str, str] = json.loads(text).get("aliases", {})
+    return aliases
+
+
 # -- varint + base64url --------------------------------------------------------
 
 

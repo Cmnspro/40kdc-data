@@ -19,6 +19,7 @@ from wh40kdc.data.entities import (
     WeaponKeywordView,
     WeaponView,
 )
+from wh40kdc.share import embedded_registry_aliases
 
 
 def _buff_source_from_eligible(entry: dict[str, Any]) -> dict[str, Any]:
@@ -123,6 +124,7 @@ class Dataset:
             raw["factions"],
             id_of=lambda f: f["id"],
             name_of=lambda f: f.get("name"),
+            id_aliases=embedded_registry_aliases(),
             wrap=lambda f: FactionView(f, self),
         )
         # An ability_id is shared across factions (each faction's enrichment
@@ -159,6 +161,7 @@ class Dataset:
             name_of=lambda d: d.get("name"),
             dedupe_key_of=lambda d: f"{d['faction_id']}::{d['id']}",
             faction_of=lambda d: d.get("faction_id"),
+            id_aliases=embedded_registry_aliases(),
             # Shared detachments diverge per chapter (detachment_rule_id,
             # stratagem_ids, enhancement_ids, detachment_points) — same guard
             # as units.

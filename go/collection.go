@@ -29,6 +29,10 @@ type collectionOpts struct {
 	guardUnscoped bool
 	// entityLabel is the noun used in the guard panic message (e.g. "unit").
 	entityLabel string
+	// idAliases maps an old id to its current id; consulted by id lookups only
+	// on a byID miss so a persisted reference to a renamed id still resolves.
+	// Pre-flattened, so one hop suffices. Go mirror of the TS idAliases.
+	idAliases map[string]string
 }
 
 // Collection is a collection of one entity type, parameterised by its wrapped
@@ -44,6 +48,8 @@ type Collection[V any] struct {
 	// Ids registered under >1 faction; nil unless guardUnscoped.
 	ambiguousIDs map[string]struct{}
 	entityLabel  string
+	// Renamed-id map (old id -> current id); nil unless set via opts.
+	idAliases map[string]string
 }
 
 func newCollection[V any](items []any, wrap func(any) V, opts collectionOpts) *Collection[V] {
@@ -55,6 +61,7 @@ func newCollection[V any](items []any, wrap func(any) V, opts collectionOpts) *C
 		byID:      make(map[string]any),
 		byNorm:    make(map[string][]any),
 		byFaction: make(map[string][]any),
+		idAliases: opts.idAliases,
 	}
 	dedupe := opts.dedupeKeyOf
 	if dedupe == nil {
@@ -162,7 +169,7 @@ func (c *Collection[V]) Get(id string) (V, bool) {
 // For a guarded collection this is the explicit opt-out of Get's ambiguity
 // tripwire; for an unguarded one it is identical to Get.
 func (c *Collection[V]) GetAny(id string) (V, bool) {
-	item, ok := c.byID[id]
+	item, ok := c.rawByID(id)
 	if !ok {
 		var zero V
 		return zero, false
@@ -170,10 +177,33 @@ func (c *Collection[V]) GetAny(id string) (V, bool) {
 	return c.wrap(item), true
 }
 
+// rawByID returns the raw record for an id: exact byID, falling back through the
+// idAliases map (one hop) on a miss so a persisted reference to a renamed id
+// still resolves.
+func (c *Collection[V]) rawByID(id string) (any, bool) {
+	if item, ok := c.byID[id]; ok {
+		return item, true
+	}
+	if c.idAliases != nil {
+		if newID, ok := c.idAliases[id]; ok {
+			item, ok := c.byID[newID]
+			return item, ok
+		}
+	}
+	return nil, false
+}
+
 // GetInFaction looks up by exact id within a faction.
 func (c *Collection[V]) GetInFaction(id, factionID string) (V, bool) {
+	// Resolve a renamed id to its current form before scoping to the faction.
+	resolved := id
+	if _, ok := c.byID[id]; !ok && c.idAliases != nil {
+		if newID, ok := c.idAliases[id]; ok {
+			resolved = newID
+		}
+	}
 	for _, item := range c.byFaction[factionID] {
-		if c.idOf(item) == id {
+		if c.idOf(item) == resolved {
 			return c.wrap(item), true
 		}
 	}
@@ -181,9 +211,9 @@ func (c *Collection[V]) GetInFaction(id, factionID string) (V, bool) {
 	return zero, false
 }
 
-// Has reports whether a record with this exact id exists.
+// Has reports whether a record with this exact id (or a renamed alias of it) exists.
 func (c *Collection[V]) Has(id string) bool {
-	_, ok := c.byID[id]
+	_, ok := c.rawByID(id)
 	return ok
 }
 
@@ -200,7 +230,7 @@ func (c *Collection[V]) Find(query string) (V, bool) {
 // FindAll returns all records matching a query: exact id → exact normalized
 // name → normalized-name substring.
 func (c *Collection[V]) FindAll(query string) []V {
-	if item, ok := c.byID[query]; ok {
+	if item, ok := c.rawByID(query); ok {
 		return []V{c.wrap(item)}
 	}
 	key := NormalizeName(query)
@@ -240,5 +270,8 @@ func idCollection(items []any, factionOf func(any) string) *Collection[any] {
 		idOf:      func(i any) string { return getStr(i.(map[string]any), "id") },
 		nameOf:    func(i any) string { return getStr(i.(map[string]any), "name") },
 		factionOf: factionOf,
+		// Resolve a persisted reference to a renamed id (harmless for record
+		// types absent from the registry — their ids are never alias keys).
+		idAliases: embeddedRegistryAliases(),
 	})
 }
