@@ -173,14 +173,19 @@ func wtcHeaderText(roster map[string]any, units []any, slots []int) string {
 		"+ LIST NAME: " + getStr(roster, "name"),
 		"+ FACTION KEYWORD: " + faction,
 		"+ DETACHMENT: " + detachment,
-		"+ TOTAL ARMY POINTS: " + numStr(total) + "pts",
-		"+ POINTS LIMIT: " + numStr(limit) + "pts",
-		"+",
-		"+ WARLORD: " + warlord,
-		"+ ENHANCEMENT: " + enhancement,
-		"+ NUMBER OF UNITS: " + itoa(len(units)),
-		wtcFence,
 	}
+	if disp, ok := roster["force_disposition"].(string); ok && disp != "" {
+		lines = append(lines, "+ FORCE DISPOSITION: "+titleCaseIDOr(disp, ""))
+	}
+	lines = append(lines,
+		"+ TOTAL ARMY POINTS: "+numStr(total)+"pts",
+		"+ POINTS LIMIT: "+numStr(limit)+"pts",
+		"+",
+		"+ WARLORD: "+warlord,
+		"+ ENHANCEMENT: "+enhancement,
+		"+ NUMBER OF UNITS: "+itoa(len(units)),
+		wtcFence,
+	)
 	return strings.Join(lines, "\n")
 }
 

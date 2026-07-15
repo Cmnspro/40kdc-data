@@ -470,3 +470,73 @@ fn resolved_roster_validates_against_roster_schema() {
         panic!("resolved roster does not satisfy roster.schema.json: {error}");
     }
 }
+
+// --- WTC header disposition + wargear-item fallback --------------------------
+// Mirror of the TS `wtc resolution end-to-end` block in
+// tools/test/import/newrecruit-wtc.test.ts.
+
+const SORORITAS_WTC: &str = "+++++++++++++++++++++++++++++++++++++++++++++++\n\
++ FACTION KEYWORD: Imperium - Adepta Sororitas\n\
++ DETACHMENT: Champions of Faith (Righteous Purpose)\n\
++ FORCE DISPOSITION: Disruption\n\
++ TOTAL ARMY POINTS: 150pts\n\
++\n\
++ WARLORD: Char1: Palatine\n\
++ NUMBER OF UNITS: 2\n\
++++++++++++++++++++++++++++++++++++++++++++++++\n\
+\n\
+Char1: 1x Palatine (50 pts): Palatine blade, Plasma pistol, Warlord\n\
+\n\
+10x Battle Sisters Squad (100 pts)\n\
+\u{2022} 9x Battle Sister\n\
+    7 with Bolt pistol, Boltgun, Close combat weapon\n\
+    1 with Simulacrum Imperialis, Bolt pistol, Boltgun, Close combat weapon\n\
+    1 with Bolt pistol, Close combat weapon, Multi-melta\n\
+\u{2022} 1x Sister Superior: Bolt pistol, Close combat weapon, Power weapon, Boltgun\n";
+
+#[test]
+fn wtc_force_disposition_resolves_to_an_id() {
+    let roster = wh40kdc::import::import_roster_text(SORORITAS_WTC, Dataset::embedded()).unwrap();
+    assert_eq!(roster.force_disposition.as_deref(), Some("disruption"));
+}
+
+#[test]
+fn wtc_unknown_disposition_warns_and_stays_null() {
+    let bad = SORORITAS_WTC.replace("Disruption", "Total Mayhem");
+    let roster = wh40kdc::import::import_roster_text(&bad, Dataset::embedded()).unwrap();
+    assert_eq!(roster.force_disposition, None);
+    assert!(roster
+        .diagnostics
+        .warnings
+        .iter()
+        .any(|w| format!("{:?}", w.code).contains("DispositionUnresolved")));
+}
+
+#[test]
+fn wargear_item_resolves_via_the_wargear_fallback() {
+    let roster = wh40kdc::import::import_roster_text(SORORITAS_WTC, Dataset::embedded()).unwrap();
+    let squad = unit_by_id(&roster, "battle-sisters-squad").unwrap();
+    let simulacrum = squad
+        .wargear
+        .iter()
+        .find(|w| w.ref_.raw_name == "Simulacrum Imperialis")
+        .unwrap();
+    assert_eq!(simulacrum.ref_.id.as_deref(), Some("simulacrum-imperialis"));
+    assert_eq!(roster.diagnostics.unresolved_weapons, 0);
+}
+
+#[test]
+fn wtc_full_body_keeps_single_line_characters() {
+    // Real WTC-full exports mix compact-style lines into the full layout:
+    // single-model characters arrive as one `CharN: 1x Unit (pts): wargear`
+    // line, and model-type bullets may inline their loadout after a colon.
+    let roster = wh40kdc::import::import_roster_text(SORORITAS_WTC, Dataset::embedded()).unwrap();
+    assert_eq!(roster.units.len(), 2);
+    let palatine = unit_by_id(&roster, "palatine").expect("Palatine kept");
+    assert!(palatine.is_warlord);
+    let squad = unit_by_id(&roster, "battle-sisters-squad").unwrap();
+    assert!(squad
+        .wargear
+        .iter()
+        .any(|w| w.ref_.raw_name == "Power weapon"));
+}

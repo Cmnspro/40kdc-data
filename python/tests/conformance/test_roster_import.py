@@ -24,13 +24,23 @@ from ..conftest import CORPUS
 _ROSTER_DIR = CORPUS / "roster"
 _CASES = sorted(p.name for p in _ROSTER_DIR.iterdir() if p.is_dir()) if _ROSTER_DIR.exists() else []
 
+#: Ordered by seed-pick priority (mirrors gen-conformance's decodeCanonicalSeed).
 _CANONICAL_SEEDS = (
     "input.json",
     "input.newrecruit-json.json",
     "input.gw.txt",
     "input.listforge-text.txt",
+    "input.newrecruit-wtc-full.txt",
     "input.roster-json.json",
 )
+
+
+def _is_canonical(inputs: list[str], filename: str) -> bool:
+    """A WTC-full text file is the hand-authored canonical seed unless the case
+    is NewRecruit-seeded (then it's a derived round-trip input)."""
+    if filename == "input.newrecruit-wtc-full.txt":
+        return "input.newrecruit-json.json" not in inputs
+    return filename in _CANONICAL_SEEDS
 _NEWRECRUIT_INPUT = re.compile(r"^input\.(newrecruit-[a-z-]+)\.[a-z]+$")
 
 
@@ -88,9 +98,10 @@ def test_try_import_detects_every_input(dataset: Any, case: str) -> None:
 def test_every_input_parses_to_the_same_roster(dataset: Any, case: str) -> None:
     case_dir = _ROSTER_DIR / case
     expected = json.loads((case_dir / "expected.roster.json").read_text(encoding="utf-8"))
-    for filename in _inputs_for(case_dir):
+    inputs = _inputs_for(case_dir)
+    for filename in inputs:
         actual = import_roster(_decoded_input(case_dir, filename), dataset)
-        if filename in _CANONICAL_SEEDS:
+        if _is_canonical(inputs, filename):
             # Canonical seed must reproduce the golden exactly.
             assert actual == expected, f"{case} input {filename}"
         else:

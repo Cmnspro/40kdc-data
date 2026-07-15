@@ -125,6 +125,43 @@ def _scoped_weapon_id(ds: Dataset, hit: Any, raw_name: str) -> str | None:
     return None
 
 
+def _resolve_wargear_item_id(ds: Dataset, hit: Any, raw_name: str) -> str | None:
+    """Fallback for wargear ITEMS (Simulacrum Imperialis, Daemonic Icon, …) — raw
+    names that are not weapons but do exist in the wargear collection. Runs only
+    after BOTH weapon lookups miss, so a wargear item whose name collides with a
+    weapon ("multi-melta", "power weapon") keeps resolving to the weapon exactly
+    as before. Scoped-first: ids reachable through the resolved unit's wargear
+    options, then the global collection (wargear is replicated-identical across
+    factions, so a global first-match is safe). Same ``normalize_name`` +
+    leading-"The" tolerance as the weapon lookups. Mirror of the TS
+    ``resolveWargearItemId``.
+    """
+    stripped = strip_leading_the(raw_name)
+    if hit is not None:
+        ids: list[str] = []
+        for opt in ds.wargear_options_of(hit.raw):
+            ids += opt.get("replaces") or []
+            ids += opt.get("replacement") or []
+            for group in opt.get("replacement_choice") or []:
+                ids += group
+        targets = {normalize_name(raw_name), normalize_name(f"The {raw_name}")}
+        if stripped:
+            targets.add(normalize_name(stripped))
+        for wid in ids:
+            item = ds.wargear.get_any(wid)
+            if item is not None and normalize_name(item["name"]) in targets:
+                return str(item["id"])
+    direct = ds.wargear.find(raw_name)
+    if direct is not None:
+        return str(direct["id"])
+    if stripped:
+        stripped_hit = ds.wargear.find(stripped)
+        if stripped_hit is not None:
+            return str(stripped_hit["id"])
+    the_hit = ds.wargear.find(f"The {raw_name}")
+    return str(the_hit["id"]) if the_hit is not None else None
+
+
 def _map_battle_size(raw: str | None) -> str | None:
     """Map a source battle-size label to the 40kdc enum, if recognisable."""
     if not raw:
@@ -205,6 +242,22 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
             )
     detachment_ids = [d["ref"]["id"] for d in detachments if d["ref"]["id"] is not None]
 
+    # --- Force Disposition. -----------------------------------------------------
+    # roster-json carries an already-resolved id; ListForge and WTC text carry
+    # the raw header name (e.g. "Priority Assets"), resolved here against the
+    # dataset.
+    force_disposition = parsed.get("force_disposition")
+    if not force_disposition and parsed.get("force_disposition_raw_name"):
+        hit = ds.force_dispositions.find(parsed["force_disposition_raw_name"])
+        if hit is not None:
+            force_disposition = hit["id"]
+        else:
+            diag.warn(
+                "disposition-unresolved",
+                "Force Disposition name did not match any 40kdc disposition.",
+                parsed["force_disposition_raw_name"],
+            )
+
     # --- Battle size. ---------------------------------------------------------
     battle_size = _map_battle_size(parsed["battle_size_raw"])
     if parsed["battle_size_raw"] and battle_size is None:
@@ -251,10 +304,7 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
         "faction_id": faction_id,
         "detachments": detachments,
         "battle_size": battle_size,
-        # Only the canonical roster-json round-trip carries a picked Force
-        # Disposition; other source formats don't encode it yet, so it defaults
-        # to None and the roster-legality checker flags it (advisory).
-        "force_disposition": parsed.get("force_disposition"),
+        "force_disposition": force_disposition,
         "points": {
             "declared_limit": parsed["declared_limit"],
             "detachment_cap": detachment_cap,
@@ -379,6 +429,11 @@ def _resolve_unit(
         if hits:
             diag.resolved_weapons += 1
             wargear.append({"ref": _resolved(hits[0].id, w["raw_name"]), "count": w["count"]})
+            continue
+        wargear_item_id = _resolve_wargear_item_id(ds, hit, w["raw_name"])
+        if wargear_item_id:
+            diag.resolved_weapons += 1
+            wargear.append({"ref": _resolved(wargear_item_id, w["raw_name"]), "count": w["count"]})
         else:
             diag.unresolved_weapons += 1
             diag.warn(

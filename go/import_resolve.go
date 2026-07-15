@@ -141,6 +141,59 @@ func scopedWeaponID(ds *Dataset, hit *UnitView, rawName string) (string, bool) {
 	return "", false
 }
 
+// resolveWargearItemID is the fallback for wargear ITEMS (Simulacrum
+// Imperialis, Daemonic Icon, …) — raw names that are not weapons but do exist
+// in the wargear collection. Runs only after BOTH weapon lookups miss, so a
+// wargear item whose name collides with a weapon ("multi-melta", "power
+// weapon") keeps resolving to the weapon exactly as before. Scoped-first: ids
+// reachable through the resolved unit's wargear options, then the global
+// collection (wargear is replicated-identical across factions, so a global
+// first-match is safe). Same NormalizeName + leading-"The" tolerance as the
+// weapon lookups. Mirror of the TS resolveWargearItemId.
+func resolveWargearItemID(ds *Dataset, hit *UnitView, rawName string) (string, bool) {
+	stripped, hasStripped := StripLeadingThe(rawName)
+	if hit != nil {
+		var ids []string
+		for _, optAny := range ds.wargearOptionsOf(hit.Raw) {
+			opt, _ := optAny.(map[string]any)
+			ids = append(ids, getStrList(opt, "replaces")...)
+			ids = append(ids, getStrList(opt, "replacement")...)
+			for _, gAny := range getList(opt, "replacement_choice") {
+				g, _ := gAny.([]any)
+				for _, idAny := range g {
+					if s, ok := idAny.(string); ok {
+						ids = append(ids, s)
+					}
+				}
+			}
+		}
+		targets := map[string]bool{NormalizeName(rawName): true, NormalizeName("The " + rawName): true}
+		if hasStripped {
+			targets[NormalizeName(stripped)] = true
+		}
+		for _, id := range ids {
+			if itemAny, ok := ds.Wargear.GetAny(id); ok {
+				item, _ := itemAny.(map[string]any)
+				if targets[NormalizeName(getStr(item, "name"))] {
+					return getStr(item, "id"), true
+				}
+			}
+		}
+	}
+	if itemAny, ok := ds.Wargear.Find(rawName); ok {
+		return getStr(itemAny.(map[string]any), "id"), true
+	}
+	if hasStripped {
+		if itemAny, ok := ds.Wargear.Find(stripped); ok {
+			return getStr(itemAny.(map[string]any), "id"), true
+		}
+	}
+	if itemAny, ok := ds.Wargear.Find("The " + rawName); ok {
+		return getStr(itemAny.(map[string]any), "id"), true
+	}
+	return "", false
+}
+
 func mapBattleSize(raw any) any {
 	s, ok := raw.(string)
 	if !ok || s == "" {
@@ -235,6 +288,20 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		}
 	}
 
+	// roster-json carries an already-resolved id; ListForge and WTC text carry
+	// the raw header name (e.g. "Priority Assets"), resolved here against the
+	// dataset.
+	forceDisposition := parsed["force_disposition"]
+	if forceDisposition == nil {
+		if raw, ok := parsed["force_disposition_raw_name"].(string); ok && raw != "" {
+			if hit, ok := ds.ForceDispositions.Find(raw); ok {
+				forceDisposition = hit.(map[string]any)["id"]
+			} else {
+				diag.warn("disposition-unresolved", "Force Disposition name did not match any 40kdc disposition.", raw)
+			}
+		}
+	}
+
 	battleSize := mapBattleSize(parsed["battle_size_raw"])
 	if bsr, ok := parsed["battle_size_raw"].(string); ok && bsr != "" && battleSize == nil {
 		diag.warn("battle-size-unmapped", "Battle size label could not be mapped.", bsr)
@@ -274,15 +341,12 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 	}
 
 	return map[string]any{
-		"name":        parsed["name"],
-		"source":      map[string]any{"format": format, "generated_by": parsed["generated_by"]},
-		"faction_id":  factionID,
-		"detachments": detachments,
-		"battle_size": battleSize,
-		// Only the canonical roster-json round-trip carries a picked Force
-		// Disposition; other source formats don't encode it yet, so it defaults
-		// to null and the roster-legality checker flags it (advisory).
-		"force_disposition": parsed["force_disposition"],
+		"name":              parsed["name"],
+		"source":            map[string]any{"format": format, "generated_by": parsed["generated_by"]},
+		"faction_id":        factionID,
+		"detachments":       detachments,
+		"battle_size":       battleSize,
+		"force_disposition": forceDisposition,
 		"points": map[string]any{
 			"declared_limit": parsed["declared_limit"],
 			"detachment_cap": cap,
@@ -435,6 +499,9 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		if len(hits) > 0 {
 			diag.resolvedWeapons++
 			wargear = append(wargear, map[string]any{"ref": refResolved(hits[0].ID(), w["raw_name"]), "count": w["count"]})
+		} else if wargearItemID, ok := resolveWargearItemID(ds, hit, getStr(w, "raw_name")); ok {
+			diag.resolvedWeapons++
+			wargear = append(wargear, map[string]any{"ref": refResolved(wargearItemID, w["raw_name"]), "count": w["count"]})
 		} else {
 			diag.unresolvedWeapons++
 			diag.warn("weapon-unresolved", "Weapon name did not match any 40kdc weapon.", w["raw_name"])

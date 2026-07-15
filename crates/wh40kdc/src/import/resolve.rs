@@ -187,6 +187,25 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
         .filter_map(|d| d.ref_.id.clone())
         .collect();
 
+    // --- Force Disposition. ---------------------------------------------------
+    // roster-json carries an already-resolved id; ListForge and WTC text carry
+    // the raw header name (e.g. "Priority Assets"), resolved here against the
+    // dataset.
+    let mut force_disposition = parsed.force_disposition.clone();
+    if force_disposition.is_none() {
+        if let Some(Some(raw)) = parsed.force_disposition_raw_name.as_ref() {
+            if let Some(hit) = ds.force_dispositions.find(raw) {
+                force_disposition = Some(hit.id.to_string());
+            } else {
+                diag.warn(
+                    WarningCode::DispositionUnresolved,
+                    "Force Disposition name did not match any 40kdc disposition.",
+                    Some(raw),
+                );
+            }
+        }
+    }
+
     // --- Battle size. -------------------------------------------------------
     let battle_size = map_battle_size(parsed.battle_size_raw.as_deref());
     if parsed.battle_size_raw.is_some() && battle_size.is_none() {
@@ -254,10 +273,7 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
         faction_id,
         detachments,
         battle_size,
-        // The source formats don't yet encode a Force Disposition (only the
-        // canonical roster-json round-trip carries one), so this is `None`
-        // unless the parsed payload supplied it.
-        force_disposition: parsed.force_disposition.clone(),
+        force_disposition,
         points: RosterPoints {
             declared_limit: parsed.declared_limit,
             detachment_cap,
@@ -393,6 +409,12 @@ fn resolve_unit(
                 diag.resolved_weapons += 1;
                 RosterWargear {
                     ref_: resolved(first.id.as_str(), &w.raw_name),
+                    count: w.count,
+                }
+            } else if let Some(id) = resolve_wargear_item_id(ds, hit, &w.raw_name) {
+                diag.resolved_weapons += 1;
+                RosterWargear {
+                    ref_: resolved(id, &w.raw_name),
                     count: w.count,
                 }
             } else {
@@ -731,6 +753,57 @@ fn scoped_weapon_id<'a>(ds: &'a Dataset, unit: &crate::Unit, raw_name: &str) -> 
         }
     }
     None
+}
+
+/// Fallback for wargear ITEMS (Simulacrum Imperialis, Daemonic Icon, …) — raw
+/// names that are not weapons but do exist in the wargear collection. Runs only
+/// after BOTH weapon lookups miss, so a wargear item whose name collides with a
+/// weapon ("multi-melta", "power weapon") keeps resolving to the weapon exactly
+/// as before. Scoped-first: ids reachable through the resolved unit's wargear
+/// options, then the global collection (wargear is replicated-identical across
+/// factions, so a global first-match is safe). Same `normalize_name` +
+/// leading-"The" tolerance as the weapon lookups. Mirror of the TS
+/// `resolveWargearItemId`.
+fn resolve_wargear_item_id<'a>(
+    ds: &'a Dataset,
+    hit: Option<&crate::Unit>,
+    raw_name: &str,
+) -> Option<&'a str> {
+    let stripped = strip_leading_the(raw_name);
+    if let Some(unit) = hit {
+        let mut targets = vec![
+            normalize_name(raw_name),
+            normalize_name(&format!("The {raw_name}")),
+        ];
+        if let Some(s) = &stripped {
+            targets.push(normalize_name(s));
+        }
+        for opt in ds.wargear_options_of(unit) {
+            for id in opt
+                .replaces
+                .iter()
+                .chain(&opt.replacement)
+                .chain(opt.replacement_choice.iter().flatten())
+            {
+                if let Some(item) = ds.wargear.get_any(id.as_str()) {
+                    if targets.iter().any(|t| *t == normalize_name(&item.name)) {
+                        return Some(item.id.as_str());
+                    }
+                }
+            }
+        }
+    }
+    if let Some(item) = ds.wargear.find(raw_name) {
+        return Some(item.id.as_str());
+    }
+    if let Some(s) = &stripped {
+        if let Some(item) = ds.wargear.find(s) {
+            return Some(item.id.as_str());
+        }
+    }
+    ds.wargear
+        .find(&format!("The {raw_name}"))
+        .map(|item| item.id.as_str())
 }
 
 fn detachment_candidates(records: &[&crate::Detachment]) -> Vec<Candidate> {

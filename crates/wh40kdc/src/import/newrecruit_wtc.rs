@@ -33,6 +33,8 @@ static RE_FACTION: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"(?i)^\+\s*FACTION KEYWORD:\s*(.+?)\s*$").unwrap());
 static RE_DETACHMENT: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"(?i)^\+\s*DETACHMENT:\s*(.+?)\s*$").unwrap());
+static RE_FORCE_DISPOSITION: Lazy<Regex> =
+    Lazy::new(|| Regex::new(r"(?i)^\+\s*FORCE DISPOSITION:\s*(.+?)\s*$").unwrap());
 static RE_TOTAL_PTS: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"(?i)^\+\s*TOTAL ARMY POINTS:\s*(\d+)\s*pts?\s*$").unwrap());
 static RE_PTS_LIMIT: Lazy<Regex> =
@@ -53,8 +55,12 @@ static RE_ENHANCEMENT_LINE: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"(?i)^Enhancement:\s*(.+?)\s*\(\+\s*(\d+)\s*pts?\s*\)\s*$").unwrap());
 static RE_WITH_PREFIX: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"(?i)^(\d+)\s+with\s+(.*)$").unwrap());
-static RE_MODEL_BREAKDOWN: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r"^\s*•\s*(\d+)x\s+(.+?)(?:\s*\[[^\]]*\])?\s*$").unwrap());
+// Optional trailing `: <wargear>` — NewRecruit inlines a model group's loadout
+// after the model type (`• 1x Champion: Chainblades`) instead of always
+// breaking it onto `N with` continuation lines.
+static RE_MODEL_BREAKDOWN: Lazy<Regex> = Lazy::new(|| {
+    Regex::new(r"^\s*•\s*(\d+)x\s+([^:]+?)(?:\s*\[[^\]]*\])?\s*(?::\s*(.+))?$").unwrap()
+});
 static RE_SECTION_HEADER: Lazy<Regex> = Lazy::new(|| Regex::new(r"^[A-Z][A-Z0-9 \-/&]+$").unwrap());
 static RE_CHAR_PREFIX: Lazy<Regex> = Lazy::new(|| Regex::new(r"(?i)^Char\d+:").unwrap());
 static RE_FULL_FORMAT_MARKER: Lazy<Regex> =
@@ -68,6 +74,7 @@ struct WtcHeader {
     name: String,
     faction_raw_name: Option<String>,
     detachment_raw_name: Option<String>,
+    force_disposition_raw_name: Option<String>,
     declared_limit: Option<u64>,
     total_reported: Option<u64>,
     battle_size_raw: Option<String>,
@@ -78,6 +85,7 @@ fn parse_wtc_header(text: &str) -> Option<(WtcHeader, usize)> {
 
     let mut faction_raw_name: Option<String> = None;
     let mut detachment_raw_name: Option<String> = None;
+    let mut force_disposition_raw_name: Option<String> = None;
     let mut total_reported: Option<u64> = None;
     let mut points_limit: Option<u64> = None;
     let mut list_name: Option<String> = None;
@@ -104,6 +112,10 @@ fn parse_wtc_header(text: &str) -> Option<(WtcHeader, usize)> {
         }
         if let Some(c) = RE_DETACHMENT.captures(line) {
             detachment_raw_name = Some(strip_parenthetical(&c[1]).to_string());
+            continue;
+        }
+        if let Some(c) = RE_FORCE_DISPOSITION.captures(line) {
+            force_disposition_raw_name = Some(c[1].to_string());
             continue;
         }
         if let Some(c) = RE_TOTAL_PTS.captures(line) {
@@ -136,6 +148,7 @@ fn parse_wtc_header(text: &str) -> Option<(WtcHeader, usize)> {
             name: list_name.unwrap_or_else(|| "Imported roster".to_string()),
             faction_raw_name,
             detachment_raw_name,
+            force_disposition_raw_name,
             declared_limit,
             total_reported,
             battle_size_raw,
@@ -377,9 +390,34 @@ fn parse_full_body(body: &str) -> (Vec<ParsedUnit>, Vec<u64>) {
             continue;
         }
 
+        // Single-model units (characters, vehicles) appear compact-style even
+        // in full exports: `[CharN: ]Nx <Unit> (P pts): <wargear>` on one
+        // line. Without this branch they fall through every matcher and vanish.
+        if let Some(c) = RE_UNIT_COMPACT.captures(line) {
+            finalize(
+                &mut current,
+                &mut breakdown_models,
+                &mut units,
+                &mut enhancement_pts,
+            );
+            let leading_count: u64 = c[1].parse().unwrap_or(1);
+            let name = c[2].trim().to_string();
+            let pts: u64 = c[3].parse().unwrap_or(0);
+            let is_character_prefix = RE_CHAR_PREFIX.is_match(line);
+            let mut b = UnitBuilder::new(name, pts, leading_count, is_character_prefix);
+            apply_with_group(&mut b, &c[4]);
+            current = Some(b);
+            continue;
+        }
+
         if let Some(c) = RE_MODEL_BREAKDOWN.captures(raw) {
-            if current.is_some() {
+            if let Some(b) = current.as_mut() {
                 breakdown_models += c[1].parse::<u64>().unwrap_or(0);
+                // Inline loadout after the model type; `N with` continuation
+                // lines for the same group still arrive separately below.
+                if let Some(inline) = c.get(3) {
+                    apply_with_group(b, inline.as_str());
+                }
             }
             continue;
         }
@@ -457,7 +495,9 @@ fn parse_with(text: &str, full: bool, format_id: &str) -> Result<ParsedRoster, P
         detachment_raw_names: header.detachment_raw_name.into_iter().collect(),
         battle_size_raw: header.battle_size_raw,
         force_disposition: None,
-        force_disposition_raw_name: None,
+        // Explicit tri-state `Some(...)`: the WTC header disposition serializes
+        // as a value or an explicit `null`, matching the TS adapter.
+        force_disposition_raw_name: Some(header.force_disposition_raw_name),
         declared_limit: header.declared_limit,
         total_reported: header.total_reported,
         total_computed,
@@ -507,5 +547,45 @@ impl FormatAdapter for NewRecruitWtcFullAdapter {
         let text = is_wtc_text(decoded)
             .ok_or_else(|| ParseError("newrecruit-wtc-full: input is not a string".into()))?;
         parse_with(text, true, "newrecruit-wtc-full")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    const HEADER_ONLY: &str = "+++++++++++++++++++++++++++++++++++++++++++++++\n\
++ FACTION KEYWORD: Imperium - Adepta Sororitas\n\
++ DETACHMENT: Champions of Faith (Righteous Purpose)\n\
++ FORCE DISPOSITION: Disruption\n\
++ TOTAL ARMY POINTS: 990pts\n\
++++++++++++++++++++++++++++++++++++++++++++++++\n\
+\n\
+Char1: 1x Palatine (50 pts): Palatine blade, Plasma pistol\n";
+
+    #[test]
+    fn header_captures_force_disposition() {
+        let parsed = NewRecruitWtcCompactAdapter
+            .parse(&json!(HEADER_ONLY))
+            .unwrap();
+        assert_eq!(
+            parsed.force_disposition_raw_name,
+            Some(Some("Disruption".to_string()))
+        );
+        assert_eq!(
+            parsed.detachment_raw_names,
+            vec!["Champions of Faith".to_string()]
+        );
+    }
+
+    #[test]
+    fn header_without_disposition_is_explicit_null() {
+        let no_disposition = HEADER_ONLY.replace("+ FORCE DISPOSITION: Disruption\n", "");
+        let parsed = NewRecruitWtcCompactAdapter
+            .parse(&json!(no_disposition))
+            .unwrap();
+        // Tri-state: the WTC adapter always sets the slot; absent line → explicit null.
+        assert_eq!(parsed.force_disposition_raw_name, Some(None));
     }
 }

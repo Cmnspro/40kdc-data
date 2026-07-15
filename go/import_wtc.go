@@ -14,6 +14,7 @@ const wtcHeaderPrefix = "+ FACTION KEYWORD:"
 
 var wtcHeaderFaction = regexp.MustCompile(`(?i)^\+\s*FACTION KEYWORD:\s*(.+?)\s*$`)
 var wtcHeaderDetachment = regexp.MustCompile(`(?i)^\+\s*DETACHMENT:\s*(.+?)\s*$`)
+var wtcHeaderForceDisposition = regexp.MustCompile(`(?i)^\+\s*FORCE DISPOSITION:\s*(.+?)\s*$`)
 var wtcHeaderTotalPoints = regexp.MustCompile(`(?i)^\+\s*TOTAL ARMY POINTS:\s*(\d+)\s*pts?\s*$`)
 var wtcHeaderPointsLimit = regexp.MustCompile(`(?i)^\+\s*POINTS LIMIT:\s*(\d+)\s*pts?\s*$`)
 var wtcHeaderListName = regexp.MustCompile(`(?i)^\+\s*LIST NAME:\s*(.+?)\s*$`)
@@ -23,23 +24,28 @@ var unitHeaderCompact = regexp.MustCompile(`(?i)^(?:Char\d+:\s*)?(\d+)x\s+(.+?)\
 var unitHeaderFull = regexp.MustCompile(`(?i)^(?:Char\d+:\s*)?(\d+)x\s+(.+?)\s*\(\s*(\d+)\s*pts?\s*\)\s*$`)
 var enhancementLineRe = regexp.MustCompile(`(?i)^Enhancement:\s*(.+?)\s*\(\+\s*(\d+)\s*pts?\s*\)\s*$`)
 var withPrefixRe = regexp.MustCompile(`(?i)^(\d+)\s+with\s+(.*)$`)
-var modelBreakdownRe = regexp.MustCompile(`^\s*•\s*(\d+)x\s+(.+?)(?:\s*\[[^\]]*\])?\s*$`)
+
+// Optional trailing `: <wargear>` — NewRecruit inlines a model group's loadout
+// after the model type (`• 1x Champion: Chainblades`) instead of always
+// breaking it onto `N with` continuation lines.
+var modelBreakdownRe = regexp.MustCompile(`^\s*•\s*(\d+)x\s+([^:]+?)(?:\s*\[[^\]]*\])?\s*(?::\s*(.+))?$`)
 var sectionHeaderRe = regexp.MustCompile(`^[A-Z][A-Z0-9 \-/&]+$`)
 var headerLineRe = regexp.MustCompile(`^\+`)
 var charPrefixRe = regexp.MustCompile(`(?i)^Char\d+:`)
 
 type wtcHeader struct {
-	name              string
-	factionRawName    any
-	detachmentRawName any
-	declaredLimit     any
-	totalReported     any
-	battleSizeRaw     any
+	name                    string
+	factionRawName          any
+	detachmentRawName       any
+	forceDispositionRawName any
+	declaredLimit           any
+	totalReported           any
+	battleSizeRaw           any
 }
 
 func parseWtcHeader(text string) (*wtcHeader, int, bool) {
 	lines := splitLines(text)
-	var factionRaw, detachmentRaw, totalReported, pointsLimit, listName any
+	var factionRaw, detachmentRaw, forceDispositionRaw, totalReported, pointsLimit, listName any
 	fenceIndices := []int{}
 	for i, line := range lines {
 		if len(fenceIndices) >= 2 {
@@ -61,6 +67,10 @@ func parseWtcHeader(text string) (*wtcHeader, int, bool) {
 		}
 		if m := wtcHeaderDetachment.FindStringSubmatch(line); m != nil {
 			detachmentRaw = stripParenthetical(m[1])
+			continue
+		}
+		if m := wtcHeaderForceDisposition.FindStringSubmatch(line); m != nil {
+			forceDispositionRaw = m[1]
 			continue
 		}
 		if m := wtcHeaderTotalPoints.FindStringSubmatch(line); m != nil {
@@ -94,7 +104,8 @@ func parseWtcHeader(text string) (*wtcHeader, int, bool) {
 	}
 	return &wtcHeader{
 		name: name, factionRawName: factionRaw, detachmentRawName: detachmentRaw,
-		declaredLimit: declaredLimit, totalReported: totalReported,
+		forceDispositionRawName: forceDispositionRaw,
+		declaredLimit:           declaredLimit, totalReported: totalReported,
 		battleSizeRaw: inferBattleSizeRaw(declaredLimit),
 	}, bodyStart, true
 }
@@ -252,9 +263,25 @@ func parseFullBody(body string) ([]map[string]any, []int) {
 			current = newWtcUnit(strings.TrimSpace(m[2]), pts, leadingCount, charPrefixRe.MatchString(line))
 			continue
 		}
+		// Single-model units (characters, vehicles) appear compact-style even
+		// in full exports: `[CharN: ]Nx <Unit> (P pts): <wargear>` on one
+		// line. Without this branch they fall through every matcher and vanish.
+		if m := unitHeaderCompact.FindStringSubmatch(line); m != nil {
+			finalize()
+			leadingCount, _ := strconv.Atoi(m[1])
+			pts, _ := strconv.Atoi(m[3])
+			current = newWtcUnit(strings.TrimSpace(m[2]), pts, leadingCount, charPrefixRe.MatchString(line))
+			applyWithGroup(current, m[4])
+			continue
+		}
 		if bd := modelBreakdownRe.FindStringSubmatch(raw); bd != nil && current != nil {
 			n, _ := strconv.Atoi(bd[1])
 			breakdownModels += n
+			// Inline loadout after the model type; `N with` continuation
+			// lines for the same group still arrive separately below.
+			if bd[3] != "" {
+				applyWithGroup(current, bd[3])
+			}
 			continue
 		}
 		if withPrefixRe.MatchString(line) && current != nil {
@@ -311,16 +338,17 @@ func parseWtcWithFormat(text, format string) (map[string]any, error) {
 		det = []any{s}
 	}
 	return map[string]any{
-		"name":                 header.name,
-		"generated_by":         nil,
-		"faction_raw_name":     header.factionRawName,
-		"detachment_raw_names": det,
-		"battle_size_raw":      header.battleSizeRaw,
-		"declared_limit":       header.declaredLimit,
-		"total_reported":       header.totalReported,
-		"total_computed":       computeWtcTotal(units, enhPts),
-		"units":                mapsToAny(units),
-		"multi_force":          detectMultiForce(text, format),
+		"name":                       header.name,
+		"generated_by":               nil,
+		"faction_raw_name":           header.factionRawName,
+		"detachment_raw_names":       det,
+		"force_disposition_raw_name": header.forceDispositionRawName,
+		"battle_size_raw":            header.battleSizeRaw,
+		"declared_limit":             header.declaredLimit,
+		"total_reported":             header.totalReported,
+		"total_computed":             computeWtcTotal(units, enhPts),
+		"units":                      mapsToAny(units),
+		"multi_force":                detectMultiForce(text, format),
 	}, nil
 }
 

@@ -139,8 +139,9 @@ export function resolve(
   const detachmentIds = detachments.map((d) => d.ref.id).filter((id): id is string => id !== null);
 
   // --- Force Disposition. ---------------------------------------------------
-  // roster-json carries an already-resolved id; ListForge text carries the raw
-  // header name (e.g. "Priority Assets"), resolved here against the dataset.
+  // roster-json carries an already-resolved id; ListForge and WTC text carry
+  // the raw header name (e.g. "Priority Assets"), resolved here against the
+  // dataset.
   let force_disposition = parsed.force_disposition ?? null;
   if (!force_disposition && parsed.force_disposition_raw_name) {
     const hit = ds.forceDispositions.find(parsed.force_disposition_raw_name);
@@ -289,6 +290,41 @@ function scopedWeaponId(ds: Dataset, hit: UnitView, rawName: string): string | n
   return null;
 }
 
+/**
+ * Fallback for wargear ITEMS (Simulacrum Imperialis, Daemonic Icon, …) — raw
+ * names that are not weapons but do exist in the wargear collection. Runs only
+ * after BOTH weapon lookups miss, so a wargear item whose name collides with a
+ * weapon ("multi-melta", "power weapon") keeps resolving to the weapon exactly
+ * as before. Scoped-first: ids reachable through the resolved unit's wargear
+ * options, then the global collection (wargear is replicated-identical across
+ * factions, so a global first-match is safe). Same {@link normalizeName} +
+ * leading-"The" tolerance as the weapon lookups.
+ */
+function resolveWargearItemId(ds: Dataset, hit: UnitView | null, rawName: string): string | null {
+  const stripped = stripLeadingThe(rawName);
+  if (hit) {
+    const ids = new Set<string>();
+    for (const opt of ds.wargearOptionsOf(hit.raw)) {
+      for (const id of opt.replaces ?? []) ids.add(id);
+      for (const id of opt.replacement ?? []) ids.add(id);
+      for (const group of opt.replacement_choice ?? []) for (const id of group) ids.add(id);
+    }
+    const targets = new Set<string>([normalizeName(rawName), normalizeName(`The ${rawName}`)]);
+    if (stripped) targets.add(normalizeName(stripped));
+    for (const id of ids) {
+      const item = ds.wargear.getAny(id);
+      if (item && targets.has(normalizeName(item.name))) return id;
+    }
+  }
+  const direct = ds.wargear.find(rawName);
+  if (direct) return direct.id;
+  if (stripped) {
+    const strippedHit = ds.wargear.find(stripped);
+    if (strippedHit) return strippedHit.id;
+  }
+  return ds.wargear.find(`The ${rawName}`)?.id ?? null;
+}
+
 function resolveUnit(
   parsed: ParsedUnit,
   faction_id: string | null,
@@ -349,6 +385,11 @@ function resolveUnit(
     if (hits[0]) {
       diag.resolved_weapons += 1;
       return { ref: resolved(hits[0].id, w.raw_name), count: w.count };
+    }
+    const wargearItemId = resolveWargearItemId(ds, hit ?? null, w.raw_name);
+    if (wargearItemId) {
+      diag.resolved_weapons += 1;
+      return { ref: resolved(wargearItemId, w.raw_name), count: w.count };
     }
     diag.unresolved_weapons += 1;
     diag.warn("weapon-unresolved", "Weapon name did not match any 40kdc weapon.", w.raw_name);

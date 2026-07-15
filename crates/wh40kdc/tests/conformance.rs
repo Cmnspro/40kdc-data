@@ -211,11 +211,16 @@ fn imported_rosters_match_reference_goldens() {
 
             let actual_value = serde_json::to_value(&actual).expect("Roster serializes to a Value");
 
+            // A WTC-full text file is the hand-authored canonical seed unless
+            // the case is NewRecruit-seeded (then it's a derived round-trip input).
+            let wtc_full_is_seed = filename == "input.newrecruit-wtc-full.txt"
+                && !inputs.iter().any(|n| n == "input.newrecruit-json.json");
             let is_canonical = filename == "input.json"
                 || filename == "input.newrecruit-json.json"
                 || filename == "input.gw.txt"
                 || filename == "input.listforge-text.txt"
-                || filename == "input.roster-json.json";
+                || filename == "input.roster-json.json"
+                || wtc_full_is_seed;
             if is_canonical {
                 assert_eq!(
                     actual_value, expected,
@@ -315,6 +320,14 @@ fn parsed_stage_matches_reference_goldens() {
                 Value::String(read_text(&case_dir.join("input.listforge-text.txt"))),
                 "input.listforge-text.txt",
             )
+        } else if dir_entries
+            .iter()
+            .any(|n| n == "input.newrecruit-wtc-full.txt")
+        {
+            (
+                Value::String(read_text(&case_dir.join("input.newrecruit-wtc-full.txt"))),
+                "input.newrecruit-wtc-full.txt",
+            )
         } else if dir_entries.iter().any(|n| n == "input.roster-json.json") {
             (
                 read_json(&case_dir.join("input.roster-json.json")),
@@ -413,6 +426,11 @@ fn exported_rosters_match_reference_goldens() {
             .or_else(|| {
                 files
                     .iter()
+                    .find(|n| n.as_str() == "input.newrecruit-wtc-full.txt")
+            })
+            .or_else(|| {
+                files
+                    .iter()
                     .find(|n| n.as_str() == "input.roster-json.json")
             })
             .unwrap_or_else(|| {
@@ -500,6 +518,11 @@ fn exported_yellowscribe_matches_reference_goldens() {
                 files
                     .iter()
                     .find(|n| n.as_str() == "input.listforge-text.txt")
+            })
+            .or_else(|| {
+                files
+                    .iter()
+                    .find(|n| n.as_str() == "input.newrecruit-wtc-full.txt")
             })
             .or_else(|| {
                 files

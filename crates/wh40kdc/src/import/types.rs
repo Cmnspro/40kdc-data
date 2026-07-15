@@ -51,6 +51,7 @@ pub enum WarningCode {
     WeaponUnresolved,
     EnhancementUnresolved,
     DetachmentUnresolved,
+    DispositionUnresolved,
     DetachmentPointsExceeded,
     BattleSizeUnmapped,
     PointsMismatch,

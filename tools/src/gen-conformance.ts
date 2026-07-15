@@ -136,6 +136,16 @@ function decodeCanonicalSeed(caseDir: string): unknown {
   if (existsSync(lfTextSeed)) {
     return readFileSync(lfTextSeed, "utf8");
   }
+  // A hand-authored WTC-full seed — used for cases exercising WTC-only header
+  // features (e.g. `+ FORCE DISPOSITION:`). Import-only, like the other text
+  // seeds: the non-WTC formats can't carry the disposition, so their derived
+  // round-trip inputs would diverge structurally. Checked after the
+  // NewRecruit-JSON seed above, so it never shadows a NewRecruit-seeded case's
+  // DERIVED `input.newrecruit-wtc-full.txt`.
+  const wtcFullSeed = join(caseDir, "input.newrecruit-wtc-full.txt");
+  if (existsSync(wtcFullSeed)) {
+    return readFileSync(wtcFullSeed, "utf8");
+  }
   // A hand-authored canonical Roster (roster-json) — the lossless carrier used
   // for cases that no upstream format can yet express, e.g. multi-detachment
   // 11e lists. Like the legacy seeds it is import-only (no derived round-trip

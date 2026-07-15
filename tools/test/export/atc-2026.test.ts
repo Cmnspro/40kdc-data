@@ -162,7 +162,7 @@ describe("ATC 2026 export header", () => {
   it("reuses the WTC body verbatim — only the header differs", () => {
     const r = roster({ force_disposition: "disruption", units: populatedUnits });
     const ATC_HEADER_LINES = 13; // fence + 11 fields + fence
-    const WTC_HEADER_LINES = 11; // fence + 9 fields + fence
+    const WTC_HEADER_LINES = 12; // fence + 10 fields (incl. FORCE DISPOSITION) + fence
 
     const atcCompact = exportRoster(r, "atc-2026-compact").split("\n").slice(ATC_HEADER_LINES);
     const wtcCompact = exportRoster(r, "newrecruit-wtc-compact").split("\n").slice(WTC_HEADER_LINES);
