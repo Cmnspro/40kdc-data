@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DEFAULT_DUMP_PATH, loadDump, MfmDump } from "../src/mfm/loader.js";
@@ -95,8 +95,14 @@ describe("deriveTrigger (phases review)", () => {
 });
 
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("stratagem reconcile over the real dump", () => {
-  const dump = loadDump();
-  const canon = buildStratCanon(dump);
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let dump: MfmDump;
+  let canon: ReturnType<typeof buildStratCanon>;
+  beforeAll(() => {
+    dump = loadDump();
+    canon = buildStratCanon(dump);
+  });
 
   it("derives player_turn/type/category for a known detachment stratagem", () => {
     const c = canon.get("codex-discipline-bastion-task-force")!;
@@ -137,8 +143,14 @@ describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("stratagem reconcile over the
 });
 
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("seedStratagems over the real dump", () => {
-  const dump = loadDump();
-  const report = seedStratagems(dump);
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let dump: MfmDump;
+  let report: ReturnType<typeof seedStratagems>;
+  beforeAll(() => {
+    dump = loadDump();
+    report = seedStratagems(dump);
+  });
 
   it("is idempotent — the competitive set is already seeded (0 new)", () => {
     expect(report.seeded.length).toBe(0);

@@ -943,19 +943,29 @@ export class JjRevisionTree implements RevisionTree {
   }
 }
 
-/** Resolve an output path through symlinks and require it to stay under `_private`. */
-export function resolvePrivateOutputPath(output: string): string {
-  const requested = path.isAbsolute(output) ? path.normalize(output) : path.resolve(REPO_ROOT, output);
-  let existing = requested;
+/**
+ * realpath that tolerates a not-yet-existing leaf: resolve the nearest existing
+ * ancestor through symlinks, then re-append the missing trailing segments. Used
+ * for both the requested output and `_private` itself, so this never throws when
+ * `_private` is absent (e.g. in CI, where the gitignored dir does not exist).
+ */
+function realpathAllowingMissing(target: string): string {
+  let existing = target;
   const suffix: string[] = [];
   while (!existsSync(existing)) {
     const parent = path.dirname(existing);
-    if (parent === existing) throw new Error(`No existing ancestor for output path: ${output}`);
+    if (parent === existing) throw new Error(`No existing ancestor for path: ${target}`);
     suffix.unshift(path.basename(existing));
     existing = parent;
   }
-  const resolved = path.join(realpathSync(existing), ...suffix);
-  const privateRoot = realpathSync(path.join(REPO_ROOT, "_private"));
+  return path.join(realpathSync(existing), ...suffix);
+}
+
+/** Resolve an output path through symlinks and require it to stay under `_private`. */
+export function resolvePrivateOutputPath(output: string): string {
+  const requested = path.isAbsolute(output) ? path.normalize(output) : path.resolve(REPO_ROOT, output);
+  const resolved = realpathAllowingMissing(requested);
+  const privateRoot = realpathAllowingMissing(path.join(REPO_ROOT, "_private"));
   const relative = path.relative(privateRoot, resolved);
   if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) {
     if (!relative) return resolved;

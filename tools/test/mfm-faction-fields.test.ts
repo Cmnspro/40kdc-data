@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DEFAULT_DUMP_PATH, loadDump } from "../src/mfm/loader.js";
@@ -17,8 +17,14 @@ import { runFactionFields, type DirFactionResult } from "../src/mfm/faction-fiel
  *   - and runFactionFields only stages files it actually changed.
  */
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("faction-fields over the real dump", () => {
-  const report = runFactionFields(loadDump());
-  const byDir = new Map<string, DirFactionResult>(report.dirs.map((d) => [d.dir, d]));
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let report: ReturnType<typeof runFactionFields>;
+  let byDir: Map<string, DirFactionResult>;
+  beforeAll(() => {
+    report = runFactionFields(loadDump());
+    byDir = new Map<string, DirFactionResult>(report.dirs.map((d) => [d.dir, d]));
+  });
 
   it("confirms a single-rule faction's authored faction_rule_id", () => {
     expect(byDir.get("adepta-sororitas")?.ruleConfirmed).toBe(true);

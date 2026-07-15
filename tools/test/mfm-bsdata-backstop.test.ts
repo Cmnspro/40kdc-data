@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, symlinkSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, rmSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import * as path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -299,6 +299,10 @@ describe("BSData snapshot backstop", () => {
 
     const escapeTarget = mkdtempSync(path.join(tmpdir(), "mfm-output-escape-"));
     temporaryDirectories.push(escapeTarget);
+    // The symlink must live under privateRoot; in CI the gitignored _private dir
+    // is absent, so create it just for this assertion and remove it after.
+    const createdPrivateRoot = !existsSync(privateRoot);
+    if (createdPrivateRoot) mkdirSync(privateRoot, { recursive: true });
     const escapeLink = path.join(privateRoot, `mfm-output-escape-${process.pid}`);
     symlinkSync(escapeTarget, escapeLink);
     try {
@@ -307,6 +311,7 @@ describe("BSData snapshot backstop", () => {
       );
     } finally {
       rmSync(escapeLink, { force: true });
+      if (createdPrivateRoot) rmSync(privateRoot, { recursive: true, force: true });
     }
   });
 

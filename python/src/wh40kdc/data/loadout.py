@@ -719,7 +719,10 @@ def _budget_violations(
                         {
                             "id": id_,
                             "code": "exceeds-allowance",
-                            "message": f"{id_}: {n} exceeds per-item duplicate cap {dup_cap} ({dup_limit})",
+                            "message": (
+                                f"{id_}: {n} exceeds per-item duplicate cap "
+                                f"{dup_cap} ({dup_limit})"
+                            ),
                         }
                     )
     return out

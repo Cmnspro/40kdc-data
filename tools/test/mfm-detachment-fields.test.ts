@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DEFAULT_DUMP_PATH, loadDump, MfmDump } from "../src/mfm/loader.js";
@@ -116,8 +116,15 @@ describe("detachment-rule id derivation (synthetic)", () => {
 });
 
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("detachment-fields over the real dump", () => {
-  const report = runDetachmentFields(loadDump());
-  const byDir = new Map<string, DirDetFieldResult>(report.dirs.map((d) => [d.dir, d]));
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let report: ReturnType<typeof runDetachmentFields>;
+  let byDir: Map<string, DirDetFieldResult>;
+  beforeAll(() => {
+    report = runDetachmentFields(loadDump());
+    byDir = new Map<string, DirDetFieldResult>(report.dirs.map((d) => [d.dir, d]));
+  });
+  // `sum` reads `report` lazily — only ever called inside it() bodies (post-beforeAll).
   const sum = (f: (d: DirDetFieldResult) => number) => report.dirs.reduce((a, d) => a + f(d), 0);
 
   it("reconciles mutual-exclusivity tags from the dump, surfacing disagreements (idempotent end-state)", () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DEFAULT_DUMP_PATH, loadDump, MfmDump } from "../src/mfm/loader.js";
@@ -186,7 +186,12 @@ describe("missionEntityCanon (synthetic)", () => {
 });
 
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("mission-entity reconcile over the real dump", () => {
-  const report = reconcileMissionEntities(loadDump());
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let report: ReturnType<typeof reconcileMissionEntities>;
+  beforeAll(() => {
+    report = reconcileMissionEntities(loadDump());
+  });
 
   it("is idempotent after apply — every mission cites the pack, caps confirmed, no reviews", () => {
     expect(report.matched).toBe(25);

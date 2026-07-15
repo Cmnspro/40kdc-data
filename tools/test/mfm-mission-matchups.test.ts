@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import * as fs from "node:fs";
 import { DEFAULT_DUMP_PATH, loadDump, MfmDump } from "../src/mfm/loader.js";
 import { buildMatchupCanon, runMissionMatchups } from "../src/mfm/mission-matchups.js";
@@ -70,7 +70,12 @@ describe("mission-matchup canon derivation (synthetic)", () => {
 });
 
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("mission-matchup reconcile over the real dump", () => {
-  const report = runMissionMatchups(loadDump());
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let report: ReturnType<typeof runMissionMatchups>;
+  beforeAll(() => {
+    report = runMissionMatchups(loadDump());
+  });
 
   it("matches all 25 authored matchups with no drift (idempotent confirm-only)", () => {
     expect(report.matched).toBe(25);

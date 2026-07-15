@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { DEFAULT_DUMP_PATH, loadDump } from "../src/mfm/loader.js";
@@ -57,7 +57,12 @@ describe("baseSizeEqual (dimensional, ignores draft)", () => {
 });
 
 describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("base-size reconcile over the real dump", () => {
-  const report = runBaseSizes(loadDump());
+  // Load the dump lazily in beforeAll — never in the describe body, which Vitest
+  // executes at collection time regardless of skipIf, before the guard applies.
+  let report: ReturnType<typeof runBaseSizes>;
+  beforeAll(() => {
+    report = runBaseSizes(loadDump());
+  });
 
   it("is idempotent after apply — no fills/corrections remain, only stable reviews", () => {
     // The pass was already applied to the tree, so a fresh run confirms and
