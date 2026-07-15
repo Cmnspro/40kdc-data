@@ -85,7 +85,7 @@ interface StratRecord {
   [k: string]: unknown;
 }
 
-interface Canon {
+export interface StratagemCanon {
   cp_cost: number | null;
   /** Prose-derived phases — REVIEW ONLY (stratagem_phase is unreliable; see header). */
   phases_review: Phase[] | null;
@@ -155,8 +155,8 @@ export function stratagemRepoId(dump: MfmDump, s: StratagemRow): string | null {
 
 /** Stratagem repo-id → canon fields from the dump: cp_cost + first-class
  *  player_turn/type/category (applied) + prose-derived phases (review only). */
-export function buildStratCanon(dump: MfmDump): Map<string, Canon> {
-  const m = new Map<string, Canon>();
+export function buildStratCanon(dump: MfmDump): Map<string, StratagemCanon> {
+  const m = new Map<string, StratagemCanon>();
   for (const s of dump.table("stratagem")) {
     const id = stratagemRepoId(dump, s);
     if (!id) continue;

@@ -1,18 +1,36 @@
 [
   {
-    "id": "deadly-debut-spectacle-of-spite",
-    "name": "DEADLY DEBUT",
+    "id": "a-challenge-met-spectacle-of-spite",
+    "name": "A CHALLENGE MET",
     "category": "detachment",
     "type": "battle-tactic",
     "detachment_id": "spectacle-of-spite",
-    "cp_cost": 1,
+    "cp_cost": 2,
     "phases": [
-      "fight"
+      "movement"
     ],
-    "player_turn": "either",
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "acrobatic-display-exhibition-of-slaughter",
+    "name": "Acrobatic Display",
+    "category": "detachment",
+    "detachment_id": "exhibition-of-slaughter",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "acrobatic-display-exhibition-of-slaughter",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -38,10 +56,181 @@
     }
   },
   {
-    "id": "taken-alive-kabalite-cartel",
-    "name": "TAKEN ALIVE",
+    "id": "agonising-onslaught-coven-of-agonies",
+    "name": "Agonising Onslaught",
+    "category": "detachment",
+    "detachment_id": "coven-of-agonies",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "agonising-onslaught-coven-of-agonies",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "berserk-fugue-spectacle-of-spite",
+    "name": "BERSERK FUGUE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "spectacle-of-spite",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "connoisseurs-of-pain-covenite-coterie",
+    "name": "CONNOISSEURS OF PAIN",
     "category": "detachment",
     "type": "battle-tactic",
+    "detachment_id": "covenite-coterie",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "dance-macabre-reapers-wager",
+    "name": "DANCE MACABRE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "reapers-wager",
+    "cp_cost": 2,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "dark-harvest-realspace-raiders",
+    "name": "DARK HARVEST",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "realspace-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "deadly-debut-spectacle-of-spite",
+    "name": "DEADLY DEBUT",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "spectacle-of-spite",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "deadly-deceivers-kabalite-cartel",
+    "name": "DEADLY DECEIVERS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "kabalite-cartel",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "distillers-of-fear-covenite-coterie",
+    "name": "DISTILLERS OF FEAR",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "covenite-coterie",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "dividends-of-agony-tools-of-torment",
+    "name": "Dividends of Agony",
+    "category": "detachment",
+    "detachment_id": "tools-of-torment",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "dividends-of-agony-tools-of-torment",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "double-cross-kabalite-cartel",
+    "name": "DOUBLE-CROSS",
+    "category": "detachment",
+    "type": "strategic-ploy",
     "detachment_id": "kabalite-cartel",
     "cp_cost": 1,
     "phases": [
@@ -57,14 +246,14 @@
     }
   },
   {
-    "id": "making-a-point-kabalite-cartel",
-    "name": "MAKING A POINT",
+    "id": "eager-for-the-kill-realspace-raiders",
+    "name": "EAGER FOR THE KILL",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "kabalite-cartel",
+    "detachment_id": "realspace-raiders",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -76,11 +265,184 @@
     }
   },
   {
-    "id": "skyborne-annihilation-skysplinter-assault",
-    "name": "SKYBORNE ANNIHILATION",
+    "id": "enemies-without-number-kabalite-cartel",
+    "name": "ENEMIES WITHOUT NUMBER",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "kabalite-cartel",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "enfolding-nightmare-covenite-coterie",
+    "name": "ENFOLDING NIGHTMARE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "covenite-coterie",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "fateful-role-reapers-wager",
+    "name": "FATEFUL ROLE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "reapers-wager",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "feigned-weakness-spectacle-of-spite",
+    "name": "FEIGNED WEAKNESS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "spectacle-of-spite",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "fighting-shadows-realspace-raiders",
+    "name": "FIGHTING SHADOWS",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "skysplinter-assault",
+    "detachment_id": "realspace-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "hardened-physiology-coven-of-agonies",
+    "name": "Hardened Physiology",
+    "category": "detachment",
+    "detachment_id": "coven-of-agonies",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "hardened-physiology-coven-of-agonies",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "insensible-to-pain-realspace-raiders",
+    "name": "INSENSIBLE TO PAIN",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "realspace-raiders",
+    "cp_cost": 2,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "instinctive-spite-realspace-raiders",
+    "name": "INSTINCTIVE SPITE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "realspace-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "killers-from-the-dark-spires-kabalite-agonysts",
+    "name": "Killers From the Dark Spires",
+    "category": "detachment",
+    "detachment_id": "kabalite-agonysts",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "killers-from-the-dark-spires-kabalite-agonysts",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "making-a-point-kabalite-cartel",
+    "name": "MAKING A POINT",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "kabalite-cartel",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -134,93 +496,14 @@
     }
   },
   {
-    "id": "fighting-shadows-realspace-raiders",
-    "name": "FIGHTING SHADOWS",
+    "id": "night-shield-skysplinter-assault",
+    "name": "NIGHT SHIELD",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "realspace-raiders",
+    "type": "wargear",
+    "detachment_id": "skysplinter-assault",
     "cp_cost": 1,
     "phases": [
-      "fight",
       "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "instinctive-spite-realspace-raiders",
-    "name": "INSTINCTIVE SPITE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "realspace-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "eager-for-the-kill-realspace-raiders",
-    "name": "EAGER FOR THE KILL",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "realspace-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "connoisseurs-of-pain-covenite-coterie",
-    "name": "CONNOISSEURS OF PAIN",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "covenite-coterie",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "a-challenge-met-spectacle-of-spite",
-    "name": "A CHALLENGE MET",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "spectacle-of-spite",
-    "cp_cost": 2,
-    "phases": [
-      "movement"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -232,56 +515,34 @@
     }
   },
   {
-    "id": "insensible-to-pain-realspace-raiders",
-    "name": "INSENSIBLE TO PAIN",
+    "id": "planned-strikes-exhibition-of-slaughter",
+    "name": "Planned Strikes",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "realspace-raiders",
-    "cp_cost": 2,
+    "detachment_id": "exhibition-of-slaughter",
+    "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "planned-strikes-exhibition-of-slaughter",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "tailored-toxins-kabalite-cartel",
-    "name": "TAILORED TOXINS",
+    "id": "poisoners-art-covenite-coterie",
+    "name": "POISONER’S ART",
     "category": "detachment",
     "type": "epic-deed",
-    "detachment_id": "kabalite-cartel",
+    "detachment_id": "covenite-coterie",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "fight"
     ],
     "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "enemies-without-number-kabalite-cartel",
-    "name": "ENEMIES WITHOUT NUMBER",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "kabalite-cartel",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -314,49 +575,11 @@
     }
   },
   {
-    "id": "symphony-of-suffering-covenite-coterie",
-    "name": "SYMPHONY OF SUFFERING",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "covenite-coterie",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "poisoners-art-covenite-coterie",
-    "name": "POISONER’S ART",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "covenite-coterie",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "feigned-weakness-spectacle-of-spite",
-    "name": "FEIGNED WEAKNESS",
+    "id": "pounce-on-the-prey-skysplinter-assault",
+    "name": "POUNCE ON THE PREY",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "spectacle-of-spite",
+    "detachment_id": "skysplinter-assault",
     "cp_cost": 1,
     "phases": [
       "movement"
@@ -365,6 +588,24 @@
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "powerful-creations-coven-of-agonies",
+    "name": "Powerful Creations",
+    "category": "detachment",
+    "detachment_id": "coven-of-agonies",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "powerful-creations-coven-of-agonies",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -391,10 +632,218 @@
     }
   },
   {
-    "id": "double-cross-kabalite-cartel",
-    "name": "DOUBLE-CROSS",
+    "id": "prioritised-victim-kabalite-agonysts",
+    "name": "Prioritised Victim",
+    "category": "detachment",
+    "detachment_id": "kabalite-agonysts",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "prioritised-victim-kabalite-agonysts",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "raid-and-fade-realspace-raiders",
+    "name": "RAID AND FADE",
     "category": "detachment",
     "type": "strategic-ploy",
+    "detachment_id": "realspace-raiders",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "salting-the-wound-tools-of-torment",
+    "name": "Salting the Wound",
+    "category": "detachment",
+    "detachment_id": "tools-of-torment",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "salting-the-wound-tools-of-torment",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "scintillating-tempo-reapers-wager",
+    "name": "SCINTILLATING TEMPO",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "reapers-wager",
+    "cp_cost": 1,
+    "phases": [
+      "charge",
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sculpting-the-stage-exhibition-of-slaughter",
+    "name": "Sculpting the Stage",
+    "category": "detachment",
+    "detachment_id": "exhibition-of-slaughter",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "sculpting-the-stage-exhibition-of-slaughter",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shadows-reach-kabalite-agonysts",
+    "name": "Shadows’ Reach",
+    "category": "detachment",
+    "detachment_id": "kabalite-agonysts",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "shadows-reach-kabalite-agonysts",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shorten-the-odds-reapers-wager",
+    "name": "SHORTEN THE ODDS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "reapers-wager",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "skyborne-annihilation-skysplinter-assault",
+    "name": "SKYBORNE ANNIHILATION",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "skysplinter-assault",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "swooping-mockery-skysplinter-assault",
+    "name": "SWOOPING MOCKERY",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "skysplinter-assault",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "symphony-of-suffering-covenite-coterie",
+    "name": "SYMPHONY OF SUFFERING",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "covenite-coterie",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "tailored-toxins-kabalite-cartel",
+    "name": "TAILORED TOXINS",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "kabalite-cartel",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "taken-alive-kabalite-cartel",
+    "name": "TAKEN ALIVE",
+    "category": "detachment",
+    "type": "battle-tactic",
     "detachment_id": "kabalite-cartel",
     "cp_cost": 1,
     "phases": [
@@ -410,19 +859,18 @@
     }
   },
   {
-    "id": "deadly-deceivers-kabalite-cartel",
-    "name": "DEADLY DECEIVERS",
+    "id": "urgent-metamorphosis-tools-of-torment",
+    "name": "Urgent Metamorphosis",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "kabalite-cartel",
+    "detachment_id": "tools-of-torment",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "movement"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "urgent-metamorphosis-tools-of-torment",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -461,398 +909,6 @@
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "pounce-on-the-prey-skysplinter-assault",
-    "name": "POUNCE ON THE PREY",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "skysplinter-assault",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "swooping-mockery-skysplinter-assault",
-    "name": "SWOOPING MOCKERY",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "skysplinter-assault",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "shorten-the-odds-reapers-wager",
-    "name": "SHORTEN THE ODDS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "reapers-wager",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "scintillating-tempo-reapers-wager",
-    "name": "SCINTILLATING TEMPO",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "reapers-wager",
-    "cp_cost": 1,
-    "phases": [
-      "charge",
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "fateful-role-reapers-wager",
-    "name": "FATEFUL ROLE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "reapers-wager",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dark-harvest-realspace-raiders",
-    "name": "DARK HARVEST",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "realspace-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "enfolding-nightmare-covenite-coterie",
-    "name": "ENFOLDING NIGHTMARE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "covenite-coterie",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "berserk-fugue-spectacle-of-spite",
-    "name": "BERSERK FUGUE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "spectacle-of-spite",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dance-macabre-reapers-wager",
-    "name": "DANCE MACABRE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "reapers-wager",
-    "cp_cost": 2,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "raid-and-fade-realspace-raiders",
-    "name": "RAID AND FADE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "realspace-raiders",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "distillers-of-fear-covenite-coterie",
-    "name": "DISTILLERS OF FEAR",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "covenite-coterie",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "night-shield-skysplinter-assault",
-    "name": "NIGHT SHIELD",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "skysplinter-assault",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "planned-strikes-exhibition-of-slaughter",
-    "name": "Planned Strikes",
-    "category": "detachment",
-    "detachment_id": "exhibition-of-slaughter",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "planned-strikes-exhibition-of-slaughter",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sculpting-the-stage-exhibition-of-slaughter",
-    "name": "Sculpting the Stage",
-    "category": "detachment",
-    "detachment_id": "exhibition-of-slaughter",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "sculpting-the-stage-exhibition-of-slaughter",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "acrobatic-display-exhibition-of-slaughter",
-    "name": "Acrobatic Display",
-    "category": "detachment",
-    "detachment_id": "exhibition-of-slaughter",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "acrobatic-display-exhibition-of-slaughter",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "prioritised-victim-kabalite-agonysts",
-    "name": "Prioritised Victim",
-    "category": "detachment",
-    "detachment_id": "kabalite-agonysts",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "prioritised-victim-kabalite-agonysts",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "shadows-reach-kabalite-agonysts",
-    "name": "Shadows’ Reach",
-    "category": "detachment",
-    "detachment_id": "kabalite-agonysts",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "shadows-reach-kabalite-agonysts",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "killers-from-the-dark-spires-kabalite-agonysts",
-    "name": "Killers From the Dark Spires",
-    "category": "detachment",
-    "detachment_id": "kabalite-agonysts",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "killers-from-the-dark-spires-kabalite-agonysts",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "salting-the-wound-tools-of-torment",
-    "name": "Salting the Wound",
-    "category": "detachment",
-    "detachment_id": "tools-of-torment",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "salting-the-wound-tools-of-torment",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dividends-of-agony-tools-of-torment",
-    "name": "Dividends of Agony",
-    "category": "detachment",
-    "detachment_id": "tools-of-torment",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "dividends-of-agony-tools-of-torment",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "urgent-metamorphosis-tools-of-torment",
-    "name": "Urgent Metamorphosis",
-    "category": "detachment",
-    "detachment_id": "tools-of-torment",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "urgent-metamorphosis-tools-of-torment",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"

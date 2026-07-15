@@ -214,6 +214,16 @@ describe("MFM dump contract generation", () => {
     expect(bytes).not.toContain(SENTINEL_NAME);
     expect(bytes).not.toContain(SENTINEL_PROSE);
   });
+
+  it("fails synthetic source-shape drift before generated artifacts can be produced", () => {
+    const unreviewed = clone(dump()) as { data: { alpha: Array<Record<string, unknown>> } };
+    unreviewed.data.alpha[0].newSourceProperty = "review required";
+
+    expect(validateDumpCatalog(unreviewed, catalog())).toEqual([
+      expect.stringContaining("newSourceProperty"),
+    ]);
+    expect(() => buildDumpSchema(unreviewed, catalog())).toThrow(/newSourceProperty/);
+  });
 });
 
 describe("MFM catalog diagnostics", () => {

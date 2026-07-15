@@ -21,7 +21,7 @@ so the pack-global caps project per mission). Prose is never touched.
 | Dump cards with no repo match | 0 |
 | Primary reskins excluded (by design) | 24 |
 | Mission-entity matched | 25 |
-| source filled | 25 |
+| source filled | 0 |
 | source review (dump differs, kept) | 0 |
 | VP caps confirmed | 50 |
 | VP caps review (dump differs, kept) | 0 |

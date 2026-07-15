@@ -1,4 +1,4 @@
-# MFM detachment fields — DRY RUN
+# MFM detachment fields — APPLIED
 
 Fill-only reconcile of `tags` (mutual-exclusivity unique keyword → slug),
 `restrictions.required_keywords` (chapter-lock applicability keyword), and

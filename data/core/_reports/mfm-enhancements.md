@@ -1,4 +1,4 @@
-# MFM enhancement reconcile — DRY RUN
+# MFM enhancement reconcile — APPLIED
 
 Reconciles enhancement `cost` (confirmed → `points_provisional: false`, launch
 dataslate) and the GW-authoritative scalars `upgrade_tag`/`max_targets` (overwritten).

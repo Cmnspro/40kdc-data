@@ -37,10 +37,14 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
-import { loadDump,
-MfmDump, type DatasheetRow,
-type DetachmentRow,
-type EnhancementRow, } from "./mfm/loader.js";
+import {
+  DEFAULT_DUMP_PATH,
+  loadDump,
+  MfmDump,
+  type DatasheetRow,
+  type DetachmentRow,
+  type EnhancementRow,
+} from "./mfm/loader.js";
 import { REPO_ROOT, readJsonArray, CORE_DIR } from "./mfm/repo-files.js";
 import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-map.js";
 import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
@@ -1146,78 +1150,93 @@ async function runWeaponVariantsCmd(dump: MfmDump, write: boolean, onlyDir?: str
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+export const INGEST_MFM_COMMANDS = [
+  "coverage",
+  "golden",
+  "dispositions",
+  "enhancements",
+  "normalize-enhancements",
+  "faction-fields",
+  "detachment-fields",
+  "points",
+  "cull-legends",
+  "stratagems",
+  "seed-stratagems",
+  "missions",
+  "mission-matchups",
+  "base-sizes",
+  "chapter-scope",
+  "wargear",
+  "wargear-budgets",
+  "wargear-costs",
+  "composition-names",
+  "composition-tiers",
+  "attachment-role",
+  "seed-units",
+  "seed-detachments",
+  "allies",
+  "weapon-variants",
+] as const;
+
+export type IngestMfmCommand = (typeof INGEST_MFM_COMMANDS)[number];
+
+export type IngestMfmOptions = {
+  dumpPath: string;
+  write: boolean;
+  onlyDir?: string;
+  includeCombatPatrol?: boolean;
+};
+
+/** Run one ingest transform through its existing projected-data persistence seam. */
+export async function runIngestMfmCommand(
+  command: IngestMfmCommand,
+  options: IngestMfmOptions,
+): Promise<void> {
+  const dump = loadDump(options.dumpPath);
+  if (command === "coverage") runCoverage(dump);
+  else if (command === "golden") writeGolden(dump);
+  else if (command === "dispositions") await runDispositionsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "enhancements") await runEnhancementsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "normalize-enhancements") await runNormalizeEnhancementsCmd(dump, options.write);
+  else if (command === "faction-fields") await runFactionFieldsCmd(dump, options.write);
+  else if (command === "detachment-fields") await runDetachmentFieldsCmd(dump, options.write);
+  else if (command === "points") await runPointsCmd(dump, options.write);
+  else if (command === "cull-legends") await runCullCmd(dump, options.write);
+  else if (command === "stratagems") await runStratagemsCmd(dump, options.write);
+  else if (command === "seed-stratagems") await runSeedStratagemsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "missions") await runMissionsCmd(dump, options.write);
+  else if (command === "mission-matchups") await runMissionMatchupsCmd(dump, options.write);
+  else if (command === "base-sizes") await runBaseSizesCmd(dump, options.write);
+  else if (command === "chapter-scope") await runChapterScopeCmd(dump, options.write);
+  else if (command === "wargear") await runWargearCmd(dump, options.write, options.onlyDir);
+  else if (command === "wargear-budgets") await runWargearBudgetsCmd(dump, options.write, options.onlyDir);
+  else if (command === "wargear-costs") await runWargearCostsCmd(dump, options.write, options.onlyDir);
+  else if (command === "composition-names") await runCompositionNamesCmd(dump, options.write, options.onlyDir);
+  else if (command === "composition-tiers") await runCompositionTiersCmd(dump, options.write, options.onlyDir);
+  else if (command === "attachment-role") await runAttachmentRoleCmd(dump, options.write, options.onlyDir);
+  else if (command === "seed-units") await runSeedUnitsCmd(dump, options.write, options.onlyDir, options.includeCombatPatrol);
+  else if (command === "seed-detachments") await runSeedDetachmentsCmd(dump, options.write, options.onlyDir, options.includeCombatPatrol);
+  else if (command === "allies") await runAlliesCmd(dump, options.write);
+  else if (command === "weapon-variants") await runWeaponVariantsCmd(dump, options.write, options.onlyDir);
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
-  const cmd = argv[0];
-  const write = argv.includes("--write");
+  const command = argv[0];
   const dumpFlag = argv.indexOf("--dump");
-  const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
   const dirFlag = argv.indexOf("--dir");
-  const onlyDir = dirFlag >= 0 ? argv[dirFlag + 1] : undefined;
-  const includeCombatPatrol = argv.includes("--include-combat-patrol");
-
-  const commands = [
-    "coverage",
-    "golden",
-    "dispositions",
-    "enhancements",
-    "normalize-enhancements",
-    "faction-fields",
-    "detachment-fields",
-    "points",
-    "cull-legends",
-    "stratagems",
-    "seed-stratagems",
-    "missions",
-    "mission-matchups",
-    "base-sizes",
-    "chapter-scope",
-    "wargear",
-    "wargear-budgets",
-    "wargear-costs",
-    "composition-names",
-    "composition-tiers",
-    "attachment-role",
-    "seed-units",
-    "seed-detachments",
-    "allies",
-    "weapon-variants",
-  ];
-  if (!commands.includes(cmd)) {
+  if (!INGEST_MFM_COMMANDS.includes(command as IngestMfmCommand)) {
     console.error(
-      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>] [--dir <faction>] [--include-combat-patrol]`
+      `Usage: ingest-mfm <${INGEST_MFM_COMMANDS.join("|")}> [--write] [--dump <path>] [--dir <faction>] [--include-combat-patrol]`,
     );
     process.exit(2);
   }
-
-  const dump = loadDump(dumpPath);
-  if (cmd === "coverage") runCoverage(dump);
-  else if (cmd === "golden") writeGolden(dump);
-  else if (cmd === "dispositions") await runDispositionsCmd(dump, write, includeCombatPatrol);
-  else if (cmd === "enhancements") await runEnhancementsCmd(dump, write, includeCombatPatrol);
-  else if (cmd === "normalize-enhancements") await runNormalizeEnhancementsCmd(dump, write);
-  else if (cmd === "faction-fields") await runFactionFieldsCmd(dump, write);
-  else if (cmd === "detachment-fields") await runDetachmentFieldsCmd(dump, write);
-  else if (cmd === "points") await runPointsCmd(dump, write);
-  else if (cmd === "cull-legends") await runCullCmd(dump, write);
-  else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
-  else if (cmd === "seed-stratagems") await runSeedStratagemsCmd(dump, write, includeCombatPatrol);
-  else if (cmd === "missions") await runMissionsCmd(dump, write);
-  else if (cmd === "mission-matchups") await runMissionMatchupsCmd(dump, write);
-  else if (cmd === "base-sizes") await runBaseSizesCmd(dump, write);
-  else if (cmd === "chapter-scope") await runChapterScopeCmd(dump, write);
-  else if (cmd === "wargear") await runWargearCmd(dump, write, onlyDir);
-  else if (cmd === "wargear-budgets") await runWargearBudgetsCmd(dump, write, onlyDir);
-  else if (cmd === "wargear-costs") await runWargearCostsCmd(dump, write, onlyDir);
-  else if (cmd === "composition-names") await runCompositionNamesCmd(dump, write, onlyDir);
-  else if (cmd === "composition-tiers") await runCompositionTiersCmd(dump, write, onlyDir);
-  else if (cmd === "attachment-role") await runAttachmentRoleCmd(dump, write, onlyDir);
-  else if (cmd === "seed-units")
-    await runSeedUnitsCmd(dump, write, onlyDir, includeCombatPatrol);
-  else if (cmd === "seed-detachments")
-    await runSeedDetachmentsCmd(dump, write, onlyDir, includeCombatPatrol);
-  else if (cmd === "allies") await runAlliesCmd(dump, write);
-  else if (cmd === "weapon-variants") await runWeaponVariantsCmd(dump, write, onlyDir);
+  await runIngestMfmCommand(command as IngestMfmCommand, {
+    dumpPath: dumpFlag >= 0 ? argv[dumpFlag + 1] : DEFAULT_DUMP_PATH,
+    write: argv.includes("--write"),
+    onlyDir: dirFlag >= 0 ? argv[dirFlag + 1] : undefined,
+    includeCombatPatrol: argv.includes("--include-combat-patrol"),
+  });
 }
 
 /** True only when this module is the process entrypoint — so importing it (the golden

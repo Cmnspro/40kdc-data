@@ -1,15 +1,15 @@
 [
   {
-    "id": "crack-shots-recon-element",
-    "name": "CRACK SHOTS",
+    "id": "ablative-plating-hammer-of-the-emperor",
+    "name": "ABLATIVE PLATING",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "recon-element",
-    "cp_cost": 1,
+    "type": "wargear",
+    "detachment_id": "hammer-of-the-emperor",
+    "cp_cost": 2,
     "phases": [
       "shooting"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -19,14 +19,53 @@
     }
   },
   {
-    "id": "scouting-outriders-recon-element",
-    "name": "SCOUTING OUTRIDERS",
+    "id": "accuracy-under-pressure-steel-hammer",
+    "name": "ACCURACY UNDER PRESSURE",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "recon-element",
+    "detachment_id": "steel-hammer",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "accuracy-under-pressure-steel-hammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "adamantine-behemoth-steel-hammer",
+    "name": "ADAMANTINE BEHEMOTH",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "steel-hammer",
     "cp_cost": 1,
     "phases": [
-      "fight"
+      "movement",
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "adamantine-behemoth-steel-hammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "additional-armour-grizzled-company",
+    "name": "ADDITIONAL ARMOUR",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "grizzled-company",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -57,11 +96,30 @@
     }
   },
   {
-    "id": "furious-cannonade-hammer-of-the-emperor",
-    "name": "FURIOUS CANNONADE",
+    "id": "burst-of-speed-armoured-infantry",
+    "name": "BURST OF SPEED",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "armoured-infantry",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "burst-of-speed-armoured-infantry",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "callous-sacrifice-siege-regiment",
+    "name": "CALLOUS SACRIFICE",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "hammer-of-the-emperor",
+    "detachment_id": "siege-regiment",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -70,6 +128,62 @@
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "clear-and-secure-mechanised-assault",
+    "name": "CLEAR AND SECURE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "mechanised-assault",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "close-range-detection-designation-force",
+    "name": "CLOSE-RANGE DETECTION",
+    "category": "detachment",
+    "detachment_id": "designation-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "close-range-detection-designation-force",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "combined-fire-armoured-infantry",
+    "name": "COMBINED FIRE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "armoured-infantry",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "combined-fire-armoured-infantry",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -99,333 +213,6 @@
     }
   },
   {
-    "id": "fields-of-fire-combined-arms",
-    "name": "FIELDS OF FIRE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "combined-arms",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "stalwart-protector-combined-arms",
-    "name": "STALWART PROTECTOR",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "combined-arms",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "veteran-sharpshooters-grizzled-company",
-    "name": "VETERAN SHARPSHOOTERS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "grizzled-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "purging-fire-grizzled-company",
-    "name": "PURGING FIRE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "grizzled-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mordian-minute-grizzled-company",
-    "name": "MORDIAN MINUTE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "grizzled-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "additional-armour-grizzled-company",
-    "name": "ADDITIONAL ARMOUR",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "grizzled-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "clear-and-secure-mechanised-assault",
-    "name": "CLEAR AND SECURE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "mechanised-assault",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "swift-interception-mechanised-assault",
-    "name": "SWIFT INTERCEPTION",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "mechanised-assault",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hasty-extraction-mechanised-assault",
-    "name": "HASTY EXTRACTION",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "mechanised-assault",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "callous-sacrifice-siege-regiment",
-    "name": "CALLOUS SACRIFICE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "siege-regiment",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "trench-fighters-siege-regiment",
-    "name": "TRENCH FIGHTERS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "siege-regiment",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "firing-hot-bridgehead-strike",
-    "name": "FIRING HOT",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "bridgehead-strike",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "firing-hot-bridgehead-strike",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "final-hour-hammer-of-the-emperor",
-    "name": "FINAL HOUR",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "hammer-of-the-emperor",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "inspired-command-combined-arms",
-    "name": "INSPIRED COMMAND",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "combined-arms",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "snap-to-it-grizzled-company",
-    "name": "SNAP TO IT",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "grizzled-company",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "on-my-position-bridgehead-strike",
-    "name": "ON MY POSITION",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "bridgehead-strike",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "on-my-position-bridgehead-strike",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "draw-them-out-recon-element",
-    "name": "DRAW THEM OUT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "recon-element",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "courageous-diversion-recon-element",
     "name": "COURAGEOUS DIVERSION",
     "category": "detachment",
@@ -445,14 +232,14 @@
     }
   },
   {
-    "id": "tactical-withdrawal-hammer-of-the-emperor",
-    "name": "TACTICAL WITHDRAWAL",
+    "id": "crack-shots-recon-element",
+    "name": "CRACK SHOTS",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hammer-of-the-emperor",
+    "type": "battle-tactic",
+    "detachment_id": "recon-element",
     "cp_cost": 1,
     "phases": [
-      "movement"
+      "shooting"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -484,11 +271,68 @@
     }
   },
   {
-    "id": "no-retreat-grizzled-company",
-    "name": "NO RETREAT!",
+    "id": "draw-them-out-recon-element",
+    "name": "DRAW THEM OUT",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "grizzled-company",
+    "detachment_id": "recon-element",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "engine-of-wrath-steel-hammer",
+    "name": "ENGINE OF WRATH",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "steel-hammer",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "engine-of-wrath-steel-hammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "fields-of-fire-combined-arms",
+    "name": "FIELDS OF FIRE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "combined-arms",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "final-hour-hammer-of-the-emperor",
+    "name": "FINAL HOUR",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "hammer-of-the-emperor",
     "cp_cost": 1,
     "phases": [
       "command"
@@ -503,11 +347,48 @@
     }
   },
   {
-    "id": "servo-designators-bridgehead-strike",
-    "name": "SERVO-DESIGNATORS",
+    "id": "firing-hot-bridgehead-strike",
+    "name": "FIRING HOT",
     "category": "detachment",
-    "type": "strategic-ploy",
+    "type": "battle-tactic",
     "detachment_id": "bridgehead-strike",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "firing-hot-bridgehead-strike",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "first-wave-draydens-lance",
+    "name": "First Wave",
+    "category": "detachment",
+    "detachment_id": "draydens-lance",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "first-wave-draydens-lance",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "flare-burst-siege-regiment",
+    "name": "FLARE BURST",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "siege-regiment",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -515,21 +396,209 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "servo-designators-bridgehead-strike",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "rapid-dispersal-mechanised-assault",
-    "name": "RAPID DISPERSAL",
+    "id": "flexible-command-combined-arms",
+    "name": "FLEXIBLE COMMAND",
     "category": "detachment",
     "type": "strategic-ploy",
+    "detachment_id": "combined-arms",
+    "cp_cost": 2,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "focus-attacks-draydens-lance",
+    "name": "Focus Attacks",
+    "category": "detachment",
+    "detachment_id": "draydens-lance",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "focus-attacks-draydens-lance",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "furious-cannonade-hammer-of-the-emperor",
+    "name": "FURIOUS CANNONADE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "hammer-of-the-emperor",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "furious-fusillade-siege-regiment",
+    "name": "FURIOUS FUSILLADE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "siege-regiment",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "hasty-extraction-mechanised-assault",
+    "name": "HASTY EXTRACTION",
+    "category": "detachment",
+    "type": "battle-tactic",
     "detachment_id": "mechanised-assault",
     "cp_cost": 1,
     "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "imposing-arrival-steel-hammer",
+    "name": "IMPOSING ARRIVAL",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "steel-hammer",
+    "cp_cost": 1,
+    "phases": [
       "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "imposing-arrival-steel-hammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "inspired-command-combined-arms",
+    "name": "INSPIRED COMMAND",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "combined-arms",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "low-profile-abhuman-auxiliaries",
+    "name": "LOW PROFILE",
+    "category": "detachment",
+    "detachment_id": "abhuman-auxiliaries",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "low-profile-abhuman-auxiliaries",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "minefield-siege-regiment",
+    "name": "MINEFIELD",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "siege-regiment",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mobile-firebase-armoured-infantry",
+    "name": "MOBILE FIREBASE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "armoured-infantry",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "mobile-firebase-armoured-infantry",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mordian-minute-grizzled-company",
+    "name": "MORDIAN MINUTE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "grizzled-company",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -560,14 +629,128 @@
     }
   },
   {
-    "id": "furious-fusillade-siege-regiment",
-    "name": "FURIOUS FUSILLADE",
+    "id": "no-retreat-grizzled-company",
+    "name": "NO RETREAT!",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "siege-regiment",
+    "detachment_id": "grizzled-company",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "on-my-position-bridgehead-strike",
+    "name": "ON MY POSITION",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "bridgehead-strike",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "on-my-position-bridgehead-strike",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "opening-salvo-armoured-infantry",
+    "name": "OPENING SALVO",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "armoured-infantry",
     "cp_cost": 1,
     "phases": [
       "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "opening-salvo-armoured-infantry",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "order-the-advance-armoured-infantry",
+    "name": "ORDER THE ADVANCE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "armoured-infantry",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "order-the-advance-armoured-infantry",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "over-the-top-siege-regiment",
+    "name": "OVER THE TOP",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "siege-regiment",
+    "cp_cost": 2,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "purging-fire-grizzled-company",
+    "name": "PURGING FIRE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "grizzled-company",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "rapid-dispersal-mechanised-assault",
+    "name": "RAPID DISPERSAL",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "mechanised-assault",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -602,35 +785,16 @@
     }
   },
   {
-    "id": "flexible-command-combined-arms",
-    "name": "FLEXIBLE COMMAND",
+    "id": "scouting-outriders-recon-element",
+    "name": "SCOUTING OUTRIDERS",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "combined-arms",
-    "cp_cost": 2,
+    "type": "battle-tactic",
+    "detachment_id": "recon-element",
+    "cp_cost": 1,
     "phases": [
-      "command"
+      "fight"
     ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "over-the-top-siege-regiment",
-    "name": "OVER THE TOP",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "siege-regiment",
-    "cp_cost": 2,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -659,6 +823,179 @@
     }
   },
   {
+    "id": "servo-designators-bridgehead-strike",
+    "name": "SERVO-DESIGNATORS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "bridgehead-strike",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "servo-designators-bridgehead-strike",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shattering-salvo-steel-hammer",
+    "name": "SHATTERING SALVO",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "steel-hammer",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "shattering-salvo-steel-hammer",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "snap-to-it-grizzled-company",
+    "name": "SNAP TO IT",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "grizzled-company",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "stalwart-protector-combined-arms",
+    "name": "STALWART PROTECTOR",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "combined-arms",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "stirred-to-action-abhuman-auxiliaries",
+    "name": "STIRRED TO ACTION",
+    "category": "detachment",
+    "detachment_id": "abhuman-auxiliaries",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "stirred-to-action-abhuman-auxiliaries",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sump-smog-screen-designation-force",
+    "name": "SUMP-SMOG SCREEN",
+    "category": "detachment",
+    "detachment_id": "designation-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "sump-smog-screen-designation-force",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "supporting-ordnance-armoured-infantry",
+    "name": "SUPPORTING ORDNANCE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "armoured-infantry",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "supporting-ordnance-armoured-infantry",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "swift-interception-mechanised-assault",
+    "name": "SWIFT INTERCEPTION",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "mechanised-assault",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "tactical-withdrawal-hammer-of-the-emperor",
+    "name": "TACTICAL WITHDRAWAL",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hammer-of-the-emperor",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
     "id": "tanglefoot-grenades-recon-element",
     "name": "TANGLEFOOT GRENADES",
     "category": "detachment",
@@ -667,82 +1004,6 @@
     "cp_cost": 1,
     "phases": [
       "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "vox-relay-mechanised-assault",
-    "name": "VOX-RELAY",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "mechanised-assault",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "minefield-siege-regiment",
-    "name": "MINEFIELD",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "siege-regiment",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "flare-burst-siege-regiment",
-    "name": "FLARE BURST",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "siege-regiment",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ablative-plating-hammer-of-the-emperor",
-    "name": "ABLATIVE PLATING",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "hammer-of-the-emperor",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -773,54 +1034,19 @@
     }
   },
   {
-    "id": "low-profile-abhuman-auxiliaries",
-    "name": "LOW PROFILE",
+    "id": "trench-fighters-siege-regiment",
+    "name": "TRENCH FIGHTERS",
     "category": "detachment",
-    "detachment_id": "abhuman-auxiliaries",
+    "type": "battle-tactic",
+    "detachment_id": "siege-regiment",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "fight"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "low-profile-abhuman-auxiliaries",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "stirred-to-action-abhuman-auxiliaries",
-    "name": "STIRRED TO ACTION",
-    "category": "detachment",
-    "detachment_id": "abhuman-auxiliaries",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "stirred-to-action-abhuman-auxiliaries",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "close-range-detection-designation-force",
-    "name": "CLOSE-RANGE DETECTION",
-    "category": "detachment",
-    "detachment_id": "designation-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "close-range-detection-designation-force",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -845,48 +1071,11 @@
     }
   },
   {
-    "id": "sump-smog-screen-designation-force",
-    "name": "SUMP-SMOG SCREEN",
+    "id": "veteran-sharpshooters-grizzled-company",
+    "name": "VETERAN SHARPSHOOTERS",
     "category": "detachment",
-    "detachment_id": "designation-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "sump-smog-screen-designation-force",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "engine-of-wrath-steel-hammer",
-    "name": "ENGINE OF WRATH",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "steel-hammer",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "engine-of-wrath-steel-hammer",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "shattering-salvo-steel-hammer",
-    "name": "SHATTERING SALVO",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "steel-hammer",
+    "type": "battle-tactic",
+    "detachment_id": "grizzled-company",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -894,26 +1083,44 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "shattering-salvo-steel-hammer",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "imposing-arrival-steel-hammer",
-    "name": "IMPOSING ARRIVAL",
+    "id": "veteran-skirmishers-draydens-lance",
+    "name": "Veteran Skirmishers",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "steel-hammer",
+    "detachment_id": "draydens-lance",
     "cp_cost": 1,
     "phases": [
       "movement"
     ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "veteran-skirmishers-draydens-lance",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "vox-relay-mechanised-assault",
+    "name": "VOX-RELAY",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "mechanised-assault",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "imposing-arrival-steel-hammer",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -933,159 +1140,6 @@
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": "withering-firepower-steel-hammer",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "adamantine-behemoth-steel-hammer",
-    "name": "ADAMANTINE BEHEMOTH",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "steel-hammer",
-    "cp_cost": 1,
-    "phases": [
-      "movement",
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "adamantine-behemoth-steel-hammer",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "accuracy-under-pressure-steel-hammer",
-    "name": "ACCURACY UNDER PRESSURE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "steel-hammer",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "accuracy-under-pressure-steel-hammer",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "order-the-advance-armoured-infantry",
-    "name": "ORDER THE ADVANCE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "armoured-infantry",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "order-the-advance-armoured-infantry",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "supporting-ordnance-armoured-infantry",
-    "name": "SUPPORTING ORDNANCE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "armoured-infantry",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "supporting-ordnance-armoured-infantry",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mobile-firebase-armoured-infantry",
-    "name": "MOBILE FIREBASE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "armoured-infantry",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "mobile-firebase-armoured-infantry",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "combined-fire-armoured-infantry",
-    "name": "COMBINED FIRE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "armoured-infantry",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "combined-fire-armoured-infantry",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "burst-of-speed-armoured-infantry",
-    "name": "BURST OF SPEED",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "armoured-infantry",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "burst-of-speed-armoured-infantry",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "opening-salvo-armoured-infantry",
-    "name": "OPENING SALVO",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "armoured-infantry",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "opening-salvo-armoured-infantry",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"

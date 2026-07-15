@@ -1,6 +1,6 @@
 {
   "name": "@alpaca-software/40kdc-data",
-  "version": "1.0.29",
+  "version": "1.1.0",
   "type": "module",
   "description": "The 40kdc Warhammer 40K dataset behind a linked, typed API — find units, follow them to their weapons, abilities, phases, and factions. Also validates data against the canonical JSON Schemas.",
   "keywords": [
@@ -88,6 +88,7 @@
     "author:report": "tsx src/audit-phrasing.ts --review",
     "mfm:golden": "tsx src/ingest-mfm.ts golden",
     "mfm:contract": "tsx src/mfm/gen-dump-schema.ts",
+    "mfm:sync": "tsx src/mfm/sync.ts",
     "mfm:bsdata": "tsx src/mfm/bsdata-backstop.ts",
     "bundle:schemas": "tsx src/bundle-schemas.ts",
     "codegen:types": "json2ts -i ../crates/wh40kdc/schemas/bundled.schema.json -o src/generated.ts --unreachableDefinitions --bannerComment \"/* Generated from crates/wh40kdc/schemas/bundled.schema.json by 'npm run codegen:types'. DO NOT EDIT BY HAND. */\"",

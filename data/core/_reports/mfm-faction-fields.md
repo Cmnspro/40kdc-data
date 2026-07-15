@@ -7,10 +7,10 @@ values are confirmed or surfaced for review, never overwritten. Prose untouched.
 | Dir | rule-fill | rule-ok | rule-rev | parent-fill | parent-ok | parent-rev | aliases+ |
 |---|--:|--:|--:|--:|--:|--:|--:|
 | adepta-sororitas | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| adeptus-astartes | 0 | 1 | 0 | 0 | 0 | 0 | 1 |
+| adeptus-astartes | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | adeptus-custodes | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | adeptus-mechanicus | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| agents-of-the-imperium | 0 | 1 | 0 | 0 | 0 | 0 | 1 |
+| agents-of-the-imperium | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | astra-militarum | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | black-templars | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 | blood-angels | 0 | 0 | 1 | 0 | 1 | 0 | 0 |
@@ -38,12 +38,6 @@ values are confirmed or surfaced for review, never overwritten. Prose untouched.
 | ultramarines | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 | white-scars | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 | world-eaters | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-
-## adeptus-astartes
-- aliases added: Space Marines
-
-## agents-of-the-imperium
-- aliases added: Imperial Agents
 
 ## blood-angels
 - faction_rule_id REVIEW: authored the-red-thirst vs owned [oath-of-moment, space-marine-chapters, the-sons-of-sanguinius]

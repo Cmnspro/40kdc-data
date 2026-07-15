@@ -8,15 +8,11 @@ never overwritten.
 
 | Metric | Count |
 |---|--:|
-| Filled (was empty) | 102 |
+| Filled (was empty) | 0 |
 | De-drafted (dump confirmed a guess) | 0 |
-| Corrected (dump fixed a draft) | 1 |
-| Confirmed (already matched) | 760 |
+| Corrected (dump fixed a draft) | 0 |
+| Confirmed (already matched) | 863 |
 | Review (authored ≠ dump, kept) | 12 |
-
-## Corrected drafts (dump-authoritative)
-
-- aeldari/vyper: flying-base → oval 105x70
 
 ## Review — authored value the dump contradicts (NOT changed)
 

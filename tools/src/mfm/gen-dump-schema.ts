@@ -935,17 +935,19 @@ function atomicWriteAll(files: Array<{ target: string; bytes: string }>): void {
   }
 }
 
-async function generate(): Promise<{
+export interface GeneratedMfmContract {
   dump: unknown;
   catalog: DumpCatalog;
   schemaBytes: string;
   typeBytes: string;
   report: ContractReport;
-}> {
-  if (!existsSync(DEFAULT_DUMP_PATH)) {
-    throw new Error(`Missing private MFM dump: ${DEFAULT_DUMP_PATH}. Place the ignored export there before running this command.`);
+}
+
+async function generate(dumpPath: string): Promise<GeneratedMfmContract> {
+  if (!existsSync(dumpPath)) {
+    throw new Error(`MFM dump not found at ${dumpPath}.`);
   }
-  const dump = JSON.parse(readFileSync(DEFAULT_DUMP_PATH, "utf8")) as unknown;
+  const dump = JSON.parse(readFileSync(dumpPath, "utf8")) as unknown;
   const catalog = readCatalog();
   const report = checkDumpContract(dump, catalog, MAPPINGS_DIR);
   if (!report.ok) throw new Error(report.errors.join("\n"));
@@ -961,39 +963,58 @@ async function generate(): Promise<{
   return { dump, catalog, schemaBytes, typeBytes, report };
 }
 
+function contractDrift(generated: GeneratedMfmContract, checkPrivateMirror: boolean): boolean {
+  const files = [
+    [PUBLIC_SCHEMA_PATH, generated.schemaBytes],
+    [TYPES_PATH, generated.typeBytes],
+    ...(checkPrivateMirror ? [[resolvedWritePath(PRIVATE_SCHEMA_PATH), generated.schemaBytes]] : []),
+  ];
+  return files.some(([target, bytes]) => !existsSync(target) || readFileSync(target, "utf8") !== bytes);
+}
+
+/** Validate an external MFM dump against the reviewed contract and generated artifacts. */
+export async function checkMfmContract(
+  dumpPath: string,
+  options: { checkPrivateMirror: boolean },
+): Promise<ContractReport> {
+  const generated = await generate(dumpPath);
+  if (contractDrift(generated, options.checkPrivateMirror)) {
+    throw new Error('MFM contract drift: run "npm run mfm:contract -- --write"');
+  }
+  return generated.report;
+}
+
 async function runCli(argv: string[]): Promise<void> {
   const command = new Command()
     .name("mfm:contract")
     .description("Generate, check, or report the public MFM dump contract")
     .option("--write", "validate and atomically write generated contract files")
     .option("--check", "validate and fail when generated contract files drift")
-    .option("--report", "print contract and source-mapping completeness");
+    .option("--report", "print contract and source-mapping completeness")
+    .option("--dump <path>", "validate an explicit dump outside _private");
   command.parse(argv, { from: "user" });
-  const options = command.opts<{ write?: boolean; check?: boolean; report?: boolean }>();
+  const options = command.opts<{ write?: boolean; check?: boolean; report?: boolean; dump?: string }>();
   const modes = [options.write, options.check, options.report].filter(Boolean).length;
   if (modes !== 1) throw new Error("Choose exactly one of --write, --check, or --report");
-  const generated = await generate();
+  const dumpPath = options.dump ? path.resolve(options.dump) : DEFAULT_DUMP_PATH;
 
+  if (options.check) {
+    const report = await checkMfmContract(dumpPath, { checkPrivateMirror: !options.dump });
+    console.log(`MFM contract current: ${report.tables.total}/${report.tables.total} tables, ${report.paths.total}/${report.paths.total} paths.`);
+    return;
+  }
+
+  const generated = await generate(dumpPath);
   if (options.write) {
     atomicWriteAll([
       { target: PUBLIC_SCHEMA_PATH, bytes: generated.schemaBytes },
-      { target: PRIVATE_SCHEMA_PATH, bytes: generated.schemaBytes },
+      ...(options.dump ? [] : [{ target: PRIVATE_SCHEMA_PATH, bytes: generated.schemaBytes }]),
       { target: TYPES_PATH, bytes: generated.typeBytes },
     ]);
     console.log(`Wrote MFM contract for ${generated.report.tables.total} tables and ${generated.report.paths.total} canonical paths.`);
     return;
   }
-  if (options.check) {
-    const privateTarget = resolvedWritePath(PRIVATE_SCHEMA_PATH);
-    const drift = [
-      [PUBLIC_SCHEMA_PATH, generated.schemaBytes],
-      [privateTarget, generated.schemaBytes],
-      [TYPES_PATH, generated.typeBytes],
-    ].some(([target, bytes]) => !existsSync(target) || readFileSync(target, "utf8") !== bytes);
-    if (drift) throw new Error('MFM contract drift: run "npm run mfm:contract -- --write"');
-    console.log(`MFM contract current: ${generated.report.tables.total}/${generated.report.tables.total} tables, ${generated.report.paths.total}/${generated.report.paths.total} paths.`);
-    return;
-  }
+
   const coverage = Object.entries(generated.report.coverage)
     .map(([name, count]) => `${name}=${count}`)
     .join(", ");
