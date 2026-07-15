@@ -258,12 +258,12 @@
       ],
       "transforms": [
         {
-          "symbol": "tools/src/mfm/enhancements.ts#cleanEnhName",
-          "operation": "Remove the dump's trailing parenthetical enhancement tag."
+          "symbol": "tools/src/converters/id-generator.ts#detachmentScopedId",
+          "operation": "Slug the RAW enhancement name (keeping its trailing '(Upgrade)'/'(Aura)'/'(Psychic)' tag) and resolved detachment name into the repository id."
         },
         {
-          "symbol": "tools/src/converters/id-generator.ts#detachmentScopedId",
-          "operation": "Slug the cleaned enhancement and resolved detachment names into the repository id."
+          "symbol": "tools/src/mfm/enhancements.ts#normalizeEnhancementNames",
+          "operation": "Idempotently migrate any legacy stripped id to the RAW-tagged form and rewrite detachment enhancement_ids references."
         }
       ],
       "filters": [
@@ -274,7 +274,7 @@
         "tools/src/mfm/enhancements.ts#buildEnhCanon",
         "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
       ],
-      "reason": "The current projection identifies enhancements by a cleaned, detachment-scoped display-name slug rather than the dump UUID."
+      "reason": "The current projection identifies enhancements by the RAW (parenthetical-tagged) detachment-scoped display-name slug rather than the dump UUID; legacy stripped ids are migrated in place."
     },
     "/is_unique": {
       "provenance": "repo-authored",
@@ -369,25 +369,26 @@
     },
     "/name": {
       "provenance": "direct",
-      "coverage": "partial",
+      "coverage": "implemented",
       "sources": [
         "data.enhancement.localisations.*.name"
       ],
       "joins": [],
       "transforms": [
         {
-          "symbol": "tools/src/mfm/enhancements.ts#cleanEnhName",
-          "operation": "Remove the dump's trailing parenthetical enhancement tag before writing the repository display name."
+          "symbol": "tools/src/mfm/enhancements.ts#normalizeEnhancementNames",
+          "operation": "Set the repository display name to the RAW localized dump name, keeping its trailing '(Upgrade)'/'(Aura)'/'(Psychic)' tag (import-correct: normalizeName keeps parens, so a stripped name never matches an imported roster line)."
         }
       ],
       "filters": [
-        "Only Combat Patrol enhancements are seeded as new core entities."
+        "Applied to every enhancement the dump knows; hand-authored entities the dump lacks keep their authored name."
       ],
       "precedence": [],
       "consumers": [
+        "tools/src/mfm/enhancements.ts#normalizeEnhancementNames",
         "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
       ],
-      "reason": "Combat Patrol seeding writes the cleaned localized enhancement name; existing entity names are not reconciled."
+      "reason": "The display name is reconciled to the RAW localized dump name (parenthetical tag kept) across all matched enhancements; seeding writes the same RAW form for new entities."
     },
     "/points_provisional": {
       "provenance": "derived",

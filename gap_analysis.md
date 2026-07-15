@@ -19,14 +19,14 @@ Regenerate after a new dump upload (order matters):
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
 | A — fields | Contract field entries | 664 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 235 / 114 / 255 / 60 |
-| A — fields | **Actionable field-gap groups** | **116** |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 236 / 113 / 255 / 60 |
+| A — fields | **Actionable field-gap groups** | **115** |
 | A — fields | **Actionable unmapped dump fields** | **43** |
 | B — tables | **Populated tables, no consumer (structured)** | **42** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
 | C — entities | **Units new in dump** | **0** |
 | C — entities | **Detachments new in dump** | **7** |
-| C — entities | **Enhancements new in dump** | **128** |
+| C — entities | **Enhancements new in dump** | **57** |
 | C — entities | Stratagems (repo / dump) | 10 / 1432 |
 | C — entities | Missions (repo / dump) | 25 / 49+18 |
 
@@ -105,9 +105,8 @@ Unmapped dump fields with a candidate repo destination:
 
 | Field | Coverage | Provenance | Dump source(s) | Reason |
 |---|---|---|---|---|
-| `/id` | partial | derived | `data.enhancement.localisations.*.name`<br>`data.detachment.localisations.*.name` | The current projection identifies enhancements by a cleaned, detachment-scoped display-name slug rather than the dump UUID. |
+| `/id` | partial | derived | `data.enhancement.localisations.*.name`<br>`data.detachment.localisations.*.name` | The current projection identifies enhancements by the RAW (parenthetical-tagged) detachment-scoped display-name slug rather than the dump UUID; legacy stripped ids are migrated in place. |
 | `/cost` | partial | direct | `data.enhancement.basePointsCost` | The reconciliation pass applies non-null MFM costs only to existing entities whose derived ids match. |
-| `/name` | partial | direct | `data.enhancement.localisations.*.name` | Combat Patrol seeding writes the cleaned localized enhancement name; existing entity names are not reconciled. |
 | `/is_unique` | partial | repo-authored | — | Combat Patrol seed rows author the repository default true; MFM does not supply this core uniqueness semantic. |
 | `/ability_id` | unimplemented | unresolved-candidate | `data.enhancement_datasheet_ability.datasheetAbilityId`<br>`data.enhancement_datasheet_ability.enhancementId` | The edge names a datasheet ability related to an enhancement, but current projection does not establish that it is the core enhancement ability reference. |
 | `/game_modes` (+1) | partial | derived | `data.enhancement.isCombatPatrol` | Current MFM ingestion represents the Combat Patrol flag as the core game-mode reference. |
@@ -439,33 +438,20 @@ New-in-dump entities with no repo record, per faction dir. Full id lists live in
 
 | Faction dir | Units new | Detachments new | Enhancements new |
 |---|--:|--:|--:|
-| adepta-sororitas | 0 | 0 | 3 |
-| adeptus-astartes | 0 | 7 | 32 |
-| adeptus-custodes | 0 | 0 | 3 |
-| adeptus-mechanicus | 0 | 0 | 1 |
-| aeldari | 0 | 0 | 4 |
+| adeptus-astartes | 0 | 7 | 29 |
+| aeldari | 0 | 0 | 2 |
 | agents-of-the-imperium | 0 | 0 | 4 |
-| astra-militarum | 0 | 0 | 5 |
-| black-templars | 0 | 0 | 3 |
+| astra-militarum | 0 | 0 | 1 |
+| black-templars | 0 | 0 | 1 |
 | blood-angels | 0 | 0 | 1 |
-| chaos-daemons | 0 | 0 | 5 |
-| chaos-knights | 0 | 0 | 4 |
-| dark-angels | 0 | 0 | 5 |
-| death-guard | 0 | 0 | 4 |
-| drukhari | 0 | 0 | 1 |
-| emperors-children | 0 | 0 | 4 |
-| genestealer-cults | 0 | 0 | 2 |
-| grey-knights | 0 | 0 | 5 |
-| imperial-knights | 0 | 0 | 3 |
-| leagues-of-votann | 0 | 0 | 6 |
-| necrons | 0 | 0 | 10 |
-| orks | 0 | 0 | 9 |
-| space-wolves | 0 | 0 | 2 |
-| tau-empire | 0 | 0 | 2 |
-| thousand-sons | 0 | 0 | 1 |
-| tyranids | 0 | 0 | 5 |
-| world-eaters | 0 | 0 | 4 |
-| **TOTAL** | **0** | **7** | **128** |
+| dark-angels | 0 | 0 | 1 |
+| emperors-children | 0 | 0 | 1 |
+| grey-knights | 0 | 0 | 1 |
+| leagues-of-votann | 0 | 0 | 3 |
+| necrons | 0 | 0 | 6 |
+| orks | 0 | 0 | 6 |
+| tyranids | 0 | 0 | 1 |
+| **TOTAL** | **0** | **7** | **57** |
 
 Whole-dataset categories the dump dwarfs the repo on:
 

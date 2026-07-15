@@ -14,7 +14,7 @@
  */
 import * as fs from "fs";
 import * as path from "path";
-import { detachmentScopedId } from "../converters/id-generator.js";
+import { detachmentScopedId, nameToId } from "../converters/id-generator.js";
 import { MfmDump, type DetachmentRow,
 type EnhancementRow,
 type MfmTableName, type MfmStringKey, type MfmRow, } from "./loader.js";
@@ -73,11 +73,18 @@ export interface EnhReport {
 
 /**
  * Strip a trailing parenthetical tag the dump appends to enhancement names
- * (" (Upgrade)", " (Aura)", " (Psychic)") but the repo entity name (and thus its
- * id) omits. This is the canonical repo representation of an MFM enhancement name:
- * `buildEnhCanon`, `buildEnhFieldCanon`, the seeder, the golden (`enhIdsByDir`),
- * and the id-normalizer all route names through here so a fresh MFM import and the
- * committed data agree on one id per enhancement.
+ * (" (Upgrade)", " (Aura)", " (Psychic)").
+ *
+ * The canonical repo name now KEEPS this tag (the RAW GW form) — GW's own data and
+ * every downstream roster exporter carry it, and `normalizeName` treats `(` `)` as
+ * ordinary characters, so a repo name that strips the tag fails to match an imported
+ * roster line (`enhancement-unresolved`). `buildEnhCanon`, `buildEnhFieldCanon`, the
+ * seeder, and the golden (`enhIdsByDir`) therefore all slug the RAW dump name.
+ *
+ * This helper survives only as the *stable base key* for the id migration
+ * (`normalizeEnhancementNames`): the parenthetical-stripped base is invariant across
+ * the rename, so it matches a repo enhancement to its dump row whether the committed
+ * id is still the old stripped form or already the RAW one (idempotent).
  */
 export function cleanEnhName(name: string): string {
   return name.replace(/\s*\([^)]*\)\s*$/, "").trim();
@@ -95,7 +102,7 @@ export function buildEnhCanon(dump: MfmDump): Map<string, number | null> {
     const dn = dump.enName(detName.get(e.detachmentId));
     if (!en || !dn) continue;
     try {
-      m.set(detachmentScopedId(cleanEnhName(en), dn), e.basePointsCost);
+      m.set(detachmentScopedId(en, dn), e.basePointsCost);
     } catch {
       /* unsluggable — skip */
     }
@@ -165,7 +172,7 @@ export function buildEnhFieldCanon(dump: MfmDump): Map<string, EnhFields> {
     if (!en || !dn) continue;
     let id: string;
     try {
-      id = detachmentScopedId(cleanEnhName(en), dn);
+      id = detachmentScopedId(en, dn);
     } catch {
       continue; // unsluggable — skip
     }
@@ -232,12 +239,116 @@ export function combatPatrolEnhIds(dump: MfmDump): Set<string> {
     const dn = dump.enName(detName.get(e.detachmentId));
     if (!en || !dn) continue;
     try {
-      ids.add(detachmentScopedId(cleanEnhName(en), dn));
+      ids.add(detachmentScopedId(en, dn));
     } catch {
       /* unsluggable — skip */
     }
   }
   return ids;
+}
+
+/** Outcome of the RAW-name id migration (`normalizeEnhancementNames`). */
+export interface EnhNormResult {
+  staged: StagedWrite[];
+  /** Distinct old enhancement id → new RAW id (the share-registry alias set). */
+  renames: Record<string, string>;
+  /** Rows whose display name changed — id renames *and* id-stable casing fixes. */
+  nameChanges: { id: string; from: string; to: string }[];
+  /** Detachment `enhancement_ids` references rewritten old → new. */
+  refRewrites: { dir: string; detachment_id: string; from: string; to: string }[];
+  /** Dump bases that resolved to >1 RAW id — ambiguous, left untouched, surfaced. */
+  collisions: string[];
+}
+
+/**
+ * Migrate authored enhancement names + ids to the RAW GW form (keep the trailing
+ * " (Upgrade)"/" (Aura)"/" (Psychic)" tag), and rewrite every detachment
+ * `enhancement_ids` reference to the renamed id. This is the import-correct
+ * representation: an imported roster line carries the tag and `normalizeName`
+ * keeps parentheses, so a stripped repo name never resolves.
+ *
+ * Matching is by the parenthetical-stripped *base* (`cleanEnhName` scoped to the
+ * detachment), which is invariant across the rename — so the pass is idempotent:
+ * on already-RAW data every base still resolves to the same id/name and nothing is
+ * staged. Only enhancements the dump knows are touched; hand-authored/CP-only
+ * entries the dump lacks are left alone.
+ */
+export function normalizeEnhancementNames(dump: MfmDump): EnhNormResult {
+  const detName = dump.byId("detachment");
+  // Stripped scoped base id → { RAW scoped id, RAW en name }.
+  const baseMap = new Map<string, { newId: string; newName: string }>();
+  const collided = new Set<string>();
+  for (const e of dump.table("enhancement")) {
+    const en = dump.enName(e);
+    const dn = dump.enName(detName.get(e.detachmentId));
+    if (!en || !dn) continue;
+    let base: string;
+    let rawId: string;
+    try {
+      base = detachmentScopedId(cleanEnhName(en), dn);
+      rawId = detachmentScopedId(en, dn);
+    } catch {
+      continue; // unsluggable — skip
+    }
+    const prev = baseMap.get(base);
+    if (prev && prev.newId !== rawId) collided.add(base);
+    else baseMap.set(base, { newId: rawId, newName: en });
+  }
+  for (const b of collided) baseMap.delete(b);
+
+  const renames: Record<string, string> = {};
+  const nameChanges: EnhNormResult["nameChanges"] = [];
+  const staged: StagedWrite[] = [];
+
+  // Pass 1 — enhancements: rename id + set RAW name.
+  for (const dir of [...repoDirs()].sort()) {
+    const p = path.join(CORE_DIR, dir, "enhancements.json");
+    if (!fs.existsSync(p)) continue;
+    const enhs = readJsonArray<EnhRecord>(p);
+    let touched = false;
+    for (const e of enhs) {
+      const det = (e.detachment_id as string | undefined) ?? "";
+      if (!det) continue;
+      const base = `${nameToId(cleanEnhName(e.name))}-${det}`;
+      const hit = baseMap.get(base);
+      if (!hit) continue;
+      if (e.id !== hit.newId) {
+        renames[e.id] = hit.newId;
+        e.id = hit.newId;
+        touched = true;
+      }
+      if (e.name !== hit.newName) {
+        nameChanges.push({ id: hit.newId, from: e.name, to: hit.newName });
+        e.name = hit.newName;
+        touched = true;
+      }
+    }
+    if (touched) staged.push({ path: p, value: enhs });
+  }
+
+  // Pass 2 — detachments: rewrite enhancement_ids references through the rename map.
+  const refRewrites: EnhNormResult["refRewrites"] = [];
+  for (const dir of [...repoDirs()].sort()) {
+    const p = path.join(CORE_DIR, dir, "detachments.json");
+    if (!fs.existsSync(p)) continue;
+    const dets = readJsonArray<{ id: string; enhancement_ids?: string[] }>(p);
+    let touched = false;
+    for (const det of dets) {
+      if (!Array.isArray(det.enhancement_ids)) continue;
+      det.enhancement_ids = det.enhancement_ids.map((eid) => {
+        const nw = renames[eid];
+        if (nw && nw !== eid) {
+          refRewrites.push({ dir, detachment_id: det.id, from: eid, to: nw });
+          touched = true;
+          return nw;
+        }
+        return eid;
+      });
+    }
+    if (touched) staged.push({ path: p, value: dets });
+  }
+
+  return { staged, renames, nameChanges, refRewrites, collisions: [...collided].sort() };
 }
 
 export function runEnhancements(

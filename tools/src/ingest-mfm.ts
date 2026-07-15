@@ -44,7 +44,7 @@ type EnhancementRow, } from "./mfm/loader.js";
 import { REPO_ROOT, readJsonArray, CORE_DIR } from "./mfm/repo-files.js";
 import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-map.js";
 import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
-import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
+import { runEnhancements, buildEnhReport, normalizeEnhancementNames } from "./mfm/enhancements.js";
 import { runFactionFields, buildFactionFieldsReport } from "./mfm/faction-fields.js";
 import { runDetachmentFields, buildDetFieldsReport } from "./mfm/detachment-fields.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
@@ -564,6 +564,46 @@ async function runEnhancementsCmd(
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runNormalizeEnhancementsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = normalizeEnhancementNames(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-normalize-enhancements.md");
+  const renameLines = Object.entries(report.renames)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([o, n]) => `| \`${o}\` | \`${n}\` |`);
+  const md =
+    `# MFM enhancement RAW-name normalization\n\n` +
+    `Renames the authored enhancement name + id to the RAW GW form (keep the\n` +
+    `\` (Upgrade)\`/\` (Aura)\`/\` (Psychic)\` tag) and rewrites detachment\n` +
+    `\`enhancement_ids\` references. Import-correct: \`normalizeName\` keeps parens,\n` +
+    `so a stripped repo name never matches an imported roster line.\n\n` +
+    `- **Id renames (distinct):** ${Object.keys(report.renames).length}\n` +
+    `- **Name changes (rows):** ${report.nameChanges.length}\n` +
+    `- **Detachment refs rewritten:** ${report.refRewrites.length}\n` +
+    `- **Ambiguous bases skipped:** ${report.collisions.length}\n\n` +
+    (renameLines.length ? `## Id renames (share-registry alias set)\n\n| old | new |\n|---|---|\n${renameLines.join("\n")}\n\n` : "") +
+    (report.collisions.length ? `## Ambiguous bases (left untouched)\n\n${report.collisions.map((c) => `- \`${c}\``).join("\n")}\n` : "");
+  fs.writeFileSync(reportPath, md);
+
+  // Sidecar the rename map for the downstream share-registry alias + store steps.
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "enh-renames.json"),
+    JSON.stringify(report.renames, null, 2) + "\n"
+  );
+
+  console.log(`Normalize-enhancements report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Id renames ${Object.keys(report.renames).length}, name changes ${report.nameChanges.length}, ` +
+      `detachment refs rewritten ${report.refRewrites.length}, ambiguous skipped ${report.collisions.length}.`
+  );
+  if (report.collisions.length) {
+    console.warn(`⚠ ${report.collisions.length} ambiguous base(s) left untouched — see report.`);
+  }
+  await applyWrites(report.staged, { write, label: "normalize-enhancements" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runFactionFieldsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runFactionFields(dump);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -1077,6 +1117,7 @@ async function main(): Promise<void> {
     "golden",
     "dispositions",
     "enhancements",
+    "normalize-enhancements",
     "faction-fields",
     "detachment-fields",
     "points",
@@ -1109,6 +1150,7 @@ async function main(): Promise<void> {
   else if (cmd === "golden") writeGolden(dump);
   else if (cmd === "dispositions") await runDispositionsCmd(dump, write, includeCombatPatrol);
   else if (cmd === "enhancements") await runEnhancementsCmd(dump, write, includeCombatPatrol);
+  else if (cmd === "normalize-enhancements") await runNormalizeEnhancementsCmd(dump, write);
   else if (cmd === "faction-fields") await runFactionFieldsCmd(dump, write);
   else if (cmd === "detachment-fields") await runDetachmentFieldsCmd(dump, write);
   else if (cmd === "points") await runPointsCmd(dump, write);

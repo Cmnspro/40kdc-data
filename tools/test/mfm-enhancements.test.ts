@@ -9,9 +9,10 @@ import {
 
 /**
  * Enhancement matching keys on `detachmentScopedId(name, detachment)`. The dump
- * appends parenthetical tags ("(Upgrade)", "(Aura)") to enhancement names that
- * the repo id omits — buildEnhCanon must strip them, or upgrade-tag enhancements
- * silently fail to match (regression guard for the systematic miss found in 3A).
+ * appends parenthetical tags ("(Upgrade)", "(Aura)") to enhancement names, and the
+ * repo now KEEPS them (the RAW GW form) — `normalizeName` treats parens as ordinary
+ * characters, so a stripped repo name would never match an imported roster line.
+ * buildEnhCanon therefore slugs the RAW name (regression guard for the import miss).
  */
 function dump(): MfmDump {
   return new MfmDump({
@@ -61,12 +62,12 @@ function dump(): MfmDump {
 const CP_ENH_ID = "synthetic-patrol-relic-synthetic-patrol-cadre";
 
 describe("buildEnhCanon", () => {
-  it("strips trailing parenthetical tags so upgrade/aura enhancements match repo ids", () => {
+  it("keeps trailing parenthetical tags (RAW GW form) so ids match imported roster lines", () => {
     const canon = buildEnhCanon(dump());
-    expect(canon.get("auramite-sarcophagus-might-of-the-moritoi")).toBe(15);
-    expect(canon.get("interred-expertise-might-of-the-moritoi")).toBe(20);
-    // the tagged form must NOT be what we key on
-    expect(canon.has("auramite-sarcophagus-upgrade-might-of-the-moritoi")).toBe(false);
+    expect(canon.get("auramite-sarcophagus-upgrade-might-of-the-moritoi")).toBe(15);
+    expect(canon.get("interred-expertise-aura-might-of-the-moritoi")).toBe(20);
+    // the stripped form must NOT be what we key on
+    expect(canon.has("auramite-sarcophagus-might-of-the-moritoi")).toBe(false);
   });
 
   it("leaves untagged names alone", () => {
@@ -118,7 +119,7 @@ function fieldsDump(): MfmDump {
 describe("buildEnhFieldCanon", () => {
   it("derives upgrade_tag, max_targets, exclusions and a datasheet+fkw restriction", () => {
     const canon = buildEnhFieldCanon(fieldsDump());
-    const up = canon.get("symphonic-payload-chorus-of-condemnation");
+    const up = canon.get("symphonic-payload-upgrade-chorus-of-condemnation");
     expect(up).toBeDefined();
     expect(up!.upgrade_tag).toBe(true);
     expect(up!.max_targets).toBe(3);

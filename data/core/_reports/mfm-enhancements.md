@@ -1,4 +1,4 @@
-# MFM enhancement reconcile — APPLIED
+# MFM enhancement reconcile — DRY RUN
 
 Reconciles enhancement `cost` (confirmed → `points_provisional: false`, launch
 dataslate) and the GW-authoritative scalars `upgrade_tag`/`max_targets` (overwritten).
@@ -40,10 +40,10 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 | tau-empire | 25 | 0 | 0 | 0 | 0 | 0 | 0 | 14 | 3 |
 | thousand-sons | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 18 | 0 |
 | tyranids | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 17 | 3 |
-| ultramarines | 64 | 1 | 0 | 0 | 0 | 0 | 0 | 29 | 0 |
+| ultramarines | 64 | 0 | 0 | 0 | 0 | 0 | 0 | 29 | 0 |
 | white-scars | 60 | 0 | 0 | 0 | 0 | 0 | 0 | 30 | 0 |
 | world-eaters | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 12 | 0 |
-| **TOTAL** | **1596** | **1** | **0** | **0** | **0** | **0** | **0** | **927** | **27** |
+| **TOTAL** | **1596** | **0** | **0** | **0** | **0** | **0** | **0** | **927** | **27** |
 
 ## adepta-sororitas
 
@@ -55,9 +55,9 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - iron-surplice-of-saint-istalela-bringers-of-flame (multi-group-or): authored [Adepta Sororitas] vs dump-union [Canoness, Palatine]
 - litanies-of-faith-army-of-faith (multi-group-or): authored [Adepta Sororitas] vs dump-union [Canoness, Palatine]
 - clarion-of-urgency-chorus-of-condemnation (differs): authored [Canoness with Jump Pack] vs dump-union [Adepta Sororitas, Canoness with Jump Pack]
-- symphonic-payload-chorus-of-condemnation (differs): authored [Exorcist] vs dump-union [Adepta Sororitas, Exorcist]
-- writ-of-compunction-sacred-champions (differs): authored [Celestian Sacresants] vs dump-union [Adepta Sororitas, Celestian Sacresants]
-- hagiomnifex-sanctified-orators (differs): authored [Adepta Sororitas Character] vs dump-union [Adepta Sororitas, Character]
+- symphonic-payload-upgrade-chorus-of-condemnation (differs): authored [Exorcist] vs dump-union [Adepta Sororitas, Exorcist]
+- writ-of-compunction-upgrade-sacred-champions (differs): authored [Celestian Sacresants] vs dump-union [Adepta Sororitas, Celestian Sacresants]
+- hagiomnifex-upgrade-sanctified-orators (differs): authored [Adepta Sororitas Character] vs dump-union [Adepta Sororitas, Character]
 
 ## adeptus-astartes
 
@@ -81,16 +81,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - obfuscation-librarius-conclave (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Psyker]
 - temporal-corridor-librarius-conclave (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Psyker]
 - fusillade-librarius-conclave (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Psyker]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## adeptus-custodes
 
@@ -103,7 +103,7 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - enhanced-voidsheen-cloak-null-maiden-vigil (differs): authored [Adeptus Custodes] vs dump-union [Anathema Psykana]
 - huntress-eye-null-maiden-vigil (differs): authored [Adeptus Custodes] vs dump-union [Anathema Psykana]
 - oblivion-knight-null-maiden-vigil (differs): authored [Adeptus Custodes] vs dump-union [Anathema Psykana]
-- honoured-fallen-solar-spearhead (differs): authored [Adeptus Custodes] vs dump-union [Adeptus Custodes, Vehicle]
+- honoured-fallen-aura-solar-spearhead (differs): authored [Adeptus Custodes] vs dump-union [Adeptus Custodes, Vehicle]
 - veteran-of-the-kataphraktoi-solar-spearhead (multi-group-or): authored [Adeptus Custodes] vs dump-union [Adeptus Custodes, Infantry, Mounted]
 - superior-creation-lions-of-the-emperor (differs): authored [Adeptus Custodes] vs dump-union [Adeptus Custodes, Infantry]
 - fierce-conqueror-lions-of-the-emperor (differs): authored [Adeptus Custodes] vs dump-union [Shield-Captain]
@@ -131,7 +131,7 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - transoracular-dyad-wafers-haloscreed-battle-clade (differs): authored [Adeptus Mechanicus] vs dump-union [Cybernetica Datasmith]
 - inloaded-lethality-haloscreed-battle-clade (multi-group-or): authored [Adeptus Mechanicus] vs dump-union [Dominus, Manipulus]
 - explorator-dispensation-cohort-acquisitus (differs): authored [Skitarii Marshal] vs dump-union [Adeptus Mechanicus, Skitarii Marshal]
-- stealth-screened-cybercanids-cohort-acquisitus (differs): authored [Serberys Raiders] vs dump-union [Adeptus Mechanicus, Serberys Raiders]
+- stealth-screened-cybercanids-upgrade-cohort-acquisitus (differs): authored [Serberys Raiders] vs dump-union [Adeptus Mechanicus, Serberys Raiders]
 - vinghs-wafers-of-dynamism-lords-of-the-forge (differs): authored [Cybernetica Datasmith] vs dump-union [Adeptus Mechanicus, Cybernetica Datasmith]
 - tl-4-9-lords-of-the-forge (differs): authored [Tech-Priest] vs dump-union [Adeptus Mechanicus, Tech-Priest]
 - voltagheist-reliquary-luminen-auto-choir (differs): authored [Tech-Priest] vs dump-union [Adeptus Mechanicus, Tech-Priest]
@@ -183,14 +183,14 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - alacritous-assault-eldritch-raiders (differs): authored [Aeldari] vs dump-union [Anhrathe]
 - exotic-munitions-eldritch-raiders (differs): authored [Aeldari] vs dump-union [Anhrathe]
 - adrenal-infusions-eldritch-raiders (differs): authored [Aeldari] vs dump-union [Anhrathe, Infantry]
-- infamy-corsair-coterie (differs): authored [Aeldari] vs dump-union [Anhrathe]
+- infamy-aura-corsair-coterie (differs): authored [Aeldari] vs dump-union [Anhrathe]
 - webway-pathstone-corsair-coterie (differs): authored [Aeldari] vs dump-union [Anhrathe]
 - archraider-corsair-coterie (differs): authored [Aeldari] vs dump-union [Anhrathe, Character]
 - voidstone-corsair-coterie (differs): authored [Aeldari] vs dump-union [Anhrathe, Infantry]
 - a-foot-in-the-future-fateful-performance (differs): authored [Aeldari] vs dump-union [Harlequins, Troupe Master]
 - mistweave-fateful-performance (differs): authored [Aeldari] vs dump-union [Harlequins, Shadowseer]
-- camouflaged-snipers-path-of-the-outcast (differs): authored [Aeldari] vs dump-union [Asuryani, Rangers]
-- shadowfall-masks-twilight-flickers (differs): authored [Aeldari] vs dump-union [Harlequins, Troupe]
+- camouflaged-snipers-upgrade-path-of-the-outcast (differs): authored [Aeldari] vs dump-union [Asuryani, Rangers]
+- shadowfall-masks-upgrade-twilight-flickers (differs): authored [Aeldari] vs dump-union [Harlequins, Troupe]
 - prelude-performer-twilight-flickers (differs): authored [Aeldari] vs dump-union [Harlequins]
 
 **Repo enhancements absent from dump** (left as-is):
@@ -204,12 +204,12 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - beacon-angelis-ordo-xenos-alien-hunters (differs): authored [Agents of the Imperium] vs dump-union [Watch Master]
 - amulet-of-auto-chastisement-ordo-xenos-alien-hunters (differs): authored [Agents of the Imperium] vs dump-union [Watch Master]
 - liber-heresius-ordo-hereticus-purgation-force (multi-group-or): authored [Agents of the Imperium] vs dump-union [Inquisitor, Ministorum Priest]
-- no-escape-ordo-hereticus-purgation-force (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
+- no-escape-aura-ordo-hereticus-purgation-force (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
 - witch-hunter-ordo-hereticus-purgation-force (multi-group-or): authored [Agents of the Imperium] vs dump-union [Inquisitor, Ministorum Priest]
 - ignis-judicium-ordo-hereticus-purgation-force (multi-group-or): authored [Agents of the Imperium] vs dump-union [Inquisitor, Ministorum Priest]
 - formidable-resolve-ordo-malleus-daemon-hunters (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
 - daemon-slayer-ordo-malleus-daemon-hunters (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
-- grimoire-of-true-names-ordo-malleus-daemon-hunters (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
+- grimoire-of-true-names-aura-ordo-malleus-daemon-hunters (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
 - gift-of-the-prescient-ordo-malleus-daemon-hunters (differs): authored [Agents of the Imperium] vs dump-union [Inquisitor]
 - fleetmaster-imperialis-fleet (differs): authored [Agents of the Imperium] vs dump-union [Voidfarers]
 - combat-landers-imperialis-fleet (differs): authored [Agents of the Imperium] vs dump-union [Voidfarers]
@@ -243,16 +243,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - aquilan-eye-grizzled-company (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Officer]
 - spec-ops-veteran-grizzled-company (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Infantry, Officer]
 - laud-hailer-grizzled-company (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Officer]
-- exemplar-of-duty-abhuman-auxiliaries (differs): authored [Astra Militarum] vs dump-union [Commissar]
-- long-range-scout-designation-force (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Scout Sentinels]
-- recon-star-designation-force (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Infantry, Platoon]
+- exemplar-of-duty-upgrade-abhuman-auxiliaries (differs): authored [Astra Militarum] vs dump-union [Commissar]
+- long-range-scout-upgrade-designation-force (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Scout Sentinels]
+- recon-star-upgrade-designation-force (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Infantry, Platoon]
 - battalion-commander-steel-hammer (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Titanic]
 - titan-killer-steel-hammer (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Titanic]
 - engine-speaker-steel-hammer (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Tech-Priest Enginseer]
 - assault-hatches-steel-hammer (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Titanic, Transport]
 - exemplary-officer-armoured-infantry (differs): authored [Astra Militarum] vs dump-union [Infantry, Officer]
 - master-manoeuvrist-armoured-infantry (differs): authored [Astra Militarum] vs dump-union [Infantry, Officer]
-- omnissian-unguents-armoured-infantry (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Tech-Priest Enginseer]
+- omnissian-unguents-aura-armoured-infantry (differs): authored [Astra Militarum] vs dump-union [Astra Militarum, Tech-Priest Enginseer]
 - grand-strategist-armoured-infantry (differs): authored [Astra Militarum] vs dump-union [Officer]
 
 **Repo enhancements absent from dump** (left as-is):
@@ -270,8 +270,8 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - warden-of-honour-vindication-task-force (differs): authored [Black Templars] vs dump-union [Crusade Ancient]
 - benediction-of-fury-wrathful-procession (differs): authored [Black Templars] vs dump-union [Chaplain]
 - adaptable-executioner-wrathful-procession (differs): authored [Black Templars] vs dump-union [Black Templars, Execrator]
-- fervent-exemplars-marshals-household (differs): authored [Black Templars] vs dump-union [Black Templars, Sword Brethren Squad]
-- inheritors-of-sigismund-marshals-household (differs): authored [Black Templars] vs dump-union [Black Templars, Sword Brethren Squad]
+- fervent-exemplars-upgrade-marshals-household (differs): authored [Black Templars] vs dump-union [Black Templars, Sword Brethren Squad]
+- inheritors-of-sigismund-upgrade-marshals-household (differs): authored [Black Templars] vs dump-union [Black Templars, Sword Brethren Squad]
 - guiding-omens-the-living-miracle (differs): authored [Black Templars] vs dump-union [Black Templars, Emperor’s Champion]
 - rites-of-war-1st-company-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Terminator]
 - iron-resolve-1st-company-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Terminator]
@@ -292,16 +292,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 **Repo enhancements absent from dump** (left as-is):
 - oathbound-examplar-companions-of-vehemence
@@ -323,7 +323,7 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - ordained-sacrifice-angelic-inheritors (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes]
 - carmine-reliquary-rage-cursed-onslaught (differs): authored [Blood Angels] vs dump-union [Chaplain]
 - master-of-the-red-thirst-rage-cursed-onslaught (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes]
-- sanguinary-tear-rage-cursed-onslaught (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes]
+- sanguinary-tear-aura-rage-cursed-onslaught (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes]
 - angels-fang-rage-cursed-onslaught (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes]
 - angelic-executioner-encarmine-speartip (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes, Jump Pack]
 - shadow-of-abomination-encarmine-speartip (differs): authored [Blood Angels] vs dump-union [Adeptus Astartes, Jump Pack]
@@ -353,16 +353,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## chaos-daemons
 
@@ -371,35 +371,35 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - the-everstave-daemonic-incursion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Tzeentch]
 - the-endless-gift-daemonic-incursion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Nurgle]
 - soulstealer-daemonic-incursion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Slaanesh]
-- slaughterthirst-blood-legion (differs): authored [Chaos Daemons] vs dump-union [Khorne, Legiones Daemonica]
+- slaughterthirst-aura-blood-legion (differs): authored [Chaos Daemons] vs dump-union [Khorne, Legiones Daemonica]
 - furys-cage-blood-legion (differs): authored [Chaos Daemons] vs dump-union [Khorne, Legiones Daemonica, Monster]
 - brazenmaw-blood-legion (differs): authored [Chaos Daemons] vs dump-union [Khorne, Legiones Daemonica]
 - gateway-unto-damnation-blood-legion (differs): authored [Chaos Daemons] vs dump-union [Khorne, Legiones Daemonica, Monster]
 - inescapable-eye-scintillating-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Tzeentch]
 - infernal-puppeteer-scintillating-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Tzeentch]
 - neverblade-scintillating-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Tzeentch]
-- improbable-shield-scintillating-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Tzeentch]
-- cankerblight-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Nurgle]
+- improbable-shield-aura-scintillating-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Tzeentch]
+- cankerblight-aura-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Nurgle]
 - maggot-maws-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Nurgle]
-- droning-shroud-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Nurgle]
-- font-of-spores-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Nurgle]
-- false-majesty-legion-of-excess (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Slaanesh]
-- dreaming-crown-legion-of-excess (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Slaanesh]
+- droning-shroud-aura-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Nurgle]
+- font-of-spores-aura-plague-legion (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Nurgle]
+- false-majesty-aura-legion-of-excess (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Slaanesh]
+- dreaming-crown-aura-legion-of-excess (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Slaanesh]
 - avatar-of-perfection-legion-of-excess (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Slaanesh]
 - soul-glutton-legion-of-excess (differs): authored [Chaos Daemons] vs dump-union [Legiones Daemonica, Monster, Slaanesh]
 - leaping-shadows-shadow-legion (differs): authored [Chaos Daemons] vs dump-union [Shadow Legion]
-- mantle-of-gloom-shadow-legion (differs): authored [Chaos Daemons] vs dump-union [Shadow Legion]
+- mantle-of-gloom-aura-shadow-legion (differs): authored [Chaos Daemons] vs dump-union [Shadow Legion]
 - fade-to-darkness-shadow-legion (differs): authored [Chaos Daemons] vs dump-union [Shadow Legion]
 - malice-made-manifest-shadow-legion (differs): authored [Chaos Daemons] vs dump-union [Shadow Legion]
-- swollen-with-power-lords-of-the-warp (differs): authored [Legiones Daemonica, Character] vs dump-union [Character, Legiones Daemonica]
-- bane-forged-weapons-warptide (differs): authored [Legiones Daemonica, Battleline] vs dump-union [Battleline, Legiones Daemonica]
-- soul-hungry-slaughterers-warptide (differs): authored [Legiones Daemonica, Battleline] vs dump-union [Battleline, Legiones Daemonica]
+- swollen-with-power-upgrade-lords-of-the-warp (differs): authored [Legiones Daemonica, Character] vs dump-union [Character, Legiones Daemonica]
+- bane-forged-weapons-upgrade-warptide (differs): authored [Legiones Daemonica, Battleline] vs dump-union [Battleline, Legiones Daemonica]
+- soul-hungry-slaughterers-upgrade-warptide (differs): authored [Legiones Daemonica, Battleline] vs dump-union [Battleline, Legiones Daemonica]
 
 ## chaos-knights
 
 **keyword_restrictions — authored kept, REVIEW:**
 - preyslayers-mantle-houndpack-lance (differs): authored [Chaos Knights] vs dump-union [War Dog]
-- final-howl-houndpack-lance (differs): authored [Chaos Knights] vs dump-union [War Dog]
+- final-howl-aura-houndpack-lance (differs): authored [Chaos Knights] vs dump-union [War Dog]
 - loping-predator-houndpack-lance (differs): authored [Chaos Knights] vs dump-union [War Dog]
 - panoply-of-the-cursed-knights-houndpack-lance (differs): authored [Chaos Knights] vs dump-union [War Dog]
 - pterrorshade-rookery-bastions-of-tyranny (differs): authored [Knight Tyrant] vs dump-union [Chaos Knights, Knight Tyrant]
@@ -484,16 +484,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## dark-angels
 
@@ -510,13 +510,13 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - lord-of-the-hunt-lions-blade-task-force (differs): authored [Dark Angels] vs dump-union [Ravenwing]
 - stalwart-champion-lions-blade-task-force (multi-group-or): authored [Dark Angels] vs dump-union [Captain, Chaplain, Lieutenant]
 - fulgus-magna-lions-blade-task-force (differs): authored [Dark Angels] vs dump-union [Deathwing]
-- tempered-in-battle-wrath-of-the-rock (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes]
+- tempered-in-battle-aura-wrath-of-the-rock (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes]
 - ancient-weapons-wrath-of-the-rock (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes]
 - lord-of-the-ravenwing-wrath-of-the-rock (differs): authored [Dark Angels] vs dump-union [Ravenwing]
-- petition-of-stability-dark-age-arsenal (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes]
-- entreaty-of-perpetual-ardour-dark-age-arsenal (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes, Hellblaster Squad]
-- thundercowl-turbines-darkflight-pursuit (differs): authored [Dark Angels] vs dump-union [Fly, Ravenwing]
-- nightforged-battery-darkflight-pursuit (differs): authored [Dark Angels] vs dump-union [Dark Angels, Land Speeder Vengeance]
+- petition-of-stability-upgrade-dark-age-arsenal (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes]
+- entreaty-of-perpetual-ardour-upgrade-dark-age-arsenal (differs): authored [Dark Angels] vs dump-union [Adeptus Astartes, Hellblaster Squad]
+- thundercowl-turbines-upgrade-darkflight-pursuit (differs): authored [Dark Angels] vs dump-union [Fly, Ravenwing]
+- nightforged-battery-upgrade-darkflight-pursuit (differs): authored [Dark Angels] vs dump-union [Dark Angels, Land Speeder Vengeance]
 - limitless-zeal-interrogation-conclave (differs): authored [Dark Angels] vs dump-union [Chaplain]
 - inescapable-interrogation-interrogation-conclave (differs): authored [Dark Angels] vs dump-union [Chaplain]
 - master-crafted-weapon-company-of-hunters (differs): authored [Dark Angels] vs dump-union [Ravenwing]
@@ -542,24 +542,24 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## death-guard
 
 **keyword_restrictions — authored kept, REVIEW:**
 - bilemaw-blight-mortarions-hammer (differs): authored [Death Guard] vs dump-union [Malignant Plaguecaster]
-- insectile-murmuration-flyblown-host (differs): authored [Death Guard] vs dump-union [Death Guard, Plague Marines]
+- insectile-murmuration-upgrade-flyblown-host (differs): authored [Death Guard] vs dump-union [Death Guard, Plague Marines]
 - rejuvenating-swarm-paragons-of-putrescence (differs): authored [Death Guard] vs dump-union [Death Guard, Infantry]
-- plagueveil-flyblown-host (differs): authored [Death Guard] vs dump-union [Death Guard, Plague Marines]
+- plagueveil-upgrade-flyblown-host (differs): authored [Death Guard] vs dump-union [Death Guard, Plague Marines]
 - tendrilous-emissions-mortarions-hammer (differs): authored [Death Guard] vs dump-union [Lord of Virulence]
 - final-ingredient-champions-of-contagion (differs): authored [Death Guard] vs dump-union [Biologus Putrifier]
 - visions-of-virulence-champions-of-contagion (differs): authored [Death Guard] vs dump-union [Malignant Plaguecaster]
@@ -573,8 +573,8 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - vile-vigour-death-lords-chosen (differs): authored [Death Guard] vs dump-union [Terminator]
 - warprot-talisman-death-lords-chosen (differs): authored [Death Guard] vs dump-union [Terminator]
 - helm-of-the-fly-king-death-lords-chosen (differs): authored [Death Guard] vs dump-union [Terminator]
-- parasitic-woe-reaper-contagion-engines (differs): authored [Contagion Engine] vs dump-union [Contagion Engines]
-- lancet-of-the-worldsore-contagion-engines (multi-group-or): authored [Helbrute] vs dump-union [Death Guard, Helbrute, Myphitic Blight-haulers]
+- parasitic-woe-reaper-upgrade-contagion-engines (differs): authored [Contagion Engine] vs dump-union [Contagion Engines]
+- lancet-of-the-worldsore-upgrade-contagion-engines (multi-group-or): authored [Helbrute] vs dump-union [Death Guard, Helbrute, Myphitic Blight-haulers]
 
 ## deathwatch
 
@@ -601,16 +601,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## drukhari
 
@@ -628,7 +628,7 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - master-regenesist-covenite-coterie (differs): authored [Drukhari] vs dump-union [Haemonculus]
 - master-nemesine-covenite-coterie (differs): authored [Drukhari] vs dump-union [Haemonculus]
 - master-artisan-covenite-coterie (differs): authored [Drukhari] vs dump-union [Haemonculus]
-- master-repugnomancer-covenite-coterie (differs): authored [Drukhari] vs dump-union [Haemonculus]
+- master-repugnomancer-aura-covenite-coterie (differs): authored [Drukhari] vs dump-union [Haemonculus]
 - leechbite-plate-kabalite-cartel (differs): authored [Drukhari] vs dump-union [Archon]
 - webway-awl-kabalite-cartel (differs): authored [Drukhari] vs dump-union [Archon]
 - informant-network-kabalite-cartel (differs): authored [Drukhari] vs dump-union [Archon]
@@ -638,7 +638,7 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - towering-arrogance-kabalite-agonysts (differs): authored [Drukhari] vs dump-union [Archon, Drukhari]
 - contempt-for-rivals-kabalite-agonysts (differs): authored [Drukhari] vs dump-union [Archon, Drukhari]
 - gnarlskin-experimentor-tools-of-torment (differs): authored [Drukhari] vs dump-union [Drukhari, Haemonculus]
-- elixir-of-the-corpse-courts-tools-of-torment (multi-group-or): authored [Drukhari] vs dump-union [Cronos, Drukhari, Talos]
+- elixir-of-the-corpse-courts-upgrade-tools-of-torment (multi-group-or): authored [Drukhari] vs dump-union [Cronos, Drukhari, Talos]
 
 ## emperors-children
 
@@ -653,11 +653,11 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - exalted-patron-court-of-the-phoenician (differs): authored [Emperor’s Children] vs dump-union [Lord Exultant]
 - spiritsliver-court-of-the-phoenician (differs): authored [Emperor’s Children] vs dump-union [Daemon Prince, Emperor’s Children]
 - cacophonic-accompaniment-elegant-brutes (differs): authored [Emperor's Children] vs dump-union [Emperor’s Children, Lord Kakophonist]
-- frenzied-ferocity-elegant-brutes (differs): authored [Emperor's Children, Terminator Squad] vs dump-union [Emperor’s Children, Terminator Squad]
+- frenzied-ferocity-upgrade-elegant-brutes (differs): authored [Emperor's Children, Terminator Squad] vs dump-union [Emperor’s Children, Terminator Squad]
 - euphoric-crown-frenzied-host (differs): authored [Emperor's Children] vs dump-union [Emperor’s Children, Lord Exultant]
 - howling-plate-frenzied-host (differs): authored [Emperor's Children] vs dump-union [Emperor’s Children, Lord Exultant]
-- eager-patrons-spectacle-of-slaughter (differs): authored [Emperor's Children, Flawless Blades] vs dump-union [Emperor’s Children, Flawless Blades]
-- beguiling-grotesquerie-spectacle-of-slaughter (differs): authored [Emperor's Children, Flawless Blades] vs dump-union [Emperor’s Children, Flawless Blades]
+- eager-patrons-upgrade-spectacle-of-slaughter (differs): authored [Emperor's Children, Flawless Blades] vs dump-union [Emperor’s Children, Flawless Blades]
+- beguiling-grotesquerie-upgrade-spectacle-of-slaughter (differs): authored [Emperor's Children, Flawless Blades] vs dump-union [Emperor’s Children, Flawless Blades]
 
 **Repo enhancements absent from dump** (left as-is):
 - pledge-to-eternal-servitude-coterie-of-the-conceited
@@ -683,10 +683,10 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - vanguard-tyrant-final-day (differs): authored [Genestealer Cults] vs dump-union [Winged Hive Tyrant]
 - gene-tailored-toxins-heroes-of-the-uprising (multi-group-or): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Locus, Sanctus]
 - contraband-munitions-heroes-of-the-uprising (multi-group-or): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Kelermorph, Reductus Saboteur]
-- mark-of-the-star-children-purestrain-broodswarm (differs): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Purestrain Genestealers]
+- mark-of-the-star-children-upgrade-purestrain-broodswarm (differs): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Purestrain Genestealers]
 - talons-of-the-sire-purestrain-broodswarm (differs): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Patriarch]
 - inspired-to-greatness-xenocult-masses (multi-group-or): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Magus, Primus]
-- devious-disguises-xenocult-masses (differs): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Neophyte Hybrids]
+- devious-disguises-upgrade-xenocult-masses (differs): authored [Genestealer Cults] vs dump-union [Genestealer Cults, Neophyte Hybrids]
 
 ## grey-knights
 
@@ -701,10 +701,10 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - phial-of-the-abyss-warpbane-task-force (differs): authored [Grey Knights] vs dump-union [Grey Knights, Infantry]
 - psychic-celerity-argent-assault (differs): authored [Grey Knights] vs dump-union [Terminator]
 - vigilance-of-titan-argent-assault (differs): authored [Grey Knights] vs dump-union [Terminator]
-- precognicient-volleys-fires-of-purgation (differs): authored [Grey Knights] vs dump-union [Grey Knights, Purgation Squad]
-- boons-of-deimos-fires-of-purgation (differs): authored [Grey Knights] vs dump-union [Grey Knights, Purgation Squad]
-- predestined-coordinates-immaterial-interdiction (differs): authored [Grey Knights] vs dump-union [Grey Knights, Interceptor Squad]
-- astral-overlap-immaterial-interdiction (differs): authored [Grey Knights] vs dump-union [Grey Knights, Interceptor Squad]
+- precognicient-volleys-upgrade-fires-of-purgation (differs): authored [Grey Knights] vs dump-union [Grey Knights, Purgation Squad]
+- boons-of-deimos-upgrade-fires-of-purgation (differs): authored [Grey Knights] vs dump-union [Grey Knights, Purgation Squad]
+- predestined-coordinates-upgrade-immaterial-interdiction (differs): authored [Grey Knights] vs dump-union [Grey Knights, Interceptor Squad]
+- astral-overlap-upgrade-immaterial-interdiction (differs): authored [Grey Knights] vs dump-union [Grey Knights, Interceptor Squad]
 
 **Repo enhancements absent from dump** (left as-is):
 - eye-of-the-augurim-hallowed-conclave
@@ -735,16 +735,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## imperial-knights
 
@@ -752,18 +752,18 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - magos-questoris-questor-forgepact (differs): authored [Imperial Knights] vs dump-union [Tech-Priest]
 - blessed-plate-dominus-foebreakers (differs): authored [Imperial Knights] vs dump-union [Dominus, Imperial Knights]
 - archeotech-autoloaders-dominus-foebreakers (differs): authored [Imperial Knights] vs dump-union [Dominus, Imperial Knights]
-- gyro-optimised-actuators-throne-bonded-outriders (differs): authored [Imperial Knights, Armiger] vs dump-union [Armiger]
-- ancestral-overbleed-throne-bonded-outriders (differs): authored [Imperial Knights, Armiger] vs dump-union [Armiger]
+- gyro-optimised-actuators-upgrade-throne-bonded-outriders (differs): authored [Imperial Knights, Armiger] vs dump-union [Armiger]
+- ancestral-overbleed-upgrade-throne-bonded-outriders (differs): authored [Imperial Knights, Armiger] vs dump-union [Armiger]
 
 **Repo enhancements absent from dump** (left as-is):
 - omnissian-champion-questor-forgepact
-- vocifer-magnificat-questor-forgepact
+- vocifer-magnificat-aura-questor-forgepact
 
 ## iron-hands
 
 **keyword_restrictions — authored kept, REVIEW:**
 - spiritus-ferrum-hammer-of-avernii (differs): authored [Iron Hands] vs dump-union [Adeptus Astartes]
-- medusan-roar-hammer-of-avernii (differs): authored [Iron Hands] vs dump-union [Adeptus Astartes]
+- medusan-roar-aura-hammer-of-avernii (differs): authored [Iron Hands] vs dump-union [Adeptus Astartes]
 - iron-laurel-hammer-of-avernii (differs): authored [Iron Hands] vs dump-union [Adeptus Astartes]
 - steel-font-hammer-of-avernii (differs): authored [Iron Hands] vs dump-union [Adeptus Astartes, Terminator]
 - rites-of-war-1st-company-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Terminator]
@@ -785,16 +785,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## leagues-of-votann
 
@@ -809,9 +809,9 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - graviton-vault-hearthfyre-arsenal (differs): authored [Leagues of Votann] vs dump-union [Brôkhyr]
 - mercenary-prospector-mercenary-oathband (differs): authored [Leagues of Votann] vs dump-union [Kâhl]
 - metaphysical-brokerage-mercenary-oathband (differs): authored [Leagues of Votann] vs dump-union [Memnyr Strategist]
-- saturation-rounds-armoured-trailblazers (differs): authored [Leagues of Votann] vs dump-union [Leagues of Votann, Sagitaur]
-- optimised-attack-lines-armoured-trailblazers (differs): authored [Leagues of Votann] vs dump-union [Leagues of Votann, Sagitaur]
-- pan-spectral-lockons-farseekers (differs): authored [Leagues of Votann] vs dump-union [Pioneers]
+- saturation-rounds-upgrade-armoured-trailblazers (differs): authored [Leagues of Votann] vs dump-union [Leagues of Votann, Sagitaur]
+- optimised-attack-lines-upgrade-armoured-trailblazers (differs): authored [Leagues of Votann] vs dump-union [Leagues of Votann, Sagitaur]
+- pan-spectral-lockons-upgrade-farseekers (differs): authored [Leagues of Votann] vs dump-union [Pioneers]
 - ironskein-hearthguard-covenant (differs): authored [Leagues of Votann] vs dump-union [Kâhl]
 
 **Repo enhancements absent from dump** (left as-is):
@@ -830,20 +830,20 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - unflinching-will-obeisance-phalanx (differs): authored [Necrons] vs dump-union [Overlord]
 - warrior-noble-obeisance-phalanx (differs): authored [Necrons] vs dump-union [Overlord]
 - eternal-conqueror-obeisance-phalanx (differs): authored [Necrons] vs dump-union [Overlord]
-- dread-majesty-starshatter-arsenal (multi-group-or): authored [Necrons] vs dump-union [Catacomb Command Barge, Overlord]
+- dread-majesty-aura-starshatter-arsenal (multi-group-or): authored [Necrons] vs dump-union [Catacomb Command Barge, Overlord]
 - destroyer-ankh-cursed-legion (multi-group-or): authored [Necrons] vs dump-union [Catacomb Command Barge, Overlord]
 - murdermind-cursed-legion (differs): authored [Necrons] vs dump-union [Cryptek]
 - cursed-circlet-cursed-legion (differs): authored [Necrons] vs dump-union [Destroyer Cult]
 - atomic-disintegrators-cryptek-conclave (differs): authored [Necrons] vs dump-union [Cryptek]
 - gravitic-bolas-cryptek-conclave (differs): authored [Necrons] vs dump-union [Cryptek]
-- enlivened-sentinels-hand-of-the-dynasty (differs): authored [Necrons] vs dump-union [Necron Warriors, Necrons]
-- tools-of-dominion-hand-of-the-dynasty (differs): authored [Necrons] vs dump-union [Immortals, Necrons]
-- recursive-reanimation-skyshroud-spearhead (differs): authored [Necrons] vs dump-union [Necrons, Tomb Blades]
-- deepening-madness-skyshroud-spearhead (differs): authored [Necrons] vs dump-union [Destroyer Cult, Mounted]
+- enlivened-sentinels-upgrade-hand-of-the-dynasty (differs): authored [Necrons] vs dump-union [Necron Warriors, Necrons]
+- tools-of-dominion-upgrade-hand-of-the-dynasty (differs): authored [Necrons] vs dump-union [Immortals, Necrons]
+- recursive-reanimation-upgrade-skyshroud-spearhead (differs): authored [Necrons] vs dump-union [Necrons, Tomb Blades]
+- deepening-madness-upgrade-skyshroud-spearhead (differs): authored [Necrons] vs dump-union [Destroyer Cult, Mounted]
 
 **Repo enhancements absent from dump** (left as-is):
 - mask-of-the-nekrosor-cursed-legion
-- mortality-shroud-the-phaerons-armoury
+- mortality-shroud-aura-the-phaerons-armoury
 
 ## orks
 
@@ -868,11 +868,11 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - da-biggest-boss-bully-boyz (differs): authored [Orks] vs dump-union [Infantry, Warboss]
 - eadstompa-bully-boyz (differs): authored [Orks] vs dump-union [Infantry, Warboss]
 - da-gobshot-thunderbuss-more-dakka (differs): authored [Orks] vs dump-union [Infantry, Orks]
-- dead-shiny-shootas-more-dakka (differs): authored [Orks] vs dump-union [Infantry, Orks]
+- dead-shiny-shootas-upgrade-more-dakka (differs): authored [Orks] vs dump-union [Infantry, Orks]
 - da-kaptin-freebooter-krew (differs): authored [Orks] vs dump-union [Warboss]
 - bionik-workshop-freebooter-krew (multi-group-or): authored [Orks] vs dump-union [Big Mek, Painboy]
-- boarding-ramps-rollin-deff (differs): authored [Orks] vs dump-union [Wagon]
-- targetin-gizmos-rollin-deff (differs): authored [Orks] vs dump-union [Wagon]
+- boarding-ramps-upgrade-rollin-deff (differs): authored [Orks] vs dump-union [Wagon]
+- targetin-gizmos-upgrade-rollin-deff (differs): authored [Orks] vs dump-union [Wagon]
 - runnin-boots-blitz-brigade (differs): authored [Orks] vs dump-union [Infantry, Orks]
 - supercharged-squig-oil-blitz-brigade (differs): authored [Orks] vs dump-union [Mek]
 - tuff-git-blitz-brigade (differs): authored [Orks] vs dump-union [Infantry, Orks]
@@ -909,16 +909,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 **Repo enhancements absent from dump** (left as-is):
 - unparalleled-tactician-shadowmark-talon
@@ -948,16 +948,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - champion-of-humanity-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Tacticus]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## space-wolves
 
@@ -974,8 +974,8 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - howlmaw-saga-of-the-great-wolf (differs): authored [Space Wolves] vs dump-union [Wolf Priest]
 - chariots-of-the-storm-saga-of-the-great-wolf (differs): authored [Space Wolves] vs dump-union [Adeptus Astartes]
 - skjalds-foretelling-saga-of-the-great-wolf (differs): authored [Space Wolves] vs dump-union [Battle Leader, Wolf Guard]
-- thirst-for-glory-legends-of-saga-and-song (differs): authored [Space Wolves] vs dump-union [Adeptus Astartes, Terminator]
-- fierce-example-legends-of-saga-and-song (differs): authored [Space Wolves] vs dump-union [Space Wolves, Wolf Guard Terminators]
+- thirst-for-glory-upgrade-legends-of-saga-and-song (differs): authored [Space Wolves] vs dump-union [Adeptus Astartes, Terminator]
+- fierce-example-upgrade-legends-of-saga-and-song (differs): authored [Space Wolves] vs dump-union [Space Wolves, Wolf Guard Terminators]
 - eye-of-the-hunter-veterans-of-the-fang (differs): authored [Space Wolves] vs dump-union [Space Wolves, Wolf Guard Battle Leader]
 - weaver-of-sagas-veterans-of-the-fang (differs): authored [Space Wolves] vs dump-union [Space Wolves, Wolf Priest]
 - rites-of-war-1st-company-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Terminator]
@@ -997,16 +997,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 **Repo enhancements absent from dump** (left as-is):
 - howling-onslaught-saga-of-the-great-wolf
@@ -1026,8 +1026,8 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - supernova-launcher-experimental-prototype-cadre (differs): authored [T’au Empire] vs dump-union [Battlesuit]
 - thermoneutronic-projector-experimental-prototype-cadre (differs): authored [T’au Empire] vs dump-union [Battlesuit]
 - plasma-accelerator-rifle-experimental-prototype-cadre (differs): authored [T’au Empire] vs dump-union [Battlesuit]
-- negation-emitters-advanced-acquisition-cadre (differs): authored [T’au Empire] vs dump-union [Stealth Battlesuits, T’au Empire]
-- unmasking-suite-advanced-acquisition-cadre (multi-group-or): authored [T’au Empire] vs dump-union [Ghostkeel, Pathfinder Team, Stealth Battlesuits, T’au Empire]
+- negation-emitters-upgrade-advanced-acquisition-cadre (differs): authored [T’au Empire] vs dump-union [Stealth Battlesuits, T’au Empire]
+- unmasking-suite-upgrade-advanced-acquisition-cadre (multi-group-or): authored [T’au Empire] vs dump-union [Ghostkeel, Pathfinder Team, Stealth Battlesuits, T’au Empire]
 
 **Repo enhancements absent from dump** (left as-is):
 - fanatical-convert-auxiliary-cadre
@@ -1054,7 +1054,7 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - walking-rampart-sekhetar-cohort (multi-group-or): authored [Thousand Sons] vs dump-union [Exalted Sorcerer, Sorcerer]
 - occulus-infernum-sekhetar-cohort (multi-group-or): authored [Thousand Sons] vs dump-union [Exalted Sorcerer, Sorcerer]
 - unravelled-fates-servants-of-change (differs): authored [Thousand Sons] vs dump-union [Thousand Sons, Tzaangor Shaman]
-- thicket-of-bladed-bone-servants-of-change (differs): authored [Spawn] vs dump-union [Chaos Spawn]
+- thicket-of-bladed-bone-upgrade-servants-of-change (differs): authored [Spawn] vs dump-union [Chaos Spawn]
 
 ## tyranids
 
@@ -1068,14 +1068,14 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - power-of-the-hive-mind-synaptic-nexus (differs): authored [Tyranids] vs dump-union [Psyker, Tyranids]
 - psychostatic-disruption-synaptic-nexus (differs): authored [Tyranids] vs dump-union [Synapse, Tyranids]
 - synaptic-control-synaptic-nexus (differs): authored [Tyranids] vs dump-union [Synapse, Tyranids]
-- the-dirgeheart-of-kharis-synaptic-nexus (differs): authored [Tyranids] vs dump-union [Synapse, Tyranids]
+- the-dirgeheart-of-kharis-aura-synaptic-nexus (differs): authored [Tyranids] vs dump-union [Synapse, Tyranids]
 - ocular-adaptation-warrior-bioform-onslaught (multi-group-or): authored [Tyranids] vs dump-union [Tyranid Prime with Lash Whip, Tyranids, Winged Tyranid Prime]
 - elevated-might-warrior-bioform-onslaught (multi-group-or): authored [Tyranids] vs dump-union [Tyranid Prime with Lash Whip, Tyranids, Winged Tyranid Prime]
 - trygon-prime-subterranean-assault (differs): authored [Tyranids] vs dump-union [Trygon]
-- encircling-horrors-ambush-predators (multi-group-or): authored [Tyranids] vs dump-union [Lictor, Neurolictor, Tyranids, Von Ryan’s Leapers]
-- cryptophotaic-camouflage-ambush-predators (differs): authored [Tyranids] vs dump-union [Tyranids, Von Ryan’s Leapers]
-- destabilising-predation-talons-of-the-norn-queen (differs): authored [Tyranids] vs dump-union [Norn Emissary, Tyranids]
-- synaptoprescience-talons-of-the-norn-queen (differs): authored [Tyranids] vs dump-union [Norn Assimilator, Tyranids]
+- encircling-horrors-upgrade-ambush-predators (multi-group-or): authored [Tyranids] vs dump-union [Lictor, Neurolictor, Tyranids, Von Ryan’s Leapers]
+- cryptophotaic-camouflage-upgrade-ambush-predators (differs): authored [Tyranids] vs dump-union [Tyranids, Von Ryan’s Leapers]
+- destabilising-predation-upgrade-talons-of-the-norn-queen (differs): authored [Tyranids] vs dump-union [Norn Emissary, Tyranids]
+- synaptoprescience-upgrade-talons-of-the-norn-queen (differs): authored [Tyranids] vs dump-union [Norn Assimilator, Tyranids]
 
 **Repo enhancements absent from dump** (left as-is):
 - synaptic-lynchpin-invasion-fleet
@@ -1083,9 +1083,6 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - sensory-assimilation-warrior-bioform-onslaught
 
 ## ultramarines
-
-**Cost changes** (old → new):
-- avenging-avatar-reclamation-force: 0 → 10
 
 **keyword_restrictions — authored kept, REVIEW:**
 - rites-of-war-1st-company-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Terminator]
@@ -1107,16 +1104,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## white-scars
 
@@ -1141,16 +1138,16 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - war-tempered-artifice-firestorm-assault-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Infantry]
 - target-augury-web-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
 - adept-of-the-omnissiah-ironstorm-spearhead (differs): authored [Adeptus Astartes] vs dump-union [Techmarine]
-- bellicose-weapon-spirits-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
-- raptorial-cogitator-core-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- bellicose-weapon-spirits-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
+- raptorial-cogitator-core-upgrade-fulguris-task-force (differs): authored [Adeptus Astartes] vs dump-union [Speeder]
 - shroud-field-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Phobos]
-- death-in-the-dark-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
+- death-in-the-dark-upgrade-subversion-assets (differs): authored [Adeptus Astartes] vs dump-union [Infantry, Phobos]
 - shock-deployment-armoured-speartip (multi-group-or): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Gravis, Terminator]
 - honour-indefatigable-ceramite-sentinels (differs): authored [Adeptus Astartes] vs dump-union [Gravis]
 - redoubtable-machine-spirit-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - gunnery-honours-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 - firestorm-coordinators-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
-- astartes-tank-ace-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
+- astartes-tank-ace-aura-headhunter-task-force (differs): authored [Adeptus Astartes] vs dump-union [Adeptus Astartes, Vehicle]
 
 ## world-eaters
 
@@ -1165,13 +1162,13 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - killing-clarity-possessed-slaughterband (differs): authored [World Eaters] vs dump-union [Daemon, World Eaters]
 - frenzied-focus-possessed-slaughterband (differs): authored [World Eaters] vs dump-union [Daemon, World Eaters]
 - violent-demise-possessed-slaughterband (differs): authored [World Eaters] vs dump-union [Daemon, World Eaters]
-- talons-of-butchery-brazen-engines (differs): authored [Maulerfiend] vs dump-union [Maulerfiend, World Eaters]
-- murder-forged-entity-brazen-engines (differs): authored [Vehicle] vs dump-union [Vehicle, World Eaters]
+- talons-of-butchery-upgrade-brazen-engines (differs): authored [Maulerfiend] vs dump-union [Maulerfiend, World Eaters]
+- murder-forged-entity-upgrade-brazen-engines (differs): authored [Vehicle] vs dump-union [Vehicle, World Eaters]
 
 ## New enhancements in dump (no repo entity — author in a follow-up)
 
 - animus-damper-pantheon-of-woe
-- assassins-eye-path-of-the-outcast
+- assassins-eye-upgrade-path-of-the-outcast
 - dakkamek-speedwaaagh
 - deathwing-assault-wrath-of-the-rock
 - decoy-targets-veiled-blade-elimination-force
@@ -1185,14 +1182,14 @@ finer authored unit keyword the dump's army-level group omits is preserved. Pros
 - mark-of-the-nekrosor-cursed-legion
 - master-meknologist-speedwaaagh
 - micromelta-rounds-veiled-blade-elimination-force
-- mortality-shroud-aura-the-phaerons-armoury
+- mortality-shroud-aura-upgrade-the-phaerons-armoury
 - oathbound-exemplar-companions-of-vehemence
 - on-the-archtraitors-bridge-wrath-of-the-doomed
 - pledge-of-eternal-servitude-coterie-of-the-conceited
 - quantum-goad-pantheon-of-woe
 - reletavistic-tether-pantheon-of-woe
-- sharp-eyes-abhuman-auxiliaries
-- shroudwerke-talismans-farseekers
+- sharp-eyes-upgrade-abhuman-auxiliaries
+- shroudwerke-talismans-upgrade-farseekers
 - singularity-matrix-pantheon-of-woe
 - slippery-git-taktikal-brigade
 - spy-skull-data-link-ceramite-sentinels
