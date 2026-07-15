@@ -2169,6 +2169,39 @@
       ],
       "reason": "Budget coverage is partial because several cataloged all-model and alternate choice shapes remain intentionally unimplemented."
     },
+    "/wargear_budgets/*/duplicate_limit": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_limit.duplicateLimit",
+        "data.wargear_limit.choiceLimit",
+        "data.wargear_limit.modelCount"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_limit.limitedWargearChoiceSetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/wargear.ts#limitedSetBudgets",
+          "operation": "Capture the per-item duplicate cap from the SAME binding wargear_limit row that sets count/per_models, so the sub-cap tier tracks the shared-allowance tier; omitted when the set has no duplicateLimit."
+        }
+      ],
+      "filters": [
+        "Only the multi-item shared and flat limited sets that become budgets carry it; the field is absent when the dump row has a null duplicateLimit."
+      ],
+      "precedence": [
+        "The duplicate cap of the winning (tightest-ratio or smallest-flat) limit row is authoritative."
+      ],
+      "consumers": [
+        "tools/src/mfm/wargear.ts#limitedSetBudgets",
+        "tools/src/data/loadout.ts#budgetViolations"
+      ],
+      "reason": "The per-item duplicate sub-cap is derived from wargear_limit.duplicateLimit and enforced in the loadout legality check (at most duplicate_limit copies of any one item, over the shared count allowance)."
+    },
     "/wargear_costs": {
       "provenance": "derived",
       "coverage": "implemented",

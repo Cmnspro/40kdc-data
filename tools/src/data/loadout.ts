@@ -730,6 +730,27 @@ function budgetViolations(
         message: `${id}: ${used} exceeds shared allowance ${cap} (${limit})`,
       });
     }
+    // Per-item sub-cap: at most `duplicate_limit` copies of any ONE item, over and
+    // above the shared allowance (GW's "…and no more than N of the same" clause).
+    const dup = budget.duplicate_limit;
+    if (dup != null) {
+      const dupCap = budget.per_models
+        ? Math.floor((modelCount * dup) / budget.per_models)
+        : dup;
+      const dupLimit = budget.per_models
+        ? `${dup} per ${budget.per_models} models`
+        : `${dup} per unit`;
+      for (const id of [...items].sort()) {
+        const n = counts.get(id) ?? 0;
+        if (n > dupCap) {
+          out.push({
+            id,
+            code: "exceeds-allowance",
+            message: `${id}: ${n} exceeds per-item duplicate cap ${dupCap} (${dupLimit})`,
+          });
+        }
+      }
+    }
   }
   return out;
 }

@@ -2126,6 +2126,10 @@ export interface Unit {
      * Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).
      */
     per_models: number;
+    /**
+     * Optional per-item sub-cap: at most this many copies of any SINGLE item in the set — `floor(model_count * duplicate_limit / per_models)` for a ratio, or `duplicate_limit` when `per_models` is 0. Absent means the shared `count` cap is the only bound (any one item may fill the whole allowance).
+     */
+    duplicate_limit?: number;
   }[];
   transport_capacity?: {
     capacity: number;

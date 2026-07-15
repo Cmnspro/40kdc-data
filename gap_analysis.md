@@ -18,10 +18,10 @@ Regenerate after a new dump upload (order matters):
 | Axis | Measure | Count |
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
-| A — fields | Contract field entries | 663 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 234 / 114 / 255 / 60 |
+| A — fields | Contract field entries | 664 |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 235 / 114 / 255 / 60 |
 | A — fields | **Actionable field-gap groups** | **116** |
-| A — fields | **Actionable unmapped dump fields** | **44** |
+| A — fields | **Actionable unmapped dump fields** | **43** |
 | B — tables | **Populated tables, no consumer (structured)** | **42** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
 | C — entities | **Units new in dump** | **0** |
@@ -342,7 +342,7 @@ Unmapped dump fields with a candidate repo destination:
 | `/replaces/*` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.wargear_item.localisations.*.name`<br>`data.wargear_option.wargearItemId` | Each removal is a resolved repository item id produced by branch differencing. |
 | `/replacement/*` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.loadout_choice_wargear_item.count`<br>`data.wargear_item.localisations.*.name` | Each replacement element is a resolved item from the supported loadout choice graph. |
 | `/replacement_choice/*` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.loadout_choice_wargear_item.count`<br>`data.wargear_item.localisations.*.name` | Each choice branch is a resolved ordinary-choice delta. |
-| `/model_constraint/max_count` | partial | derived | `data.wargear_option.inputType`<br>`data.wargear_option.defaultValue` | Checkbox-only swaps are represented as one-instance caps; duplicateLimit is not consumed. |
+| `/model_constraint/max_count` | partial | derived | `data.wargear_option.inputType`<br>`data.wargear_option.defaultValue` | Checkbox-only swaps are represented as one-instance caps. wargear_limit.duplicateLimit is NOT this per-option cap: it constrains multi-item shared limited sets and is consumed as unit /wargear_budgets/*/duplicate_limit. |
 | `/model_constraint/any_number` | partial | derived | `data.wargear_option.inputType`<br>`data.wargear_option.defaultValue`<br>`data.wargear_limit.modelCount`<br>`data.wargear_limit.choiceLimit` | The fallback represents the currently supported per-model swap path; shared limits are enforced separately as unit budgets. |
 | `/model_constraint/per_n_models` | partial | derived | `data.limited_wargear_choice_set.miniatureId`<br>`data.limited_wargear_choice_wargear_item.wargearItemId`<br>`data.wargear_limit.modelCount`<br>`data.wargear_limit.choiceLimit` | Only mini-scoped single-item ratio limits are represented on individual options; other limited-set caps become unit budgets or remain unsupported here. |
 | `/replacement_choice/*/*` | partial | derived | `data.loadout_choice_wargear_item.wargearItemId`<br>`data.loadout_choice_wargear_item.count`<br>`data.wargear_item.localisations.*.name` | Each nested element is a resolved repository item id. |
@@ -356,7 +356,6 @@ Unmapped dump fields with a candidate repo destination:
 | `data.all_model_wargear_choice_set.miniatureId` | `/model_constraint/model_name` | The all-model choice graph is not traversed by current wargear.ts. |
 | `data.all_model_wargear_choice_wargear_item.count` | `/replacement` | All-model choice item multiplicity is not consumed. |
 | `data.all_model_wargear_choice_wargear_item.wargearItemId` | `/replacement` | All-model choice items are not projected into option replacements. |
-| `data.wargear_limit.duplicateLimit` | `/model_constraint/max_count` | Current cap logic ignores duplicateLimit; max_count is reserved for checkbox-only swaps. |
 
 ### weapon (`schemas/core/weapon.schema.json`)
 

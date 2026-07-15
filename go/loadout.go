@@ -934,6 +934,32 @@ func budgetViolations(unit map[string]any, modelCount int, counts map[string]int
 				"message": id + ": " + itoa(used) + " exceeds shared allowance " + itoa(capN) + " (" + limit + ")",
 			})
 		}
+		// Per-item sub-cap: at most duplicate_limit copies of any ONE item, on top
+		// of the shared allowance. Mirror of the TS reference.
+		if _, ok := budget["duplicate_limit"]; ok {
+			dup := asInt(budget["duplicate_limit"])
+			var dupCap int
+			var dupLimit string
+			if perModels > 0 {
+				dupCap = int(math.Floor(float64(modelCount) * float64(dup) / float64(perModels)))
+				dupLimit = itoa(dup) + " per " + itoa(perModels) + " models"
+			} else {
+				dupCap = dup
+				dupLimit = itoa(dup) + " per unit"
+			}
+			sorted := append([]string(nil), items...)
+			sort.Strings(sorted)
+			for _, id := range sorted {
+				n := counts[id]
+				if n > dupCap {
+					out = append(out, map[string]string{
+						"id":      id,
+						"code":    "exceeds-allowance",
+						"message": id + ": " + itoa(n) + " exceeds per-item duplicate cap " + itoa(dupCap) + " (" + dupLimit + ")",
+					})
+				}
+			}
+		}
 	}
 	return out
 }

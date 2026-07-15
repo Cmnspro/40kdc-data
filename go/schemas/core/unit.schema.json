@@ -189,6 +189,11 @@
             "type": "integer",
             "minimum": 0,
             "description": "Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size)."
+          },
+          "duplicate_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optional per-item sub-cap: at most this many copies of any SINGLE item in the set — `floor(model_count * duplicate_limit / per_models)` for a ratio, or `duplicate_limit` when `per_models` is 0. Absent means the shared `count` cap is the only bound (any one item may fill the whole allowance)."
           }
         },
         "required": ["items", "count", "per_models"],

@@ -84,7 +84,7 @@
       "filters": ["Inspect only defaultValue-zero, miniature-scoped swap options."],
       "precedence": ["Do not emit this cap when a mini-scoped wargear_limit ratio applies."],
       "consumers": ["tools/src/mfm/wargear.ts#deriveWargear"],
-      "reason": "Checkbox-only swaps are represented as one-instance caps; duplicateLimit is not consumed."
+      "reason": "Checkbox-only swaps are represented as one-instance caps. wargear_limit.duplicateLimit is NOT this per-option cap: it constrains multi-item shared limited sets and is consumed as unit /wargear_budgets/*/duplicate_limit."
     },
     "/model_constraint/any_number": {
       "provenance": "derived",
@@ -231,7 +231,6 @@
     {"source": "data.loadout_choice_set.allowDuplicates", "candidate_pointer": null, "reason": "Current derivation does not represent repeated-selection permission."},
     {"source": "data.loadout_choice_set.alternate", "candidate_pointer": null, "reason": "Current derivation records alternate sets only as review notes and does not change emitted fields."},
     {"source": "data.limited_wargear_choice_set.mandatory", "candidate_pointer": null, "reason": "Mandatory limited-choice semantics are not represented by generated options."},
-    {"source": "data.wargear_limit.duplicateLimit", "candidate_pointer": "/model_constraint/max_count", "reason": "Current cap logic ignores duplicateLimit; max_count is reserved for checkbox-only swaps."},
     {"source": "data.wargear_option.points", "candidate_pointer": null, "reason": "Consumed cross-entity as the unit wargear_costs per-item price (unit.mapping.json /wargear_costs via pricedWargearItems), not projected to any wargear-option field; the interim /additional_cost encoding it would have used is retired (stripped by runWargearCosts)."}
   ]
 }

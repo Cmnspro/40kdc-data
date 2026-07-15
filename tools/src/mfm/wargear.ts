@@ -686,6 +686,13 @@ export interface WargearBudget {
   items: string[];
   count: number;
   per_models: number;
+  /**
+   * Optional per-item sub-cap from the set's `wargear_limit.duplicateLimit` — at
+   * most this many copies of any ONE item, on top of the shared `count` allowance.
+   * Read from the SAME binding `wargear_limit` row that sets `count`/`per_models`
+   * so the two tiers stay consistent. Omitted when the dump has no duplicate cap.
+   */
+  duplicate_limit?: number;
 }
 
 /**
@@ -733,24 +740,37 @@ export function limitedSetBudgets(
     if (!items.size) continue;
 
     // A `modelCount = 0` limit is a flat per-unit cap; otherwise the smallest
-    // `choiceLimit/modelCount` ratio across the rows is binding.
+    // `choiceLimit/modelCount` ratio across the rows is binding. The optional
+    // `duplicateLimit` (max copies of one item) is captured from the SAME winning
+    // row so the sub-cap tier tracks the `count`/`per_models` tier.
     let flat: number | null = null;
+    let flatDup: number | null = null;
     let ratioCount: number | null = null;
     let ratioPer: number | null = null;
+    let ratioDup: number | null = null;
     for (const l of limitsBySet.get(s.id) ?? []) {
       if (l.choiceLimit <= 0) continue;
       if (l.modelCount === 0) {
-        flat = flat == null ? l.choiceLimit : Math.min(flat, l.choiceLimit);
+        if (flat == null || l.choiceLimit < flat) {
+          flat = l.choiceLimit;
+          flatDup = l.duplicateLimit ?? null;
+        }
       } else if (ratioCount == null || l.choiceLimit / l.modelCount < ratioCount / ratioPer!) {
         ratioCount = l.choiceLimit;
         ratioPer = l.modelCount;
+        ratioDup = l.duplicateLimit ?? null;
       }
     }
 
     const sorted = [...items].sort();
     if (flat != null) {
       // Flat per-unit cap (shared or single) — the per-weapon bound can't express it.
-      out.push({ items: sorted, count: flat, per_models: 0 });
+      out.push({
+        items: sorted,
+        count: flat,
+        per_models: 0,
+        ...(flatDup != null ? { duplicate_limit: flatDup } : {}),
+      });
     } else if (ratioCount != null && ratioPer != null && (items.size >= 2 || s.miniatureId == null)) {
       // Shared ratio allowances (≥2 items) AND datasheet-wide single-weapon ratio
       // sets become summed budgets: the dump scopes these to the whole unit, so the
@@ -760,7 +780,12 @@ export function limitedSetBudgets(
       // (a unit-wide budget would under-count a weapon a *different* model type can also
       // carry, e.g. a champion's plasma pistol on top of the troopers' ratio) — those
       // stay per-option in `deriveWargear`.
-      out.push({ items: sorted, count: ratioCount, per_models: ratioPer });
+      out.push({
+        items: sorted,
+        count: ratioCount,
+        per_models: ratioPer,
+        ...(ratioDup != null ? { duplicate_limit: ratioDup } : {}),
+      });
     }
   }
   return out;
