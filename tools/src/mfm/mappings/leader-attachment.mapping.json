@@ -123,18 +123,16 @@
       "reason": "Each array item is a currently projected repository id for a permitted bodyguard datasheet."
     },
     "/eligible_bodyguard_keywords": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "implemented",
       "sources": [
-        "data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId",
-        "data.datasheet_bodyguard_group_keyword.datasheetBodyguardGroupId",
         "data.datasheet_bodyguard_group_keyword.keywordId",
         "data.keyword.localisations.*.name"
       ],
       "joins": [
         {
-          "relation": "datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId",
-          "direction": "parent",
+          "relation": "datasheet_bodyguard_group.datasheetId",
+          "direction": "children",
           "purpose": "eligibility"
         },
         {
@@ -148,24 +146,39 @@
           "purpose": "eligibility"
         }
       ],
-      "transforms": [],
-      "filters": [],
-      "precedence": [],
-      "consumers": [],
-      "reason": "Group-level keyword requirements plausibly correspond to keyword-based bodyguard eligibility, but attachment.ts currently emits only explicit bodyguard ids and does not establish how these requirement forms combine."
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Traverse each leader group's keyword edges and collect the resolved labels in dump-edge (GW-canonical) order without sorting."
+        },
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabel",
+          "operation": "Resolve each bodyguard-group keyword id to its English keyword label."
+        }
+      ],
+      "filters": [
+        "Emitted only on a record that already carries explicit eligible_bodyguard_ids (the schema mandates at least one id); a keyword-only group cannot form a standalone record.",
+        "Sources only the datasheet_bodyguard_group_keyword edge (the 'any unit with ALL these keywords' eligibility, e.g. an Inquisitor leading any IMPERIUM BATTLELINE INFANTRY unit); the per-group requiresAllUnitsHaveKeywordId constraint is a distinct form and is not folded in."
+      ],
+      "precedence": [
+        "Keyword order follows the dump edge order (GW-canonical), so an authored value is confirmed rather than reordered."
+      ],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "The bodyguard-group keyword edge is resolved to keyword labels and emitted as additive keyword-based eligibility alongside the explicit ids."
     },
     "/eligible_bodyguard_keywords/*": {
-      "provenance": "unresolved-candidate",
-      "coverage": "unimplemented",
+      "provenance": "derived",
+      "coverage": "implemented",
       "sources": [
-        "data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId",
         "data.datasheet_bodyguard_group_keyword.keywordId",
         "data.keyword.localisations.*.name"
       ],
       "joins": [
         {
-          "relation": "datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId",
-          "direction": "parent",
+          "relation": "datasheet_bodyguard_group_keyword.datasheetBodyguardGroupId",
+          "direction": "children",
           "purpose": "eligibility"
         },
         {
@@ -174,11 +187,18 @@
           "purpose": "eligibility"
         }
       ],
-      "transforms": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabel",
+          "operation": "Each member is one bodyguard-group keyword id resolved to its English keyword label."
+        }
+      ],
       "filters": [],
       "precedence": [],
-      "consumers": [],
-      "reason": "No current projection emits an individual keyword requirement as an eligible_bodyguard_keywords item."
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "Each member is a keyword label resolved from a datasheet_bodyguard_group_keyword edge."
     },
     "/game_version": {
       "provenance": "repo-authored",
@@ -254,12 +274,7 @@
     {
       "source": "data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId",
       "candidate_pointer": "/eligible_bodyguard_keywords",
-      "reason": "Plausible keyword-eligibility source, but current attachment projection does not emit it or establish its combination semantics."
-    },
-    {
-      "source": "data.datasheet_bodyguard_group_keyword.keywordId",
-      "candidate_pointer": "/eligible_bodyguard_keywords",
-      "reason": "Plausible group-keyword eligibility source, but current attachment projection does not emit it or establish its combination semantics."
+      "reason": "A distinct per-group form: a single keyword every already-listed bodyguard must additionally carry, not the 'any unit with these keywords qualifies' edge that eligible_bodyguard_keywords models (that is datasheet_bodyguard_group_keyword, now consumed). Its combination semantics with the explicit ids are unresolved, so it is not folded in."
     }
   ]
 }

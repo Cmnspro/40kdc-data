@@ -19,9 +19,9 @@ Regenerate after a new dump upload (order matters):
 |---|---|--:|
 | A — fields | Entity mappings | 25 |
 | A — fields | Contract field entries | 663 |
-| A — fields | ↳ implemented / partial / unimplemented / n-a | 229 / 114 / 260 / 60 |
-| A — fields | **Actionable field-gap groups** | **119** |
-| A — fields | **Actionable unmapped dump fields** | **47** |
+| A — fields | ↳ implemented / partial / unimplemented / n-a | 231 / 114 / 258 / 60 |
+| A — fields | **Actionable field-gap groups** | **117** |
+| A — fields | **Actionable unmapped dump fields** | **46** |
 | B — tables | **Populated tables, no consumer (structured)** | **42** |
 | B — tables | Populated tables, no consumer (prose/artwork) | 3 |
 | C — entities | **Units new in dump** | **0** |
@@ -170,17 +170,11 @@ Unmapped dump fields with a candidate repo destination:
 
 ### leader-attachment (`schemas/core/leader-attachment.schema.json`)
 
-| Field | Coverage | Provenance | Dump source(s) | Reason |
-|---|---|---|---|---|
-| `/eligible_bodyguard_keywords` | unimplemented | unresolved-candidate | `data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId`<br>`data.datasheet_bodyguard_group_keyword.datasheetBodyguardGroupId`<br>`data.datasheet_bodyguard_group_keyword.keywordId`<br>`data.keyword.localisations.*.name` | Group-level keyword requirements plausibly correspond to keyword-based bodyguard eligibility, but attachment.ts currently emits only explicit bodyguard ids and does not establish how these requirement forms combine. |
-| `/eligible_bodyguard_keywords/*` | unimplemented | unresolved-candidate | `data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId`<br>`data.datasheet_bodyguard_group_keyword.keywordId`<br>`data.keyword.localisations.*.name` | No current projection emits an individual keyword requirement as an eligible_bodyguard_keywords item. |
-
 Unmapped dump fields with a candidate repo destination:
 
 | Dump source | Candidate field | Reason |
 |---|---|---|
-| `data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId` | `/eligible_bodyguard_keywords` | Plausible keyword-eligibility source, but current attachment projection does not emit it or establish its combination semantics. |
-| `data.datasheet_bodyguard_group_keyword.keywordId` | `/eligible_bodyguard_keywords` | Plausible group-keyword eligibility source, but current attachment projection does not emit it or establish its combination semantics. |
+| `data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId` | `/eligible_bodyguard_keywords` | A distinct per-group form: a single keyword every already-listed bodyguard must additionally carry, not the 'any unit with these keywords qualifies' edge that eligible_bodyguard_keywords models (that is datasheet_bodyguard_group_keyword, now consumed). Its combination semantics with the explicit ids are unresolved, so it is not folded in. |
 
 ### mission (`schemas/core/mission.schema.json`)
 

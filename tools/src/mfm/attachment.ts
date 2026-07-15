@@ -41,6 +41,7 @@ import {
   type DatasheetBodyguardGroupDatasheetRow,
 } from "./loader.js";
 import { repoDirs } from "./faction-map.js";
+import { keywordLabel } from "./keywords.js";
 import { CONFIRMED, candidateDirs, homeScore } from "./wargear.js";
 import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import type { StagedWrite } from "./apply.js";
@@ -53,6 +54,7 @@ interface UnitRecord {
 interface LeaderAttachmentRecord {
   leader_id: string;
   eligible_bodyguard_ids: string[];
+  eligible_bodyguard_keywords?: string[];
   game_version: { edition: string; dataslate: string };
   [k: string]: unknown;
 }
@@ -103,6 +105,7 @@ export function runAttachmentRoles(dump: MfmDump, onlyDir?: string): AttachmentR
 
   const groupsByDs = dump.groupBy("datasheet_bodyguard_group", "datasheetId");
   const eligByGroup = dump.groupBy("datasheet_bodyguard_group_datasheet", "datasheetBodyguardGroupId");
+  const keywordsByGroup = dump.groupBy("datasheet_bodyguard_group_keyword", "datasheetBodyguardGroupId");
   const dsById = dump.byId("datasheet");
 
   const results: DirAttachmentResult[] = [];
@@ -168,6 +171,11 @@ export function runAttachmentRoles(dump: MfmDump, onlyDir?: string): AttachmentR
       // ── eligibility: junction bodyguard datasheets → repo unit ids in this dir ──
       const eligible = new Set<string>();
       const unresolved: string[] = [];
+      // Keyword-based eligibility ("any unit with ALL these keywords qualifies", e.g.
+      // an Inquisitor leading any IMPERIUM BATTLELINE INFANTRY unit). Dump-edge order
+      // is GW's canonical keyword order, so the insertion-ordered Set preserves it —
+      // no sort, which would spuriously reorder the authored value.
+      const keywords = new Set<string>();
       for (const g of groups) {
         for (const j of eligByGroup.get(g.id) ?? []) {
           const bgName = dump.enName(dsById.get(j.datasheetId));
@@ -181,11 +189,18 @@ export function runAttachmentRoles(dump: MfmDump, onlyDir?: string): AttachmentR
           if (unitIds.has(bgId)) eligible.add(bgId);
           else unresolved.push(bgName);
         }
+        for (const kw of keywordsByGroup.get(g.id) ?? []) {
+          const label = keywordLabel(dump, kw.keywordId);
+          if (label) keywords.add(label);
+        }
       }
       if (eligible.size) {
+        // eligible_bodyguard_keywords is additive to the required ids (schema mandates
+        // ≥1 id); a keyword-only leader cannot be represented, so it rides an id record.
         dumpLa.set(id, {
           leader_id: id,
           eligible_bodyguard_ids: [...eligible].sort(),
+          ...(keywords.size ? { eligible_bodyguard_keywords: [...keywords] } : {}),
           game_version: { ...CONFIRMED },
         });
       } else if (unresolved.length) {
