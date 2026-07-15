@@ -1105,12 +1105,25 @@ export function builderViolations(state: BuilderState): BuilderViolation[] {
 		for (const v of loadoutViolations(bu, armyFaction)) {
 			out.push({ unitKey: bu.key, message: v.message });
 		}
+		// A Support-role unit cannot be taken solo — it is only legal attached to
+		// a host (11e attachment_role; see the unit schema).
+		if (unit.attachment_role === 'support' && !bu.attachedToKey) {
+			out.push({ unitKey: bu.key, message: 'Support unit cannot be taken solo — attach it to a host' });
+		}
 	}
 	// Exactly one warlord: every army must name one, and only one.
 	const warlords = state.units.filter((u) => u.isWarlord).length;
 	if (warlords > 1) out.push({ unitKey: null, message: `${warlords} warlords (pick one)` });
 	else if (warlords === 0 && state.units.length > 0)
 		out.push({ unitKey: null, message: 'no Warlord set — every army must name one' });
+	// A valid matched-play list MUST have a Force Disposition; without one the
+	// ATC exporter would render a silent "—" (a builder bug per the repo's data
+	// contract), so surface it here rather than papering over it downstream.
+	if (state.disposition == null && state.units.length > 0)
+		out.push({
+			unitKey: null,
+			message: 'no Force Disposition set — required for a valid matched-play list',
+		});
 	// Allied-rule limits and core army-construction caps (advisory).
 	out.push(...allyViolations(state), ...constructionViolations(state));
 	return out;
@@ -1162,13 +1175,17 @@ export function builderToRoster(state: BuilderState): Roster {
 					wargear: g.weapons.map((w) => weaponRef(w.id, w.count)),
 				}))
 			: undefined;
-		// A leader's attachment is emitted on its own row, pointing at the bodyguard.
+		// An attaching unit's row points at the host it joins. Its role is the
+		// unit's own `attachment_role` (a Support unit joins a host but is NOT a
+		// Leader); default to "leader" when the datasheet doesn't specify, since
+		// the overwhelming majority of attachers are Characters that lead.
 		const bodyguard = bu.attachedToKey ? byKey.get(bu.attachedToKey) : undefined;
 		const bodyguardRaw = bodyguard ? buRaw(bodyguard, armyFaction) : undefined;
+		const attachmentRole = unit?.attachment_role === "support" ? "support" : "leader";
 		const leader_attachment = bodyguard
 			? {
 					bodyguard_ref: ref(bodyguard.datasheetId, bodyguardRaw?.name ?? bodyguard.datasheetId),
-					role: "leader" as const,
+					role: attachmentRole,
 					provisional: false,
 				}
 			: null;

@@ -221,6 +221,57 @@ describe('builder points', () => {
 	});
 });
 
+describe('builder validity: attachment roles + Force Disposition', () => {
+	const fac = 'adepta-sororitas';
+	const mkUnit = (key: string, id: string, extra: Partial<BuilderUnit> = {}): BuilderUnit => {
+		const raw = unitRaw(id, undefined, fac)!;
+		const mc = raw.model_count?.min ?? 1;
+		return {
+			key,
+			datasheetId: id,
+			modelCount: mc,
+			loadout: defaultLoadout(raw, mc),
+			enhancementId: null,
+			isWarlord: false,
+			...extra,
+		};
+	};
+
+	it('emits attachment_role "support" for a Support character, not "leader"', () => {
+		// Imagifier is a Support unit (attachment_role: "support") — it joins a
+		// host but does not lead it, so its exported row must say "support".
+		const host = mkUnit('h', 'battle-sisters-squad', { isWarlord: true });
+		const support = mkUnit('s', 'imagifier', { attachedToKey: 'h' });
+		const roster = builderToRoster({
+			...emptyBuilderState(),
+			factionId: fac,
+			disposition: 'take-and-hold',
+			units: [host, support],
+		});
+		expect(roster.units.find((u) => u.ref.id === 'imagifier')?.leader_attachment?.role).toBe(
+			'support',
+		);
+	});
+
+	it('flags a Support unit taken solo (cannot lead — must attach to a host)', () => {
+		const solo = mkUnit('s', 'imagifier', { isWarlord: true });
+		const state = { ...emptyBuilderState(), factionId: fac, disposition: 'take-and-hold', units: [solo] };
+		expect(
+			builderViolations(state).some(
+				(v) => v.unitKey === 's' && /Support unit cannot be taken solo/.test(v.message),
+			),
+		).toBe(true);
+	});
+
+	it('flags a missing Force Disposition and clears once one is set', () => {
+		const u = mkUnit('a', 'palatine', { isWarlord: true });
+		const noDisp = { ...emptyBuilderState(), factionId: fac, disposition: null, units: [u] };
+		expect(builderViolations(noDisp).some((v) => /Force Disposition/.test(v.message))).toBe(true);
+		const withDisp = { ...noDisp, disposition: 'take-and-hold' };
+		expect(builderViolations(withDisp).some((v) => /Force Disposition/.test(v.message))).toBe(false);
+	});
+});
+
 describe('builder default loadout', () => {
 	// Regression guard (the other half of the World Eaters export bug): a
 	// freshly-added unit must default to the legal base (no-swap) loadout, NOT the
