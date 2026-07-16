@@ -3,6 +3,8 @@ import { glob } from "glob";
 import { resolve, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ValidationResult } from "./validate.js";
+import { baseLoadout, checkUnitLegality, type LoadoutTier } from "./data/loadout.js";
+import type { Unit, WargearOption } from "./generated.js";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const DATA_ROOT = resolve(__dirname, "../../data");
@@ -515,7 +517,9 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
       continue;
     }
     const weaponIdsByUnit = new Map<string, string[]>(units.map((u) => [u.id ?? "", u.weapon_ids ?? []]));
+    const unitRecById = new Map<string, UnitLike>(units.map((u) => [u.id ?? "", u]));
     const reachableByUnit = new Map<string, Set<string>>();
+    const optionsByUnit = new Map<string, WargearOptionLike[]>();
     try {
       for (const o of readArray<WargearOptionLike & { unit_id?: string }>(resolve(dir, "wargear-options.json"))) {
         const set = reachableByUnit.get(o.unit_id ?? "") ?? new Set<string>();
@@ -523,6 +527,7 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
         for (const id of o.replacement ?? []) set.add(id);
         for (const g of o.replacement_choice ?? []) for (const id of g) set.add(id);
         reachableByUnit.set(o.unit_id ?? "", set);
+        (optionsByUnit.get(o.unit_id ?? "") ?? optionsByUnit.set(o.unit_id ?? "", []).get(o.unit_id ?? "")!).push(o);
       }
     } catch {
       // no wargear-options file — every weapon must be a default then
@@ -555,6 +560,65 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
           message: `unit "${c.unit_id}": weapon "${wid}" is an orphan — neither a default_weapon_ids entry nor reachable via a wargear-option`,
         });
       }
+
+      // ── Stock-loadout legality: the out-of-the-box build is legal by ──
+      // ── construction — GW never prints a datasheet whose default build ──
+      // ── violates its own wargear rules. ──
+      //
+      // This is the semantic gate the ATC false-positive classes slipped past:
+      // AJV checks shape, the orphan check above checks reachability, and the
+      // conformance corpus checks cross-implementation parity — four ports
+      // agreeing on the same wrong budget passes all three. A budget that
+      // counts a default weapon, an option cap below the printed allowance, or
+      // a stale composition row all surface here as a "stock squad is illegal"
+      // failure at ingest time (applyWrites runs this via npm run validate).
+      const unitRec = unitRecById.get(c.unit_id ?? "");
+      if (unitRec) {
+        const tiers = (c as { tiers?: LoadoutTier[] }).tiers;
+        // Stock is computed per buildable size with THAT size's model
+        // allocation (tier rows merged onto the base models by name — mirrors
+        // the checker's own tier selection); computing it from the envelope
+        // would seat e.g. one sergeant where the 20-model tier fields two.
+        const byName = new Map(models.map((m) => [m.name, m]));
+        const shapes: { size: number; rows: CompModelLike[] }[] = [];
+        if (tiers?.length) {
+          for (const t of tiers) {
+            const rows = (t.models ?? []).map((tm) => ({
+              ...(tm.name != null ? byName.get(tm.name) ?? {} : {}),
+              name: tm.name,
+              min: tm.min,
+              max: tm.max,
+            }));
+            shapes.push({ size: rows.reduce((s, m) => s + (m.min ?? 0), 0), rows });
+            shapes.push({ size: rows.reduce((s, m) => s + (m.max ?? 0), 0), rows });
+          }
+        } else {
+          shapes.push({ size: models.reduce((s, m) => s + (m.min ?? 0), 0), rows: models });
+          shapes.push({ size: models.reduce((s, m) => s + (m.max ?? 0), 0), rows: models });
+        }
+        const options = (optionsByUnit.get(c.unit_id ?? "") ?? []) as unknown as WargearOption[];
+        const seen = new Set<number>();
+        for (const { size, rows } of shapes.sort((a, b) => a.size - b.size)) {
+          if (size <= 0 || seen.has(size)) continue;
+          seen.add(size);
+          const stock = baseLoadout(unitRec as unknown as Unit, size, options, rows);
+          const violations = checkUnitLegality(
+            unitRec as unknown as Unit,
+            size,
+            options,
+            stock.counts,
+            models,
+            tiers,
+          );
+          for (const v of violations) {
+            errs.push({
+              path: `/${i}`,
+              message: `unit "${c.unit_id}": STOCK loadout at ${size} models is illegal (${v.code}:${v.id}) — the default build must always validate; fix the budgets/options/composition, never ship this`,
+            });
+          }
+        }
+      }
+
       if (errs.length > 0) {
         result.failed++;
         result.errors.push({ file, index: i, errors: errs });
