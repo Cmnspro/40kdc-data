@@ -703,10 +703,37 @@ export interface WargearBudget {
  *   - **Shared** sets (≥2 distinct items competing for one allowance, e.g. Chaos
  *     Terminators' `heavy flamer / reaper autocannon`, 1 per 5). The per-weapon
  *     bound would let each hit the cap independently; the budget enforces the sum.
- *   - **Flat** per-unit caps (a `wargear_limit` with `modelCount = 0`, e.g.
- *     Khorne Berzerkers' `icon of Khorne`, 1 per unit). Emitted with
- *     `per_models = 0`. The per-weapon bound inflates these — a flat item taken by
- *     two model types (champion + trooper) sums to 2 — so the flat budget overrides.
+ *   - **Flat** per-unit caps (a set whose ONLY `wargear_limit` rows have
+ *     `modelCount = 0`, e.g. Khorne Berzerkers' `icon of Khorne`, 1 per unit).
+ *     Emitted with `per_models = 0`. A `modelCount: 0` row alongside
+ *     `modelCount > 0` rows is NOT flat — it is just the allowance at minimum
+ *     size, and the scaling rows are binding (e.g. `(0,1)+(10,2)` is "1 per 5";
+ *     reading it flat would halve a 10-model squad's legal allowance).
+ *
+ * The dump caps **choices picked**, and one choice may bundle several item
+ * copies (a Battle Sisters special-weapon *pair*, Custodian vexilla+misericordia,
+ * a Seraphim 2-hand-flamer swap via item-row `count: 2`) — while the checker
+ * (`budgetViolations`) enforces `Σ item copies ≤ count`. The emitted `count` is
+ * therefore `choiceLimit × the largest single choice's surviving item copies`,
+ * the faithful copy ceiling. For the common all-single-item sets this is
+ * `choiceLimit × 1` — byte-identical to the historic output.
+ *
+ * An item is EXCLUDED from a budget when its copies are obtainable outside the
+ * set — a summed check cannot attribute those copies, so listing the item flags
+ * stock or plainly-legal squads (the ATC false-positive classes):
+ *   - it is a **derived default** (a retained "cannot be replaced" weapon in a
+ *     choice, e.g. `[Boltgun, Simulacrum]` — the ~10 stock boltguns would spend
+ *     the allowance);
+ *   - it appears in **another limited set** of the datasheet (Kommandos'
+ *     close-combat-weapon rides in every special-swap set's bundles);
+ *   - a repo wargear-option **on a different model type** adds it (the Plague
+ *     Marine champion's own plasma-gun swap must not spend the troopers'
+ *     per-5 allowance);
+ *   - an **uncapped** repo option adds it (Boyz close-combat-weapon via the
+ *     any-number shoota swap — unbounded legal copies).
+ * A choice with no surviving items contributes nothing; a set with none emits
+ * no budget (under-enforcing beats false-illegal). Pass the unit's derived
+ * wargear-option records as `unitOptions` to enable the option-based layers.
  *
  * A **single-weapon per-N** set (e.g. plasma pistol: 2 on the troopers PLUS 1 on
  * the champion = 3) is deliberately NOT a budget — the per-weapon bound already
@@ -720,29 +747,132 @@ export function limitedSetBudgets(
   dump: MfmDump,
   datasheetId: string,
   resolve: (name: string) => string | null,
+  unitOptions: readonly WargearOptionRecord[] = [],
 ): WargearBudget[] {
   const sets =
     dump.groupBy("limited_wargear_choice_set", "datasheetId").get(datasheetId) ?? [];
+  if (sets.length === 0) return [];
   const limitsBySet = dump.groupBy("wargear_limit", "limitedWargearChoiceSetId");
   const choicesBySet = dump.groupBy("limited_wargear_choice", "limitedWargearChoiceSetId");
   const itemsByChoice = dump.groupBy("limited_wargear_choice_wargear_item", "limitedWargearChoiceId");
   const wiName = dump.byId("wargear_item");
 
-  const out: WargearBudget[] = [];
-  for (const s of [...sets].sort((a, b) => a.id.localeCompare(b.id))) {
-    const items = new Set<string>();
-    for (const c of choicesBySet.get(s.id) ?? []) {
-      for (const it of itemsByChoice.get(c.id) ?? []) {
-        const id = resolve(dump.enName(wiName.get(it.wargearItemId)) ?? "");
-        if (id) items.add(id);
+  // Derived defaults — stock copies of these would spend the allowance. Guarded:
+  // a focused fixture may omit the default-loadout tables (the real dump never
+  // does); it then simply contributes no default exclusions.
+  const defaultIds = new Set<string>();
+  try {
+    for (const ids of deriveDefaults(dump, datasheetId, resolve, [], []).byMiniId.values()) {
+      for (const id of ids) defaultIds.add(id);
+    }
+  } catch {
+    /* fixture without default-loadout tables */
+  }
+  let miniNameOf: (miniId: string) => string | null = () => null;
+  try {
+    const miniById = dump.byId("miniature");
+    miniNameOf = (miniId) => dump.enName(miniById.get(miniId)) ?? null;
+  } catch {
+    /* fixture without a miniature table */
+  }
+
+  // The repo-option surface: which items an option adds on which model type,
+  // and every UNCAPPED option branch (no constraint / any_number). NB: budget-
+  // governed swaps are deliberately authored `any_number` (the budget IS their
+  // enforcement — see deriveWargear), so an uncapped branch only disqualifies a
+  // set's items when it fails to realize one of the set's own choices below.
+  const addedByModelName = new Map<string, Set<string>>();
+  const uncappedBranches: Set<string>[] = [];
+  for (const o of unitOptions) {
+    const branches = o.replacement ? [o.replacement] : (o.replacement_choice ?? []);
+    const c = o.model_constraint;
+    const uncapped = !c || c.any_number === true;
+    for (const branch of branches) {
+      if (uncapped) uncappedBranches.push(new Set(branch));
+      const name = c?.model_name;
+      if (name) {
+        for (const id of branch) {
+          const names = addedByModelName.get(id) ?? new Set<string>();
+          names.add(name);
+          addedByModelName.set(id, names);
+        }
       }
     }
-    if (!items.size) continue;
+  }
 
-    // A `modelCount = 0` limit is a flat per-unit cap; otherwise the smallest
-    // `choiceLimit/modelCount` ratio across the rows is binding. The optional
-    // `duplicateLimit` (max copies of one item) is captured from the SAME winning
-    // row so the sub-cap tier tracks the `count`/`per_models` tier.
+  // Resolve every set's choices up front (each item at its row `count` copies)
+  // so the cross-set exclusion layer sees the whole surface.
+  const choicesOfSet = new Map<string, { id: string; copies: number }[][]>();
+  const itemsOfSet = new Map<string, Set<string>>();
+  for (const s of sets) {
+    const choices: { id: string; copies: number }[][] = [];
+    for (const c of choicesBySet.get(s.id) ?? []) {
+      const line: { id: string; copies: number }[] = [];
+      for (const it of itemsByChoice.get(c.id) ?? []) {
+        const id = resolve(dump.enName(wiName.get(it.wargearItemId)) ?? "");
+        if (id) line.push({ id, copies: Math.max(1, it.count ?? 1) });
+      }
+      choices.push(line);
+    }
+    choicesOfSet.set(s.id, choices);
+    itemsOfSet.set(
+      s.id,
+      new Set(choices.flat().map((x) => x.id)),
+    );
+  }
+
+  const out: WargearBudget[] = [];
+  for (const s of [...sets].sort((a, b) => a.id.localeCompare(b.id))) {
+    const setMini = s.miniatureId ? miniNameOf(s.miniatureId) : null;
+
+    // Uncapped-branch leakage: a branch that grants some of this set's items
+    // WITHOUT realizing one of the set's choices is an ungoverned path (the
+    // Boyz any-number shoota swap carries the close-combat-weapon that also
+    // rides in the rokkit bundles) — its items have unbounded legal copies, so
+    // they leave the budget. A branch that CONTAINS a full choice (defaults
+    // aside) is just that pick with other swaps' grants alongside (a WE
+    // Terminator taking chainfist + the free combi-weapon swap) — governed.
+    const setChoices = choicesOfSet.get(s.id) ?? [];
+    const leaked = new Set<string>();
+    const setItems = itemsOfSet.get(s.id) ?? new Set<string>();
+    for (const branch of uncappedBranches) {
+      const hit = [...branch].filter((id) => setItems.has(id));
+      if (hit.length === 0) continue;
+      const governed = setChoices.some((choice) => {
+        const cIds = choice.map((x) => x.id).filter((id) => !defaultIds.has(id));
+        return cIds.length > 0 && cIds.every((id) => branch.has(id));
+      });
+      if (!governed) for (const id of hit) leaked.add(id);
+    }
+
+    const excluded = (id: string): boolean => {
+      if (defaultIds.has(id)) return true;
+      if (leaked.has(id)) return true;
+      for (const o of sets) {
+        if (o.id !== s.id && itemsOfSet.get(o.id)?.has(id)) return true;
+      }
+      if (s.miniatureId && setMini) {
+        const names = addedByModelName.get(id);
+        if (names && [...names].some((n) => n !== setMini)) return true;
+      }
+      return false;
+    };
+
+    const items = new Set<string>();
+    let maxTake = 0;
+    for (const choice of choicesOfSet.get(s.id) ?? []) {
+      const kept = choice.filter((x) => !excluded(x.id));
+      if (kept.length === 0) continue;
+      for (const x of kept) items.add(x.id);
+      const take = kept.reduce((sum, x) => sum + x.copies, 0);
+      if (take > maxTake) maxTake = take;
+    }
+    if (items.size === 0 || maxTake === 0) continue;
+
+    // The binding limit: smallest `choiceLimit/modelCount` ratio among the
+    // scaling rows; flat only when the set has NO scaling row. The optional
+    // `duplicateLimit` (max copies of one item) is captured from the SAME
+    // winning row so the sub-cap tier tracks the `count`/`per_models` tier.
     let flat: number | null = null;
     let flatDup: number | null = null;
     let ratioCount: number | null = null;
@@ -763,28 +893,29 @@ export function limitedSetBudgets(
     }
 
     const sorted = [...items].sort();
-    if (flat != null) {
+    if (ratioCount != null && ratioPer != null) {
+      if (items.size >= 2 || s.miniatureId == null) {
+        // Shared ratio allowances (≥2 items) AND datasheet-wide single-weapon ratio
+        // sets become summed budgets: the dump scopes these to the whole unit, so the
+        // squad-wide sum `floor(modelCount * count / per_models)` is the correct cap
+        // and a per-option `per_n_models` would mis-apply when several swap options
+        // add the same weapon. Mini-scoped single-weapon ratio sets are deliberately
+        // NOT budgets (a unit-wide budget would under-count a weapon a *different*
+        // model type can also carry) — those stay per-option in `deriveWargear`.
+        out.push({
+          items: sorted,
+          count: ratioCount * maxTake,
+          per_models: ratioPer,
+          ...(ratioDup != null ? { duplicate_limit: ratioDup } : {}),
+        });
+      }
+    } else if (flat != null) {
       // Flat per-unit cap (shared or single) — the per-weapon bound can't express it.
       out.push({
         items: sorted,
-        count: flat,
+        count: flat * maxTake,
         per_models: 0,
         ...(flatDup != null ? { duplicate_limit: flatDup } : {}),
-      });
-    } else if (ratioCount != null && ratioPer != null && (items.size >= 2 || s.miniatureId == null)) {
-      // Shared ratio allowances (≥2 items) AND datasheet-wide single-weapon ratio
-      // sets become summed budgets: the dump scopes these to the whole unit, so the
-      // squad-wide sum `floor(modelCount * count / per_models)` is the correct cap and
-      // a per-option `per_n_models` would mis-apply when several swap options add the
-      // same weapon. Mini-scoped single-weapon ratio sets are deliberately NOT budgets
-      // (a unit-wide budget would under-count a weapon a *different* model type can also
-      // carry, e.g. a champion's plasma pistol on top of the troopers' ratio) — those
-      // stay per-option in `deriveWargear`.
-      out.push({
-        items: sorted,
-        count: ratioCount,
-        per_models: ratioPer,
-        ...(ratioDup != null ? { duplicate_limit: ratioDup } : {}),
       });
     }
   }
@@ -1593,7 +1724,12 @@ export function runWargearBudgets(dump: MfmDump, onlyDir?: string): BudgetReport
       matched++;
 
       const unitResolve = unitScopedResolver(validIds, autoResolved, dir, id, resolve);
-      const budgets = limitedSetBudgets(dump, ds.id!, unitResolve);
+      const budgets = limitedSetBudgets(
+        dump,
+        ds.id!,
+        unitResolve,
+        wopts.filter((o) => o.unit_id === id),
+      );
 
       const before = JSON.stringify(rec.wargear_budgets ?? null);
       if (budgets.length) {

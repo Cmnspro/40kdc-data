@@ -356,13 +356,6 @@
         "count": 2,
         "per_models": 10,
         "duplicate_limit": 1
-      },
-      {
-        "items": [
-          "vox-caster"
-        ],
-        "count": 1,
-        "per_models": 0
       }
     ]
   },
@@ -650,13 +643,6 @@
           "hot-shot-long-las"
         ],
         "count": 1,
-        "per_models": 0
-      },
-      {
-        "items": [
-          "hot-shot-laspistol"
-        ],
-        "count": 2,
         "per_models": 0
       }
     ]
@@ -2370,13 +2356,6 @@
     "wargear_budgets": [
       {
         "items": [
-          "hot-shot-laspistol"
-        ],
-        "count": 1,
-        "per_models": 0
-      },
-      {
-        "items": [
           "flamer",
           "grenade-launcher-kasrkin",
           "hot-shot-volley-gun",
@@ -3830,17 +3809,7 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false,
-    "wargear_budgets": [
-      {
-        "items": [
-          "lasgun",
-          "vox-caster"
-        ],
-        "count": 1,
-        "per_models": 0
-      }
-    ]
+    "points_provisional": false
   },
   {
     "id": "leman-russ-commander",
@@ -4808,6 +4777,10 @@
       "meltagun",
       "autostubber"
     ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 28
+    },
     "wargear_budgets": [
       {
         "items": [
@@ -4815,7 +4788,7 @@
           "long-las",
           "missile-launcher-cadian-recon-squad"
         ],
-        "count": 2,
+        "count": 4,
         "per_models": 0
       },
       {
@@ -4826,11 +4799,7 @@
         "count": 1,
         "per_models": 0
       }
-    ],
-    "base_size_mm": {
-      "shape": "round",
-      "diameter": 28
-    }
+    ]
   },
   {
     "id": "centaur-rsv",
