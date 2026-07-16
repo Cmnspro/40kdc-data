@@ -1289,11 +1289,19 @@ mod tests {
         let (bz, opts) = berzerkers();
         // plasma-pistol is a single-weapon per-N allowance (not a shared budget):
         // 2 on the troopers + 1 on the champion = 3 at 10 models, so 4 trips the
-        // per-weapon bound. (The maximal loadout is a per-weapon upper bound and is
-        // intentionally budget-blind, so it is not asserted legal here.)
+        // per-weapon bound. The champion's swap is `any_number` scoped by
+        // `model_name`, so the composition rows are required to clamp it to the
+        // one champion — exactly what the roster checker supplies.
+        let ds = Dataset::embedded();
+        let comp = ds
+            .unit_compositions
+            .iter()
+            .find(|c| c.unit_id.as_str() == "khorne-berzerkers")
+            .expect("berzerkers composition");
+        let models = loadout_models(&comp.models);
         let mut over = HashMap::new();
         over.insert("plasma-pistol-khorne-berzerkers".to_string(), 4i64);
-        let v = validate_loadout(bz, 10, &opts, &over, None);
+        let v = validate_loadout(bz, 10, &opts, &over, Some(&models));
         assert_eq!(v.len(), 1);
         assert_eq!(v[0].id, "plasma-pistol-khorne-berzerkers");
         assert_eq!(v[0].code, ViolationCode::ExceedsMax);

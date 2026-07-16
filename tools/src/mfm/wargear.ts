@@ -623,65 +623,6 @@ function miniScopedSingleCaps(
 }
 
 /**
- * Per-(miniature, weapon) input type of the dump's **optional swap** wargear
- * options — the `defaultValue == 0` rows of each `wargear_option_group`, excluding
- * the base loadout (`defaultValue > 0`). This is the table the GW app builds and
- * enforces loadouts from: a `checkbox` option is a 0/1 toggle the app caps at one
- * instance unit-wide (the "1 X can be replaced with 1 Y" shape — e.g. Goremongers'
- * blood harpoon), while a `stepper` is a 0..N counter ("Any number of models can
- * …", capped only by the model count or a `wargear_limit` ratio). Keyed
- * `${miniatureId}::${weaponId}` → the set of input types seen for that swap (a
- * weapon offered only via checkboxes maps to `{"checkbox"}`); the set guards the
- * case where a weapon is both a base item (stepper) and a swap (checkbox), since
- * only the `defaultValue == 0` swap rows are recorded here.
- */
-function swapInputTypesByMiniWeapon(
-  dump: MfmDump,
-  datasheetId: string,
-  resolve: (name: string) => string | null,
-): Map<string, Set<string>> {
-  const wiName = dump.byId("wargear_item");
-  const woByGroup = dump.groupBy("wargear_option", "wargearOptionGroupId");
-  const groups = dump.groupBy("wargear_option_group", "datasheetId").get(datasheetId) ?? [];
-  const out = new Map<string, Set<string>>();
-  for (const g of groups) {
-    if (!g.miniatureId) continue;
-    for (const o of woByGroup.get(g.id) ?? []) {
-      if (o.defaultValue > 0) continue; // base loadout, not an optional swap
-      const id = resolve(dump.enName(wiName.get(o.wargearItemId)) ?? "");
-      if (!id) continue;
-      const key = `${g.miniatureId}::${id}`;
-      (out.get(key) ?? out.set(key, new Set()).get(key)!).add(o.inputType);
-    }
-  }
-  return out;
-}
-
-/**
- * True iff every weapon this swap grants is offered **solely** via a `checkbox` on
- * `miniatureId` — a 0/1 toggle the GW app caps at one instance unit-wide. Any
- * granted weapon that is unknown to the swap map, or that is offered via a
- * `stepper` (a counter), leaves the swap uncapped (`false`) so we never
- * over-restrict. A multi-branch "one of A/B/C" swap caps at 1 iff each alternative
- * is itself a checkbox.
- */
-function checkboxCapped(
-  added: string[][],
-  miniatureId: string,
-  swapInputTypes: Map<string, Set<string>>,
-): boolean {
-  let sawCheckbox = false;
-  for (const branch of added) {
-    for (const id of branch) {
-      const types = swapInputTypes.get(`${miniatureId}::${id}`);
-      if (!types || types.size !== 1 || !types.has("checkbox")) return false;
-      sawCheckbox = true;
-    }
-  }
-  return sawCheckbox;
-}
-
-/**
  * A limited-wargear **squad budget**: the listed items share one allowance whose
  * size is `count` per `per_models` models — i.e. `floor(modelCount * count /
  * per_models)` copies across the unit. Stored per unit and enforced as a sum over
@@ -959,7 +900,6 @@ export function deriveWargear(
   // defaultsByModel.size — a miniature the heterogeneity guard skipped still counts.
   const multiModel = dumpComposition(dump, datasheetId).length > 1;
   const miniCaps = miniScopedSingleCaps(dump, datasheetId, resolve);
-  const swapInputTypes = swapInputTypesByMiniWeapon(dump, datasheetId, resolve);
 
   // Flat limited-set allowances: when a swap's granted weapons are all covered
   // by flat budgets, the option's own model cap is the summed allowance (e.g.
@@ -1089,11 +1029,14 @@ export function deriveWargear(
       if (setLimit > 1 && !allowDup) {
         // "up to N of the following" without duplicates — the picks are
         // DIFFERENT items (a Battlewagon takes the wreckin' ball AND the
-        // grabbin' klaw), so each branch is its own once-only option rather
-        // than one one-of-N choice.
+        // grabbin' klaw; every Broadside takes a seeker missile AND a support
+        // system), so each branch is its own once-PER-MODEL option rather than
+        // one one-of-N choice. The menu is per-model (the set scopes to a
+        // miniature), so the cap is any_number — a flat max_count of 1 falsely
+        // capped multi-model squads at one copy unit-wide.
         for (const branch of added) {
           const mc = baseConstraint();
-          mc.max_count = 1;
+          mc.any_number = true;
           pushOption(mc, [branch]);
         }
         continue;
@@ -1111,9 +1054,13 @@ export function deriveWargear(
       //      the tightest ratio on every branch falsely caps the loose ones;
       //   2. flat budgets covering every granted weapon of the partition — the
       //      summed allowance (several GW rules can collapse into one dump
-      //      menu, so the flat budget's total, not a checkbox 1, bounds the
-      //      swaps away);
-      //   3. the checkbox heuristic (a 0/1 toggle caps at one instance).
+      //      menu, so the flat budget's total bounds the swaps away).
+      // There is deliberately NO input-type (checkbox) heuristic: the app's
+      // checkbox is a per-MODEL-card toggle ("any number of models can each be
+      // equipped with 1 bio-plasma" ships as a checkbox), and every true
+      // unit-wide 1-cap lives in a limited set (the caps-live-in-limit-tables
+      // principle) — reading checkboxes as unit-wide caps falsely froze
+      // per-model add-ons on multi-model squads at one copy.
       // Branches partition by their own ratio; each partition is its own option.
       const branchPerN = (branch: string[]): number | null => {
         let perN: number | null = null;
@@ -1146,8 +1093,6 @@ export function deriveWargear(
             byBudget.set(b.key, b.count);
           }
           mc.max_count = [...byBudget.values()].reduce((a, c) => a + c, 0);
-        } else if (set.miniatureId && checkboxCapped(partBranches, set.miniatureId, swapInputTypes)) {
-          mc.max_count = 1;
         } else {
           mc.any_number = true;
         }

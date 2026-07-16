@@ -432,13 +432,13 @@ describe("deriveDefaults quantity rule + heterogeneity guard (option-group model
   });
 });
 
-describe("deriveWargear checkbox cap (wargear_option.inputType)", () => {
+describe("deriveWargear per-model swaps and ratio caps", () => {
   const wi = (id: string, name: string) => ({ id, wargearType: "weapon", localisations: { en: { name } } });
   const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   // Two model types. A multi-model "Goremonger" offering its chainblade swapped for
-  // one of {autopistol, blood-harpoon} — both CHECKBOX swaps (the GW "1 X → 1 Y"
-  // shape). A "Trooper" with a STEPPER swap (any number) and a CHECKBOX swap that is
-  // ALSO governed by a 1-per-5 wargear_limit (ratio must win over the checkbox).
+  // one of {autopistol, blood-harpoon} (per-model menu — stays any_number). A
+  // "Trooper" with an uncapped swap (any number) and a swap that is governed by
+  // a 1-per-5 wargear_limit (the ratio is the only per-option cap source).
   function dump(): MfmDump {
     return new MfmDump({
       data: {
@@ -528,12 +528,15 @@ describe("deriveWargear checkbox cap (wargear_option.inputType)", () => {
   const d = deriveWargear(dump(), "ds", slug);
   const byRemoved = (id: string) => d.options.find((o) => (o.replaces ?? []).includes(id));
 
-  it("caps a checkbox swap at 1 instance unit-wide (max_count: 1)", () => {
+  it("a checkbox swap with no limited set stays per-model (any_number)", () => {
+    // The app checkbox is a per-MODEL-card toggle, not a unit-wide cap: every
+    // true unit-wide 1-cap lives in a limited set (Goremongers' real blood
+    // harpoon carries one, and its single-item flat budget clamps the bounds).
     const o = byRemoved("chainblade")!;
     expect(o.replaces).toEqual(["chainblade"]);
-    // the two checkbox alternatives merge under one option (same replaced weapon)
+    // the two alternatives merge under one option (same replaced weapon)
     expect(o.replacement_choice).toEqual([["autopistol"], ["blood-harpoon"]]);
-    expect(o.model_constraint).toEqual({ model_name: "Goremonger", max_count: 1 });
+    expect(o.model_constraint).toEqual({ model_name: "Goremonger", any_number: true });
   });
 
   it("leaves a stepper swap uncapped (any_number)", () => {
@@ -542,7 +545,7 @@ describe("deriveWargear checkbox cap (wargear_option.inputType)", () => {
     expect(o.model_constraint).toEqual({ model_name: "Trooper", any_number: true });
   });
 
-  it("lets a wargear_limit ratio win over the checkbox (per_n_models, not max_count)", () => {
+  it("a wargear_limit ratio caps the swap (per_n_models)", () => {
     const o = byRemoved("pistol")!;
     expect(o.replacement).toEqual(["heavy-weapon"]);
     expect(o.model_constraint).toEqual({ model_name: "Trooper", per_n_models: 5 });

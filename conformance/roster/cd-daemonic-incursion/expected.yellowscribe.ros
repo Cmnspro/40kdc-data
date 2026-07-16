@@ -336,9 +336,66 @@ Enemy units within 6" get -1 to their Objective Control characteristic.</charact
             <category name="Bloodletters"/>
           </categories>
           <selections>
-            <selection id="unit3-m0" name="Bloodletters" type="model" number="10">
+            <selection id="unit3-m0" name="Bloodreaper" type="model" number="1">
               <selections>
-                <selection id="unit3-m0-w0" name="Hellblade" type="upgrade" number="100">
+                <selection id="unit3-m0-w0" name="Hellblade" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Hellblade" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">2</characteristic>
+                        <characteristic name="WS">3+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">-2</characteristic>
+                        <characteristic name="D">2</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+            <selection id="unit3-m1" name="Bloodletter" type="model" number="7">
+              <selections>
+                <selection id="unit3-m1-w0" name="Hellblade" type="upgrade" number="7">
+                  <profiles>
+                    <profile name="Hellblade" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">2</characteristic>
+                        <characteristic name="WS">3+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">-2</characteristic>
+                        <characteristic name="D">2</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+            <selection id="unit3-m2" name="Bloodletter" type="model" number="1">
+              <selections>
+                <selection id="unit3-m2-w1" name="Hellblade" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Hellblade" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">2</characteristic>
+                        <characteristic name="WS">3+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">-2</characteristic>
+                        <characteristic name="D">2</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+            <selection id="unit3-m3" name="Bloodletter" type="model" number="1">
+              <selections>
+                <selection id="unit3-m3-w0" name="Hellblade" type="upgrade" number="1">
                   <profiles>
                     <profile name="Hellblade" typeName="Melee Weapons">
                       <characteristics>

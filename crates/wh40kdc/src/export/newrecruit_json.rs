@@ -154,12 +154,18 @@ fn unit_selection(idx: usize, u: &RosterUnit, faction: Option<&Category>) -> Sel
         .map(|(wi, w)| wargear_selection(wi, w))
         .collect();
 
-    let own_categories = faction.map(|f| {
-        vec![Category {
-            name: f.name.clone(),
-            primary: f.primary,
-        }]
-    });
+    // TS emits `categories: []` when no faction resolved (never omits the key
+    // on a unit selection) — mirror that, or the no-faction goldens diverge.
+    let own_categories = Some(
+        faction
+            .map(|f| {
+                vec![Category {
+                    name: f.name.clone(),
+                    primary: f.primary,
+                }]
+            })
+            .unwrap_or_default(),
+    );
     let unit_costs = u.points.map(|p| {
         vec![Cost {
             name: "pts",

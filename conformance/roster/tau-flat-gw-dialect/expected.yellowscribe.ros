@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<roster id="roster0" name="Crossing the Damocles Gulf" gameSystemId="sys-352e-adc2-7639-d6a9" gameSystemName="Warhammer 40,000">
+  <forces>
+    <force id="force0" name="Unknown" catalogueName="Unknown">
+      <selections>
+        <selection id="unit0" name="Darkstrider" type="unit" number="1">
+          <profiles>
+            <profile name="Darkstrider" typeName="Unit">
+              <characteristics>
+                <characteristic name="M">7"</characteristic>
+                <characteristic name="T">3</characteristic>
+                <characteristic name="SV">4+</characteristic>
+                <characteristic name="W">3</characteristic>
+                <characteristic name="LD">7+</characteristic>
+                <characteristic name="OC">1</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Jammer Array" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">During the Reserves phase, for the rest of the battle, enemy units within 12": prevent reserve setup (within 12").</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Leader" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit gains the Leader ability.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Structural Analyser" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">During the Shooting phase, after being attached to a unit, the unit gets +1 to Wound rolls.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Infiltrators" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Once per battle, the unit has the Infiltrators ability.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Scouts 7&quot;" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Before the first battle round, the unit can make a Scout move of up to 7".</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <categories>
+            <category name="Faction: T’au Empire"/>
+            <category name="Infantry"/>
+            <category name="Character"/>
+            <category name="Epic Hero"/>
+            <category name="Markerlight"/>
+            <category name="Darkstrider"/>
+          </categories>
+          <selections>
+            <selection id="unit0-m0" name="Darkstrider" type="model" number="1">
+              <selections>
+                <selection id="unit0-m0-w0" name="Close combat weapon" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Close combat weapon" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">3</characteristic>
+                        <characteristic name="WS">4+</characteristic>
+                        <characteristic name="S">3</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit0-m0-w1" name="Shade" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Shade" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">2</characteristic>
+                        <characteristic name="BS">2+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">2</characteristic>
+                        <characteristic name="Keywords">Assault</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+          </selections>
+        </selection>
+        <selection id="unit1" name="Pathfinder Team" type="unit" number="1">
+          <profiles>
+            <profile name="Pathfinder" typeName="Unit">
+              <characteristics>
+                <characteristic name="M">7"</characteristic>
+                <characteristic name="T">3</characteristic>
+                <characteristic name="SV">4+</characteristic>
+                <characteristic name="W">1</characteristic>
+                <characteristic name="LD">7+</characteristic>
+                <characteristic name="OC">1</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Grav-inhibitor Drone" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">For the rest of the battle, the target gets -2 to Charge rolls.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Pulse Accelerator Drone" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit gains the Weapon Range Increase ability.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Recon Drone" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">This model gains the Weapon Grant ability.
+The unit gains the Infiltrators ability.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Target Uploaded" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit's weapons gain [IGNORES COVER].</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Scouts 7&quot;" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Before the first battle round, the unit can make a Scout move of up to 7".</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <categories>
+            <category name="Faction: T’au Empire"/>
+            <category name="Infantry"/>
+            <category name="Grenades"/>
+            <category name="Markerlight"/>
+            <category name="Pathfinder Team"/>
+          </categories>
+          <selections>
+            <selection id="unit1-m0" name="Pathfinder Team" type="model" number="10">
+              <selections>
+                <selection id="unit1-m0-w0" name="Close combat weapon" type="upgrade" number="100">
+                  <profiles>
+                    <profile name="Close combat weapon" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="WS">5+</characteristic>
+                        <characteristic name="S">3</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit1-m0-w3" name="Pulse carbine" type="upgrade" number="70">
+                  <profiles>
+                    <profile name="Pulse carbine" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">20"</characteristic>
+                        <characteristic name="A">2</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit1-m0-w4" name="Pulse pistol" type="upgrade" number="100">
+                  <profiles>
+                    <profile name="Pulse pistol" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">12"</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Pistol</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit1-m0-w6" name="Rail rifle" type="upgrade" number="30">
+                  <profiles>
+                    <profile name="Rail rifle" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">30"</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="BS">5+</characteristic>
+                        <characteristic name="S">10</characteristic>
+                        <characteristic name="AP">-4</characteristic>
+                        <characteristic name="D">3</characteristic>
+                        <characteristic name="Keywords">Devastating Wounds, Heavy</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit1-m0-w7" name="Semi-automatic grenade launcher" type="upgrade" number="10">
+                  <profiles>
+                    <profile name="Fusion" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">6</characteristic>
+                        <characteristic name="AP">-1</characteristic>
+                        <characteristic name="D">3</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                    <profile name="EMP" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">3</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Anti-Vehicle 4+, Devastating Wounds</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+          </selections>
+        </selection>
+        <selection id="unit2" name="Crisis Starscythe Battlesuits" type="unit" number="1">
+          <profiles>
+            <profile name="Crisis Starscythe Shas’ui" typeName="Unit">
+              <characteristics>
+                <characteristic name="M">10"</characteristic>
+                <characteristic name="T">5</characteristic>
+                <characteristic name="SV">3+</characteristic>
+                <characteristic name="W">4</characteristic>
+                <characteristic name="LD">7+</characteristic>
+                <characteristic name="OC">2</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Battlesuit Support Systems" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit is eligible to shoot and declare a charge in a turn in which it Fell Back.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Starscythe" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">During the Shooting phase, subtract 1 from the unit's Armour Penetration characteristic.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Deep Strike" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit has the Deep Strike ability.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <categories>
+            <category name="Faction: T’au Empire"/>
+            <category name="Vehicle"/>
+            <category name="Walker"/>
+            <category name="Fly"/>
+            <category name="Battlesuit"/>
+            <category name="Crisis"/>
+            <category name="Starscythe"/>
+          </categories>
+          <selections>
+            <selection id="unit2-m0" name="Crisis Starscythe Shas’vre" type="model" number="1">
+              <selections>
+                <selection id="unit2-m0-w0" name="Battlesuit fists" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Battlesuit fists" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">3</characteristic>
+                        <characteristic name="WS">5+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit2-m0-w1" name="Burst cannon" type="upgrade" number="2">
+                  <profiles>
+                    <profile name="Burst cannon" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">4</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+            <selection id="unit2-m1" name="Crisis Starscythe Shas’ui" type="model" number="1">
+              <selections>
+                <selection id="unit2-m1-w0" name="Battlesuit fists" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Battlesuit fists" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">3</characteristic>
+                        <characteristic name="WS">5+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit2-m1-w1" name="Burst cannon" type="upgrade" number="2">
+                  <profiles>
+                    <profile name="Burst cannon" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">4</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+            <selection id="unit2-m2" name="Crisis Starscythe Shas’ui" type="model" number="1">
+              <selections>
+                <selection id="unit2-m2-w0" name="Battlesuit fists" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Battlesuit fists" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">3</characteristic>
+                        <characteristic name="WS">5+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit2-m2-w1" name="Burst cannon" type="upgrade" number="2">
+                  <profiles>
+                    <profile name="Burst cannon" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">4</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">5</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+          </selections>
+        </selection>
+      </selections>
+    </force>
+  </forces>
+</roster>
