@@ -458,12 +458,16 @@ export function emitAtcCases(opts: { rootDir?: string } = {}): {
         if (w.ref.id === null) continue;
         counts.set(w.ref.id, (counts.get(w.ref.id) ?? 0) + w.count);
       }
-      const plausible = sizePlausible(entry.unitId, roster.faction_id, entry.modelCount);
+      // The RESOLVED unit's own faction, not the roster's (often unresolved):
+      // it pins the case to the exact faction copy the check ran against.
+      const view = resolveRosterUnit(rosterUnit, ds, roster.faction_id);
+      const factionId = view?.raw.faction_id ?? roster.faction_id;
+      const plausible = sizePlausible(entry.unitId, factionId, entry.modelCount);
       const clean = plausible && !codes.has("below-min") && !codes.has("invalid-model-count");
       const tier = clean ? 0 : plausible ? 1 : 2;
       const candidate: Candidate = {
         unitId: entry.unitId,
-        factionId: roster.faction_id,
+        factionId,
         modelCount: entry.modelCount,
         counts,
         violationStrings: entry.violations.map((v) => `${v.code}:${v.id}`).sort(),
@@ -643,15 +647,19 @@ if (isMain) {
   }
 
   if (args.includes("--emit-cases")) {
+    // ADD-ONLY: existing `atc-*` cases are regression pins captured when their
+    // cluster still violated — once the fix lands they hold the door shut, so a
+    // re-run against a healthier tree must never drop them. Only clusters with
+    // no pin yet gain a case.
     const casesPath = resolve(DEFAULT_ROOT, "conformance/roster_legality/cases.json");
     const existing = JSON.parse(readFileSync(casesPath, "utf-8")) as EmittedLegalityCase[];
-    const kept = existing.filter((c) => !c.name.startsWith("atc-"));
+    const have = new Set(existing.map((c) => c.name));
     const { cases, clusters } = emitAtcCases();
-    writeFileSync(casesPath, formatLegalityCases([...kept, ...cases]));
+    const added = cases.filter((c) => !have.has(c.name));
+    writeFileSync(casesPath, formatLegalityCases([...existing, ...added]));
     console.log(
-      `Emitted ${cases.length} corpus-derived cases (${clusters} clusters, ` +
-        `${cases.filter((c) => c.expected.length > 0).length} genuine pins) ` +
-        `alongside ${kept.length} hand-written cases → conformance/roster_legality/cases.json`,
+      `Emitted ${added.length} new corpus-derived cases (${clusters} violating clusters seen, ` +
+        `${existing.length} existing cases kept) → conformance/roster_legality/cases.json`,
     );
     process.exit(0);
   }

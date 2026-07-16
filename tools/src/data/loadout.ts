@@ -34,10 +34,13 @@ export interface Violation {
 }
 
 /**
- * The maximum number of models that may take `option` in a unit of `modelCount`
- * models: `any_number` → all models; else `per_n_models` → floor(n / per); else
- * `max_count ?? 1`; then clamped by `max_count` when set. A null constraint is
- * treated as unrestricted (every model). Never negative.
+ * The maximum number of TIMES `option` may be taken in a unit of `modelCount`
+ * models: `any_number` alone → once per model; `any_number` WITH `max_count: L`
+ * → up to L per model (a multi-take mount: "up to 2 seeker missiles", "up to
+ * three of the following, and can take duplicates"); else `per_n_models` →
+ * floor(n / per), clamped by `max_count` when set; else `max_count ?? 1`
+ * (a flat allowance). A null constraint is treated as unrestricted (every
+ * model). Never negative.
  */
 export function optionCap(
   option: WargearOption,
@@ -46,24 +49,28 @@ export function optionCap(
 ): number {
   const c = option.model_constraint;
   if (!c) return Math.max(0, modelCount);
+  // Per-model multiplicity: >1 only for the any_number+max_count multi-take
+  // shape; every other shape takes an option at most once per model.
+  const perModel = c.any_number ? (c.max_count ?? 1) : 1;
   let cap: number;
-  if (c.any_number) cap = modelCount;
+  if (c.any_number) cap = modelCount * perModel;
   else if (c.per_n_models) cap = Math.floor(modelCount / c.per_n_models);
   else cap = c.max_count ?? 1;
-  if (c.max_count != null) cap = Math.min(cap, c.max_count);
-  // Eligible-model clamp: an option scoped to a named model profile can be taken by
-  // no more models than exist of that profile — a lone champion caps the swap at 1
-  // even when `per_n_models` would allow more. The composition row name is the
-  // authority (it and the option's `model_name` both come from the dump miniature);
-  // a name with no matching row leaves the cap unclamped (never over-restrict).
+  if (!c.any_number && c.max_count != null) cap = Math.min(cap, c.max_count);
+  // Eligible-model clamp: an option scoped to a named model profile can be taken
+  // by no more models than exist of that profile (× the per-model multiplicity) —
+  // a lone champion caps the swap at 1 even when `per_n_models` would allow more.
+  // The composition row name is the authority (it and the option's `model_name`
+  // both come from the dump miniature); a name with no matching row leaves the
+  // cap unclamped (never over-restrict).
   if (c.model_name && models?.length) {
     const eligible = eligibleModelCount(models, modelCount, c.model_name);
-    if (eligible != null) cap = Math.min(cap, eligible);
+    if (eligible != null) cap = Math.min(cap, eligible * perModel);
   }
-  // A swap is per-model: at most one per model, so never more than modelCount —
-  // a `max_count` larger than the current squad size (e.g. a flat BSData cap of 6
-  // on a 5-model unit) must not drive a weapon count negative.
-  return Math.max(0, Math.min(cap, modelCount));
+  // At most `perModel` takes per model, so never more than modelCount × perModel —
+  // a flat `max_count` larger than the current squad size (e.g. a flat BSData cap
+  // of 6 on a 5-model unit) must not drive a swapped weapon count negative.
+  return Math.max(0, Math.min(cap, modelCount * perModel));
 }
 
 /**
@@ -298,13 +305,22 @@ export function weaponBounds(
       bounds.set(id, { min: Math.max(0, b.min - cap), max: b.max });
     }
     // A replacement id can appear in multiple options / both choice branches;
-    // sum the caps so its ceiling reflects every way to add it.
-    const adds = new Set<string>();
-    for (const id of option.replacement ?? []) adds.add(id);
-    for (const group of option.replacement_choice ?? []) for (const id of group) adds.add(id);
-    for (const id of adds) {
+    // sum the caps so its ceiling reflects every way to add it. Within one
+    // branch, multiplicity counts: a twin-mount swap authored
+    // ['lascannon','lascannon'] adds TWO per take (maximalLoadout already
+    // honors this — collapsing to a Set here capped every paired sponson,
+    // Forgefiend ectoplasma, and 2-particle-beamer Spyder at half its legal
+    // count). Across branches an id's ceiling uses its largest single branch.
+    const addMult = new Map<string, number>();
+    const branches = option.replacement ? [option.replacement] : (option.replacement_choice ?? []);
+    for (const group of branches) {
+      const per = new Map<string, number>();
+      for (const id of group) per.set(id, (per.get(id) ?? 0) + 1);
+      for (const [id, n] of per) addMult.set(id, Math.max(addMult.get(id) ?? 0, n));
+    }
+    for (const [id, n] of addMult) {
       const b = bounds.get(id) ?? { min: 0, max: 0 };
-      bounds.set(id, { min: b.min, max: b.max + cap });
+      bounds.set(id, { min: b.min, max: b.max + cap * n });
     }
   }
   // A single-weapon flat budget caps the weapon's ceiling regardless of how many
@@ -866,8 +882,15 @@ function swapConflicts(
     for (const o of options) {
       const replaces: readonly string[] = o.replaces ?? [];
       if (!replaces.includes(base)) continue;
-      // Only a plain, single-target swap of this exact base weapon is unambiguous.
-      if (replaces.length !== 1 || (o.replacement_choice?.length ?? 0) > 0) {
+      // Only a plain, single-target, single-item swap of this exact base weapon
+      // is unambiguous. A 1→N bundle (Lychguard warscythe → shield + sword)
+      // yields TWO added copies per freed slot — summing each against the slot
+      // pool double-counts every bundle swap, so it stays on the looser bounds.
+      if (
+        replaces.length !== 1 ||
+        (o.replacement_choice?.length ?? 0) > 0 ||
+        (o.replacement?.length ?? 0) > 1
+      ) {
         messy = true;
         break;
       }
@@ -880,7 +903,11 @@ function swapConflicts(
       }
       if (messy) break;
     }
-    if (messy || cleanAdds.size === 0) continue;
+    // A base weapon that is itself ADDABLE by another option lives on several
+    // models' slots at once (the Krieg power weapon: the Commissar's default
+    // AND a Veteran's chainsword upgrade) — the single-slot pool can't attribute
+    // its copies, so it too stays on the per-id bounds.
+    if (messy || cleanAdds.size === 0 || (addedBy.get(base) ?? 0) > 0) continue;
     // The slot can hold at most as many weapons as there are models carrying this
     // base weapon by default — its base count (modelCount when not per-model).
     const cap = baseMap.get(base) ?? modelCount;
