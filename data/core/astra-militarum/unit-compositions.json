@@ -252,39 +252,68 @@
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Cadian Sergeant",
-        "profile_name": "Cadian Shock Trooper",
+        "name": "Shock Trooper Sergeant",
         "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "laspistol-cadian-shock-troops",
-          "close-combat-weapon-cadian-shock-troops"
-        ],
+        "max": 2,
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "laspistol-cadian-shock-troops",
+          "chainsword-cadian-shock-troops"
+        ]
       },
       {
-        "name": "Cadian Shock Trooper",
+        "name": "Shock Trooper",
         "min": 9,
-        "max": 19,
-        "default_weapon_ids": [
-          "lasgun",
-          "close-combat-weapon-cadian-shock-troops"
-        ],
+        "max": 18,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "lasgun",
+          "close-combat-weapon-cadian-shock-troops"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shock Trooper Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Shock Trooper",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Shock Trooper Sergeant",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Shock Trooper",
+            "min": 18,
+            "max": 18
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "militarum-tempestus-command-squad",
@@ -381,24 +410,24 @@
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Tempestor",
-        "profile_name": "Tempestus Aquilon",
+        "name": "Tempestor Aquilon",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "hot-shot-laspistol",
-          "close-combat-weapon-tempestus-aquilons"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 28.5
-        }
+        },
+        "default_weapon_ids": [
+          "hot-shot-lascarbine",
+          "sentry-flamer",
+          "close-combat-weapon-tempestus-aquilons"
+        ]
       },
       {
         "name": "Tempestus Aquilon",
-        "min": 9,
-        "max": 9,
+        "min": 8,
+        "max": 8,
         "default_weapon_ids": [
           "hot-shot-lascarbine",
           "close-combat-weapon-tempestus-aquilons"
@@ -408,12 +437,47 @@
           "shape": "round",
           "diameter": 28.5
         }
+      },
+      {
+        "name": "Gunfighter",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 28.5
+        },
+        "default_weapon_ids": [
+          "hot-shot-lascarbine",
+          "close-combat-weapon-tempestus-aquilons"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Tempestor Aquilon",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Tempestus Aquilon",
+            "min": 8,
+            "max": 8
+          },
+          {
+            "name": "Gunfighter",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "krieg-heavy-weapons-squad",
@@ -475,20 +539,44 @@
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Ratlings",
+        "name": "Ratling Sniper",
         "min": 5,
         "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "sniper-rifle",
+          "close-combat-weapon-ratlings"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Ratling Sniper",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Ratling Sniper",
+            "min": 6,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-battle-tank",
@@ -1674,24 +1762,23 @@
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Watchmaster",
-        "profile_name": "Death Korps Trooper",
+        "name": "Death Korps Watchmaster",
         "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "laspistol-death-korps-of-krieg",
-          "close-combat-weapon-death-korps-of-krieg"
-        ],
+        "max": 2,
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "laspistol-death-korps-of-krieg",
+          "chainsword-death-korps-of-krieg"
+        ]
       },
       {
         "name": "Death Korps Trooper",
         "min": 9,
-        "max": 19,
+        "max": 18,
         "default_weapon_ids": [
           "lasgun",
           "close-combat-weapon-death-korps-of-krieg"
@@ -1706,7 +1793,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Death Korps Watchmaster",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Death Korps Trooper",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Death Korps Watchmaster",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Death Korps Trooper",
+            "min": 18,
+            "max": 18
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "banesword",
@@ -1794,10 +1911,10 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "hunting-lance",
-          "steeds-hooves",
           "lasgun",
-          "laspistol-attilan-rough-riders"
+          "laspistol-attilan-rough-riders",
+          "hunting-lance",
+          "steeds-hooves"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -1807,25 +1924,57 @@
         }
       },
       {
-        "name": "Attilan Rough Rider",
+        "name": "Rough Rider",
         "min": 4,
         "max": 9,
-        "default_weapon_ids": [
-          "laspistol-attilan-rough-riders",
-          "hunting-lance"
-        ],
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "oval",
           "width": 60,
           "length": 35.5
-        }
+        },
+        "default_weapon_ids": [
+          "lasgun",
+          "laspistol-attilan-rough-riders",
+          "hunting-lance",
+          "steeds-hooves"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Rough Rider Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Rough Rider",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Rough Rider Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Rough Rider",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hellhound",
@@ -2283,39 +2432,68 @@
     "faction_id": "astra-militarum",
     "models": [
       {
-        "name": "Catachan Sergeant",
-        "profile_name": "Catachan Jungle Fighter",
+        "name": "Jungle Fighter Sergeant",
         "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "laspistol-catachan-jungle-fighters",
-          "close-combat-weapon-catachan-jungle-fighters"
-        ],
+        "max": 2,
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "laspistol-catachan-jungle-fighters",
+          "close-combat-weapon-catachan-jungle-fighters"
+        ]
       },
       {
-        "name": "Catachan Jungle Fighter",
+        "name": "Jungle Fighter",
         "min": 9,
-        "max": 19,
-        "default_weapon_ids": [
-          "lasgun",
-          "close-combat-weapon-catachan-jungle-fighters"
-        ],
+        "max": 18,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "lasgun",
+          "close-combat-weapon-catachan-jungle-fighters"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Jungle Fighter Sergeant",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Jungle Fighter",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Jungle Fighter Sergeant",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Jungle Fighter",
+            "min": 18,
+            "max": 18
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "leman-russ-commander",

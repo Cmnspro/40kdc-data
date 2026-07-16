@@ -975,8 +975,9 @@ async function runCompositionNamesCmd(dump: MfmDump, write: boolean, onlyDir?: s
     report.dirs.reduce((a, d) => a + f(d), 0);
   console.log(
     `Composition names — matched ${sum((d) => d.matched)}, rows renamed ${sum((d) => d.rowsRenamed)}, ` +
-      `skipped (structure differs) ${report.skipped.length}.`,
+      `units rebuilt from dump ${sum((d) => d.unitsRebuilt)}, skipped (kill-team shape) ${report.skipped.length}.`,
   );
+  for (const n of report.notes) console.log(`  note [${n.dir}/${n.id}] ${n.note}`);
   if (report.skipped.length) {
     fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
     fs.writeFileSync(

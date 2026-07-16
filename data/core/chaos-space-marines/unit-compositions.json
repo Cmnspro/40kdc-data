@@ -110,39 +110,69 @@
     "faction_id": "chaos-space-marines",
     "models": [
       {
-        "name": "Nemesis Champion",
-        "profile_name": "Nemesis Claw",
+        "name": "Visionary",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "bolt-pistol",
-          "accursed-weapon"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
-      },
-      {
-        "name": "Nemesis Claw",
-        "min": 4,
-        "max": 9,
+        },
         "default_weapon_ids": [
           "bolt-pistol",
-          "close-combat-weapon"
-        ],
+          "nostraman-chainblade"
+        ]
+      },
+      {
+        "name": "Legionary",
+        "min": 4,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "bolt-pistol",
+          "boltgun",
+          "close-combat-weapon"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Visionary",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Legionary",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Visionary",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Legionary",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sorcerer",
@@ -189,8 +219,8 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "commune-stave",
-          "autopistol"
+          "autopistol",
+          "commune-stave"
         ],
         "is_leader_model": true,
         "base_size_mm": {
@@ -199,26 +229,13 @@
         }
       },
       {
-        "name": "Blessed Blade",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "commune-blade"
-        ],
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 28.5
-        }
-      },
-      {
         "name": "Mindwitch",
         "profile_name": "Cult Demagogue",
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "close-combat-weapon-dark-commune",
-          "warp-curse"
+          "warp-curse",
+          "close-combat-weapon-dark-commune"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -232,9 +249,9 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "chaos-icon",
           "autopistol",
-          "close-combat-weapon-dark-commune"
+          "close-combat-weapon-dark-commune",
+          "chaos-icon"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -243,24 +260,49 @@
         }
       },
       {
-        "name": "Accursed Mutant",
-        "profile_name": "Blessed Blade",
-        "min": 1,
-        "max": 1,
+        "name": "Blessed Blade",
+        "min": 2,
+        "max": 2,
         "default_weapon_ids": [
-          "close-combat-weapon-dark-commune"
+          "commune-blade"
         ],
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
-          "diameter": 32
+          "diameter": 28.5
         }
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cult Demagogue",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Mindwitch",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Iconarch",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Blessed Blade",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "master-of-possession",
@@ -1296,41 +1338,70 @@
     "faction_id": "chaos-space-marines",
     "models": [
       {
-        "name": "Corsair Champion",
-        "profile_name": "Red Corsair",
+        "name": "Red Corsairs Raider Champion",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "boltgun",
-          "bolt-pistol",
-          "reavers-blade"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
-      },
-      {
-        "name": "Red Corsair",
-        "min": 4,
-        "max": 9,
+        },
         "default_weapon_ids": [
           "boltgun",
           "bolt-pistol",
           "reavers-blade"
-        ],
+        ]
+      },
+      {
+        "name": "Red Corsairs Raider",
+        "min": 4,
+        "max": 9,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 32
-        }
+        },
+        "default_weapon_ids": [
+          "boltgun",
+          "bolt-pistol",
+          "reavers-blade"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Red Corsairs Raider Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Red Corsairs Raider",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Red Corsairs Raider Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Red Corsairs Raider",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "master-of-executions",
@@ -1538,24 +1609,54 @@
         }
       },
       {
-        "name": "Cultist",
+        "name": "Chaos Cultist",
         "min": 9,
         "max": 19,
-        "default_weapon_ids": [
-          "autogun",
-          "close-combat-weapon"
-        ],
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 25
-        }
+        },
+        "default_weapon_ids": [
+          "autopistol",
+          "brutal-assault-weapon"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Cultist Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chaos Cultist",
+            "min": 9,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Cultist Champion",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Chaos Cultist",
+            "min": 10,
+            "max": 19
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "chaos-lord",

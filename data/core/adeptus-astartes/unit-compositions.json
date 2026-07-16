@@ -179,20 +179,62 @@
     "faction_id": "adeptus-astartes",
     "models": [
       {
-        "name": "Sword Brethren Squad",
+        "name": "Sword Brother",
         "min": 4,
         "max": 10,
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "heavy-bolt-pistol",
+          "astartes-chainsword"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sword Brother",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sword Brother",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sword Brother",
+            "min": 6,
+            "max": 9
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sword Brother",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "crusader-squad",
@@ -7351,7 +7393,7 @@
     "faction_id": "adeptus-astartes",
     "models": [
       {
-        "name": "Fenrisian Wolves",
+        "name": "Fenrisian Wolf",
         "min": 5,
         "max": 10,
         "is_leader_model": false,
@@ -7367,7 +7409,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Fenrisian Wolf",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Fenrisian Wolf",
+            "min": 6,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "wolf-priest",
@@ -7762,7 +7824,7 @@
     "faction_id": "adeptus-astartes",
     "models": [
       {
-        "name": "Wulfen with Storm Shields",
+        "name": "Wulfen",
         "min": 5,
         "max": 10,
         "is_leader_model": false,
@@ -7771,7 +7833,7 @@
           "diameter": 40
         },
         "default_weapon_ids": [
-          "storm-shield",
+          "death-totem",
           "thunder-hammer-wulfen-with-storm-shields"
         ]
       }
@@ -7779,7 +7841,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Wulfen",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Wulfen",
+            "min": 6,
+            "max": 10
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "bjorn-the-fell-handed",

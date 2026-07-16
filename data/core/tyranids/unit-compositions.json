@@ -1888,7 +1888,7 @@
     "faction_id": "tyranids",
     "models": [
       {
-        "name": "Carnifexes",
+        "name": "Carnifex",
         "min": 1,
         "max": 2,
         "is_leader_model": false,
@@ -1896,13 +1896,38 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "carnifex-scything-talons",
+          "carnifex-extra-scything-talons",
+          "chitinous-claws-and-teeth-carnifexes"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Carnifex",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Carnifex",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "hive-tyrant",

@@ -2009,19 +2009,32 @@ export function runWargearCosts(dump: MfmDump, onlyDir?: string): WargearCostsRe
 }
 
 export interface CompNamesReport {
-  dirs: { dir: string; matched: number; rowsRenamed: number }[];
+  dirs: { dir: string; matched: number; rowsRenamed: number; unitsRebuilt: number }[];
   skipped: { dir: string; id: string; reason: string }[];
+  notes: { dir: string; id: string; note: string }[];
   staged: StagedWrite[];
 }
 
 /**
- * Align each unit's composition row **names** to its home-faction dump view, so a
- * shared chassis whose composition was built from another faction's view (e.g. WE
- * Chaos Terminators carrying the Emperor's Children "Chaos Terminator" name) matches
- * the home-view options' `model_name` — which is what the eligible-model clamp keys
- * on. Conservative: renames only when the repo composition corresponds 1:1 to the
- * dump view (same row count, same `min`/`max` sequence); otherwise the unit is left
- * untouched and reported, never mangled. Only `name` changes.
+ * Align each unit's composition **model rows** to its home-faction dump view —
+ * the dump is authoritative for row names, counts, and per-model defaults, and
+ * the options' `model_name` (which the eligible-model clamp keys on) comes from
+ * the same dump miniatures, so a diverged composition breaks the clamp AND the
+ * loadout maths.
+ *
+ * Three escalating paths per unit:
+ *   1. **Rename** — the repo rows correspond 1:1 to the dump view (same row
+ *      count, same `min`/`max` sequence): only `name` changes.
+ *   2. **Rebuild** — the rows diverge (a stale 10e shape like Cultist Mob's
+ *      autogun row, phantom variant rows like the Horrors' Iridescent/Brimstone,
+ *      a missing 2-sergeant tier row): the model list is rebuilt from the dump's
+ *      composition — dump name/min/max, defaults from the dump base loadout —
+ *      preserving `base_size_mm`/`is_leader_model` (and any other hand-authored
+ *      field) from the old row when one maps by normalized name, else inheriting
+ *      the siblings' uniform base and the singleton-leader heuristic.
+ *   3. **Skip** — the dump view itself repeats a display name (the kill-team
+ *      per-slot shape, e.g. Decimus' five distinct "Deathwatch Veteran" rows):
+ *      the repo's one-row-per-name model cannot express it; reported untouched.
  */
 export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesReport {
   const dirs = repoDirs();
@@ -2036,6 +2049,7 @@ export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesR
 
   const reportDirs: CompNamesReport["dirs"] = [];
   const skipped: CompNamesReport["skipped"] = [];
+  const notes: CompNamesReport["notes"] = [];
   const staged: StagedWrite[] = [];
   for (const dir of [...dirs].sort()) {
     if (onlyDir && dir !== onlyDir) continue;
@@ -2046,13 +2060,33 @@ export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesR
     for (const c of comps)
       (compsByUnit.get(c.unit_id) ?? compsByUnit.set(c.unit_id, []).get(c.unit_id)!).push(c);
 
+    // Resolver mirroring runWargearBudgets, so rebuilt defaults resolve
+    // identically to the wargear pass.
+    const upath = path.join(CORE_DIR, dir, "units.json");
+    const units = fs.existsSync(upath) ? readJsonArray<UnitRecord>(upath) : [];
+    const wopts = readJsonArray<WargearOptionRecord>(path.join(CORE_DIR, dir, "wargear-options.json"));
+    const validIds = new Set<string>(
+      readJsonArray<{ id?: string }>(path.join(CORE_DIR, dir, "weapons.json")).map((w) => w.id ?? ""),
+    );
+    for (const u of units) for (const id of u.weapon_ids ?? []) validIds.add(id);
+    for (const o of wopts) {
+      for (const id of o.replaces ?? []) validIds.add(id);
+      for (const id of o.replacement ?? []) validIds.add(id);
+      for (const g of o.replacement_choice ?? []) for (const id of g) validIds.add(id);
+    }
+    const autoResolved: AutoResolution[] = [];
+    const resolve = makeResolver(validIds, autoResolved, WEAPON_ALIASES[dir] ?? {});
+    const unitById = new Map(units.map((u) => [u.id, u]));
+
     const dsList = (byDir.get(dir) ?? [])
       .slice()
       .sort((a, b) => homeScore(dump, a, dir) - homeScore(dump, b, dir));
     const matchedRepoIds = new Set<string>();
     let matched = 0;
     let rowsRenamed = 0;
+    let unitsRebuilt = 0;
     let changed = false;
+    let unitsFileChanged = false;
     for (const ds of dsList) {
       const name = dump.enName(ds);
       if (!name) continue;
@@ -2067,29 +2101,182 @@ export function runCompositionNames(dump: MfmDump, onlyDir?: string): CompNamesR
       matched++;
       const view = dumpComposition(dump, ds.id!);
       if (!view.length) continue;
+      const agg = aggregateComposition(dump, ds.id!);
+      if (agg.skip === "duplicate-names") {
+        skipped.push({ dir, id, reason: "kill-team duplicate-name shape — cannot rebuild" });
+        continue;
+      }
+      const unitResolve = unitScopedResolver(validIds, autoResolved, dir, id, resolve);
+      const { byName: defaultsByModel } = deriveDefaults(dump, ds.id!, unitResolve, [], []);
+      // Reviewed always-on additions ride on top of the dump defaults, exactly
+      // as runWargear applies them (a refresh must not drop a support turret).
+      const withManual = (rowName: string, ids: string[] | undefined): string[] | undefined => {
+        const add = MANUAL_DEFAULTS[dir]?.[id]?.[rowName] ?? [];
+        if (!ids?.length) return add.length ? [...add] : ids;
+        return [...ids, ...add.filter((x) => !ids.includes(x))];
+      };
       for (const comp of compsByUnit.get(id) ?? []) {
-        if (comp.models.length !== view.length) {
-          skipped.push({ dir, id, reason: `row count ${comp.models.length} ≠ dump ${view.length}` });
-          continue;
-        }
-        const aligns = comp.models.every((m, i) => m.min === view[i].min && m.max === view[i].max);
-        if (!aligns) {
-          skipped.push({ dir, id, reason: "min/max sequence differs from dump view" });
-          continue;
-        }
-        for (let i = 0; i < comp.models.length; i++) {
-          if (comp.models[i].name !== view[i].name) {
-            comp.models[i].name = view[i].name;
-            rowsRenamed++;
+        // Names map cleanly onto the dump view (identical, or drifting only by
+        // pluralisation/punctuation) → rename + refresh defaults, leaving the
+        // counts alone: composition-tiers owns min/max (it sets the envelope,
+        // which deliberately differs from the default view — comparing counts
+        // here would re-flag every tiered unit as diverged on each run).
+        const mapped = matchNamesNormalized(
+          comp.models.map((m) => m.name),
+          view.map((d) => d.name),
+        );
+        if (mapped) {
+          for (let i = 0; i < comp.models.length; i++) {
+            if (comp.models[i].name !== mapped[i]) {
+              comp.models[i].name = mapped[i];
+              rowsRenamed++;
+              changed = true;
+            }
+          }
+          // Refresh defaults from the dump — but never strand a weapon only the
+          // old defaults reached (The Silent King's sceptre is hand-authored;
+          // the dump base group doesn't carry it): a row whose replacement
+          // would orphan keeps its current defaults.
+          const proposed = comp.models.map((m) =>
+            withManual(m.name, defaultsByModel.get(m.name)),
+          );
+          const reachable = new Set<string>();
+          proposed.forEach((def, i) => {
+            for (const wid of def?.length ? def : comp.models[i].default_weapon_ids ?? []) {
+              reachable.add(wid);
+            }
+          });
+          for (const o of wopts) {
+            if (o.unit_id !== id) continue;
+            for (const wid of o.replaces ?? []) reachable.add(wid);
+            for (const wid of o.replacement ?? []) reachable.add(wid);
+            for (const g of o.replacement_choice ?? []) for (const wid of g) reachable.add(wid);
+          }
+          const unitWeapons = new Set(unitById.get(id)?.weapon_ids ?? []);
+          for (let i = 0; i < comp.models.length; i++) {
+            const def = proposed[i];
+            if (!def?.length || sameMultiset(comp.models[i].default_weapon_ids ?? [], def)) continue;
+            const strands = (comp.models[i].default_weapon_ids ?? []).some(
+              (wid) => unitWeapons.has(wid) && !reachable.has(wid),
+            );
+            if (strands) {
+              notes.push({
+                dir,
+                id,
+                note: `kept "${comp.models[i].name}" defaults — dump refresh would orphan a weapon only they reach`,
+              });
+              continue;
+            }
+            comp.models[i].default_weapon_ids = def;
             changed = true;
           }
+          continue;
         }
+
+        // Names don't map → genuinely diverged shape (stale rows, phantom
+        // variants, missing figures) → rebuild from the dump view, counts from
+        // the all-tiers envelope so composition-tiers agrees.
+        const oldByNorm = new Map(comp.models.map((m) => [normModelName(m.name), m]));
+
+        // Dropping a repo-only row must not orphan a weapon it alone reaches
+        // (kill-team weapon-variant rows at min 0, the Horrors' split weapons):
+        // such units model MORE than the dump's default view — skip, report.
+        const keptCoverage = new Set<string>();
+        for (const d of view) {
+          for (const wid of defaultsByModel.get(d.name) ?? []) keptCoverage.add(wid);
+          const old = oldByNorm.get(normModelName(d.name));
+          for (const wid of old?.default_weapon_ids ?? []) keptCoverage.add(wid);
+        }
+        for (const o of wopts) {
+          if (o.unit_id !== id) continue;
+          for (const wid of o.replaces ?? []) keptCoverage.add(wid);
+          for (const wid of o.replacement ?? []) keptCoverage.add(wid);
+          for (const g of o.replacement_choice ?? []) for (const wid of g) keptCoverage.add(wid);
+        }
+        const stranded = [
+          ...new Set(
+            comp.models
+              .filter((m) => !view.some((d) => normModelName(d.name) === normModelName(m.name)))
+              .flatMap((m) => m.default_weapon_ids ?? [])
+              .filter((wid) => !keptCoverage.has(wid)),
+          ),
+        ].sort();
+        if (stranded.length) {
+          // The dump arbitrates: a stranded id the dump's datasheet KNOWS is a
+          // deliberately-richer repo modeling (kill-team weapon-variant rows) —
+          // keep the skip. One the dump has NO trace of is stale residue from an
+          // earlier edition's loadout — drop it from `weapon_ids` and rebuild.
+          const dsItemIds = new Set<string>();
+          const woByGroup = dump.groupBy("wargear_option", "wargearOptionGroupId");
+          for (const g of dump.groupBy("wargear_option_group", "datasheetId").get(ds.id!) ?? []) {
+            for (const o of woByGroup.get(g.id) ?? []) {
+              const wid = unitResolve(dump.enName(dump.byId("wargear_item").get(o.wargearItemId)) ?? "");
+              if (wid) dsItemIds.add(wid);
+            }
+          }
+          const dumpKnown = stranded.filter((wid) => dsItemIds.has(wid));
+          if (dumpKnown.length) {
+            skipped.push({
+              dir,
+              id,
+              reason: `rebuild would orphan ${dumpKnown.join(", ")} — repo models more than the dump's default view`,
+            });
+            continue;
+          }
+          const unit = unitById.get(id);
+          if (unit?.weapon_ids?.some((wid) => stranded.includes(wid))) {
+            unit.weapon_ids = unit.weapon_ids.filter((wid) => !stranded.includes(wid));
+            unitsFileChanged = true;
+            notes.push({
+              dir,
+              id,
+              note: `dropped stale weapon_ids the dump datasheet has no trace of: ${stranded.join(", ")}`,
+            });
+          }
+        }
+        const sibBases = comp.models
+          .map((m) => (m as { base_size_mm?: BaseSize }).base_size_mm)
+          .filter((b): b is BaseSize => !!b);
+        const uniform =
+          sibBases.length &&
+          sibBases.every((b) => JSON.stringify(b) === JSON.stringify(sibBases[0]))
+            ? sibBases[0]
+            : (unitById.get(id) as { base_size_mm?: BaseSize } | undefined)?.base_size_mm;
+
+        const rebuilt: CompModel[] = view.map((d) => {
+          const env = agg.envelope.get(d.name);
+          const min = env?.min ?? d.min;
+          const max = env?.max ?? d.max;
+          const old = oldByNorm.get(normModelName(d.name));
+          const row: CompModel = old ? { ...old, name: d.name, min, max } : { name: d.name, min, max };
+          if (!old) {
+            row.is_leader_model = d.max === 1 && view.some((x) => x.name !== d.name && x.max > 1);
+            if (uniform) (row as { base_size_mm?: BaseSize }).base_size_mm = uniform;
+          }
+          const def = withManual(d.name, defaultsByModel.get(d.name));
+          if (def?.length) row.default_weapon_ids = def;
+          return row;
+        });
+        const droppedRows = comp.models.filter(
+          (m) => !view.some((d) => normModelName(d.name) === normModelName(m.name)),
+        );
+        if (droppedRows.length) {
+          notes.push({
+            dir,
+            id,
+            note: `rebuild dropped repo-only row(s): ${droppedRows.map((m) => m.name).join(", ")}`,
+          });
+        }
+        comp.models = rebuilt;
+        unitsRebuilt++;
+        changed = true;
       }
     }
     if (changed) staged.push({ path: cpath, value: comps });
-    reportDirs.push({ dir, matched, rowsRenamed });
+    if (unitsFileChanged) staged.push({ path: upath, value: units });
+    reportDirs.push({ dir, matched, rowsRenamed, unitsRebuilt });
   }
-  return { dirs: reportDirs, skipped, staged };
+  return { dirs: reportDirs, skipped, notes, staged };
 }
 
 export interface CompTiersReport {

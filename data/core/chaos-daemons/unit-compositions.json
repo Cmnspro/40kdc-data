@@ -232,7 +232,7 @@
     "faction_id": "chaos-daemons",
     "models": [
       {
-        "name": "Nurglings",
+        "name": "Nurgling Swarm",
         "min": 3,
         "max": 6,
         "is_leader_model": false,
@@ -248,7 +248,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Nurgling Swarm",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Nurgling Swarm",
+            "min": 4,
+            "max": 6
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "bloodmaster",
