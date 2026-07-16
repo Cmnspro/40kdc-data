@@ -80,6 +80,21 @@ fn resolved(id: &str, raw_name: &str) -> ResolvedRef {
     }
 }
 
+/// Split a dual-detachment line on its " and " / comma joiners (the resolve-time
+/// fallback's tokenizer; see the detachment loop in [`resolve`]).
+fn split_detachment_parts(raw: &str) -> Vec<&str> {
+    let mut out = Vec::new();
+    for chunk in raw.split(',') {
+        for part in chunk.split(" and ") {
+            let t = part.trim();
+            if !t.is_empty() {
+                out.push(t);
+            }
+        }
+    }
+    out
+}
+
 /// Map a source battle-size label to the 40kdc enum, if recognisable.
 fn map_battle_size(raw: Option<&str>) -> Option<BattleSize> {
     let key = normalize_name(raw?);
@@ -155,36 +170,51 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
     // 11e lists may field several detachments under a detachment-point cap; the
     // list preserves source order. `dp_cost` is looked up from the resolved
     // detachment entity (no source format reports it).
-    let detachments: Vec<RosterDetachment> = parsed
-        .detachment_raw_names
-        .iter()
-        .map(|raw| {
-            let key = normalize_name(raw);
-            let scoped = faction_id.as_deref().and_then(|f| {
-                ds.detachments
-                    .by_faction(f)
-                    .into_iter()
-                    .find(|d| normalize_name(&d.name) == key)
-            });
-            let hit = scoped.or_else(|| ds.detachments.find(raw));
-            if let Some(hit) = hit {
-                RosterDetachment {
-                    ref_: resolved(hit.id.as_str(), raw),
-                    dp_cost: hit.detachment_points.map(|n| n.get()),
-                }
-            } else {
-                diag.warn(
-                    WarningCode::DetachmentUnresolved,
-                    "Detachment name did not match any 40kdc detachment.",
-                    Some(raw),
-                );
-                RosterDetachment {
-                    ref_: unresolved(raw, detachment_candidates(&ds.detachments.find_all(raw))),
-                    dp_cost: None,
-                }
-            }
+    let resolve_detachment = |raw: &str| -> Option<RosterDetachment> {
+        let key = normalize_name(raw);
+        let scoped = faction_id.as_deref().and_then(|f| {
+            ds.detachments
+                .by_faction(f)
+                .into_iter()
+                .find(|d| normalize_name(&d.name) == key)
+        });
+        let hit = scoped.or_else(|| ds.detachments.find(raw))?;
+        Some(RosterDetachment {
+            ref_: resolved(hit.id.as_str(), raw),
+            dp_cost: hit.detachment_points.map(|n| n.get()),
         })
-        .collect();
+    };
+    let mut detachments: Vec<RosterDetachment> = Vec::new();
+    for raw in &parsed.detachment_raw_names {
+        if let Some(whole) = resolve_detachment(raw) {
+            detachments.push(whole);
+            continue;
+        }
+        // Dual-detachment 11e lists print both names on one line joined with
+        // " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+        // ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+        // RESOLVE-TIME fallback, taken only when the whole name fails and every
+        // part resolves — "Legends of Saga and Song" is a real single-detachment
+        // name a lexical split would corrupt.
+        let parts = split_detachment_parts(raw);
+        if parts.len() > 1 {
+            let split: Vec<Option<RosterDetachment>> =
+                parts.iter().map(|p| resolve_detachment(p)).collect();
+            if split.iter().all(Option::is_some) {
+                detachments.extend(split.into_iter().flatten());
+                continue;
+            }
+        }
+        diag.warn(
+            WarningCode::DetachmentUnresolved,
+            "Detachment name did not match any 40kdc detachment.",
+            Some(raw),
+        );
+        detachments.push(RosterDetachment {
+            ref_: unresolved(raw, detachment_candidates(&ds.detachments.find_all(raw))),
+            dp_cost: None,
+        });
+    }
     let detachment_ids: Vec<String> = detachments
         .iter()
         .filter_map(|d| d.ref_.id.clone())

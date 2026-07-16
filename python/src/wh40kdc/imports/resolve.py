@@ -15,6 +15,7 @@ Python mirror of ``tools/src/import/resolve.ts``.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from wh40kdc.data.dataset import Dataset
@@ -210,8 +211,7 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
     # 11e lists may field several detachments under a detachment-point cap; the
     # list preserves source order. ``dp_cost`` is looked up from the resolved
     # detachment entity (no source format reports it).
-    detachments: list[dict[str, Any]] = []
-    for raw_name in parsed["detachment_raw_names"]:
+    def resolve_detachment(raw_name: str) -> dict[str, Any] | None:
         key = normalize_name(raw_name)
         scoped = None
         if faction_id:
@@ -224,22 +224,39 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
                 None,
             )
         hit = scoped if scoped is not None else ds.detachments.find(raw_name)
-        if hit is not None:
-            detachments.append(
-                {"ref": _resolved(hit["id"], raw_name), "dp_cost": hit.get("detachment_points")}
-            )
-        else:
-            diag.warn(
-                "detachment-unresolved",
-                "Detachment name did not match any 40kdc detachment.",
-                raw_name,
-            )
-            detachments.append(
-                {
-                    "ref": _unresolved(raw_name, _to_candidates(ds.detachments.find_all(raw_name))),
-                    "dp_cost": None,
-                }
-            )
+        if hit is None:
+            return None
+        return {"ref": _resolved(hit["id"], raw_name), "dp_cost": hit.get("detachment_points")}
+
+    detachments: list[dict[str, Any]] = []
+    for raw_name in parsed["detachment_raw_names"]:
+        whole = resolve_detachment(raw_name)
+        if whole is not None:
+            detachments.append(whole)
+            continue
+        # Dual-detachment 11e lists print both names on one line joined with
+        # " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+        # ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+        # RESOLVE-TIME fallback, taken only when the whole name fails and every
+        # part resolves — "Legends of Saga and Song" is a real single-detachment
+        # name a lexical split would corrupt.
+        parts = [p.strip() for p in re.split(r"\s+and\s+|\s*,\s*", raw_name) if p.strip()]
+        if len(parts) > 1:
+            split = [resolve_detachment(p) for p in parts]
+            if all(d is not None for d in split):
+                detachments.extend(d for d in split if d is not None)
+                continue
+        diag.warn(
+            "detachment-unresolved",
+            "Detachment name did not match any 40kdc detachment.",
+            raw_name,
+        )
+        detachments.append(
+            {
+                "ref": _unresolved(raw_name, _to_candidates(ds.detachments.find_all(raw_name))),
+                "dp_cost": None,
+            }
+        )
     detachment_ids = [d["ref"]["id"] for d in detachments if d["ref"]["id"] is not None]
 
     # --- Force Disposition. -----------------------------------------------------

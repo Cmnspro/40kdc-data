@@ -246,9 +246,7 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 	}
 	factionIDStr, _ := factionID.(string)
 
-	detachments := []any{}
-	for _, rnAny := range getList(parsed, "detachment_raw_names") {
-		rawName := rnAny.(string)
+	resolveDetachment := func(rawName string) map[string]any {
 		key := NormalizeName(rawName)
 		var scoped map[string]any
 		if factionIDStr != "" {
@@ -266,18 +264,51 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		} else if h, ok := ds.Detachments.Find(rawName); ok {
 			hit = h.(map[string]any)
 		}
-		if hit != nil {
-			detachments = append(detachments, map[string]any{
-				"ref":     refResolved(hit["id"], rawName),
-				"dp_cost": detachmentPointsOrNil(hit),
-			})
-		} else {
-			diag.warn("detachment-unresolved", "Detachment name did not match any 40kdc detachment.", rawName)
-			detachments = append(detachments, map[string]any{
-				"ref":     refUnresolved(rawName, candFromRaw(ds.Detachments.FindAll(rawName))),
-				"dp_cost": nil,
-			})
+		if hit == nil {
+			return nil
 		}
+		return map[string]any{
+			"ref":     refResolved(hit["id"], rawName),
+			"dp_cost": detachmentPointsOrNil(hit),
+		}
+	}
+	detachments := []any{}
+	for _, rnAny := range getList(parsed, "detachment_raw_names") {
+		rawName := rnAny.(string)
+		if whole := resolveDetachment(rawName); whole != nil {
+			detachments = append(detachments, whole)
+			continue
+		}
+		// Dual-detachment 11e lists print both names on one line joined with
+		// " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+		// ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+		// RESOLVE-TIME fallback, taken only when the whole name fails and every
+		// part resolves — "Legends of Saga and Song" is a real single-detachment
+		// name a lexical split would corrupt.
+		parts := splitDetachmentParts(rawName)
+		if len(parts) > 1 {
+			split := make([]map[string]any, 0, len(parts))
+			ok := true
+			for _, p := range parts {
+				d := resolveDetachment(p)
+				if d == nil {
+					ok = false
+					break
+				}
+				split = append(split, d)
+			}
+			if ok {
+				for _, d := range split {
+					detachments = append(detachments, d)
+				}
+				continue
+			}
+		}
+		diag.warn("detachment-unresolved", "Detachment name did not match any 40kdc detachment.", rawName)
+		detachments = append(detachments, map[string]any{
+			"ref":     refUnresolved(rawName, candFromRaw(ds.Detachments.FindAll(rawName))),
+			"dp_cost": nil,
+		})
 	}
 	var detachmentIDs []string
 	for _, dAny := range detachments {
@@ -579,6 +610,20 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		}
 	}
 	return result
+}
+
+// splitDetachmentParts splits a dual-detachment line on its " and " / comma
+// joiners (the resolve-time fallback's tokenizer; see the detachment loop).
+func splitDetachmentParts(raw string) []string {
+	var out []string
+	for _, chunk := range strings.Split(raw, ",") {
+		for _, part := range strings.Split(chunk, " and ") {
+			if t := strings.TrimSpace(part); t != "" {
+				out = append(out, t)
+			}
+		}
+	}
+	return out
 }
 
 // buildLoadoutGroups recomputes a unit's loadout_groups from its resolved wargear

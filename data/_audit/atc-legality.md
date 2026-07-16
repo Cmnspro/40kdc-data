@@ -21,7 +21,7 @@ is a data or checker bug, not mass cheating.
 |---|--:|
 | `weapon-unresolved` | 940 |
 | `loadout-illegal` | 633 |
-| `detachment-unresolved` | 430 |
+| `detachment-unresolved` | 230 |
 | `faction-unresolved` | 210 |
 | `leader-attachment-inferred` | 151 |
 | `unit-unresolved` | 111 |
@@ -226,48 +226,20 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 
 | raw name | count |
 |---|--:|
-| `Mont’ka (3 Detachment Points)` | 9 |
 | `++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++` | 8 |
 | `Ultramarines` | 8 |
-| `Dominus Foebreakers and Gate Warden Lance (3 Detachment Points)` | 7 |
-| `Hexwarp Thrallband and Sekhetar Cohort (3 Detachment Points)` | 7 |
 | `Space Wolves` | 7 |
-| `Ambush Predators and Vanguard Onslaught (3 Detachment Points)` | 6 |
-| `Awakened Dynasty (3 Detachment Points)` | 6 |
-| `Exhibition of Slaughter and Skysplinter Assault (3 Detachment Points)` | 5 |
-| `Green Tide and Taktikal Brigade (3 Detachment Points)` | 5 |
-| `Starshatter Arsenal (3 Detachment Points)` | 5 |
-| `Subterranean Assault (3 Detachment Points)` | 5 |
 | `Blood Angels` | 4 |
-| `Champions of Contagion and Paragons of Putrescence (3 Detachment Points)` | 4 |
 | `Factions Used: Orks` | 4 |
-| `Grand Coven (3 Detachment Points)` | 4 |
-| `Lions of the Emperor and Silent Hunters (3 Detachment Points)` | 4 |
-| `Virulent Vectorium (3 Detachment Points)` | 4 |
 | `+++++++` | 3 |
-| `Advanced Acquisition Cadre and Kauyon (3 Detachment Points)` | 3 |
-| `Berzerker Warband (3 Detachment Points)` | 3 |
-| `Carnival of Excess and Frenzied Host (3 Detachment Points)` | 3 |
-| `Crusher Stampede and Talons of the Norn Queen (3 Detachment Points)` | 3 |
-| `Cursed Legion and Skyshroud Spearhead (3 Detachment Points)` | 3 |
 | `Factions Used: Adeptus Custodes` | 3 |
 | `Factions Used: Astra Militarum` | 3 |
 | `Factions Used: T'au Empire` | 3 |
-| `Freeblade Company (3 Detachment Points)` | 3 |
-| `Lords of the Forge and Skitarii Hunter Cohort (3 Detachment Points)` | 3 |
-| `Murdertalon Raiders and Veterans of the Long War (3 Detachment Points)` | 3 |
 | `Necrons` | 3 |
-| `Scintillating Legion and Warptide (3 Detachment Points)` | 3 |
-| `Argent Assault and Banishers (3 Detachment Points)` | 2 |
-| `Armoured Trailblazers and Needgaârd Oathband (3 Detachment Points)` | 2 |
-| `Armoured Trailblazers, Farseekers, and Hearthguard Covenant (3 Detachment Points)` | 2 |
-| `Army of Faith and Sacred Champions (3 Detachment Points)` | 2 |
-| `Assimilation Swarm and Talons of the Norn Queen (3 Detachment Points)` | 2 |
+| `Armoured Trailblazers, Farseekers, and Hearthguard Covenant` | 2 |
 | `Attached Unit 1` | 2 |
 | `Dark Angels` | 2 |
 | `Deathwatch` | 2 |
-| `Designation Force and Steel Hammer (3 Detachment Points)` | 2 |
-| `Exhibition of Slaughter, Skysplinter Assault` | 2 |
 | `Factions Used: Adeptus Astartes (Dark Angels)` | 2 |
 | `Factions Used: Imperial Knights` | 2 |
 | `Factions Used: Necrons` | 2 |
@@ -275,18 +247,46 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Factions Used: World Eaters` | 2 |
 | `Force Dispositions: Reconnaissance` | 2 |
 | `Force Dispositions: Take and Hold` | 2 |
-| `Gate Warden Lance and Throne-bonded Outriders (3 Detachment Points)` | 2 |
-| `Hexwarp Thrallband and Ritual of Regeneration (3 Detachment Points)` | 2 |
-| `Infernal Lance (3 Detachment Points)` | 2 |
-| `Lions of the Emperor and Might of the Moritoi (3 Detachment Points)` | 2 |
-| `Path of the Outcast and Seer Council (3 Detachment Points)` | 2 |
-| `Rage-cursed Onslaught (3 Detachment Points)` | 2 |
-| `Ritual of Regeneration and Warpforged Cabal (3 Detachment Points)` | 2 |
-| `Sekhetar Cohort and Warpforged Cabal (3 Detachment Points)` | 2 |
-| `Shield Host and Tharanatoi Hammerblow (3 Detachment Points)` | 2 |
-| `Talons of the Emperor (3 Detachment Points)` | 2 |
 | `Team Name: Canton Warhammer` | 2 |
-| … 228 more | |
+| `Tyranids` | 2 |
+| `World Eaters` | 2 |
+| `-Factions Used: Chaos Space Marinee` | 1 |
+| `.....have...` | 1 |
+| `(1990 points)` | 1 |
+| `16 naked men walk into a bar` | 1 |
+| `1x Command-link Drone (Aura)` | 1 |
+| `1x Straight silver knife` | 1 |
+| `Air Force Gaming` | 1 |
+| `Army: Tyranids` | 1 |
+| `Astra Militarum` | 1 |
+| `Attached Units` | 1 |
+| `Battle Size: Strike Force (2000 point limit)` | 1 |
+| `Black Templars` | 1 |
+| `Brace for Impact` | 1 |
+| `Canton Warhammer` | 1 |
+| `Chaos daemons` | 1 |
+| `Chaos knights` | 1 |
+| `Chaos Knights` | 1 |
+| `Chaos Space Marines` | 1 |
+| `Death Guard` | 1 |
+| `Disposition : Reconaissance` | 1 |
+| `Disposition Selected: Priority Assets` | 1 |
+| `Disposition used: Disruption` | 1 |
+| `Disposition used: Purge the Foe` | 1 |
+| `Disposition Used: Purge the Foe (Reconnaissance)` | 1 |
+| `Disposition Used: Recon` | 1 |
+| `Disposition used: Take and hold` | 1 |
+| `Disposition: Purge` | 1 |
+| `Disruption` | 1 |
+| `Drukhari` | 1 |
+| `Emperor’s Children` | 1 |
+| `Eventually, da big boss couldn't crack every single skull 'imself—cuz dere's only so many 'eads ya can smash at once, right? So 'e needed some Nobs to do da delegatin'. 'E went out an' found da biggest, meanest boyz around—da ones dat were proper killy, but still smaller dan 'im, cuz nobody is bigger dan da Boss! 'E made 'em 'is under-bosses to keep da smaller gits in line.` | 1 |
+| `Faction Orks` | 1 |
+| `Faction Used: Necrons` | 1 |
+| `Faction Used: T'au Empire` | 1 |
+| `Faction Used: Tyranids` | 1 |
+| `Faction: Adeptus Custodes` | 1 |
+| … 120 more | |
 
 ## Unresolved names: `enhancement-unresolved`
 

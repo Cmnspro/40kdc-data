@@ -26,7 +26,7 @@
  */
 import type { FormatAdapter } from "./adapter.js";
 import type { ParsedRoster, ParsedUnit, ParsedWargear } from "./types.js";
-import { classifyWargearList, splitWargearList } from "./newrecruit-text.js";
+import { classifyWargearList, splitWargearList, stripParenthetical } from "./newrecruit-text.js";
 
 // Point brackets may carry comma-separated faction resources after the pts
 // figure (e.g. `[4485pts, 29Cabal Points]`); the tail is recognized and
@@ -203,7 +203,9 @@ export const newRecruitSimpleAdapter: FormatAdapter = {
             const key = line.slice(0, idx).trim().toLowerCase();
             const value = line.slice(idx + 1).trim();
             if (key === "battle size") battle_size_raw = value;
-            else if (key === "detachment") detachment_raw_name = value;
+            // Parenthetical suffixes ("(3 Detachment Points)") are presentation,
+            // not part of the detachment name — same strip as the WTC header.
+            else if (key === "detachment") detachment_raw_name = stripParenthetical(value);
           }
           continue;
         }

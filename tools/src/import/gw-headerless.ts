@@ -520,10 +520,13 @@ export const gwHeaderlessAdapter: FormatAdapter = {
       } else if (current === null && units.length === 0) {
         // Preamble after the title, before the first unit: faction then
         // detachment. Names are resolved (and warned on miss) downstream.
+        // The GW app (v2.0.4+) suffixes the detachment line with its cost —
+        // "Awakened Dynasty (3 Detachment Points)" — which is presentation,
+        // not part of the name; strip it so resolution sees the bare name.
         if (faction_raw_name === null) {
           faction_raw_name = line;
         } else if (detachment_raw_names.length === 0) {
-          detachment_raw_names.push(line);
+          detachment_raw_names.push(line.replace(/\s*\(\d+\s+Detachment Points?\)\s*$/i, ""));
         }
       }
     }

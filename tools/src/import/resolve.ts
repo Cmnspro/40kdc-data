@@ -121,20 +121,36 @@ export function resolve(
   // 11e lists may field several detachments under a detachment-point cap; the
   // list preserves source order. `dp_cost` is looked up from the resolved
   // detachment entity (no source format reports it).
-  const detachments: RosterDetachment[] = parsed.detachment_raw_names.map((raw_name) => {
+  const resolveDetachment = (raw_name: string): RosterDetachment | null => {
     const key = normalizeName(raw_name);
     const scoped = faction_id
       ? ds.detachments.byFaction(faction_id).find((d) => normalizeName(d.name ?? "") === key)
       : undefined;
     const hit = scoped ?? ds.detachments.find(raw_name);
-    if (hit) {
-      return { ref: resolved(hit.id, raw_name), dp_cost: hit.detachment_points ?? null };
+    if (!hit) return null;
+    return { ref: resolved(hit.id, raw_name), dp_cost: hit.detachment_points ?? null };
+  };
+  const detachments: RosterDetachment[] = parsed.detachment_raw_names.flatMap((raw_name) => {
+    const whole = resolveDetachment(raw_name);
+    if (whole) return [whole];
+    // Dual-detachment 11e lists print both names on one line joined with
+    // " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+    // ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+    // RESOLVE-TIME fallback, taken only when the whole name fails and every
+    // part resolves — "Legends of Saga and Song" is a real single-detachment
+    // name a lexical split would corrupt.
+    const parts = raw_name.split(/\s+and\s+|\s*,\s*/);
+    if (parts.length > 1) {
+      const split = parts.map((p) => resolveDetachment(p.trim()));
+      if (split.every((d): d is RosterDetachment => d !== null)) return split;
     }
     diag.warn("detachment-unresolved", "Detachment name did not match any 40kdc detachment.", raw_name);
-    return {
-      ref: unresolved(raw_name, toCandidates(ds.detachments.findAll(raw_name) as NamedRecord[])),
-      dp_cost: null,
-    };
+    return [
+      {
+        ref: unresolved(raw_name, toCandidates(ds.detachments.findAll(raw_name) as NamedRecord[])),
+        dp_cost: null,
+      },
+    ];
   });
   const detachmentIds = detachments.map((d) => d.ref.id).filter((id): id is string => id !== null);
 

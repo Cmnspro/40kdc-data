@@ -26,7 +26,7 @@ use regex::Regex;
 use serde_json::Value;
 
 use super::adapter::{FormatAdapter, ParseError};
-use super::newrecruit_text::{classify_wargear_list, split_wargear_list};
+use super::newrecruit_text::{classify_wargear_list, split_wargear_list, strip_parenthetical};
 use super::types::{ParsedRoster, ParsedUnit, ParsedWargear, RosterFormat};
 
 // Point brackets may carry comma-separated faction resources after the pts
@@ -283,7 +283,10 @@ impl FormatAdapter for NewRecruitSimpleAdapter {
                             if key == "battle size" {
                                 battle_size_raw = Some(value.to_string());
                             } else if key == "detachment" {
-                                detachment_raw_name = Some(value.to_string());
+                                // Parenthetical suffixes ("(3 Detachment Points)")
+                                // are presentation, not part of the name — same
+                                // strip as the WTC header.
+                                detachment_raw_name = Some(strip_parenthetical(value).to_string());
                             }
                         }
                     }

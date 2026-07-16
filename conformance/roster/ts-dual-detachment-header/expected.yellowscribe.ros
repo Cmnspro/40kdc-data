@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<roster id="roster0" name="Imported roster" gameSystemId="sys-352e-adc2-7639-d6a9" gameSystemName="Warhammer 40,000">
+  <forces>
+    <force id="force0" name="Thousand Sons" catalogueName="Thousand Sons">
+      <selections>
+        <selection id="unit0" name="Infernal Master" type="unit" number="1">
+          <profiles>
+            <profile name="Infernal Master" typeName="Unit">
+              <characteristics>
+                <characteristic name="M">6"</characteristic>
+                <characteristic name="T">4</characteristic>
+                <characteristic name="SV">3+</characteristic>
+                <characteristic name="W">4</characteristic>
+                <characteristic name="LD">6+</characteristic>
+                <characteristic name="OC">1</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Invulnerable Save" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">5+ invulnerable save</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Glimpse of Eternity (Psychic)" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Once per turn, this model can change Any rolls to a 6.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Leader" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit gains the Leader ability.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Malefic Maelstrom (Psychic)" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">After being attached to a unit, the unit's weapons gain [SUSTAINED HITS 1].</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <categories>
+            <category name="Faction: Thousand Sons"/>
+            <category name="Infantry"/>
+            <category name="Character"/>
+            <category name="Grenades"/>
+            <category name="Psyker"/>
+            <category name="Chaos"/>
+            <category name="Tzeentch"/>
+            <category name="Infernal Master"/>
+          </categories>
+          <selections>
+            <selection id="unit0-m0" name="Infernal Master" type="model" number="1">
+              <selections>
+                <selection id="unit0-m0-w0" name="Fires of the Abyss" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Focused witchfire" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">2D6</characteristic>
+                        <characteristic name="BS">N/A</characteristic>
+                        <characteristic name="S">6</characteristic>
+                        <characteristic name="AP">-2</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Hazardous, Psychic, Torrent</characteristic>
+                      </characteristics>
+                    </profile>
+                    <profile name="Witchfire" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">18"</characteristic>
+                        <characteristic name="A">D6</characteristic>
+                        <characteristic name="BS">N/A</characteristic>
+                        <characteristic name="S">6</characteristic>
+                        <characteristic name="AP">-2</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Psychic, Torrent</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit0-m0-w1" name="Force weapon" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Force weapon" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">4</characteristic>
+                        <characteristic name="WS">3+</characteristic>
+                        <characteristic name="S">6</characteristic>
+                        <characteristic name="AP">-1</characteristic>
+                        <characteristic name="D">D3</characteristic>
+                        <characteristic name="Keywords">Psychic</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit0-m0-w2" name="Inferno bolt pistol" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Inferno bolt pistol" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">12"</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="BS">2+</characteristic>
+                        <characteristic name="S">4</characteristic>
+                        <characteristic name="AP">-1</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Pistol</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+          </selections>
+        </selection>
+      </selections>
+    </force>
+  </forces>
+</roster>
