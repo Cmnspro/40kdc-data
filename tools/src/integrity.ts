@@ -3,7 +3,7 @@ import { glob } from "glob";
 import { resolve, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ValidationResult } from "./validate.js";
-import { baseLoadout, checkUnitLegality, type LoadoutTier } from "./data/loadout.js";
+import { baseLoadout, checkUnitLegality, type LoadoutModel, type LoadoutTier } from "./data/loadout.js";
 import type { Unit, WargearOption } from "./generated.js";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -597,17 +597,19 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
           shapes.push({ size: models.reduce((s, m) => s + (m.max ?? 0), 0), rows: models });
         }
         const options = (optionsByUnit.get(c.unit_id ?? "") ?? []) as unknown as WargearOption[];
+        const asLoadoutModels = (ms: CompModelLike[]): LoadoutModel[] =>
+          ms.map((m) => ({ ...m, min: m.min ?? 0, max: m.max ?? m.min ?? 0 }));
         const seen = new Set<number>();
         for (const { size, rows } of shapes.sort((a, b) => a.size - b.size)) {
           if (size <= 0 || seen.has(size)) continue;
           seen.add(size);
-          const stock = baseLoadout(unitRec as unknown as Unit, size, options, rows);
+          const stock = baseLoadout(unitRec as unknown as Unit, size, options, asLoadoutModels(rows));
           const violations = checkUnitLegality(
             unitRec as unknown as Unit,
             size,
             options,
             stock.counts,
-            models,
+            asLoadoutModels(models),
             tiers,
           );
           for (const v of violations) {

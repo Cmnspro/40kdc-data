@@ -15,36 +15,35 @@
   "headline": {
     "lists": 478,
     "parse_failures": 18,
-    "lists_with_violations": 282,
-    "violating_units": 948,
+    "lists_with_violations": 75,
+    "violating_units": 117,
     "warnings_by_code": {
-      "weapon-unresolved": 940,
-      "loadout-illegal": 633,
+      "weapon-unresolved": 691,
       "detachment-unresolved": 230,
       "faction-unresolved": 210,
       "leader-attachment-inferred": 151,
       "unit-unresolved": 111,
       "multi-force": 52,
+      "loadout-illegal": 33,
       "battle-size-unmapped": 8,
       "enhancement-unresolved": 8,
       "points-mismatch": 2
     },
     "violations_by_code": {
-      "exceeds-max": 605,
-      "exceeds-allowance": 366,
-      "below-min": 196,
-      "invalid-model-count": 124,
-      "swap-conflict": 118
+      "below-min": 120,
+      "exceeds-max": 58,
+      "exceeds-allowance": 7,
+      "invalid-model-count": 2
     },
     "grouping_by_outcome": {
-      "grouped": 2308,
+      "grouped": 2838,
       "unit-unresolved": 111,
-      "wargear-unresolved": 689,
-      "single-model": 3363,
-      "no-recorded-defaults": 12,
-      "solver-null": 669
+      "wargear-unresolved": 570,
+      "single-model": 3361,
+      "no-recorded-defaults": 0,
+      "solver-null": 272
     },
-    "composition_drift_units": 38
+    "composition_drift_units": 37
   },
   "parse_failures": [
     {
@@ -158,43 +157,7 @@
   ],
   "violations": [
     {
-      "key": "exceeds-max:cultist-mob",
-      "count": 92
-    },
-    {
-      "key": "exceeds-allowance:pathfinder-team",
-      "count": 55
-    },
-    {
-      "key": "swap-conflict:cultist-mob",
-      "count": 46
-    },
-    {
-      "key": "exceeds-max:rogal-dorn-commander",
-      "count": 42
-    },
-    {
-      "key": "exceeds-max:piranhas",
-      "count": 36
-    },
-    {
-      "key": "exceeds-allowance:death-company-marines-with-jump-packs",
-      "count": 35
-    },
-    {
-      "key": "exceeds-max:commander-in-coldstar-battlesuit",
-      "count": 35
-    },
-    {
-      "key": "exceeds-allowance:legionaries",
-      "count": 34
-    },
-    {
-      "key": "exceeds-max:attilan-rough-riders",
-      "count": 32
-    },
-    {
-      "key": "exceeds-max:commander-in-enforcer-battlesuit",
+      "key": "below-min:hyperadapted-raveners",
       "count": 29
     },
     {
@@ -202,159 +165,23 @@
       "count": 26
     },
     {
-      "key": "exceeds-max:scout-squad",
-      "count": 26
-    },
-    {
-      "key": "exceeds-max:chaos-predator-destructor",
-      "count": 21
-    },
-    {
-      "key": "swap-conflict:rogal-dorn-commander",
-      "count": 21
-    },
-    {
-      "key": "swap-conflict:sekhetar-robots",
-      "count": 21
-    },
-    {
       "key": "below-min:servitor-battleclade",
-      "count": 20
-    },
-    {
-      "key": "exceeds-max:hammerhead-gunship",
-      "count": 20
-    },
-    {
-      "key": "exceeds-allowance:chaos-terminator-squad",
-      "count": 19
-    },
-    {
-      "key": "exceeds-max:rogal-dorn-battle-tank",
-      "count": 18
-    },
-    {
-      "key": "below-min:cadian-command-squad",
-      "count": 17
-    },
-    {
-      "key": "exceeds-allowance:custodian-guard",
-      "count": 16
-    },
-    {
-      "key": "below-min:death-company-marines-with-jump-packs",
-      "count": 15
-    },
-    {
-      "key": "exceeds-allowance:boyz",
-      "count": 15
-    },
-    {
-      "key": "exceeds-allowance:kommandos",
-      "count": 15
-    },
-    {
-      "key": "exceeds-max:cthonian-beserks",
-      "count": 15
+      "count": 24
     },
     {
       "key": "below-min:tormentors",
       "count": 14
     },
     {
-      "key": "exceeds-allowance:plague-marines",
-      "count": 14
-    },
-    {
-      "key": "exceeds-allowance:skitarii-rangers",
-      "count": 14
-    },
-    {
-      "key": "below-min:acolyte-hybrids-with-autopistols",
-      "count": 12
-    },
-    {
       "key": "below-min:company-heroes",
       "count": 12
-    },
-    {
-      "key": "exceeds-allowance:battle-sisters-squad",
-      "count": 12
-    },
-    {
-      "key": "exceeds-max:cadian-shock-troops",
-      "count": 12
-    },
-    {
-      "key": "below-min:death-korps-of-krieg",
-      "count": 11
-    },
-    {
-      "key": "exceeds-allowance:paladin-squad",
-      "count": 11
-    },
-    {
-      "key": "exceeds-max:cadian-command-squad",
-      "count": 11
-    },
-    {
-      "key": "exceeds-max:sky-ray-gunship",
-      "count": 11
-    },
-    {
-      "key": "below-min:kabalite-warriors",
-      "count": 10
-    },
-    {
-      "key": "below-min:militarum-tempestus-command-squad",
-      "count": 10
-    },
-    {
-      "key": "exceeds-allowance:wolf-guard-terminators",
-      "count": 10
-    },
-    {
-      "key": "exceeds-max:broadside-battlesuits",
-      "count": 10
     },
     {
       "key": "exceeds-max:decimus-kill-team",
       "count": 10
     },
     {
-      "key": "exceeds-max:devilfish",
-      "count": 10
-    },
-    {
-      "key": "exceeds-max:wraithlord",
-      "count": 10
-    },
-    {
-      "key": "exceeds-allowance:cadian-shock-troops",
-      "count": 9
-    },
-    {
-      "key": "swap-conflict:rogal-dorn-battle-tank",
-      "count": 9
-    },
-    {
-      "key": "below-min:cadian-shock-troops",
-      "count": 8
-    },
-    {
       "key": "below-min:imperial-navy-breachers",
-      "count": 8
-    },
-    {
-      "key": "exceeds-allowance:seraphim-squad",
-      "count": 8
-    },
-    {
-      "key": "exceeds-allowance:skitarii-vanguard",
-      "count": 8
-    },
-    {
-      "key": "exceeds-max:armoured-sentinels",
       "count": 8
     },
     {
@@ -362,107 +189,15 @@
       "count": 8
     },
     {
-      "key": "exceeds-max:raptors",
-      "count": 8
-    },
-    {
-      "key": "invalid-model-count:pathfinder-team",
-      "count": 8
-    },
-    {
-      "key": "exceeds-allowance:cadian-recon-squad",
-      "count": 7
-    },
-    {
-      "key": "exceeds-allowance:chosen",
-      "count": 7
-    },
-    {
-      "key": "below-min:fellgor-beastmen",
-      "count": 6
-    },
-    {
-      "key": "below-min:hand-of-the-archon",
-      "count": 6
-    },
-    {
       "key": "below-min:indomitor-kill-team",
       "count": 6
     },
     {
-      "key": "below-min:plague-marines",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:catachan-jungle-fighters",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:inquisitorial-agents",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:purgation-squad",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:sanguinary-guard",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:sisters-novitiate-squad",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:sisters-of-battle-squad",
-      "count": 6
-    },
-    {
-      "key": "exceeds-max:forgefiend",
-      "count": 6
-    },
-    {
-      "key": "exceeds-max:hippogriff-afv",
-      "count": 6
-    },
-    {
-      "key": "exceeds-max:sword-brethren-squad",
-      "count": 6
-    },
-    {
-      "key": "invalid-model-count:stormboyz",
-      "count": 6
-    },
-    {
-      "key": "swap-conflict:noise-marines",
-      "count": 6
-    },
-    {
-      "key": "exceeds-allowance:skorpekh-destroyers",
+      "key": "below-min:cadian-command-squad",
       "count": 5
     },
     {
-      "key": "exceeds-max:baal-predator",
-      "count": 5
-    },
-    {
-      "key": "exceeds-max:battlewagon",
-      "count": 5
-    },
-    {
-      "key": "exceeds-max:maulerfiend",
-      "count": 5
-    },
-    {
-      "key": "invalid-model-count:boyz",
-      "count": 5
-    },
-    {
-      "key": "invalid-model-count:stealth-battlesuits",
-      "count": 5
-    },
-    {
-      "key": "swap-conflict:lychguard",
+      "key": "exceeds-allowance:death-company-marines-with-jump-packs",
       "count": 5
     },
     {
@@ -474,31 +209,11 @@
       "count": 4
     },
     {
-      "key": "below-min:scout-squad",
-      "count": 4
-    },
-    {
       "key": "below-min:spectrus-kill-team",
       "count": 4
     },
     {
-      "key": "exceeds-allowance:storm-guardians",
-      "count": 4
-    },
-    {
-      "key": "exceeds-allowance:tankbustas",
-      "count": 4
-    },
-    {
-      "key": "exceeds-max:canoptek-spyders",
-      "count": 4
-    },
-    {
-      "key": "exceeds-max:gladiator-lancer",
-      "count": 4
-    },
-    {
-      "key": "exceeds-max:plague-marines",
+      "key": "exceeds-max:broadside-battlesuits",
       "count": 4
     },
     {
@@ -506,43 +221,11 @@
       "count": 4
     },
     {
-      "key": "exceeds-max:sicarian-infiltrators",
-      "count": 4
-    },
-    {
-      "key": "invalid-model-count:crisis-starscythe-battlesuits",
-      "count": 4
-    },
-    {
-      "key": "invalid-model-count:mandrakes",
-      "count": 4
-    },
-    {
-      "key": "invalid-model-count:scourges-with-heavy-weapons",
-      "count": 4
-    },
-    {
       "key": "below-min:red-corsairs-raiders",
       "count": 3
     },
     {
-      "key": "below-min:wolf-scouts",
-      "count": 3
-    },
-    {
-      "key": "exceeds-allowance:brotherhood-terminator-squad",
-      "count": 3
-    },
-    {
-      "key": "exceeds-allowance:deathwatch-veterans",
-      "count": 3
-    },
-    {
-      "key": "exceeds-max:baneblade",
-      "count": 3
-    },
-    {
-      "key": "exceeds-max:cadre-fireblade",
+      "key": "exceeds-max:cadian-command-squad",
       "count": 3
     },
     {
@@ -550,63 +233,7 @@
       "count": 3
     },
     {
-      "key": "exceeds-max:predator-destructor",
-      "count": 3
-    },
-    {
-      "key": "exceeds-max:serberys-raiders",
-      "count": 3
-    },
-    {
-      "key": "exceeds-max:tiger-shark",
-      "count": 3
-    },
-    {
-      "key": "exceeds-max:wolf-scouts",
-      "count": 3
-    },
-    {
-      "key": "exceeds-max:wulfen-with-storm-shields",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:crisis-fireknife-battlesuits",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:kommandos",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:militarum-tempestus-command-squad",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:tempestus-scions",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:the-twin-lance",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:vespid-stingwings",
-      "count": 3
-    },
-    {
-      "key": "invalid-model-count:wyches",
-      "count": 3
-    },
-    {
-      "key": "swap-conflict:krieg-command-squad",
-      "count": 3
-    },
-    {
-      "key": "below-min:raptors",
-      "count": 2
-    },
-    {
-      "key": "below-min:sanctifiers",
+      "key": "below-min:cultist-mob",
       "count": 2
     },
     {
@@ -614,211 +241,11 @@
       "count": 2
     },
     {
-      "key": "exceeds-allowance:atalan-jackals",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:corsair-voidscarred",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:deathwatch-kill-team",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:dominion-squad",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:indomitor-kill-team",
-      "count": 2
-    },
-    {
       "key": "exceeds-allowance:khorne-berzerkers",
       "count": 2
     },
     {
-      "key": "exceeds-allowance:purifier-squad",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:strike-squad",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:troupe",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:banesword",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:carnifexes",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:chaos-predator-annihilator",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:foetid-bloat-drone",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:impulsor",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:leman-russ-battle-tank",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:meganobz",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:monolith",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:ravager",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:sanctifiers",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:serberys-sulphurhounds",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:talos",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:taunar-supremacy-armour",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:termagants",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:burna-boyz",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:chaos-spawn",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:crisis-sunforge-battlesuits",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:deathshroud-terminators",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:deathwing-knights",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:gaunts-ghosts",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:ghazghkull-thraka",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:gretchin",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:hastarii-fusiliers",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:hellions",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:incubi",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:incursor-squad",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:intercessor-squad",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:kabalite-warriors",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:krieg-combat-engineers",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:nobz",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:plague-marines",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:reavers",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:seraphim-squad",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:servitor-battleclade",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:skitarii-rangers",
-      "count": 2
-    },
-    {
-      "key": "invalid-model-count:wracks",
-      "count": 2
-    },
-    {
-      "key": "swap-conflict:hippogriff-afv",
-      "count": 2
-    },
-    {
-      "key": "swap-conflict:kroot-lone-spear",
-      "count": 2
-    },
-    {
-      "key": "swap-conflict:piranhas",
-      "count": 2
-    },
-    {
-      "key": "below-min:blightlord-terminators",
-      "count": 1
-    },
-    {
-      "key": "below-min:catachan-command-squad",
-      "count": 1
-    },
-    {
       "key": "below-min:corsair-voidscarred",
-      "count": 1
-    },
-    {
-      "key": "below-min:death-company-marines",
       "count": 1
     },
     {
@@ -826,75 +253,7 @@
       "count": 1
     },
     {
-      "key": "below-min:sword-brethren-squad",
-      "count": 1
-    },
-    {
       "key": "below-min:wolf-guard-headtakers",
-      "count": 1
-    },
-    {
-      "key": "exceeds-allowance:crusader-squad",
-      "count": 1
-    },
-    {
-      "key": "exceeds-allowance:eradicator-squad",
-      "count": 1
-    },
-    {
-      "key": "exceeds-allowance:serberys-sulphurhounds",
-      "count": 1
-    },
-    {
-      "key": "exceeds-allowance:terminator-squad",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:atalan-jackals",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:doomhammer",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:leman-russ-exterminator",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:leman-russ-vanquisher",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:predator-annihilator",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:pteraxii-sterylizors",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:sicarian-ruststalkers",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:stormraven-gunship",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:tempestus-aquilons",
-      "count": 1
-    },
-    {
-      "key": "exceeds-max:wraithknight",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:arco-flagellants",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:battle-sisters-squad",
       "count": 1
     },
     {
@@ -902,87 +261,7 @@
       "count": 1
     },
     {
-      "key": "invalid-model-count:canoptek-tomb-crawlers",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:canoptek-wraiths",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:catachan-command-squad",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:death-riders",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:dominion-squad",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:hand-of-the-archon",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:hastarii-exterminators",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:immortals",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:inner-circle-companions",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:kastelan-robots",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:kroot-farstalkers",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:necron-warriors",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:ophydian-destroyers",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:paragon-warsuits",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:poxwalkers",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:reiver-squad",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:retributor-squad",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:sisters-novitiate-squad",
-      "count": 1
-    },
-    {
       "key": "invalid-model-count:squighog-boyz",
-      "count": 1
-    },
-    {
-      "key": "invalid-model-count:tankbustas",
-      "count": 1
-    },
-    {
-      "key": "swap-conflict:crusader-squad",
       "count": 1
     }
   ],
@@ -2491,167 +1770,11 @@
     ],
     "loadout-illegal": [
       {
-        "key": "Pathfinder Team",
-        "count": 54
-      },
-      {
-        "key": "Cultist Mob",
-        "count": 45
-      },
-      {
-        "key": "Piranhas",
-        "count": 28
-      },
-      {
-        "key": "Scout Squad",
-        "count": 26
-      },
-      {
-        "key": "Commander in Coldstar Battlesuit",
-        "count": 25
-      },
-      {
-        "key": "Chaos Predator Destructor",
-        "count": 21
-      },
-      {
-        "key": "Commander in Enforcer Battlesuit",
-        "count": 21
-      },
-      {
-        "key": "Rogal Dorn Commander",
-        "count": 21
-      },
-      {
-        "key": "Sekhetar Robots",
-        "count": 21
-      },
-      {
-        "key": "Legionaries",
-        "count": 18
-      },
-      {
-        "key": "Boyz",
-        "count": 15
-      },
-      {
-        "key": "Cthonian Beserks",
-        "count": 15
-      },
-      {
-        "key": "Death Company Marines with Jump Packs",
-        "count": 15
-      },
-      {
-        "key": "Skitarii Rangers",
-        "count": 14
-      },
-      {
         "key": "Pink Horrors",
         "count": 13
       },
       {
-        "key": "Attilan Rough Riders",
-        "count": 12
-      },
-      {
-        "key": "Paladin Squad",
-        "count": 11
-      },
-      {
-        "key": "Plague Marines",
-        "count": 11
-      },
-      {
-        "key": "Sky Ray Gunship",
-        "count": 11
-      },
-      {
-        "key": "Cadian Shock Troops",
-        "count": 10
-      },
-      {
-        "key": "Hammerhead Gunship",
-        "count": 10
-      },
-      {
-        "key": "Wolf Guard Terminators",
-        "count": 10
-      },
-      {
-        "key": "Rogal Dorn Battle Tank",
-        "count": 9
-      },
-      {
-        "key": "Raptors",
-        "count": 8
-      },
-      {
-        "key": "Seraphim Squad",
-        "count": 8
-      },
-      {
-        "key": "Skitarii Vanguard",
-        "count": 8
-      },
-      {
-        "key": "Battle Sisters Squad",
-        "count": 6
-      },
-      {
-        "key": "Catachan Jungle Fighters",
-        "count": 6
-      },
-      {
-        "key": "Forgefiend",
-        "count": 6
-      },
-      {
-        "key": "Noise Marines",
-        "count": 6
-      },
-      {
-        "key": "Purgation Squad",
-        "count": 6
-      },
-      {
-        "key": "Sanguinary Guard",
-        "count": 6
-      },
-      {
-        "key": "Sword Brethren Squad",
-        "count": 6
-      },
-      {
-        "key": "Baal Predator",
-        "count": 5
-      },
-      {
-        "key": "Battlewagon",
-        "count": 5
-      },
-      {
-        "key": "Chaos Terminator Squad",
-        "count": 5
-      },
-      {
-        "key": "Devilfish",
-        "count": 5
-      },
-      {
-        "key": "Lychguard",
-        "count": 5
-      },
-      {
-        "key": "Maulerfiend",
-        "count": 5
-      },
-      {
-        "key": "Skorpekh Destroyers",
-        "count": 5
-      },
-      {
-        "key": "Wraithlord",
+        "key": "Death Company Marines with Jump Packs",
         "count": 5
       },
       {
@@ -2659,68 +1782,12 @@
         "count": 4
       },
       {
-        "key": "Chosen",
-        "count": 4
-      },
-      {
-        "key": "Gladiator Lancer",
-        "count": 4
-      },
-      {
         "key": "Rhino",
         "count": 4
       },
       {
-        "key": "Brotherhood Terminator Squad",
-        "count": 3
-      },
-      {
-        "key": "Cadre Fireblade",
-        "count": 3
-      },
-      {
         "key": "Decimus Kill Team",
         "count": 3
-      },
-      {
-        "key": "Predator Destructor",
-        "count": 3
-      },
-      {
-        "key": "Sisters of Battle Squad",
-        "count": 3
-      },
-      {
-        "key": "Wolf Scouts",
-        "count": 3
-      },
-      {
-        "key": "Wulfen with Storm Shields",
-        "count": 3
-      },
-      {
-        "key": "Baneblade",
-        "count": 2
-      },
-      {
-        "key": "Chaos Predator Annihilator",
-        "count": 2
-      },
-      {
-        "key": "Deathwatch Veterans",
-        "count": 2
-      },
-      {
-        "key": "Dominion Squad",
-        "count": 2
-      },
-      {
-        "key": "Foetid Bloat-drone",
-        "count": 2
-      },
-      {
-        "key": "Impulsor",
-        "count": 2
       },
       {
         "key": "Indomitor Kill Team",
@@ -2729,114 +1796,6 @@
       {
         "key": "Khorne Berzerkers",
         "count": 2
-      },
-      {
-        "key": "Kommandos",
-        "count": 2
-      },
-      {
-        "key": "Kroot Lone-spear",
-        "count": 2
-      },
-      {
-        "key": "Leman Russ Battle Tank",
-        "count": 2
-      },
-      {
-        "key": "Monolith",
-        "count": 2
-      },
-      {
-        "key": "Purifier Squad",
-        "count": 2
-      },
-      {
-        "key": "Ravager",
-        "count": 2
-      },
-      {
-        "key": "Sisters Novitiate Squad",
-        "count": 2
-      },
-      {
-        "key": "Strike Squad",
-        "count": 2
-      },
-      {
-        "key": "Ta’unar Supremacy Armour",
-        "count": 2
-      },
-      {
-        "key": "Tankbustas",
-        "count": 2
-      },
-      {
-        "key": "Termagants",
-        "count": 2
-      },
-      {
-        "key": "Atalan Jackals",
-        "count": 1
-      },
-      {
-        "key": "Carnifexes",
-        "count": 1
-      },
-      {
-        "key": "Crusader Squad",
-        "count": 1
-      },
-      {
-        "key": "Deathwatch Kill Team",
-        "count": 1
-      },
-      {
-        "key": "Eradicator Squad",
-        "count": 1
-      },
-      {
-        "key": "Leman Russ Exterminator",
-        "count": 1
-      },
-      {
-        "key": "Leman Russ Vanquisher",
-        "count": 1
-      },
-      {
-        "key": "Predator Annihilator",
-        "count": 1
-      },
-      {
-        "key": "Pteraxii Sterylizors",
-        "count": 1
-      },
-      {
-        "key": "Serberys Sulphurhounds",
-        "count": 1
-      },
-      {
-        "key": "Sicarian Ruststalkers",
-        "count": 1
-      },
-      {
-        "key": "Stormraven Gunship",
-        "count": 1
-      },
-      {
-        "key": "Tempestus Aquilons",
-        "count": 1
-      },
-      {
-        "key": "Terminator Squad",
-        "count": 1
-      },
-      {
-        "key": "Tiger Shark",
-        "count": 1
-      },
-      {
-        "key": "Wraithknight",
-        "count": 1
       }
     ],
     "unit-unresolved": [
@@ -3311,10 +2270,6 @@
         "count": 18
       },
       {
-        "key": "Boss Nob",
-        "count": 17
-      },
-      {
         "key": "Shadowfield",
         "count": 16
       },
@@ -3355,14 +2310,6 @@
         "count": 9
       },
       {
-        "key": "Pathfinder",
-        "count": 8
-      },
-      {
-        "key": "Pathfinder Shas’ui",
-        "count": 8
-      },
-      {
         "key": "Vox‑relay Beacon",
         "count": 8
       },
@@ -3387,14 +2334,6 @@
         "count": 6
       },
       {
-        "key": "Stormboy",
-        "count": 6
-      },
-      {
-        "key": "Tempestus Scion",
-        "count": 6
-      },
-      {
         "key": "Advanced Guardian Drone",
         "count": 5
       },
@@ -3411,24 +2350,8 @@
         "count": 5
       },
       {
-        "key": "Stealth Shas’ui",
-        "count": 5
-      },
-      {
-        "key": "Stealth Shas’vre",
-        "count": 5
-      },
-      {
         "key": "Tome‐skull",
         "count": 5
-      },
-      {
-        "key": "Crisis Starscythe Shas’ui",
-        "count": 4
-      },
-      {
-        "key": "Crisis Starscythe Shas’vre",
-        "count": 4
       },
       {
         "key": "Endurant Shield",
@@ -3440,14 +2363,6 @@
       },
       {
         "key": "Gloom Prism (Aura)",
-        "count": 4
-      },
-      {
-        "key": "Mandrake",
-        "count": 4
-      },
-      {
-        "key": "Nightfiend",
         "count": 4
       },
       {
@@ -3463,23 +2378,11 @@
         "count": 4
       },
       {
-        "key": "Solarite",
-        "count": 4
-      },
-      {
         "key": "Alchemyk Counteragents",
         "count": 3
       },
       {
         "key": "Aquiline Prow",
-        "count": 3
-      },
-      {
-        "key": "Crisis Fireknife Shas’ui",
-        "count": 3
-      },
-      {
-        "key": "Crisis Fireknife Shas’vre",
         "count": 3
       },
       {
@@ -3499,14 +2402,6 @@
         "count": 3
       },
       {
-        "key": "Hekatrix",
-        "count": 3
-      },
-      {
-        "key": "Kommando",
-        "count": 3
-      },
-      {
         "key": "Pech’ra",
         "count": 3
       },
@@ -3515,31 +2410,7 @@
         "count": 3
       },
       {
-        "key": "Ri’Lantar",
-        "count": 3
-      },
-      {
-        "key": "Ri’Locai",
-        "count": 3
-      },
-      {
         "key": "Servo-scribes",
-        "count": 3
-      },
-      {
-        "key": "Tempestor",
-        "count": 3
-      },
-      {
-        "key": "Tempestor Prime",
-        "count": 3
-      },
-      {
-        "key": "Vespid Stingwing",
-        "count": 3
-      },
-      {
-        "key": "Vespid Strain Leader",
         "count": 3
       },
       {
@@ -3551,19 +2422,7 @@
         "count": 3
       },
       {
-        "key": "Wych",
-        "count": 3
-      },
-      {
-        "key": "’Try Again’ Bragg",
-        "count": 2
-      },
-      {
         "key": "2 Armiger autocannons",
-        "count": 2
-      },
-      {
-        "key": "Acothyst",
         "count": 2
       },
       {
@@ -3575,15 +2434,7 @@
         "count": 2
       },
       {
-        "key": "Arena Champion",
-        "count": 2
-      },
-      {
         "key": "Armoured feet and Questoris heavy stubber",
-        "count": 2
-      },
-      {
-        "key": "Armoured Sentinel",
         "count": 2
       },
       {
@@ -3603,23 +2454,7 @@
         "count": 2
       },
       {
-        "key": "Broadside Shas’vre",
-        "count": 2
-      },
-      {
-        "key": "Burna Boy",
-        "count": 2
-      },
-      {
-        "key": "Cadian Veteran Guardsman",
-        "count": 2
-      },
-      {
         "key": "Cavalry sabre & clawed limbs",
-        "count": 2
-      },
-      {
-        "key": "Chaos Spawn",
         "count": 2
       },
       {
@@ -3627,35 +2462,7 @@
         "count": 2
       },
       {
-        "key": "Colm Corbec",
-        "count": 2
-      },
-      {
-        "key": "Combat Servitor",
-        "count": 2
-      },
-      {
         "key": "Cosmic Fire",
-        "count": 2
-      },
-      {
-        "key": "Crisis Sunforge Shas’ui",
-        "count": 2
-      },
-      {
-        "key": "Crisis Sunforge Shas’vre",
-        "count": 2
-      },
-      {
-        "key": "Deathshroud Champion",
-        "count": 2
-      },
-      {
-        "key": "Deathshroud Terminator",
-        "count": 2
-      },
-      {
-        "key": "Deathwing Knight",
         "count": 2
       },
       {
@@ -3663,51 +2470,11 @@
         "count": 2
       },
       {
-        "key": "Elim Rawne",
-        "count": 2
-      },
-      {
         "key": "Exo-armour grenade launcher",
         "count": 2
       },
       {
-        "key": "Ghazghkull Thraka",
-        "count": 2
-      },
-      {
-        "key": "Gretchin",
-        "count": 2
-      },
-      {
         "key": "Gun Drone, 2x Shield Drone",
-        "count": 2
-      },
-      {
-        "key": "Gun Servitor",
-        "count": 2
-      },
-      {
-        "key": "Hastarii Fusilier",
-        "count": 2
-      },
-      {
-        "key": "Hastarii Fusilier Alpha",
-        "count": 2
-      },
-      {
-        "key": "Helliarch",
-        "count": 2
-      },
-      {
-        "key": "Hellion",
-        "count": 2
-      },
-      {
-        "key": "Hippogriff AFV",
-        "count": 2
-      },
-      {
-        "key": "Hlaine Larkin",
         "count": 2
       },
       {
@@ -3719,79 +2486,11 @@
         "count": 2
       },
       {
-        "key": "Ibram Gaunt",
-        "count": 2
-      },
-      {
-        "key": "Incursor",
-        "count": 2
-      },
-      {
-        "key": "Incursor Sergeant",
-        "count": 2
-      },
-      {
-        "key": "Intercessor",
-        "count": 2
-      },
-      {
-        "key": "Intercessor Sergeant",
-        "count": 2
-      },
-      {
-        "key": "Kabalite Warrior",
-        "count": 2
-      },
-      {
-        "key": "Klaivex",
-        "count": 2
-      },
-      {
-        "key": "Knight Master",
-        "count": 2
-      },
-      {
-        "key": "Krieg Combat Engineer",
-        "count": 2
-      },
-      {
-        "key": "Krieg Engineer Watchmaster",
-        "count": 2
-      },
-      {
-        "key": "Meganob",
-        "count": 2
-      },
-      {
         "key": "Melta Mine (ORANGE/same guy as pistol)",
         "count": 2
       },
       {
-        "key": "Nob",
-        "count": 2
-      },
-      {
-        "key": "Oan Mkoll",
-        "count": 2
-      },
-      {
         "key": "Omnissian power axe",
-        "count": 2
-      },
-      {
-        "key": "Plague Champion",
-        "count": 2
-      },
-      {
-        "key": "Plague Marine",
-        "count": 2
-      },
-      {
-        "key": "Pteraxii Skystalker",
-        "count": 2
-      },
-      {
-        "key": "Pteraxii Skystalker Alpha",
         "count": 2
       },
       {
@@ -3803,55 +2502,11 @@
         "count": 2
       },
       {
-        "key": "Rough Rider",
-        "count": 2
-      },
-      {
-        "key": "Rough Rider Sergeant",
-        "count": 2
-      },
-      {
         "key": "Salvationist Medikit",
         "count": 2
       },
       {
         "key": "Screamer-Killer talons",
-        "count": 2
-      },
-      {
-        "key": "Seraphim",
-        "count": 2
-      },
-      {
-        "key": "Seraphim Superior",
-        "count": 2
-      },
-      {
-        "key": "Servitor Underseer",
-        "count": 2
-      },
-      {
-        "key": "Shock Trooper Sergeant",
-        "count": 2
-      },
-      {
-        "key": "Sicarian Infiltrator",
-        "count": 2
-      },
-      {
-        "key": "Sicarian Infiltrator Princeps",
-        "count": 2
-      },
-      {
-        "key": "Skitarii Ranger",
-        "count": 2
-      },
-      {
-        "key": "Skitarii Ranger Alpha",
-        "count": 2
-      },
-      {
-        "key": "Spanner",
         "count": 2
       },
       {
@@ -3887,10 +2542,6 @@
         "count": 2
       },
       {
-        "key": "Wrack",
-        "count": 2
-      },
-      {
         "key": "2 Questoris heavy stubber",
         "count": 1
       },
@@ -3919,31 +2570,7 @@
         "count": 1
       },
       {
-        "key": "Arco-flagellant",
-        "count": 1
-      },
-      {
-        "key": "Battle Sister",
-        "count": 1
-      },
-      {
         "key": "Beastboss on Squigosaur",
-        "count": 1
-      },
-      {
-        "key": "Cadian Commander",
-        "count": 1
-      },
-      {
-        "key": "Canoptek Tomb Crawler",
-        "count": 1
-      },
-      {
-        "key": "Canoptek Wraiths",
-        "count": 1
-      },
-      {
-        "key": "Catachan Commander",
         "count": 1
       },
       {
@@ -3971,10 +2598,6 @@
         "count": 1
       },
       {
-        "key": "Dominion Superior",
-        "count": 1
-      },
-      {
         "key": "Drone burst cannon",
         "count": 1
       },
@@ -3995,14 +2618,6 @@
         "count": 1
       },
       {
-        "key": "Hastarii Exterminator",
-        "count": 1
-      },
-      {
-        "key": "Hastarii Exterminator Alpha",
-        "count": 1
-      },
-      {
         "key": "Healing serum",
         "count": 1
       },
@@ -4019,43 +2634,11 @@
         "count": 1
       },
       {
-        "key": "Immortals",
-        "count": 1
-      },
-      {
         "key": "Improvised weapons",
         "count": 1
       },
       {
-        "key": "Inner Circle Companion",
-        "count": 1
-      },
-      {
         "key": "Inquisitorial Agents (100 Points)",
-        "count": 1
-      },
-      {
-        "key": "Kabalite Agents",
-        "count": 1
-      },
-      {
-        "key": "Kabalite Archsybarite",
-        "count": 1
-      },
-      {
-        "key": "Kastelan Robot",
-        "count": 1
-      },
-      {
-        "key": "Kroot Farstalker",
-        "count": 1
-      },
-      {
-        "key": "Kroot Hound",
-        "count": 1
-      },
-      {
-        "key": "Kroot Kill-broker",
         "count": 1
       },
       {
@@ -4068,26 +2651,6 @@
       },
       {
         "key": "Missile Drone, Weapon support system",
-        "count": 1
-      },
-      {
-        "key": "Necron Warriors",
-        "count": 1
-      },
-      {
-        "key": "Novitiate Superior",
-        "count": 1
-      },
-      {
-        "key": "Ophydian Destroyers",
-        "count": 1
-      },
-      {
-        "key": "Paragon Superior",
-        "count": 1
-      },
-      {
-        "key": "Poxwalker",
         "count": 1
       },
       {
@@ -4115,47 +2678,11 @@
         "count": 1
       },
       {
-        "key": "Reiver Sergeant",
-        "count": 1
-      },
-      {
         "key": "Remote mine",
         "count": 1
       },
       {
-        "key": "Retributor",
-        "count": 1
-      },
-      {
-        "key": "Retributor Superior",
-        "count": 1
-      },
-      {
-        "key": "Ridemaster",
-        "count": 1
-      },
-      {
-        "key": "Serberys Raider",
-        "count": 1
-      },
-      {
-        "key": "Serberys Raider Alpha",
-        "count": 1
-      },
-      {
         "key": "Serpent's Scale Platform: Close Combat Weapon",
-        "count": 1
-      },
-      {
-        "key": "Shock Trooper",
-        "count": 1
-      },
-      {
-        "key": "Sister Novitiate",
-        "count": 1
-      },
-      {
-        "key": "Sister Superior",
         "count": 1
       },
       {
@@ -4180,10 +2707,6 @@
       },
       {
         "key": "Stormspear rocket pod and Thermal cannon",
-        "count": 1
-      },
-      {
-        "key": "Tankbusta",
         "count": 1
       },
       {
@@ -4219,10 +2742,6 @@
         "count": 1
       },
       {
-        "key": "Veteran Guardsman",
-        "count": 1
-      },
-      {
         "key": "Voidreaver Felarch: Mistshield, Close Combat Weapon, Power sword, Neuro disruptor",
         "count": 1
       },
@@ -4247,78 +2766,26 @@
   "solver_null_units": [
     {
       "key": "pathfinder-team",
-      "count": 51
-    },
-    {
-      "key": "scout-squad",
-      "count": 47
-    },
-    {
-      "key": "cultist-mob",
-      "count": 45
-    },
-    {
-      "key": "crisis-sunforge-battlesuits",
-      "count": 29
+      "count": 59
     },
     {
       "key": "hyperadapted-raveners",
       "count": 29
     },
     {
-      "key": "crisis-starscythe-battlesuits",
-      "count": 28
-    },
-    {
-      "key": "daemonettes",
-      "count": 24
-    },
-    {
-      "key": "tzaangors",
-      "count": 19
-    },
-    {
-      "key": "crisis-fireknife-battlesuits",
-      "count": 17
-    },
-    {
-      "key": "cadian-shock-troops",
-      "count": 16
-    },
-    {
-      "key": "khorne-berzerkers",
-      "count": 16
-    },
-    {
-      "key": "cthonian-beserks",
-      "count": 15
-    },
-    {
-      "key": "death-company-marines-with-jump-packs",
-      "count": 15
-    },
-    {
-      "key": "skitarii-rangers",
-      "count": 14
-    },
-    {
       "key": "tormentors",
       "count": 14
-    },
-    {
-      "key": "bloodletters",
-      "count": 13
     },
     {
       "key": "pink-horrors",
       "count": 13
     },
     {
-      "key": "plaguebearers",
+      "key": "plague-marines",
       "count": 13
     },
     {
-      "key": "attilan-rough-riders",
+      "key": "servitor-battleclade",
       "count": 12
     },
     {
@@ -4330,67 +2797,23 @@
       "count": 11
     },
     {
-      "key": "plague-marines",
-      "count": 11
-    },
-    {
-      "key": "sicarian-infiltrators",
-      "count": 11
-    },
-    {
-      "key": "kabalite-warriors",
-      "count": 10
-    },
-    {
-      "key": "raptors",
-      "count": 10
-    },
-    {
-      "key": "red-corsairs-raiders",
-      "count": 10
-    },
-    {
-      "key": "servitor-battleclade",
-      "count": 10
-    },
-    {
       "key": "warp-spiders",
       "count": 10
-    },
-    {
-      "key": "skitarii-vanguard",
-      "count": 8
-    },
-    {
-      "key": "bloodcrushers",
-      "count": 7
     },
     {
       "key": "howling-banshees",
       "count": 7
     },
     {
-      "key": "infiltrator-squad",
+      "key": "nobz",
       "count": 7
-    },
-    {
-      "key": "battle-sisters-squad",
-      "count": 6
-    },
-    {
-      "key": "catachan-jungle-fighters",
-      "count": 6
     },
     {
       "key": "company-heroes",
       "count": 6
     },
     {
-      "key": "fellgor-beastmen",
-      "count": 6
-    },
-    {
-      "key": "nobz",
+      "key": "deathwing-knights",
       "count": 6
     },
     {
@@ -4418,8 +2841,8 @@
       "count": 4
     },
     {
-      "key": "deathwing-knights",
-      "count": 4
+      "key": "cadian-shock-troops",
+      "count": 3
     },
     {
       "key": "chaos-terminators",
@@ -4442,19 +2865,7 @@
       "count": 3
     },
     {
-      "key": "seekers",
-      "count": 3
-    },
-    {
-      "key": "sisters-of-battle-squad",
-      "count": 3
-    },
-    {
-      "key": "wolf-scouts",
-      "count": 3
-    },
-    {
-      "key": "wulfen-with-storm-shields",
+      "key": "piranhas",
       "count": 3
     },
     {
@@ -4462,11 +2873,15 @@
       "count": 2
     },
     {
-      "key": "breaka-boyz",
+      "key": "indomitor-kill-team",
       "count": 2
     },
     {
-      "key": "indomitor-kill-team",
+      "key": "raptors",
+      "count": 2
+    },
+    {
+      "key": "sisters-of-battle-squad",
       "count": 2
     },
     {
@@ -4486,11 +2901,11 @@
       "count": 1
     },
     {
-      "key": "dark-reapers",
+      "key": "cultist-mob",
       "count": 1
     },
     {
-      "key": "death-company-marines",
+      "key": "dark-reapers",
       "count": 1
     },
     {
@@ -4506,19 +2921,7 @@
       "count": 1
     },
     {
-      "key": "piranhas",
-      "count": 1
-    },
-    {
-      "key": "pteraxii-sterylizors",
-      "count": 1
-    },
-    {
-      "key": "serberys-sulphurhounds",
-      "count": 1
-    },
-    {
-      "key": "sicarian-ruststalkers",
+      "key": "red-corsairs-raiders",
       "count": 1
     },
     {
@@ -4527,10 +2930,6 @@
     },
     {
       "key": "striking-scorpions",
-      "count": 1
-    },
-    {
-      "key": "tempestus-aquilons",
       "count": 1
     },
     {
@@ -4604,7 +3003,7 @@
       "faction": "adeptus-astartes",
       "unit_id": "wulfen-with-storm-shields",
       "unreachable": [
-        "storm-shield"
+        "death-totem"
       ]
     },
     {
@@ -4718,14 +3117,6 @@
       "unit_id": "skull-altar",
       "unreachable": [
         "skull-altar"
-      ]
-    },
-    {
-      "faction": "chaos-space-marines",
-      "unit_id": "cultist-mob",
-      "unreachable": [
-        "autogun",
-        "close-combat-weapon"
       ]
     },
     {
