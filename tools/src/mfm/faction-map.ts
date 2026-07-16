@@ -16,12 +16,11 @@
  * supplement republishes a parent's roster, so a datasheet that misses its own
  * dir but resolves in a shared dir is an expected duplicate, not a real miss.
  */
-import * as fs from "fs";
-import * as path from "path";
+import { readdirSync } from "node:fs";
 import { nameToId } from "../converters/id-generator.js";
-import { REPO_ROOT } from "./loader.js";
+import { CORE_DIR } from "./repo-files.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 
 /** Faction-keyword English name → repo dir, for names `nameToId` can't resolve. */
 export const FACTION_ALIASES: Record<string, string> = {
@@ -65,8 +64,7 @@ let repoDirsCache: Set<string> | null = null;
 export function repoDirs(): Set<string> {
   if (!repoDirsCache) {
     repoDirsCache = new Set(
-      fs
-        .readdirSync(CORE_DIR, { withFileTypes: true })
+      readdirSync(CORE_DIR, { withFileTypes: true })
         .filter((d) => d.isDirectory() && !d.name.startsWith("_"))
         .map((d) => d.name)
     );

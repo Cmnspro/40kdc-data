@@ -279,3 +279,28 @@ describe("name resolution: faction-prefixed shared chassis and unit aliases", ()
     expect(r.diagnostics.unresolved_units).toBe(1);
   });
 });
+
+// Enhancement names carry GW's RAW trailing tag ("(Upgrade)"/"(Aura)"). Rosters
+// exported from GW's data carry the same tag, and `normalizeName` treats parens as
+// ordinary characters — so the repo name MUST keep the tag or the import silently
+// fails to resolve. This guards the RAW-name normalization against regressing to a
+// stripped canon.
+describe("enhancement RAW-name resolution (import-correctness)", () => {
+  it("resolves an Upgrade enhancement by its RAW '(Upgrade)' roster name", () => {
+    const hit = ds.enhancements.find("Boarding Ramps (Upgrade)");
+    expect(hit?.id).toBe("boarding-ramps-upgrade-rollin-deff");
+    // The stored display name keeps the tag (what a roster line carries).
+    expect(hit?.name).toBe("Boarding Ramps (Upgrade)");
+  });
+
+  it("keeps every '(Upgrade)'/'(Aura)'/'(Psychic)'-tagged name in lockstep with its id", () => {
+    const tagged = ds.enhancements.all.filter((e) => /\((Upgrade|Aura|Psychic)\)$/.test(e.name ?? ""));
+    expect(tagged.length).toBeGreaterThan(90);
+    for (const e of tagged) {
+      const tag = (e.name!.match(/\((Upgrade|Aura|Psychic)\)$/)![1]).toLowerCase();
+      // id embeds the same lowercased tag token, so find() round-trips the RAW name.
+      expect(e.id).toContain(`-${tag}-`);
+      expect(ds.enhancements.find(e.name!)?.id).toBe(e.id);
+    }
+  });
+});

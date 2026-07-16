@@ -1,0 +1,1541 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/roster.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "battle_size",
+    "datasheet",
+    "detachment",
+    "enhancement",
+    "faction_keyword",
+    "force_disposition",
+    "wargear_item"
+  ],
+  "fields": {
+    "/battle_size": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/detachments": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/detachments/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/detachments/*/dp_cost": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.detachmentPointsCost"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Read the detachment-point cost from the resolved detachment entity."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "The cost is derived after resolving the selected detachment; source formats do not provide it."
+    },
+    "/detachments/*/ref": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This reference object represents a roster selection; only its resolved identifier and candidate fields are derived through MFM-backed entity indexes."
+    },
+    "/detachments/*/ref/candidates": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.id",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/detachments/*/ref/candidates/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.id",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/detachments/*/ref/candidates/*/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.id",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/detachments/*/ref/candidates/*/name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.id",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/detachments/*/ref/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.id",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/detachments/*/ref/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/detachments/*/ref/resolved": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.detachment.id",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/diagnostics": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/resolved_units": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/resolved_weapons": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/unresolved_units": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/unresolved_weapons": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/warnings": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/warnings/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/warnings/*/code": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/warnings/*/message": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/diagnostics/warnings/*/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/faction_id": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/force_disposition": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Stamp the importer-defined roster game version."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster game version is stamped by the importer rather than derived from the MFM snapshot."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Stamp the importer-defined roster game version."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster game version is stamped by the importer rather than derived from the MFM snapshot."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Stamp the importer-defined roster game version."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster game version is stamped by the importer rather than derived from the MFM snapshot."
+    },
+    "/name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/points": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/points/declared_limit": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/points/detachment_cap": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/data/battle-sizes.ts#detachmentCapForBattleSize",
+          "operation": "Map the selected battle-size enum to the repository detachment-point cap."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve",
+        "tools/src/data/battle-sizes.ts#detachmentCapForBattleSize"
+      ],
+      "reason": "The cap is currently an authored battle-size rule; the importer does not read MFM battle_size rows."
+    },
+    "/points/total_computed": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/points/total_reported": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/source": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/source/format": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/source/generated_by": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/units": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/enhancement": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This reference object represents a roster selection; only its resolved identifier and candidate fields are derived through MFM-backed entity indexes."
+    },
+    "/units/*/enhancement/candidates": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.id",
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/enhancement/candidates/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.id",
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/enhancement/candidates/*/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.id",
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/enhancement/candidates/*/name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.id",
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/enhancement/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.id",
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/enhancement/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/units/*/enhancement/resolved": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.id",
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/enhancement_points": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/is_warlord": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/leader_attachment": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet_bodyguard_group.id"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Preserve an explicit attachment or infer a supported attachment from resolved entity data."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Attachment output combines roster input with existing leader-attachment entity data; this importer does not directly traverse MFM rows."
+    },
+    "/units/*/leader_attachment/bodyguard_ref": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This reference object represents a roster selection; only its resolved identifier and candidate fields are derived through MFM-backed entity indexes."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/candidates": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/candidates/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/candidates/*/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/candidates/*/name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "The bodyguard name is retained from an explicit roster attachment or selected roster unit; it is not MFM provenance."
+    },
+    "/units/*/leader_attachment/bodyguard_ref/resolved": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/leader_attachment/provisional": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet_bodyguard_group.id"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Preserve an explicit attachment or infer a supported attachment from resolved entity data."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Attachment output combines roster input with existing leader-attachment entity data; this importer does not directly traverse MFM rows."
+    },
+    "/units/*/leader_attachment/role": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet_bodyguard_group.id"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Preserve an explicit attachment or infer a supported attachment from resolved entity data."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Attachment output combines roster input with existing leader-attachment entity data; this importer does not directly traverse MFM rows."
+    },
+    "/units/*/loadout_groups": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/count": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/model_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/count": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/candidates": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/candidates/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/candidates/*/id": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/candidates/*/name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/id": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/units/*/loadout_groups/*/wargear/*/ref/resolved": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Loadout grouping is reconstructed for this imported roster from its selected quantities; it is not a standalone MFM roster fact."
+    },
+    "/units/*/model_count": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/points": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/ref": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This reference object represents a roster selection; only its resolved identifier and candidate fields are derived through MFM-backed entity indexes."
+    },
+    "/units/*/ref/candidates": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/ref/candidates/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/ref/candidates/*/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/ref/candidates/*/name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/ref/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/ref/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/units/*/ref/resolved": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet.id",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/wargear": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/wargear/*": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/wargear/*/count": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Roster field is supplied, selected, or computed from the imported roster; MFM does not supply this roster-specific value."
+    },
+    "/units/*/wargear/*/ref": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This reference object represents a roster selection; only its resolved identifier and candidate fields are derived through MFM-backed entity indexes."
+    },
+    "/units/*/wargear/*/ref/candidates": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/wargear/*/ref/candidates/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/wargear/*/ref/candidates/*/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/wargear/*/ref/candidates/*/name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/wargear/*/ref/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    },
+    "/units/*/wargear/*/ref/raw_name": {
+      "provenance": "runtime-input",
+      "coverage": "not-applicable",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "This value is retained verbatim or normalized from the imported roster payload and has no MFM roster source."
+    },
+    "/units/*/wargear/*/ref/resolved": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.id",
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/import/resolve.ts#resolve",
+          "operation": "Resolve the imported name and expose matching entity identifiers or candidates."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/import/resolve.ts#resolve"
+      ],
+      "reason": "Resolve the imported raw name against MFM-backed entity indexes; the roster still retains the user-selected source entry."
+    }
+  },
+  "unmapped_mfm_fields": []
+}

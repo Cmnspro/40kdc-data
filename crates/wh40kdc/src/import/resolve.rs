@@ -15,7 +15,10 @@
 
 use std::collections::{BTreeMap, HashMap};
 
-use crate::data::{group_loadout, loadout_models, normalize_name, strip_leading_the, Dataset};
+use crate::data::{
+    check_unit_legality, group_loadout, loadout_models, loadout_tiers, normalize_name,
+    strip_leading_the, Dataset, ViolationCode,
+};
 
 use super::types::{
     AttachmentRole, BattleSize, Candidate, Diagnostics, ParsedRoster, ParsedUnit, ResolvedRef,
@@ -75,6 +78,21 @@ fn resolved(id: &str, raw_name: &str) -> ResolvedRef {
         resolved: true,
         candidates: Vec::new(),
     }
+}
+
+/// Split a dual-detachment line on its " and " / comma joiners (the resolve-time
+/// fallback's tokenizer; see the detachment loop in [`resolve`]).
+fn split_detachment_parts(raw: &str) -> Vec<&str> {
+    let mut out = Vec::new();
+    for chunk in raw.split(',') {
+        for part in chunk.split(" and ") {
+            let t = part.trim();
+            if !t.is_empty() {
+                out.push(t);
+            }
+        }
+    }
+    out
 }
 
 /// Map a source battle-size label to the 40kdc enum, if recognisable.
@@ -152,40 +170,74 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
     // 11e lists may field several detachments under a detachment-point cap; the
     // list preserves source order. `dp_cost` is looked up from the resolved
     // detachment entity (no source format reports it).
-    let detachments: Vec<RosterDetachment> = parsed
-        .detachment_raw_names
-        .iter()
-        .map(|raw| {
-            let key = normalize_name(raw);
-            let scoped = faction_id.as_deref().and_then(|f| {
-                ds.detachments
-                    .by_faction(f)
-                    .into_iter()
-                    .find(|d| normalize_name(&d.name) == key)
-            });
-            let hit = scoped.or_else(|| ds.detachments.find(raw));
-            if let Some(hit) = hit {
-                RosterDetachment {
-                    ref_: resolved(hit.id.as_str(), raw),
-                    dp_cost: hit.detachment_points.map(|n| n.get()),
-                }
-            } else {
-                diag.warn(
-                    WarningCode::DetachmentUnresolved,
-                    "Detachment name did not match any 40kdc detachment.",
-                    Some(raw),
-                );
-                RosterDetachment {
-                    ref_: unresolved(raw, detachment_candidates(&ds.detachments.find_all(raw))),
-                    dp_cost: None,
-                }
-            }
+    let resolve_detachment = |raw: &str| -> Option<RosterDetachment> {
+        let key = normalize_name(raw);
+        let scoped = faction_id.as_deref().and_then(|f| {
+            ds.detachments
+                .by_faction(f)
+                .into_iter()
+                .find(|d| normalize_name(&d.name) == key)
+        });
+        let hit = scoped.or_else(|| ds.detachments.find(raw))?;
+        Some(RosterDetachment {
+            ref_: resolved(hit.id.as_str(), raw),
+            dp_cost: hit.detachment_points.map(|n| n.get()),
         })
-        .collect();
+    };
+    let mut detachments: Vec<RosterDetachment> = Vec::new();
+    for raw in &parsed.detachment_raw_names {
+        if let Some(whole) = resolve_detachment(raw) {
+            detachments.push(whole);
+            continue;
+        }
+        // Dual-detachment 11e lists print both names on one line joined with
+        // " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+        // ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+        // RESOLVE-TIME fallback, taken only when the whole name fails and every
+        // part resolves — "Legends of Saga and Song" is a real single-detachment
+        // name a lexical split would corrupt.
+        let parts = split_detachment_parts(raw);
+        if parts.len() > 1 {
+            let split: Vec<Option<RosterDetachment>> =
+                parts.iter().map(|p| resolve_detachment(p)).collect();
+            if split.iter().all(Option::is_some) {
+                detachments.extend(split.into_iter().flatten());
+                continue;
+            }
+        }
+        diag.warn(
+            WarningCode::DetachmentUnresolved,
+            "Detachment name did not match any 40kdc detachment.",
+            Some(raw),
+        );
+        detachments.push(RosterDetachment {
+            ref_: unresolved(raw, detachment_candidates(&ds.detachments.find_all(raw))),
+            dp_cost: None,
+        });
+    }
     let detachment_ids: Vec<String> = detachments
         .iter()
         .filter_map(|d| d.ref_.id.clone())
         .collect();
+
+    // --- Force Disposition. ---------------------------------------------------
+    // roster-json carries an already-resolved id; ListForge and WTC text carry
+    // the raw header name (e.g. "Priority Assets"), resolved here against the
+    // dataset.
+    let mut force_disposition = parsed.force_disposition.clone();
+    if force_disposition.is_none() {
+        if let Some(Some(raw)) = parsed.force_disposition_raw_name.as_ref() {
+            if let Some(hit) = ds.force_dispositions.find(raw) {
+                force_disposition = Some(hit.id.to_string());
+            } else {
+                diag.warn(
+                    WarningCode::DispositionUnresolved,
+                    "Force Disposition name did not match any 40kdc disposition.",
+                    Some(raw),
+                );
+            }
+        }
+    }
 
     // --- Battle size. -------------------------------------------------------
     let battle_size = map_battle_size(parsed.battle_size_raw.as_deref());
@@ -254,10 +306,7 @@ pub fn resolve(parsed: &ParsedRoster, ds: &Dataset, format: RosterFormat) -> Ros
         faction_id,
         detachments,
         battle_size,
-        // The source formats don't yet encode a Force Disposition (only the
-        // canonical roster-json round-trip carries one), so this is `None`
-        // unless the parsed payload supplied it.
-        force_disposition: parsed.force_disposition.clone(),
+        force_disposition,
         points: RosterPoints {
             declared_limit: parsed.declared_limit,
             detachment_cap,
@@ -395,6 +444,12 @@ fn resolve_unit(
                     ref_: resolved(first.id.as_str(), &w.raw_name),
                     count: w.count,
                 }
+            } else if let Some(id) = resolve_wargear_item_id(ds, hit, &w.raw_name) {
+                diag.resolved_weapons += 1;
+                RosterWargear {
+                    ref_: resolved(id, &w.raw_name),
+                    count: w.count,
+                }
             } else {
                 diag.unresolved_weapons += 1;
                 diag.warn(
@@ -414,6 +469,66 @@ fn resolve_unit(
     // resolved unit, so a re-export reproduces the same grouped lines the exporter
     // emits (round-trip) without the text parsers understanding model-name labels.
     let loadout_groups = build_loadout_groups(hit, parsed.model_count, &wargear, ds);
+
+    // Loadout legality — the conservative checker over the fully-resolved counts.
+    // Gated exactly like grouping (an unresolved unit has no datasheet; an
+    // unresolved weapon means the counts under-report the list), plus two
+    // import-specific reliability gates: the parsed model count must sit inside
+    // the composition envelope (the GW flat dialect infers `model_count: 1` for
+    // some units, so `invalid-model-count` is also filtered), and `below-min` is
+    // filtered (list formats omit implicit default weapons). Mirror of the TS
+    // reference.
+    if let Some(unit) = hit {
+        if wargear.iter().all(|w| w.ref_.id.is_some()) {
+            let comp = ds.unit_compositions.iter().find(|c| {
+                c.unit_id.as_str() == unit.id.as_str()
+                    && c.faction_id.as_str() == unit.faction_id.as_str()
+            });
+            let models = comp.map(|c| loadout_models(&c.models));
+            let rows = models.as_deref().unwrap_or(&[]);
+            let env_min: u64 = rows.iter().map(|m| m.min).sum();
+            let env_max: u64 = rows.iter().map(|m| m.max).sum();
+            let plausible =
+                rows.is_empty() || (parsed.model_count >= env_min && parsed.model_count <= env_max);
+            if plausible {
+                let mut counts: HashMap<String, i64> = HashMap::new();
+                for w in &wargear {
+                    if let Some(id) = &w.ref_.id {
+                        *counts.entry(id.clone()).or_insert(0) += w.count as i64;
+                    }
+                }
+                let options = ds.wargear_options_of(unit);
+                let tiers = comp.map(|c| loadout_tiers(&c.tiers));
+                let violations: Vec<_> = check_unit_legality(
+                    unit,
+                    parsed.model_count,
+                    &options,
+                    &counts,
+                    models.as_deref(),
+                    tiers.as_deref(),
+                )
+                .into_iter()
+                .filter(|v| {
+                    v.code != ViolationCode::InvalidModelCount && v.code != ViolationCode::BelowMin
+                })
+                .collect();
+                if !violations.is_empty() {
+                    let detail = violations
+                        .iter()
+                        .map(|v| format!("{}:{}", v.code.as_str(), v.id))
+                        .collect::<Vec<_>>()
+                        .join(", ");
+                    diag.warn(
+                        WarningCode::LoadoutIllegal,
+                        &format!(
+                            "Loadout is not buildable from the datasheet's wargear options: {detail}"
+                        ),
+                        Some(&parsed.raw_name),
+                    );
+                }
+            }
+        }
+    }
 
     RosterUnit {
         ref_,
@@ -731,6 +846,57 @@ fn scoped_weapon_id<'a>(ds: &'a Dataset, unit: &crate::Unit, raw_name: &str) -> 
         }
     }
     None
+}
+
+/// Fallback for wargear ITEMS (Simulacrum Imperialis, Daemonic Icon, …) — raw
+/// names that are not weapons but do exist in the wargear collection. Runs only
+/// after BOTH weapon lookups miss, so a wargear item whose name collides with a
+/// weapon ("multi-melta", "power weapon") keeps resolving to the weapon exactly
+/// as before. Scoped-first: ids reachable through the resolved unit's wargear
+/// options, then the global collection (wargear is replicated-identical across
+/// factions, so a global first-match is safe). Same `normalize_name` +
+/// leading-"The" tolerance as the weapon lookups. Mirror of the TS
+/// `resolveWargearItemId`.
+fn resolve_wargear_item_id<'a>(
+    ds: &'a Dataset,
+    hit: Option<&crate::Unit>,
+    raw_name: &str,
+) -> Option<&'a str> {
+    let stripped = strip_leading_the(raw_name);
+    if let Some(unit) = hit {
+        let mut targets = vec![
+            normalize_name(raw_name),
+            normalize_name(&format!("The {raw_name}")),
+        ];
+        if let Some(s) = &stripped {
+            targets.push(normalize_name(s));
+        }
+        for opt in ds.wargear_options_of(unit) {
+            for id in opt
+                .replaces
+                .iter()
+                .chain(&opt.replacement)
+                .chain(opt.replacement_choice.iter().flatten())
+            {
+                if let Some(item) = ds.wargear.get_any(id.as_str()) {
+                    if targets.iter().any(|t| *t == normalize_name(&item.name)) {
+                        return Some(item.id.as_str());
+                    }
+                }
+            }
+        }
+    }
+    if let Some(item) = ds.wargear.find(raw_name) {
+        return Some(item.id.as_str());
+    }
+    if let Some(s) = &stripped {
+        if let Some(item) = ds.wargear.find(s) {
+            return Some(item.id.as_str());
+        }
+    }
+    ds.wargear
+        .find(&format!("The {raw_name}"))
+        .map(|item| item.id.as_str())
 }
 
 fn detachment_candidates(records: &[&crate::Detachment]) -> Vec<Candidate> {

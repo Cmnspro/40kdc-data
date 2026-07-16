@@ -25,19 +25,16 @@
 import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
-import {
-  MfmDump,
-  REPO_ROOT,
-  type DatasheetRow,
-  type UnitCompositionRow,
-  type UnitCompositionMiniatureRow,
-  type DatasheetPointsStepRow,
-} from "./loader.js";
+import { MfmDump, type DatasheetRow,
+type UnitCompositionRow,
+type UnitCompositionMiniatureRow,
+type DatasheetPointsStepRow, } from "./loader.js";
+import { readJsonArray, CORE_DIR } from "./repo-files.js";
 import { repoDirs } from "./faction-map.js";
 import { candidateDirs, homeScore } from "./wargear.js";
 import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 const CONFIRMED = { edition: "11th", dataslate: "launch" };
 
 export interface Tier {
@@ -73,9 +70,7 @@ export interface Derived {
   ambiguous: boolean;
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /** A derived base tier: a model-count *range* [models, models_max] at one cost. */
 interface BaseTier {
@@ -117,16 +112,12 @@ function applyStep<T extends Tier>(
 /** Derive native + allied tiers for one datasheet from the dump. */
 export function deriveDatasheet(dump: MfmDump, datasheetId: string): Derived {
   const comps = (
-    dump.groupBy<UnitCompositionRow>("unit_composition", "datasheetId").get(datasheetId) ?? []
+    dump.groupBy("unit_composition", "datasheetId").get(datasheetId) ?? []
   )
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder);
-  const miniByComp = dump.groupBy<UnitCompositionMiniatureRow>(
-    "unit_composition_miniature",
-    "unitCompositionId"
-  );
-  const step = dump
-    .groupBy<DatasheetPointsStepRow>("datasheet_points_step", "datasheetId")
+  const miniByComp = dump.groupBy("unit_composition_miniature", "unitCompositionId");
+  const step = dump.groupBy("datasheet_points_step", "datasheetId")
     .get(datasheetId)?.[0];
 
   // A composition prices a model-count *range* [Σmin, Σmax] over its miniature
@@ -266,7 +257,7 @@ export function runPoints(dump: MfmDump, write: boolean): PointsReport {
   // how the range-tier regression survived for Death Company, Sanguinary Guard,
   // Ravenwing, Thunderwolf Cavalry, Deathwatch Veterans, etc.
   const byDir = new Map<string, DatasheetRow[]>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     for (const dir of candidateDirs(dump, ds)) {
       if (!dirs.has(dir)) continue;
@@ -281,7 +272,7 @@ export function runPoints(dump: MfmDump, write: boolean): PointsReport {
   for (const dir of [...dirs].sort()) {
     const p = path.join(CORE_DIR, dir, "units.json");
     if (!fs.existsSync(p)) continue;
-    const units = readJson<UnitRecord>(p);
+    const units = readJsonArray<UnitRecord>(p);
     const byId = new Map(units.map((u) => [u.id, u]));
     const res: DirPointsResult = {
       dir,
@@ -386,7 +377,7 @@ export function runPoints(dump: MfmDump, write: boolean): PointsReport {
   // genuinely new (a seed-units candidate), reported once against its home dir.
   const newInDump: { dir: string; id: string }[] = [];
   const seenNew = new Set<string>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends || matchedDatasheets.has(ds.id!) || seenNew.has(ds.id!)) continue;
     const cands = candidateDirs(dump, ds).filter((d) => dirs.has(d));
     if (!cands.length) continue;

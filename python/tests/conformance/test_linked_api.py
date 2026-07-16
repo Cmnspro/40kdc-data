@@ -34,6 +34,9 @@ def run_linked_query(ds: Any, query: str, args: dict[str, Any]) -> Any:
     if query == "find_ability":
         a = ds.abilities.find(args.get("query", ""))
         return a.id if a else None
+    if query == "get_enhancement":
+        e = ds.enhancements.get(args.get("id", ""))
+        return e["id"] if e else None
     if query == "abilities_of":
         return [x.id for x in ds.units.get_any(args["unitId"]).abilities]
     if query == "weapons_of":

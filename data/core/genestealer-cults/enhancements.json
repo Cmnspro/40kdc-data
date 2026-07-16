@@ -446,7 +446,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -464,12 +464,12 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
-    "id": "mark-of-the-star-children-purestrain-broodswarm",
-    "name": "Mark of the Star Children",
+    "id": "mark-of-the-star-children-upgrade-purestrain-broodswarm",
+    "name": "Mark of the Star Children (Upgrade)",
     "detachment_id": "purestrain-broodswarm",
     "cost": 30,
     "keyword_restrictions": [
@@ -483,7 +483,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "talons-of-the-sire-purestrain-broodswarm",
@@ -500,7 +500,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -518,12 +518,12 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
-    "id": "devious-disguises-xenocult-masses",
-    "name": "Devious Disguises",
+    "id": "devious-disguises-upgrade-xenocult-masses",
+    "name": "Devious Disguises (Upgrade)",
     "detachment_id": "xenocult-masses",
     "cost": 15,
     "keyword_restrictions": [
@@ -537,7 +537,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "heavy-munitions-claw-of-ascension",
@@ -552,7 +552,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Achilles Ridgerunners",
+      "Claw of Ascension"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "practiced-eye-claw-of-ascension",
@@ -567,6 +572,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Claw of Ascension",
+      "Jackal Alphus"
+    ]
   }
 ]

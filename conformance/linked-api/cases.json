@@ -45,6 +45,33 @@
     "expected": "berzerker-frenzy"
   },
   {
+    "name": "get_enhancement direct hit",
+    "query": "get_enhancement",
+    "args": {
+      "id": "a-chink-in-their-armour-host-of-ascension"
+    },
+    "comparison": "scalar",
+    "expected": "a-chink-in-their-armour-host-of-ascension"
+  },
+  {
+    "name": "get_enhancement resolves a renamed id via alias",
+    "query": "get_enhancement",
+    "args": {
+      "id": "a-chink-in-their-armour"
+    },
+    "comparison": "scalar",
+    "expected": "a-chink-in-their-armour-host-of-ascension"
+  },
+  {
+    "name": "get_enhancement miss returns null",
+    "query": "get_enhancement",
+    "args": {
+      "id": "not-a-real-enhancement-xyz"
+    },
+    "comparison": "scalar",
+    "expected": null
+  },
+  {
     "name": "abilities_of intercessor-squad",
     "query": "abilities_of",
     "args": {
@@ -824,7 +851,12 @@
       "cadian-castellan",
       "cadian-command-squad",
       "commissar",
+      "commissar-graves-on-foot",
+      "commissar-yarrick",
+      "inquisitor",
+      "inquisitor-coteaz",
       "inquisitor-draxus",
+      "inquisitor-greyfax",
       "lord-solar-leontus",
       "ministorum-priest",
       "primaris-psyker",
@@ -842,6 +874,8 @@
     "expected": [
       "cadian-castellan",
       "commissar",
+      "commissar-graves-on-foot",
+      "commissar-yarrick",
       "lord-solar-leontus",
       "ministorum-priest",
       "primaris-psyker",

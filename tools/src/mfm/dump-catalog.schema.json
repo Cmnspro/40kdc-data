@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GW MFM dump semantic catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "catalog_version",
+    "root_fields",
+    "tables",
+    "relations"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "./dump-catalog.schema.json"
+    },
+    "catalog_version": {
+      "const": 1
+    },
+    "root_fields": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/field"
+      }
+    },
+    "tables": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/table"
+      }
+    },
+    "relations": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/relation"
+      }
+    }
+  },
+  "$defs": {
+    "ipClass": {
+      "enum": [
+        "structural",
+        "numeric",
+        "identifier",
+        "display-name",
+        "prose",
+        "artwork-reference"
+      ]
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "ip_class",
+        "shape_review"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ip_class": {
+          "$ref": "#/$defs/ipClass"
+        },
+        "shape_review": {
+          "enum": [
+            "observed",
+            "null-only"
+          ]
+        },
+        "relation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "status"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "status": {
+          "enum": [
+            "verified",
+            "candidate",
+            "none"
+          ]
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "row_shape",
+        "identity",
+        "fields"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "row_shape": {
+          "enum": [
+            "observed",
+            "unobserved"
+          ]
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "fields": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_table",
+        "source_field",
+        "target_table",
+        "target_field",
+        "cardinality",
+        "nullable",
+        "status",
+        "meaning"
+      ],
+      "properties": {
+        "source_table": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_table": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "target_field": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cardinality": {
+          "enum": [
+            "one-to-one",
+            "many-to-one",
+            "many-to-many-edge",
+            null
+          ]
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "verified",
+            "candidate",
+            "external",
+            "unresolved"
+          ]
+        },
+        "meaning": {
+          "enum": [
+            "ownership",
+            "applicability",
+            "eligibility",
+            "general"
+          ]
+        },
+        "edge_peer": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "target_table": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "target_table"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target_field": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "target_field": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "external"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target_table": {
+                "type": "null"
+              },
+              "target_field": {
+                "type": "null"
+              },
+              "cardinality": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target_table": {
+                "type": "string"
+              },
+              "target_field": {
+                "const": "id"
+              },
+              "cardinality": {
+                "enum": [
+                  "one-to-one",
+                  "many-to-one",
+                  "many-to-many-edge"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

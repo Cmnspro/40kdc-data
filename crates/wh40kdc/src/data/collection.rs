@@ -42,6 +42,11 @@ pub struct Collection<T> {
     /// Ids registered under >1 faction; populated by
     /// [`with_unscoped_guard`](Self::with_unscoped_guard).
     ambiguous_ids: Option<std::collections::HashSet<String>>,
+    /// Renamed-id map (old id → current id), consulted by id lookups only on a
+    /// `by_id` miss so a persisted reference to a since-renamed id still
+    /// resolves. Pre-flattened, so one hop suffices. Populated by
+    /// [`with_id_aliases`](Self::with_id_aliases). Mirror of the TS `idAliases`.
+    id_aliases: Option<HashMap<String, String>>,
     /// Noun for the guard panic message (e.g. `"unit"`).
     entity_label: &'static str,
 }
@@ -142,6 +147,7 @@ impl<T> Collection<T> {
             by_faction_id,
             norm_names,
             ambiguous_ids: None,
+            id_aliases: None,
             entity_label: "entity",
         }
     }
@@ -173,6 +179,30 @@ impl<T> Collection<T> {
         self.ambiguous_ids = Some(ambiguous);
         self.entity_label = entity_label;
         self
+    }
+
+    /// Attach a renamed-id map (old id → current id). Id lookups
+    /// ([`get`](Self::get)/[`get_any`](Self::get_any)/[`get_in_faction`](Self::get_in_faction)/
+    /// [`has`](Self::has)) consult it only when the exact id misses, so a
+    /// persisted reference to a since-renamed id still resolves. The map is
+    /// expected to be pre-flattened (each key maps directly to a terminal live
+    /// id). Mirror of the TS `idAliases` (typically the share registry's
+    /// `aliases`).
+    pub fn with_id_aliases(mut self, id_aliases: HashMap<String, String>) -> Self {
+        self.id_aliases = Some(id_aliases);
+        self
+    }
+
+    /// Item index for an id: exact `by_id`, falling back through the
+    /// [`id_aliases`](Self::with_id_aliases) map (one hop) on a miss.
+    fn raw_index(&self, id: &str) -> Option<usize> {
+        if let Some(&i) = self.by_id.get(id) {
+            return Some(i);
+        }
+        self.id_aliases
+            .as_ref()
+            .and_then(|m| m.get(id))
+            .and_then(|new_id| self.by_id.get(new_id).copied())
     }
 
     /// Every record, deduplicated, in first-seen order.
@@ -211,7 +241,7 @@ impl<T> Collection<T> {
                 );
             }
         }
-        self.by_id.get(id).map(|&i| &self.items[i])
+        self.raw_index(id).map(|i| &self.items[i])
     }
 
     /// First-wins lookup by exact id that never panics, for callers with no
@@ -220,7 +250,7 @@ impl<T> Collection<T> {
     /// [`get`](Self::get)'s ambiguity tripwire; for an unguarded one it is
     /// identical to `get`. Mirror of the TS `getAny`.
     pub fn get_any(&self, id: &str) -> Option<&T> {
-        self.by_id.get(id).map(|&i| &self.items[i])
+        self.raw_index(id).map(|i| &self.items[i])
     }
 
     /// Look up by exact id *within a faction*. Returns the record with `id`
@@ -229,15 +259,25 @@ impl<T> Collection<T> {
     /// whichever copy registered first, which may be the wrong faction's. Mirror
     /// of the TS `getInFaction`.
     pub fn get_in_faction(&self, id: &str, faction_id: &str) -> Option<&T> {
+        // Resolve a renamed id to its current form before scoping to the faction.
+        let resolved: &str = if self.by_id.contains_key(id) {
+            id
+        } else {
+            self.id_aliases
+                .as_ref()
+                .and_then(|m| m.get(id))
+                .map(String::as_str)
+                .unwrap_or(id)
+        };
         self.by_faction_id
             .get(faction_id)
-            .and_then(|m| m.get(id))
+            .and_then(|m| m.get(resolved))
             .map(|&i| &self.items[i])
     }
 
-    /// Whether a record with this exact id exists.
+    /// Whether a record with this exact id (or a renamed alias of it) exists.
     pub fn has(&self, id: &str) -> bool {
-        self.by_id.contains_key(id)
+        self.raw_index(id).is_some()
     }
 
     /// Record at a stored index (used by [`Dataset`](super::Dataset)'s reverse
@@ -264,7 +304,7 @@ impl<T> Collection<T> {
     /// normalized-name-substring match. Surfaces (rather than silently
     /// collapses) names shared across factions.
     pub fn find_all(&self, query: &str) -> Vec<&T> {
-        if let Some(&i) = self.by_id.get(query) {
+        if let Some(i) = self.raw_index(query) {
             return vec![&self.items[i]];
         }
         let key = normalize_name(query);

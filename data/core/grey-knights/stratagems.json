@@ -1,5 +1,62 @@
 [
   {
+    "id": "a-threat-ended-argent-assault",
+    "name": "A Threat Ended",
+    "category": "detachment",
+    "detachment_id": "argent-assault",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "abominus-class-targets-sanctic-spearhead",
+    "name": "ABOMINUS-CLASS TARGETS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "sanctic-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "aegis-eternal-warpbane-task-force",
+    "name": "Aegis Eternal",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "warpbane-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
     "id": "aggressive-anticipation-augurium-task-force",
     "name": "AGGRESSIVE ANTICIPATION",
     "category": "detachment",
@@ -40,14 +97,14 @@
     }
   },
   {
-    "id": "purgation-pattern-brotherhood-strike",
-    "name": "PURGATION PATTERN",
+    "id": "argent-wrath-sanctic-spearhead",
+    "name": "ARGENT WRATH",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "brotherhood-strike",
+    "type": "strategic-ploy",
+    "detachment_id": "sanctic-spearhead",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "charge"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -59,108 +116,11 @@
     }
   },
   {
-    "id": "shining-veil-brotherhood-strike",
-    "name": "SHINING VEIL",
+    "id": "armoured-aegis-sanctic-spearhead",
+    "name": "ARMOURED AEGIS",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "brotherhood-strike",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "giants-of-the-battlefield-hallowed-conclave",
-    "name": "GIANTS OF THE BATTLEFIELD",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "hallowed-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "abominus-class-targets-sanctic-spearhead",
-    "name": "ABOMINUS-CLASS TARGETS",
-    "category": "detachment",
-    "type": "battle-tactic",
+    "type": "strategic-ploy",
     "detachment_id": "sanctic-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "forewarned-evasion-augurium-task-force",
-    "name": "FOREWARNED EVASION",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "augurium-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "necessary-end-augurium-task-force",
-    "name": "NECESSARY END",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "augurium-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "redirected-strike-augurium-task-force",
-    "name": "REDIRECTED STRIKE",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "augurium-task-force",
     "cp_cost": 1,
     "phases": [
       "command"
@@ -175,17 +135,12 @@
     }
   },
   {
-    "id": "hexwrought-reprisal-banishers",
-    "name": "HEXWROUGHT REPRISAL",
+    "id": "aura-of-vengeance-argent-assault",
+    "name": "Aura of Vengeance",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "banishers",
+    "detachment_id": "argent-assault",
     "cp_cost": 1,
     "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
       "fight"
     ],
     "player_turn": "either",
@@ -198,15 +153,13 @@
     }
   },
   {
-    "id": "warding-chant-banishers",
-    "name": "WARDING CHANT",
+    "id": "blades-from-the-beyond-immaterial-interdiction",
+    "name": "Blades From the Beyond",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "banishers",
+    "detachment_id": "immaterial-interdiction",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -218,11 +171,10 @@
     }
   },
   {
-    "id": "chaos-bane-banishers",
-    "name": "CHAOS BANE",
+    "id": "by-thought-alone-immaterial-interdiction",
+    "name": "By Thought Alone",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "banishers",
+    "detachment_id": "immaterial-interdiction",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -256,16 +208,16 @@
     }
   },
   {
-    "id": "circle-of-sanctuary-banishers",
-    "name": "CIRCLE OF SANCTUARY",
+    "id": "chaos-bane-banishers",
+    "name": "CHAOS BANE",
     "category": "detachment",
     "type": "epic-deed",
     "detachment_id": "banishers",
     "cp_cost": 1,
     "phases": [
-      "movement"
+      "shooting"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -275,8 +227,8 @@
     }
   },
   {
-    "id": "shadow-of-anarch-banishers",
-    "name": "SHADOW OF ANARCH",
+    "id": "circle-of-sanctuary-banishers",
+    "name": "CIRCLE OF SANCTUARY",
     "category": "detachment",
     "type": "epic-deed",
     "detachment_id": "banishers",
@@ -313,48 +265,6 @@
     }
   },
   {
-    "id": "truesilver-will-sanctic-spearhead",
-    "name": "TRUESILVER WILL",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "sanctic-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mirage-of-echoes-augurium-task-force",
-    "name": "MIRAGE OF ECHOES",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "augurium-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "duty-unending-brotherhood-strike",
     "name": "DUTY UNENDING",
     "category": "detachment",
@@ -374,192 +284,18 @@
     }
   },
   {
-    "id": "unending-fidelity-hallowed-conclave",
-    "name": "UNENDING FIDELITY",
+    "id": "exigent-assignments-crowes-sanctifiers",
+    "name": "Exigent Assignments",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hallowed-conclave",
+    "detachment_id": "crowes-sanctifiers",
     "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "point-blank-purgation-hallowed-conclave",
-    "name": "POINT-BLANK PURGATION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hallowed-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "grind-them-underfoot-hallowed-conclave",
-    "name": "GRIND THEM UNDERFOOT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hallowed-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "precognitive-strategies-hallowed-conclave",
-    "name": "PRECOGNITIVE STRATEGIES",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hallowed-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "shining-resolve-hallowed-conclave",
-    "name": "SHINING RESOLVE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hallowed-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "armoured-aegis-sanctic-spearhead",
-    "name": "ARMOURED AEGIS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "sanctic-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "redoubled-assault-sanctic-spearhead",
-    "name": "REDOUBLED ASSAULT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "sanctic-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "force-wave-sanctic-spearhead",
-    "name": "FORCE WAVE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "sanctic-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "charge",
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "argent-wrath-sanctic-spearhead",
-    "name": "ARGENT WRATH",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "sanctic-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "truesilver-channelling-brotherhood-strike",
-    "name": "TRUESILVER CHANNELLING",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "brotherhood-strike",
-    "cp_cost": 2,
     "phases": [
       "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "exigent-assignments-crowes-sanctifiers",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -576,26 +312,6 @@
       "fight"
     ],
     "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sanctified-kill-zone-warpbane-task-force",
-    "name": "Sanctified Kill Zone",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "warpbane-task-force",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -643,16 +359,93 @@
     }
   },
   {
-    "id": "aegis-eternal-warpbane-task-force",
-    "name": "Aegis Eternal",
+    "id": "focused-immolation-fires-of-purgation",
+    "name": "Focused Immolation",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "warpbane-task-force",
+    "detachment_id": "fires-of-purgation",
     "cp_cost": 1,
     "phases": [
       "shooting"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "force-wave-sanctic-spearhead",
+    "name": "FORCE WAVE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "sanctic-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "charge",
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "forewarned-evasion-augurium-task-force",
+    "name": "FOREWARNED EVASION",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "augurium-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "giants-of-the-battlefield-hallowed-conclave",
+    "name": "GIANTS OF THE BATTLEFIELD",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "hallowed-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "grind-them-underfoot-hallowed-conclave",
+    "name": "GRIND THEM UNDERFOOT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hallowed-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -681,6 +474,198 @@
     }
   },
   {
+    "id": "hexwrought-reprisal-banishers",
+    "name": "HEXWROUGHT REPRISAL",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "banishers",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mirage-of-echoes-augurium-task-force",
+    "name": "MIRAGE OF ECHOES",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "augurium-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "necessary-end-augurium-task-force",
+    "name": "NECESSARY END",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "augurium-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "point-blank-purgation-hallowed-conclave",
+    "name": "POINT-BLANK PURGATION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hallowed-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "precognitive-strategies-hallowed-conclave",
+    "name": "PRECOGNITIVE STRATEGIES",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hallowed-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "psi-reactive-ammunition-crowes-sanctifiers",
+    "name": "Psi-reactive Ammunition",
+    "category": "detachment",
+    "detachment_id": "crowes-sanctifiers",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "psi-reactive-ammunition-crowes-sanctifiers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "purgation-pattern-brotherhood-strike",
+    "name": "PURGATION PATTERN",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "brotherhood-strike",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "redirected-strike-augurium-task-force",
+    "name": "REDIRECTED STRIKE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "augurium-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "redoubled-assault-sanctic-spearhead",
+    "name": "REDOUBLED ASSAULT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "sanctic-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "refusal-to-yield-crowes-sanctifiers",
+    "name": "Refusal to Yield",
+    "category": "detachment",
+    "detachment_id": "crowes-sanctifiers",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "refusal-to-yield-crowes-sanctifiers",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
     "id": "repelling-sphere-warpbane-task-force",
     "name": "Repelling Sphere",
     "category": "detachment",
@@ -691,6 +676,137 @@
       "charge"
     ],
     "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "responsive-displacement-immaterial-interdiction",
+    "name": "Responsive Displacement",
+    "category": "detachment",
+    "detachment_id": "immaterial-interdiction",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sanctified-kill-zone-warpbane-task-force",
+    "name": "Sanctified Kill Zone",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "warpbane-task-force",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shadow-of-anarch-banishers",
+    "name": "SHADOW OF ANARCH",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "banishers",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shining-resolve-hallowed-conclave",
+    "name": "SHINING RESOLVE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hallowed-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "shining-veil-brotherhood-strike",
+    "name": "SHINING VEIL",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "brotherhood-strike",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "soul-locked-fires-of-purgation",
+    "name": "Soul-locked",
+    "category": "detachment",
+    "detachment_id": "fires-of-purgation",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "spiritsear-fires-of-purgation",
+    "name": "Spiritsear",
+    "category": "detachment",
+    "detachment_id": "fires-of-purgation",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -722,11 +838,12 @@
     }
   },
   {
-    "id": "a-threat-ended-argent-assault",
-    "name": "A Threat Ended",
+    "id": "truesilver-channelling-brotherhood-strike",
+    "name": "TRUESILVER CHANNELLING",
     "category": "detachment",
-    "detachment_id": "argent-assault",
-    "cp_cost": 1,
+    "type": "strategic-ploy",
+    "detachment_id": "brotherhood-strike",
+    "cp_cost": 2,
     "phases": [
       "fight"
     ],
@@ -740,12 +857,17 @@
     }
   },
   {
-    "id": "aura-of-vengeance-argent-assault",
-    "name": "Aura of Vengeance",
+    "id": "truesilver-will-sanctic-spearhead",
+    "name": "TRUESILVER WILL",
     "category": "detachment",
-    "detachment_id": "argent-assault",
+    "type": "epic-deed",
+    "detachment_id": "sanctic-spearhead",
     "cp_cost": 1,
     "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
       "fight"
     ],
     "player_turn": "either",
@@ -758,67 +880,15 @@
     }
   },
   {
-    "id": "soul-locked-fires-of-purgation",
-    "name": "Soul-locked",
+    "id": "unending-fidelity-hallowed-conclave",
+    "name": "UNENDING FIDELITY",
     "category": "detachment",
-    "detachment_id": "fires-of-purgation",
+    "type": "strategic-ploy",
+    "detachment_id": "hallowed-conclave",
     "cp_cost": 1,
     "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "focused-immolation-fires-of-purgation",
-    "name": "Focused Immolation",
-    "category": "detachment",
-    "detachment_id": "fires-of-purgation",
-    "cp_cost": 1,
-    "phases": [
+      "fight",
       "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "spiritsear-fires-of-purgation",
-    "name": "Spiritsear",
-    "category": "detachment",
-    "detachment_id": "fires-of-purgation",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "blades-from-the-beyond-immaterial-interdiction",
-    "name": "Blades From the Beyond",
-    "category": "detachment",
-    "detachment_id": "immaterial-interdiction",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -830,33 +900,17 @@
     }
   },
   {
-    "id": "by-thought-alone-immaterial-interdiction",
-    "name": "By Thought Alone",
+    "id": "warding-chant-banishers",
+    "name": "WARDING CHANT",
     "category": "detachment",
-    "detachment_id": "immaterial-interdiction",
+    "type": "epic-deed",
+    "detachment_id": "banishers",
     "cp_cost": 1,
     "phases": [
+      "fight",
       "shooting"
     ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "responsive-displacement-immaterial-interdiction",
-    "name": "Responsive Displacement",
-    "category": "detachment",
-    "detachment_id": "immaterial-interdiction",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,

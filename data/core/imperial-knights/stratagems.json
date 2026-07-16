@@ -1,13 +1,52 @@
 [
   {
-    "id": "thunderstomp-valourstrike-lance",
-    "name": "THUNDERSTOMP",
+    "id": "aggression-begets-aggression-questor-forgepact",
+    "name": "AGGRESSION BEGETS AGGRESSION",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "valourstrike-lance",
+    "type": "strategic-ploy",
+    "detachment_id": "questor-forgepact",
     "cp_cost": 1,
     "phases": [
-      "fight"
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "bonded-imperative-questor-forgepact",
+    "name": "BONDED IMPERATIVE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "questor-forgepact",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "courageous-stand-questoris-companions",
+    "name": "COURAGEOUS STAND",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "questoris-companions",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -39,73 +78,16 @@
     }
   },
   {
-    "id": "steadfast-superiority-gate-warden-lance",
-    "name": "STEADFAST SUPERIORITY",
+    "id": "driven-by-the-past-questoris-companions",
+    "name": "DRIVEN BY THE PAST",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "gate-warden-lance",
+    "type": "epic-deed",
+    "detachment_id": "questoris-companions",
     "cp_cost": 1,
     "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "marshal-the-defence-gate-warden-lance",
-    "name": "MARSHAL THE DEFENCE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "gate-warden-lance",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
+      "charge"
     ],
     "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "titanic-bombardment-gate-warden-lance",
-    "name": "TITANIC BOMBARDMENT",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "gate-warden-lance",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "virtue-of-courage-spearhead-at-arms",
-    "name": "VIRTUE OF COURAGE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "spearhead-at-arms",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -134,11 +116,10 @@
     }
   },
   {
-    "id": "thin-their-ranks-spearhead-at-arms",
-    "name": "THIN THEIR RANKS",
+    "id": "fire-shocked-dominus-foebreakers",
+    "name": "FIRE SHOCKED",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "spearhead-at-arms",
+    "detachment_id": "dominus-foebreakers",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -146,45 +127,44 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "fire-shocked-dominus-foebreakers",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "full-tilt-valourstrike-lance",
-    "name": "FULL TILT",
+    "id": "flanking-manoeuvres-freeblade-company",
+    "name": "FLANKING MANOEUVRES",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "valourstrike-lance",
-    "cp_cost": 2,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "bonded-imperative-questor-forgepact",
-    "name": "BONDED IMPERATIVE",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "questor-forgepact",
+    "type": "strategic-ploy",
+    "detachment_id": "freeblade-company",
     "cp_cost": 1,
     "phases": [
-      "command"
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "flanking-manoeuvres-freeblade-company",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "foebreaker-firestorm-dominus-foebreakers",
+    "name": "FOEBREAKER FIRESTORM",
+    "category": "detachment",
+    "detachment_id": "dominus-foebreakers",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "foebreaker-firestorm-dominus-foebreakers",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -210,16 +190,35 @@
     }
   },
   {
-    "id": "let-duty-be-your-shield-spearhead-at-arms",
-    "name": "LET DUTY BE YOUR SHIELD",
+    "id": "full-tilt-freeblade-company",
+    "name": "FULL TILT",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "spearhead-at-arms",
+    "type": "wargear",
+    "detachment_id": "freeblade-company",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "movement"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "full-tilt-freeblade-company",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "full-tilt-valourstrike-lance",
+    "name": "FULL TILT",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "valourstrike-lance",
+    "cp_cost": 2,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -229,59 +228,36 @@
     }
   },
   {
-    "id": "courageous-stand-questoris-companions",
-    "name": "COURAGEOUS STAND",
+    "id": "ground-shaking-strides-dominus-foebreakers",
+    "name": "GROUND-SHAKING STRIDES",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "questoris-companions",
+    "detachment_id": "dominus-foebreakers",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "movement"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "ground-shaking-strides-dominus-foebreakers",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "titanic-duel-questoris-companions",
-    "name": "TITANIC DUEL",
+    "id": "helm-conditioning-throne-bonded-outriders",
+    "name": "HELM CONDITIONING",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "questoris-companions",
+    "detachment_id": "throne-bonded-outriders",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "command"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "moment-of-glory-questoris-companions",
-    "name": "MOMENT OF GLORY",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "questoris-companions",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "helm-conditioning-throne-bonded-outriders",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -307,49 +283,47 @@
     }
   },
   {
-    "id": "driven-by-the-past-questoris-companions",
-    "name": "DRIVEN BY THE PAST",
+    "id": "honoured-to-serve-throne-bonded-outriders",
+    "name": "HONOURED TO SERVE",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "questoris-companions",
+    "detachment_id": "throne-bonded-outriders",
     "cp_cost": 1,
     "phases": [
-      "charge"
+      "shooting"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "honoured-to-serve-throne-bonded-outriders",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "unstoppable-warrior-questoris-companions",
-    "name": "UNSTOPPABLE WARRIOR",
+    "id": "in-the-shadow-of-giants-questor-forgepact",
+    "name": "In the Shadow of Giants",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "questoris-companions",
-    "cp_cost": 2,
+    "detachment_id": "questor-forgepact",
+    "cp_cost": 1,
     "phases": [
       "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "in-the-shadow-of-giants-questor-forgepact",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "run-them-through-valourstrike-lance",
-    "name": "RUN THEM THROUGH!",
+    "id": "lancebreaker-gate-warden-lance",
+    "name": "LANCEBREAKER",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "valourstrike-lance",
+    "detachment_id": "gate-warden-lance",
     "cp_cost": 1,
     "phases": [
       "fight"
@@ -364,33 +338,14 @@
     }
   },
   {
-    "id": "vow-of-retribution-valourstrike-lance",
-    "name": "VOW OF RETRIBUTION",
+    "id": "let-duty-be-your-shield-spearhead-at-arms",
+    "name": "LET DUTY BE YOUR SHIELD",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "valourstrike-lance",
+    "type": "epic-deed",
+    "detachment_id": "spearhead-at-arms",
     "cp_cost": 1,
     "phases": [
       "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "tactical-foil-valourstrike-lance",
-    "name": "TACTICAL FOIL",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "valourstrike-lance",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -421,11 +376,285 @@
     }
   },
   {
-    "id": "aggression-begets-aggression-questor-forgepact",
-    "name": "AGGRESSION BEGETS AGGRESSION",
+    "id": "mantle-of-the-mentor-spearhead-at-arms",
+    "name": "MANTLE OF THE MENTOR",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "spearhead-at-arms",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "marshal-the-defence-gate-warden-lance",
+    "name": "MARSHAL THE DEFENCE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "gate-warden-lance",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "moment-of-glory-questoris-companions",
+    "name": "MOMENT OF GLORY",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "questoris-companions",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "neural-lash-throne-bonded-outriders",
+    "name": "NEURAL LASH",
+    "category": "detachment",
+    "detachment_id": "throne-bonded-outriders",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "neural-lash-throne-bonded-outriders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "noble-sacrifice-freeblade-company",
+    "name": "NOBLE SACRIFICE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "freeblade-company",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "noble-sacrifice-freeblade-company",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "omnissiahs-grace-questor-forgepact",
+    "name": "OMNISSIAH’S GRACE",
     "category": "detachment",
     "type": "strategic-ploy",
     "detachment_id": "questor-forgepact",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "point-blank-barrage-freeblade-company",
+    "name": "POINT-BLANK BARRAGE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "freeblade-company",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "point-blank-barrage-freeblade-company",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "rotate-ion-shields-valourstrike-lance",
+    "name": "ROTATE ION SHIELDS",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "valourstrike-lance",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "run-them-through-valourstrike-lance",
+    "name": "RUN THEM THROUGH!",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "valourstrike-lance",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "squires-of-the-hunt-spearhead-at-arms",
+    "name": "SQUIRES OF THE HUNT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "spearhead-at-arms",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "steadfast-superiority-gate-warden-lance",
+    "name": "STEADFAST SUPERIORITY",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "gate-warden-lance",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "strength-from-exile-freeblade-company",
+    "name": "STRENGTH FROM EXILE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "freeblade-company",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "strength-from-exile-freeblade-company",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "survivor-of-strife-freeblade-company",
+    "name": "SURVIVOR OF STRIFE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "freeblade-company",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "survivor-of-strife-freeblade-company",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "tactical-foil-valourstrike-lance",
+    "name": "TACTICAL FOIL",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "valourstrike-lance",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "thin-their-ranks-spearhead-at-arms",
+    "name": "THIN THEIR RANKS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "spearhead-at-arms",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -459,20 +688,74 @@
     }
   },
   {
-    "id": "omnissiahs-grace-questor-forgepact",
-    "name": "OMNISSIAH’S GRACE",
+    "id": "thunderstomp-valourstrike-lance",
+    "name": "THUNDERSTOMP",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "questor-forgepact",
+    "type": "battle-tactic",
+    "detachment_id": "valourstrike-lance",
     "cp_cost": 1,
     "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
       "fight"
     ],
     "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-bombardment-gate-warden-lance",
+    "name": "TITANIC BOMBARDMENT",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "gate-warden-lance",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "titanic-duel-questoris-companions",
+    "name": "TITANIC DUEL",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "questoris-companions",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unstoppable-warrior-questoris-companions",
+    "name": "UNSTOPPABLE WARRIOR",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "questoris-companions",
+    "cp_cost": 2,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -505,11 +788,11 @@
     }
   },
   {
-    "id": "lancebreaker-gate-warden-lance",
-    "name": "LANCEBREAKER",
+    "id": "virtue-of-courage-spearhead-at-arms",
+    "name": "VIRTUE OF COURAGE",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "gate-warden-lance",
+    "type": "battle-tactic",
+    "detachment_id": "spearhead-at-arms",
     "cp_cost": 1,
     "phases": [
       "fight"
@@ -524,284 +807,19 @@
     }
   },
   {
-    "id": "mantle-of-the-mentor-spearhead-at-arms",
-    "name": "MANTLE OF THE MENTOR",
+    "id": "vow-of-retribution-valourstrike-lance",
+    "name": "VOW OF RETRIBUTION",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "spearhead-at-arms",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "squires-of-the-hunt-spearhead-at-arms",
-    "name": "SQUIRES OF THE HUNT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "spearhead-at-arms",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "rotate-ion-shields-valourstrike-lance",
-    "name": "ROTATE ION SHIELDS",
-    "category": "detachment",
-    "type": "wargear",
     "detachment_id": "valourstrike-lance",
     "cp_cost": 1,
     "phases": [
       "shooting"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ground-shaking-strides-dominus-foebreakers",
-    "name": "GROUND-SHAKING STRIDES",
-    "category": "detachment",
-    "detachment_id": "dominus-foebreakers",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "ground-shaking-strides-dominus-foebreakers",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "foebreaker-firestorm-dominus-foebreakers",
-    "name": "FOEBREAKER FIRESTORM",
-    "category": "detachment",
-    "detachment_id": "dominus-foebreakers",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "foebreaker-firestorm-dominus-foebreakers",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "fire-shocked-dominus-foebreakers",
-    "name": "FIRE SHOCKED",
-    "category": "detachment",
-    "detachment_id": "dominus-foebreakers",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "fire-shocked-dominus-foebreakers",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "neural-lash-throne-bonded-outriders",
-    "name": "NEURAL LASH",
-    "category": "detachment",
-    "detachment_id": "throne-bonded-outriders",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "neural-lash-throne-bonded-outriders",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "helm-conditioning-throne-bonded-outriders",
-    "name": "HELM CONDITIONING",
-    "category": "detachment",
-    "detachment_id": "throne-bonded-outriders",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "helm-conditioning-throne-bonded-outriders",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "honoured-to-serve-throne-bonded-outriders",
-    "name": "HONOURED TO SERVE",
-    "category": "detachment",
-    "detachment_id": "throne-bonded-outriders",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "honoured-to-serve-throne-bonded-outriders",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "noble-sacrifice-freeblade-company",
-    "name": "NOBLE SACRIFICE",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "freeblade-company",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "noble-sacrifice-freeblade-company",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "point-blank-barrage-freeblade-company",
-    "name": "POINT-BLANK BARRAGE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "freeblade-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "point-blank-barrage-freeblade-company",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "strength-from-exile-freeblade-company",
-    "name": "STRENGTH FROM EXILE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "freeblade-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "strength-from-exile-freeblade-company",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "survivor-of-strife-freeblade-company",
-    "name": "SURVIVOR OF STRIFE",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "freeblade-company",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "survivor-of-strife-freeblade-company",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "full-tilt-freeblade-company",
-    "name": "FULL TILT",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "freeblade-company",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "full-tilt-freeblade-company",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "flanking-manoeuvres-freeblade-company",
-    "name": "FLANKING MANOEUVRES",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "freeblade-company",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "flanking-manoeuvres-freeblade-company",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"

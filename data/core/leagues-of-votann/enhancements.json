@@ -504,8 +504,8 @@
     "max_targets": 1
   },
   {
-    "id": "saturation-rounds-armoured-trailblazers",
-    "name": "Saturation Rounds",
+    "id": "saturation-rounds-upgrade-armoured-trailblazers",
+    "name": "Saturation Rounds (Upgrade)",
     "detachment_id": "armoured-trailblazers",
     "cost": 10,
     "keyword_restrictions": [
@@ -519,11 +519,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "optimised-attack-lines-armoured-trailblazers",
-    "name": "Optimised Attack Lines",
+    "id": "optimised-attack-lines-upgrade-armoured-trailblazers",
+    "name": "Optimised Attack Lines (Upgrade)",
     "detachment_id": "armoured-trailblazers",
     "cost": 15,
     "keyword_restrictions": [
@@ -537,11 +537,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "pan-spectral-lockons-farseekers",
-    "name": "Pan-spectral Lockons",
+    "id": "pan-spectral-lockons-upgrade-farseekers",
+    "name": "Pan-spectral Lockons (Upgrade)",
     "detachment_id": "farseekers",
     "cost": 10,
     "keyword_restrictions": [
@@ -555,7 +555,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "ironskein-hearthguard-covenant",
@@ -572,7 +572,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -588,7 +588,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Bane-Slayer's Bulwark",
+      "Thunderkyn"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "indomitable-exemplar-bane-slayers-bulwark",
@@ -603,6 +608,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Bane-Slayer's Bulwark",
+      "Einhyr Champion"
+    ]
   }
 ]

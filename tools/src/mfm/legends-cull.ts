@@ -33,11 +33,12 @@
 import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
-import { MfmDump, REPO_ROOT, type DatasheetRow } from "./loader.js";
+import { MfmDump, type DatasheetRow } from "./loader.js";
+import { readJsonArray, CORE_DIR } from "./repo-files.js";
 import { repoDirs } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 
 /** Above this total, assume a matching/dump regression and refuse to --write. */
 const SANITY_MAX_DROP = 260;
@@ -74,9 +75,7 @@ interface IdItem {
   id?: string;
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 export interface DirCull {
   dir: string;
@@ -101,7 +100,7 @@ export interface CullReport {
 function dumpSlugSets(dump: MfmDump): { live: Set<string>; legends: Set<string> } {
   const live = new Set<string>();
   const legends = new Set<string>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     const n = dump.enName(ds);
     if (!n) continue;
     let id: string;
@@ -152,13 +151,13 @@ export function runCull(dump: MfmDump, write: boolean): CullReport {
   // kept everywhere; only ids referenced nowhere are truly orphaned.
   const globalReferenced = new Set<string>();
   for (const dir of [...repoDirs()].sort()) {
-    const units = readJson<Unit>(path.join(CORE_DIR, dir, "units.json"));
+    const units = readJsonArray<Unit>(path.join(CORE_DIR, dir, "units.json"));
     if (!units.length) continue;
     for (const u of units) allRepoUnitIds.add(u.id);
     const dropList = units.filter((u) => !live.has(u.id));
     const droppedIds = new Set(dropList.map((u) => u.id));
-    const options = readJson<WargearOption>(path.join(CORE_DIR, dir, "wargear-options.json"));
-    const comps = readJson<UnitComposition>(path.join(CORE_DIR, dir, "unit-compositions.json"));
+    const options = readJsonArray<WargearOption>(path.join(CORE_DIR, dir, "wargear-options.json"));
+    const comps = readJsonArray<UnitComposition>(path.join(CORE_DIR, dir, "unit-compositions.json"));
     for (const u of units)
       if (!droppedIds.has(u.id)) for (const w of u.weapon_ids ?? []) globalReferenced.add(w);
     for (const o of options)
@@ -219,7 +218,7 @@ export function runCull(dump: MfmDump, write: boolean): CullReport {
 
     // leader-attachments
     const leaderPath = path.join(CORE_DIR, dir, "leader-attachments.json");
-    const leaders = readJson<LeaderAttachment>(leaderPath);
+    const leaders = readJsonArray<LeaderAttachment>(leaderPath);
     const survivingLeaders: LeaderAttachment[] = [];
     for (const la of leaders) {
       if (droppedIds.has(la.leader_id)) {
@@ -239,12 +238,12 @@ export function runCull(dump: MfmDump, write: boolean): CullReport {
 
     // orphan weapons/wargear: referenced by zero surviving entity ANYWHERE (global)
     const weaponsPath = path.join(CORE_DIR, dir, "weapons.json");
-    const weapons = readJson<IdItem>(weaponsPath);
+    const weapons = readJsonArray<IdItem>(weaponsPath);
     const survivingWeapons = weapons.filter((w) => w.id && globalReferenced.has(w.id));
     res.weaponsRemoved = weapons.filter((w) => w.id && !globalReferenced.has(w.id)).map((w) => w.id!).sort();
 
     const wargearPath = path.join(CORE_DIR, dir, "wargear.json");
-    const wargear = readJson<IdItem>(wargearPath);
+    const wargear = readJsonArray<IdItem>(wargearPath);
     const survivingWargear = wargear.filter((w) => w.id && globalReferenced.has(w.id));
     res.wargearRemoved = wargear.filter((w) => w.id && !globalReferenced.has(w.id)).map((w) => w.id!).sort();
 

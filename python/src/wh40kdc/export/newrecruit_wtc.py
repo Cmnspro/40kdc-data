@@ -81,6 +81,11 @@ def _header(roster: Roster, units: list[RosterUnit], char_slots: list[int | None
         f"+ LIST NAME: {roster['name']}",
         f"+ FACTION KEYWORD: {faction}",
         f"+ DETACHMENT: {detachment if detachment is not None else '—'}",
+    ]
+    disposition = title_case_id(roster.get("force_disposition"))
+    if disposition is not None:
+        lines.append(f"+ FORCE DISPOSITION: {disposition}")
+    lines += [
         f"+ TOTAL ARMY POINTS: {total}pts",
         f"+ POINTS LIMIT: {limit}pts",
         "+",

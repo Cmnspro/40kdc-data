@@ -1,0 +1,70 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/game-version.schema.json",
+  "mapping_version": 1,
+  "root_tables": [],
+  "fields": {
+    "/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The dataslate identifier is repository-authored version metadata; the dump snapshot number is not a dataslate identifier."
+    },
+    "/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The edition identifier is repository-authored version metadata; no MFM entity field establishes it."
+    },
+    "/effective_date": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The effective date is repository-authored version metadata; the dump exposes snapshot provenance, not an entity effective date."
+    },
+    "/label": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The human-readable version label is repository-authored; no MFM entity field supplies it."
+    },
+    "/supersedes": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Version supersession is repository-authored curation; no MFM entity relation establishes it."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "metadata.data_version",
+      "candidate_pointer": null,
+      "reason": "This numeric value identifies the dump snapshot only. It is non-entity provenance and must not be transformed into edition, dataslate, effective date, label, or supersession."
+    }
+  ]
+}

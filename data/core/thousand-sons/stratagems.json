@@ -1,114 +1,11 @@
 [
   {
-    "id": "sulphurous-veil-changehost-of-deceit",
-    "name": "SULPHUROUS VEIL",
+    "id": "arcane-focus-grand-coven",
+    "name": "ARCANE FOCUS",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "changehost-of-deceit",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hex-marked-armour-warpforged-cabal",
-    "name": "HEX-MARKED ARMOUR",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "warpforged-cabal",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ensorcelled-infusion-warpforged-cabal",
-    "name": "ENSORCELLED INFUSION",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "warpforged-cabal",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": {
-      "required_keywords": [
-        "Thousand Sons",
-        "Vehicle"
-      ],
-      "notes": "Has not been selected to shoot this phase; within 6\" of one or more friendly THOUSAND SONS PSYKER units."
-    },
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "kaleidoscopic-tempest-hexwarp-thrallband",
-    "name": "KALEIDOSCOPIC TEMPEST",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "hexwarp-thrallband",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "unwavering-phalanx-rubricae-phalanx",
-    "name": "UNWAVERING PHALANX",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "rubricae-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "devastating-sorcery-grand-coven",
-    "name": "DEVASTATING SORCERY",
-    "category": "detachment",
-    "type": "battle-tactic",
+    "type": "epic-deed",
     "detachment_id": "grand-coven",
-    "cp_cost": 2,
+    "cp_cost": 1,
     "phases": [
       "shooting"
     ],
@@ -122,49 +19,29 @@
     }
   },
   {
-    "id": "mutate-landscape-warpforged-cabal",
-    "name": "MUTATE LANDSCAPE",
+    "id": "arcane-venting-sekhetar-cohort",
+    "name": "ARCANE VENTING",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "warpforged-cabal",
+    "detachment_id": "sekhetar-cohort",
     "cp_cost": 1,
     "phases": [
-      "command"
+      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "arcane-venting-sekhetar-cohort",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "malevolent-animus-warpforged-cabal",
-    "name": "MALEVOLENT ANIMUS",
+    "id": "ardent-automata-rubricae-phalanx",
+    "name": "ARDENT AUTOMATA",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "warpforged-cabal",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "through-the-veil-hexwarp-thrallband",
-    "name": "THROUGH THE VEIL",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "hexwarp-thrallband",
+    "type": "strategic-ploy",
+    "detachment_id": "rubricae-phalanx",
     "cp_cost": 1,
     "phases": [
       "movement"
@@ -179,14 +56,71 @@
     }
   },
   {
-    "id": "warding-hex-hexwarp-thrallband",
-    "name": "WARDING HEX",
+    "id": "blessed-transmutations-warpmeld-pact",
+    "name": "BLESSED TRANSMUTATIONS",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "hexwarp-thrallband",
+    "type": "strategic-ploy",
+    "detachment_id": "warpmeld-pact",
     "cp_cost": 1,
     "phases": [
       "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chronosorcerous-bleed-changehost-of-deceit",
+    "name": "CHRONOSORCEROUS BLEED",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "changehost-of-deceit",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "cyberspirit-machinations-warpforged-cabal",
+    "name": "CYBERSPIRIT MACHINATIONS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "warpforged-cabal",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "deceptive-glamour-changehost-of-deceit",
+    "name": "DECEPTIVE GLAMOUR",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "changehost-of-deceit",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -198,20 +132,35 @@
     }
   },
   {
-    "id": "psychic-dominion-grand-coven",
-    "name": "PSYCHIC DOMINION",
+    "id": "deranged-ferocity-warpmeld-pact",
+    "name": "DERANGED FEROCITY",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "warpmeld-pact",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "desecration-of-worlds-grand-coven",
+    "name": "DESECRATION OF WORLDS",
     "category": "detachment",
     "type": "epic-deed",
     "detachment_id": "grand-coven",
     "cp_cost": 1,
     "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
+      "command"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -244,10 +193,47 @@
     }
   },
   {
-    "id": "desecration-of-worlds-grand-coven",
-    "name": "DESECRATION OF WORLDS",
+    "id": "devastating-sorcery-grand-coven",
+    "name": "DEVASTATING SORCERY",
     "category": "detachment",
-    "type": "epic-deed",
+    "type": "battle-tactic",
+    "detachment_id": "grand-coven",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ectoplasmic-extrusion-sekhetar-cohort",
+    "name": "ECTOPLASMIC EXTRUSION",
+    "category": "detachment",
+    "detachment_id": "sekhetar-cohort",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "ectoplasmic-extrusion-sekhetar-cohort",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "egotistical-power-grand-coven",
+    "name": "EGOTISTICAL POWER",
+    "category": "detachment",
+    "type": "strategic-ploy",
     "detachment_id": "grand-coven",
     "cp_cost": 1,
     "phases": [
@@ -263,11 +249,10 @@
     }
   },
   {
-    "id": "arcane-focus-grand-coven",
-    "name": "ARCANE FOCUS",
+    "id": "embroiling-energies-prism-of-zadophon",
+    "name": "Embroiling Energies",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "grand-coven",
+    "detachment_id": "prism-of-zadophon",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -275,29 +260,31 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "embroiling-energies-prism-of-zadophon",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "gift-of-change-warpmeld-pact",
-    "name": "GIFT OF CHANGE",
+    "id": "ensorcelled-infusion-warpforged-cabal",
+    "name": "ENSORCELLED INFUSION",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "warpmeld-pact",
-    "cp_cost": 1,
+    "type": "battle-tactic",
+    "detachment_id": "warpforged-cabal",
+    "cp_cost": 2,
     "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
+      "shooting"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
-    "target_restrictions": null,
+    "target_restrictions": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Vehicle"
+      ],
+      "notes": "Has not been selected to shoot this phase; within 6\" of one or more friendly THOUSAND SONS PSYKER units."
+    },
     "ability_id": null,
     "game_version": {
       "edition": "11th",
@@ -343,16 +330,20 @@
     }
   },
   {
-    "id": "chronosorcerous-bleed-changehost-of-deceit",
-    "name": "CHRONOSORCEROUS BLEED",
+    "id": "gift-of-change-warpmeld-pact",
+    "name": "GIFT OF CHANGE",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "changehost-of-deceit",
+    "type": "epic-deed",
+    "detachment_id": "warpmeld-pact",
     "cp_cost": 1,
     "phases": [
-      "charge"
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -381,262 +372,15 @@
     }
   },
   {
-    "id": "cyberspirit-machinations-warpforged-cabal",
-    "name": "CYBERSPIRIT MACHINATIONS",
+    "id": "hex-marked-armour-warpforged-cabal",
+    "name": "HEX-MARKED ARMOUR",
     "category": "detachment",
-    "type": "strategic-ploy",
+    "type": "battle-tactic",
     "detachment_id": "warpforged-cabal",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "scouring-warpflame-hexwarp-thrallband",
-    "name": "SCOURING WARPFLAME",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hexwarp-thrallband",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "wrath-of-the-doomed-hexwarp-thrallband",
-    "name": "WRATH OF THE DOOMED",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hexwarp-thrallband",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "strands-of-time-hexwarp-thrallband",
-    "name": "STRANDS OF TIME",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hexwarp-thrallband",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "egotistical-power-grand-coven",
-    "name": "EGOTISTICAL POWER",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "grand-coven",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "warped-vicissitude-warpmeld-pact",
-    "name": "WARPED VICISSITUDE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "warpmeld-pact",
     "cp_cost": 1,
     "phases": [
       "fight",
       "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "deranged-ferocity-warpmeld-pact",
-    "name": "DERANGED FEROCITY",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "warpmeld-pact",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "blessed-transmutations-warpmeld-pact",
-    "name": "BLESSED TRANSMUTATIONS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "warpmeld-pact",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "touched-by-tzeentch-warpmeld-pact",
-    "name": "TOUCHED BY TZEENTCH",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "warpmeld-pact",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "twisted-mirage-warpmeld-pact",
-    "name": "TWISTED MIRAGE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "warpmeld-pact",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ardent-automata-rubricae-phalanx",
-    "name": "ARDENT AUTOMATA",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "rubricae-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "inexorable-advance-rubricae-phalanx",
-    "name": "INEXORABLE ADVANCE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "rubricae-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "revenge-of-the-rubricae-rubricae-phalanx",
-    "name": "REVENGE OF THE RUBRICAE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "rubricae-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "deceptive-glamour-changehost-of-deceit",
-    "name": "DECEPTIVE GLAMOUR",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "changehost-of-deceit",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -667,16 +411,16 @@
     }
   },
   {
-    "id": "warpflame-gargoyles-warpforged-cabal",
-    "name": "WARPFLAME GARGOYLES",
+    "id": "inexorable-advance-rubricae-phalanx",
+    "name": "INEXORABLE ADVANCE",
     "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "warpforged-cabal",
+    "type": "strategic-ploy",
+    "detachment_id": "rubricae-phalanx",
     "cp_cost": 1,
     "phases": [
-      "charge"
+      "movement"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -696,6 +440,140 @@
       "shooting"
     ],
     "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "kaleidoscopic-tempest-hexwarp-thrallband",
+    "name": "KALEIDOSCOPIC TEMPEST",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "hexwarp-thrallband",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "malevolent-animus-warpforged-cabal",
+    "name": "MALEVOLENT ANIMUS",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "warpforged-cabal",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "multitudinous-limbs-ritual-of-regeneration",
+    "name": "MULTITUDINOUS LIMBS",
+    "category": "detachment",
+    "detachment_id": "ritual-of-regeneration",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "multitudinous-limbs-ritual-of-regeneration",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mutagenic-magicks-ritual-of-regeneration",
+    "name": "MUTAGENIC MAGICKS",
+    "category": "detachment",
+    "detachment_id": "ritual-of-regeneration",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "mutagenic-magicks-ritual-of-regeneration",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mutate-landscape-warpforged-cabal",
+    "name": "MUTATE LANDSCAPE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "warpforged-cabal",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "prismatic-displacement-servants-of-change",
+    "name": "PRISMATIC DISPLACEMENT",
+    "category": "detachment",
+    "detachment_id": "servants-of-change",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "prismatic-displacement-servants-of-change",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "psychic-dominion-grand-coven",
+    "name": "PSYCHIC DOMINION",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "grand-coven",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -727,82 +605,11 @@
     }
   },
   {
-    "id": "mutagenic-magicks-ritual-of-regeneration",
-    "name": "MUTAGENIC MAGICKS",
+    "id": "revenge-of-the-rubricae-rubricae-phalanx",
+    "name": "REVENGE OF THE RUBRICAE",
     "category": "detachment",
-    "detachment_id": "ritual-of-regeneration",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "mutagenic-magicks-ritual-of-regeneration",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "multitudinous-limbs-ritual-of-regeneration",
-    "name": "MULTITUDINOUS LIMBS",
-    "category": "detachment",
-    "detachment_id": "ritual-of-regeneration",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "multitudinous-limbs-ritual-of-regeneration",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "arcane-venting-sekhetar-cohort",
-    "name": "ARCANE VENTING",
-    "category": "detachment",
-    "detachment_id": "sekhetar-cohort",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "arcane-venting-sekhetar-cohort",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ectoplasmic-extrusion-sekhetar-cohort",
-    "name": "ECTOPLASMIC EXTRUSION",
-    "category": "detachment",
-    "detachment_id": "sekhetar-cohort",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "ectoplasmic-extrusion-sekhetar-cohort",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "warp-fields-sekhetar-cohort",
-    "name": "WARP FIELDS",
-    "category": "detachment",
-    "detachment_id": "sekhetar-cohort",
+    "type": "strategic-ploy",
+    "detachment_id": "rubricae-phalanx",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -810,17 +617,55 @@
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "warp-fields-sekhetar-cohort",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "prismatic-displacement-servants-of-change",
-    "name": "PRISMATIC DISPLACEMENT",
+    "id": "scouring-warpflame-hexwarp-thrallband",
+    "name": "SCOURING WARPFLAME",
     "category": "detachment",
-    "detachment_id": "servants-of-change",
+    "type": "strategic-ploy",
+    "detachment_id": "hexwarp-thrallband",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "spell-warded-armour-prism-of-zadophon",
+    "name": "Spell-warded Armour",
+    "category": "detachment",
+    "detachment_id": "prism-of-zadophon",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "spell-warded-armour-prism-of-zadophon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "strands-of-time-hexwarp-thrallband",
+    "name": "STRANDS OF TIME",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hexwarp-thrallband",
     "cp_cost": 1,
     "phases": [
       "movement"
@@ -828,7 +673,27 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "prismatic-displacement-servants-of-change",
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sulphurous-veil-changehost-of-deceit",
+    "name": "SULPHUROUS VEIL",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "changehost-of-deceit",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -865,6 +730,196 @@
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": "the-land-writhes-servants-of-change",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "through-the-veil-hexwarp-thrallband",
+    "name": "THROUGH THE VEIL",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "hexwarp-thrallband",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "touched-by-tzeentch-warpmeld-pact",
+    "name": "TOUCHED BY TZEENTCH",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "warpmeld-pact",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "twist-of-fate-prism-of-zadophon",
+    "name": "Twist of Fate",
+    "category": "detachment",
+    "detachment_id": "prism-of-zadophon",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "twist-of-fate-prism-of-zadophon",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "twisted-mirage-warpmeld-pact",
+    "name": "TWISTED MIRAGE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "warpmeld-pact",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unwavering-phalanx-rubricae-phalanx",
+    "name": "UNWAVERING PHALANX",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "rubricae-phalanx",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "warding-hex-hexwarp-thrallband",
+    "name": "WARDING HEX",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "hexwarp-thrallband",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "warp-fields-sekhetar-cohort",
+    "name": "WARP FIELDS",
+    "category": "detachment",
+    "detachment_id": "sekhetar-cohort",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "warp-fields-sekhetar-cohort",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "warped-vicissitude-warpmeld-pact",
+    "name": "WARPED VICISSITUDE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "warpmeld-pact",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "warpflame-gargoyles-warpforged-cabal",
+    "name": "WARPFLAME GARGOYLES",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "warpforged-cabal",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "wrath-of-the-doomed-hexwarp-thrallband",
+    "name": "WRATH OF THE DOOMED",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hexwarp-thrallband",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"

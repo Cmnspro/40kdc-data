@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<roster id="roster0" name="Imported roster" gameSystemId="sys-352e-adc2-7639-d6a9" gameSystemName="Warhammer 40,000">
+  <forces>
+    <force id="force0" name="Necrons" catalogueName="Necrons">
+      <selections>
+        <selection id="unit0" name="Overlord" type="unit" number="1">
+          <profiles>
+            <profile name="Overlord" typeName="Unit">
+              <characteristics>
+                <characteristic name="M">5"</characteristic>
+                <characteristic name="T">5</characteristic>
+                <characteristic name="SV">2+</characteristic>
+                <characteristic name="W">6</characteristic>
+                <characteristic name="LD">6+</characteristic>
+                <characteristic name="OC">1</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Invulnerable Save" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">4+ invulnerable save</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Implacable Resilience" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Each time an attack targets the unit, reduce the Damage of that attack by 1.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Leader" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">The unit gains the Leader ability.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="My Will Be Done" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Once per battle, you can use one Stratagem on this model for 0CP.</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Resurrection Orb" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">Once per battle, after being attached to a unit, return 1 destroyed model to the unit with full wounds.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <categories>
+            <category name="Faction: Necrons"/>
+            <category name="Infantry"/>
+            <category name="Character"/>
+            <category name="Noble"/>
+            <category name="Overlord"/>
+          </categories>
+          <selections>
+            <selection id="unit0-m0" name="Overlord" type="model" number="1">
+              <selections>
+                <selection id="unit0-m0-w0" name="Overlord’s blade" type="upgrade" number="1">
+                  <profiles>
+                    <profile name="Overlord’s blade" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">4</characteristic>
+                        <characteristic name="WS">2+</characteristic>
+                        <characteristic name="S">8</characteristic>
+                        <characteristic name="AP">-3</characteristic>
+                        <characteristic name="D">2</characteristic>
+                        <characteristic name="Keywords">Devastating Wounds</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+          </selections>
+        </selection>
+        <selection id="unit1" name="Necron Warriors" type="unit" number="1">
+          <profiles>
+            <profile name="Necron Warriors" typeName="Unit">
+              <characteristics>
+                <characteristic name="M">5"</characteristic>
+                <characteristic name="T">4</characteristic>
+                <characteristic name="SV">4+</characteristic>
+                <characteristic name="W">1</characteristic>
+                <characteristic name="LD">7+</characteristic>
+                <characteristic name="OC">2</characteristic>
+              </characteristics>
+            </profile>
+            <profile name="Their Number is Legion" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description">You can re-roll the Reanimation Protocols roll.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <categories>
+            <category name="Faction: Necrons"/>
+            <category name="Infantry"/>
+            <category name="Battleline"/>
+            <category name="Necron Warriors"/>
+          </categories>
+          <selections>
+            <selection id="unit1-m0" name="Necron Warriors" type="model" number="10">
+              <selections>
+                <selection id="unit1-m0-w0" name="Close combat weapon" type="upgrade" number="100">
+                  <profiles>
+                    <profile name="Close combat weapon" typeName="Melee Weapons">
+                      <characteristics>
+                        <characteristic name="Range">Melee</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="WS">4+</characteristic>
+                        <characteristic name="S">4</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords"></characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit1-m0-w1" name="Gauss flayer" type="upgrade" number="100">
+                  <profiles>
+                    <profile name="Gauss flayer" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">24"</characteristic>
+                        <characteristic name="A">1</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">4</characteristic>
+                        <characteristic name="AP">0</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Lethal Hits, Rapid Fire 1</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+                <selection id="unit1-m0-w2" name="Gauss reaper" type="upgrade" number="100">
+                  <profiles>
+                    <profile name="Gauss reaper" typeName="Ranged Weapons">
+                      <characteristics>
+                        <characteristic name="Range">12"</characteristic>
+                        <characteristic name="A">2</characteristic>
+                        <characteristic name="BS">4+</characteristic>
+                        <characteristic name="S">4</characteristic>
+                        <characteristic name="AP">-1</characteristic>
+                        <characteristic name="D">1</characteristic>
+                        <characteristic name="Keywords">Lethal Hits</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                </selection>
+              </selections>
+            </selection>
+          </selections>
+        </selection>
+      </selections>
+    </force>
+  </forces>
+</roster>

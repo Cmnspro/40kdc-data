@@ -22,7 +22,8 @@
  */
 import * as fs from "fs";
 import * as path from "path";
-import { loadDump, MfmDump, REPO_ROOT, type DatasheetRow } from "./loader.js";
+import { loadDump, MfmDump, type DatasheetRow } from "./loader.js";
+import { REPO_ROOT } from "./repo-files.js";
 import { repoDirForFactionName } from "./faction-map.js";
 import { nameToId } from "../converters/id-generator.js";
 
@@ -45,7 +46,7 @@ function stripHtml(s: string): string {
 
 function findDatasheet(dump: MfmDump, unitId: string, dir: string): DatasheetRow | null {
   const matches: DatasheetRow[] = [];
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (ds.isLegends) continue;
     const name = dump.enName(ds);
     if (!name) continue;
@@ -111,8 +112,8 @@ function main() {
   }
 
   const dump = loadDump();
-  const dda = dump.groupBy<any>("datasheet_datasheet_ability", "datasheetId");
-  const daById = dump.byId<any>("datasheet_ability");
+  const dda = dump.groupBy("datasheet_datasheet_ability", "datasheetId");
+  const daById = dump.byId("datasheet_ability");
   const existing = existingAbilityIds(dir);
 
   const records: ManifestRecord[] = [];

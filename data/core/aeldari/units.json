@@ -1677,7 +1677,8 @@
           "shredder"
         ],
         "count": 2,
-        "per_models": 5
+        "per_models": 5,
+        "duplicate_limit": 1
       }
     ]
   },
@@ -4718,11 +4719,9 @@
       "Asuryani"
     ],
     "base_size_mm": {
-      "shape": "flying-base",
-      "size": "large",
-      "draft": true,
-      "width": 120,
-      "length": 92
+      "shape": "oval",
+      "width": 105,
+      "length": 70
     },
     "model_count": {
       "min": 1,
@@ -4912,7 +4911,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 28.5
+    }
   },
   {
     "id": "kygharils-protectors-warp-spiders",
@@ -4959,7 +4962,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 28.5
+    }
   },
   {
     "id": "kygharils-protectors-wraithblades",
@@ -5004,7 +5011,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    }
   },
   {
     "id": "spiritseer-kygharil",
@@ -5052,6 +5063,10 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 25
+    }
   }
 ]

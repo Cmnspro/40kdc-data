@@ -41,6 +41,7 @@ WTC_HEADER_PREFIX = "+ FACTION KEYWORD:"
 
 _HEADER_FACTION = re.compile(r"^\+\s*FACTION KEYWORD:\s*(.+?)\s*$", re.IGNORECASE)
 _HEADER_DETACHMENT = re.compile(r"^\+\s*DETACHMENT:\s*(.+?)\s*$", re.IGNORECASE)
+_HEADER_FORCE_DISPOSITION = re.compile(r"^\+\s*FORCE DISPOSITION:\s*(.+?)\s*$", re.IGNORECASE)
 _HEADER_TOTAL_POINTS = re.compile(r"^\+\s*TOTAL ARMY POINTS:\s*(\d+)\s*pts?\s*$", re.IGNORECASE)
 _HEADER_POINTS_LIMIT = re.compile(r"^\+\s*POINTS LIMIT:\s*(\d+)\s*pts?\s*$", re.IGNORECASE)
 _HEADER_LIST_NAME = re.compile(r"^\+\s*LIST NAME:\s*(.+?)\s*$", re.IGNORECASE)
@@ -54,6 +55,7 @@ def _parse_wtc_header(text: str) -> tuple[dict[str, Any], int] | None:
     lines = _SPLIT_LINES.split(text)
     faction_raw_name: str | None = None
     detachment_raw_name: str | None = None
+    force_disposition_raw_name: str | None = None
     total_reported: int | None = None
     points_limit: int | None = None
     list_name: str | None = None
@@ -79,6 +81,10 @@ def _parse_wtc_header(text: str) -> tuple[dict[str, Any], int] | None:
         if m:
             detachment_raw_name = strip_parenthetical(m.group(1))
             continue
+        m = _HEADER_FORCE_DISPOSITION.match(line)
+        if m:
+            force_disposition_raw_name = m.group(1)
+            continue
         m = _HEADER_TOTAL_POINTS.match(line)
         if m:
             total_reported = int(m.group(1))
@@ -103,6 +109,7 @@ def _parse_wtc_header(text: str) -> tuple[dict[str, Any], int] | None:
         "name": list_name if list_name is not None else "Imported roster",
         "faction_raw_name": faction_raw_name,
         "detachment_raw_name": detachment_raw_name,
+        "force_disposition_raw_name": force_disposition_raw_name,
         "declared_limit": declared_limit,
         "total_reported": total_reported,
         "battle_size_raw": infer_battle_size_raw(declared_limit),
@@ -122,7 +129,10 @@ _ENHANCEMENT_LINE = re.compile(
     r"^Enhancement:\s*(.+?)\s*\(\+\s*(\d+)\s*pts?\s*\)\s*$", re.IGNORECASE
 )
 _WITH_PREFIX = re.compile(r"^(\d+)\s+with\s+(.*)$", re.IGNORECASE)
-_MODEL_BREAKDOWN = re.compile(r"^\s*•\s*(\d+)x\s+(.+?)(?:\s*\[[^\]]*\])?\s*$")
+# Optional trailing ``: <wargear>`` — NewRecruit inlines a model group's
+# loadout after the model type (``• 1x Champion: Chainblades``) instead of
+# always breaking it onto ``N with`` continuation lines.
+_MODEL_BREAKDOWN = re.compile(r"^\s*•\s*(\d+)x\s+([^:]+?)(?:\s*\[[^\]]*\])?\s*(?::\s*(.+))?$")
 _SECTION_HEADER = re.compile(r"^[A-Z][A-Z0-9 \-/&]+$")  # BATTLELINE, ALLIED UNITS, etc.
 _HEADER_LINE = re.compile(r"^\+")
 _CHAR_PREFIX = re.compile(r"^Char\d+:", re.IGNORECASE)
@@ -295,9 +305,27 @@ def _parse_full_body(body: str) -> tuple[list[dict[str, Any]], list[int]]:
             current = _new_unit(name, pts, leading_count, is_character_prefix)
             continue
 
+        # Single-model units (characters, vehicles) appear compact-style even
+        # in full exports: ``[CharN: ]Nx <Unit> (P pts): <wargear>`` on one
+        # line. Without this branch they fall through every matcher and vanish.
+        compact_match = _UNIT_HEADER_COMPACT.match(line)
+        if compact_match:
+            finalize()
+            leading_count = int(compact_match.group(1))
+            name = compact_match.group(2).strip()
+            pts = int(compact_match.group(3))
+            is_character_prefix = _CHAR_PREFIX.match(line) is not None
+            current = _new_unit(name, pts, leading_count, is_character_prefix)
+            _apply_with_group(current, compact_match.group(4))
+            continue
+
         breakdown = _MODEL_BREAKDOWN.match(raw)
         if breakdown and current is not None:
             breakdown_models += int(breakdown.group(1))
+            # Inline loadout after the model type; ``N with`` continuation
+            # lines for the same group still arrive separately below.
+            if breakdown.group(3) is not None:
+                _apply_with_group(current, breakdown.group(3))
             continue
 
         if _WITH_PREFIX.match(line) and current is not None:
@@ -368,6 +396,7 @@ def _parse_with_format(text: str, format: str) -> dict[str, Any]:
         "detachment_raw_names": (
             [header["detachment_raw_name"]] if header["detachment_raw_name"] else []
         ),
+        "force_disposition_raw_name": header["force_disposition_raw_name"],
         "battle_size_raw": header["battle_size_raw"],
         "declared_limit": header["declared_limit"],
         "total_reported": header["total_reported"],

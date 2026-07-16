@@ -342,8 +342,8 @@
     "max_targets": 1
   },
   {
-    "id": "thirst-for-glory-legends-of-saga-and-song",
-    "name": "Thirst for Glory",
+    "id": "thirst-for-glory-upgrade-legends-of-saga-and-song",
+    "name": "Thirst for Glory (Upgrade)",
     "detachment_id": "legends-of-saga-and-song",
     "cost": 15,
     "keyword_restrictions": [
@@ -357,11 +357,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "fierce-example-legends-of-saga-and-song",
-    "name": "Fierce Example",
+    "id": "fierce-example-upgrade-legends-of-saga-and-song",
+    "name": "Fierce Example (Upgrade)",
     "detachment_id": "legends-of-saga-and-song",
     "cost": 25,
     "keyword_restrictions": [
@@ -375,7 +375,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "eye-of-the-hunter-veterans-of-the-fang",
@@ -1062,8 +1062,8 @@
     "max_targets": 1
   },
   {
-    "id": "bellicose-weapon-spirits-fulguris-task-force",
-    "name": "Bellicose Weapon Spirits",
+    "id": "bellicose-weapon-spirits-upgrade-fulguris-task-force",
+    "name": "Bellicose Weapon Spirits (Upgrade)",
     "detachment_id": "fulguris-task-force",
     "cost": 15,
     "keyword_restrictions": [
@@ -1077,11 +1077,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "raptorial-cogitator-core-fulguris-task-force",
-    "name": "Raptorial Cogitator Core",
+    "id": "raptorial-cogitator-core-upgrade-fulguris-task-force",
+    "name": "Raptorial Cogitator Core (Upgrade)",
     "detachment_id": "fulguris-task-force",
     "cost": 15,
     "keyword_restrictions": [
@@ -1095,7 +1095,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "shroud-field-subversion-assets",
@@ -1116,8 +1116,8 @@
     "max_targets": 1
   },
   {
-    "id": "death-in-the-dark-subversion-assets",
-    "name": "Death in the Dark",
+    "id": "death-in-the-dark-upgrade-subversion-assets",
+    "name": "Death in the Dark (Upgrade)",
     "detachment_id": "subversion-assets",
     "cost": 15,
     "keyword_restrictions": [
@@ -1131,7 +1131,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "liberator-armoured-speartip",
@@ -1387,7 +1387,7 @@
   },
   {
     "id": "astartes-tank-ace-aura-headhunter-task-force",
-    "name": "Astartes Tank Ace (aura)",
+    "name": "Astartes Tank Ace (Aura)",
     "detachment_id": "headhunter-task-force",
     "cost": 40,
     "keyword_restrictions": [
@@ -1413,7 +1413,11 @@
       "edition": "11th",
       "dataslate": "launch"
     },
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adeptus Astartes",
+      "Terminator"
+    ]
   },
   {
     "id": "aggressive-response-askars-wolfpack",
@@ -1428,7 +1432,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Askar's Wolfpack",
+      "Wolf Guard Terminators"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "lone-hunter-askars-wolfpack",
@@ -1443,6 +1452,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Askar's Wolfpack",
+      "Battle Leader"
+    ]
   }
 ]

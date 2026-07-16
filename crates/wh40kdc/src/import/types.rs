@@ -51,12 +51,21 @@ pub enum WarningCode {
     WeaponUnresolved,
     EnhancementUnresolved,
     DetachmentUnresolved,
+    DispositionUnresolved,
     DetachmentPointsExceeded,
     BattleSizeUnmapped,
     PointsMismatch,
     LeaderAttachmentInferred,
     MultiForce,
     UnknownField,
+    /// The unit's fully-resolved weapon counts cannot be built from its
+    /// datasheet's wargear options (the conservative `check_unit_legality`
+    /// verdict, minus `invalid-model-count` and `below-min` — model counts are
+    /// parser-inferred in the GW flat dialect and list formats omit implicit
+    /// default weapons, so both are unreliable at import time). Emitted once
+    /// per unit, only when the unit and every wargear entry resolved and the
+    /// model count sits inside the composition envelope.
+    LoadoutIllegal,
 }
 
 // ---------------------------------------------------------------------------

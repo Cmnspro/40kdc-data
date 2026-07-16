@@ -1,13 +1,50 @@
 [
   {
-    "id": "hardened-killers-hurons-marauders",
-    "name": "HARDENED KILLERS",
+    "id": "alert-to-danger-zarkans-daemonkin",
+    "name": "Alert to Danger",
     "category": "detachment",
-    "type": "battle-tactic",
+    "detachment_id": "zarkans-daemonkin",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "alert-to-danger-zarkans-daemonkin",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "armour-of-corruption-warpstrike-champions",
+    "name": "ARMOUR OF CORRUPTION",
+    "category": "detachment",
+    "detachment_id": "warpstrike-champions",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "armour-of-corruption-warpstrike-champions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "at-the-tyrants-command-hurons-marauders",
+    "name": "AT THE TYRANT’S COMMAND",
+    "category": "detachment",
+    "type": "strategic-ploy",
     "detachment_id": "hurons-marauders",
     "cp_cost": 1,
     "phases": [
-      "command"
+      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -19,165 +56,11 @@
     }
   },
   {
-    "id": "seize-the-prize-hurons-marauders",
-    "name": "SEIZE THE PRIZE",
+    "id": "autostimulants-creations-of-bile",
+    "name": "AUTOSTIMULANTS",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "hurons-marauders",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "reavers-flurry-hurons-marauders",
-    "name": "REAVERS’ FLURRY",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "hurons-marauders",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "unfailingly-obdurate-renegade-raiders",
-    "name": "UNFAILINGLY OBDURATE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "renegade-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "scour-and-seize-renegade-raiders",
-    "name": "SCOUR AND SEIZE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "renegade-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ruinous-raid-renegade-raiders",
-    "name": "RUINOUS RAID",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "renegade-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "persistent-assailants-fellhammer-siege-host",
-    "name": "PERSISTENT ASSAILANTS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "fellhammer-siege-host",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "pitiless-cannonade-fellhammer-siege-host",
-    "name": "PITILESS CANNONADE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "fellhammer-siege-host",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "point-blank-destruction-fellhammer-siege-host",
-    "name": "POINT-BLANK DESTRUCTION",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "fellhammer-siege-host",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "from-all-sides-deceptors",
-    "name": "FROM ALL SIDES",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "deceptors",
+    "type": "strategic-ploy",
+    "detachment_id": "creations-of-bile",
     "cp_cost": 1,
     "phases": [
       "charge"
@@ -192,14 +75,53 @@
     }
   },
   {
-    "id": "pick-them-off-deceptors",
-    "name": "PICK THEM OFF",
+    "id": "balefire-boon-cult-of-the-arkifane",
+    "name": "BALEFIRE BOON",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "deceptors",
+    "detachment_id": "cult-of-the-arkifane",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "balefire-boon-cult-of-the-arkifane",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "battle-tactic"
+  },
+  {
+    "id": "biomechanoid-regeneration-cult-of-the-arkifane",
+    "name": "BIOMECHANOID REGENERATION",
+    "category": "detachment",
+    "detachment_id": "cult-of-the-arkifane",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "biomechanoid-regeneration-cult-of-the-arkifane",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "epic-deed"
+  },
+  {
+    "id": "black-crusade-veterans-of-the-long-war",
+    "name": "BLACK CRUSADE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "veterans-of-the-long-war",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -211,11 +133,68 @@
     }
   },
   {
-    "id": "desperate-pledge-soulforged-warpack",
-    "name": "DESPERATE PLEDGE",
+    "id": "bloody-example-dread-talons",
+    "name": "BLOODY EXAMPLE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "dread-talons",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "bringers-of-despair-veterans-of-the-long-war",
+    "name": "BRINGERS OF DESPAIR",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "veterans-of-the-long-war",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "brutal-attrition-fellhammer-siege-host",
+    "name": "BRUTAL ATTRITION",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "fellhammer-siege-host",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "chosen-for-glory-chaos-cult",
+    "name": "CHOSEN FOR GLORY",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "soulforged-warpack",
+    "detachment_id": "chaos-cult",
     "cp_cost": 1,
     "phases": [
       "fight",
@@ -231,11 +210,30 @@
     }
   },
   {
-    "id": "vengeful-destruction-renegade-warband",
-    "name": "VENGEFUL DESTRUCTION",
+    "id": "coils-of-deception-deceptors",
+    "name": "COILS OF DECEPTION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "deceptors",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "contemptuous-disregard-veterans-of-the-long-war",
+    "name": "CONTEMPTUOUS DISREGARD",
     "category": "detachment",
     "type": "battle-tactic",
-    "detachment_id": "renegade-warband",
+    "detachment_id": "veterans-of-the-long-war",
     "cp_cost": 1,
     "phases": [
       "fight",
@@ -270,83 +268,6 @@
     }
   },
   {
-    "id": "depthless-cruelty-dread-talons",
-    "name": "DEPTHLESS CRUELTY",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "dread-talons",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "pitiless-hunters-dread-talons",
-    "name": "PITILESS HUNTERS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "dread-talons",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "chosen-for-glory-chaos-cult",
-    "name": "CHOSEN FOR GLORY",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "chaos-cult",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "infernal-sacrifice-chaos-cult",
-    "name": "INFERNAL SACRIFICE",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "chaos-cult",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "crazed-focus-chaos-cult",
     "name": "CRAZED FOCUS",
     "category": "detachment",
@@ -366,137 +287,18 @@
     }
   },
   {
-    "id": "contemptuous-disregard-veterans-of-the-long-war",
-    "name": "CONTEMPTUOUS DISREGARD",
+    "id": "daemonic-frenzy-zarkans-daemonkin",
+    "name": "Daemonic Frenzy",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "veterans-of-the-long-war",
+    "detachment_id": "zarkans-daemonkin",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "movement"
     ],
-    "player_turn": "either",
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "let-the-galaxy-burn-veterans-of-the-long-war",
-    "name": "LET THE GALAXY BURN",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "veterans-of-the-long-war",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "talons-sunk-deep-nightmare-hunt",
-    "name": "TALONS SUNK DEEP",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "nightmare-hunt",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "prey-on-the-weak-nightmare-hunt",
-    "name": "PREY ON THE WEAK",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "nightmare-hunt",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sadistic-display-nightmare-hunt",
-    "name": "SADISTIC DISPLAY",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "nightmare-hunt",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "profane-zeal-pactbound-zealots",
-    "name": "PROFANE ZEAL",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "pactbound-zealots",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "brutal-attrition-fellhammer-siege-host",
-    "name": "BRUTAL ATTRITION",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "fellhammer-siege-host",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "daemonic-frenzy-zarkans-daemonkin",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -522,11 +324,49 @@
     }
   },
   {
-    "id": "never-outgunned-renegade-warband",
-    "name": "NEVER OUTGUNNED",
+    "id": "delayed-mutations-creations-of-bile",
+    "name": "DELAYED MUTATIONS",
     "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "renegade-warband",
+    "type": "strategic-ploy",
+    "detachment_id": "creations-of-bile",
+    "cp_cost": 2,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "depthless-cruelty-dread-talons",
+    "name": "DEPTHLESS CRUELTY",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "dread-talons",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "desperate-pledge-soulforged-warpack",
+    "name": "DESPERATE PLEDGE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "soulforged-warpack",
     "cp_cost": 1,
     "phases": [
       "fight",
@@ -542,11 +382,115 @@
     }
   },
   {
-    "id": "bloody-example-dread-talons",
-    "name": "BLOODY EXAMPLE",
+    "id": "detonator-deceptors",
+    "name": "DETONATOR",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "deceptors",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "diabolic-regeneration-creations-of-bile",
+    "name": "DIABOLIC REGENERATION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "creations-of-bile",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "empyric-dislocation-warpstrike-champions",
+    "name": "EMPYRIC DISLOCATION",
+    "category": "detachment",
+    "detachment_id": "warpstrike-champions",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "empyric-dislocation-warpstrike-champions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "battle-tactic"
+  },
+  {
+    "id": "encircling-surge-hurons-marauders",
+    "name": "ENCIRCLING SURGE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hurons-marauders",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "endless-ire-veterans-of-the-long-war",
+    "name": "ENDLESS IRE",
     "category": "detachment",
     "type": "epic-deed",
-    "detachment_id": "dread-talons",
+    "detachment_id": "veterans-of-the-long-war",
+    "cp_cost": 2,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "eternal-hate-pactbound-zealots",
+    "name": "ETERNAL HATE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "pactbound-zealots",
     "cp_cost": 1,
     "phases": [
       "fight"
@@ -580,93 +524,32 @@
     }
   },
   {
-    "id": "skinshift-pactbound-zealots",
-    "name": "SKINSHIFT",
+    "id": "feeding-frenzy-soulforged-warpack",
+    "name": "FEEDING FRENZY",
     "category": "detachment",
-    "type": "epic-deed",
+    "type": "strategic-ploy",
+    "detachment_id": "soulforged-warpack",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "festering-miasma-pactbound-zealots",
+    "name": "FESTERING MIASMA",
+    "category": "detachment",
+    "type": "strategic-ploy",
     "detachment_id": "pactbound-zealots",
     "cp_cost": 1,
     "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "endless-ire-veterans-of-the-long-war",
-    "name": "ENDLESS IRE",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "veterans-of-the-long-war",
-    "cp_cost": 2,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "bringers-of-despair-veterans-of-the-long-war",
-    "name": "BRINGERS OF DESPAIR",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "veterans-of-the-long-war",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "at-the-tyrants-command-hurons-marauders",
-    "name": "AT THE TYRANT’S COMMAND",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hurons-marauders",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "to-the-favoured-the-spoils-hurons-marauders",
-    "name": "TO THE FAVOURED THE SPOILS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hurons-marauders",
-    "cp_cost": 1,
-    "phases": [
       "shooting"
     ],
     "player_turn": "opponent-turn",
@@ -679,106 +562,28 @@
     }
   },
   {
-    "id": "encircling-surge-hurons-marauders",
-    "name": "ENCIRCLING SURGE",
+    "id": "fleshy-curse-cabal-of-chaos",
+    "name": "FLESHY CURSE",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hurons-marauders",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "opportunistic-raiders-renegade-raiders",
-    "name": "OPPORTUNISTIC RAIDERS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "renegade-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "reavers-haste-renegade-raiders",
-    "name": "REAVER’S HASTE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "renegade-raiders",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "steadfast-determination-fellhammer-siege-host",
-    "name": "STEADFAST DETERMINATION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "fellhammer-siege-host",
+    "detachment_id": "cabal-of-chaos",
     "cp_cost": 1,
     "phases": [
       "shooting"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "fleshy-curse-cabal-of-chaos",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "siegecraft-fellhammer-siege-host",
-    "name": "SIEGECRAFT",
+    "id": "forge-fire-surge-cult-of-the-arkifane",
+    "name": "FORGE-FIRE SURGE",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "fellhammer-siege-host",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "coils-of-deception-deceptors",
-    "name": "COILS OF DECEPTION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "deceptors",
+    "detachment_id": "cult-of-the-arkifane",
     "cp_cost": 1,
     "phases": [
       "movement"
@@ -786,42 +591,24 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": null,
+    "ability_id": "forge-fire-surge-cult-of-the-arkifane",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "type": "strategic-ploy"
   },
   {
-    "id": "relentless-pursuit-deceptors",
-    "name": "RELENTLESS PURSUIT",
+    "id": "from-all-sides-deceptors",
+    "name": "FROM ALL SIDES",
     "category": "detachment",
-    "type": "strategic-ploy",
+    "type": "battle-tactic",
     "detachment_id": "deceptors",
     "cp_cost": 1,
     "phases": [
-      "movement"
+      "charge"
     ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "scrambled-coordinates-deceptors",
-    "name": "SCRAMBLED COORDINATES",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "deceptors",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -850,300 +637,14 @@
     }
   },
   {
-    "id": "unstoppable-rampage-soulforged-warpack",
-    "name": "UNSTOPPABLE RAMPAGE",
+    "id": "hardened-killers-hurons-marauders",
+    "name": "HARDENED KILLERS",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "soulforged-warpack",
+    "type": "battle-tactic",
+    "detachment_id": "hurons-marauders",
     "cp_cost": 1,
     "phases": [
-      "charge",
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "predatory-pursuit-soulforged-warpack",
-    "name": "PREDATORY PURSUIT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "soulforged-warpack",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "feeding-frenzy-soulforged-warpack",
-    "name": "FEEDING FRENZY",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "soulforged-warpack",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "undying-hatred-renegade-warband",
-    "name": "UNDYING HATRED",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "renegade-warband",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "renegade-claim-renegade-warband",
-    "name": "RENEGADE CLAIM",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "renegade-warband",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "reavers-reaction-renegade-warband",
-    "name": "REAVERS’ REACTION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "renegade-warband",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "relentless-terror-dread-talons",
-    "name": "RELENTLESS TERROR",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "dread-talons",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "screaming-descent-dread-talons",
-    "name": "SCREAMING DESCENT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "dread-talons",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "merciless-pursuit-dread-talons",
-    "name": "MERCILESS PURSUIT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "dread-talons",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "selfless-demise-chaos-cult",
-    "name": "SELFLESS DEMISE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "chaos-cult",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "reckless-haste-chaos-cult",
-    "name": "RECKLESS HASTE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "chaos-cult",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mortal-thralls-chaos-cult",
-    "name": "MORTAL THRALLS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "chaos-cult",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "black-crusade-veterans-of-the-long-war",
-    "name": "BLACK CRUSADE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "veterans-of-the-long-war",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "millennia-of-experience-veterans-of-the-long-war",
-    "name": "MILLENNIA OF EXPERIENCE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "veterans-of-the-long-war",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "malicious-surge-nightmare-hunt",
-    "name": "MALICIOUS SURGE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "nightmare-hunt",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "relentless-terror-nightmare-hunt",
-    "name": "RELENTLESS TERROR",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "nightmare-hunt",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
+      "command"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -1174,11 +675,11 @@
     }
   },
   {
-    "id": "eternal-hate-pactbound-zealots",
-    "name": "ETERNAL HATE",
+    "id": "infernal-sacrifice-chaos-cult",
+    "name": "INFERNAL SACRIFICE",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "pactbound-zealots",
+    "type": "battle-tactic",
+    "detachment_id": "chaos-cult",
     "cp_cost": 1,
     "phases": [
       "fight"
@@ -1193,14 +694,32 @@
     }
   },
   {
-    "id": "torpefying-refrain-pactbound-zealots",
-    "name": "TORPEFYING REFRAIN",
+    "id": "infernal-vigour-cabal-of-chaos",
+    "name": "INFERNAL VIGOUR",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "pactbound-zealots",
+    "detachment_id": "cabal-of-chaos",
     "cp_cost": 1,
     "phases": [
-      "movement"
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "infernal-vigour-cabal-of-chaos",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "let-the-galaxy-burn-veterans-of-the-long-war",
+    "name": "LET THE GALAXY BURN",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "veterans-of-the-long-war",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -1212,14 +731,71 @@
     }
   },
   {
-    "id": "festering-miasma-pactbound-zealots",
-    "name": "FESTERING MIASMA",
+    "id": "malicious-surge-nightmare-hunt",
+    "name": "MALICIOUS SURGE",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "pactbound-zealots",
+    "detachment_id": "nightmare-hunt",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "masters-are-watching-creations-of-bile",
+    "name": "MASTERS ARE WATCHING",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "creations-of-bile",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "merciless-pursuit-dread-talons",
+    "name": "MERCILESS PURSUIT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "dread-talons",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "millennia-of-experience-veterans-of-the-long-war",
+    "name": "MILLENNIA OF EXPERIENCE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "veterans-of-the-long-war",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
@@ -1251,14 +827,34 @@
     }
   },
   {
-    "id": "masters-are-watching-creations-of-bile",
-    "name": "MASTERS ARE WATCHING",
+    "id": "mortal-thralls-chaos-cult",
+    "name": "MORTAL THRALLS",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "creations-of-bile",
+    "detachment_id": "chaos-cult",
     "cp_cost": 1,
     "phases": [
-      "fight"
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "never-outgunned-renegade-warband",
+    "name": "NEVER OUTGUNNED",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "renegade-warband",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -1270,112 +866,13 @@
     }
   },
   {
-    "id": "diabolic-regeneration-creations-of-bile",
-    "name": "DIABOLIC REGENERATION",
+    "id": "opportunistic-raiders-renegade-raiders",
+    "name": "OPPORTUNISTIC RAIDERS",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "creations-of-bile",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "autostimulants-creations-of-bile",
-    "name": "AUTOSTIMULANTS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "creations-of-bile",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "specimens-for-the-spider-creations-of-bile",
-    "name": "SPECIMENS FOR THE SPIDER",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "creations-of-bile",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "delayed-mutations-creations-of-bile",
-    "name": "DELAYED MUTATIONS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "creations-of-bile",
-    "cp_cost": 2,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "warpcharged-engines-renegade-raiders",
-    "name": "WARPCHARGED ENGINES",
-    "category": "detachment",
-    "type": "wargear",
     "detachment_id": "renegade-raiders",
     "cp_cost": 1,
     "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "detonator-deceptors",
-    "name": "DETONATOR",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "deceptors",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
       "fight"
     ],
     "player_turn": "either",
@@ -1388,28 +885,30 @@
     }
   },
   {
-    "id": "infernal-vigour-cabal-of-chaos",
-    "name": "INFERNAL VIGOUR",
+    "id": "persistent-assailants-fellhammer-siege-host",
+    "name": "PERSISTENT ASSAILANTS",
     "category": "detachment",
-    "detachment_id": "cabal-of-chaos",
+    "type": "battle-tactic",
+    "detachment_id": "fellhammer-siege-host",
     "cp_cost": 1,
     "phases": [
-      "command"
+      "fight"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "infernal-vigour-cabal-of-chaos",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "fleshy-curse-cabal-of-chaos",
-    "name": "FLESHY CURSE",
+    "id": "pick-them-off-deceptors",
+    "name": "PICK THEM OFF",
     "category": "detachment",
-    "detachment_id": "cabal-of-chaos",
+    "type": "battle-tactic",
+    "detachment_id": "deceptors",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1417,17 +916,18 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "fleshy-curse-cabal-of-chaos",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "wreathed-in-warpflame-cabal-of-chaos",
-    "name": "WREATHED IN WARPFLAME",
+    "id": "pitiless-cannonade-fellhammer-siege-host",
+    "name": "PITILESS CANNONADE",
     "category": "detachment",
-    "detachment_id": "cabal-of-chaos",
+    "type": "battle-tactic",
+    "detachment_id": "fellhammer-siege-host",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1435,17 +935,18 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "wreathed-in-warpflame-cabal-of-chaos",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "ruinations-bounty-devotees-of-destruction",
-    "name": "RUINATION'S BOUNTY",
+    "id": "pitiless-hunters-dread-talons",
+    "name": "PITILESS HUNTERS",
     "category": "detachment",
-    "detachment_id": "devotees-of-destruction",
+    "type": "battle-tactic",
+    "detachment_id": "dread-talons",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1453,43 +954,7 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "ruinations-bounty-devotees-of-destruction",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "snare-of-fire-devotees-of-destruction",
-    "name": "SNARE OF FIRE",
-    "category": "detachment",
-    "detachment_id": "devotees-of-destruction",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "snare-of-fire-devotees-of-destruction",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "undying-hatred-devotees-of-destruction",
-    "name": "UNDYING HATRED",
-    "category": "detachment",
-    "detachment_id": "devotees-of-destruction",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "undying-hatred-devotees-of-destruction",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -1504,10 +969,107 @@
     "phases": [
       "fight"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": "plunging-talons-murdertalon-raiders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "point-blank-destruction-fellhammer-siege-host",
+    "name": "POINT-BLANK DESTRUCTION",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "fellhammer-siege-host",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "portal-of-spite-warpstrike-champions",
+    "name": "PORTAL OF SPITE",
+    "category": "detachment",
+    "detachment_id": "warpstrike-champions",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "portal-of-spite-warpstrike-champions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "battle-tactic"
+  },
+  {
+    "id": "predatory-pursuit-soulforged-warpack",
+    "name": "PREDATORY PURSUIT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "soulforged-warpack",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "prey-on-the-weak-nightmare-hunt",
+    "name": "PREY ON THE WEAK",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "nightmare-hunt",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "profane-zeal-pactbound-zealots",
+    "name": "PROFANE ZEAL",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "pactbound-zealots",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -1532,47 +1094,106 @@
     }
   },
   {
-    "id": "warp-twisted-terrors-murdertalon-raiders",
-    "name": "WARP-TWISTED TERRORS",
+    "id": "reavers-flurry-hurons-marauders",
+    "name": "REAVERS’ FLURRY",
     "category": "detachment",
-    "detachment_id": "murdertalon-raiders",
+    "type": "battle-tactic",
+    "detachment_id": "hurons-marauders",
     "cp_cost": 1,
     "phases": [
-      "movement"
+      "fight"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "warp-twisted-terrors-murdertalon-raiders",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "empyric-dislocation-warpstrike-champions",
-    "name": "EMPYRIC DISLOCATION",
+    "id": "reavers-haste-renegade-raiders",
+    "name": "REAVER’S HASTE",
     "category": "detachment",
-    "detachment_id": "warpstrike-champions",
+    "type": "strategic-ploy",
+    "detachment_id": "renegade-raiders",
     "cp_cost": 1,
     "phases": [
-      "shooting",
-      "fight"
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reavers-reaction-renegade-warband",
+    "name": "REAVERS’ REACTION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "renegade-warband",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
     ],
     "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "empyric-dislocation-warpstrike-champions",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "warp-tainted-warpstrike-champions",
-    "name": "WARP-TAINTED",
+    "id": "reckless-haste-chaos-cult",
+    "name": "RECKLESS HASTE",
     "category": "detachment",
-    "detachment_id": "warpstrike-champions",
+    "type": "strategic-ploy",
+    "detachment_id": "chaos-cult",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "relentless-pursuit-deceptors",
+    "name": "RELENTLESS PURSUIT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "deceptors",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "relentless-terror-dread-talons",
+    "name": "RELENTLESS TERROR",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "dread-talons",
     "cp_cost": 1,
     "phases": [
       "movement"
@@ -1580,7 +1201,197 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "warp-tainted-warpstrike-champions",
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "relentless-terror-nightmare-hunt",
+    "name": "RELENTLESS TERROR",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "nightmare-hunt",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "renegade-claim-renegade-warband",
+    "name": "RENEGADE CLAIM",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "renegade-warband",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ruinations-bounty-devotees-of-destruction",
+    "name": "RUINATION'S BOUNTY",
+    "category": "detachment",
+    "detachment_id": "devotees-of-destruction",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "ruinations-bounty-devotees-of-destruction",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ruinous-raid-renegade-raiders",
+    "name": "RUINOUS RAID",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "renegade-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sadistic-display-nightmare-hunt",
+    "name": "SADISTIC DISPLAY",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "nightmare-hunt",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "scour-and-seize-renegade-raiders",
+    "name": "SCOUR AND SEIZE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "renegade-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "scrambled-coordinates-deceptors",
+    "name": "SCRAMBLED COORDINATES",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "deceptors",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "screaming-descent-dread-talons",
+    "name": "SCREAMING DESCENT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "dread-talons",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "seize-the-prize-hurons-marauders",
+    "name": "SEIZE THE PRIZE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "hurons-marauders",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "selfless-demise-chaos-cult",
+    "name": "SELFLESS DEMISE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "chaos-cult",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -1602,98 +1413,60 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "type": "strategic-ploy"
   },
   {
-    "id": "armour-of-corruption-warpstrike-champions",
-    "name": "ARMOUR OF CORRUPTION",
+    "id": "siegecraft-fellhammer-siege-host",
+    "name": "SIEGECRAFT",
     "category": "detachment",
-    "detachment_id": "warpstrike-champions",
-    "cp_cost": 2,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "armour-of-corruption-warpstrike-champions",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "warp-flicker-warpstrike-champions",
-    "name": "WARP FLICKER",
-    "category": "detachment",
-    "detachment_id": "warpstrike-champions",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "warp-flicker-warpstrike-champions",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "portal-of-spite-warpstrike-champions",
-    "name": "PORTAL OF SPITE",
-    "category": "detachment",
-    "detachment_id": "warpstrike-champions",
+    "type": "strategic-ploy",
+    "detachment_id": "fellhammer-siege-host",
     "cp_cost": 1,
     "phases": [
       "charge"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "portal-of-spite-warpstrike-champions",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "touch-of-the-arkifane-cult-of-the-arkifane",
-    "name": "TOUCH OF THE ARKIFANE",
+    "id": "skinshift-pactbound-zealots",
+    "name": "SKINSHIFT",
     "category": "detachment",
-    "detachment_id": "cult-of-the-arkifane",
+    "type": "epic-deed",
+    "detachment_id": "pactbound-zealots",
     "cp_cost": 1,
     "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
+      "command"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "touch-of-the-arkifane-cult-of-the-arkifane",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "balefire-boon-cult-of-the-arkifane",
-    "name": "BALEFIRE BOON",
+    "id": "snare-of-fire-devotees-of-destruction",
+    "name": "SNARE OF FIRE",
     "category": "detachment",
-    "detachment_id": "cult-of-the-arkifane",
+    "detachment_id": "devotees-of-destruction",
     "cp_cost": 1,
     "phases": [
-      "shooting",
-      "fight"
+      "movement"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "balefire-boon-cult-of-the-arkifane",
+    "ability_id": "snare-of-fire-devotees-of-destruction",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -1719,28 +1492,108 @@
     }
   },
   {
-    "id": "biomechanoid-regeneration-cult-of-the-arkifane",
-    "name": "BIOMECHANOID REGENERATION",
+    "id": "soul-tally-offerings-cult-of-the-arkifane",
+    "name": "Soul-Tally Offerings",
     "category": "detachment",
+    "type": "battle-tactic",
     "detachment_id": "cult-of-the-arkifane",
-    "cp_cost": 1,
+    "cp_cost": 2,
     "phases": [
-      "command"
+      "shooting",
+      "fight"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "biomechanoid-regeneration-cult-of-the-arkifane",
+    "ability_id": "soul-tally-offerings-cult-of-the-arkifane",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
   },
   {
-    "id": "forge-fire-surge-cult-of-the-arkifane",
-    "name": "FORGE-FIRE SURGE",
+    "id": "specimens-for-the-spider-creations-of-bile",
+    "name": "SPECIMENS FOR THE SPIDER",
     "category": "detachment",
-    "detachment_id": "cult-of-the-arkifane",
+    "type": "strategic-ploy",
+    "detachment_id": "creations-of-bile",
+    "cp_cost": 2,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "steadfast-determination-fellhammer-siege-host",
+    "name": "STEADFAST DETERMINATION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "fellhammer-siege-host",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "talons-sunk-deep-nightmare-hunt",
+    "name": "TALONS SUNK DEEP",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "nightmare-hunt",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "to-the-favoured-the-spoils-hurons-marauders",
+    "name": "TO THE FAVOURED THE SPOILS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hurons-marauders",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "torpefying-refrain-pactbound-zealots",
+    "name": "TORPEFYING REFRAIN",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "pactbound-zealots",
     "cp_cost": 1,
     "phases": [
       "movement"
@@ -1748,7 +1601,87 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "forge-fire-surge-cult-of-the-arkifane",
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "touch-of-the-arkifane-cult-of-the-arkifane",
+    "name": "TOUCH OF THE ARKIFANE",
+    "category": "detachment",
+    "detachment_id": "cult-of-the-arkifane",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "touch-of-the-arkifane-cult-of-the-arkifane",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "battle-tactic"
+  },
+  {
+    "id": "undying-hatred-devotees-of-destruction",
+    "name": "UNDYING HATRED",
+    "category": "detachment",
+    "detachment_id": "devotees-of-destruction",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "undying-hatred-devotees-of-destruction",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "undying-hatred-renegade-warband",
+    "name": "UNDYING HATRED",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "renegade-warband",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unfailingly-obdurate-renegade-raiders",
+    "name": "UNFAILINGLY OBDURATE",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "renegade-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -1767,6 +1700,159 @@
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": "unholy-fortitude-cult-of-the-arkifane",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "unstoppable-rampage-soulforged-warpack",
+    "name": "UNSTOPPABLE RAMPAGE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "soulforged-warpack",
+    "cp_cost": 1,
+    "phases": [
+      "charge",
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "vengeful-destruction-renegade-warband",
+    "name": "VENGEFUL DESTRUCTION",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "renegade-warband",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "vindictive-strategy-zarkans-daemonkin",
+    "name": "Vindictive Strategy",
+    "category": "detachment",
+    "detachment_id": "zarkans-daemonkin",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "vindictive-strategy-zarkans-daemonkin",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "warp-flicker-warpstrike-champions",
+    "name": "WARP FLICKER",
+    "category": "detachment",
+    "detachment_id": "warpstrike-champions",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "warp-flicker-warpstrike-champions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "warp-tainted-warpstrike-champions",
+    "name": "WARP-TAINTED",
+    "category": "detachment",
+    "detachment_id": "warpstrike-champions",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "warp-tainted-warpstrike-champions",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "warp-twisted-terrors-murdertalon-raiders",
+    "name": "WARP-TWISTED TERRORS",
+    "category": "detachment",
+    "detachment_id": "murdertalon-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "warp-twisted-terrors-murdertalon-raiders",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "warpcharged-engines-renegade-raiders",
+    "name": "WARPCHARGED ENGINES",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "renegade-raiders",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "wreathed-in-warpflame-cabal-of-chaos",
+    "name": "WREATHED IN WARPFLAME",
+    "category": "detachment",
+    "detachment_id": "cabal-of-chaos",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "wreathed-in-warpflame-cabal-of-chaos",
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"

@@ -98,5 +98,30 @@
     "name": "tzaangors-banner-and-brayhorn-independent-legal",
     "args": { "unitId": "tzaangors", "factionId": "thousand-sons", "modelCount": 10, "counts": { "herd-banner": 1, "brayhorn": 1 } },
     "expected": []
+  },
+  {
+    "name": "cadian-duplicate-special-over",
+    "args": { "unitId": "cadian-shock-troops", "factionId": "astra-militarum", "modelCount": 20, "counts": { "meltagun": 4 } },
+    "expected": ["exceeds-allowance:meltagun"]
+  },
+  {
+    "name": "cadian-duplicate-special-legal",
+    "args": { "unitId": "cadian-shock-troops", "factionId": "astra-militarum", "modelCount": 20, "counts": { "meltagun": 2 } },
+    "expected": []
+  },
+  {
+    "name": "cadian-mixed-specials-at-shared-cap-legal",
+    "args": { "unitId": "cadian-shock-troops", "factionId": "astra-militarum", "modelCount": 20, "counts": { "meltagun": 2, "plasma-gun": 2 } },
+    "expected": []
+  },
+  {
+    "name": "kasrkin-flat-duplicate-cap-over",
+    "args": { "unitId": "kasrkin", "factionId": "astra-militarum", "modelCount": 10, "counts": { "meltagun-kasrkin": 3 } },
+    "expected": ["exceeds-allowance:meltagun-kasrkin"]
+  },
+  {
+    "name": "kasrkin-flat-duplicate-cap-legal",
+    "args": { "unitId": "kasrkin", "factionId": "astra-militarum", "modelCount": 10, "counts": { "meltagun-kasrkin": 2, "plasma-gun-kasrkin": 2 } },
+    "expected": []
   }
 ]

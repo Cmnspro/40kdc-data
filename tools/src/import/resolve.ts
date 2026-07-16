@@ -17,7 +17,7 @@
 import type { Dataset } from "../data/dataset.js";
 import type { UnitView } from "../data/entities.js";
 import { detachmentCapForBattleSize } from "../data/battle-sizes.js";
-import { groupLoadout } from "../data/loadout.js";
+import { checkUnitLegality, groupLoadout } from "../data/loadout.js";
 import { normalizeName, stripLeadingThe } from "../data/normalize.js";
 import type {
   BattleSize,
@@ -121,26 +121,43 @@ export function resolve(
   // 11e lists may field several detachments under a detachment-point cap; the
   // list preserves source order. `dp_cost` is looked up from the resolved
   // detachment entity (no source format reports it).
-  const detachments: RosterDetachment[] = parsed.detachment_raw_names.map((raw_name) => {
+  const resolveDetachment = (raw_name: string): RosterDetachment | null => {
     const key = normalizeName(raw_name);
     const scoped = faction_id
       ? ds.detachments.byFaction(faction_id).find((d) => normalizeName(d.name ?? "") === key)
       : undefined;
     const hit = scoped ?? ds.detachments.find(raw_name);
-    if (hit) {
-      return { ref: resolved(hit.id, raw_name), dp_cost: hit.detachment_points ?? null };
+    if (!hit) return null;
+    return { ref: resolved(hit.id, raw_name), dp_cost: hit.detachment_points ?? null };
+  };
+  const detachments: RosterDetachment[] = parsed.detachment_raw_names.flatMap((raw_name) => {
+    const whole = resolveDetachment(raw_name);
+    if (whole) return [whole];
+    // Dual-detachment 11e lists print both names on one line joined with
+    // " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+    // ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+    // RESOLVE-TIME fallback, taken only when the whole name fails and every
+    // part resolves — "Legends of Saga and Song" is a real single-detachment
+    // name a lexical split would corrupt.
+    const parts = raw_name.split(/\s+and\s+|\s*,\s*/);
+    if (parts.length > 1) {
+      const split = parts.map((p) => resolveDetachment(p.trim()));
+      if (split.every((d): d is RosterDetachment => d !== null)) return split;
     }
     diag.warn("detachment-unresolved", "Detachment name did not match any 40kdc detachment.", raw_name);
-    return {
-      ref: unresolved(raw_name, toCandidates(ds.detachments.findAll(raw_name) as NamedRecord[])),
-      dp_cost: null,
-    };
+    return [
+      {
+        ref: unresolved(raw_name, toCandidates(ds.detachments.findAll(raw_name) as NamedRecord[])),
+        dp_cost: null,
+      },
+    ];
   });
   const detachmentIds = detachments.map((d) => d.ref.id).filter((id): id is string => id !== null);
 
   // --- Force Disposition. ---------------------------------------------------
-  // roster-json carries an already-resolved id; ListForge text carries the raw
-  // header name (e.g. "Priority Assets"), resolved here against the dataset.
+  // roster-json carries an already-resolved id; ListForge and WTC text carry
+  // the raw header name (e.g. "Priority Assets"), resolved here against the
+  // dataset.
   let force_disposition = parsed.force_disposition ?? null;
   if (!force_disposition && parsed.force_disposition_raw_name) {
     const hit = ds.forceDispositions.find(parsed.force_disposition_raw_name);
@@ -289,6 +306,41 @@ function scopedWeaponId(ds: Dataset, hit: UnitView, rawName: string): string | n
   return null;
 }
 
+/**
+ * Fallback for wargear ITEMS (Simulacrum Imperialis, Daemonic Icon, …) — raw
+ * names that are not weapons but do exist in the wargear collection. Runs only
+ * after BOTH weapon lookups miss, so a wargear item whose name collides with a
+ * weapon ("multi-melta", "power weapon") keeps resolving to the weapon exactly
+ * as before. Scoped-first: ids reachable through the resolved unit's wargear
+ * options, then the global collection (wargear is replicated-identical across
+ * factions, so a global first-match is safe). Same {@link normalizeName} +
+ * leading-"The" tolerance as the weapon lookups.
+ */
+function resolveWargearItemId(ds: Dataset, hit: UnitView | null, rawName: string): string | null {
+  const stripped = stripLeadingThe(rawName);
+  if (hit) {
+    const ids = new Set<string>();
+    for (const opt of ds.wargearOptionsOf(hit.raw)) {
+      for (const id of opt.replaces ?? []) ids.add(id);
+      for (const id of opt.replacement ?? []) ids.add(id);
+      for (const group of opt.replacement_choice ?? []) for (const id of group) ids.add(id);
+    }
+    const targets = new Set<string>([normalizeName(rawName), normalizeName(`The ${rawName}`)]);
+    if (stripped) targets.add(normalizeName(stripped));
+    for (const id of ids) {
+      const item = ds.wargear.getAny(id);
+      if (item && targets.has(normalizeName(item.name))) return id;
+    }
+  }
+  const direct = ds.wargear.find(rawName);
+  if (direct) return direct.id;
+  if (stripped) {
+    const strippedHit = ds.wargear.find(stripped);
+    if (strippedHit) return strippedHit.id;
+  }
+  return ds.wargear.find(`The ${rawName}`)?.id ?? null;
+}
+
 function resolveUnit(
   parsed: ParsedUnit,
   faction_id: string | null,
@@ -350,6 +402,11 @@ function resolveUnit(
       diag.resolved_weapons += 1;
       return { ref: resolved(hits[0].id, w.raw_name), count: w.count };
     }
+    const wargearItemId = resolveWargearItemId(ds, hit ?? null, w.raw_name);
+    if (wargearItemId) {
+      diag.resolved_weapons += 1;
+      return { ref: resolved(wargearItemId, w.raw_name), count: w.count };
+    }
     diag.unresolved_weapons += 1;
     diag.warn("weapon-unresolved", "Weapon name did not match any 40kdc weapon.", w.raw_name);
     return { ref: unresolved(w.raw_name, toCandidates(hits)), count: w.count };
@@ -361,6 +418,48 @@ function resolveUnit(
   // labels. Only when the unit and every weapon resolved and the loadout
   // decomposes exactly (groupLoadout returns null otherwise).
   const loadout_groups = buildLoadoutGroups(hit, parsed.model_count, wargear, ds);
+
+  // Loadout legality — the conservative checker over the fully-resolved counts.
+  // Gated exactly like grouping (an unresolved unit has no datasheet to check;
+  // an unresolved weapon means the counts under-report the list), plus two
+  // import-specific reliability gates:
+  //   - the parsed model count must sit inside the composition envelope — the
+  //     GW flat dialect prints no model line for some units and the parser
+  //     infers `model_count: 1`, which would misfire every count-relative
+  //     ceiling (so `invalid-model-count` is also filtered);
+  //   - `below-min` is filtered — list formats routinely omit a model's
+  //     implicit default weapons (a Purifier Squad's purifying flame), so a
+  //     floor can't be judged from printed wargear lines.
+  // The opt-in `checkRosterLegality`/`checkRoster` APIs keep reporting both.
+  if (hit && wargear.every((w) => w.ref.id !== null)) {
+    const comp = ds.unitCompositionOf(hit.raw);
+    const rows = comp?.models ?? [];
+    const envMin = rows.reduce((s, m) => s + (m.min ?? 0), 0);
+    const envMax = rows.reduce((s, m) => s + (m.max ?? 0), 0);
+    const plausibleCount =
+      rows.length === 0 || (parsed.model_count >= envMin && parsed.model_count <= envMax);
+    if (plausibleCount) {
+      const counts = new Map<string, number>();
+      for (const w of wargear) counts.set(w.ref.id!, (counts.get(w.ref.id!) ?? 0) + w.count);
+      const violations = checkUnitLegality(
+        hit.raw,
+        parsed.model_count,
+        ds.wargearOptionsOf(hit.raw),
+        counts,
+        comp?.models,
+        comp?.tiers,
+      ).filter((v) => v.code !== "invalid-model-count" && v.code !== "below-min");
+      if (violations.length > 0) {
+        diag.warn(
+          "loadout-illegal",
+          `Loadout is not buildable from the datasheet's wargear options: ${violations
+            .map((v) => `${v.code}:${v.id}`)
+            .join(", ")}`,
+          parsed.raw_name,
+        );
+      }
+    }
+  }
 
   return {
     ref,

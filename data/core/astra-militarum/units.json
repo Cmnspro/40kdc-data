@@ -354,7 +354,8 @@
           "plasma-gun"
         ],
         "count": 2,
-        "per_models": 10
+        "per_models": 10,
+        "duplicate_limit": 1
       },
       {
         "items": [
@@ -2151,7 +2152,8 @@
           "plasma-gun-tempestus-scions"
         ],
         "count": 4,
-        "per_models": 10
+        "per_models": 10,
+        "duplicate_limit": 2
       }
     ]
   },
@@ -2382,7 +2384,8 @@
           "plasma-gun-kasrkin"
         ],
         "count": 4,
-        "per_models": 0
+        "per_models": 0,
+        "duplicate_limit": 2
       },
       {
         "items": [
@@ -2867,7 +2870,8 @@
           "plasma-gun"
         ],
         "count": 4,
-        "per_models": 20
+        "per_models": 20,
+        "duplicate_limit": 2
       }
     ]
   },
@@ -4822,7 +4826,11 @@
         "count": 1,
         "per_models": 0
       }
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 28
+    }
   },
   {
     "id": "centaur-rsv",
@@ -4973,7 +4981,12 @@
     "weapon_ids": [
       "bolt-pistol-commissar-graves-on-foot",
       "power-sword-and-manus-mortis"
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 32
+    },
+    "attachment_role": "leader"
   },
   {
     "id": "commissar-yarrick",
@@ -5025,7 +5038,12 @@
       "bale-eye",
       "power-klaw",
       "power-sword"
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 32
+    },
+    "attachment_role": "leader"
   },
   {
     "id": "hippogriff-afv",
@@ -5127,7 +5145,12 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "oval",
+      "width": 60,
+      "length": 35.5
+    }
   },
   {
     "id": "draydens-lance-command-squad",
@@ -5184,7 +5207,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 28.5
+    }
   },
   {
     "id": "draydens-lance-kasrkin",
@@ -5230,6 +5257,10 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 28.5
+    }
   }
 ]

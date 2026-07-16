@@ -105,6 +105,30 @@ func embeddedShareIndex() *registryIndex {
 	return shareIndexVal
 }
 
+var (
+	shareAliasesOnce sync.Once
+	shareAliasesVal  map[string]string
+)
+
+// embeddedRegistryAliases returns the embedded registry's rename map (old id ->
+// current id), parsed once. Exposed so the linked-API Dataset can resolve id
+// lookups of a since-renamed entity (see collectionOpts.idAliases).
+func embeddedRegistryAliases() map[string]string {
+	shareAliasesOnce.Do(func() {
+		var reg struct {
+			Aliases map[string]string `json:"aliases"`
+		}
+		if err := json.Unmarshal(shareRegistryJSON, &reg); err != nil {
+			panic("wh40kdc: cannot parse embedded share_registry.json: " + err.Error())
+		}
+		shareAliasesVal = reg.Aliases
+		if shareAliasesVal == nil {
+			shareAliasesVal = map[string]string{}
+		}
+	})
+	return shareAliasesVal
+}
+
 // --- varint + base64url ---
 
 func writeVarint(out *[]byte, value int) error {

@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "fs";
-import { MfmDump, DEFAULT_DUMP_PATH, REPO_ROOT, loadDump } from "../src/mfm/loader.js";
+import { MfmDump, DEFAULT_DUMP_PATH, loadDump } from "../src/mfm/loader.js";
+import { REPO_ROOT } from "../src/mfm/repo-files.js";
 import { buildSeedUnit, runSeedUnits, effectiveDir } from "../src/mfm/seed-units.js";
 
 /**

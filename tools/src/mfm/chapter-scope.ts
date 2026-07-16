@@ -41,24 +41,23 @@
  * (AJV + integrity) and only persists on --write — a clean dry run guarantees a
  * clean write.
  */
-import * as fs from "fs";
 import * as path from "path";
 import { nameToId } from "../converters/id-generator.js";
-import { MfmDump, REPO_ROOT, type DatasheetRow, type DatasheetFactionKeywordRow, type DumpRow } from "./loader.js";
+import {
+  MfmDump,
+  type DatasheetFactionKeywordRow,
+  type DatasheetRow,
+  type FactionKeywordExcludedDatasheetRow,
+  type FactionKeywordRow,
+} from "./loader.js";
+import { CORE_DIR, readJsonArray } from "./repo-files.js";
 import type { StagedWrite } from "./apply.js";
 
-const UNITS_PATH = path.join(REPO_ROOT, "data", "core", "adeptus-astartes", "units.json");
+const UNITS_PATH = path.join(CORE_DIR, "adeptus-astartes", "units.json");
 
 /** The repo's parent Space Marine faction keyword; every chapter is a child of it. */
 const PARENT_KEYWORD = "Adeptus Astartes";
 
-interface FactionKeywordRow extends DumpRow {
-  parentFactionKeywordId: string | null;
-}
-interface ExcludedRow {
-  factionKeywordId: string;
-  datasheetId: string;
-}
 
 interface UnitRecord {
   id: string;
@@ -78,9 +77,7 @@ export interface ChapterScope {
   excludedKeywords: string[];
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /** Order-insensitive string-set equality. */
 function sameSet(a: string[] | undefined, b: string[] | undefined): boolean {
@@ -97,7 +94,7 @@ function sameSet(a: string[] | undefined, b: string[] | undefined): boolean {
  * (no repo I/O) so it is directly unit-testable.
  */
 export function buildChapterScopeCanon(dump: MfmDump): Map<string, ChapterScope> {
-  const fkById = dump.byId<FactionKeywordRow>("faction_keyword");
+  const fkById = dump.byId("faction_keyword");
   const fkNameById = new Map<string, string>();
   for (const [id, row] of fkById) {
     const n = dump.enName(row);
@@ -120,7 +117,7 @@ export function buildChapterScopeCanon(dump: MfmDump): Map<string, ChapterScope>
 
   // datasheetId → its faction-keyword NAME set.
   const kwByDatasheet = new Map<string, Set<string>>();
-  for (const r of dump.table<DatasheetFactionKeywordRow>("datasheet_faction_keyword")) {
+  for (const r of dump.table("datasheet_faction_keyword")) {
     const n = fkNameById.get(r.factionKeywordId);
     if (!n) continue;
     (kwByDatasheet.get(r.datasheetId) ?? kwByDatasheet.set(r.datasheetId, new Set()).get(r.datasheetId)!).add(n);
@@ -134,7 +131,7 @@ export function buildChapterScopeCanon(dump: MfmDump): Map<string, ChapterScope>
   }
   const bySlug = new Map<string, Agg>();
   const slugOfDatasheet = new Map<string, string>();
-  for (const ds of dump.table<DatasheetRow>("datasheet")) {
+  for (const ds of dump.table("datasheet")) {
     if (!ds.id || ds.isLegends) continue;
     const kws = kwByDatasheet.get(ds.id);
     if (!kws || !kws.has(PARENT_KEYWORD)) continue; // SM-family only
@@ -156,7 +153,7 @@ export function buildChapterScopeCanon(dump: MfmDump): Map<string, ChapterScope>
 
   // Genuine bars: a (chapter, generic datasheet) exclusion with NO same-name twin.
   const barsBySlug = new Map<string, Set<string>>();
-  for (const r of dump.table<ExcludedRow>("faction_keyword_excluded_datasheet")) {
+  for (const r of dump.table("faction_keyword_excluded_datasheet")) {
     const chapter = childNameById.get(r.factionKeywordId);
     if (!chapter) continue; // not a chapter of Adeptus Astartes — out of scope
     const slug = slugOfDatasheet.get(r.datasheetId);
@@ -197,7 +194,7 @@ export interface ChapterScopeReport {
 
 export function runChapterScope(dump: MfmDump, _write: boolean): ChapterScopeReport {
   const canon = buildChapterScopeCanon(dump);
-  const units = readJson<UnitRecord>(UNITS_PATH);
+  const units = readJsonArray<UnitRecord>(UNITS_PATH);
 
   const report: ChapterScopeReport = {
     matched: 0,

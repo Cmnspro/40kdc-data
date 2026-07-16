@@ -1,0 +1,128 @@
+{
+  "name": "Imported roster",
+  "generatedBy": "https://newrecruit.eu",
+  "roster": {
+    "name": "Imported roster",
+    "xmlns": "http://www.battlescribe.net/schema/rosterSchema",
+    "generatedBy": "https://newrecruit.eu",
+    "costs": [
+      {
+        "name": "pts",
+        "typeId": "pts-type",
+        "value": 95
+      }
+    ],
+    "forces": [
+      {
+        "id": "force-1",
+        "name": "Army Roster",
+        "catalogueName": "Thousand Sons",
+        "selections": [
+          {
+            "id": "cfg-detachment",
+            "name": "Detachment",
+            "type": "upgrade",
+            "number": 1,
+            "categories": [
+              {
+                "name": "Configuration",
+                "primary": true
+              }
+            ],
+            "selections": [
+              {
+                "id": "cfg-detachment-val",
+                "name": "Hexwarp Thrallband",
+                "type": "upgrade",
+                "number": 1
+              }
+            ]
+          },
+          {
+            "id": "cfg-detachment",
+            "name": "Detachment",
+            "type": "upgrade",
+            "number": 1,
+            "categories": [
+              {
+                "name": "Configuration",
+                "primary": true
+              }
+            ],
+            "selections": [
+              {
+                "id": "cfg-detachment-val",
+                "name": "Sekhetar Cohort",
+                "type": "upgrade",
+                "number": 1
+              }
+            ]
+          },
+          {
+            "id": "u-0",
+            "name": "Infernal Master",
+            "type": "model",
+            "number": 1,
+            "categories": [
+              {
+                "name": "Faction: Thousand Sons",
+                "primary": false
+              }
+            ],
+            "costs": [
+              {
+                "name": "pts",
+                "typeId": "pts-type",
+                "value": 95
+              }
+            ],
+            "selections": [
+              {
+                "id": "u0-warlord",
+                "name": "Warlord",
+                "type": "upgrade",
+                "number": 1
+              },
+              {
+                "id": "w-0",
+                "name": "Fires of the Abyss",
+                "type": "upgrade",
+                "number": 1,
+                "categories": [
+                  {
+                    "name": "Ranged Weapon",
+                    "primary": false
+                  }
+                ]
+              },
+              {
+                "id": "w-1",
+                "name": "Force weapon",
+                "type": "upgrade",
+                "number": 1,
+                "categories": [
+                  {
+                    "name": "Ranged Weapon",
+                    "primary": false
+                  }
+                ]
+              },
+              {
+                "id": "w-2",
+                "name": "Inferno bolt pistol",
+                "type": "upgrade",
+                "number": 1,
+                "categories": [
+                  {
+                    "name": "Ranged Weapon",
+                    "primary": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

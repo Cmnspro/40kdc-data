@@ -1,0 +1,774 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/weapon.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "wargear_item",
+    "wargear_item_profile",
+    "wargear_item_profile_wargear_ability",
+    "wargear_ability",
+    "loadout_choice_set",
+    "loadout_choice",
+    "loadout_choice_wargear_item",
+    "base_miniature_loadout",
+    "base_miniature_loadout_wargear_option",
+    "wargear_option",
+    "limited_wargear_choice_set",
+    "limited_wargear_choice",
+    "limited_wargear_choice_wargear_item"
+  ],
+  "fields": {
+    "/faction_id": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Stamp only records in a non-shared faction directory."
+      ],
+      "precedence": [
+        "Preserve an explicitly authored faction_id; otherwise use the owning directory name."
+      ],
+      "consumers": [
+        "tools/src/codegen-data.ts#build"
+      ],
+      "reason": "Faction scope is repository bundle context, not a wargear-item field."
+    },
+    "/game_modes": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Weapon game-mode applicability is repository-authored; the current projection does not derive it from MFM."
+    },
+    "/game_modes/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Weapon game-mode applicability is repository-authored; the current projection does not derive it from MFM."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [
+        "Use the source unit's authored game_version; fall back to the repository launch default."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The minted weapon inherits repository game-version context rather than translating dump metadata."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [
+        "Use the source unit's authored game_version; fall back to the repository launch default."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The minted weapon inherits repository game-version context rather than translating dump metadata."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [
+        "Use the source unit's authored game_version; fall back to the repository launch default."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The minted weapon inherits repository game-version context rather than translating dump metadata."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "loadout_choice_set.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "loadout_choice.loadoutChoiceSetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "loadout_choice_wargear_item.loadoutChoiceId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "loadout_choice_wargear_item.wargearItemId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "base_miniature_loadout.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "base_miniature_loadout_wargear_option.baseMiniatureLoadoutId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "base_miniature_loadout_wargear_option.wargearOptionId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "wargear_option.wargearItemId",
+          "direction": "parent",
+          "purpose": "general"
+        },
+        {
+          "relation": "limited_wargear_choice_set.datasheetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "limited_wargear_choice.limitedWargearChoiceSetId",
+          "direction": "children",
+          "purpose": "ownership"
+        },
+        {
+          "relation": "limited_wargear_choice_wargear_item.limitedWargearChoiceId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "limited_wargear_choice_wargear_item.wargearItemId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Normalize the resolved wargear-item display name into the repository entity identifier."
+        }
+      ],
+      "filters": [
+        "Only wargear items resolved from supported unit loadout paths and classified as weapon are minted."
+      ],
+      "precedence": [
+        "Reuse an existing or alias-resolved weapon id before minting a normalized id."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#projectUnit",
+        "tools/src/mfm/weapon-variants.ts#runWeaponVariants"
+      ],
+      "reason": "Weapon ids are derived from resolved MFM display names, not copied dump identifiers."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Use the resolved English wargear-item display name for a supported weapon item."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon",
+        "tools/src/mfm/weapon-variants.ts#runWeaponVariants"
+      ],
+      "reason": "The current projection passes the item display name into the minted weapon."
+    },
+    "/profiles": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.id",
+        "data.wargear_item_profile.displayOrder"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile.wargearItemId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mintWeapon",
+          "operation": "Collect the item profiles and sort them by display order before projecting each profile."
+        }
+      ],
+      "filters": [
+        "Require at least one profile row; items without profiles are not minted as weapons."
+      ],
+      "precedence": [
+        "Ascending displayOrder determines repository profile order."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "One weapon record is built from its ordered wargear-item profile rows."
+    },
+    "/profiles/*": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.id",
+        "data.wargear_item_profile.displayOrder"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile.wargearItemId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mintWeapon",
+          "operation": "Project each ordered wargear-item profile into one repository profile."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Ascending displayOrder determines repository profile order."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Each selected dump profile becomes one repository weapon profile."
+    },
+    "/profiles/*/keywords": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Parse supported ability display names into catalog keyword ids and reference-site parameters."
+        },
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mintWeapon",
+          "operation": "Append each parseable profile ability mapping in dump link iteration order."
+        }
+      ],
+      "filters": [
+        "Skip links with no English ability name.",
+        "Skip ability names that mapWeaponKeyword does not recognize."
+      ],
+      "precedence": [
+        "Retain every parseable mapping; no deduplication or displayOrder sort is applied."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Only the closed current ability-name parser is projected; unmapped names remain warnings."
+    },
+    "/profiles/*/keywords/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Emit one or more repository keyword references from a supported ability display name."
+        }
+      ],
+      "filters": [
+        "Exclude unrecognized or parameter-incomplete ability names."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "A mapped ability can yield one or several keyword references."
+    },
+    "/profiles/*/keywords/*/keyword_id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Map recognized ability names to authored weapon-keyword catalog identifiers."
+        }
+      ],
+      "filters": [
+        "Exclude ability names outside the current parser's supported forms."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The keyword catalog id is a parser result rather than a dump id."
+    },
+    "/profiles/*/keywords/*/parameters": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Extract supported numeric, dice, target-keyword, and threshold parameters."
+        }
+      ],
+      "filters": [
+        "Parameters are absent for parameterless keyword forms."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Parameters are parser-derived from recognized ability display-name forms."
+    },
+    "/profiles/*/keywords/*/parameters/target_keyword": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Split supported Anti target labels into title-cased target_keyword values."
+        }
+      ],
+      "filters": [
+        "Only supported Anti ability-name forms emit target_keyword."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Only the Anti parser branch produces this reference-site parameter."
+    },
+    "/profiles/*/keywords/*/parameters/threshold": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Parse the supported Anti threshold into an integer."
+        }
+      ],
+      "filters": [
+        "Only supported Anti ability-name forms emit threshold."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Only the Anti parser branch produces this reference-site parameter."
+    },
+    "/profiles/*/keywords/*/parameters/value": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Parse supported flat or dice keyword values."
+        }
+      ],
+      "filters": [
+        "Only supported parameterized ability-name forms emit value."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Only supported parameterized keyword forms produce value."
+    },
+    "/profiles/*/name": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item.localisations.*.name",
+        "data.wargear_item_profile.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile.wargearItemId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mintWeapon",
+          "operation": "Use the item name for a single profile and the profile display name for a multi-profile weapon."
+        }
+      ],
+      "filters": [
+        "Use the profile localization only when more than one profile exists."
+      ],
+      "precedence": [
+        "Single-profile item name wins; otherwise prefer the English profile name and fall back to the item name."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Profile naming follows the current single-versus-multiple-profile projection rule."
+    },
+    "/profiles/*/range": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.range",
+        "data.wargear_item_profile.type"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseRange",
+          "operation": "Parse numeric range or emit the melee sentinel from the profile type."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Range is normalized by the existing profile parser."
+    },
+    "/profiles/*/stats": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.attacks",
+        "data.wargear_item_profile.ballisticSkill",
+        "data.wargear_item_profile.weaponSkill",
+        "data.wargear_item_profile.strength",
+        "data.wargear_item_profile.armourPenetration",
+        "data.wargear_item_profile.damage",
+        "data.wargear_item_profile.type"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mintWeapon",
+          "operation": "Assemble the repository stat object and select ballistic or weapon skill by profile type."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Stat fields are directly read from each projected profile."
+    },
+    "/profiles/*/stats/A": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.attacks"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseStatValue",
+          "operation": "Normalize numeric or dice attack values."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Attacks uses the existing stat-value parser."
+    },
+    "/profiles/*/stats/AP": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.armourPenetration"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseAP",
+          "operation": "Normalize the profile armour-penetration value to an integer."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Armour penetration uses the existing AP parser."
+    },
+    "/profiles/*/stats/BS": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.ballisticSkill",
+        "data.wargear_item_profile.type"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseSkill",
+          "operation": "Parse the ballistic skill for non-melee profiles."
+        }
+      ],
+      "filters": [
+        "Only non-melee profiles receive BS."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The current projection adds BS only for ranged profile types."
+    },
+    "/profiles/*/stats/D": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.damage"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseStatValue",
+          "operation": "Normalize numeric or dice damage values."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Damage uses the existing stat-value parser."
+    },
+    "/profiles/*/stats/S": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.strength"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseStatValue",
+          "operation": "Normalize numeric or dice strength values."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Strength uses the existing stat-value parser."
+    },
+    "/profiles/*/stats/WS": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.wargear_item_profile.weaponSkill",
+        "data.wargear_item_profile.type"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#parseSkill",
+          "operation": "Parse the weapon skill for melee profiles."
+        }
+      ],
+      "filters": [
+        "Only melee profiles receive WS."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The current projection adds WS only for melee profile types."
+    },
+    "/type": {
+      "provenance": "direct",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_item_profile.type"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile.wargearItemId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mintWeapon",
+          "operation": "Classify the weapon from the first display-ordered profile type."
+        }
+      ],
+      "filters": [
+        "Require a profile row."
+      ],
+      "precedence": [
+        "The first display-ordered profile determines ranged versus melee."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "Mixed-type multi-profile items are not independently represented by the root weapon type."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.wargear_item.localisations.*.ruleText",
+      "candidate_pointer": null,
+      "reason": "Rules prose is intentionally not copied into the core weapon schema."
+    },
+    {
+      "source": "data.wargear_item.noMultiProfileIcon",
+      "candidate_pointer": null,
+      "reason": "Presentation metadata has no core weapon destination."
+    },
+    {
+      "source": "data.wargear_item_profile.localisations.*.hunterProfileKeyword",
+      "candidate_pointer": "/profiles/*/keywords",
+      "reason": "The observed field is null-only and the current keyword parser does not consume it."
+    },
+    {
+      "source": "data.wargear_item_profile_wargear_ability.displayOrder",
+      "candidate_pointer": "/profiles/*/keywords",
+      "reason": "The current projection preserves table iteration order and does not consume link display order."
+    },
+    {
+      "source": "data.wargear_ability.localisations.*.lore",
+      "candidate_pointer": null,
+      "reason": "Ability lore is prose-store material, not a core weapon field."
+    },
+    {
+      "source": "data.wargear_ability.localisations.*.rules",
+      "candidate_pointer": null,
+      "reason": "Ability rules prose is intentionally not copied into the core weapon schema."
+    }
+  ]
+}

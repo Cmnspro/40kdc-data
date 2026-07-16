@@ -7,40 +7,77 @@
  * the dump's (stratagem, detachment) pair slugs — so matching is a direct id
  * lookup, mirroring enhancements (Phase 3A).
  *
- * APPLIED from the dump:
- *   - cp_cost ← `cpCost` (authoritative numeric) — the only dump-verified field.
+ * APPLIED from the dump — only fields backed by a reliable FIRST-CLASS column:
+ *   - cp_cost   ← `cpCost`   (authoritative numeric).
+ *   - player_turn ← `key`    (`yourTurn`/`eitherPlayer`/`opponentsTurn`). A
+ *                   first-class stratagem attribute that the English `whenRules`
+ *                   corroborate in every spot check (e.g. "Command phase." ⇒
+ *                   yourTurn; "Your Shooting phase or the Fight phase." ⇒
+ *                   eitherPlayer, because the Fight phase falls in both turns).
+ *                   Overwrites the ~47 authored rows that disagree — the dump is
+ *                   authoritative and demonstrably more correct on those.
+ *   - type      ← `category` (`battleTactic`→battle-tactic, …). FILL-ONLY: set it
+ *                   only where the repo left the OPTIONAL type unset (~31); never
+ *                   blanks an authored type on the ~34 rows the dump leaves null
+ *                   (11e packs omit the printed type for new detachments), and it
+ *                   never conflicts where both are present (0 disagreements).
+ *   - category  ← presence of `detachmentId` (core vs detachment). Idempotent
+ *                   set/confirm; already 100% consistent, so it drifts only if a
+ *                   future dump upload introduces a mis-scoped record.
  *
- * `game_version` is left as-authored: unlike enhancements (where the confirmed
- * cost justified flipping provisional→launch), a stratagem's structural fields
- * (phases/timing) are NOT dump-verified here, so stamping launch would over-claim.
+ * `game_version` is left as-authored: the structural fields above are keyed off
+ * the dump but `timing` is not, so stamping launch would over-claim.
  *
- * DERIVED FOR REVIEW ONLY (reported, NOT written): phases / player_turn parsed
- * from `localisations.en.whenRules`. Naive parsing is lossy on the common
- * defensive idiom "Your opponent's Shooting phase or the Fight phase" (the Fight
- * phase belongs to either turn) and "Movement or Charge phase" (the word "phase"
- * appears once), so auto-applying would regress careful authored values. The
- * report surfaces derived-vs-authored diffs for manual triage instead. The prose
- * itself is never stored here (it routes to the out-of-repo store in 3B).
+ * DERIVED FOR REVIEW ONLY (reported, NOT written): `phases`, parsed from
+ * `localisations.en.whenRules`. The structured `stratagem_phase` table is NOT
+ * used as a source: it is a buggy denormalized index whose rows routinely
+ * disagree with the card's own whenRules — e.g. Insane Bravery ("Command phase")
+ * is tagged chargePhase, Holy Avarice ("Your Shooting phase") is tagged
+ * commandPhase, and Scriptural Prognosis ("opponent's Shooting phase or the
+ * Fight phase") is tagged with all five phases. Writing from it would regress
+ * careful authored data, so authored phases win and the prose parse is surfaced
+ * for manual triage only. The prose itself is never stored here (it routes to the
+ * out-of-repo store in 3B).
  *
  * NOT touched: `timing` (once-per-*) — the dump has no structured field for it.
  */
 import * as fs from "fs";
 import * as path from "path";
 import { nameToId, detachmentScopedId } from "../converters/id-generator.js";
-import { MfmDump, REPO_ROOT, type DetachmentRow, type StratagemRow } from "./loader.js";
+import { MfmDump, type DetachmentRow, type StratagemRow } from "./loader.js";
+import { readJsonArray, CORE_DIR } from "./repo-files.js";
 import { repoDirs, repoDirForFactionName } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 import { type GoldenMode, modeOfPublication, mergeMode } from "./game-mode.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 
 type Phase = "command" | "movement" | "shooting" | "charge" | "fight";
 type PlayerTurn = "your-turn" | "opponent-turn" | "either";
+type StratType = "battle-tactic" | "strategic-ploy" | "epic-deed" | "wargear";
+type StratCategory = "core" | "detachment";
+
+/** Dump `stratagem.key` → the repo `player_turn` enum. A first-class column. */
+const KEY_TO_TURN: Record<string, PlayerTurn> = {
+  yourTurn: "your-turn",
+  eitherPlayer: "either",
+  opponentsTurn: "opponent-turn",
+};
+/** Dump `stratagem.category` → the repo (optional) `type` enum. `null` category
+ *  (11e packs omit the printed type for new detachments) maps to no type. */
+const CATEGORY_TO_TYPE: Record<string, StratType> = {
+  battleTactic: "battle-tactic",
+  strategicPloy: "strategic-ploy",
+  epicDeed: "epic-deed",
+  wargear: "wargear",
+};
 
 interface StratRecord {
   id: string;
   name: string;
   cp_cost: number;
+  type?: StratType;
+  category?: StratCategory;
   phases?: Phase[];
   player_turn?: PlayerTurn;
   timing?: string;
@@ -48,10 +85,16 @@ interface StratRecord {
   [k: string]: unknown;
 }
 
-interface Canon {
+export interface StratagemCanon {
   cp_cost: number | null;
-  phases: Phase[] | null;
+  /** Prose-derived phases — REVIEW ONLY (stratagem_phase is unreliable; see header). */
+  phases_review: Phase[] | null;
+  /** From `stratagem.key` — APPLIED. */
   player_turn: PlayerTurn | null;
+  /** From `stratagem.category` — FILL-ONLY (optional field). */
+  type: StratType | null;
+  /** From `detachmentId` presence — SET/confirm. */
+  category: StratCategory;
 }
 
 /** Strip BattleScribe-style inline tags (`<b>…</b>`, `<k>…</k>`) to plain text. */
@@ -100,7 +143,7 @@ export function stratagemRepoId(dump: MfmDump, s: StratagemRow): string | null {
   if (!name) return null;
   try {
     if (s.detachmentId) {
-      const dn = dump.enName(dump.byId<DetachmentRow>("detachment").get(s.detachmentId));
+      const dn = dump.enName(dump.byId("detachment").get(s.detachmentId));
       if (!dn) return null;
       return detachmentScopedId(name, dn);
     }
@@ -110,16 +153,24 @@ export function stratagemRepoId(dump: MfmDump, s: StratagemRow): string | null {
   }
 }
 
-/** Stratagem repo-id → canon cp_cost + derived trigger, from the dump. */
-export function buildStratCanon(dump: MfmDump): Map<string, Canon> {
-  const m = new Map<string, Canon>();
-  for (const s of dump.table<StratagemRow>("stratagem")) {
+/** Stratagem repo-id → canon fields from the dump: cp_cost + first-class
+ *  player_turn/type/category (applied) + prose-derived phases (review only). */
+export function buildStratCanon(dump: MfmDump): Map<string, StratagemCanon> {
+  const m = new Map<string, StratagemCanon>();
+  for (const s of dump.table("stratagem")) {
     const id = stratagemRepoId(dump, s);
     if (!id) continue;
     const when = (s.localisations?.en as { whenRules?: string } | undefined)?.whenRules;
-    const { phases, player_turn } = deriveTrigger(when);
+    const { phases } = deriveTrigger(when); // phases only — player_turn now from `key`
     const cp = s.cpCost != null ? parseInt(String(s.cpCost), 10) : null;
-    m.set(id, { cp_cost: Number.isFinite(cp as number) ? (cp as number) : null, phases, player_turn });
+    const row = s as { key?: string; category?: string | null; detachmentId?: string | null };
+    m.set(id, {
+      cp_cost: Number.isFinite(cp as number) ? (cp as number) : null,
+      phases_review: phases,
+      player_turn: (row.key && KEY_TO_TURN[row.key]) || null,
+      type: (row.category && CATEGORY_TO_TYPE[row.category]) || null,
+      category: row.detachmentId ? "detachment" : "core",
+    });
   }
   return m;
 }
@@ -130,7 +181,7 @@ export function buildStratCanon(dump: MfmDump): Map<string, Canon> {
  *  reader's root∪dir union rather than carried per-dir here. */
 export function stratagemInventory(dump: MfmDump): Map<string, Map<string, GoldenMode>> {
   const out = new Map<string, Map<string, GoldenMode>>();
-  for (const s of dump.table<StratagemRow>("stratagem")) {
+  for (const s of dump.table("stratagem")) {
     if (!s.detachmentId) continue;
     const id = stratagemRepoId(dump, s);
     if (!id) continue;
@@ -148,8 +199,16 @@ export interface DirStratResult {
   dir: string;
   matched: number;
   cpChanged: { id: string; from: number; to: number }[];
-  phasesChanged: { id: string; from: Phase[]; to: Phase[] }[];
-  turnChanged: { id: string; from?: PlayerTurn; to: PlayerTurn }[];
+  /** player_turn ← key: APPLIED. */
+  turnApplied: { id: string; from?: PlayerTurn; to: PlayerTurn }[];
+  /** type ← category: FILLED (authored was unset). */
+  typeFilled: { id: string; to: StratType }[];
+  /** type ← category: both present and disagree — surfaced, NOT overwritten. */
+  typeConflict: { id: string; from: string; to: StratType }[];
+  /** category (core/detachment) ← detachmentId presence: SET/confirm. */
+  categoryChanged: { id: string; from: string; to: StratCategory }[];
+  /** phases prose-derived vs authored — REVIEW ONLY, never written. */
+  phasesReview: { id: string; from: Phase[]; to: Phase[] }[];
   unmatchedRepo: string[];
 }
 export interface StratReport {
@@ -158,9 +217,7 @@ export interface StratReport {
   staged: StagedWrite[];
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 function sameArr(a: Phase[] = [], b: Phase[] = []): boolean {
   return a.length === b.length && [...a].sort().join() === [...b].sort().join();
 }
@@ -177,13 +234,16 @@ export function runStratagems(dump: MfmDump, write: boolean): StratReport {
   for (const dir of targets) {
     const p = dir ? path.join(CORE_DIR, dir, "stratagems.json") : path.join(CORE_DIR, "stratagems.json");
     if (!fs.existsSync(p)) continue;
-    const strats = readJson<StratRecord>(p);
+    const strats = readJsonArray<StratRecord>(p);
     const res: DirStratResult = {
       dir: dir || "(core)",
       matched: 0,
       cpChanged: [],
-      phasesChanged: [],
-      turnChanged: [],
+      turnApplied: [],
+      typeFilled: [],
+      typeConflict: [],
+      categoryChanged: [],
+      phasesReview: [],
       unmatchedRepo: [],
     };
     let dirty = false;
@@ -201,16 +261,39 @@ export function runStratagems(dump: MfmDump, write: boolean): StratReport {
         s.cp_cost = c.cp_cost; // mutate in BOTH modes; rehearsal validates the result
         dirty = true;
       }
-      // phases / player_turn: derived for review only — reported, never written
-      // (naive whenRules parsing regresses "…or the Fight phase" / "X or Y phase").
-      if (c.phases && !sameArr(s.phases, c.phases)) {
-        res.phasesChanged.push({ id: s.id, from: s.phases ?? [], to: c.phases });
-      }
+
+      // player_turn ← stratagem.key (first-class, whenRules-corroborated): APPLIED.
       if (c.player_turn && s.player_turn !== c.player_turn) {
-        res.turnChanged.push({ id: s.id, from: s.player_turn, to: c.player_turn });
+        res.turnApplied.push({ id: s.id, from: s.player_turn, to: c.player_turn });
+        s.player_turn = c.player_turn;
+        dirty = true;
       }
-      // game_version intentionally left as-authored: only cp_cost is dump-verified;
-      // phases/timing aren't, so flipping provisional→launch would over-claim.
+
+      // type ← stratagem.category: FILL-ONLY. Set the optional field where authored
+      // is unset; never blank an authored type when the dump omits the category;
+      // surface (never overwrite) the rare both-present disagreement.
+      if (c.type && s.type == null) {
+        res.typeFilled.push({ id: s.id, to: c.type });
+        s.type = c.type;
+        dirty = true;
+      } else if (c.type && s.type !== c.type) {
+        res.typeConflict.push({ id: s.id, from: String(s.type), to: c.type });
+      }
+
+      // category (core/detachment) ← detachmentId presence: idempotent set/confirm.
+      if (s.category !== c.category) {
+        res.categoryChanged.push({ id: s.id, from: String(s.category), to: c.category });
+        s.category = c.category;
+        dirty = true;
+      }
+
+      // phases: prose-derived, REVIEW ONLY — reported, never written. stratagem_phase
+      // is a buggy denormalized index (see header), so authored phases win.
+      if (c.phases_review && !sameArr(s.phases, c.phases_review)) {
+        res.phasesReview.push({ id: s.id, from: s.phases ?? [], to: c.phases_review });
+      }
+      // game_version intentionally left as-authored: timing isn't dump-verified,
+      // so flipping provisional→launch would over-claim.
     }
     if (dirty) staged.push({ path: p, value: strats });
     dirs.push(res);
@@ -226,39 +309,62 @@ export function buildStratReport(report: StratReport, write: boolean): string {
   const L: string[] = [];
   L.push(`# MFM stratagems — ${write ? "APPLIED" : "DRY RUN"}`);
   L.push("");
-  L.push("APPLIED: only `cp_cost` (authoritative). phases/turn columns are DERIVED FROM");
-  L.push("whenRules FOR REVIEW ONLY (not written — lossy on \"…or the Fight phase\" idioms);");
-  L.push("`timing` + `game_version` left authored. Triage the diffs below by hand.");
+  L.push("APPLIED (first-class dump columns): `cp_cost` ← cpCost, `player_turn` ← key,");
+  L.push("`type` ← category (fill-only), `category` ← detachmentId presence.");
+  L.push("REVIEW ONLY (not written): `phases`, prose-derived — the structured");
+  L.push("`stratagem_phase` table is a buggy index (Insane Bravery→charge, Holy");
+  L.push("Avarice→command, Scriptural Prognosis→all-five), so authored phases win.");
+  L.push("`timing` + `game_version` left authored.");
   L.push("");
-  L.push("| Dir | Matched | cp applied | phases (review) | turn (review) | repo-only |");
-  L.push("|---|--:|--:|--:|--:|--:|");
+  L.push("| Dir | Matched | cp | turn | type fill | type conflict | category | phases (review) | repo-only |");
+  L.push("|---|--:|--:|--:|--:|--:|--:|--:|--:|");
   for (const d of dirs.filter((d) => d.matched || d.unmatchedRepo.length)) {
     L.push(
-      `| ${d.dir} | ${d.matched} | ${d.cpChanged.length} | ${d.phasesChanged.length} | ${d.turnChanged.length} | ${d.unmatchedRepo.length} |`
+      `| ${d.dir} | ${d.matched} | ${d.cpChanged.length} | ${d.turnApplied.length} | ${d.typeFilled.length} | ${d.typeConflict.length} | ${d.categoryChanged.length} | ${d.phasesReview.length} | ${d.unmatchedRepo.length} |`
     );
   }
   L.push(
-    `| **TOTAL** | **${sum((d) => d.matched)}** | **${sum((d) => d.cpChanged.length)}** | **${sum((d) => d.phasesChanged.length)}** | **${sum((d) => d.turnChanged.length)}** | **${sum((d) => d.unmatchedRepo.length)}** |`
+    `| **TOTAL** | **${sum((d) => d.matched)}** | **${sum((d) => d.cpChanged.length)}** | **${sum((d) => d.turnApplied.length)}** | **${sum((d) => d.typeFilled.length)}** | **${sum((d) => d.typeConflict.length)}** | **${sum((d) => d.categoryChanged.length)}** | **${sum((d) => d.phasesReview.length)}** | **${sum((d) => d.unmatchedRepo.length)}** |`
   );
   L.push("");
   for (const d of dirs) {
-    if (!d.cpChanged.length && !d.phasesChanged.length && !d.turnChanged.length) continue;
+    if (
+      !d.cpChanged.length &&
+      !d.turnApplied.length &&
+      !d.typeFilled.length &&
+      !d.typeConflict.length &&
+      !d.categoryChanged.length &&
+      !d.phasesReview.length
+    )
+      continue;
     L.push(`## ${d.dir}`);
     if (d.cpChanged.length) {
-      L.push("", "**CP changes:**");
+      L.push("", "**CP changes (applied):**");
       d.cpChanged.forEach((c) => L.push(`- ${c.id}: ${c.from} → ${c.to}`));
     }
-    if (d.phasesChanged.length) {
-      L.push("", "**Phases — authored vs derived (review only, NOT applied):**");
-      d.phasesChanged.forEach((c) => L.push(`- ${c.id}: [${c.from.join(",")}] vs [${c.to.join(",")}]`));
+    if (d.turnApplied.length) {
+      L.push("", "**Player-turn ← key (applied):**");
+      d.turnApplied.forEach((c) => L.push(`- ${c.id}: ${c.from ?? "—"} → ${c.to}`));
     }
-    if (d.turnChanged.length) {
-      L.push("", "**Player-turn — authored vs derived (review only, NOT applied):**");
-      d.turnChanged.forEach((c) => L.push(`- ${c.id}: ${c.from ?? "—"} vs ${c.to}`));
+    if (d.typeFilled.length) {
+      L.push("", "**Type ← category (filled — was unset):**");
+      d.typeFilled.forEach((c) => L.push(`- ${c.id}: → ${c.to}`));
+    }
+    if (d.typeConflict.length) {
+      L.push("", "**Type — authored vs dump category (surfaced, NOT overwritten):**");
+      d.typeConflict.forEach((c) => L.push(`- ${c.id}: ${c.from} vs ${c.to}`));
+    }
+    if (d.categoryChanged.length) {
+      L.push("", "**Category core/detachment (set):**");
+      d.categoryChanged.forEach((c) => L.push(`- ${c.id}: ${c.from} → ${c.to}`));
+    }
+    if (d.phasesReview.length) {
+      L.push("", "**Phases — authored vs prose-derived (review only, NOT applied):**");
+      d.phasesReview.forEach((c) => L.push(`- ${c.id}: [${c.from.join(",")}] vs [${c.to.join(",")}]`));
     }
     L.push("");
   }
-  L.push(`Stratagems in dump with no repo match (author in a follow-up): ${newInDump}`);
+  L.push(`Stratagems in dump with no repo match (author via faction-pack flow): ${newInDump}`);
   L.push("");
   return L.join("\n") + "\n";
 }

@@ -378,8 +378,8 @@
     "max_targets": 1
   },
   {
-    "id": "symphonic-payload-chorus-of-condemnation",
-    "name": "Symphonic Payload",
+    "id": "symphonic-payload-upgrade-chorus-of-condemnation",
+    "name": "Symphonic Payload (Upgrade)",
     "detachment_id": "chorus-of-condemnation",
     "cost": 10,
     "keyword_restrictions": [
@@ -393,11 +393,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "writ-of-compunction-sacred-champions",
-    "name": "Writ of Compunction",
+    "id": "writ-of-compunction-upgrade-sacred-champions",
+    "name": "Writ of Compunction (Upgrade)",
     "detachment_id": "sacred-champions",
     "cost": 20,
     "keyword_restrictions": [
@@ -411,7 +411,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "perfervid-haste-sacred-champions",
@@ -432,8 +432,8 @@
     "max_targets": 1
   },
   {
-    "id": "hagiomnifex-sanctified-orators",
-    "name": "Hagiomnifex",
+    "id": "hagiomnifex-upgrade-sanctified-orators",
+    "name": "Hagiomnifex (Upgrade)",
     "detachment_id": "sanctified-orators",
     "cost": 25,
     "keyword_restrictions": [
@@ -447,7 +447,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3,
+    "exclusion_keywords": [
+      "Penitent"
+    ]
   },
   {
     "id": "divine-miracle-sanctuary-guardians",
@@ -462,7 +465,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adepta Sororitas",
+      "Sanctuary Guardians Battle Sisters Squad"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "righteous-fervour-sanctuary-guardians",
@@ -477,6 +485,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adepta Sororitas",
+      "Sanctuary Canoness Adalya"
+    ]
   }
 ]

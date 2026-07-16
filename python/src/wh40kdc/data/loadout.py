@@ -702,6 +702,29 @@ def _budget_violations(
                     "message": f"{id_}: {used} exceeds shared allowance {cap} ({limit})",
                 }
             )
+        # Per-item sub-cap: at most ``duplicate_limit`` copies of any ONE item, on
+        # top of the shared allowance. Mirror of the TS reference.
+        dup = budget.get("duplicate_limit")
+        if dup is not None:
+            if per_models:
+                dup_cap = math.floor(model_count * dup / per_models)
+                dup_limit = f"{dup} per {per_models} models"
+            else:
+                dup_cap = dup
+                dup_limit = f"{dup} per unit"
+            for id_ in sorted(items):
+                n = counts.get(id_, 0)
+                if n > dup_cap:
+                    out.append(
+                        {
+                            "id": id_,
+                            "code": "exceeds-allowance",
+                            "message": (
+                                f"{id_}: {n} exceeds per-item duplicate cap "
+                                f"{dup_cap} ({dup_limit})"
+                            ),
+                        }
+                    )
     return out
 
 

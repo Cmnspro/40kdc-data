@@ -38,20 +38,26 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
 import {
+  DEFAULT_DUMP_PATH,
   loadDump,
   MfmDump,
-  REPO_ROOT,
   type DatasheetRow,
   type DetachmentRow,
   type EnhancementRow,
 } from "./mfm/loader.js";
+import { REPO_ROOT, readJsonArray, CORE_DIR } from "./mfm/repo-files.js";
 import { repoDirForFactionName, SHARED_ROSTERS, repoDirs } from "./mfm/faction-map.js";
 import { runDispositions, buildDispReport } from "./mfm/dispositions.js";
-import { runEnhancements, buildEnhReport } from "./mfm/enhancements.js";
+import { runEnhancements, buildEnhReport, normalizeEnhancementNames } from "./mfm/enhancements.js";
+import { seedStratagems } from "./mfm/seed-stratagems.js";
+import { runFactionFields, buildFactionFieldsReport } from "./mfm/faction-fields.js";
+import { runDetachmentFields, buildDetFieldsReport } from "./mfm/detachment-fields.js";
 import { runPoints, buildPointsReport } from "./mfm/points.js";
 import { runCull, buildCullReport } from "./mfm/legends-cull.js";
 import { runStratagems, buildStratReport } from "./mfm/stratagems.js";
 import { runMissions, buildMissionsReport } from "./mfm/missions.js";
+import { runMissionMatchups, buildMatchupReport } from "./mfm/mission-matchups.js";
+import { runBaseSizes, buildBaseSizeReport } from "./mfm/base-sizes.js";
 import { runChapterScope, buildChapterScopeReport } from "./mfm/chapter-scope.js";
 import {
   runWargear,
@@ -74,20 +80,18 @@ import {
   modeOfPublication,
 } from "./mfm/game-mode.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 const REPORT_DIR = path.join(CORE_DIR, "_reports");
 const UNMATCHED_DIR = path.join(REPO_ROOT, "_private", "mfm");
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 function repoIds(dir: string, file: string): Set<string> {
-  return new Set(readJson<{ id: string }>(path.join(CORE_DIR, dir, file)).map((e) => e.id));
+  return new Set(readJsonArray<{ id: string }>(path.join(CORE_DIR, dir, file)).map((e) => e.id));
 }
 
 /** Bucket dump datasheets / detachments / enhancements by their resolved repo dir. */
 function bucketByDir<T extends { id?: string }>(
-  rows: T[],
+  rows: readonly T[],
   factionKeywordOf: (row: T) => string | null,
   dump: MfmDump
 ): Map<string, T[]> {
@@ -102,7 +106,7 @@ function bucketByDir<T extends { id?: string }>(
   return out;
 }
 
-interface DirCoverage {
+export interface DirCoverage {
   dir: string;
   unitsMatched: number;
   unitsNew: string[]; // in dump, no repo entity (excludes shared-roster dups)
@@ -143,7 +147,7 @@ interface DumpEntry {
 
 /** dir → (unit repo-id → {name, mode}), over live (non-Legends) datasheets. */
 function unitIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
-  const live = dump.table<DatasheetRow>("datasheet").filter((d) => !d.isLegends);
+  const live = dump.table("datasheet").filter((d) => !d.isLegends);
   const byDir = bucketByDir(live, (d) => dump.factionKeywordOfDatasheet(d.id!), dump);
   const out = new Map<string, Map<string, DumpEntry>>();
   for (const [dir, rows] of byDir) {
@@ -171,7 +175,7 @@ function unitIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
 /** dir → (detachment repo-id → {name, mode}). */
 function detIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const byDir = bucketByDir(
-    dump.table<DetachmentRow>("detachment"),
+    dump.table("detachment"),
     (d) => dump.factionKeywordOfDetachment(d.id!),
     dump
   );
@@ -201,7 +205,7 @@ function detIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
 /** dir → (enhancement repo-id → {"enh / detachment" label, mode}). */
 function enhIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
   const byDir = bucketByDir(
-    dump.table<EnhancementRow>("enhancement"),
+    dump.table("enhancement"),
     (e) => dump.factionKeywordOfDetachment(e.detachmentId),
     dump
   );
@@ -210,7 +214,7 @@ function enhIdsByDir(dump: MfmDump): Map<string, Map<string, DumpEntry>> {
     const m = new Map<string, DumpEntry>();
     for (const enh of rows) {
       const en = dump.enName(enh);
-      const det = dump.byId<DetachmentRow>("detachment").get(enh.detachmentId);
+      const det = dump.byId("detachment").get(enh.detachmentId);
       const dn = dump.enName(det);
       if (!en || !dn) continue;
       let id: string;
@@ -254,9 +258,8 @@ export function enhancementInventory(dump: MfmDump): Map<string, Map<string, Gol
   return modeView(enhIdsByDir(dump));
 }
 
-function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
-  const liveDatasheets = dump
-    .table<DatasheetRow>("datasheet")
+export function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: string[] } {
+  const liveDatasheets = dump.table("datasheet")
     .filter((d) => !d.isLegends);
 
   // Global dump id sets — the repo-only ("dropped by cull-legends") signal must be
@@ -268,14 +271,14 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
     if (id) globalUnitIds.add(id);
   }
   const globalDetIds = new Set<string>();
-  for (const det of dump.table<DetachmentRow>("detachment")) {
+  for (const det of dump.table("detachment")) {
     const id = slug(dump.enName(det));
     if (id) globalDetIds.add(id);
   }
   const globalEnhIds = new Set<string>();
-  for (const enh of dump.table<EnhancementRow>("enhancement")) {
+  for (const enh of dump.table("enhancement")) {
     const en = dump.enName(enh);
-    const dn = dump.enName(dump.byId<DetachmentRow>("detachment").get(enh.detachmentId));
+    const dn = dump.enName(dump.byId("detachment").get(enh.detachmentId));
     if (en && dn) {
       try {
         globalEnhIds.add(detachmentScopedId(en, dn));
@@ -361,6 +364,30 @@ function coverage(dump: MfmDump): { dirs: DirCoverage[]; unmappedFactions: strin
   return { dirs, unmappedFactions: [...unmapped].sort() };
 }
 
+export interface WholeDatasetCounts {
+  stratagems: { repo: number; dump: number };
+  missions: { repo: number; dumpPrimary: number; dumpSecondary: number };
+  forceDispositions: { repo: number; dump: number };
+  detachmentDispositionMap: number;
+}
+
+/** Whole-dataset repo-vs-dump counts for categories the dump dwarfs the repo on. */
+export function wholeDatasetCounts(dump: MfmDump): WholeDatasetCounts {
+  return {
+    stratagems: {
+      repo: readJsonArray<{ id: string }>(path.join(CORE_DIR, "stratagems.json")).length,
+      dump: dump.table("stratagem").length,
+    },
+    missions: {
+      repo: readJsonArray<{ id: string }>(path.join(CORE_DIR, "missions.json")).length,
+      dumpPrimary: dump.table("primary_mission").length,
+      dumpSecondary: dump.table("secondary_mission").length,
+    },
+    forceDispositions: { repo: 5, dump: dump.table("force_disposition").length },
+    detachmentDispositionMap: dump.table("detachment_force_disposition").length,
+  };
+}
+
 function buildReport(dump: MfmDump, cov: ReturnType<typeof coverage>): string {
   const { dirs, unmappedFactions } = cov;
   const sum = (f: (d: DirCoverage) => number) => dirs.reduce((a, d) => a + f(d), 0);
@@ -387,19 +414,18 @@ function buildReport(dump: MfmDump, cov: ReturnType<typeof coverage>): string {
   L.push("");
 
   // Whole-dataset categories the dump dwarfs the repo on.
-  const repoStrat = readJson<{ id: string }>(path.join(CORE_DIR, "stratagems.json")).length;
-  const repoMiss = readJson<{ id: string }>(path.join(CORE_DIR, "missions.json")).length;
+  const wdc = wholeDatasetCounts(dump);
   L.push("## Whole-dataset categories");
   L.push("");
   L.push("| Category | Repo | Dump |");
   L.push("|---|--:|--:|");
-  L.push(`| Stratagems | ${repoStrat} | ${dump.table("stratagem").length} |`);
+  L.push(`| Stratagems | ${wdc.stratagems.repo} | ${wdc.stratagems.dump} |`);
   L.push(
-    `| Missions | ${repoMiss} | ${dump.table("primary_mission").length} primary + ${dump.table("secondary_mission").length} secondary |`
+    `| Missions | ${wdc.missions.repo} | ${wdc.missions.dumpPrimary} primary + ${wdc.missions.dumpSecondary} secondary |`
   );
-  L.push(`| Force dispositions | 5 | ${dump.table("force_disposition").length} |`);
+  L.push(`| Force dispositions | ${wdc.forceDispositions.repo} | ${wdc.forceDispositions.dump} |`);
   L.push(
-    `| Detachment→disposition map | — | ${dump.table("detachment_force_disposition").length} (1:1) |`
+    `| Detachment→disposition map | — | ${wdc.detachmentDispositionMap} (1:1) |`
   );
   L.push("");
 
@@ -543,6 +569,111 @@ async function runEnhancementsCmd(
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+async function runNormalizeEnhancementsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = normalizeEnhancementNames(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-normalize-enhancements.md");
+  const renameLines = Object.entries(report.renames)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([o, n]) => `| \`${o}\` | \`${n}\` |`);
+  const md =
+    `# MFM enhancement RAW-name normalization\n\n` +
+    `Renames the authored enhancement name + id to the RAW GW form (keep the\n` +
+    `\` (Upgrade)\`/\` (Aura)\`/\` (Psychic)\` tag) and rewrites detachment\n` +
+    `\`enhancement_ids\` references. Import-correct: \`normalizeName\` keeps parens,\n` +
+    `so a stripped repo name never matches an imported roster line.\n\n` +
+    `- **Id renames (distinct):** ${Object.keys(report.renames).length}\n` +
+    `- **Name changes (rows):** ${report.nameChanges.length}\n` +
+    `- **Detachment refs rewritten:** ${report.refRewrites.length}\n` +
+    `- **Ambiguous bases skipped:** ${report.collisions.length}\n\n` +
+    (renameLines.length ? `## Id renames (share-registry alias set)\n\n| old | new |\n|---|---|\n${renameLines.join("\n")}\n\n` : "") +
+    (report.collisions.length ? `## Ambiguous bases (left untouched)\n\n${report.collisions.map((c) => `- \`${c}\``).join("\n")}\n` : "");
+  fs.writeFileSync(reportPath, md);
+
+  // Sidecar the rename map for the downstream share-registry alias + store steps.
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "enh-renames.json"),
+    JSON.stringify(report.renames, null, 2) + "\n"
+  );
+
+  console.log(`Normalize-enhancements report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Id renames ${Object.keys(report.renames).length}, name changes ${report.nameChanges.length}, ` +
+      `detachment refs rewritten ${report.refRewrites.length}, ambiguous skipped ${report.collisions.length}.`
+  );
+  if (report.collisions.length) {
+    console.warn(`⚠ ${report.collisions.length} ambiguous base(s) left untouched — see report.`);
+  }
+  await applyWrites(report.staged, { write, label: "normalize-enhancements" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runFactionFieldsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runFactionFields(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-faction-fields.md");
+  fs.writeFileSync(reportPath, buildFactionFieldsReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-faction-fields.json"),
+    JSON.stringify(
+      {
+        unresolvedDirs: report.unresolvedDirs,
+        ruleReview: report.dirs.filter((d) => d.ruleReview).map((d) => ({ dir: d.dir, ...d.ruleReview })),
+        parentReview: report.dirs.filter((d) => d.parentReview).map((d) => ({ dir: d.dir, ...d.parentReview })),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const n = (f: (d: (typeof report.dirs)[number]) => unknown) =>
+    report.dirs.reduce((a, d) => a + (f(d) ? 1 : 0), 0);
+  console.log(`Faction fields report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `rule filled ${n((d) => d.ruleFilled)}, parent filled ${n((d) => d.parentFilled)}, ` +
+      `aliases added ${report.dirs.reduce((a, d) => a + d.aliasesAdded.length, 0)}, ` +
+      `reviews ${n((d) => d.ruleReview) + n((d) => d.parentReview)}, unresolved dirs ${report.unresolvedDirs.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "faction-fields" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runDetachmentFieldsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runDetachmentFields(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-detachment-fields.md");
+  fs.writeFileSync(reportPath, buildDetFieldsReport(report, write));
+
+  fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(UNMATCHED_DIR, "unmatched-detachment-fields.json"),
+    JSON.stringify(
+      {
+        tagsReview: report.dirs.flatMap((d) => d.tagsReview.map((r) => ({ dir: d.dir, ...r }))),
+        requiredKeywordsReview: report.dirs.flatMap((d) => d.reqReview.map((r) => ({ dir: d.dir, ...r }))),
+        ruleReview: report.dirs.flatMap((d) => d.ruleReview.map((r) => ({ dir: d.dir, ...r }))),
+        ruleUnauthored: report.dirs.flatMap((d) => d.ruleUnauthored.map((r) => ({ dir: d.dir, ...r }))),
+        unresolvedKeywords: report.dirs.flatMap((d) => d.unresolvedKeywords.map((r) => ({ dir: d.dir, ...r }))),
+      },
+      null,
+      2
+    ) + "\n"
+  );
+
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) => report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(`Detachment fields report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `tags filled ${sum((d) => d.tagsFilled.length)} (confirm ${sum((d) => d.tagsConfirmed)}, review ${sum((d) => d.tagsReview.length)}), ` +
+      `required_keywords filled ${sum((d) => d.reqFilled.length)} (confirm ${sum((d) => d.reqConfirmed)}, review ${sum((d) => d.reqReview.length)}), ` +
+      `detachment_rule_ids filled ${sum((d) => d.ruleFilled.length)} (confirm ${sum((d) => d.ruleConfirmed)}, review ${sum((d) => d.ruleReview.length)}, unauthored ${sum((d) => d.ruleUnauthored.length)}).`
+  );
+  await applyWrites(report.staged, { write, label: "detachment-fields" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
 async function runPointsCmd(dump: MfmDump, write: boolean): Promise<void> {
   const report = runPoints(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -633,10 +764,55 @@ async function runStratagemsCmd(dump: MfmDump, write: boolean): Promise<void> {
   console.log(`Stratagems report → ${path.relative(REPO_ROOT, reportPath)}`);
   console.log(
     `Matched ${sum((d) => d.matched)}, cp applied ${sum((d) => d.cpChanged.length)}, ` +
-      `phases (review) ${sum((d) => d.phasesChanged.length)}, turn (review) ${sum((d) => d.turnChanged.length)}, ` +
+      `turn applied ${sum((d) => d.turnApplied.length)}, type filled ${sum((d) => d.typeFilled.length)}, ` +
+      `type conflict ${sum((d) => d.typeConflict.length)}, category set ${sum((d) => d.categoryChanged.length)}, ` +
+      `phases (review) ${sum((d) => d.phasesReview.length)}, ` +
       `repo-only ${sum((d) => d.unmatchedRepo.length)}, new-in-dump ${report.newInDump}.`
   );
   await applyWrites(report.staged, { write, label: "stratagems" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runSeedStratagemsCmd(
+  dump: MfmDump,
+  write: boolean,
+  includeCombatPatrol = false,
+): Promise<void> {
+  const report = seedStratagems(dump, { includeCombatPatrol });
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-seed-stratagems.md");
+  const byDir = new Map<string, { id: string; name: string }[]>();
+  for (const s of report.seeded) (byDir.get(s.dir) ?? byDir.set(s.dir, []).get(s.dir)!).push(s);
+  const md =
+    `# MFM stratagem seeding (unseeded competitive set)\n\n` +
+    `Creates repo stratagem entities for dump stratagems with no repo entity. Structural\n` +
+    `fields are dump-derived; phases are prose-parsed and timing defaults to\n` +
+    `\`once-per-phase\`, so every seed is stamped \`pre-launch-provisional\` for review.\n` +
+    `Prose routes to the store via \`mfm-backfill-store\`, never here.\n\n` +
+    `- **Seeded:** ${report.seeded.length}\n` +
+    `- **Held back (Combat Patrol):** ${report.heldBackCombatPatrol.length}\n` +
+    `- **Skipped (coreless — manual review):** ${report.skippedCoreless.length}${report.skippedCoreless.length ? ` (${report.skippedCoreless.map((id) => `\`${id}\``).join(", ")})` : ""}\n` +
+    `- **Skipped (no repo dir):** ${report.skippedNoDir.length}\n` +
+    `- **Skipped (no canon):** ${report.skippedNoCanon.length}\n\n` +
+    [...byDir.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([dir, ss]) => `## ${dir} (${ss.length})\n\n${ss.sort((x, y) => x.id.localeCompare(y.id)).map((s) => `- \`${s.id}\` — ${s.name}`).join("\n")}`)
+      .join("\n\n") +
+    "\n";
+  fs.writeFileSync(reportPath, md);
+
+  console.log(`Seed-stratagems report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Seeded ${report.seeded.length}, held back ${report.heldBackCombatPatrol.length} Combat-Patrol, ` +
+      `skipped ${report.skippedCoreless.length} coreless / ${report.skippedNoDir.length} no-dir / ${report.skippedNoCanon.length} no-canon.`,
+  );
+  if (write && report.seeded.length) {
+    console.log(
+      `Follow-through: run \`npx tsx src/mfm-backfill-store.ts --write\` to push the seeded ` +
+        `stratagems' prose to the store, then rebuild index.json.`,
+    );
+  }
+  await applyWrites(report.staged, { write, label: "seed-stratagems" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
@@ -670,7 +846,58 @@ async function runMissionsCmd(dump: MfmDump, write: boolean): Promise<void> {
       `cumulative ${report.cumulativeChanged.length}, exclusive_group added ${report.exclusiveAdded.length}, ` +
       `shape-mismatch ${report.shapeMismatch.length}, repo-only ${report.repoOnly.length}.`
   );
+  const e = report.entities;
+  console.log(
+    `Mission entities: matched ${e.matched}, source filled ${e.sourceFilled.length} ` +
+      `(review ${e.sourceReview.length}), VP caps confirmed ${e.capConfirmed} (review ${e.capReview.length}).`
+  );
   await applyWrites(report.staged, { write, label: "missions" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runMissionMatchupsCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runMissionMatchups(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-mission-matchups.md");
+  fs.writeFileSync(reportPath, buildMatchupReport(report, write));
+
+  if (report.repoOnly.length || report.unresolvedDump.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-mission-matchups.json"),
+      JSON.stringify({ repoOnly: report.repoOnly, unresolvedDump: report.unresolvedDump }, null, 2) + "\n"
+    );
+  }
+
+  console.log(`Mission-matchups report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Matched ${report.matched}, seeded ${report.seeded.length}, corrected ${report.corrected.length}, ` +
+      `repo-only ${report.repoOnly.length}, unresolved-dump ${report.unresolvedDump.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "mission-matchups" });
+  if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runBaseSizesCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runBaseSizes(dump);
+  fs.mkdirSync(REPORT_DIR, { recursive: true });
+  const reportPath = path.join(REPORT_DIR, "mfm-base-sizes.md");
+  fs.writeFileSync(reportPath, buildBaseSizeReport(report, write));
+
+  if (report.review.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-base-sizes.json"),
+      JSON.stringify({ review: report.review }, null, 2) + "\n"
+    );
+  }
+
+  console.log(`Base-sizes report → ${path.relative(REPO_ROOT, reportPath)}`);
+  console.log(
+    `Filled ${report.filled.length}, de-drafted ${report.dedrafted.length}, ` +
+      `corrected ${report.corrected.length}, confirmed ${report.confirmed}, review ${report.review.length}.`
+  );
+  await applyWrites(report.staged, { write, label: "base-sizes" });
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
@@ -923,66 +1150,93 @@ async function runWeaponVariantsCmd(dump: MfmDump, write: boolean, onlyDir?: str
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
+export const INGEST_MFM_COMMANDS = [
+  "coverage",
+  "golden",
+  "dispositions",
+  "enhancements",
+  "normalize-enhancements",
+  "faction-fields",
+  "detachment-fields",
+  "points",
+  "cull-legends",
+  "stratagems",
+  "seed-stratagems",
+  "missions",
+  "mission-matchups",
+  "base-sizes",
+  "chapter-scope",
+  "wargear",
+  "wargear-budgets",
+  "wargear-costs",
+  "composition-names",
+  "composition-tiers",
+  "attachment-role",
+  "seed-units",
+  "seed-detachments",
+  "allies",
+  "weapon-variants",
+] as const;
+
+export type IngestMfmCommand = (typeof INGEST_MFM_COMMANDS)[number];
+
+export type IngestMfmOptions = {
+  dumpPath: string;
+  write: boolean;
+  onlyDir?: string;
+  includeCombatPatrol?: boolean;
+};
+
+/** Run one ingest transform through its existing projected-data persistence seam. */
+export async function runIngestMfmCommand(
+  command: IngestMfmCommand,
+  options: IngestMfmOptions,
+): Promise<void> {
+  const dump = loadDump(options.dumpPath);
+  if (command === "coverage") runCoverage(dump);
+  else if (command === "golden") writeGolden(dump);
+  else if (command === "dispositions") await runDispositionsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "enhancements") await runEnhancementsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "normalize-enhancements") await runNormalizeEnhancementsCmd(dump, options.write);
+  else if (command === "faction-fields") await runFactionFieldsCmd(dump, options.write);
+  else if (command === "detachment-fields") await runDetachmentFieldsCmd(dump, options.write);
+  else if (command === "points") await runPointsCmd(dump, options.write);
+  else if (command === "cull-legends") await runCullCmd(dump, options.write);
+  else if (command === "stratagems") await runStratagemsCmd(dump, options.write);
+  else if (command === "seed-stratagems") await runSeedStratagemsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "missions") await runMissionsCmd(dump, options.write);
+  else if (command === "mission-matchups") await runMissionMatchupsCmd(dump, options.write);
+  else if (command === "base-sizes") await runBaseSizesCmd(dump, options.write);
+  else if (command === "chapter-scope") await runChapterScopeCmd(dump, options.write);
+  else if (command === "wargear") await runWargearCmd(dump, options.write, options.onlyDir);
+  else if (command === "wargear-budgets") await runWargearBudgetsCmd(dump, options.write, options.onlyDir);
+  else if (command === "wargear-costs") await runWargearCostsCmd(dump, options.write, options.onlyDir);
+  else if (command === "composition-names") await runCompositionNamesCmd(dump, options.write, options.onlyDir);
+  else if (command === "composition-tiers") await runCompositionTiersCmd(dump, options.write, options.onlyDir);
+  else if (command === "attachment-role") await runAttachmentRoleCmd(dump, options.write, options.onlyDir);
+  else if (command === "seed-units") await runSeedUnitsCmd(dump, options.write, options.onlyDir, options.includeCombatPatrol);
+  else if (command === "seed-detachments") await runSeedDetachmentsCmd(dump, options.write, options.onlyDir, options.includeCombatPatrol);
+  else if (command === "allies") await runAlliesCmd(dump, options.write);
+  else if (command === "weapon-variants") await runWeaponVariantsCmd(dump, options.write, options.onlyDir);
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
-  const cmd = argv[0];
-  const write = argv.includes("--write");
+  const command = argv[0];
   const dumpFlag = argv.indexOf("--dump");
-  const dumpPath = dumpFlag >= 0 ? argv[dumpFlag + 1] : undefined;
   const dirFlag = argv.indexOf("--dir");
-  const onlyDir = dirFlag >= 0 ? argv[dirFlag + 1] : undefined;
-  const includeCombatPatrol = argv.includes("--include-combat-patrol");
-
-  const commands = [
-    "coverage",
-    "golden",
-    "dispositions",
-    "enhancements",
-    "points",
-    "cull-legends",
-    "stratagems",
-    "missions",
-    "chapter-scope",
-    "wargear",
-    "wargear-budgets",
-    "wargear-costs",
-    "composition-names",
-    "composition-tiers",
-    "attachment-role",
-    "seed-units",
-    "seed-detachments",
-    "allies",
-    "weapon-variants",
-  ];
-  if (!commands.includes(cmd)) {
+  if (!INGEST_MFM_COMMANDS.includes(command as IngestMfmCommand)) {
     console.error(
-      `Usage: ingest-mfm <${commands.join("|")}> [--write] [--dump <path>] [--dir <faction>] [--include-combat-patrol]`
+      `Usage: ingest-mfm <${INGEST_MFM_COMMANDS.join("|")}> [--write] [--dump <path>] [--dir <faction>] [--include-combat-patrol]`,
     );
     process.exit(2);
   }
-
-  const dump = loadDump(dumpPath);
-  if (cmd === "coverage") runCoverage(dump);
-  else if (cmd === "golden") writeGolden(dump);
-  else if (cmd === "dispositions") await runDispositionsCmd(dump, write, includeCombatPatrol);
-  else if (cmd === "enhancements") await runEnhancementsCmd(dump, write, includeCombatPatrol);
-  else if (cmd === "points") await runPointsCmd(dump, write);
-  else if (cmd === "cull-legends") await runCullCmd(dump, write);
-  else if (cmd === "stratagems") await runStratagemsCmd(dump, write);
-  else if (cmd === "missions") await runMissionsCmd(dump, write);
-  else if (cmd === "chapter-scope") await runChapterScopeCmd(dump, write);
-  else if (cmd === "wargear") await runWargearCmd(dump, write, onlyDir);
-  else if (cmd === "wargear-budgets") await runWargearBudgetsCmd(dump, write, onlyDir);
-  else if (cmd === "wargear-costs") await runWargearCostsCmd(dump, write, onlyDir);
-  else if (cmd === "composition-names") await runCompositionNamesCmd(dump, write, onlyDir);
-  else if (cmd === "composition-tiers") await runCompositionTiersCmd(dump, write, onlyDir);
-  else if (cmd === "attachment-role") await runAttachmentRoleCmd(dump, write, onlyDir);
-  else if (cmd === "seed-units")
-    await runSeedUnitsCmd(dump, write, onlyDir, includeCombatPatrol);
-  else if (cmd === "seed-detachments")
-    await runSeedDetachmentsCmd(dump, write, onlyDir, includeCombatPatrol);
-  else if (cmd === "allies") await runAlliesCmd(dump, write);
-  else if (cmd === "weapon-variants") await runWeaponVariantsCmd(dump, write, onlyDir);
+  await runIngestMfmCommand(command as IngestMfmCommand, {
+    dumpPath: dumpFlag >= 0 ? argv[dumpFlag + 1] : DEFAULT_DUMP_PATH,
+    write: argv.includes("--write"),
+    onlyDir: dirFlag >= 0 ? argv[dirFlag + 1] : undefined,
+    includeCombatPatrol: argv.includes("--include-combat-patrol"),
+  });
 }
 
 /** True only when this module is the process entrypoint — so importing it (the golden

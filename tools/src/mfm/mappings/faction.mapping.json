@@ -1,0 +1,270 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/faction.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "faction_keyword"
+  ],
+  "fields": {
+    "/aliases": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.faction_keyword.localisations.*.commonName"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/faction-fields.ts#runFactionFields",
+          "operation": "Append the localized common name to aliases when distinct from name and not already present."
+        }
+      ],
+      "filters": [
+        "Additive-only: appends the common name; never removes an authored alias."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/faction-fields.ts#runFactionFields"
+      ],
+      "reason": "The dump's localized common name (e.g. \"Space Marines\") is an interoperability alias; runFactionFields appends it additively."
+    },
+    "/aliases/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.faction_keyword.localisations.*.commonName"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/faction-fields.ts#runFactionFields",
+          "operation": "Append the localized common name to aliases when distinct from name and not already present."
+        }
+      ],
+      "filters": [
+        "Additive-only: appends the common name; never removes an authored alias."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/faction-fields.ts#runFactionFields"
+      ],
+      "reason": "The dump's localized common name (e.g. \"Space Marines\") is an interoperability alias; runFactionFields appends it additively."
+    },
+    "/faction_rule_id": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.army_rule.id",
+        "data.army_rule.localisations.*.name",
+        "data.army_rule_faction_keyword.armyRuleId",
+        "data.army_rule_faction_keyword.factionKeywordId"
+      ],
+      "joins": [
+        {
+          "relation": "army_rule_faction_keyword.factionKeywordId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "army_rule_faction_keyword.armyRuleId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Slug each owned army-rule name (trailing parenthetical stripped) into a candidate faction_rule_id."
+        }
+      ],
+      "filters": [
+        "Fill-only: filled when the faction owns exactly one army rule and none is authored; confirmed when the authored slug matches any owned rule; a mismatch or an ambiguous multi-rule faction is surfaced for review, never overwritten (the dump cannot pick THE faction-wide rule among several)."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/faction-fields.ts#runFactionFields"
+      ],
+      "reason": "The owned army rules give candidate faction_rule_id slugs; runFactionFields fills an unambiguous single one and confirms or preserves authored curated slugs."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Faction game-version context is authored with the repository release and is not inferred from the dump snapshot."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Faction dataslate context is authored with the repository release and is not inferred from dump metadata."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Faction edition context is authored with the repository release and is not inferred from dump metadata."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/faction-map.ts#repoDirForFactionName",
+          "operation": "Resolve the English faction-keyword name through reviewed aliases or its canonical repository identifier."
+        }
+      ],
+      "filters": [
+        "Only names resolving to an existing repository faction directory are routed."
+      ],
+      "precedence": [
+        "Reviewed FACTION_ALIASES entries take precedence over name-to-id routing."
+      ],
+      "consumers": [
+        "tools/src/mfm/faction-map.ts#repoDirForFactionName",
+        "tools/src/ingest-mfm.ts#unitIdsByDir"
+      ],
+      "reason": "Current ingestion derives a faction directory from the authoritative English keyword name but does not seed faction entities."
+    },
+    "/keywords": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Faction keyword lists are curated repository metadata rather than a projection of MFM keyword rows."
+    },
+    "/keywords/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Faction keyword lists are curated repository metadata rather than a projection of MFM keyword rows."
+    },
+    "/logo_url": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.faction_keyword.armySelectionImage",
+        "data.faction_keyword.moreInfoImage",
+        "data.faction_keyword.rosterFactionImage",
+        "data.faction_keyword.rosterHeaderImage"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The four artwork references have distinct presentation contexts and cannot be selected or published as a core logo URL."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "partial",
+      "sources": [
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Current routing reads the English localized name."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/faction-map.ts#repoDirForFactionName",
+        "tools/src/ingest-mfm.ts#unitIdsByDir"
+      ],
+      "reason": "Current ingestion uses the authoritative localized faction name to route existing faction data but does not write faction names."
+    },
+    "/parent_faction_id": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.faction_keyword.parentFactionKeywordId",
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "faction_keyword.parentFactionKeywordId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/faction-map.ts#repoDirForFactionName",
+          "operation": "Resolve the joined parent keyword name to the repository faction id."
+        }
+      ],
+      "filters": [
+        "Fill-only: filled when the dump names a parent keyword resolving to a repo faction and none is authored; confirmed on match; a disagreement is surfaced for review, never overwritten."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/faction-fields.ts#runFactionFields"
+      ],
+      "reason": "The verified hierarchy relation names a parent keyword; runFactionFields resolves it to the repo parent faction id and fills/confirms parent_faction_id."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.faction_keyword.excludedFromArmyBuilder",
+      "candidate_pointer": null,
+      "reason": "This MFM army-builder visibility flag has no faction core-entity destination."
+    },
+    {
+      "source": "data.faction_keyword.localisations.*.lore",
+      "candidate_pointer": null,
+      "reason": "Localized lore remains outside published core entity data."
+    },
+    {
+      "source": "data.faction_keyword.mandatoryWarlordId",
+      "candidate_pointer": null,
+      "reason": "The candidate mandatory-warlord relation has no faction core-entity destination."
+    },
+    {
+      "source": "data.faction_keyword.armySelectionImage",
+      "candidate_pointer": "/logo_url",
+      "reason": "Artwork references are not selected or published as core logo URLs."
+    },
+    {
+      "source": "data.faction_keyword.moreInfoImage",
+      "candidate_pointer": "/logo_url",
+      "reason": "Artwork references are not selected or published as core logo URLs."
+    },
+    {
+      "source": "data.faction_keyword.rosterFactionImage",
+      "candidate_pointer": "/logo_url",
+      "reason": "Artwork references are not selected or published as core logo URLs."
+    },
+    {
+      "source": "data.faction_keyword.rosterHeaderImage",
+      "candidate_pointer": "/logo_url",
+      "reason": "Artwork references are not selected or published as core logo URLs."
+    }
+  ]
+}

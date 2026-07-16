@@ -23,10 +23,11 @@
 import * as fs from "fs";
 import * as path from "path";
 import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
-import { loadDump, REPO_ROOT, type DetachmentRow, type StratagemRow } from "./mfm/loader.js";
+import { loadDump, type DetachmentRow, type StratagemRow } from "./mfm/loader.js";
+import { REPO_ROOT, readJsonArray, CORE_DIR } from "./mfm/repo-files.js";
 import { repoDirs } from "./mfm/faction-map.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 const argv = process.argv.slice(2);
 const write = argv.includes("--write");
 const storeFlag = argv.indexOf("--store");
@@ -65,9 +66,7 @@ interface DumpText {
   ref: string;
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 /** Strip BattleScribe inline tags to plain text; null/empty → undefined. */
 function plain(s: string | null | undefined): string | undefined {
   if (!s) return undefined;
@@ -82,9 +81,9 @@ function plain(s: string | null | undefined): string | undefined {
 /** repo stratagem id → dump prose. */
 function buildDumpText(): Map<string, DumpText> {
   const dump = loadDump();
-  const detName = dump.byId<DetachmentRow>("detachment");
+  const detName = dump.byId("detachment");
   const m = new Map<string, DumpText>();
-  for (const s of dump.table<StratagemRow>("stratagem")) {
+  for (const s of dump.table("stratagem")) {
     const name = dump.enName(s);
     if (!name) continue;
     let id: string;
@@ -95,13 +94,13 @@ function buildDumpText(): Map<string, DumpText> {
     } catch {
       continue;
     }
-    const en = (s.localisations?.en ?? {}) as Record<string, string>;
+    const en = s.localisations?.en;
     m.set(id, {
       name,
-      when: plain(en.whenRules),
-      target: plain(en.targetRules),
-      effect: plain(en.effectRules),
-      restrictions: plain(en.restrictionRules),
+      when: plain(en?.whenRules),
+      target: plain(en?.targetRules),
+      effect: plain(en?.effectRules),
+      restrictions: plain(en?.restrictionRules),
       ref: `dump.json#${s.id}`,
     });
   }
@@ -127,10 +126,10 @@ function run(): void {
     const stratPath = dir ? path.join(CORE_DIR, dir, "stratagems.json") : path.join(CORE_DIR, "stratagems.json");
     if (!fs.existsSync(stratPath)) continue;
     const faction = dir || "core";
-    const strats = readJson<RepoStrat>(stratPath);
+    const strats = readJsonArray<RepoStrat>(stratPath);
 
     const storePath = path.join(STORE_ROOT, `${faction}.json`);
-    const store = readJson<StoreEntry>(storePath);
+    const store = readJsonArray<StoreEntry>(storePath);
     const byId = new Map(store.map((e) => [e.ability_id, e]));
 
     const res: DirResult = { scope: faction, added: 0, upgraded: 0, keptBetter: 0, missingInDump: 0 };

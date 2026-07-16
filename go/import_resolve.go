@@ -141,6 +141,59 @@ func scopedWeaponID(ds *Dataset, hit *UnitView, rawName string) (string, bool) {
 	return "", false
 }
 
+// resolveWargearItemID is the fallback for wargear ITEMS (Simulacrum
+// Imperialis, Daemonic Icon, …) — raw names that are not weapons but do exist
+// in the wargear collection. Runs only after BOTH weapon lookups miss, so a
+// wargear item whose name collides with a weapon ("multi-melta", "power
+// weapon") keeps resolving to the weapon exactly as before. Scoped-first: ids
+// reachable through the resolved unit's wargear options, then the global
+// collection (wargear is replicated-identical across factions, so a global
+// first-match is safe). Same NormalizeName + leading-"The" tolerance as the
+// weapon lookups. Mirror of the TS resolveWargearItemId.
+func resolveWargearItemID(ds *Dataset, hit *UnitView, rawName string) (string, bool) {
+	stripped, hasStripped := StripLeadingThe(rawName)
+	if hit != nil {
+		var ids []string
+		for _, optAny := range ds.wargearOptionsOf(hit.Raw) {
+			opt, _ := optAny.(map[string]any)
+			ids = append(ids, getStrList(opt, "replaces")...)
+			ids = append(ids, getStrList(opt, "replacement")...)
+			for _, gAny := range getList(opt, "replacement_choice") {
+				g, _ := gAny.([]any)
+				for _, idAny := range g {
+					if s, ok := idAny.(string); ok {
+						ids = append(ids, s)
+					}
+				}
+			}
+		}
+		targets := map[string]bool{NormalizeName(rawName): true, NormalizeName("The " + rawName): true}
+		if hasStripped {
+			targets[NormalizeName(stripped)] = true
+		}
+		for _, id := range ids {
+			if itemAny, ok := ds.Wargear.GetAny(id); ok {
+				item, _ := itemAny.(map[string]any)
+				if targets[NormalizeName(getStr(item, "name"))] {
+					return getStr(item, "id"), true
+				}
+			}
+		}
+	}
+	if itemAny, ok := ds.Wargear.Find(rawName); ok {
+		return getStr(itemAny.(map[string]any), "id"), true
+	}
+	if hasStripped {
+		if itemAny, ok := ds.Wargear.Find(stripped); ok {
+			return getStr(itemAny.(map[string]any), "id"), true
+		}
+	}
+	if itemAny, ok := ds.Wargear.Find("The " + rawName); ok {
+		return getStr(itemAny.(map[string]any), "id"), true
+	}
+	return "", false
+}
+
 func mapBattleSize(raw any) any {
 	s, ok := raw.(string)
 	if !ok || s == "" {
@@ -193,9 +246,7 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 	}
 	factionIDStr, _ := factionID.(string)
 
-	detachments := []any{}
-	for _, rnAny := range getList(parsed, "detachment_raw_names") {
-		rawName := rnAny.(string)
+	resolveDetachment := func(rawName string) map[string]any {
 		key := NormalizeName(rawName)
 		var scoped map[string]any
 		if factionIDStr != "" {
@@ -213,18 +264,51 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		} else if h, ok := ds.Detachments.Find(rawName); ok {
 			hit = h.(map[string]any)
 		}
-		if hit != nil {
-			detachments = append(detachments, map[string]any{
-				"ref":     refResolved(hit["id"], rawName),
-				"dp_cost": detachmentPointsOrNil(hit),
-			})
-		} else {
-			diag.warn("detachment-unresolved", "Detachment name did not match any 40kdc detachment.", rawName)
-			detachments = append(detachments, map[string]any{
-				"ref":     refUnresolved(rawName, candFromRaw(ds.Detachments.FindAll(rawName))),
-				"dp_cost": nil,
-			})
+		if hit == nil {
+			return nil
 		}
+		return map[string]any{
+			"ref":     refResolved(hit["id"], rawName),
+			"dp_cost": detachmentPointsOrNil(hit),
+		}
+	}
+	detachments := []any{}
+	for _, rnAny := range getList(parsed, "detachment_raw_names") {
+		rawName := rnAny.(string)
+		if whole := resolveDetachment(rawName); whole != nil {
+			detachments = append(detachments, whole)
+			continue
+		}
+		// Dual-detachment 11e lists print both names on one line joined with
+		// " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+		// ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+		// RESOLVE-TIME fallback, taken only when the whole name fails and every
+		// part resolves — "Legends of Saga and Song" is a real single-detachment
+		// name a lexical split would corrupt.
+		parts := splitDetachmentParts(rawName)
+		if len(parts) > 1 {
+			split := make([]map[string]any, 0, len(parts))
+			ok := true
+			for _, p := range parts {
+				d := resolveDetachment(p)
+				if d == nil {
+					ok = false
+					break
+				}
+				split = append(split, d)
+			}
+			if ok {
+				for _, d := range split {
+					detachments = append(detachments, d)
+				}
+				continue
+			}
+		}
+		diag.warn("detachment-unresolved", "Detachment name did not match any 40kdc detachment.", rawName)
+		detachments = append(detachments, map[string]any{
+			"ref":     refUnresolved(rawName, candFromRaw(ds.Detachments.FindAll(rawName))),
+			"dp_cost": nil,
+		})
 	}
 	var detachmentIDs []string
 	for _, dAny := range detachments {
@@ -232,6 +316,20 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 		ref := d["ref"].(map[string]any)
 		if id, ok := ref["id"].(string); ok {
 			detachmentIDs = append(detachmentIDs, id)
+		}
+	}
+
+	// roster-json carries an already-resolved id; ListForge and WTC text carry
+	// the raw header name (e.g. "Priority Assets"), resolved here against the
+	// dataset.
+	forceDisposition := parsed["force_disposition"]
+	if forceDisposition == nil {
+		if raw, ok := parsed["force_disposition_raw_name"].(string); ok && raw != "" {
+			if hit, ok := ds.ForceDispositions.Find(raw); ok {
+				forceDisposition = hit.(map[string]any)["id"]
+			} else {
+				diag.warn("disposition-unresolved", "Force Disposition name did not match any 40kdc disposition.", raw)
+			}
 		}
 	}
 
@@ -274,15 +372,12 @@ func resolveRoster(parsed map[string]any, ds *Dataset, format string) map[string
 	}
 
 	return map[string]any{
-		"name":        parsed["name"],
-		"source":      map[string]any{"format": format, "generated_by": parsed["generated_by"]},
-		"faction_id":  factionID,
-		"detachments": detachments,
-		"battle_size": battleSize,
-		// Only the canonical roster-json round-trip carries a picked Force
-		// Disposition; other source formats don't encode it yet, so it defaults
-		// to null and the roster-legality checker flags it (advisory).
-		"force_disposition": parsed["force_disposition"],
+		"name":              parsed["name"],
+		"source":            map[string]any{"format": format, "generated_by": parsed["generated_by"]},
+		"faction_id":        factionID,
+		"detachments":       detachments,
+		"battle_size":       battleSize,
+		"force_disposition": forceDisposition,
 		"points": map[string]any{
 			"declared_limit": parsed["declared_limit"],
 			"detachment_cap": cap,
@@ -435,6 +530,9 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		if len(hits) > 0 {
 			diag.resolvedWeapons++
 			wargear = append(wargear, map[string]any{"ref": refResolved(hits[0].ID(), w["raw_name"]), "count": w["count"]})
+		} else if wargearItemID, ok := resolveWargearItemID(ds, hit, getStr(w, "raw_name")); ok {
+			diag.resolvedWeapons++
+			wargear = append(wargear, map[string]any{"ref": refResolved(wargearItemID, w["raw_name"]), "count": w["count"]})
 		} else {
 			diag.unresolvedWeapons++
 			diag.warn("weapon-unresolved", "Weapon name did not match any 40kdc weapon.", w["raw_name"])
@@ -459,7 +557,73 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 	if lg := buildLoadoutGroups(hit, asInt(parsed["model_count"]), wargear, ds); lg != nil {
 		result["loadout_groups"] = lg
 	}
+
+	// Loadout legality — the conservative checker over the fully-resolved counts.
+	// Gated exactly like grouping (an unresolved unit has no datasheet; an
+	// unresolved weapon means the counts under-report the list), plus two
+	// import-specific reliability gates: the parsed model count must sit inside
+	// the composition envelope (the GW flat dialect infers model_count 1 for some
+	// units, so invalid-model-count is also filtered), and below-min is filtered
+	// (list formats omit implicit default weapons). Mirror of the TS reference.
+	if hit != nil {
+		allResolved := true
+		counts := map[string]int{}
+		for _, wAny := range wargear {
+			w, _ := asMap(wAny)
+			r, _ := asMap(w["ref"])
+			id, ok := r["id"].(string)
+			if !ok || id == "" {
+				allResolved = false
+				break
+			}
+			counts[id] += asInt(w["count"])
+		}
+		if allResolved {
+			modelCount := asInt(parsed["model_count"])
+			models, tiers := ds.unitCompositionOf(hit.Raw)
+			envMin, envMax := 0, 0
+			for _, mAny := range models {
+				m, _ := asMap(mAny)
+				envMin += asInt(m["min"])
+				envMax += asInt(m["max"])
+			}
+			if len(models) == 0 || (modelCount >= envMin && modelCount <= envMax) {
+				var violations []map[string]string
+				for _, v := range checkUnitLegality(hit.Raw, modelCount, ds.wargearOptionsOf(hit.Raw), counts, models, tiers) {
+					if v["code"] == "invalid-model-count" || v["code"] == "below-min" {
+						continue
+					}
+					violations = append(violations, v)
+				}
+				if len(violations) > 0 {
+					parts := make([]string, 0, len(violations))
+					for _, v := range violations {
+						parts = append(parts, v["code"]+":"+v["id"])
+					}
+					diag.warn(
+						"loadout-illegal",
+						"Loadout is not buildable from the datasheet's wargear options: "+strings.Join(parts, ", "),
+						parsed["raw_name"],
+					)
+				}
+			}
+		}
+	}
 	return result
+}
+
+// splitDetachmentParts splits a dual-detachment line on its " and " / comma
+// joiners (the resolve-time fallback's tokenizer; see the detachment loop).
+func splitDetachmentParts(raw string) []string {
+	var out []string
+	for _, chunk := range strings.Split(raw, ",") {
+		for _, part := range strings.Split(chunk, " and ") {
+			if t := strings.TrimSpace(part); t != "" {
+				out = append(out, t)
+			}
+		}
+	}
+	return out
 }
 
 // buildLoadoutGroups recomputes a unit's loadout_groups from its resolved wargear

@@ -1,0 +1,1019 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/secondary-card.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "primary_mission",
+    "primary_mission_objective",
+    "primary_mission_objective_scoring",
+    "secondary_mission",
+    "secondary_mission_objective",
+    "secondary_mission_objective_scoring"
+  ],
+  "fields": {
+    "/actions": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.primary_mission_action.primaryMissionId",
+        "data.secondary_mission_action.secondaryMissionId"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_action.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_action.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM action rows are structured only as localized action text and are not projected into card actions."
+    },
+    "/actions/*": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.primary_mission_action.primaryMissionId",
+        "data.secondary_mission_action.secondaryMissionId"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_action.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_action.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM action rows are not projected into card actions."
+    },
+    "/actions/*/action_id": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/battle_round": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/battle_round/max": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/battle_round/min": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/completes": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/effect": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/player_turn": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/restrictions": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/starts": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/timing": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/units": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/use_limit": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/actions/*/use_limit_scope": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Action DSL fields are community-authored; MFM action text is not projected."
+    },
+    "/awards": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission_objective_scoring.victoryPoints",
+        "data.primary_mission_objective_scoring.isCumulative",
+        "data.primary_mission_objective_scoring.isMutuallyExclusive",
+        "data.secondary_mission_objective_scoring.victoryPoints",
+        "data.secondary_mission_objective_scoring.victoryPointsCap",
+        "data.secondary_mission_objective_scoring.isCumulative",
+        "data.secondary_mission_objective_scoring.isMutuallyExclusive",
+        "data.secondary_mission_objective_scoring.scoringType"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Order objectives and scoring rows and reconcile their numeric and structural fields into existing awards."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [
+        "Existing award form selects vp or vp_per.",
+        "Existing exclusive_group values are retained unless absent; MFM only adds corroborated groups."
+      ],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "MFM supplies award scoring facts but not triggers, conditions, or authored per-instance descriptors."
+    },
+    "/awards/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission_objective_scoring.victoryPoints",
+        "data.secondary_mission_objective_scoring.victoryPoints"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Align ordered scoring rows to existing awards by scoring track."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [
+        "Skip a card when its existing award and MFM scoring-row shapes disagree."
+      ],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "Each existing award is partially reconciled from its ordered MFM scoring row."
+    },
+    "/awards/*/cumulative": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission_objective_scoring.isCumulative",
+        "data.secondary_mission_objective_scoring.isCumulative"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Set cumulative from the ordered scoring row."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "Ordered MFM scoring rows currently reconcile cumulative award flags."
+    },
+    "/awards/*/exclusive_group": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission_objective_scoring.isMutuallyExclusive",
+        "data.primary_mission_objective.displayOrder",
+        "data.secondary_mission_objective_scoring.isMutuallyExclusive",
+        "data.secondary_mission_objective.displayOrder"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Add a derived exclusive group only for mutually exclusive objective rows."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "Retain a pre-existing exclusive_group even when MFM does not corroborate it."
+    },
+    "/awards/*/mode": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.secondary_mission_objective_scoring.scoringType"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Map secondary scoringType to the existing fixed or tactical award mode."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "Secondary scoring rows currently reconcile fixed and tactical award modes."
+    },
+    "/awards/*/per": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "This card field is repository-authored rather than structured MFM data."
+    },
+    "/awards/*/per_max": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "This card field is repository-authored rather than structured MFM data."
+    },
+    "/awards/*/trigger": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/trigger/battle_round": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/trigger/battle_round/max": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/trigger/battle_round/min": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/trigger/phase": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/trigger/player_turn": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/trigger/timing": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award timing is community-authored; the secondary objective scorable-period table is unobserved and no timing is inferred from MFM prose."
+    },
+    "/awards/*/vp": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission_objective_scoring.victoryPoints",
+        "data.secondary_mission_objective_scoring.victoryPoints"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Set the existing award value form from victoryPoints."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "The existing award form selects vp or vp_per."
+    },
+    "/awards/*/vp_max": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.secondary_mission_objective_scoring.victoryPointsCap"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Set or remove the existing award cap from victoryPointsCap."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "Primary scoring rows have no cap; absent dump caps remove stale repository caps."
+    },
+    "/awards/*/vp_per": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission_objective_scoring.victoryPoints",
+        "data.secondary_mission_objective_scoring.victoryPoints"
+      ],
+      "joins": [
+        {
+          "relation": "primary_mission_objective.primaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "primary_mission_objective_scoring.primaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective.secondaryMissionId",
+          "direction": "children",
+          "purpose": "general"
+        },
+        {
+          "relation": "secondary_mission_objective_scoring.secondaryMissionObjectiveId",
+          "direction": "children",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Set the existing award value form from victoryPoints."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+        "tools/src/mfm/missions.ts#runMissions"
+      ],
+      "reason": "The existing award form selects vp or vp_per."
+    },
+    "/awards/*/when": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Award conditions are community-authored Ability DSL."
+    },
+    "/card_type": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission.id",
+        "data.secondary_mission.id"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Assign primary or secondary from the traversed mission-table configuration."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon"
+      ],
+      "reason": "The card type is determined by whether the mission is traversed through the primary or secondary chain."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Game-version references are repository release metadata, not mission-row fields."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Dataslate is repository release metadata, not mission-row data."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Edition is repository release metadata, not mission-row data."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission.localisations.*.name",
+        "data.secondary_mission.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/missions.ts#buildMissionScoringCanon",
+          "operation": "Normalize each English mission name to the repository card identifier."
+        }
+      ],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon"
+      ],
+      "reason": "The numeric scoring reconciliation identifies generic primary and secondary cards by normalized mission name."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "partial",
+      "sources": [
+        "data.primary_mission.localisations.*.name",
+        "data.secondary_mission.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Exclude primary_mission rows whose detachmentId is non-null."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/missions.ts#buildMissionScoringCanon"
+      ],
+      "reason": "Mission display names select the existing repository card for scoring reconciliation; no card record is seeded by this consumer."
+    },
+    "/subtype": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Deck subtype is a repository classification; neither mission table supplies an equivalent field."
+    },
+    "/text": {
+      "provenance": "prose-store-only",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.primary_mission.localisations.*.description",
+        "data.secondary_mission.localisations.*.description"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Card descriptions are community-authored; localized MFM prose is not copied into the repository."
+    },
+    "/when_drawn": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time deck operations are authored mechanics, not structured MFM fields."
+    },
+    "/when_drawn/battle_round": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time windows are authored card mechanics."
+    },
+    "/when_drawn/battle_round/max": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time windows are authored card mechanics."
+    },
+    "/when_drawn/battle_round/min": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time windows are authored card mechanics."
+    },
+    "/when_drawn/card_ids": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Cross-card draw operations are authored mechanics, not structured MFM fields."
+    },
+    "/when_drawn/card_ids/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Cross-card draw operations are authored mechanics, not structured MFM fields."
+    },
+    "/when_drawn/condition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/quantifier": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/subject": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/unit_filter": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/unit_filter/keywords": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/unit_filter/keywords/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/unit_filter/model_count_max": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/unit_filter/model_count_min": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/condition/unit_filter/wounds_min": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time conditions are community-authored card mechanics."
+    },
+    "/when_drawn/operation": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Draw-time deck operations are authored mechanics, not structured MFM fields."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.primary_mission.detachmentId",
+      "candidate_pointer": "/card_type",
+      "reason": "Detachment-scoped primary rows are intentionally excluded from generic primary card reconciliation."
+    },
+    {
+      "source": "data.primary_mission_action.localisations.*.startsText",
+      "candidate_pointer": "/actions/*/starts",
+      "reason": "Action timing is not extracted from localized MFM prose."
+    },
+    {
+      "source": "data.secondary_mission_action.localisations.*.startsText",
+      "candidate_pointer": "/actions/*/starts",
+      "reason": "Action timing is not extracted from localized MFM prose."
+    },
+    {
+      "source": "data.primary_mission_objective_scorable_period.scorablePeriod",
+      "candidate_pointer": "/awards/*/trigger",
+      "reason": "MFM primary scoreable-period values are not transformed into authored trigger DSL."
+    },
+    {
+      "source": "data.secondary_mission_objective_scoring.inputType",
+      "candidate_pointer": "/awards/*",
+      "reason": "The current scoring reconciler does not interpret inputType."
+    },
+    {
+      "source": "data.secondary_mission_objective_scoring.localisations.*.scoringCriteria",
+      "candidate_pointer": "/awards/*/when",
+      "reason": "Localized scoring criteria remains prose-only; it is not copied into conditions."
+    }
+  ]
+}

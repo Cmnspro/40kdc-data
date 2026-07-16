@@ -396,8 +396,8 @@
     "max_targets": 1
   },
   {
-    "id": "talons-of-butchery-brazen-engines",
-    "name": "Talons of Butchery",
+    "id": "talons-of-butchery-upgrade-brazen-engines",
+    "name": "Talons of Butchery (Upgrade)",
     "detachment_id": "brazen-engines",
     "cost": 20,
     "keyword_restrictions": [
@@ -411,11 +411,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "murder-forged-entity-brazen-engines",
-    "name": "Murder-Forged Entity",
+    "id": "murder-forged-entity-upgrade-brazen-engines",
+    "name": "Murder-forged Entity (Upgrade)",
     "detachment_id": "brazen-engines",
     "cost": 15,
     "keyword_restrictions": [
@@ -429,11 +429,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "sanctified-in-slaughter-butchers-of-khorne",
-    "name": "Sanctified in Slaughter",
+    "id": "sanctified-in-slaughter-upgrade-butchers-of-khorne",
+    "name": "Sanctified in Slaughter (Upgrade)",
     "detachment_id": "butchers-of-khorne",
     "cost": 15,
     "keyword_restrictions": [
@@ -447,11 +447,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "gore-stained-veterans-butchers-of-khorne",
-    "name": "Gore-Stained Veterans",
+    "id": "gore-stained-veterans-upgrade-butchers-of-khorne",
+    "name": "Gore-stained Veterans (Upgrade)",
     "detachment_id": "butchers-of-khorne",
     "cost": 25,
     "keyword_restrictions": [
@@ -465,7 +465,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "bane-of-the-craven-frenzied-reavers",
@@ -480,7 +480,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Frenzied Reavers",
+      "Master of Executions"
+    ]
   },
   {
     "id": "fearsome-presence-frenzied-reavers",
@@ -495,6 +499,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Daemon Prince",
+      "Frenzied Reavers"
+    ]
   }
 ]

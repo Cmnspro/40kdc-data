@@ -1,111 +1,32 @@
 [
   {
-    "id": "molecular-targeting-cryptek-conclave",
-    "name": "MOLECULAR TARGETING",
+    "id": "aggression-protocols-amonhotekhs-guard",
+    "name": "Aggression Protocols",
     "category": "detachment",
-    "type": "battle-tactic",
+    "detachment_id": "amonhotekhs-guard",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "aggression-protocols-amonhotekhs-guard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "animus-curse-cryptek-conclave",
+    "name": "ANIMUS CURSE",
+    "category": "detachment",
+    "type": "wargear",
     "detachment_id": "cryptek-conclave",
     "cp_cost": 1,
     "phases": [
       "fight",
       "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "untapped-power-cryptek-conclave",
-    "name": "UNTAPPED POWER",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "cryptek-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "methodical-murder-cursed-legion",
-    "name": "METHODICAL MURDER",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "cursed-legion",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "image-of-death-cursed-legion",
-    "name": "IMAGE OF DEATH",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "cursed-legion",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "spreading-madness-cursed-legion",
-    "name": "SPREADING MADNESS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "cursed-legion",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "pitiless-hunters-annihilation-legion",
-    "name": "PITILESS HUNTERS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "annihilation-legion",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
@@ -136,65 +57,6 @@
     }
   },
   {
-    "id": "the-spoor-of-frailty-annihilation-legion",
-    "name": "THE SPOOR OF FRAILTY",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "annihilation-legion",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "murderous-reanimation-annihilation-legion",
-    "name": "MURDEROUS REANIMATION",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "annihilation-legion",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "entrophasic-aura-targeting-pantheon-of-woe",
-    "name": "ENTROPHASIC AURA TARGETING",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "pantheon-of-woe",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "chronodistortion-pantheon-of-woe",
     "name": "CHRONODISTORTION",
     "category": "detachment",
@@ -214,17 +76,16 @@
     }
   },
   {
-    "id": "enslaved-artifice-obeisance-phalanx",
-    "name": "ENSLAVED ARTIFICE",
+    "id": "chronoshift-starshatter-arsenal",
+    "name": "CHRONOSHIFT",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "obeisance-phalanx",
+    "type": "strategic-ploy",
+    "detachment_id": "starshatter-arsenal",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "movement"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -234,17 +95,16 @@
     }
   },
   {
-    "id": "nanoassembly-protocols-obeisance-phalanx",
-    "name": "NANOASSEMBLY PROTOCOLS",
+    "id": "cosmic-precision-hypercrypt-legion",
+    "name": "COSMIC PRECISION",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "obeisance-phalanx",
+    "type": "strategic-ploy",
+    "detachment_id": "hypercrypt-legion",
     "cp_cost": 1,
     "phases": [
-      "fight",
-      "shooting"
+      "movement"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -254,16 +114,34 @@
     }
   },
   {
-    "id": "suffer-no-rival-obeisance-phalanx",
-    "name": "SUFFER NO RIVAL",
+    "id": "cosmic-storm-the-phaerons-armoury",
+    "name": "Cosmic Storm",
     "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "obeisance-phalanx",
+    "detachment_id": "the-phaerons-armoury",
     "cp_cost": 1,
     "phases": [
-      "fight"
+      "shooting"
     ],
-    "player_turn": "either",
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "cosmic-storm-the-phaerons-armoury",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "countertemporal-shift-canoptek-court",
+    "name": "COUNTERTEMPORAL SHIFT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "canoptek-court",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -279,84 +157,6 @@
     "type": "battle-tactic",
     "detachment_id": "canoptek-court",
     "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "protocol-of-the-hungry-void-awakened-dynasty",
-    "name": "PROTOCOL OF THE HUNGRY VOID",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "awakened-dynasty",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "protocol-of-the-conquering-tyrant-awakened-dynasty",
-    "name": "PROTOCOL OF THE CONQUERING TYRANT",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "awakened-dynasty",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "merciless-reclamation-starshatter-arsenal",
-    "name": "MERCILESS RECLAMATION",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "starshatter-arsenal",
-    "cp_cost": 2,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "unyielding-forms-starshatter-arsenal",
-    "name": "UNYIELDING FORMS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "starshatter-arsenal",
-    "cp_cost": 2,
     "phases": [
       "fight",
       "shooting"
@@ -391,160 +191,14 @@
     }
   },
   {
-    "id": "disharmonisation-cascade-pantheon-of-woe",
-    "name": "DISHARMONISATION CASCADE",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "pantheon-of-woe",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mass-transmogrification-pantheon-of-woe",
-    "name": "MASS TRANSMOGRIFICATION",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "pantheon-of-woe",
-    "cp_cost": 1,
-    "phases": [
-      "fight",
-      "shooting"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "your-time-is-nigh-obeisance-phalanx",
-    "name": "YOUR TIME IS NIGH",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "obeisance-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "sentinels-of-eternity-obeisance-phalanx",
-    "name": "SENTINELS OF ETERNITY",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "obeisance-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "protocol-of-the-eternal-revenant-awakened-dynasty",
-    "name": "PROTOCOL OF THE ETERNAL REVENANT",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "awakened-dynasty",
-    "cp_cost": 1,
-    "phases": [
-      "command",
-      "movement",
-      "shooting",
-      "charge",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "synergistic-empowerment-cryptek-conclave",
-    "name": "SYNERGISTIC EMPOWERMENT",
+    "id": "dimensional-corridor-hypercrypt-legion",
+    "name": "DIMENSIONAL CORRIDOR",
     "category": "detachment",
     "type": "strategic-ploy",
-    "detachment_id": "cryptek-conclave",
-    "cp_cost": 1,
+    "detachment_id": "hypercrypt-legion",
+    "cp_cost": 2,
     "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "potentiality-syphon-cryptek-conclave",
-    "name": "POTENTIALITY SYPHON",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "cryptek-conclave",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "chronoshift-starshatter-arsenal",
-    "name": "CHRONOSHIFT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "starshatter-arsenal",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
+      "charge"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -575,6 +229,67 @@
     }
   },
   {
+    "id": "disharmonisation-cascade-pantheon-of-woe",
+    "name": "DISHARMONISATION CASCADE",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "pantheon-of-woe",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "dominance-protocols-hand-of-the-dynasty",
+    "name": "Dominance Protocols",
+    "category": "detachment",
+    "detachment_id": "hand-of-the-dynasty",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "dominance-protocols-hand-of-the-dynasty",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "driven-to-butchery-cursed-legion",
+    "name": "DRIVEN TO BUTCHERY",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "cursed-legion",
+    "cp_cost": 1,
+    "phases": [
+      "charge",
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
     "id": "endless-servitude-starshatter-arsenal",
     "name": "ENDLESS SERVITUDE",
     "category": "detachment",
@@ -594,30 +309,11 @@
     }
   },
   {
-    "id": "reactive-reposition-starshatter-arsenal",
-    "name": "REACTIVE REPOSITION",
+    "id": "enslaved-artifice-obeisance-phalanx",
+    "name": "ENSLAVED ARTIFICE",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "starshatter-arsenal",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mortis-protocols-cursed-legion",
-    "name": "MORTIS PROTOCOLS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "cursed-legion",
+    "type": "battle-tactic",
+    "detachment_id": "obeisance-phalanx",
     "cp_cost": 1,
     "phases": [
       "fight",
@@ -633,17 +329,112 @@
     }
   },
   {
-    "id": "driven-to-butchery-cursed-legion",
-    "name": "DRIVEN TO BUTCHERY",
+    "id": "entrophasic-aura-targeting-pantheon-of-woe",
+    "name": "ENTROPHASIC AURA TARGETING",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "cursed-legion",
+    "type": "battle-tactic",
+    "detachment_id": "pantheon-of-woe",
     "cp_cost": 1,
     "phases": [
-      "charge",
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "entropic-damping-hypercrypt-legion",
+    "name": "ENTROPIC DAMPING",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "hypercrypt-legion",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "evasive-protocols-skyshroud-spearhead",
+    "name": "Evasive Protocols",
+    "category": "detachment",
+    "detachment_id": "skyshroud-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "evasive-protocols-skyshroud-spearhead",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "gauss-storm-amonhotekhs-guard",
+    "name": "Gauss Storm",
+    "category": "detachment",
+    "detachment_id": "amonhotekhs-guard",
+    "cp_cost": 1,
+    "phases": [
       "shooting"
     ],
     "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "gauss-storm-amonhotekhs-guard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "hyperphasic-recall-hypercrypt-legion",
+    "name": "HYPERPHASIC RECALL",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hypercrypt-legion",
+    "cp_cost": 2,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "image-of-death-cursed-legion",
+    "name": "IMAGE OF DEATH",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "cursed-legion",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -692,182 +483,11 @@
     }
   },
   {
-    "id": "reanimation-crypts-hypercrypt-legion",
-    "name": "REANIMATION CRYPTS",
+    "id": "mass-transmogrification-pantheon-of-woe",
+    "name": "MASS TRANSMOGRIFICATION",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hypercrypt-legion",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "cosmic-precision-hypercrypt-legion",
-    "name": "COSMIC PRECISION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hypercrypt-legion",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "molecular-erosion-pantheon-of-woe",
-    "name": "MOLECULAR EROSION",
-    "category": "detachment",
-    "type": "strategic-ploy",
+    "type": "epic-deed",
     "detachment_id": "pantheon-of-woe",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "phase-melding-pantheon-of-woe",
-    "name": "PHASE MELDING",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "pantheon-of-woe",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "territorial-obsession-obeisance-phalanx",
-    "name": "TERRITORIAL OBSESSION",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "obeisance-phalanx",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "solar-pulse-canoptek-court",
-    "name": "SOLAR PULSE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "canoptek-court",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "reactive-subroutines-canoptek-court",
-    "name": "REACTIVE SUBROUTINES",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "canoptek-court",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "countertemporal-shift-canoptek-court",
-    "name": "COUNTERTEMPORAL SHIFT",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "canoptek-court",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "suboptimal-facade-canoptek-court",
-    "name": "SUBOPTIMAL FACADE",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "canoptek-court",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "protocol-of-the-undying-legions-awakened-dynasty",
-    "name": "PROTOCOL OF THE UNDYING LEGIONS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "awakened-dynasty",
     "cp_cost": 1,
     "phases": [
       "fight",
@@ -883,16 +503,17 @@
     }
   },
   {
-    "id": "protocol-of-the-sudden-storm-awakened-dynasty",
-    "name": "PROTOCOL OF THE SUDDEN STORM",
+    "id": "merciless-reclamation-starshatter-arsenal",
+    "name": "MERCILESS RECLAMATION",
     "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "awakened-dynasty",
-    "cp_cost": 1,
+    "type": "battle-tactic",
+    "detachment_id": "starshatter-arsenal",
+    "cp_cost": 2,
     "phases": [
-      "movement"
+      "fight",
+      "shooting"
     ],
-    "player_turn": "your-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -902,74 +523,17 @@
     }
   },
   {
-    "id": "unnatural-aggression-cursed-legion",
-    "name": "UNNATURAL AGGRESSION",
+    "id": "methodical-murder-cursed-legion",
+    "name": "METHODICAL MURDER",
     "category": "detachment",
-    "type": "strategic-ploy",
+    "type": "battle-tactic",
     "detachment_id": "cursed-legion",
-    "cp_cost": 2,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "hyperphasic-recall-hypercrypt-legion",
-    "name": "HYPERPHASIC RECALL",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hypercrypt-legion",
-    "cp_cost": 2,
+    "cp_cost": 1,
     "phases": [
       "fight",
       "shooting"
     ],
     "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dimensional-corridor-hypercrypt-legion",
-    "name": "DIMENSIONAL CORRIDOR",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "hypercrypt-legion",
-    "cp_cost": 2,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "protocol-of-the-vengeful-stars-awakened-dynasty",
-    "name": "PROTOCOL OF THE VENGEFUL STARS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "awakened-dynasty",
-    "cp_cost": 2,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -999,10 +563,29 @@
     }
   },
   {
-    "id": "animus-curse-cryptek-conclave",
-    "name": "ANIMUS CURSE",
+    "id": "molecular-erosion-pantheon-of-woe",
+    "name": "MOLECULAR EROSION",
     "category": "detachment",
-    "type": "wargear",
+    "type": "strategic-ploy",
+    "detachment_id": "pantheon-of-woe",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "molecular-targeting-cryptek-conclave",
+    "name": "MOLECULAR TARGETING",
+    "category": "detachment",
+    "type": "battle-tactic",
     "detachment_id": "cryptek-conclave",
     "cp_cost": 1,
     "phases": [
@@ -1019,11 +602,11 @@
     }
   },
   {
-    "id": "quantum-deflection-hypercrypt-legion",
-    "name": "QUANTUM DEFLECTION",
+    "id": "mortis-protocols-cursed-legion",
+    "name": "MORTIS PROTOCOLS",
     "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "hypercrypt-legion",
+    "type": "strategic-ploy",
+    "detachment_id": "cursed-legion",
     "cp_cost": 1,
     "phases": [
       "fight",
@@ -1039,16 +622,16 @@
     }
   },
   {
-    "id": "entropic-damping-hypercrypt-legion",
-    "name": "ENTROPIC DAMPING",
+    "id": "murderous-reanimation-annihilation-legion",
+    "name": "MURDEROUS REANIMATION",
     "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "hypercrypt-legion",
+    "type": "battle-tactic",
+    "detachment_id": "annihilation-legion",
     "cp_cost": 1,
     "phases": [
-      "shooting"
+      "fight"
     ],
-    "player_turn": "opponent-turn",
+    "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1058,36 +641,20 @@
     }
   },
   {
-    "id": "dominance-protocols-hand-of-the-dynasty",
-    "name": "Dominance Protocols",
+    "id": "nanoassembly-protocols-obeisance-phalanx",
+    "name": "NANOASSEMBLY PROTOCOLS",
     "category": "detachment",
-    "detachment_id": "hand-of-the-dynasty",
+    "type": "battle-tactic",
+    "detachment_id": "obeisance-phalanx",
     "cp_cost": 1,
     "phases": [
-      "command"
+      "fight",
+      "shooting"
     ],
     "player_turn": "either",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "dominance-protocols-hand-of-the-dynasty",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "will-of-the-conqueror-hand-of-the-dynasty",
-    "name": "Will of the Conqueror",
-    "category": "detachment",
-    "detachment_id": "hand-of-the-dynasty",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "will-of-the-conqueror-hand-of-the-dynasty",
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
@@ -1130,61 +697,6 @@
     }
   },
   {
-    "id": "swift-as-death-skyshroud-spearhead",
-    "name": "Swift As Death",
-    "category": "detachment",
-    "detachment_id": "skyshroud-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "swift-as-death-skyshroud-spearhead",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "evasive-protocols-skyshroud-spearhead",
-    "name": "Evasive Protocols",
-    "category": "detachment",
-    "detachment_id": "skyshroud-spearhead",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "evasive-protocols-skyshroud-spearhead",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "subsurface-quantumweave-the-phaerons-armoury",
-    "name": "Subsurface Quantumweave",
-    "category": "detachment",
-    "detachment_id": "the-phaerons-armoury",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "subsurface-quantumweave-the-phaerons-armoury",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "particle-pulse-the-phaerons-armoury",
     "name": "Particle Pulse",
     "category": "detachment",
@@ -1203,10 +715,68 @@
     }
   },
   {
-    "id": "cosmic-storm-the-phaerons-armoury",
-    "name": "Cosmic Storm",
+    "id": "phase-melding-pantheon-of-woe",
+    "name": "PHASE MELDING",
     "category": "detachment",
-    "detachment_id": "the-phaerons-armoury",
+    "type": "strategic-ploy",
+    "detachment_id": "pantheon-of-woe",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "pitiless-hunters-annihilation-legion",
+    "name": "PITILESS HUNTERS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "annihilation-legion",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "potentiality-syphon-cryptek-conclave",
+    "name": "POTENTIALITY SYPHON",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "cryptek-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "protocol-of-the-conquering-tyrant-awakened-dynasty",
+    "name": "PROTOCOL OF THE CONQUERING TYRANT",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "awakened-dynasty",
     "cp_cost": 1,
     "phases": [
       "shooting"
@@ -1214,7 +784,491 @@
     "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
-    "ability_id": "cosmic-storm-the-phaerons-armoury",
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "protocol-of-the-eternal-revenant-awakened-dynasty",
+    "name": "PROTOCOL OF THE ETERNAL REVENANT",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "awakened-dynasty",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "protocol-of-the-hungry-void-awakened-dynasty",
+    "name": "PROTOCOL OF THE HUNGRY VOID",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "awakened-dynasty",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "protocol-of-the-sudden-storm-awakened-dynasty",
+    "name": "PROTOCOL OF THE SUDDEN STORM",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "awakened-dynasty",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "protocol-of-the-undying-legions-awakened-dynasty",
+    "name": "PROTOCOL OF THE UNDYING LEGIONS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "awakened-dynasty",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "protocol-of-the-vengeful-stars-awakened-dynasty",
+    "name": "PROTOCOL OF THE VENGEFUL STARS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "awakened-dynasty",
+    "cp_cost": 2,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "quantum-deflection-hypercrypt-legion",
+    "name": "QUANTUM DEFLECTION",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "hypercrypt-legion",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reactive-reposition-starshatter-arsenal",
+    "name": "REACTIVE REPOSITION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "starshatter-arsenal",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reactive-subroutines-canoptek-court",
+    "name": "REACTIVE SUBROUTINES",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "canoptek-court",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reanimation-crypts-hypercrypt-legion",
+    "name": "REANIMATION CRYPTS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "hypercrypt-legion",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "reinforced-resilience-amonhotekhs-guard",
+    "name": "Reinforced Resilience",
+    "category": "detachment",
+    "detachment_id": "amonhotekhs-guard",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "reinforced-resilience-amonhotekhs-guard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "sentinels-of-eternity-obeisance-phalanx",
+    "name": "SENTINELS OF ETERNITY",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "obeisance-phalanx",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "solar-pulse-canoptek-court",
+    "name": "SOLAR PULSE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "canoptek-court",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "spreading-madness-cursed-legion",
+    "name": "SPREADING MADNESS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "cursed-legion",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "suboptimal-facade-canoptek-court",
+    "name": "SUBOPTIMAL FACADE",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "canoptek-court",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "subsurface-quantumweave-the-phaerons-armoury",
+    "name": "Subsurface Quantumweave",
+    "category": "detachment",
+    "detachment_id": "the-phaerons-armoury",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "subsurface-quantumweave-the-phaerons-armoury",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "suffer-no-rival-obeisance-phalanx",
+    "name": "SUFFER NO RIVAL",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "obeisance-phalanx",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "swift-as-death-skyshroud-spearhead",
+    "name": "Swift As Death",
+    "category": "detachment",
+    "detachment_id": "skyshroud-spearhead",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "swift-as-death-skyshroud-spearhead",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "synergistic-empowerment-cryptek-conclave",
+    "name": "SYNERGISTIC EMPOWERMENT",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "cryptek-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "territorial-obsession-obeisance-phalanx",
+    "name": "TERRITORIAL OBSESSION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "obeisance-phalanx",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "the-spoor-of-frailty-annihilation-legion",
+    "name": "THE SPOOR OF FRAILTY",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "annihilation-legion",
+    "cp_cost": 1,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unnatural-aggression-cursed-legion",
+    "name": "UNNATURAL AGGRESSION",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "cursed-legion",
+    "cp_cost": 2,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "untapped-power-cryptek-conclave",
+    "name": "UNTAPPED POWER",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "cryptek-conclave",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "unyielding-forms-starshatter-arsenal",
+    "name": "UNYIELDING FORMS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "starshatter-arsenal",
+    "cp_cost": 2,
+    "phases": [
+      "fight",
+      "shooting"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "will-of-the-conqueror-hand-of-the-dynasty",
+    "name": "Will of the Conqueror",
+    "category": "detachment",
+    "detachment_id": "hand-of-the-dynasty",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "will-of-the-conqueror-hand-of-the-dynasty",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "your-time-is-nigh-obeisance-phalanx",
+    "name": "YOUR TIME IS NIGH",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "obeisance-phalanx",
+    "cp_cost": 1,
+    "phases": [
+      "command",
+      "movement",
+      "shooting",
+      "charge",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"

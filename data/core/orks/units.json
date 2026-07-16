@@ -791,7 +791,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Transport",
       "Battlewagon"
@@ -1156,7 +1155,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Transport",
       "Titanic",
@@ -1339,7 +1337,8 @@
           "rokkit-launcha-tankbustas"
         ],
         "count": 2,
-        "per_models": 0
+        "per_models": 0,
+        "duplicate_limit": 1
       }
     ]
   },
@@ -1563,7 +1562,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Transport",
       "Dedicated Transport",
@@ -1987,7 +1985,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Aircraft",
       "Fly",
@@ -2230,7 +2227,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Fly",
       "Aircraft",
@@ -2918,7 +2914,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Monster",
       "Transport",
       "Psyker",
@@ -3408,7 +3403,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Fly",
       "Aircraft",
@@ -3467,7 +3461,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Monster",
       "Transport",
       "Beast Snagga",
@@ -3611,7 +3604,12 @@
     "weapon_ids": [
       "shoota",
       "choppa-bannernob"
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    },
+    "attachment_role": "support"
   },
   {
     "id": "big-mek-dakkarig",
@@ -3665,7 +3663,11 @@
       "blitzkannon",
       "rokkit-launcha-big-mek-dakkarig",
       "stompy-feet-big-mek-dakkarig"
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 90
+    }
   },
   {
     "id": "bigboss",
@@ -3711,7 +3713,12 @@
     "weapon_ids": [
       "slugga-bigboss",
       "two-handed-big-choppa"
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    },
+    "attachment_role": "leader"
   },
   {
     "id": "wartrakk",
@@ -3809,7 +3816,11 @@
       "psyko-gatler",
       "fixits-wrench",
       "speeding-bulk-and-flaming-exhaust"
-    ]
+    ],
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 120
+    }
   },
   {
     "id": "ardmob-boyz",
@@ -3908,7 +3919,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 25
+    }
   },
   {
     "id": "ardmob-warboss",
@@ -3954,7 +3969,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 50
+    }
   },
   {
     "id": "ardmob-wartrakk",
@@ -3998,7 +4017,12 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "oval",
+      "width": 105,
+      "length": 70
+    }
   },
   {
     "id": "ardmob-weirdboy",
@@ -4044,6 +4068,10 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 50
+    }
   }
 ]

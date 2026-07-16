@@ -62,6 +62,9 @@ function header(roster: Roster, units: readonly RosterUnit[], charSlots: readonl
     `+ LIST NAME: ${roster.name}`,
     `+ FACTION KEYWORD: ${faction}`,
     `+ DETACHMENT: ${detachment ?? "—"}`,
+    ...(roster.force_disposition !== null
+      ? [`+ FORCE DISPOSITION: ${titleCaseId(roster.force_disposition)}`]
+      : []),
     `+ TOTAL ARMY POINTS: ${total}pts`,
     `+ POINTS LIMIT: ${limit}pts`,
     `+`,

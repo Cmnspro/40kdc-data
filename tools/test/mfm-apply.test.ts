@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { applyWrites, type StagedWrite } from "../src/mfm/apply.js";
-import { REPO_ROOT } from "../src/mfm/loader.js";
+import { REPO_ROOT } from "../src/mfm/repo-files.js";
 
 /**
  * Contract of {@link applyWrites} — the seam that makes an MFM-ingest dry run a

@@ -1,0 +1,236 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/wargear-option.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "loadout_choice_set",
+    "limited_wargear_choice_set",
+    "wargear_option_group",
+    "base_miniature_loadout"
+  ],
+  "fields": {
+    "/id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": ["data.datasheet.localisations.*.name"],
+      "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#runWargear", "operation": "Assign the stable per-unit MFM option ordinal after resolving the datasheet to its repository unit id."}],
+      "filters": ["Keep only datasheets matched to an existing repository unit."],
+      "precedence": ["Preserve options for dump-absent units; replace options for each matched unit."],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "MFM has no core-option identity; the writer creates a deterministic repository id from the matched unit and derived option order."
+    },
+    "/unit_id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": ["data.loadout_choice_set.datasheetId", "data.datasheet.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice_set.datasheetId", "direction": "parent", "purpose": "ownership"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#forEachDirDatasheet", "operation": "Resolve the owning datasheet display name to an existing repository unit id."}],
+      "filters": ["Exclude Legends datasheets and require a matched repository unit."],
+      "precedence": ["The first candidate repository directory containing the unit wins."],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Options are emitted only for the repository unit matched from the choice set owner datasheet."
+    },
+    "/faction_id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": ["data.datasheet.publicationId", "data.publication.factionKeywordId", "data.faction_keyword.localisations.*.name"],
+      "joins": [{"relation": "datasheet.publicationId", "direction": "parent", "purpose": "ownership"}, {"relation": "publication.factionKeywordId", "direction": "parent", "purpose": "ownership"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#forEachDirDatasheet", "operation": "Route publication-owned datasheets to the repository faction directory."}],
+      "filters": ["Use the repository directory selected for the matched unit."],
+      "precedence": ["Publication ownership is evaluated before shared-roster fallback."],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "The writer scopes each rebuilt option to the directory selected from the datasheet publication owner."
+    },
+    "/model_constraint": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_set.miniatureId", "data.wargear_option.inputType", "data.wargear_option.defaultValue", "data.limited_wargear_choice_set.miniatureId", "data.wargear_limit.modelCount", "data.wargear_limit.choiceLimit"],
+      "joins": [{"relation": "loadout_choice_set.miniatureId", "direction": "parent", "purpose": "applicability"}, {"relation": "limited_wargear_choice_set.miniatureId", "direction": "parent", "purpose": "applicability"}, {"relation": "wargear_limit.limitedWargearChoiceSetId", "direction": "parent", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Derive the option model constraint from its miniature scope, limited-set ratio, and optional-swap input type."}],
+      "filters": ["Use only defaultValue-zero wargear options as optional swaps.", "Only mini-scoped single-item limited sets create per-option ratio bounds."],
+      "precedence": ["A mini-scoped wargear_limit ratio binds before checkbox max_count; otherwise emit any_number."],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "The projection implements the supported ratio and checkbox paths but deliberately leaves shared, flat, datasheet-wide, duplicate, mandatory, alternate, and all-model semantics outside an option constraint."
+    },
+    "/model_constraint/model_name": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": ["data.loadout_choice_set.miniatureId", "data.miniature.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice_set.miniatureId", "direction": "parent", "purpose": "applicability"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Emit the localized miniature name only for a miniature-scoped option on a multi-model datasheet."}],
+      "filters": ["Omit for datasheet-wide sets and single-model datasheets."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "The model constraint uses the MFM miniature scope when a distinct repository model label is needed."
+    },
+    "/model_constraint/per_n_models": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.limited_wargear_choice_set.miniatureId", "data.limited_wargear_choice_wargear_item.wargearItemId", "data.wargear_limit.modelCount", "data.wargear_limit.choiceLimit"],
+      "joins": [{"relation": "limited_wargear_choice_set.miniatureId", "direction": "parent", "purpose": "applicability"}, {"relation": "limited_wargear_choice.limitedWargearChoiceSetId", "direction": "parent", "purpose": "ownership"}, {"relation": "limited_wargear_choice_wargear_item.limitedWargearChoiceId", "direction": "parent", "purpose": "eligibility"}, {"relation": "limited_wargear_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}, {"relation": "wargear_limit.limitedWargearChoiceSetId", "direction": "parent", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#miniScopedSingleCaps", "operation": "Select the tightest positive choiceLimit/modelCount ratio and convert it to a per-model interval."}],
+      "filters": ["Require a miniature-scoped limited set containing exactly one resolved item.", "Ignore zero model counts and non-positive limits."],
+      "precedence": ["The smallest positive ratio for an added item wins."],
+      "consumers": ["tools/src/mfm/wargear.ts#deriveWargear"],
+      "reason": "Only mini-scoped single-item ratio limits are represented on individual options; other limited-set caps become unit budgets or remain unsupported here."
+    },
+    "/model_constraint/max_count": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.wargear_option.inputType", "data.wargear_option.defaultValue"],
+      "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#checkboxCapped", "operation": "Set a unit-wide cap of one when every granted optional-swap item is offered only through checkbox controls."}],
+      "filters": ["Inspect only defaultValue-zero, miniature-scoped swap options."],
+      "precedence": ["Do not emit this cap when a mini-scoped wargear_limit ratio applies."],
+      "consumers": ["tools/src/mfm/wargear.ts#deriveWargear"],
+      "reason": "Checkbox-only swaps are represented as one-instance caps. wargear_limit.duplicateLimit is NOT this per-option cap: it constrains multi-item shared limited sets and is consumed as unit /wargear_budgets/*/duplicate_limit."
+    },
+    "/model_constraint/any_number": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.wargear_option.inputType", "data.wargear_option.defaultValue", "data.wargear_limit.modelCount", "data.wargear_limit.choiceLimit"],
+      "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Use any_number as the fallback after ratio and checkbox cap checks."}],
+      "filters": ["Inspect only derived optional swap deltas."],
+      "precedence": ["Fallback after mini-scoped ratio and checkbox-only caps."],
+      "consumers": ["tools/src/mfm/wargear.ts#deriveWargear"],
+      "reason": "The fallback represents the currently supported per-model swap path; shared limits are enforced separately as unit budgets."
+    },
+    "/replaces": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.loadout_choice_wargear_item.count", "data.wargear_item.localisations.*.name", "data.base_miniature_loadout.datasheetId", "data.base_miniature_loadout.miniatureId", "data.base_miniature_loadout_wargear_option.wargearOptionId", "data.base_miniature_loadout_wargear_option.count", "data.wargear_option.wargearItemId", "data.wargear_option.defaultValue"],
+      "joins": [{"relation": "loadout_choice.loadoutChoiceSetId", "direction": "parent", "purpose": "ownership"}, {"relation": "loadout_choice_wargear_item.loadoutChoiceId", "direction": "parent", "purpose": "eligibility"}, {"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}, {"relation": "base_miniature_loadout.datasheetId", "direction": "parent", "purpose": "ownership"}, {"relation": "base_miniature_loadout.miniatureId", "direction": "parent", "purpose": "applicability"}, {"relation": "base_miniature_loadout_wargear_option.baseMiniatureLoadoutId", "direction": "parent", "purpose": "eligibility"}, {"relation": "base_miniature_loadout_wargear_option.wargearOptionId", "direction": "parent", "purpose": "eligibility"}, {"relation": "wargear_option.wargearItemId", "direction": "parent", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Resolve choice item names and take each branch multiset delta against the scoped base loadout."}],
+      "filters": ["Drop branches emptied by unresolved items and no-op deltas.", "Do not emit pure-removal branches."],
+      "precedence": ["Use a clean option-group default first; fall back to base_miniature_loadout when it cannot supply a uniform base."],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Replacement removals are derived deltas, not direct MFM fields, and are partial when item names cannot resolve to repository ids."
+    },
+    "/replaces/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.wargear_item.localisations.*.name", "data.wargear_option.wargearItemId"],
+      "joins": [{"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}, {"relation": "wargear_option.wargearItemId", "direction": "parent", "purpose": "general"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Resolve a base-loadout item and retain it only when absent from the selected branch."}],
+      "filters": ["Omit unresolved items and no-op deltas."],
+      "precedence": ["Use the reviewed base-loadout fallback after an unusable option-group base."],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Each removal is a resolved repository item id produced by branch differencing."
+    },
+    "/replacement": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.loadout_choice_wargear_item.count", "data.wargear_item.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice.loadoutChoiceSetId", "direction": "parent", "purpose": "ownership"}, {"relation": "loadout_choice_wargear_item.loadoutChoiceId", "direction": "parent", "purpose": "eligibility"}, {"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Resolve a single grouped added branch into replacement ids, repeating each item by its count."}],
+      "filters": ["Emit only when exactly one nonempty added branch remains after resolution and deduplication."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "A single derived branch becomes replacement; unresolved names leave the graph partially projected."
+    },
+    "/replacement/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.loadout_choice_wargear_item.count", "data.wargear_item.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Resolve each added item name to a repository id and preserve its positive multiplicity."}],
+      "filters": ["Discard unresolved-empty branches."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Each replacement element is a resolved item from the supported loadout choice graph."
+    },
+    "/replacement_choice": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.loadout_choice_wargear_item.count", "data.wargear_item.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice.loadoutChoiceSetId", "direction": "parent", "purpose": "ownership"}, {"relation": "loadout_choice_wargear_item.loadoutChoiceId", "direction": "parent", "purpose": "eligibility"}, {"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Group distinct added branches sharing the same removed multiset into replacement_choice."}],
+      "filters": ["Emit only when more than one nonempty added branch remains."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Alternative replacement branches are derived from the supported ordinary loadout choice graph."
+    },
+    "/replacement_choice/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.loadout_choice_wargear_item.count", "data.wargear_item.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Emit one resolved added-item branch for each distinct delta."}],
+      "filters": ["Discard empty and duplicate deltas."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Each choice branch is a resolved ordinary-choice delta."
+    },
+    "/replacement_choice/*/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": ["data.loadout_choice_wargear_item.wargearItemId", "data.loadout_choice_wargear_item.count", "data.wargear_item.localisations.*.name"],
+      "joins": [{"relation": "loadout_choice_wargear_item.wargearItemId", "direction": "parent", "purpose": "eligibility"}],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#deriveWargear", "operation": "Resolve one item occurrence in a grouped added branch."}],
+      "filters": ["Discard unresolved items."],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "Each nested element is a resolved repository item id."
+    },
+    "/is_free": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#runWargear", "operation": "Write true for every generated option."}],
+      "filters": [],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "The current writer intentionally does not consume option-level MFM points and marks rebuilt options free."
+    },
+    "/additional_cost": {
+      "provenance": "unresolved-candidate",
+      "coverage": "not-applicable",
+      "sources": ["data.wargear_option.points"],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Deliberately not populated: option points ARE imported, but as the authoritative per-item unit wargear_costs (see unit.mapping.json /wargear_costs, sourced from data.wargear_option.points via pricedWargearItems and charged per copy in the final loadout). additional_cost is the retired interim per-option encoding that wargear_costs subsumes — runWargearCosts strips it in the same write so no consumer double-charges. The schema field stays optional but is left null."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#runWargear", "operation": "Attach the repository CONFIRMED game-version reference."}],
+      "filters": [],
+      "precedence": [],
+      "consumers": ["tools/src/mfm/wargear.ts#runWargear"],
+      "reason": "MFM snapshot metadata is not converted to an entity game-version reference."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored", "coverage": "implemented", "sources": [], "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#runWargear", "operation": "Copy the repository CONFIRMED edition."}], "filters": [], "precedence": [], "consumers": ["tools/src/mfm/wargear.ts#runWargear"], "reason": "Edition is repository version context."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored", "coverage": "implemented", "sources": [], "joins": [],
+      "transforms": [{"symbol": "tools/src/mfm/wargear.ts#runWargear", "operation": "Copy the repository CONFIRMED dataslate reference."}], "filters": [], "precedence": [], "consumers": ["tools/src/mfm/wargear.ts#runWargear"], "reason": "Dataslate is repository version context."
+    },
+    "/game_modes": {
+      "provenance": "repo-authored", "coverage": "unimplemented", "sources": [], "joins": [], "transforms": [], "filters": [], "precedence": [], "consumers": [], "reason": "The current writer emits no game_modes field; matched-play absence is schema behavior rather than an MFM projection."
+    },
+    "/game_modes/*": {
+      "provenance": "repo-authored", "coverage": "unimplemented", "sources": [], "joins": [], "transforms": [], "filters": [], "precedence": [], "consumers": [], "reason": "No game-mode array elements are projected by current wargear.ts."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {"source": "data.all_model_wargear_choice_set.datasheetId", "candidate_pointer": "/model_constraint", "reason": "The all-model choice graph is not traversed by current wargear.ts."},
+    {"source": "data.all_model_wargear_choice_set.miniatureId", "candidate_pointer": "/model_constraint/model_name", "reason": "The all-model choice graph is not traversed by current wargear.ts."},
+    {"source": "data.all_model_wargear_choice.substitute", "candidate_pointer": "/replaces", "reason": "Substitution semantics in all-model choices are not projected."},
+    {"source": "data.all_model_wargear_choice_wargear_item.wargearItemId", "candidate_pointer": "/replacement", "reason": "All-model choice items are not projected into option replacements."},
+    {"source": "data.all_model_wargear_choice_wargear_item.count", "candidate_pointer": "/replacement", "reason": "All-model choice item multiplicity is not consumed."},
+    {"source": "data.loadout_choice_set.allowDuplicates", "candidate_pointer": null, "reason": "Current derivation does not represent repeated-selection permission."},
+    {"source": "data.loadout_choice_set.alternate", "candidate_pointer": null, "reason": "Current derivation records alternate sets only as review notes and does not change emitted fields."},
+    {"source": "data.limited_wargear_choice_set.mandatory", "candidate_pointer": null, "reason": "Mandatory limited-choice semantics are not represented by generated options."},
+    {"source": "data.wargear_option.points", "candidate_pointer": null, "reason": "Consumed cross-entity as the unit wargear_costs per-item price (unit.mapping.json /wargear_costs via pricedWargearItems), not projected to any wargear-option field; the interim /additional_cost encoding it would have used is retired (stripped by runWargearCosts)."}
+  ]
+}

@@ -579,6 +579,10 @@ function handleLinkedQuery(state: RunnerState, args: unknown): RunnerResponse {
         return ok([...ds.triggerIndex().keys()]);
       case "triggers_for_event":
         return ok((ds.triggerIndex().get((input.event ?? "") as GameEvent) ?? []).map((rt) => rt.abilityId));
+      case "get_enhancement":
+        // Returns the resolved enhancement's current id (or null). Exercises
+        // renamed-id resolution: a since-renamed id resolves to its new record.
+        return ok(ds.enhancements.get(input.id ?? "")?.id ?? null);
       default:
         return err("INVALID_INPUT", { detail: `unknown linked_query: ${a.query}` });
     }

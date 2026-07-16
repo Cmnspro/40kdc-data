@@ -12,33 +12,34 @@ is a data or checker bug, not mass cheating.
 - `examples/atc-viewer/src/data/atc-2026.json`: 248 lists (0 without text skipped)
 - `examples/atc-viewer/src/data/atc-5s.json`: 230 lists (2 without text skipped)
 - **Lists**: 478, parse failures: 18
-- **Legality**: 904 violating units across 263 lists
+- **Legality**: 948 violating units across 282 lists
 - **Composition drift**: 38 dataset units
 
 ### Warnings by code
 
 | code | count |
 |---|--:|
-| `weapon-unresolved` | 2843 |
-| `detachment-unresolved` | 430 |
+| `weapon-unresolved` | 940 |
+| `loadout-illegal` | 633 |
+| `detachment-unresolved` | 230 |
 | `faction-unresolved` | 210 |
-| `leader-attachment-inferred` | 137 |
-| `enhancement-unresolved` | 114 |
+| `leader-attachment-inferred` | 151 |
 | `unit-unresolved` | 111 |
 | `multi-force` | 52 |
 | `battle-size-unmapped` | 8 |
+| `enhancement-unresolved` | 8 |
 | `points-mismatch` | 2 |
 
 ### Loadout grouping by outcome
 
 | outcome | count |
 |---|--:|
-| `grouped` | 1774 |
+| `grouped` | 2308 |
 | `unit-unresolved` | 111 |
-| `wargear-unresolved` | 1842 |
-| `single-model` | 3134 |
+| `wargear-unresolved` | 689 |
+| `single-model` | 3363 |
 | `no-recorded-defaults` | 12 |
-| `solver-null` | 279 |
+| `solver-null` | 669 |
 
 ## Legality violations (ranked `code:unitId`)
 
@@ -50,19 +51,21 @@ is a data or checker bug, not mass cheating.
 | `exceeds-max:rogal-dorn-commander` | 42 |
 | `exceeds-max:piranhas` | 36 |
 | `exceeds-allowance:death-company-marines-with-jump-packs` | 35 |
+| `exceeds-max:commander-in-coldstar-battlesuit` | 35 |
 | `exceeds-allowance:legionaries` | 34 |
 | `exceeds-max:attilan-rough-riders` | 32 |
+| `exceeds-max:commander-in-enforcer-battlesuit` | 29 |
 | `exceeds-max:pink-horrors` | 26 |
 | `exceeds-max:scout-squad` | 26 |
-| `exceeds-max:commander-in-coldstar-battlesuit` | 24 |
 | `exceeds-max:chaos-predator-destructor` | 21 |
 | `swap-conflict:rogal-dorn-commander` | 21 |
 | `swap-conflict:sekhetar-robots` | 21 |
 | `below-min:servitor-battleclade` | 20 |
-| `exceeds-max:commander-in-enforcer-battlesuit` | 20 |
 | `exceeds-max:hammerhead-gunship` | 20 |
 | `exceeds-allowance:chaos-terminator-squad` | 19 |
 | `exceeds-max:rogal-dorn-battle-tank` | 18 |
+| `below-min:cadian-command-squad` | 17 |
+| `exceeds-allowance:custodian-guard` | 16 |
 | `below-min:death-company-marines-with-jump-packs` | 15 |
 | `exceeds-allowance:boyz` | 15 |
 | `exceeds-allowance:kommandos` | 15 |
@@ -76,15 +79,16 @@ is a data or checker bug, not mass cheating.
 | `exceeds-max:cadian-shock-troops` | 12 |
 | `below-min:death-korps-of-krieg` | 11 |
 | `exceeds-allowance:paladin-squad` | 11 |
+| `exceeds-max:cadian-command-squad` | 11 |
 | `exceeds-max:sky-ray-gunship` | 11 |
 | `below-min:kabalite-warriors` | 10 |
 | `below-min:militarum-tempestus-command-squad` | 10 |
 | `exceeds-allowance:wolf-guard-terminators` | 10 |
+| `exceeds-max:broadside-battlesuits` | 10 |
 | `exceeds-max:decimus-kill-team` | 10 |
 | `exceeds-max:devilfish` | 10 |
 | `exceeds-max:wraithlord` | 10 |
-| `below-min:cadian-command-squad` | 9 |
-| `exceeds-max:cadian-command-squad` | 9 |
+| `exceeds-allowance:cadian-shock-troops` | 9 |
 | `swap-conflict:rogal-dorn-battle-tank` | 9 |
 | `below-min:cadian-shock-troops` | 8 |
 | `below-min:imperial-navy-breachers` | 8 |
@@ -96,7 +100,6 @@ is a data or checker bug, not mass cheating.
 | `invalid-model-count:pathfinder-team` | 8 |
 | `exceeds-allowance:cadian-recon-squad` | 7 |
 | `exceeds-allowance:chosen` | 7 |
-| `exceeds-max:broadside-battlesuits` | 7 |
 | `below-min:fellgor-beastmen` | 6 |
 | `below-min:hand-of-the-archon` | 6 |
 | `below-min:indomitor-kill-team` | 6 |
@@ -112,21 +115,21 @@ is a data or checker bug, not mass cheating.
 | `exceeds-max:sword-brethren-squad` | 6 |
 | `invalid-model-count:stormboyz` | 6 |
 | `swap-conflict:noise-marines` | 6 |
+| `exceeds-allowance:skorpekh-destroyers` | 5 |
 | `exceeds-max:baal-predator` | 5 |
 | `exceeds-max:battlewagon` | 5 |
 | `exceeds-max:maulerfiend` | 5 |
 | `invalid-model-count:boyz` | 5 |
 | `invalid-model-count:stealth-battlesuits` | 5 |
+| `swap-conflict:lychguard` | 5 |
 | `below-min:decimus-kill-team` | 4 |
-| `below-min:kroot-farstalkers` | 4 |
 | `below-min:pink-horrors` | 4 |
 | `below-min:scout-squad` | 4 |
 | `below-min:spectrus-kill-team` | 4 |
 | `exceeds-allowance:storm-guardians` | 4 |
+| `exceeds-allowance:tankbustas` | 4 |
 | `exceeds-max:canoptek-spyders` | 4 |
 | `exceeds-max:gladiator-lancer` | 4 |
-| `exceeds-max:hastarii-fusiliers` | 4 |
-| `exceeds-max:kroot-farstalkers` | 4 |
 | `exceeds-max:plague-marines` | 4 |
 | `exceeds-max:rhino` | 4 |
 | `exceeds-max:sicarian-infiltrators` | 4 |
@@ -138,13 +141,11 @@ is a data or checker bug, not mass cheating.
 | `exceeds-allowance:brotherhood-terminator-squad` | 3 |
 | `exceeds-allowance:deathwatch-veterans` | 3 |
 | `exceeds-max:baneblade` | 3 |
+| `exceeds-max:cadre-fireblade` | 3 |
 | `exceeds-max:indomitor-kill-team` | 3 |
 | `exceeds-max:predator-destructor` | 3 |
 | `exceeds-max:serberys-raiders` | 3 |
-| `exceeds-max:tiger-shark` | 3 |
-| `exceeds-max:wolf-scouts` | 3 |
-| `invalid-model-count:crisis-fireknife-battlesuits` | 3 |
-| … 101 more | |
+| … 107 more | |
 
 ## `solver-null` grouping failures (ranked unit)
 
@@ -153,43 +154,67 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 
 | unit | count |
 |---|--:|
+| `pathfinder-team` | 51 |
 | `scout-squad` | 47 |
 | `cultist-mob` | 45 |
+| `crisis-sunforge-battlesuits` | 29 |
 | `hyperadapted-raveners` | 29 |
+| `crisis-starscythe-battlesuits` | 28 |
+| `daemonettes` | 24 |
+| `tzaangors` | 19 |
+| `crisis-fireknife-battlesuits` | 17 |
+| `cadian-shock-troops` | 16 |
+| `khorne-berzerkers` | 16 |
 | `cthonian-beserks` | 15 |
 | `death-company-marines-with-jump-packs` | 15 |
+| `skitarii-rangers` | 14 |
+| `tormentors` | 14 |
+| `bloodletters` | 13 |
+| `pink-horrors` | 13 |
+| `plaguebearers` | 13 |
 | `attilan-rough-riders` | 12 |
+| `victrix-honour-guard` | 12 |
+| `paladin-squad` | 11 |
 | `plague-marines` | 11 |
 | `sicarian-infiltrators` | 11 |
+| `kabalite-warriors` | 10 |
 | `raptors` | 10 |
 | `red-corsairs-raiders` | 10 |
 | `servitor-battleclade` | 10 |
-| `pink-horrors` | 7 |
+| `warp-spiders` | 10 |
+| `skitarii-vanguard` | 8 |
+| `bloodcrushers` | 7 |
+| `howling-banshees` | 7 |
+| `infiltrator-squad` | 7 |
+| `battle-sisters-squad` | 6 |
+| `catachan-jungle-fighters` | 6 |
 | `company-heroes` | 6 |
 | `fellgor-beastmen` | 6 |
+| `nobz` | 6 |
+| `breacher-team` | 5 |
 | `havocs` | 5 |
 | `lootas` | 5 |
 | `blue-horrors` | 4 |
+| `brotherhood-terminator-squad` | 4 |
 | `chaos-terminator-squad` | 4 |
+| `deathwing-knights` | 4 |
 | `chaos-terminators` | 3 |
-| `kabalite-warriors` | 3 |
+| `decimus-kill-team` | 3 |
+| `fire-dragons` | 3 |
+| `flash-gitz` | 3 |
+| `jakhals` | 3 |
+| `seekers` | 3 |
+| `sisters-of-battle-squad` | 3 |
+| `wolf-scouts` | 3 |
+| `wulfen-with-storm-shields` | 3 |
 | `blightlord-terminators` | 2 |
 | `breaka-boyz` | 2 |
 | `indomitor-kill-team` | 2 |
+| `spectrus-kill-team` | 2 |
+| `swooping-hawks` | 2 |
 | `termagants` | 2 |
 | `atalan-jackals` | 1 |
-| `battle-sisters-squad` | 1 |
-| `death-company-marines` | 1 |
-| `decimus-kill-team` | 1 |
-| `fortis-kill-team` | 1 |
-| `inquisitorial-agents` | 1 |
-| `piranhas` | 1 |
-| `pteraxii-sterylizors` | 1 |
-| `serberys-sulphurhounds` | 1 |
-| `sicarian-ruststalkers` | 1 |
-| `sisters-of-battle-squad` | 1 |
-| `tempestus-aquilons` | 1 |
-| `zoanthropes` | 1 |
+| … 14 more | |
 
 ## Unresolved names: `battle-size-unmapped`
 
@@ -201,48 +226,20 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 
 | raw name | count |
 |---|--:|
-| `Mont’ka (3 Detachment Points)` | 9 |
 | `++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++` | 8 |
 | `Ultramarines` | 8 |
-| `Dominus Foebreakers and Gate Warden Lance (3 Detachment Points)` | 7 |
-| `Hexwarp Thrallband and Sekhetar Cohort (3 Detachment Points)` | 7 |
 | `Space Wolves` | 7 |
-| `Ambush Predators and Vanguard Onslaught (3 Detachment Points)` | 6 |
-| `Awakened Dynasty (3 Detachment Points)` | 6 |
-| `Exhibition of Slaughter and Skysplinter Assault (3 Detachment Points)` | 5 |
-| `Green Tide and Taktikal Brigade (3 Detachment Points)` | 5 |
-| `Starshatter Arsenal (3 Detachment Points)` | 5 |
-| `Subterranean Assault (3 Detachment Points)` | 5 |
 | `Blood Angels` | 4 |
-| `Champions of Contagion and Paragons of Putrescence (3 Detachment Points)` | 4 |
 | `Factions Used: Orks` | 4 |
-| `Grand Coven (3 Detachment Points)` | 4 |
-| `Lions of the Emperor and Silent Hunters (3 Detachment Points)` | 4 |
-| `Virulent Vectorium (3 Detachment Points)` | 4 |
 | `+++++++` | 3 |
-| `Advanced Acquisition Cadre and Kauyon (3 Detachment Points)` | 3 |
-| `Berzerker Warband (3 Detachment Points)` | 3 |
-| `Carnival of Excess and Frenzied Host (3 Detachment Points)` | 3 |
-| `Crusher Stampede and Talons of the Norn Queen (3 Detachment Points)` | 3 |
-| `Cursed Legion and Skyshroud Spearhead (3 Detachment Points)` | 3 |
 | `Factions Used: Adeptus Custodes` | 3 |
 | `Factions Used: Astra Militarum` | 3 |
 | `Factions Used: T'au Empire` | 3 |
-| `Freeblade Company (3 Detachment Points)` | 3 |
-| `Lords of the Forge and Skitarii Hunter Cohort (3 Detachment Points)` | 3 |
-| `Murdertalon Raiders and Veterans of the Long War (3 Detachment Points)` | 3 |
 | `Necrons` | 3 |
-| `Scintillating Legion and Warptide (3 Detachment Points)` | 3 |
-| `Argent Assault and Banishers (3 Detachment Points)` | 2 |
-| `Armoured Trailblazers and Needgaârd Oathband (3 Detachment Points)` | 2 |
-| `Armoured Trailblazers, Farseekers, and Hearthguard Covenant (3 Detachment Points)` | 2 |
-| `Army of Faith and Sacred Champions (3 Detachment Points)` | 2 |
-| `Assimilation Swarm and Talons of the Norn Queen (3 Detachment Points)` | 2 |
+| `Armoured Trailblazers, Farseekers, and Hearthguard Covenant` | 2 |
 | `Attached Unit 1` | 2 |
 | `Dark Angels` | 2 |
 | `Deathwatch` | 2 |
-| `Designation Force and Steel Hammer (3 Detachment Points)` | 2 |
-| `Exhibition of Slaughter, Skysplinter Assault` | 2 |
 | `Factions Used: Adeptus Astartes (Dark Angels)` | 2 |
 | `Factions Used: Imperial Knights` | 2 |
 | `Factions Used: Necrons` | 2 |
@@ -250,58 +247,57 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Factions Used: World Eaters` | 2 |
 | `Force Dispositions: Reconnaissance` | 2 |
 | `Force Dispositions: Take and Hold` | 2 |
-| `Gate Warden Lance and Throne-bonded Outriders (3 Detachment Points)` | 2 |
-| `Hexwarp Thrallband and Ritual of Regeneration (3 Detachment Points)` | 2 |
-| `Infernal Lance (3 Detachment Points)` | 2 |
-| `Lions of the Emperor and Might of the Moritoi (3 Detachment Points)` | 2 |
-| `Path of the Outcast and Seer Council (3 Detachment Points)` | 2 |
-| `Rage-cursed Onslaught (3 Detachment Points)` | 2 |
-| `Ritual of Regeneration and Warpforged Cabal (3 Detachment Points)` | 2 |
-| `Sekhetar Cohort and Warpforged Cabal (3 Detachment Points)` | 2 |
-| `Shield Host and Tharanatoi Hammerblow (3 Detachment Points)` | 2 |
-| `Talons of the Emperor (3 Detachment Points)` | 2 |
 | `Team Name: Canton Warhammer` | 2 |
-| … 228 more | |
+| `Tyranids` | 2 |
+| `World Eaters` | 2 |
+| `-Factions Used: Chaos Space Marinee` | 1 |
+| `.....have...` | 1 |
+| `(1990 points)` | 1 |
+| `16 naked men walk into a bar` | 1 |
+| `1x Command-link Drone (Aura)` | 1 |
+| `1x Straight silver knife` | 1 |
+| `Air Force Gaming` | 1 |
+| `Army: Tyranids` | 1 |
+| `Astra Militarum` | 1 |
+| `Attached Units` | 1 |
+| `Battle Size: Strike Force (2000 point limit)` | 1 |
+| `Black Templars` | 1 |
+| `Brace for Impact` | 1 |
+| `Canton Warhammer` | 1 |
+| `Chaos daemons` | 1 |
+| `Chaos knights` | 1 |
+| `Chaos Knights` | 1 |
+| `Chaos Space Marines` | 1 |
+| `Death Guard` | 1 |
+| `Disposition : Reconaissance` | 1 |
+| `Disposition Selected: Priority Assets` | 1 |
+| `Disposition used: Disruption` | 1 |
+| `Disposition used: Purge the Foe` | 1 |
+| `Disposition Used: Purge the Foe (Reconnaissance)` | 1 |
+| `Disposition Used: Recon` | 1 |
+| `Disposition used: Take and hold` | 1 |
+| `Disposition: Purge` | 1 |
+| `Disruption` | 1 |
+| `Drukhari` | 1 |
+| `Emperor’s Children` | 1 |
+| `Eventually, da big boss couldn't crack every single skull 'imself—cuz dere's only so many 'eads ya can smash at once, right? So 'e needed some Nobs to do da delegatin'. 'E went out an' found da biggest, meanest boyz around—da ones dat were proper killy, but still smaller dan 'im, cuz nobody is bigger dan da Boss! 'E made 'em 'is under-bosses to keep da smaller gits in line.` | 1 |
+| `Faction Orks` | 1 |
+| `Faction Used: Necrons` | 1 |
+| `Faction Used: T'au Empire` | 1 |
+| `Faction Used: Tyranids` | 1 |
+| `Faction: Adeptus Custodes` | 1 |
+| … 120 more | |
 
 ## Unresolved names: `enhancement-unresolved`
 
 | raw name | count |
 |---|--:|
-| `Psyk-out Grenades (Upgrade)` | 9 |
-| `Elixir of the Corpse Courts (Upgrade)` | 8 |
-| `Encircling Horrors (Upgrade)` | 8 |
-| `Dead Shiny Shootas (Upgrade)` | 7 |
-| `Snarling Rivalry (Upgrade)` | 7 |
-| `Writ of Compunction (Upgrade)` | 7 |
-| `Nightforged Battery (Upgrade)` | 6 |
-| `Gore-stained Veterans (Upgrade)` | 5 |
-| `Lancet of the Worldsore (Upgrade)` | 5 |
-| `Negation Emitters (Upgrade)` | 5 |
-| `Long-range Scout (Upgrade)` | 4 |
-| `Tools of Dominion (Upgrade)` | 4 |
-| `Eager Patrons (Upgrade)` | 3 |
 | `Gyro-optimized Actuators` | 3 |
-| `Interred Expertise (Upgrade)` | 3 |
-| `Plagueveil (Upgrade)` | 3 |
-| `Thirst for Glory (Upgrade)` | 3 |
-| `Apocalyptic Steeds (Upgrade)` | 2 |
-| `Deepening Madness (Upgrade)` | 2 |
-| `Gyro-optimised Actuators (Upgrade)` | 2 |
-| `Mark of the Star Children (Upgrade)` | 2 |
-| `Synaptoprescience (Upgrade)` | 2 |
-| `Thundercowl Turbines (Upgrade)` | 2 |
 | `Assassins' Eye (Upgrade)` | 1 |
-| `Bane-forged Weapons (Upgrade)` | 1 |
-| `Cryptophotaic Camouflage (Upgrade)` | 1 |
-| `Devious Disguises (Upgrade)` | 1 |
-| `Fierce Example (Upgrade)` | 1 |
 | `Kustom Shokk Box` | 1 |
 | `Mortality Shroud (Aura) (Upgrade)` | 1 |
-| `Predestined Coordinates (Upgrade)` | 1 |
-| `Recon Star (Upgrade)` | 1 |
 | `Stave of Kurnous` | 1 |
 | `Supa-Burny Fuel` | 1 |
-| `Unmasking Suite (Upgrade)` | 1 |
 
 ## Unresolved names: `faction-unresolved`
 
@@ -381,10 +377,13 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Skitarii Marshal` | 8 |
 | `Cato Sicarius` | 7 |
 | `Chronomancer` | 7 |
+| `Lieutenant` | 7 |
 | `Castellan` | 6 |
 | `Plasmancer` | 6 |
+| `Bannernob` | 5 |
 | `Cybernetica Datasmith` | 4 |
 | `Biophagus` | 2 |
+| `Lieutenant in Phobos Armour` | 2 |
 | `Locus` | 2 |
 | `Master of Executions` | 2 |
 | `Nexos` | 2 |
@@ -394,6 +393,72 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Dogmata` | 1 |
 | `Imagifier` | 1 |
 | `Warlock` | 1 |
+
+## Unresolved names: `loadout-illegal`
+
+| raw name | count |
+|---|--:|
+| `Pathfinder Team` | 54 |
+| `Cultist Mob` | 45 |
+| `Piranhas` | 28 |
+| `Scout Squad` | 26 |
+| `Commander in Coldstar Battlesuit` | 25 |
+| `Chaos Predator Destructor` | 21 |
+| `Commander in Enforcer Battlesuit` | 21 |
+| `Rogal Dorn Commander` | 21 |
+| `Sekhetar Robots` | 21 |
+| `Legionaries` | 18 |
+| `Boyz` | 15 |
+| `Cthonian Beserks` | 15 |
+| `Death Company Marines with Jump Packs` | 15 |
+| `Skitarii Rangers` | 14 |
+| `Pink Horrors` | 13 |
+| `Attilan Rough Riders` | 12 |
+| `Paladin Squad` | 11 |
+| `Plague Marines` | 11 |
+| `Sky Ray Gunship` | 11 |
+| `Cadian Shock Troops` | 10 |
+| `Hammerhead Gunship` | 10 |
+| `Wolf Guard Terminators` | 10 |
+| `Rogal Dorn Battle Tank` | 9 |
+| `Raptors` | 8 |
+| `Seraphim Squad` | 8 |
+| `Skitarii Vanguard` | 8 |
+| `Battle Sisters Squad` | 6 |
+| `Catachan Jungle Fighters` | 6 |
+| `Forgefiend` | 6 |
+| `Noise Marines` | 6 |
+| `Purgation Squad` | 6 |
+| `Sanguinary Guard` | 6 |
+| `Sword Brethren Squad` | 6 |
+| `Baal Predator` | 5 |
+| `Battlewagon` | 5 |
+| `Chaos Terminator Squad` | 5 |
+| `Devilfish` | 5 |
+| `Lychguard` | 5 |
+| `Maulerfiend` | 5 |
+| `Skorpekh Destroyers` | 5 |
+| `Wraithlord` | 5 |
+| `Blue Horrors` | 4 |
+| `Chosen` | 4 |
+| `Gladiator Lancer` | 4 |
+| `Rhino` | 4 |
+| `Brotherhood Terminator Squad` | 3 |
+| `Cadre Fireblade` | 3 |
+| `Decimus Kill Team` | 3 |
+| `Predator Destructor` | 3 |
+| `Sisters of Battle Squad` | 3 |
+| `Wolf Scouts` | 3 |
+| `Wulfen with Storm Shields` | 3 |
+| `Baneblade` | 2 |
+| `Chaos Predator Annihilator` | 2 |
+| `Deathwatch Veterans` | 2 |
+| `Dominion Squad` | 2 |
+| `Foetid Bloat-drone` | 2 |
+| `Impulsor` | 2 |
+| `Indomitor Kill Team` | 2 |
+| `Khorne Berzerkers` | 2 |
+| … 27 more | |
 
 ## Unresolved names: `unit-unresolved`
 
@@ -465,67 +530,67 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 
 | raw name | count |
 |---|--:|
-| `Shield Drone` | 189 |
-| `Gun Drone` | 173 |
-| `Marker Drone` | 160 |
-| `Vox-caster` | 70 |
 | `Missile Drone` | 67 |
-| `Daemonic Icon` | 66 |
-| `Instrument of Chaos` | 66 |
-| `Homing Beacon` | 62 |
-| `Icon of Flame` | 56 |
-| `Chaos Icon` | 50 |
-| `Grav-inhibitor Drone` | 49 |
-| `Cult Icon` | 45 |
-| `Icon of Khorne` | 43 |
-| `Plasmacyte` | 43 |
 | `Panspectral Scanner` | 42 |
-| `Storm Shield` | 41 |
-| `Icon of Excess` | 39 |
-| `Vexilla` | 33 |
-| `Battlesuit Support System` | 32 |
 | `Medi-pack` | 31 |
 | `MV15 Gun Drone` | 29 |
-| `Brayhorn` | 26 |
-| `Herd banner` | 26 |
-| `Resurrection Orb` | 26 |
 | `Icon of Despair (Aura)` | 25 |
-| `Aspect Shrine Token` | 24 |
-| `Haywire Mine` | 24 |
-| `Teleport Crest` | 24 |
-| `Sanguinary Banner` | 23 |
-| `Smoke Launcher` | 23 |
-| `Weavefield crest` | 23 |
 | `Leader’s bio-weapons` | 21 |
 | `Praesidium Shield` | 21 |
-| `Master Vox` | 20 |
-| `Regimental Standard` | 20 |
 | `Blade tail and whip coils` | 19 |
 | `Character` | 19 |
 | `Nullstone Field Generator (Aura)` | 19 |
-| `Phantasm Grenade Launcher` | 19 |
 | `Rollbar Searchlight` | 19 |
 | `Bomb Squig` | 18 |
-| `Rampart Crest` | 18 |
 | `Boss Nob` | 17 |
-| `Omnispex` | 17 |
 | `Shadowfield` | 16 |
-| `Simulacrum Imperialis` | 16 |
-| `Survey Augur` | 16 |
-| `Ancient’s Banner` | 15 |
-| `Cluster caltrops` | 15 |
 | `Collar of Khorne` | 15 |
-| `Distraction Grot` | 15 |
-| `Incubi Shrine Token` | 15 |
-| `Apothecary’s Narthecium` | 14 |
 | `Remote Mine` | 14 |
-| `Weapon Support System` | 14 |
 | `Weapons of the Final Triarch` | 14 |
 | `Melta Mine` | 13 |
-| `Banner of Macragge` | 12 |
-| `Helix Gauntlet` | 12 |
-| `Recon Drone` | 12 |
-| … 280 more | |
+| `Twin killsaws` | 12 |
+| `Death Korps Medi-pack` | 11 |
+| `Tyrant’s Claw heavy flamer` | 11 |
+| `Multiwave Comms Array` | 9 |
+| `The Lion Helm` | 9 |
+| `Pathfinder` | 8 |
+| `Pathfinder Shas’ui` | 8 |
+| `Vox‑relay Beacon` | 8 |
+| `Macro-scalpel` | 7 |
+| `Stimm-needler` | 7 |
+| `Choppas` | 6 |
+| `Hover Drone` | 6 |
+| `Refractor Field` | 6 |
+| `Stormboy` | 6 |
+| `Tempestus Scion` | 6 |
+| `Advanced Guardian Drone` | 5 |
+| `Command-link Drone (Aura)` | 5 |
+| `Flip Belt` | 5 |
+| `Force-orb cane` | 5 |
+| `Stealth Shas’ui` | 5 |
+| `Stealth Shas’vre` | 5 |
+| `Tome‐skull` | 5 |
+| `Crisis Starscythe Shas’ui` | 4 |
+| `Crisis Starscythe Shas’vre` | 4 |
+| `Endurant Shield` | 4 |
+| `Fabricator Claw Array (Aura)` | 4 |
+| `Gloom Prism (Aura)` | 4 |
+| `Mandrake` | 4 |
+| `Nightfiend` | 4 |
+| `Nurgle` | 4 |
+| `Preymark Crest` | 4 |
+| `Serpent shield` | 4 |
+| `Solarite` | 4 |
+| `Alchemyk Counteragents` | 3 |
+| `Aquiline Prow` | 3 |
+| `Crisis Fireknife Shas’ui` | 3 |
+| `Crisis Fireknife Shas’vre` | 3 |
+| `Forceshield` | 3 |
+| `Grot Assistant` | 3 |
+| `Grot Oiler` | 3 |
+| `Gyro-optimised actuators [+15 points]` | 3 |
+| `Hekatrix` | 3 |
+| … 185 more | |
 
 ## Composition drift (dataset-wide)
 

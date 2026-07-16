@@ -1,0 +1,532 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/enhancement.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "enhancement"
+  ],
+  "fields": {
+    "/ability_id": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.enhancement_datasheet_ability.datasheetAbilityId",
+        "data.enhancement_datasheet_ability.enhancementId"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The edge names a datasheet ability related to an enhancement, but current projection does not establish that it is the core enhancement ability reference."
+    },
+    "/cost": {
+      "provenance": "direct",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.basePointsCost"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Do not overwrite an authored cost when basePointsCost is null for a Combat Patrol enhancement."
+      ],
+      "precedence": [
+        "A non-null basePointsCost replaces the matched entity cost; a null source preserves the authored cost."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "The reconciliation pass applies non-null MFM costs only to existing entities whose derived ids match."
+    },
+    "/detachment_id": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.detachmentId",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "enhancement.detachmentId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Convert the resolved detachment English name to the repository detachment id."
+        }
+      ],
+      "filters": [
+        "Only Combat Patrol enhancements are seeded as new core entities."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
+      ],
+      "reason": "Combat Patrol seeding resolves the enhancement's detachment then writes its repository slug."
+    },
+    "/exclusion_keywords": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement_excluded_keyword.enhancementId",
+        "data.enhancement_excluded_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#buildEnhFieldCanon",
+          "operation": "Collect the enhancement's excluded keyword ids."
+        },
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabels",
+          "operation": "Resolve excluded keyword ids to sorted repo labels."
+        }
+      ],
+      "filters": [
+        "Fill-only: written when the repo authored no exclusion; a populated disagreement is surfaced for review, not overwritten."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "Excluded-keyword edges resolve to repo labels and fill an empty exclusion_keywords; authored values are preserved."
+    },
+    "/exclusion_keywords/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement_excluded_keyword.enhancementId",
+        "data.enhancement_excluded_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabels",
+          "operation": "Each excluded keyword id resolves to one repo label."
+        }
+      ],
+      "filters": [
+        "Fill-only: written when the repo authored no exclusion; a populated disagreement is surfaced for review, not overwritten."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "Each excluded-keyword edge resolves to one repository keyword label."
+    },
+    "/game_modes": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.isCombatPatrol"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#combatPatrolEnhIds",
+          "operation": "Identify repository enhancement ids whose dump rows are Combat Patrol entries."
+        }
+      ],
+      "filters": [
+        "Only matched existing entities and Combat Patrol seed rows receive the Combat Patrol mode."
+      ],
+      "precedence": [
+        "A matched Combat Patrol row replaces game_modes with the single combat-patrol mode."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements",
+        "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
+      ],
+      "reason": "Current MFM ingestion represents the Combat Patrol flag as the core game-mode reference."
+    },
+    "/game_modes/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.isCombatPatrol"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#combatPatrolEnhIds",
+          "operation": "Identify repository enhancement ids whose dump rows are Combat Patrol entries."
+        }
+      ],
+      "filters": [
+        "Only matched existing entities and Combat Patrol seed rows receive the Combat Patrol mode."
+      ],
+      "precedence": [
+        "A matched Combat Patrol row replaces game_modes with the single combat-patrol mode."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements",
+        "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
+      ],
+      "reason": "Current MFM ingestion represents the Combat Patrol flag as the core game-mode reference."
+    },
+    "/game_version": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.basePointsCost"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#runEnhancements",
+          "operation": "Stamp the confirmed repository launch game-version on a matched enhancement."
+        }
+      ],
+      "filters": [
+        "Only existing entities matched by the derived enhancement id are reconciled."
+      ],
+      "precedence": [
+        "The reconciliation pass sets both game-version members to its confirmed launch constants."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "The game-version value is a repository confirmation stamp triggered by a matched MFM row, not a conversion of dump version metadata."
+    },
+    "/game_version/dataslate": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.basePointsCost"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#runEnhancements",
+          "operation": "Stamp the confirmed repository launch dataslate on a matched enhancement."
+        }
+      ],
+      "filters": [
+        "Only existing entities matched by the derived enhancement id are reconciled."
+      ],
+      "precedence": [
+        "The reconciliation pass replaces the existing dataslate with its confirmed launch constant."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "This is repository confirmation metadata, not an implicit translation of the dump snapshot version."
+    },
+    "/game_version/edition": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.basePointsCost"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#runEnhancements",
+          "operation": "Stamp the confirmed repository 11th-edition marker on a matched enhancement."
+        }
+      ],
+      "filters": [
+        "Only existing entities matched by the derived enhancement id are reconciled."
+      ],
+      "precedence": [
+        "The reconciliation pass replaces the existing edition with its confirmed constant."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "This is repository confirmation metadata, not an implicit translation of the dump snapshot version."
+    },
+    "/id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.localisations.*.name",
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "enhancement.detachmentId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/converters/id-generator.ts#detachmentScopedId",
+          "operation": "Slug the RAW enhancement name (keeping its trailing '(Upgrade)'/'(Aura)'/'(Psychic)' tag) and resolved detachment name into the repository id."
+        },
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#normalizeEnhancementNames",
+          "operation": "Idempotently migrate any legacy stripped id to the RAW-tagged form and rewrite detachment enhancement_ids references."
+        }
+      ],
+      "filters": [
+        "Only Combat Patrol rows are seeded as new entities; existing entities are matched by this id."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#buildEnhCanon",
+        "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
+      ],
+      "reason": "The current projection identifies enhancements by the RAW (parenthetical-tagged) detachment-scoped display-name slug rather than the dump UUID; legacy stripped ids are migrated in place."
+    },
+    "/is_unique": {
+      "provenance": "repo-authored",
+      "coverage": "partial",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [
+        "Only Combat Patrol enhancement seed rows are created by the current seeder."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
+      ],
+      "reason": "Combat Patrol seed rows author the repository default true; MFM does not supply this core uniqueness semantic."
+    },
+    "/keyword_restrictions": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement_required_keyword_group.enhancementId",
+        "data.enhancement_required_keyword_group.datasheetId",
+        "data.enhancement_required_keyword_group_keyword.keywordId",
+        "data.enhancement_required_keyword_group_faction_keyword.factionKeywordId",
+        "data.keyword.localisations.*.name",
+        "data.faction_keyword.localisations.*.name",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#buildEnhFieldCanon",
+          "operation": "Union each required-keyword group's keyword/faction-keyword members and its datasheet-scoped datasheet name; flag divergent multi-group OR sets."
+        },
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabel",
+          "operation": "Resolve keyword and faction-keyword ids to repo labels."
+        }
+      ],
+      "filters": [
+        "Fill-only: written when the repo authored none and the groups are unambiguous; multi-group OR sets and populated disagreements are surfaced for review, not written (the flat list can't express the OR and the repo authors a finer minimal restriction)."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "Required-keyword groups give army/unit bearer eligibility; runEnhancements fills an empty keyword_restrictions and preserves authored curated values."
+    },
+    "/keyword_restrictions/*": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement_required_keyword_group_keyword.keywordId",
+        "data.enhancement_required_keyword_group_faction_keyword.factionKeywordId",
+        "data.enhancement_required_keyword_group.datasheetId",
+        "data.keyword.localisations.*.name",
+        "data.faction_keyword.localisations.*.name",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabel",
+          "operation": "Each group member (keyword, faction-keyword, or datasheet) resolves to one repo label."
+        }
+      ],
+      "filters": [
+        "Fill-only member of a filled keyword_restrictions list; not emitted for review/ambiguous enhancements."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "Each resolved required-keyword group member is one repository restriction label."
+    },
+    "/max_targets": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.limit"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [
+        "The dump copy limit is authoritative and overwrites the authored value."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "MFM limit is the number of copies an enhancement may be taken; runEnhancements overwrites max_targets from it."
+    },
+    "/name": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#normalizeEnhancementNames",
+          "operation": "Set the repository display name to the RAW localized dump name, keeping its trailing '(Upgrade)'/'(Aura)'/'(Psychic)' tag (import-correct: normalizeName keeps parens, so a stripped name never matches an imported roster line)."
+        }
+      ],
+      "filters": [
+        "Applied to every enhancement the dump knows; hand-authored entities the dump lacks keep their authored name."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#normalizeEnhancementNames",
+        "tools/src/mfm/seed-detachments.ts#collectCombatPatrolDetachments"
+      ],
+      "reason": "The display name is reconciled to the RAW localized dump name (parenthetical tag kept) across all matched enhancements; seeding writes the same RAW form for new entities."
+    },
+    "/points_provisional": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.enhancement.basePointsCost"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#runEnhancements",
+          "operation": "Mark a matched enhancement's points as confirmed."
+        }
+      ],
+      "filters": [
+        "Only existing entities matched by the derived enhancement id are reconciled."
+      ],
+      "precedence": [
+        "The reconciliation pass sets points_provisional to false after any matched row, including null Combat Patrol cost rows."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "The flag is repository confirmation state derived from a matching MFM enhancement, not a dump column."
+    },
+    "/upgrade_tag": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.enhancement.enhancementType"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/enhancements.ts#buildEnhFieldCanon",
+          "operation": "Map enhancementType === \"upgrade\" to the 11e upgrade-tag boolean."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "The GW enhancement classification is authoritative and overwrites the authored flag."
+      ],
+      "consumers": [
+        "tools/src/mfm/enhancements.ts#runEnhancements"
+      ],
+      "reason": "The 11e upgrade class is exactly the dump's \"upgrade\" enhancementType; runEnhancements overwrites the authored flag from it."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.enhancement.cannotBeWarlord",
+      "candidate_pointer": null,
+      "reason": "No current core enhancement property represents this bearer restriction."
+    },
+    {
+      "source": "data.enhancement.displayOrder",
+      "candidate_pointer": null,
+      "reason": "Presentation ordering is not part of the core enhancement entity."
+    },
+    {
+      "source": "data.enhancement.isCombatPatrolDefault",
+      "candidate_pointer": null,
+      "reason": "Combat Patrol availability maps to game_modes, but default selection semantics are not projected."
+    },
+    {
+      "source": "data.enhancement.isEquipableByEpicHero",
+      "candidate_pointer": null,
+      "reason": "An eligibility relaxation (an Epic Hero may take this enhancement), not a keyword the bearer must have; it has no faithful home in the keyword_restrictions list."
+    },
+    {
+      "source": "data.enhancement.isEquipableByNonCharacterUnit",
+      "candidate_pointer": null,
+      "reason": "An eligibility relaxation (a non-Character may take this enhancement), not a keyword restriction; folding it into keyword_restrictions would misencode a relaxation as a requirement."
+    },
+    {
+      "source": "data.enhancement.isIncludedInEnhancementLimit",
+      "candidate_pointer": null,
+      "reason": "The core entity has no established field for this enhancement-limit accounting flag."
+    },
+    {
+      "source": "data.enhancement.localisations.*.lore",
+      "candidate_pointer": null,
+      "reason": "Localized lore remains outside the core entity data."
+    },
+    {
+      "source": "data.enhancement.localisations.*.rules",
+      "candidate_pointer": null,
+      "reason": "Localized rules prose is routed to the private raw-text store rather than copied into core data."
+    },
+    {
+      "source": "data.enhancement.publicationId",
+      "candidate_pointer": null,
+      "reason": "Publication ownership is not represented by a separate core enhancement property."
+    },
+    {
+      "source": "data.enhancement_bodyguard_group.enhancementId",
+      "candidate_pointer": null,
+      "reason": "Bodyguard-based eligibility is a distinct condition from the bearer keyword restriction and has no faithful home in keyword_restrictions."
+    },
+    {
+      "source": "data.enhancement_bodyguard_group.factionKeywordId",
+      "candidate_pointer": null,
+      "reason": "The null-only faction scope is part of bodyguard eligibility, not a bearer keyword restriction."
+    },
+    {
+      "source": "data.enhancement_bodyguard_group_datasheet.datasheetId",
+      "candidate_pointer": null,
+      "reason": "Bodyguard-to-datasheet eligibility is a distinct condition, not a bearer keyword restriction."
+    },
+    {
+      "source": "data.enhancement_bodyguard_group_datasheet.enhancementBodyguardGroupId",
+      "candidate_pointer": null,
+      "reason": "Bodyguard-to-datasheet eligibility is a distinct condition, not a bearer keyword restriction."
+    },
+    {
+      "source": "data.enhancement_datasheet_ability.enhancementId",
+      "candidate_pointer": "/ability_id",
+      "reason": "Only 6 rows dump-wide; resolving the datasheet ability to an existing enrichment ability id is deferred as low-value/high-complexity."
+    },
+    {
+      "source": "data.enhancement_required_wargear_item.enhancementId",
+      "candidate_pointer": null,
+      "reason": "Required wargear eligibility is not represented in the core enhancement schema."
+    },
+    {
+      "source": "data.enhancement_required_wargear_item.wargearItemId",
+      "candidate_pointer": null,
+      "reason": "Required wargear eligibility is not represented in the core enhancement schema."
+    },
+    {
+      "source": "data.enhancement_wargear_item_profile.enhancementId",
+      "candidate_pointer": null,
+      "reason": "Wargear-profile eligibility is not represented in the core enhancement schema."
+    },
+    {
+      "source": "data.enhancement_wargear_item_profile.wargearItemProfileId",
+      "candidate_pointer": null,
+      "reason": "Wargear-profile eligibility is not represented in the core enhancement schema."
+    }
+  ]
+}

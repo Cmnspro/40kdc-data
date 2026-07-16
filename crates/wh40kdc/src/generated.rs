@@ -16995,6 +16995,11 @@ impl ::std::convert::TryFrom<::std::string::String> for TriggerSubject {
 ///            "type": "integer",
 ///            "minimum": 1.0
 ///          },
+///          "duplicate_limit": {
+///            "description": "Optional per-item sub-cap: at most this many copies of any SINGLE item in the set — `floor(model_count * duplicate_limit / per_models)` for a ratio, or `duplicate_limit` when `per_models` is 0. Absent means the shared `count` cap is the only bound (any one item may fill the whole allowance).",
+///            "type": "integer",
+///            "minimum": 1.0
+///          },
 ///          "items": {
 ///            "type": "array",
 ///            "items": {
@@ -18549,6 +18554,11 @@ pub struct UnitTransportCapacity {
 ///      "type": "integer",
 ///      "minimum": 1.0
 ///    },
+///    "duplicate_limit": {
+///      "description": "Optional per-item sub-cap: at most this many copies of any SINGLE item in the set — `floor(model_count * duplicate_limit / per_models)` for a ratio, or `duplicate_limit` when `per_models` is 0. Absent means the shared `count` cap is the only bound (any one item may fill the whole allowance).",
+///      "type": "integer",
+///      "minimum": 1.0
+///    },
 ///    "items": {
 ///      "type": "array",
 ///      "items": {
@@ -18570,6 +18580,9 @@ pub struct UnitTransportCapacity {
 #[serde(deny_unknown_fields)]
 pub struct UnitWargearBudgetsItem {
     pub count: ::std::num::NonZeroU64,
+    ///Optional per-item sub-cap: at most this many copies of any SINGLE item in the set — `floor(model_count * duplicate_limit / per_models)` for a ratio, or `duplicate_limit` when `per_models` is 0. Absent means the shared `count` cap is the only bound (any one item may fill the whole allowance).
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub duplicate_limit: ::std::option::Option<::std::num::NonZeroU64>,
     pub items: ::std::vec::Vec<EntityId>,
     ///Models per `count` allowance; 0 means a flat per-unit cap of `count` (independent of squad size).
     pub per_models: u64,

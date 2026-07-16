@@ -211,6 +211,13 @@ func (s *RunnerState) handleLinkedQuery(args any) map[string]any {
 			return okResp(ab.ID())
 		}
 		return okResp(nil)
+	case "get_enhancement":
+		// Resolved enhancement's current id (or null): exercises renamed-id
+		// resolution via the share-registry alias map.
+		if e, ok := ds.Enhancements.Get(getStr(in, "id")); ok {
+			return okResp(getStr(e.(map[string]any), "id"))
+		}
+		return okResp(nil)
 	case "abilities_of":
 		u, ok := ds.Units.GetAny(unitID)
 		if !ok {

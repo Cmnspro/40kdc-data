@@ -393,7 +393,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Cybernetica Datasmith"
+    ]
   },
   {
     "id": "sanctified-ordnance-haloscreed-battle-clade",
@@ -450,8 +453,8 @@
     "max_targets": 1
   },
   {
-    "id": "stealth-screened-cybercanids-cohort-acquisitus",
-    "name": "Stealth-screened Cybercanids",
+    "id": "stealth-screened-cybercanids-upgrade-cohort-acquisitus",
+    "name": "Stealth-screened Cybercanids (Upgrade)",
     "detachment_id": "cohort-acquisitus",
     "cost": 15,
     "keyword_restrictions": [
@@ -465,7 +468,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "vinghs-wafers-of-dynamism-lords-of-the-forge",
@@ -487,7 +490,7 @@
   },
   {
     "id": "tl-4-9-lords-of-the-forge",
-    "name": "TL-4Ø9",
+    "name": "TL-4ø9",
     "detachment_id": "lords-of-the-forge",
     "cost": 30,
     "keyword_restrictions": [
@@ -624,7 +627,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Purge Corps Deltic-9",
+      "Serberys Sulphurhounds"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "miniaturised-autosimulacra-purge-corps-deltic-9",
@@ -639,6 +647,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Purge Corps Deltic-9",
+      "Tech-Priest Manipulus"
+    ]
   }
 ]

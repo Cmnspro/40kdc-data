@@ -381,6 +381,11 @@ def _handle_linked_query(state: RunnerState, args: Any) -> Response:
         if query == "find_ability":
             a = ds.abilities.find(input_.get("query", ""))
             return _ok(a.id if a else None)
+        if query == "get_enhancement":
+            # Resolved enhancement's current id (or null): exercises renamed-id
+            # resolution via the share-registry alias map.
+            e = ds.enhancements.get(input_.get("id", ""))
+            return _ok(e["id"] if e else None)
         if query == "abilities_of":
             u = ds.units.get_any(unit_id)
             if u is None:

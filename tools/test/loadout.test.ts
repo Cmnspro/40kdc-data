@@ -71,6 +71,46 @@ describe("validateLoadout — shared-allowance budgets", () => {
   });
 });
 
+describe("validateLoadout — per-item duplicate sub-cap", () => {
+  const unit = (budgets: unknown) => ({ id: "u", wargear_budgets: budgets } as unknown as Unit);
+
+  // The Cadian special-weapon rule: 4 special weapons per 20 models (shared), but
+  // no more than 2 of the SAME weapon (duplicate_limit 1 per 10 models → 2 at 20).
+  const cadian = [{ items: ["a", "b"], count: 2, per_models: 10, duplicate_limit: 1 }];
+
+  it("flags 4 identical items even though the shared cap of 4 is met at 20 models", () => {
+    const u = unit(cadian);
+    const v = validateLoadout(u, 20, [], new Map([["a", 4]]));
+    // Shared cap floor(20*2/10)=4 satisfied, but per-item cap floor(20*1/10)=2 is not.
+    expect(v.some((x) => x.code === "exceeds-allowance" && x.id === "a")).toBe(true);
+  });
+
+  it("passes 2 of each — within both the shared cap (4) and the per-item cap (2)", () => {
+    const u = unit(cadian);
+    expect(validateLoadout(u, 20, [], new Map([["a", 2], ["b", 2]]))).toEqual([]);
+  });
+
+  it("still enforces the shared cap when each item is under its duplicate cap", () => {
+    const u = unit([{ items: ["a", "b", "c"], count: 2, per_models: 10, duplicate_limit: 1 }]);
+    // a=1,b=1,c=1 → shared 3 > floor(20*2/10)=4? no; but at 10 models shared cap is 2.
+    const v = validateLoadout(u, 10, [], new Map([["a", 1], ["b", 1], ["c", 1]]));
+    expect(v.some((x) => x.code === "exceeds-allowance" && x.id.includes("+"))).toBe(true);
+  });
+
+  it("applies a flat per-item cap when per_models is 0", () => {
+    const u = unit([{ items: ["a", "b"], count: 4, per_models: 0, duplicate_limit: 2 }]);
+    expect(validateLoadout(u, 20, [], new Map([["a", 2], ["b", 2]]))).toEqual([]); // 2 each ok
+    expect(validateLoadout(u, 20, [], new Map([["a", 3], ["b", 1]])).some((x) => x.id === "a")).toBe(true);
+  });
+
+  it("is a no-op when duplicate_limit is absent (any one item may fill the allowance)", () => {
+    const u = unit([{ items: ["a", "b"], count: 4, per_models: 10 }]);
+    // Shared cap floor(20*4/10)=8; only the shared cap applies with no dup limit.
+    expect(validateLoadout(u, 20, [], new Map([["a", 9]])).some((x) => x.code === "exceeds-allowance")).toBe(true);
+    expect(validateLoadout(u, 20, [], new Map([["a", 8]]))).toEqual([]); // 8 of one is fine w/o dup cap
+  });
+});
+
 describe("baseLoadout — Khorne Berzerkers @ 10 (legal default)", () => {
   it("carries only the base weapons on every model, no swaps applied", () => {
     const bz = dataset.units.getAny("khorne-berzerkers")!;

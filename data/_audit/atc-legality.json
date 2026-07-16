@@ -15,33 +15,34 @@
   "headline": {
     "lists": 478,
     "parse_failures": 18,
-    "lists_with_violations": 263,
-    "violating_units": 904,
+    "lists_with_violations": 282,
+    "violating_units": 948,
     "warnings_by_code": {
-      "weapon-unresolved": 2843,
-      "detachment-unresolved": 430,
+      "weapon-unresolved": 940,
+      "loadout-illegal": 633,
+      "detachment-unresolved": 230,
       "faction-unresolved": 210,
-      "leader-attachment-inferred": 137,
-      "enhancement-unresolved": 114,
+      "leader-attachment-inferred": 151,
       "unit-unresolved": 111,
       "multi-force": 52,
       "battle-size-unmapped": 8,
+      "enhancement-unresolved": 8,
       "points-mismatch": 2
     },
     "violations_by_code": {
-      "exceeds-max": 584,
-      "exceeds-allowance": 333,
-      "below-min": 192,
-      "invalid-model-count": 119,
-      "swap-conflict": 113
+      "exceeds-max": 605,
+      "exceeds-allowance": 366,
+      "below-min": 196,
+      "invalid-model-count": 124,
+      "swap-conflict": 118
     },
     "grouping_by_outcome": {
-      "grouped": 1774,
+      "grouped": 2308,
       "unit-unresolved": 111,
-      "wargear-unresolved": 1842,
-      "single-model": 3134,
+      "wargear-unresolved": 689,
+      "single-model": 3363,
       "no-recorded-defaults": 12,
-      "solver-null": 279
+      "solver-null": 669
     },
     "composition_drift_units": 38
   },
@@ -181,6 +182,10 @@
       "count": 35
     },
     {
+      "key": "exceeds-max:commander-in-coldstar-battlesuit",
+      "count": 35
+    },
+    {
       "key": "exceeds-allowance:legionaries",
       "count": 34
     },
@@ -189,16 +194,16 @@
       "count": 32
     },
     {
+      "key": "exceeds-max:commander-in-enforcer-battlesuit",
+      "count": 29
+    },
+    {
       "key": "exceeds-max:pink-horrors",
       "count": 26
     },
     {
       "key": "exceeds-max:scout-squad",
       "count": 26
-    },
-    {
-      "key": "exceeds-max:commander-in-coldstar-battlesuit",
-      "count": 24
     },
     {
       "key": "exceeds-max:chaos-predator-destructor",
@@ -217,10 +222,6 @@
       "count": 20
     },
     {
-      "key": "exceeds-max:commander-in-enforcer-battlesuit",
-      "count": 20
-    },
-    {
       "key": "exceeds-max:hammerhead-gunship",
       "count": 20
     },
@@ -231,6 +232,14 @@
     {
       "key": "exceeds-max:rogal-dorn-battle-tank",
       "count": 18
+    },
+    {
+      "key": "below-min:cadian-command-squad",
+      "count": 17
+    },
+    {
+      "key": "exceeds-allowance:custodian-guard",
+      "count": 16
     },
     {
       "key": "below-min:death-company-marines-with-jump-packs",
@@ -285,6 +294,10 @@
       "count": 11
     },
     {
+      "key": "exceeds-max:cadian-command-squad",
+      "count": 11
+    },
+    {
       "key": "exceeds-max:sky-ray-gunship",
       "count": 11
     },
@@ -301,6 +314,10 @@
       "count": 10
     },
     {
+      "key": "exceeds-max:broadside-battlesuits",
+      "count": 10
+    },
+    {
       "key": "exceeds-max:decimus-kill-team",
       "count": 10
     },
@@ -313,11 +330,7 @@
       "count": 10
     },
     {
-      "key": "below-min:cadian-command-squad",
-      "count": 9
-    },
-    {
-      "key": "exceeds-max:cadian-command-squad",
+      "key": "exceeds-allowance:cadian-shock-troops",
       "count": 9
     },
     {
@@ -362,10 +375,6 @@
     },
     {
       "key": "exceeds-allowance:chosen",
-      "count": 7
-    },
-    {
-      "key": "exceeds-max:broadside-battlesuits",
       "count": 7
     },
     {
@@ -429,6 +438,10 @@
       "count": 6
     },
     {
+      "key": "exceeds-allowance:skorpekh-destroyers",
+      "count": 5
+    },
+    {
       "key": "exceeds-max:baal-predator",
       "count": 5
     },
@@ -449,11 +462,11 @@
       "count": 5
     },
     {
-      "key": "below-min:decimus-kill-team",
-      "count": 4
+      "key": "swap-conflict:lychguard",
+      "count": 5
     },
     {
-      "key": "below-min:kroot-farstalkers",
+      "key": "below-min:decimus-kill-team",
       "count": 4
     },
     {
@@ -473,19 +486,15 @@
       "count": 4
     },
     {
+      "key": "exceeds-allowance:tankbustas",
+      "count": 4
+    },
+    {
       "key": "exceeds-max:canoptek-spyders",
       "count": 4
     },
     {
       "key": "exceeds-max:gladiator-lancer",
-      "count": 4
-    },
-    {
-      "key": "exceeds-max:hastarii-fusiliers",
-      "count": 4
-    },
-    {
-      "key": "exceeds-max:kroot-farstalkers",
       "count": 4
     },
     {
@@ -533,6 +542,10 @@
       "count": 3
     },
     {
+      "key": "exceeds-max:cadre-fireblade",
+      "count": 3
+    },
+    {
       "key": "exceeds-max:indomitor-kill-team",
       "count": 3
     },
@@ -550,6 +563,10 @@
     },
     {
       "key": "exceeds-max:wolf-scouts",
+      "count": 3
+    },
+    {
+      "key": "exceeds-max:wulfen-with-storm-shields",
       "count": 3
     },
     {
@@ -601,11 +618,11 @@
       "count": 2
     },
     {
-      "key": "exceeds-allowance:cadian-shock-troops",
+      "key": "exceeds-allowance:corsair-voidscarred",
       "count": 2
     },
     {
-      "key": "exceeds-allowance:corsair-voidscarred",
+      "key": "exceeds-allowance:deathwatch-kill-team",
       "count": 2
     },
     {
@@ -617,15 +634,15 @@
       "count": 2
     },
     {
+      "key": "exceeds-allowance:khorne-berzerkers",
+      "count": 2
+    },
+    {
       "key": "exceeds-allowance:purifier-squad",
       "count": 2
     },
     {
       "key": "exceeds-allowance:strike-squad",
-      "count": 2
-    },
-    {
-      "key": "exceeds-allowance:tankbustas",
       "count": 2
     },
     {
@@ -646,10 +663,6 @@
     },
     {
       "key": "exceeds-max:foetid-bloat-drone",
-      "count": 2
-    },
-    {
-      "key": "exceeds-max:hastarii-exterminators",
       "count": 2
     },
     {
@@ -722,6 +735,10 @@
     },
     {
       "key": "invalid-model-count:gretchin",
+      "count": 2
+    },
+    {
+      "key": "invalid-model-count:hastarii-fusiliers",
       "count": 2
     },
     {
@@ -821,10 +838,6 @@
       "count": 1
     },
     {
-      "key": "exceeds-allowance:deathwatch-kill-team",
-      "count": 1
-    },
-    {
       "key": "exceeds-allowance:eradicator-squad",
       "count": 1
     },
@@ -885,6 +898,10 @@
       "count": 1
     },
     {
+      "key": "invalid-model-count:cadian-recon-squad",
+      "count": 1
+    },
+    {
       "key": "invalid-model-count:canoptek-tomb-crawlers",
       "count": 1
     },
@@ -909,6 +926,10 @@
       "count": 1
     },
     {
+      "key": "invalid-model-count:hastarii-exterminators",
+      "count": 1
+    },
+    {
       "key": "invalid-model-count:immortals",
       "count": 1
     },
@@ -918,6 +939,10 @@
     },
     {
       "key": "invalid-model-count:kastelan-robots",
+      "count": 1
+    },
+    {
+      "key": "invalid-model-count:kroot-farstalkers",
       "count": 1
     },
     {
@@ -970,10 +995,6 @@
     ],
     "detachment-unresolved": [
       {
-        "key": "Mont’ka (3 Detachment Points)",
-        "count": 9
-      },
-      {
         "key": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
         "count": 8
       },
@@ -982,47 +1003,11 @@
         "count": 8
       },
       {
-        "key": "Dominus Foebreakers and Gate Warden Lance (3 Detachment Points)",
-        "count": 7
-      },
-      {
-        "key": "Hexwarp Thrallband and Sekhetar Cohort (3 Detachment Points)",
-        "count": 7
-      },
-      {
         "key": "Space Wolves",
         "count": 7
       },
       {
-        "key": "Ambush Predators and Vanguard Onslaught (3 Detachment Points)",
-        "count": 6
-      },
-      {
-        "key": "Awakened Dynasty (3 Detachment Points)",
-        "count": 6
-      },
-      {
-        "key": "Exhibition of Slaughter and Skysplinter Assault (3 Detachment Points)",
-        "count": 5
-      },
-      {
-        "key": "Green Tide and Taktikal Brigade (3 Detachment Points)",
-        "count": 5
-      },
-      {
-        "key": "Starshatter Arsenal (3 Detachment Points)",
-        "count": 5
-      },
-      {
-        "key": "Subterranean Assault (3 Detachment Points)",
-        "count": 5
-      },
-      {
         "key": "Blood Angels",
-        "count": 4
-      },
-      {
-        "key": "Champions of Contagion and Paragons of Putrescence (3 Detachment Points)",
         "count": 4
       },
       {
@@ -1030,39 +1015,7 @@
         "count": 4
       },
       {
-        "key": "Grand Coven (3 Detachment Points)",
-        "count": 4
-      },
-      {
-        "key": "Lions of the Emperor and Silent Hunters (3 Detachment Points)",
-        "count": 4
-      },
-      {
-        "key": "Virulent Vectorium (3 Detachment Points)",
-        "count": 4
-      },
-      {
         "key": "+++++++",
-        "count": 3
-      },
-      {
-        "key": "Advanced Acquisition Cadre and Kauyon (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Berzerker Warband (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Carnival of Excess and Frenzied Host (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Crusher Stampede and Talons of the Norn Queen (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Cursed Legion and Skyshroud Spearhead (3 Detachment Points)",
         "count": 3
       },
       {
@@ -1078,43 +1031,11 @@
         "count": 3
       },
       {
-        "key": "Freeblade Company (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Lords of the Forge and Skitarii Hunter Cohort (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Murdertalon Raiders and Veterans of the Long War (3 Detachment Points)",
-        "count": 3
-      },
-      {
         "key": "Necrons",
         "count": 3
       },
       {
-        "key": "Scintillating Legion and Warptide (3 Detachment Points)",
-        "count": 3
-      },
-      {
-        "key": "Argent Assault and Banishers (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Armoured Trailblazers and Needgaârd Oathband (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Armoured Trailblazers, Farseekers, and Hearthguard Covenant (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Army of Faith and Sacred Champions (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Assimilation Swarm and Talons of the Norn Queen (3 Detachment Points)",
+        "key": "Armoured Trailblazers, Farseekers, and Hearthguard Covenant",
         "count": 2
       },
       {
@@ -1127,14 +1048,6 @@
       },
       {
         "key": "Deathwatch",
-        "count": 2
-      },
-      {
-        "key": "Designation Force and Steel Hammer (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Exhibition of Slaughter, Skysplinter Assault",
         "count": 2
       },
       {
@@ -1163,46 +1076,6 @@
       },
       {
         "key": "Force Dispositions: Take and Hold",
-        "count": 2
-      },
-      {
-        "key": "Gate Warden Lance and Throne-bonded Outriders (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Hexwarp Thrallband and Ritual of Regeneration (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Infernal Lance (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Lions of the Emperor and Might of the Moritoi (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Path of the Outcast and Seer Council (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Rage-cursed Onslaught (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Ritual of Regeneration and Warpforged Cabal (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Sekhetar Cohort and Warpforged Cabal (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Shield Host and Tharanatoi Hammerblow (3 Detachment Points)",
-        "count": 2
-      },
-      {
-        "key": "Talons of the Emperor (3 Detachment Points)",
         "count": 2
       },
       {
@@ -1242,39 +1115,11 @@
         "count": 1
       },
       {
-        "key": "Abhuman Auxiliaries and Siege Regiment (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Advanced Acquisition Cadre and Retaliation Cadre (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Air Force Gaming",
         "count": 1
       },
       {
-        "key": "Armoured Trailblazers and Dêlve Assault Shift (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Armoured Trailblazers and Mercenary Oathband (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Armoured Warhost and Seer Council (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Army of Faith, Sacred Champions",
-        "count": 1
-      },
-      {
         "key": "Army: Tyranids",
-        "count": 1
-      },
-      {
-        "key": "Aspect Host (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1286,23 +1131,7 @@
         "count": 1
       },
       {
-        "key": "Auxiliary Cadre and Retaliation Cadre (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Bastions of Tyranny and Houndpack Lance (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Bastions of Tyranny, Hunting Warpack and Iconoclast Fiefdom (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Battle Size: Strike Force (2000 point limit)",
-        "count": 1
-      },
-      {
-        "key": "Biosanctic Broodsurge and Xenocult Masses (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1310,59 +1139,11 @@
         "count": 1
       },
       {
-        "key": "Blade of Ultramar (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Brace for Impact",
         "count": 1
       },
       {
-        "key": "Brazen Engines and Khorne Daemonkin (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Bully Boyz and Taktikal Brigade (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Butchers of Khorne and Cult of Blood (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Butchers of Khorne and Khorne Daemonkin (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Cabal of Chaos and Deceptors (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Cabal of Chaos and Fellhammer Siege-host (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Cabal of Chaos and Nightmare Hunt (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Cabal of Chaos and Soulforged Warpack (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Cabal of Chaos and Warpstrike Champions (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Canton Warhammer",
-        "count": 1
-      },
-      {
-        "key": "Cavalcade of Chaos and Shadow Legion (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Champions of Contagion and Contagion Engines (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1382,43 +1163,7 @@
         "count": 1
       },
       {
-        "key": "Cohort Acquisitus, Skitarii Hunter Cohort",
-        "count": 1
-      },
-      {
-        "key": "Cohort Cybernetica and Lords of the Forge (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Combined Arms (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Contagion Engines, Shamblerot Vectorium",
-        "count": 1
-      },
-      {
-        "key": "Court of the Phoenician and Frenzied Host (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Cryptek Conclave and Hand of the Dynasty (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Death Guard",
-        "count": 1
-      },
-      {
-        "key": "Designation Force and Hammer of the Emperor (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Designation Force and Mechanised Assault (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Devotees of Destruction and Nightmare Hunt (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1590,22 +1335,6 @@
         "count": 1
       },
       {
-        "key": "Farseekers and Mercenary Oathband (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Fateful Performance and Spirit Conclave (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Fellhammer Siege-host (2 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Final Day and Xenocult Masses (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Force Disposition: Disruption",
         "count": 1
       },
@@ -1630,15 +1359,7 @@
         "count": 1
       },
       {
-        "key": "Freebooter Krew and More Dakka! (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Full Send 40K",
-        "count": 1
-      },
-      {
-        "key": "Gate Warden Lance and Questor Forgepact (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1646,67 +1367,11 @@
         "count": 1
       },
       {
-        "key": "Goretrack Onslaught and Vessels of Wrath (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Green Tide and More Dakka! (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Grey Knights",
         "count": 1
       },
       {
-        "key": "Grizzled Company (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Hallowed Martyrs (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Hand of the Dynasty and Obeisance Phalanx (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Hearthguard Covenant and Mercenary Oathband (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Hearthguard Covenant and Needgaârd Oathband (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Hearthguard Covenant, Needgaârd Oathband",
-        "count": 1
-      },
-      {
-        "key": "Helhunt Lance, Iconoclast Fiefdom",
-        "count": 1
-      },
-      {
-        "key": "Heroes of the Uprising and Outlander Claw (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Heroes of the Uprising, Purestrain Broodswarm and Xenocult Masses (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Huckleberry",
-        "count": 1
-      },
-      {
-        "key": "Hunting Warpack and Lords of Dread (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Hunting Warpack and Traitoris Lance (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Iconoclast Fiefdom and Lords of Dread (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1722,51 +1387,11 @@
         "count": 1
       },
       {
-        "key": "Imperialis Fleet (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Kabalite Cartel and Tools of Torment (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Laughing corpse gaming",
         "count": 1
       },
       {
-        "key": "Lions of the Emperor, Silent Hunters",
-        "count": 1
-      },
-      {
-        "key": "Lords of the Warp and Plague Legion (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Lords of the Warp and Scintillating Legion (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Might of the Moritoi and Shield Host (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "More Dakka! and Speedwaaagh! (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Obeisance Phalanx and The Phaeron's Armoury (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Orks",
-        "count": 1
-      },
-      {
-        "key": "Pactbound Zealots (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Peerless Bladesmen and Spectacle of Slaughter (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1775,10 +1400,6 @@
       },
       {
         "key": "Pink Dragons",
-        "count": 1
-      },
-      {
-        "key": "Plague Legion and Warptide (3 Detachment Points)",
         "count": 1
       },
       {
@@ -1926,22 +1547,6 @@
         "count": 1
       },
       {
-        "key": "Realspace Raiders and Tools of Torment (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Reaper’s Wager (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Renegade Raiders (3 Detachment Points)",
-        "count": 1
-      },
-      {
-        "key": "Rubricae Phalanx (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Salamanders",
         "count": 1
       },
@@ -1954,10 +1559,6 @@
         "count": 1
       },
       {
-        "key": "Shadow Legion and Warptide (3 Detachment Points)",
-        "count": 1
-      },
-      {
         "key": "Space marine",
         "count": 1
       },
@@ -1967,10 +1568,6 @@
       },
       {
         "key": "Space Marines - Ultramarines",
-        "count": 1
-      },
-      {
-        "key": "Spectacle of Spite (2 Detachment Points)",
         "count": 1
       },
       {
@@ -2110,10 +1707,6 @@
         "count": 1
       },
       {
-        "key": "Warptide, Shadow Legion",
-        "count": 1
-      },
-      {
         "key": "You can all play clearly broken and abusive lists, with points issued so glaringly obvious that Interns who have only played a handful of games should have caught, and yet people paid to think of the health of this game missed, or thought was fine.  I don’t know what to say about that.",
         "count": 1
       },
@@ -2124,115 +1717,11 @@
     ],
     "enhancement-unresolved": [
       {
-        "key": "Psyk-out Grenades (Upgrade)",
-        "count": 9
-      },
-      {
-        "key": "Elixir of the Corpse Courts (Upgrade)",
-        "count": 8
-      },
-      {
-        "key": "Encircling Horrors (Upgrade)",
-        "count": 8
-      },
-      {
-        "key": "Dead Shiny Shootas (Upgrade)",
-        "count": 7
-      },
-      {
-        "key": "Snarling Rivalry (Upgrade)",
-        "count": 7
-      },
-      {
-        "key": "Writ of Compunction (Upgrade)",
-        "count": 7
-      },
-      {
-        "key": "Nightforged Battery (Upgrade)",
-        "count": 6
-      },
-      {
-        "key": "Gore-stained Veterans (Upgrade)",
-        "count": 5
-      },
-      {
-        "key": "Lancet of the Worldsore (Upgrade)",
-        "count": 5
-      },
-      {
-        "key": "Negation Emitters (Upgrade)",
-        "count": 5
-      },
-      {
-        "key": "Long-range Scout (Upgrade)",
-        "count": 4
-      },
-      {
-        "key": "Tools of Dominion (Upgrade)",
-        "count": 4
-      },
-      {
-        "key": "Eager Patrons (Upgrade)",
-        "count": 3
-      },
-      {
         "key": "Gyro-optimized Actuators",
         "count": 3
       },
       {
-        "key": "Interred Expertise (Upgrade)",
-        "count": 3
-      },
-      {
-        "key": "Plagueveil (Upgrade)",
-        "count": 3
-      },
-      {
-        "key": "Thirst for Glory (Upgrade)",
-        "count": 3
-      },
-      {
-        "key": "Apocalyptic Steeds (Upgrade)",
-        "count": 2
-      },
-      {
-        "key": "Deepening Madness (Upgrade)",
-        "count": 2
-      },
-      {
-        "key": "Gyro-optimised Actuators (Upgrade)",
-        "count": 2
-      },
-      {
-        "key": "Mark of the Star Children (Upgrade)",
-        "count": 2
-      },
-      {
-        "key": "Synaptoprescience (Upgrade)",
-        "count": 2
-      },
-      {
-        "key": "Thundercowl Turbines (Upgrade)",
-        "count": 2
-      },
-      {
         "key": "Assassins' Eye (Upgrade)",
-        "count": 1
-      },
-      {
-        "key": "Bane-forged Weapons (Upgrade)",
-        "count": 1
-      },
-      {
-        "key": "Cryptophotaic Camouflage (Upgrade)",
-        "count": 1
-      },
-      {
-        "key": "Devious Disguises (Upgrade)",
-        "count": 1
-      },
-      {
-        "key": "Fierce Example (Upgrade)",
         "count": 1
       },
       {
@@ -2244,23 +1733,11 @@
         "count": 1
       },
       {
-        "key": "Predestined Coordinates (Upgrade)",
-        "count": 1
-      },
-      {
-        "key": "Recon Star (Upgrade)",
-        "count": 1
-      },
-      {
         "key": "Stave of Kurnous",
         "count": 1
       },
       {
         "key": "Supa-Burny Fuel",
-        "count": 1
-      },
-      {
-        "key": "Unmasking Suite (Upgrade)",
         "count": 1
       }
     ],
@@ -2948,6 +2425,10 @@
         "count": 7
       },
       {
+        "key": "Lieutenant",
+        "count": 7
+      },
+      {
         "key": "Castellan",
         "count": 6
       },
@@ -2956,11 +2437,19 @@
         "count": 6
       },
       {
+        "key": "Bannernob",
+        "count": 5
+      },
+      {
         "key": "Cybernetica Datasmith",
         "count": 4
       },
       {
         "key": "Biophagus",
+        "count": 2
+      },
+      {
+        "key": "Lieutenant in Phobos Armour",
         "count": 2
       },
       {
@@ -2997,6 +2486,356 @@
       },
       {
         "key": "Warlock",
+        "count": 1
+      }
+    ],
+    "loadout-illegal": [
+      {
+        "key": "Pathfinder Team",
+        "count": 54
+      },
+      {
+        "key": "Cultist Mob",
+        "count": 45
+      },
+      {
+        "key": "Piranhas",
+        "count": 28
+      },
+      {
+        "key": "Scout Squad",
+        "count": 26
+      },
+      {
+        "key": "Commander in Coldstar Battlesuit",
+        "count": 25
+      },
+      {
+        "key": "Chaos Predator Destructor",
+        "count": 21
+      },
+      {
+        "key": "Commander in Enforcer Battlesuit",
+        "count": 21
+      },
+      {
+        "key": "Rogal Dorn Commander",
+        "count": 21
+      },
+      {
+        "key": "Sekhetar Robots",
+        "count": 21
+      },
+      {
+        "key": "Legionaries",
+        "count": 18
+      },
+      {
+        "key": "Boyz",
+        "count": 15
+      },
+      {
+        "key": "Cthonian Beserks",
+        "count": 15
+      },
+      {
+        "key": "Death Company Marines with Jump Packs",
+        "count": 15
+      },
+      {
+        "key": "Skitarii Rangers",
+        "count": 14
+      },
+      {
+        "key": "Pink Horrors",
+        "count": 13
+      },
+      {
+        "key": "Attilan Rough Riders",
+        "count": 12
+      },
+      {
+        "key": "Paladin Squad",
+        "count": 11
+      },
+      {
+        "key": "Plague Marines",
+        "count": 11
+      },
+      {
+        "key": "Sky Ray Gunship",
+        "count": 11
+      },
+      {
+        "key": "Cadian Shock Troops",
+        "count": 10
+      },
+      {
+        "key": "Hammerhead Gunship",
+        "count": 10
+      },
+      {
+        "key": "Wolf Guard Terminators",
+        "count": 10
+      },
+      {
+        "key": "Rogal Dorn Battle Tank",
+        "count": 9
+      },
+      {
+        "key": "Raptors",
+        "count": 8
+      },
+      {
+        "key": "Seraphim Squad",
+        "count": 8
+      },
+      {
+        "key": "Skitarii Vanguard",
+        "count": 8
+      },
+      {
+        "key": "Battle Sisters Squad",
+        "count": 6
+      },
+      {
+        "key": "Catachan Jungle Fighters",
+        "count": 6
+      },
+      {
+        "key": "Forgefiend",
+        "count": 6
+      },
+      {
+        "key": "Noise Marines",
+        "count": 6
+      },
+      {
+        "key": "Purgation Squad",
+        "count": 6
+      },
+      {
+        "key": "Sanguinary Guard",
+        "count": 6
+      },
+      {
+        "key": "Sword Brethren Squad",
+        "count": 6
+      },
+      {
+        "key": "Baal Predator",
+        "count": 5
+      },
+      {
+        "key": "Battlewagon",
+        "count": 5
+      },
+      {
+        "key": "Chaos Terminator Squad",
+        "count": 5
+      },
+      {
+        "key": "Devilfish",
+        "count": 5
+      },
+      {
+        "key": "Lychguard",
+        "count": 5
+      },
+      {
+        "key": "Maulerfiend",
+        "count": 5
+      },
+      {
+        "key": "Skorpekh Destroyers",
+        "count": 5
+      },
+      {
+        "key": "Wraithlord",
+        "count": 5
+      },
+      {
+        "key": "Blue Horrors",
+        "count": 4
+      },
+      {
+        "key": "Chosen",
+        "count": 4
+      },
+      {
+        "key": "Gladiator Lancer",
+        "count": 4
+      },
+      {
+        "key": "Rhino",
+        "count": 4
+      },
+      {
+        "key": "Brotherhood Terminator Squad",
+        "count": 3
+      },
+      {
+        "key": "Cadre Fireblade",
+        "count": 3
+      },
+      {
+        "key": "Decimus Kill Team",
+        "count": 3
+      },
+      {
+        "key": "Predator Destructor",
+        "count": 3
+      },
+      {
+        "key": "Sisters of Battle Squad",
+        "count": 3
+      },
+      {
+        "key": "Wolf Scouts",
+        "count": 3
+      },
+      {
+        "key": "Wulfen with Storm Shields",
+        "count": 3
+      },
+      {
+        "key": "Baneblade",
+        "count": 2
+      },
+      {
+        "key": "Chaos Predator Annihilator",
+        "count": 2
+      },
+      {
+        "key": "Deathwatch Veterans",
+        "count": 2
+      },
+      {
+        "key": "Dominion Squad",
+        "count": 2
+      },
+      {
+        "key": "Foetid Bloat-drone",
+        "count": 2
+      },
+      {
+        "key": "Impulsor",
+        "count": 2
+      },
+      {
+        "key": "Indomitor Kill Team",
+        "count": 2
+      },
+      {
+        "key": "Khorne Berzerkers",
+        "count": 2
+      },
+      {
+        "key": "Kommandos",
+        "count": 2
+      },
+      {
+        "key": "Kroot Lone-spear",
+        "count": 2
+      },
+      {
+        "key": "Leman Russ Battle Tank",
+        "count": 2
+      },
+      {
+        "key": "Monolith",
+        "count": 2
+      },
+      {
+        "key": "Purifier Squad",
+        "count": 2
+      },
+      {
+        "key": "Ravager",
+        "count": 2
+      },
+      {
+        "key": "Sisters Novitiate Squad",
+        "count": 2
+      },
+      {
+        "key": "Strike Squad",
+        "count": 2
+      },
+      {
+        "key": "Ta’unar Supremacy Armour",
+        "count": 2
+      },
+      {
+        "key": "Tankbustas",
+        "count": 2
+      },
+      {
+        "key": "Termagants",
+        "count": 2
+      },
+      {
+        "key": "Atalan Jackals",
+        "count": 1
+      },
+      {
+        "key": "Carnifexes",
+        "count": 1
+      },
+      {
+        "key": "Crusader Squad",
+        "count": 1
+      },
+      {
+        "key": "Deathwatch Kill Team",
+        "count": 1
+      },
+      {
+        "key": "Eradicator Squad",
+        "count": 1
+      },
+      {
+        "key": "Leman Russ Exterminator",
+        "count": 1
+      },
+      {
+        "key": "Leman Russ Vanquisher",
+        "count": 1
+      },
+      {
+        "key": "Predator Annihilator",
+        "count": 1
+      },
+      {
+        "key": "Pteraxii Sterylizors",
+        "count": 1
+      },
+      {
+        "key": "Serberys Sulphurhounds",
+        "count": 1
+      },
+      {
+        "key": "Sicarian Ruststalkers",
+        "count": 1
+      },
+      {
+        "key": "Stormraven Gunship",
+        "count": 1
+      },
+      {
+        "key": "Tempestus Aquilons",
+        "count": 1
+      },
+      {
+        "key": "Terminator Squad",
+        "count": 1
+      },
+      {
+        "key": "Tiger Shark",
+        "count": 1
+      },
+      {
+        "key": "Wraithknight",
         "count": 1
       }
     ],
@@ -3424,80 +3263,12 @@
     ],
     "weapon-unresolved": [
       {
-        "key": "Shield Drone",
-        "count": 189
-      },
-      {
-        "key": "Gun Drone",
-        "count": 173
-      },
-      {
-        "key": "Marker Drone",
-        "count": 160
-      },
-      {
-        "key": "Vox-caster",
-        "count": 70
-      },
-      {
         "key": "Missile Drone",
         "count": 67
       },
       {
-        "key": "Daemonic Icon",
-        "count": 66
-      },
-      {
-        "key": "Instrument of Chaos",
-        "count": 66
-      },
-      {
-        "key": "Homing Beacon",
-        "count": 62
-      },
-      {
-        "key": "Icon of Flame",
-        "count": 56
-      },
-      {
-        "key": "Chaos Icon",
-        "count": 50
-      },
-      {
-        "key": "Grav-inhibitor Drone",
-        "count": 49
-      },
-      {
-        "key": "Cult Icon",
-        "count": 45
-      },
-      {
-        "key": "Icon of Khorne",
-        "count": 43
-      },
-      {
-        "key": "Plasmacyte",
-        "count": 43
-      },
-      {
         "key": "Panspectral Scanner",
         "count": 42
-      },
-      {
-        "key": "Storm Shield",
-        "count": 41
-      },
-      {
-        "key": "Icon of Excess",
-        "count": 39
-      },
-      {
-        "key": "Vexilla",
-        "count": 33
-      },
-      {
-        "key": "Battlesuit Support System",
-        "count": 32
       },
       {
         "key": "Medi-pack",
@@ -3508,44 +3279,8 @@
         "count": 29
       },
       {
-        "key": "Brayhorn",
-        "count": 26
-      },
-      {
-        "key": "Herd banner",
-        "count": 26
-      },
-      {
-        "key": "Resurrection Orb",
-        "count": 26
-      },
-      {
         "key": "Icon of Despair (Aura)",
         "count": 25
-      },
-      {
-        "key": "Aspect Shrine Token",
-        "count": 24
-      },
-      {
-        "key": "Haywire Mine",
-        "count": 24
-      },
-      {
-        "key": "Teleport Crest",
-        "count": 24
-      },
-      {
-        "key": "Sanguinary Banner",
-        "count": 23
-      },
-      {
-        "key": "Smoke Launcher",
-        "count": 23
-      },
-      {
-        "key": "Weavefield crest",
-        "count": 23
       },
       {
         "key": "Leader’s bio-weapons",
@@ -3554,14 +3289,6 @@
       {
         "key": "Praesidium Shield",
         "count": 21
-      },
-      {
-        "key": "Master Vox",
-        "count": 20
-      },
-      {
-        "key": "Regimental Standard",
-        "count": 20
       },
       {
         "key": "Blade tail and whip coils",
@@ -3576,10 +3303,6 @@
         "count": 19
       },
       {
-        "key": "Phantasm Grenade Launcher",
-        "count": 19
-      },
-      {
         "key": "Rollbar Searchlight",
         "count": 19
       },
@@ -3588,15 +3311,7 @@
         "count": 18
       },
       {
-        "key": "Rampart Crest",
-        "count": 18
-      },
-      {
         "key": "Boss Nob",
-        "count": 17
-      },
-      {
-        "key": "Omnispex",
         "count": 17
       },
       {
@@ -3604,43 +3319,11 @@
         "count": 16
       },
       {
-        "key": "Simulacrum Imperialis",
-        "count": 16
-      },
-      {
-        "key": "Survey Augur",
-        "count": 16
-      },
-      {
-        "key": "Ancient’s Banner",
-        "count": 15
-      },
-      {
-        "key": "Cluster caltrops",
-        "count": 15
-      },
-      {
         "key": "Collar of Khorne",
         "count": 15
       },
       {
-        "key": "Distraction Grot",
-        "count": 15
-      },
-      {
-        "key": "Incubi Shrine Token",
-        "count": 15
-      },
-      {
-        "key": "Apothecary’s Narthecium",
-        "count": 14
-      },
-      {
         "key": "Remote Mine",
-        "count": 14
-      },
-      {
-        "key": "Weapon Support System",
         "count": 14
       },
       {
@@ -3652,28 +3335,8 @@
         "count": 13
       },
       {
-        "key": "Banner of Macragge",
-        "count": 12
-      },
-      {
-        "key": "Helix Gauntlet",
-        "count": 12
-      },
-      {
-        "key": "Recon Drone",
-        "count": 12
-      },
-      {
-        "key": "Soul Trap",
-        "count": 12
-      },
-      {
         "key": "Twin killsaws",
         "count": 12
-      },
-      {
-        "key": "Command Rod",
-        "count": 11
       },
       {
         "key": "Death Korps Medi-pack",
@@ -3684,28 +3347,12 @@
         "count": 11
       },
       {
-        "key": "Ammo Runt",
-        "count": 10
-      },
-      {
-        "key": "Sacred Banner",
-        "count": 10
-      },
-      {
-        "key": "Grot Orderly",
-        "count": 9
-      },
-      {
         "key": "Multiwave Comms Array",
         "count": 9
       },
       {
         "key": "The Lion Helm",
         "count": 9
-      },
-      {
-        "key": "Enhanced data-tether",
-        "count": 8
       },
       {
         "key": "Pathfinder",
@@ -3720,15 +3367,7 @@
         "count": 8
       },
       {
-        "key": "Infiltrator Comms Array",
-        "count": 7
-      },
-      {
         "key": "Macro-scalpel",
-        "count": 7
-      },
-      {
-        "key": "Shadowloom",
         "count": 7
       },
       {
@@ -3736,35 +3375,11 @@
         "count": 7
       },
       {
-        "key": "Watcher in the Dark",
-        "count": 7
-      },
-      {
-        "key": "Blizzard Shield",
-        "count": 6
-      },
-      {
-        "key": "Brute Shield",
-        "count": 6
-      },
-      {
         "key": "Choppas",
         "count": 6
       },
       {
-        "key": "Guardian Drone",
-        "count": 6
-      },
-      {
         "key": "Hover Drone",
-        "count": 6
-      },
-      {
-        "key": "Kabalite Icon",
-        "count": 6
-      },
-      {
-        "key": "Nebuloscope",
         "count": 6
       },
       {
@@ -3780,23 +3395,11 @@
         "count": 6
       },
       {
-        "key": "’Ard Case",
-        "count": 5
-      },
-      {
         "key": "Advanced Guardian Drone",
         "count": 5
       },
       {
-        "key": "Astartes shield",
-        "count": 5
-      },
-      {
         "key": "Command-link Drone (Aura)",
-        "count": 5
-      },
-      {
-        "key": "Dispersion Shield",
         "count": 5
       },
       {
@@ -3805,18 +3408,6 @@
       },
       {
         "key": "Force-orb cane",
-        "count": 5
-      },
-      {
-        "key": "Mistshield",
-        "count": 5
-      },
-      {
-        "key": "Shield Dome",
-        "count": 5
-      },
-      {
-        "key": "Shimmershield",
         "count": 5
       },
       {
@@ -3840,10 +3431,6 @@
         "count": 4
       },
       {
-        "key": "Death Totem",
-        "count": 4
-      },
-      {
         "key": "Endurant Shield",
         "count": 4
       },
@@ -3853,18 +3440,6 @@
       },
       {
         "key": "Gloom Prism (Aura)",
-        "count": 4
-      },
-      {
-        "key": "Grapnel Launcher",
-        "count": 4
-      },
-      {
-        "key": "Grav Talon",
-        "count": 4
-      },
-      {
-        "key": "Grav-talon",
         "count": 4
       },
       {
@@ -3884,14 +3459,6 @@
         "count": 4
       },
       {
-        "key": "Reiver Grav-chute",
-        "count": 4
-      },
-      {
-        "key": "Relic Shield",
-        "count": 4
-      },
-      {
         "key": "Serpent shield",
         "count": 4
       },
@@ -3900,19 +3467,11 @@
         "count": 4
       },
       {
-        "key": "Spotter",
-        "count": 4
-      },
-      {
         "key": "Alchemyk Counteragents",
         "count": 3
       },
       {
         "key": "Aquiline Prow",
-        "count": 3
-      },
-      {
-        "key": "Command rod",
         "count": 3
       },
       {
@@ -3944,15 +3503,7 @@
         "count": 3
       },
       {
-        "key": "Icon of Despair",
-        "count": 3
-      },
-      {
         "key": "Kommando",
-        "count": 3
-      },
-      {
-        "key": "Kustom Force Field",
         "count": 3
       },
       {
@@ -3972,15 +3523,7 @@
         "count": 3
       },
       {
-        "key": "Rod of Office",
-        "count": 3
-      },
-      {
         "key": "Servo-scribes",
-        "count": 3
-      },
-      {
-        "key": "Shield Generator",
         "count": 3
       },
       {
@@ -4076,10 +3619,6 @@
         "count": 2
       },
       {
-        "key": "Chaos Familiar",
-        "count": 2
-      },
-      {
         "key": "Chaos Spawn",
         "count": 2
       },
@@ -4172,10 +3711,6 @@
         "count": 2
       },
       {
-        "key": "Homing beacon",
-        "count": 2
-      },
-      {
         "key": "Hot-shot laspistol (ORANGE)",
         "count": 2
       },
@@ -4185,10 +3720,6 @@
       },
       {
         "key": "Ibram Gaunt",
-        "count": 2
-      },
-      {
-        "key": "Incubi",
         "count": 2
       },
       {
@@ -4228,10 +3759,6 @@
         "count": 2
       },
       {
-        "key": "Master vox",
-        "count": 2
-      },
-      {
         "key": "Meganob",
         "count": 2
       },
@@ -4244,23 +3771,11 @@
         "count": 2
       },
       {
-        "key": "Null Rod",
-        "count": 2
-      },
-      {
         "key": "Oan Mkoll",
         "count": 2
       },
       {
         "key": "Omnissian power axe",
-        "count": 2
-      },
-      {
-        "key": "Pan spectral scanner",
-        "count": 2
-      },
-      {
-        "key": "Pan-spectral scanner",
         "count": 2
       },
       {
@@ -4272,10 +3787,6 @@
         "count": 2
       },
       {
-        "key": "Psychic Gifts",
-        "count": 2
-      },
-      {
         "key": "Pteraxii Skystalker",
         "count": 2
       },
@@ -4284,15 +3795,7 @@
         "count": 2
       },
       {
-        "key": "Rampart crest",
-        "count": 2
-      },
-      {
         "key": "Rapid-fire battle cannon and questoris heavy stubber",
-        "count": 2
-      },
-      {
-        "key": "Regimental standard",
         "count": 2
       },
       {
@@ -4364,10 +3867,6 @@
         "count": 2
       },
       {
-        "key": "Teleport crest",
-        "count": 2
-      },
-      {
         "key": "Time’s Arrow",
         "count": 2
       },
@@ -4377,10 +3876,6 @@
       },
       {
         "key": "Warlock Conclave (55 pts): 2 with Destructor, Shuriken Pistol, Singing Spear",
-        "count": 2
-      },
-      {
-        "key": "Weavefield Crest",
         "count": 2
       },
       {
@@ -4436,10 +3931,6 @@
         "count": 1
       },
       {
-        "key": "Broad spectrum data-tether",
-        "count": 1
-      },
-      {
         "key": "Cadian Commander",
         "count": 1
       },
@@ -4476,10 +3967,6 @@
         "count": 1
       },
       {
-        "key": "Denuncia oratory",
-        "count": 1
-      },
-      {
         "key": "Despoiler battle cannon and diabolus heavy stubber",
         "count": 1
       },
@@ -4501,10 +3988,6 @@
       },
       {
         "key": "Gauntlets of Ultramar in",
-        "count": 1
-      },
-      {
-        "key": "Grav-inhibitor drone",
         "count": 1
       },
       {
@@ -4588,10 +4071,6 @@
         "count": 1
       },
       {
-        "key": "Nanoscarab Amulet",
-        "count": 1
-      },
-      {
         "key": "Necron Warriors",
         "count": 1
       },
@@ -4636,14 +4115,6 @@
         "count": 1
       },
       {
-        "key": "Recon drone",
-        "count": 1
-      },
-      {
-        "key": "Reiver",
-        "count": 1
-      },
-      {
         "key": "Reiver Sergeant",
         "count": 1
       },
@@ -4676,10 +4147,6 @@
         "count": 1
       },
       {
-        "key": "Shieldvanes",
-        "count": 1
-      },
-      {
         "key": "Shock Trooper",
         "count": 1
       },
@@ -4689,14 +4156,6 @@
       },
       {
         "key": "Sister Superior",
-        "count": 1
-      },
-      {
-        "key": "Slabshield",
-        "count": 1
-      },
-      {
-        "key": "Smoke launcher",
         "count": 1
       },
       {
@@ -4787,6 +4246,10 @@
   },
   "solver_null_units": [
     {
+      "key": "pathfinder-team",
+      "count": 51
+    },
+    {
       "key": "scout-squad",
       "count": 47
     },
@@ -4795,8 +4258,36 @@
       "count": 45
     },
     {
+      "key": "crisis-sunforge-battlesuits",
+      "count": 29
+    },
+    {
       "key": "hyperadapted-raveners",
       "count": 29
+    },
+    {
+      "key": "crisis-starscythe-battlesuits",
+      "count": 28
+    },
+    {
+      "key": "daemonettes",
+      "count": 24
+    },
+    {
+      "key": "tzaangors",
+      "count": 19
+    },
+    {
+      "key": "crisis-fireknife-battlesuits",
+      "count": 17
+    },
+    {
+      "key": "cadian-shock-troops",
+      "count": 16
+    },
+    {
+      "key": "khorne-berzerkers",
+      "count": 16
     },
     {
       "key": "cthonian-beserks",
@@ -4807,8 +4298,36 @@
       "count": 15
     },
     {
+      "key": "skitarii-rangers",
+      "count": 14
+    },
+    {
+      "key": "tormentors",
+      "count": 14
+    },
+    {
+      "key": "bloodletters",
+      "count": 13
+    },
+    {
+      "key": "pink-horrors",
+      "count": 13
+    },
+    {
+      "key": "plaguebearers",
+      "count": 13
+    },
+    {
       "key": "attilan-rough-riders",
       "count": 12
+    },
+    {
+      "key": "victrix-honour-guard",
+      "count": 12
+    },
+    {
+      "key": "paladin-squad",
+      "count": 11
     },
     {
       "key": "plague-marines",
@@ -4817,6 +4336,10 @@
     {
       "key": "sicarian-infiltrators",
       "count": 11
+    },
+    {
+      "key": "kabalite-warriors",
+      "count": 10
     },
     {
       "key": "raptors",
@@ -4831,8 +4354,32 @@
       "count": 10
     },
     {
-      "key": "pink-horrors",
+      "key": "warp-spiders",
+      "count": 10
+    },
+    {
+      "key": "skitarii-vanguard",
+      "count": 8
+    },
+    {
+      "key": "bloodcrushers",
       "count": 7
+    },
+    {
+      "key": "howling-banshees",
+      "count": 7
+    },
+    {
+      "key": "infiltrator-squad",
+      "count": 7
+    },
+    {
+      "key": "battle-sisters-squad",
+      "count": 6
+    },
+    {
+      "key": "catachan-jungle-fighters",
+      "count": 6
     },
     {
       "key": "company-heroes",
@@ -4841,6 +4388,14 @@
     {
       "key": "fellgor-beastmen",
       "count": 6
+    },
+    {
+      "key": "nobz",
+      "count": 6
+    },
+    {
+      "key": "breacher-team",
+      "count": 5
     },
     {
       "key": "havocs",
@@ -4855,7 +4410,15 @@
       "count": 4
     },
     {
+      "key": "brotherhood-terminator-squad",
+      "count": 4
+    },
+    {
       "key": "chaos-terminator-squad",
+      "count": 4
+    },
+    {
+      "key": "deathwing-knights",
       "count": 4
     },
     {
@@ -4863,7 +4426,35 @@
       "count": 3
     },
     {
-      "key": "kabalite-warriors",
+      "key": "decimus-kill-team",
+      "count": 3
+    },
+    {
+      "key": "fire-dragons",
+      "count": 3
+    },
+    {
+      "key": "flash-gitz",
+      "count": 3
+    },
+    {
+      "key": "jakhals",
+      "count": 3
+    },
+    {
+      "key": "seekers",
+      "count": 3
+    },
+    {
+      "key": "sisters-of-battle-squad",
+      "count": 3
+    },
+    {
+      "key": "wolf-scouts",
+      "count": 3
+    },
+    {
+      "key": "wulfen-with-storm-shields",
       "count": 3
     },
     {
@@ -4879,6 +4470,14 @@
       "count": 2
     },
     {
+      "key": "spectrus-kill-team",
+      "count": 2
+    },
+    {
+      "key": "swooping-hawks",
+      "count": 2
+    },
+    {
       "key": "termagants",
       "count": 2
     },
@@ -4887,7 +4486,7 @@
       "count": 1
     },
     {
-      "key": "battle-sisters-squad",
+      "key": "dark-reapers",
       "count": 1
     },
     {
@@ -4895,7 +4494,7 @@
       "count": 1
     },
     {
-      "key": "decimus-kill-team",
+      "key": "deathwing-terminator-squad",
       "count": 1
     },
     {
@@ -4923,11 +4522,19 @@
       "count": 1
     },
     {
-      "key": "sisters-of-battle-squad",
+      "key": "strike-team",
+      "count": 1
+    },
+    {
+      "key": "striking-scorpions",
       "count": 1
     },
     {
       "key": "tempestus-aquilons",
+      "count": 1
+    },
+    {
+      "key": "wolf-guard-headtakers",
       "count": 1
     },
     {

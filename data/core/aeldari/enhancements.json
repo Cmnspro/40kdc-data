@@ -663,11 +663,14 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Solitaire"
+    ]
   },
   {
     "id": "weavers-wail-serpents-brood",
-    "name": "Weaver’s Wail",
+    "name": "Weavers' Wail",
     "detachment_id": "serpents-brood",
     "cost": 20,
     "keyword_restrictions": [
@@ -878,7 +881,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -896,12 +899,12 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
-    "id": "camouflaged-snipers-path-of-the-outcast",
-    "name": "Camouflaged Snipers",
+    "id": "camouflaged-snipers-upgrade-path-of-the-outcast",
+    "name": "Camouflaged Snipers (Upgrade)",
     "detachment_id": "path-of-the-outcast",
     "cost": 10,
     "keyword_restrictions": [
@@ -915,11 +918,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "shadowfall-masks-twilight-flickers",
-    "name": "Shadowfall Masks",
+    "id": "shadowfall-masks-upgrade-twilight-flickers",
+    "name": "Shadowfall Masks (Upgrade)",
     "detachment_id": "twilight-flickers",
     "cost": 15,
     "keyword_restrictions": [
@@ -933,7 +936,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "prelude-performer-twilight-flickers",
@@ -950,7 +953,7 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": true,
+    "upgrade_tag": false,
     "max_targets": 1
   },
   {
@@ -966,7 +969,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Kygharil's Protectors",
+      "Warp Spiders"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "seers-hand-kygharils-protectors",
@@ -981,6 +989,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Kygharil's Protectors",
+      "Spiritseer"
+    ]
   }
 ]

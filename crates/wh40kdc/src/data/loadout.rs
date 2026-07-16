@@ -934,6 +934,33 @@ fn budget_violations(
                 id,
             });
         }
+        // Per-item sub-cap: at most `duplicate_limit` copies of any ONE item, on top
+        // of the shared allowance. Mirror of `tools/src/data/loadout.ts`.
+        if let Some(dup) = budget.duplicate_limit {
+            let dup = dup.get();
+            let (dup_cap, dup_limit) = if budget.per_models == 0 {
+                (dup as i64, format!("{dup} per unit"))
+            } else {
+                (
+                    (model_count * dup / budget.per_models) as i64,
+                    format!("{dup} per {} models", budget.per_models),
+                )
+            };
+            let mut items: Vec<String> = budget.items.iter().map(|i| i.to_string()).collect();
+            items.sort();
+            for id in items {
+                let n = counts.get(&id).copied().unwrap_or(0);
+                if n > dup_cap {
+                    out.push(Violation {
+                        code: ViolationCode::ExceedsAllowance,
+                        message: format!(
+                            "{id}: {n} exceeds per-item duplicate cap {dup_cap} ({dup_limit})"
+                        ),
+                        id,
+                    });
+                }
+            }
+        }
     }
     out
 }

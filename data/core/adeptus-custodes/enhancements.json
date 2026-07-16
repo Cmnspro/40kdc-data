@@ -432,8 +432,8 @@
     "max_targets": 1
   },
   {
-    "id": "interred-expertise-might-of-the-moritoi",
-    "name": "Interred Expertise",
+    "id": "interred-expertise-upgrade-might-of-the-moritoi",
+    "name": "Interred Expertise (Upgrade)",
     "detachment_id": "might-of-the-moritoi",
     "cost": 25,
     "keyword_restrictions": [
@@ -448,11 +448,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "auramite-sarcophagus-might-of-the-moritoi",
-    "name": "Auramite Sarcophagus",
+    "id": "auramite-sarcophagus-upgrade-might-of-the-moritoi",
+    "name": "Auramite Sarcophagus (Upgrade)",
     "detachment_id": "might-of-the-moritoi",
     "cost": 15,
     "keyword_restrictions": [
@@ -467,7 +467,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "encircling-hunter-silent-hunters",
@@ -488,8 +488,8 @@
     "max_targets": 1
   },
   {
-    "id": "psyk-out-grenades-silent-hunters",
-    "name": "Psyk-out Grenades",
+    "id": "psyk-out-grenades-upgrade-silent-hunters",
+    "name": "Psyk-out Grenades (Upgrade)",
     "detachment_id": "silent-hunters",
     "cost": 10,
     "keyword_restrictions": [
@@ -503,7 +503,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "mnemo-locked-shrine-cipher-tharanatoi-hammerblow",
@@ -556,7 +556,12 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Adeptus Custodes",
+      "Gilded Blades Allarus Custodians"
+    ],
+    "upgrade_tag": true
   },
   {
     "id": "shattering-charge-tristraens-gilded-blades",
@@ -571,6 +576,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Blade Champion",
+      "Tristraen's Gilded Blades"
+    ]
   }
 ]

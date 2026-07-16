@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { MfmDump } from "../src/mfm/loader.js";
-import { deriveWargear, withinEditDistance1, dumpComposition, reconcileModels, makeResolver } from "../src/mfm/wargear.js";
+import { deriveWargear, withinEditDistance1, dumpComposition, reconcileModels, makeResolver, limitedSetBudgets } from "../src/mfm/wargear.js";
 
 /**
  * A hand-built minimal dump exercising the full derivation: two model types
@@ -570,6 +570,62 @@ describe("makeResolver per-unit priority overrides", () => {
   it("a priority override pointing at a non-existent id falls through to the direct match", () => {
     const r = makeResolver(valid, [], {}, { "questoris-multi-laser": "not-a-real-id" });
     expect(r("Questoris multi-laser")).toBe("questoris-multi-laser");
+  });
+});
+
+describe("limitedSetBudgets — per-item duplicate cap capture", () => {
+  // A multi-item shared set (the Cadian special-weapon pattern): pick `choiceLimit`
+  // per `modelCount` models, but no more than `duplicateLimit` of the SAME item.
+  // GW tiers it (2/1 at 10 models, 4/2 at 20) — the binding (tightest-ratio) row's
+  // dup must ride alongside its count/per_models.
+  const budgetResolve = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const sharedDump = (limits: Array<{ modelCount: number; choiceLimit: number; duplicateLimit: number | null }>) =>
+    new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-a", wargearType: "weapon", localisations: { en: { name: "Alpha" } } },
+          { id: "wi-b", wargearType: "weapon", localisations: { en: { name: "Beta" } } },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-a", limitedWargearChoiceId: "lwc" },
+          { id: "x2", count: 1, wargearItemId: "wi-b", limitedWargearChoiceId: "lwc" },
+        ],
+        wargear_limit: limits.map((l, i) => ({ id: `wl${i}`, ...l, limitedWargearChoiceSetId: "lim" })),
+      },
+    });
+
+  it("captures duplicate_limit from the binding ratio tier", () => {
+    const budgets = limitedSetBudgets(
+      sharedDump([
+        { modelCount: 10, choiceLimit: 2, duplicateLimit: 1 },
+        { modelCount: 20, choiceLimit: 4, duplicateLimit: 2 },
+      ]),
+      "ds1",
+      budgetResolve,
+    );
+    // Ratios tie (0.2); first-wins picks the {2,10,1} row → count 2, per_models 10, dup 1.
+    expect(budgets).toEqual([{ items: ["alpha", "beta"], count: 2, per_models: 10, duplicate_limit: 1 }]);
+  });
+
+  it("captures a flat duplicate_limit when per_models is 0", () => {
+    const budgets = limitedSetBudgets(
+      sharedDump([{ modelCount: 0, choiceLimit: 4, duplicateLimit: 2 }]),
+      "ds1",
+      budgetResolve,
+    );
+    expect(budgets).toEqual([{ items: ["alpha", "beta"], count: 4, per_models: 0, duplicate_limit: 2 }]);
+  });
+
+  it("omits duplicate_limit entirely when the dump row has none", () => {
+    const budgets = limitedSetBudgets(
+      sharedDump([{ modelCount: 10, choiceLimit: 2, duplicateLimit: null }]),
+      "ds1",
+      budgetResolve,
+    );
+    expect(budgets).toEqual([{ items: ["alpha", "beta"], count: 2, per_models: 10 }]);
+    expect("duplicate_limit" in budgets[0]).toBe(false);
   });
 });
 

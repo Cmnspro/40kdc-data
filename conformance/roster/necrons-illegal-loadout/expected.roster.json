@@ -1,0 +1,119 @@
+{
+  "name": "Imported roster",
+  "source": {
+    "format": "gw",
+    "generated_by": null
+  },
+  "faction_id": "necrons",
+  "detachments": [
+    {
+      "ref": {
+        "id": "awakened-dynasty",
+        "raw_name": "Awakened Dynasty",
+        "resolved": true,
+        "candidates": []
+      },
+      "dp_cost": 3
+    }
+  ],
+  "battle_size": null,
+  "force_disposition": null,
+  "points": {
+    "declared_limit": 170,
+    "detachment_cap": null,
+    "total_reported": 170,
+    "total_computed": 170
+  },
+  "units": [
+    {
+      "ref": {
+        "id": "overlord",
+        "raw_name": "Overlord",
+        "resolved": true,
+        "candidates": []
+      },
+      "model_count": 1,
+      "points": 90,
+      "is_warlord": true,
+      "enhancement": null,
+      "enhancement_points": null,
+      "wargear": [
+        {
+          "ref": {
+            "id": "overlords-blade",
+            "raw_name": "Overlord's blade",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 1
+        }
+      ],
+      "leader_attachment": null
+    },
+    {
+      "ref": {
+        "id": "necron-warriors",
+        "raw_name": "Necron Warriors",
+        "resolved": true,
+        "candidates": []
+      },
+      "model_count": 10,
+      "points": 80,
+      "is_warlord": false,
+      "enhancement": null,
+      "enhancement_points": null,
+      "wargear": [
+        {
+          "ref": {
+            "id": "close-combat-weapon",
+            "raw_name": "Close combat weapon",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 10
+        },
+        {
+          "ref": {
+            "id": "gauss-flayer",
+            "raw_name": "Gauss flayer",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 10
+        },
+        {
+          "ref": {
+            "id": "gauss-reaper",
+            "raw_name": "Gauss reaper",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 10
+        }
+      ],
+      "leader_attachment": null
+    }
+  ],
+  "game_version": {
+    "edition": "11th",
+    "dataslate": "pre-launch-provisional"
+  },
+  "diagnostics": {
+    "resolved_units": 2,
+    "unresolved_units": 0,
+    "resolved_weapons": 4,
+    "unresolved_weapons": 0,
+    "warnings": [
+      {
+        "code": "battle-size-unmapped",
+        "message": "Battle size label could not be mapped.",
+        "raw_name": "Combat Patrol (500 Point limit)"
+      },
+      {
+        "code": "loadout-illegal",
+        "message": "Loadout is not buildable from the datasheet's wargear options: swap-conflict:gauss-flayer",
+        "raw_name": "Necron Warriors"
+      }
+    ]
+  }
+}

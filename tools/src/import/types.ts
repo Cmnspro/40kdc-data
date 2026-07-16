@@ -33,7 +33,18 @@ export type WarningCode =
   | "points-mismatch"
   | "leader-attachment-inferred"
   | "multi-force"
-  | "unknown-field";
+  | "unknown-field"
+  /**
+   * The unit's fully-resolved weapon counts cannot be built from its datasheet's
+   * wargear options (the conservative `checkUnitLegality` verdict, minus
+   * `invalid-model-count` and `below-min` — model counts are parser-inferred in
+   * the GW flat dialect and list formats omit implicit default weapons, so both
+   * are unreliable at import time; the opt-in `checkRosterLegality`/`checkRoster`
+   * APIs keep reporting them). Emitted once per unit, only when the unit and
+   * every wargear entry resolved and the model count sits inside the
+   * composition envelope.
+   */
+  | "loadout-illegal";
 
 // ---------------------------------------------------------------------------
 // Output types (mirror roster.schema.json)

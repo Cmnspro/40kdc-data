@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { Dataset } from "../../src/data/dataset.js";
+import { tryImportRoster } from "../../src/import/import-roster.js";
 import {
   newRecruitWtcCompactAdapter,
   newRecruitWtcFullAdapter,
@@ -70,6 +72,19 @@ describe("newRecruitWtcCompactAdapter", () => {
     expect(parsed.battle_size_raw).toContain("Strike Force");
   });
 
+  it("is explicit-null for force_disposition_raw_name when the header has no line", () => {
+    expect(parsed.force_disposition_raw_name).toBeNull();
+  });
+
+  it("captures a + FORCE DISPOSITION: header line", () => {
+    const withDisposition = COMPACT_SAMPLE.replace(
+      "+ DETACHMENT: Houndpack Lance (Marked Prey)",
+      "+ DETACHMENT: Houndpack Lance (Marked Prey)\n+ FORCE DISPOSITION: Disruption",
+    );
+    const p = newRecruitWtcCompactAdapter.parse(withDisposition);
+    expect(p.force_disposition_raw_name).toBe("Disruption");
+  });
+
   it("captures units in declaration order with correct points and counts", () => {
     expect(parsed.units.map((u) => u.raw_name)).toEqual([
       "War Dog Executioner",
@@ -124,6 +139,16 @@ describe("newRecruitWtcFullAdapter", () => {
   });
 
   const parsed = newRecruitWtcFullAdapter.parse(FULL_SAMPLE);
+
+  it("captures a + FORCE DISPOSITION: header line (explicit null when absent)", () => {
+    expect(parsed.force_disposition_raw_name).toBeNull();
+    const withDisposition = FULL_SAMPLE.replace(
+      "+ DETACHMENT: Houndpack Lance (Marked Prey)",
+      "+ DETACHMENT: Houndpack Lance (Marked Prey)\n+ FORCE DISPOSITION: Take and Hold",
+    );
+    const p = newRecruitWtcFullAdapter.parse(withDisposition);
+    expect(p.force_disposition_raw_name).toBe("Take and Hold");
+  });
 
   it("reads section headers without recording them as units", () => {
     expect(parsed.units.map((u) => u.raw_name)).toEqual([
@@ -259,5 +284,76 @@ describe("newRecruitWtcFullAdapter with mixed compact-style lines", () => {
 
   it("computes the full 2000-point total", () => {
     expect(parsed.total_computed).toBe(2000);
+  });
+});
+
+// End-to-end resolution of the WTC-only header/body features: the
+// `+ FORCE DISPOSITION:` header (new in the 11e WTC template) and wargear
+// ITEMS (non-weapon entries like the Simulacrum Imperialis) that must resolve
+// against the wargear collection once both weapon lookups miss.
+describe("wtc resolution end-to-end", () => {
+  const ds = Dataset.embedded();
+
+  const SORORITAS_LIST = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Imperium - Adepta Sororitas
++ DETACHMENT: Champions of Faith (Righteous Purpose)
++ FORCE DISPOSITION: Disruption
++ TOTAL ARMY POINTS: 150pts
++
++ WARLORD: Char1: Palatine
++ NUMBER OF UNITS: 2
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Char1: 1x Palatine (50 pts): Palatine blade, Plasma pistol, Warlord
+
+10x Battle Sisters Squad (100 pts)
+• 9x Battle Sister
+    7 with Bolt pistol, Boltgun, Close combat weapon
+    1 with Simulacrum Imperialis, Bolt pistol, Boltgun, Close combat weapon
+    1 with Bolt pistol, Close combat weapon, Multi-melta
+• 1x Sister Superior: Bolt pistol, Close combat weapon, Power weapon, Boltgun
+`;
+
+  const result = tryImportRoster(SORORITAS_LIST, { dataset: ds });
+
+  it("resolves the FORCE DISPOSITION header to a disposition id", () => {
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.format).toBe("newrecruit-wtc-full");
+      expect(result.roster.force_disposition).toBe("disruption");
+    }
+  });
+
+  it("warns disposition-unresolved on an unknown disposition name", () => {
+    const bad = SORORITAS_LIST.replace("Disruption", "Total Mayhem");
+    const r = tryImportRoster(bad, { dataset: ds });
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.roster.force_disposition).toBeNull();
+      const codes = r.roster.diagnostics.warnings.map((w) => w.code);
+      expect(codes).toContain("disposition-unresolved");
+    }
+  });
+
+  it("resolves a wargear ITEM (Simulacrum Imperialis) via the wargear fallback", () => {
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      const squad = result.roster.units.find((u) => u.ref.id === "battle-sisters-squad")!;
+      const simulacrum = squad.wargear.find((w) => w.ref.raw_name === "Simulacrum Imperialis")!;
+      expect(simulacrum.ref.id).toBe("simulacrum-imperialis");
+      expect(result.roster.diagnostics.unresolved_weapons).toBe(0);
+    }
+  });
+
+  it("keeps weapon precedence for names that exist in BOTH collections", () => {
+    // "Multi-melta" is a weapon AND could shadow wargear entries; the fallback
+    // only runs after the weapon lookups miss, so it must resolve as a weapon.
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      const squad = result.roster.units.find((u) => u.ref.id === "battle-sisters-squad")!;
+      const melta = squad.wargear.find((w) => w.ref.raw_name === "Multi-melta")!;
+      expect(melta.ref.id).not.toBeNull();
+      expect(ds.weapons.getAny(melta.ref.id!)).toBeTruthy();
+    }
   });
 });

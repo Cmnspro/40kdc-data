@@ -108,8 +108,8 @@
     "max_targets": 1
   },
   {
-    "id": "insectile-murmuration-flyblown-host",
-    "name": "Insectile Murmuration",
+    "id": "insectile-murmuration-upgrade-flyblown-host",
+    "name": "Insectile Murmuration (Upgrade)",
     "detachment_id": "flyblown-host",
     "cost": 15,
     "keyword_restrictions": [
@@ -122,8 +122,8 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": false,
-    "max_targets": 1
+    "upgrade_tag": true,
+    "max_targets": 3
   },
   {
     "id": "rejuvenating-swarm-paragons-of-putrescence",
@@ -141,7 +141,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Terminator"
+    ]
   },
   {
     "id": "shriekworm-familiar-mortarions-hammer",
@@ -162,8 +165,8 @@
     "max_targets": 1
   },
   {
-    "id": "plagueveil-flyblown-host",
-    "name": "Plagueveil",
+    "id": "plagueveil-upgrade-flyblown-host",
+    "name": "Plagueveil (Upgrade)",
     "detachment_id": "flyblown-host",
     "cost": 15,
     "keyword_restrictions": [
@@ -176,8 +179,8 @@
       "dataslate": "launch"
     },
     "points_provisional": false,
-    "upgrade_tag": false,
-    "max_targets": 1
+    "upgrade_tag": true,
+    "max_targets": 3
   },
   {
     "id": "tendrilous-emissions-mortarions-hammer",
@@ -486,8 +489,8 @@
     "max_targets": 1
   },
   {
-    "id": "parasitic-woe-reaper-contagion-engines",
-    "name": "Parasitic Woe-Reaper",
+    "id": "parasitic-woe-reaper-upgrade-contagion-engines",
+    "name": "Parasitic Woe‑reaper (Upgrade)",
     "detachment_id": "contagion-engines",
     "cost": 15,
     "keyword_restrictions": [
@@ -501,11 +504,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "lancet-of-the-worldsore-contagion-engines",
-    "name": "Lancet of the Worldsore",
+    "id": "lancet-of-the-worldsore-upgrade-contagion-engines",
+    "name": "Lancet of the Worldsore (Upgrade)",
     "detachment_id": "contagion-engines",
     "cost": 15,
     "keyword_restrictions": [
@@ -519,7 +522,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "host-of-the-hybridised-pox-paragons-of-putrescence",
@@ -553,7 +556,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Lord of Virulence",
+      "Maggot Lords"
+    ]
   },
   {
     "id": "noisome-veil-maggot-lords",
@@ -568,6 +575,10 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Maggot Lords",
+      "Tallyman"
+    ]
   }
 ]

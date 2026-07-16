@@ -53,6 +53,7 @@ interface WtcHeader {
   name: string;
   faction_raw_name: string | null;
   detachment_raw_name: string | null;
+  force_disposition_raw_name: string | null;
   declared_limit: number | null;
   total_reported: number | null;
   battle_size_raw: string | null;
@@ -61,6 +62,7 @@ interface WtcHeader {
 const HEADER_FIELDS = {
   faction: /^\+\s*FACTION KEYWORD:\s*(.+?)\s*$/i,
   detachment: /^\+\s*DETACHMENT:\s*(.+?)\s*$/i,
+  disposition: /^\+\s*FORCE DISPOSITION:\s*(.+?)\s*$/i,
   totalPoints: /^\+\s*TOTAL ARMY POINTS:\s*(\d+)\s*pts?\s*$/i,
   pointsLimit: /^\+\s*POINTS LIMIT:\s*(\d+)\s*pts?\s*$/i,
   listName: /^\+\s*LIST NAME:\s*(.+?)\s*$/i,
@@ -71,6 +73,7 @@ function parseWtcHeader(text: string): { header: WtcHeader; bodyStart: number } 
   const lines = text.split(/\r?\n/);
   let faction_raw_name: string | null = null;
   let detachment_raw_name: string | null = null;
+  let force_disposition_raw_name: string | null = null;
   let totalReported: number | null = null;
   let pointsLimit: number | null = null;
   let listName: string | null = null;
@@ -92,6 +95,11 @@ function parseWtcHeader(text: string): { header: WtcHeader; bodyStart: number } 
     const detMatch = HEADER_FIELDS.detachment.exec(line);
     if (detMatch) {
       detachment_raw_name = stripParenthetical(detMatch[1]);
+      continue;
+    }
+    const dispMatch = HEADER_FIELDS.disposition.exec(line);
+    if (dispMatch) {
+      force_disposition_raw_name = dispMatch[1];
       continue;
     }
     const ptsMatch = HEADER_FIELDS.totalPoints.exec(line);
@@ -124,6 +132,7 @@ function parseWtcHeader(text: string): { header: WtcHeader; bodyStart: number } 
       name: listName ?? "Imported roster",
       faction_raw_name,
       detachment_raw_name,
+      force_disposition_raw_name,
       declared_limit,
       total_reported: totalReported,
       battle_size_raw,
@@ -417,6 +426,7 @@ function parseWith(text: string, format: "wtc-compact" | "wtc-full"): ParsedRost
     generated_by: null,
     faction_raw_name: header.faction_raw_name,
     detachment_raw_names: header.detachment_raw_name ? [header.detachment_raw_name] : [],
+    force_disposition_raw_name: header.force_disposition_raw_name,
     battle_size_raw: header.battle_size_raw,
     declared_limit: header.declared_limit,
     total_reported: header.total_reported,

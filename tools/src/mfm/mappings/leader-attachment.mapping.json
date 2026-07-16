@@ -1,0 +1,280 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/leader-attachment.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "datasheet_bodyguard_group",
+    "datasheet_bodyguard_group_datasheet"
+  ],
+  "fields": {
+    "/leader_id": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_bodyguard_group.bodyguardType",
+        "data.datasheet_bodyguard_group.datasheetId",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_bodyguard_group.datasheetId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Resolve each attaching datasheet's English display name to its repository leader id while processing its bodyguard groups."
+        },
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Convert the resolved datasheet display name into the repository entity id."
+        }
+      ],
+      "filters": [
+        "Ignore Legends and Combat Patrol datasheets, unresolved names, and leaders absent from the faction unit file."
+      ],
+      "precedence": [
+        "For the separate unit attachment_role side effect in runAttachmentRoles, support applies only when every group is support; any leader group wins so the flat role never over-constrains a solo-capable character.",
+        "A dump-derived leader-attachments record supersedes an existing record with the same leader_id; records for leaders absent from the dump are preserved."
+      ],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "The bodyguard-group leader datasheet is converted to the repository leader id by the current attachment projection; bodyguardType also drives the documented leader-wins unit-role flattening."
+    },
+    "/eligible_bodyguard_ids": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_bodyguard_group_datasheet.datasheetBodyguardGroupId",
+        "data.datasheet_bodyguard_group_datasheet.datasheetId",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_bodyguard_group_datasheet.datasheetBodyguardGroupId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "datasheet_bodyguard_group_datasheet.datasheetId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Traverse each leader group through its eligibility junction, resolve permitted bodyguard datasheet names, convert them to repository ids, deduplicate, and sort them."
+        },
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Convert each resolved permitted-bodyguard display name into the repository entity id."
+        }
+      ],
+      "filters": [
+        "Retain only bodyguards that resolve to unit ids in the current faction directory."
+      ],
+      "precedence": [
+        "The junction is an eligibility relation, never ownership.",
+        "A dump-derived record supersedes the existing record for the same leader_id; when no bodyguard resolves, the existing record is preserved because the schema requires at least one id."
+      ],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "The current projection emits explicit eligible bodyguard unit ids from datasheet_bodyguard_group_datasheet."
+    },
+    "/eligible_bodyguard_ids/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_bodyguard_group_datasheet.datasheetId",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_bodyguard_group_datasheet.datasheetId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Resolve, deduplicate, and sort each eligible bodyguard into a repository unit id."
+        },
+        {
+          "symbol": "tools/src/converters/id-generator.ts#nameToId",
+          "operation": "Convert the permitted bodyguard datasheet display name into its repository entity id."
+        }
+      ],
+      "filters": [
+        "Retain only ids present in the current faction unit file."
+      ],
+      "precedence": [
+        "The eligibility junction does not establish unit ownership.",
+        "Sorted unique ids are emitted only when at least one bodyguard resolves."
+      ],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "Each array item is a currently projected repository id for a permitted bodyguard datasheet."
+    },
+    "/eligible_bodyguard_keywords": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_bodyguard_group_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_bodyguard_group.datasheetId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "datasheet_bodyguard_group_keyword.datasheetBodyguardGroupId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "datasheet_bodyguard_group_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Traverse each leader group's keyword edges and collect the resolved labels in dump-edge (GW-canonical) order without sorting."
+        },
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabel",
+          "operation": "Resolve each bodyguard-group keyword id to its English keyword label."
+        }
+      ],
+      "filters": [
+        "Emitted only on a record that already carries explicit eligible_bodyguard_ids (the schema mandates at least one id); a keyword-only group cannot form a standalone record.",
+        "Sources only the datasheet_bodyguard_group_keyword edge (the 'any unit with ALL these keywords' eligibility, e.g. an Inquisitor leading any IMPERIUM BATTLELINE INFANTRY unit); the per-group requiresAllUnitsHaveKeywordId constraint is a distinct form and is not folded in."
+      ],
+      "precedence": [
+        "Keyword order follows the dump edge order (GW-canonical), so an authored value is confirmed rather than reordered."
+      ],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "The bodyguard-group keyword edge is resolved to keyword labels and emitted as additive keyword-based eligibility alongside the explicit ids."
+    },
+    "/eligible_bodyguard_keywords/*": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.datasheet_bodyguard_group_keyword.keywordId",
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "datasheet_bodyguard_group_keyword.datasheetBodyguardGroupId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "datasheet_bodyguard_group_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/keywords.ts#keywordLabel",
+          "operation": "Each member is one bodyguard-group keyword id resolved to its English keyword label."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "Each member is a keyword label resolved from a datasheet_bodyguard_group_keyword edge."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Attach the repository-confirmed game-version context to each emitted leader-attachment record."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "The emitted game version is repository context, not inferred from an MFM bodyguard row."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Copy the repository-confirmed dataslate context into emitted records."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "Dataslate is repository-owned game-version context."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/attachment.ts#runAttachmentRoles",
+          "operation": "Copy the repository-confirmed edition context into emitted records."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/attachment.ts#runAttachmentRoles"
+      ],
+      "reason": "Edition is repository-owned game-version context."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.datasheet_bodyguard_group.bodyguardType",
+      "candidate_pointer": null,
+      "reason": "This controls the separate unit attachment_role flattening in attachment.ts; leader-attachment.schema.json has no role destination. The projection uses leader-wins: all-support groups yield support, otherwise leader."
+    },
+    {
+      "source": "data.datasheet_bodyguard_group.excludedDetachmentId",
+      "candidate_pointer": null,
+      "reason": "An excluded-detachment eligibility restriction has no destination in leader-attachment.schema.json and is not projected."
+    },
+    {
+      "source": "data.datasheet_bodyguard_group.requiredDetachmentId",
+      "candidate_pointer": null,
+      "reason": "A required-detachment eligibility restriction has no destination in leader-attachment.schema.json and is not projected."
+    },
+    {
+      "source": "data.datasheet_bodyguard_group.requiresAllUnitsHaveKeywordId",
+      "candidate_pointer": "/eligible_bodyguard_keywords",
+      "reason": "A distinct per-group form: a single keyword every already-listed bodyguard must additionally carry, not the 'any unit with these keywords qualifies' edge that eligible_bodyguard_keywords models (that is datasheet_bodyguard_group_keyword, now consumed). Its combination semantics with the explicit ids are unresolved, so it is not folded in."
+    }
+  ]
+}

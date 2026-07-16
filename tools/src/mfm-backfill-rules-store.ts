@@ -34,15 +34,14 @@ import * as path from "path";
 import { nameToId, detachmentScopedId } from "./converters/id-generator.js";
 import {
   loadDump,
-  REPO_ROOT,
+  type ArmyRuleFactionKeywordRow,
   type DetachmentRow,
-  type DumpRow,
   type MfmDump,
   type PublicationRow,
+  type RuleContainerComponentRow,
 } from "./mfm/loader.js";
+import { ENRICHMENT_DIR, REPO_ROOT, readJsonArray } from "./mfm/repo-files.js";
 import { repoDirForFactionName } from "./mfm/faction-map.js";
-
-const ENRICHMENT_DIR = path.join(REPO_ROOT, "data", "enrichment");
 const argv = process.argv.slice(2);
 const write = argv.includes("--write");
 const storeFlag = argv.indexOf("--store");
@@ -76,20 +75,6 @@ interface EnrichmentAbility {
   ability_type: string;
   game_version?: { edition: string; dataslate: string };
 }
-interface RuleRow extends DumpRow {
-  detachmentId?: string;
-  publicationId?: string;
-}
-interface ComponentRow extends DumpRow {
-  detachmentRuleId: string | null;
-  armyRuleId: string | null;
-  displayOrder: number;
-  type: string;
-}
-interface ArmyRuleFactionKeywordRow {
-  armyRuleId: string;
-  factionKeywordId: string;
-}
 interface DumpRule {
   name: string;
   slugs: string[]; // bare + detachment-scoped (detachment rules only)
@@ -100,9 +85,7 @@ interface DumpRule {
   isSub?: boolean; // a `■`-section sub-rule — only meaningful if enrichment models it
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 /**
  * Strip inline markup tags to plain text; null/empty → undefined. Unlike the
  * stratagem backfill (short single-field prose), rule text keeps its line
@@ -121,35 +104,35 @@ function plain(s: string | null | undefined): string | undefined {
 }
 
 /** Assemble a rule's prose from its ordered components; undefined if none carry text. */
-function assembleText(components: ComponentRow[]): string | undefined {
+function assembleText(components: readonly RuleContainerComponentRow[]): string | undefined {
   const blocks: string[] = [];
   for (const c of [...components].sort((a, b) => a.displayOrder - b.displayOrder)) {
-    const en = (c.localisations?.en ?? {}) as Record<string, string>;
+    const en = c.localisations?.en;
     switch (c.type) {
       case "text":
       case "textBold":
       case "boxedText":
       case "bullets": {
-        const t = plain(en.textContent);
+        const t = plain(en?.textContent);
         if (t) blocks.push(t);
         break;
       }
       case "header": {
-        const t = plain(en.textContent);
+        const t = plain(en?.textContent);
         if (t) blocks.push(`**${t.replace(/\*\*/g, "")}**`);
         break;
       }
       case "accordion": {
-        const title = plain(en.title);
-        const t = plain(en.textContent);
+        const title = plain(en?.title);
+        const t = plain(en?.textContent);
         if (title) blocks.push(`**${title.replace(/\*\*/g, "")}**`);
         if (t) blocks.push(t);
         break;
       }
       case "triggerEffectAccordion": {
-        const title = plain(en.title);
-        const trigger = plain(en.trigger);
-        const effect = plain(en.effect);
+        const title = plain(en?.title);
+        const trigger = plain(en?.trigger);
+        const effect = plain(en?.effect);
         if (title) blocks.push(`**${title.replace(/\*\*/g, "")}**`);
         if (trigger) blocks.push(trigger);
         if (effect) blocks.push(effect);
@@ -165,7 +148,7 @@ function assembleText(components: ComponentRow[]): string | undefined {
 /** True when a publication is the preferred (non-Combat-Patrol, non-Legends) printing. */
 function preferredPub(dump: MfmDump, publicationId: string | undefined): boolean {
   if (!publicationId) return false;
-  const pub = dump.byId<PublicationRow>("publication").get(publicationId);
+  const pub = dump.byId("publication").get(publicationId);
   return !!pub && !pub.isCombatPatrol && !pub.isLegends;
 }
 
@@ -173,13 +156,13 @@ function preferredPub(dump: MfmDump, publicationId: string | undefined): boolean
 function collectRules(dump: MfmDump): DumpRule[] {
   const fkName = (fkId: string | null): string | undefined =>
     fkId ? dump.enName(dump.byId("faction_keyword").get(fkId)) : undefined;
-  const byDetRule = dump.groupBy<ComponentRow>("rule_container_component", "detachmentRuleId");
-  const byArmyRule = dump.groupBy<ComponentRow>("rule_container_component", "armyRuleId");
-  const armyRuleFk = dump.groupBy<ArmyRuleFactionKeywordRow>("army_rule_faction_keyword", "armyRuleId");
-  const detById = dump.byId<DetachmentRow>("detachment");
+  const byDetRule = dump.groupBy("rule_container_component", "detachmentRuleId");
+  const byArmyRule = dump.groupBy("rule_container_component", "armyRuleId");
+  const armyRuleFk = dump.groupBy("army_rule_faction_keyword", "armyRuleId");
+  const detById = dump.byId("detachment");
 
   const candidates: DumpRule[] = [];
-  for (const r of dump.table<RuleRow>("detachment_rule")) {
+  for (const r of dump.table("detachment_rule")) {
     const name = dump.enName(r);
     if (!name || !r.id) continue;
     const det = r.detachmentId ? detById.get(r.detachmentId) : undefined;
@@ -204,12 +187,12 @@ function collectRules(dump: MfmDump): DumpRule[] {
       fromPreferredPub: preferredPub(dump, det?.publicationId),
     });
   }
-  for (const r of dump.table<RuleRow>("army_rule")) {
+  for (const r of dump.table("army_rule")) {
     const name = dump.enName(r);
     if (!name || !r.id) continue;
     const fkId =
       armyRuleFk.get(r.id)?.[0]?.factionKeywordId ??
-      dump.byId<PublicationRow>("publication").get(r.publicationId ?? "")?.factionKeywordId ??
+      dump.byId("publication").get(r.publicationId ?? "")?.factionKeywordId ??
       null;
     const dir = repoDirForFactionName(fkName(fkId));
     const text = assembleText(byArmyRule.get(r.id) ?? []);
@@ -297,12 +280,12 @@ function run(): void {
   const results: DirResult[] = [];
   for (const dir of [...byDir.keys()].sort()) {
     if (factionArgs.length > 0 && !factionArgs.includes(dir)) continue;
-    const abilities = readJson<EnrichmentAbility>(path.join(ENRICHMENT_DIR, dir, "abilities.json"));
+    const abilities = readJsonArray<EnrichmentAbility>(path.join(ENRICHMENT_DIR, dir, "abilities.json"));
     if (abilities.length === 0) continue;
     const abilityById = new Map(abilities.map((a) => [a.ability_id, a]));
 
     const storePath = path.join(STORE_ROOT, `${dir}.json`);
-    const store = readJson<StoreEntry>(storePath);
+    const store = readJsonArray<StoreEntry>(storePath);
     const byId = new Map(store.map((e) => [e.ability_id, e]));
 
     const res: DirResult = { scope: dir, added: 0, upgraded: 0, keptBetter: 0, unmatched: [] };

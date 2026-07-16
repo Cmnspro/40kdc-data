@@ -1,0 +1,98 @@
+{
+  "name": "Imported roster",
+  "source": {
+    "format": "gw",
+    "generated_by": null
+  },
+  "faction_id": "thousand-sons",
+  "detachments": [
+    {
+      "ref": {
+        "id": "hexwarp-thrallband",
+        "raw_name": "Hexwarp Thrallband",
+        "resolved": true,
+        "candidates": []
+      },
+      "dp_cost": 2
+    },
+    {
+      "ref": {
+        "id": "sekhetar-cohort",
+        "raw_name": "Sekhetar Cohort",
+        "resolved": true,
+        "candidates": []
+      },
+      "dp_cost": 1
+    }
+  ],
+  "battle_size": null,
+  "force_disposition": null,
+  "points": {
+    "declared_limit": 95,
+    "detachment_cap": null,
+    "total_reported": 95,
+    "total_computed": 95
+  },
+  "units": [
+    {
+      "ref": {
+        "id": "infernal-master",
+        "raw_name": "Infernal Master",
+        "resolved": true,
+        "candidates": []
+      },
+      "model_count": 1,
+      "points": 95,
+      "is_warlord": true,
+      "enhancement": null,
+      "enhancement_points": null,
+      "wargear": [
+        {
+          "ref": {
+            "id": "fires-of-the-abyss",
+            "raw_name": "Fires of the Abyss",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 1
+        },
+        {
+          "ref": {
+            "id": "force-weapon",
+            "raw_name": "Force weapon",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 1
+        },
+        {
+          "ref": {
+            "id": "inferno-bolt-pistol-infernal-master",
+            "raw_name": "Inferno bolt pistol",
+            "resolved": true,
+            "candidates": []
+          },
+          "count": 1
+        }
+      ],
+      "leader_attachment": null
+    }
+  ],
+  "game_version": {
+    "edition": "11th",
+    "dataslate": "pre-launch-provisional"
+  },
+  "diagnostics": {
+    "resolved_units": 1,
+    "unresolved_units": 0,
+    "resolved_weapons": 3,
+    "unresolved_weapons": 0,
+    "warnings": [
+      {
+        "code": "battle-size-unmapped",
+        "message": "Battle size label could not be mapped.",
+        "raw_name": "Combat Patrol (500 Point limit)"
+      }
+    ]
+  }
+}

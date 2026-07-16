@@ -15,7 +15,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Shaper"
+    ]
   },
   {
     "id": "precision-of-the-patient-hunter-kauyon",
@@ -69,7 +72,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Shaper"
+    ]
   },
   {
     "id": "exemplar-of-the-montka-montka",
@@ -87,7 +93,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Shaper"
+    ]
   },
   {
     "id": "strike-swiftly-montka",
@@ -141,7 +150,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Shaper"
+    ]
   },
   {
     "id": "puretide-engram-neurochip-retaliation-cadre",
@@ -321,7 +333,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Kroot"
+    ]
   },
   {
     "id": "fanatical-convert-auxiliary-cadre",
@@ -432,8 +447,8 @@
     "max_targets": 1
   },
   {
-    "id": "negation-emitters-advanced-acquisition-cadre",
-    "name": "Negation Emitters",
+    "id": "negation-emitters-upgrade-advanced-acquisition-cadre",
+    "name": "Negation Emitters (Upgrade)",
     "detachment_id": "advanced-acquisition-cadre",
     "cost": 15,
     "keyword_restrictions": [
@@ -447,11 +462,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "unmasking-suite-advanced-acquisition-cadre",
-    "name": "Unmasking Suite",
+    "id": "unmasking-suite-upgrade-advanced-acquisition-cadre",
+    "name": "Unmasking Suite (Upgrade)",
     "detachment_id": "advanced-acquisition-cadre",
     "cost": 15,
     "keyword_restrictions": [
@@ -465,7 +480,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "earth-caste-modifications-sudden-dawn-cadre",
@@ -480,7 +495,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Commander in Enforcer Battlesuit",
+      "Sudden Dawn Cadre"
+    ]
   },
   {
     "id": "proximity-scanners-sudden-dawn-cadre",
@@ -495,6 +514,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Devilfish",
+      "Sudden Dawn Cadre"
+    ],
+    "upgrade_tag": true
   }
 ]

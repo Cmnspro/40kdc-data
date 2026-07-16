@@ -88,11 +88,16 @@ fn header(roster: &Roster, units: &[RosterUnit], char_slots: &[Option<u32>]) -> 
     };
 
     let det_display = detachment.unwrap_or_else(|| "—".to_string());
-    let lines = vec![
+    let mut lines = vec![
         FENCE.to_string(),
         format!("+ LIST NAME: {}", roster.name),
         format!("+ FACTION KEYWORD: {faction}"),
         format!("+ DETACHMENT: {det_display}"),
+    ];
+    if let Some(disp) = title_case_id(roster.force_disposition.as_deref()) {
+        lines.push(format!("+ FORCE DISPOSITION: {disp}"));
+    }
+    lines.extend([
         format!("+ TOTAL ARMY POINTS: {total}pts"),
         format!("+ POINTS LIMIT: {limit}pts"),
         "+".to_string(),
@@ -100,7 +105,7 @@ fn header(roster: &Roster, units: &[RosterUnit], char_slots: &[Option<u32>]) -> 
         format!("+ ENHANCEMENT: {enhancement}"),
         format!("+ NUMBER OF UNITS: {}", units.len()),
         FENCE.to_string(),
-    ];
+    ]);
     lines.join("\n")
 }
 

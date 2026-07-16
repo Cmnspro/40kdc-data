@@ -1,0 +1,133 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/weapon-keyword.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "wargear_item_profile",
+    "wargear_item_profile_wargear_ability",
+    "wargear_ability"
+  ],
+  "fields": {
+    "/effect": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Weapon-keyword mechanics are community-authored Ability DSL entries; MFM ability rules remain prose and are not copied into this field."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The catalog version reference is repository-authored metadata, not a property of an MFM wargear ability."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The catalog dataslate reference is repository-authored version metadata."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The catalog edition reference is repository-authored version metadata."
+    },
+    "/id": {
+      "provenance": "repo-authored",
+      "coverage": "partial",
+      "sources": [
+        "data.wargear_ability.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearItemProfileId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "wargear_item_profile_wargear_ability.wargearAbilityId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/project-loadout.ts#mapWeaponKeyword",
+          "operation": "Parse recognized localized ability names into existing canonical keyword reference ids and reference-site parameters."
+        }
+      ],
+      "filters": [
+        "Use English localized ability names reached from each wargear-item profile.",
+        "Retain only ability names recognized by the closed mapper."
+      ],
+      "precedence": [
+        "Repository-authored keyword catalog ids remain authoritative; the dump only supplies observed references.",
+        "An unrecognized ability name produces a warning and no keyword reference."
+      ],
+      "consumers": [
+        "tools/src/mfm/project-loadout.ts#mintWeapon"
+      ],
+      "reason": "The static catalog owns canonical ids, while the supported profile-to-ability graph determines which existing ids are referenced by projected weapon profiles."
+    },
+    "/name": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Canonical catalog display names are repository-authored; localized MFM ability labels are only parser input for weapon-profile references."
+    },
+    "/required_parameters": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Required parameter contracts are repository-authored catalog semantics; the parser extracts values only for already-defined keyword references."
+    },
+    "/required_parameters/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Each parameter-key definition is repository-authored catalog semantics rather than an MFM field."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.wargear_ability.localisations.*.name",
+      "candidate_pointer": null,
+      "reason": "Ability names outside mapWeaponKeyword's closed mapping are deliberately retained only as project-loadout warnings and do not mint a weapon-keyword catalog entry."
+    }
+  ]
+}

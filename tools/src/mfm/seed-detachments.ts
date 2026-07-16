@@ -28,21 +28,17 @@
  * IP: reads ONLY numeric/id fields (detachmentPointsCost, force-disposition
  * names, enhancement names/costs). It NEVER dereferences GW rules/lore prose.
  */
-import * as fs from "fs";
 import * as path from "path";
 import { nameToId, detachmentScopedId } from "../converters/id-generator.js";
-import {
-  MfmDump,
-  REPO_ROOT,
-  type DetachmentRow,
-  type EnhancementRow,
-  type DetachmentForceDispositionRow,
-} from "./loader.js";
+import { MfmDump, type DetachmentRow,
+type EnhancementRow,
+type DetachmentForceDispositionRow, } from "./loader.js";
+import { readJsonArray, CORE_DIR } from "./repo-files.js";
 import { repoDirForFactionName, repoDirs } from "./faction-map.js";
 import { buildCanon, dispositionIdMap } from "./dispositions.js";
 import type { StagedWrite } from "./apply.js";
 
-const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+
 const CONFIRMED = { edition: "11th", dataslate: "launch" } as const;
 /** Combat-Patrol-only entities carry this so the golden files them on the
  *  combat-patrol coverage dimension instead of inflating competitive gaps. */
@@ -75,16 +71,6 @@ interface IdRecord {
   [k: string]: unknown;
 }
 
-/**
- * Strip a trailing parenthetical tag the dump appends to enhancement names
- * (" (Upgrade)", " (Aura)") but the repo entity name (and thus its id) omits.
- * Mirrors {@link enhancements.cleanEnhName} so the seeded id matches the reconcile
- * canon and repo convention.
- */
-function cleanEnhName(name: string): string {
-  return name.replace(/\s*\([^)]*\)\s*$/, "").trim();
-}
-
 export interface SeedDetachmentsOptions {
   onlyDir?: string;
   includeCombatPatrol?: boolean;
@@ -112,9 +98,7 @@ function enhancementsPath(dir: string): string {
   return path.join(CORE_DIR, dir, "enhancements.json");
 }
 
-function readJson<T>(p: string): T[] {
-  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T[]) : [];
-}
+
 
 /** One dump CP detachment resolved to its dir + derived skeleton facts. */
 export interface CandidateDet {
@@ -137,21 +121,18 @@ export interface CandidateDet {
 export function collectCombatPatrolDetachments(dump: MfmDump): CandidateDet[] {
   const { overrideBySlugDir } = buildCanon(dump);
   const dispOf = dispositionIdMap(dump);
-  const detDisp = dump.groupBy<DetachmentForceDispositionRow>(
-    "detachment_force_disposition",
-    "detachmentId",
-  );
+  const detDisp = dump.groupBy("detachment_force_disposition", "detachmentId");
   const knownDirs = repoDirs();
 
   // Bucket CP enhancements by their detachment UUID.
   const enhByDet = new Map<string, EnhancementRow[]>();
-  for (const e of dump.table<EnhancementRow>("enhancement")) {
+  for (const e of dump.table("enhancement")) {
     if (!e.isCombatPatrol) continue;
     (enhByDet.get(e.detachmentId) ?? enhByDet.set(e.detachmentId, []).get(e.detachmentId)!).push(e);
   }
 
   const out: CandidateDet[] = [];
-  for (const det of dump.table<DetachmentRow>("detachment")) {
+  for (const det of dump.table("detachment")) {
     if (!det.isCombatPatrol || !det.id) continue;
     const name = dump.enName(det);
     if (!name) throw new Error(`CP detachment <${det.id}> has no English name`);
@@ -172,21 +153,13 @@ export function collectCombatPatrolDetachments(dump: MfmDump): CandidateDet[] {
     for (const e of enhByDet.get(det.id) ?? []) {
       const en = dump.enName(e);
       if (!en) throw new Error(`CP enhancement <${e.id}> of "${name}" has no English name`);
-      const clean = cleanEnhName(en);
-      const enhId = detachmentScopedId(clean, name);
-      // The golden (enhIdsByDir) slugs the RAW dump name; the reconcile canon +
-      // repo convention slug the cleaned name. They coincide only when the name
-      // carries no parenthetical tag. Fail loudly if they diverge so the golden
-      // derivation is fixed BEFORE a mismatched id ships as an uncovered gap.
-      if (detachmentScopedId(en, name) !== enhId) {
-        throw new Error(
-          `CP enhancement "${en}" of "${name}" slugs differently raw vs cleaned — ` +
-            `fix enhIdsByDir to use cleanEnhName before seeding`,
-        );
-      }
+      // Seed the RAW GW name + id (keep any trailing " (Upgrade)"/" (Aura)" tag) —
+      // the import-correct canon, matching the golden (enhIdsByDir) and buildEnhCanon,
+      // both of which now slug the RAW dump name.
+      const enhId = detachmentScopedId(en, name);
       enhancements.push({
         id: enhId,
-        name: clean,
+        name: en,
         detachment_id: id,
         cost: 0,
         is_unique: true,
@@ -213,12 +186,12 @@ export function runSeedDetachments(
   const enhsByDir = new Map<string, IdRecord[]>();
   const loadDets = (dir: string): IdRecord[] => {
     let a = detsByDir.get(dir);
-    if (!a) detsByDir.set(dir, (a = readJson<IdRecord>(detachmentsPath(dir))));
+    if (!a) detsByDir.set(dir, (a = readJsonArray<IdRecord>(detachmentsPath(dir))));
     return a;
   };
   const loadEnhs = (dir: string): IdRecord[] => {
     let a = enhsByDir.get(dir);
-    if (!a) enhsByDir.set(dir, (a = readJson<IdRecord>(enhancementsPath(dir))));
+    if (!a) enhsByDir.set(dir, (a = readJsonArray<IdRecord>(enhancementsPath(dir))));
     return a;
   };
 

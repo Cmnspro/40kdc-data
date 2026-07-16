@@ -10,12 +10,12 @@ Pools emitted: **19**, skipped: **2**.
 |---|---|---|---|---|---|---|
 | aeldari-harlequins | Asuryani | aeldari | 8 | — | — | — |
 | aeldari-ynnari | Asuryani | aeldari | 11 | 1 | — | — |
-| agents-of-the-imperium-allies | Adepta Sororitas, Adeptus Astartes, Adeptus Custodes, Adeptus Mechanicus, Adeptus Titanicus, Astra Militarum, Black Templars, Blood Angels, Dark Angels, Grey Knights, Imperial Fists, Imperial Knights, Iron Hands, Raven Guard, Salamanders, Space Wolves, Ultramarines, White Scars | agents-of-the-imperium | 29 | — | 10 | 9 |
-| agents-of-the-imperium-deathwatch | Deathwatch | agents-of-the-imperium | 24 | — | 8 | 9 |
+| agents-of-the-imperium-allies | Adepta Sororitas, Adeptus Astartes, Adeptus Custodes, Adeptus Mechanicus, Adeptus Titanicus, Astra Militarum, Black Templars, Blood Angels, Dark Angels, Grey Knights, Imperial Fists, Imperial Knights, Iron Hands, Raven Guard, Salamanders, Space Wolves, Ultramarines, White Scars | agents-of-the-imperium | 29 | — | — | 9 |
+| agents-of-the-imperium-deathwatch | Deathwatch | agents-of-the-imperium | 24 | — | — | 9 |
 | brood-brothers | Genestealer Cults | astra-militarum | 50 | 1 | — | — |
-| chaos-daemons-shadow-legion | Legiones Daemonica | chaos-space-marines | 21 | 1 | 10 | — |
+| chaos-daemons-shadow-legion | Legiones Daemonica | chaos-space-marines | 21 | 1 | — | — |
 | chaos-knights-allies | Death Guard, Emperor’s Children, Heretic Astartes, Legiones Daemonica, Thousand Sons, Titanicus Traitoris, World Eaters | chaos-knights | 20 | — | — | 6 |
-| chaos-space-marines-renegades | Heretic Astartes | — | 4 | 13 | — | — |
+| chaos-space-marines-renegades | Heretic Astartes | — | 4 | 16 | — | — |
 | daemonic-pact | Chaos Knights, Heretic Astartes | chaos-daemons | 53 | — | — | — |
 | death-guard-nurgle-daemons | Death Guard | chaos-daemons | 6 | 1 | — | — |
 | drukhari-aeldari | Drukhari | aeldari | 14 | 5 | — | — |

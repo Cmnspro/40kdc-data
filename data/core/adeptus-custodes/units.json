@@ -464,7 +464,8 @@
     "wargear_budgets": [
       {
         "items": [
-          "misericordia"
+          "misericordia",
+          "vexilla"
         ],
         "count": 1,
         "per_models": 0
@@ -495,7 +496,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Mounted",
       "Character",
       "Fly",
@@ -866,7 +866,8 @@
     "wargear_budgets": [
       {
         "items": [
-          "misericordia"
+          "misericordia",
+          "vexilla"
         ],
         "count": 1,
         "per_models": 0
@@ -1029,7 +1030,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Transport",
       "Dedicated Transport",
@@ -1223,7 +1223,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Vehicle",
       "Imperium",
       "Transport",
@@ -1334,7 +1333,16 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "wargear_budgets": [
+      {
+        "items": [
+          "vexilla"
+        ],
+        "count": 1,
+        "per_models": 0
+      }
+    ]
   },
   {
     "id": "pallas-grav-attack",
@@ -1418,7 +1426,6 @@
       }
     ],
     "keywords": [
-      "Frame",
       "Mounted",
       "Fly",
       "Imperium",
@@ -2054,7 +2061,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    }
   },
   {
     "id": "gilded-blades-custodian-guard",
@@ -2100,7 +2111,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    }
   },
   {
     "id": "gilded-blades-custodian-wardens",
@@ -2144,7 +2159,11 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    }
   },
   {
     "id": "tristraen-of-the-gilded-blades",
@@ -2191,6 +2210,10 @@
       "combat-patrol"
     ],
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "base_size_mm": {
+      "shape": "round",
+      "diameter": 40
+    }
   }
 ]

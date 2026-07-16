@@ -104,11 +104,7 @@ impl ShareRegistryIndex {
     pub fn embedded() -> &'static ShareRegistryIndex {
         use std::sync::OnceLock;
         static INDEX: OnceLock<ShareRegistryIndex> = OnceLock::new();
-        INDEX.get_or_init(|| {
-            let registry: ShareRegistry =
-                serde_json::from_str(REGISTRY_JSON).expect("embedded share registry parses");
-            ShareRegistryIndex::new(&registry)
-        })
+        INDEX.get_or_init(|| ShareRegistryIndex::new(embedded_registry()))
     }
 
     fn index(&self, kind: &str, id: &str) -> Option<usize> {
@@ -121,6 +117,17 @@ impl ShareRegistryIndex {
             .and_then(|v| v.get(index))
             .map(String::as_str)
     }
+}
+
+/// The package's embedded share registry, parsed once. Exposes the raw
+/// [`ShareRegistry::aliases`] map so the linked-API [`Dataset`](crate::Dataset)
+/// can resolve id lookups of a since-renamed entity (see `Collection::with_id_aliases`).
+pub fn embedded_registry() -> &'static ShareRegistry {
+    use std::sync::OnceLock;
+    static REGISTRY: OnceLock<ShareRegistry> = OnceLock::new();
+    REGISTRY.get_or_init(|| {
+        serde_json::from_str(REGISTRY_JSON).expect("embedded share registry parses")
+    })
 }
 
 // ── public data shape ──────────────────────────────────────────────────────────

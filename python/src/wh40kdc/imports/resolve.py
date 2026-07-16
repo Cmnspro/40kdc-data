@@ -15,10 +15,11 @@ Python mirror of ``tools/src/import/resolve.ts``.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from wh40kdc.data.dataset import Dataset
-from wh40kdc.data.loadout import group_loadout
+from wh40kdc.data.loadout import check_unit_legality, group_loadout
 from wh40kdc.data.normalize import normalize_name, strip_leading_the
 
 #: The dataset edition/dataslate stamped onto an imported roster.
@@ -125,6 +126,43 @@ def _scoped_weapon_id(ds: Dataset, hit: Any, raw_name: str) -> str | None:
     return None
 
 
+def _resolve_wargear_item_id(ds: Dataset, hit: Any, raw_name: str) -> str | None:
+    """Fallback for wargear ITEMS (Simulacrum Imperialis, Daemonic Icon, …) — raw
+    names that are not weapons but do exist in the wargear collection. Runs only
+    after BOTH weapon lookups miss, so a wargear item whose name collides with a
+    weapon ("multi-melta", "power weapon") keeps resolving to the weapon exactly
+    as before. Scoped-first: ids reachable through the resolved unit's wargear
+    options, then the global collection (wargear is replicated-identical across
+    factions, so a global first-match is safe). Same ``normalize_name`` +
+    leading-"The" tolerance as the weapon lookups. Mirror of the TS
+    ``resolveWargearItemId``.
+    """
+    stripped = strip_leading_the(raw_name)
+    if hit is not None:
+        ids: list[str] = []
+        for opt in ds.wargear_options_of(hit.raw):
+            ids += opt.get("replaces") or []
+            ids += opt.get("replacement") or []
+            for group in opt.get("replacement_choice") or []:
+                ids += group
+        targets = {normalize_name(raw_name), normalize_name(f"The {raw_name}")}
+        if stripped:
+            targets.add(normalize_name(stripped))
+        for wid in ids:
+            item = ds.wargear.get_any(wid)
+            if item is not None and normalize_name(item["name"]) in targets:
+                return str(item["id"])
+    direct = ds.wargear.find(raw_name)
+    if direct is not None:
+        return str(direct["id"])
+    if stripped:
+        stripped_hit = ds.wargear.find(stripped)
+        if stripped_hit is not None:
+            return str(stripped_hit["id"])
+    the_hit = ds.wargear.find(f"The {raw_name}")
+    return str(the_hit["id"]) if the_hit is not None else None
+
+
 def _map_battle_size(raw: str | None) -> str | None:
     """Map a source battle-size label to the 40kdc enum, if recognisable."""
     if not raw:
@@ -173,8 +211,7 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
     # 11e lists may field several detachments under a detachment-point cap; the
     # list preserves source order. ``dp_cost`` is looked up from the resolved
     # detachment entity (no source format reports it).
-    detachments: list[dict[str, Any]] = []
-    for raw_name in parsed["detachment_raw_names"]:
+    def resolve_detachment(raw_name: str) -> dict[str, Any] | None:
         key = normalize_name(raw_name)
         scoped = None
         if faction_id:
@@ -187,23 +224,56 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
                 None,
             )
         hit = scoped if scoped is not None else ds.detachments.find(raw_name)
+        if hit is None:
+            return None
+        return {"ref": _resolved(hit["id"], raw_name), "dp_cost": hit.get("detachment_points")}
+
+    detachments: list[dict[str, Any]] = []
+    for raw_name in parsed["detachment_raw_names"]:
+        whole = resolve_detachment(raw_name)
+        if whole is not None:
+            detachments.append(whole)
+            continue
+        # Dual-detachment 11e lists print both names on one line joined with
+        # " and " ("Hexwarp Thrallband and Sekhetar Cohort") or a comma
+        # ("Exhibition of Slaughter, Skysplinter Assault"). Splitting is a
+        # RESOLVE-TIME fallback, taken only when the whole name fails and every
+        # part resolves — "Legends of Saga and Song" is a real single-detachment
+        # name a lexical split would corrupt.
+        parts = [p.strip() for p in re.split(r"\s+and\s+|\s*,\s*", raw_name) if p.strip()]
+        if len(parts) > 1:
+            split = [resolve_detachment(p) for p in parts]
+            if all(d is not None for d in split):
+                detachments.extend(d for d in split if d is not None)
+                continue
+        diag.warn(
+            "detachment-unresolved",
+            "Detachment name did not match any 40kdc detachment.",
+            raw_name,
+        )
+        detachments.append(
+            {
+                "ref": _unresolved(raw_name, _to_candidates(ds.detachments.find_all(raw_name))),
+                "dp_cost": None,
+            }
+        )
+    detachment_ids = [d["ref"]["id"] for d in detachments if d["ref"]["id"] is not None]
+
+    # --- Force Disposition. -----------------------------------------------------
+    # roster-json carries an already-resolved id; ListForge and WTC text carry
+    # the raw header name (e.g. "Priority Assets"), resolved here against the
+    # dataset.
+    force_disposition = parsed.get("force_disposition")
+    if not force_disposition and parsed.get("force_disposition_raw_name"):
+        hit = ds.force_dispositions.find(parsed["force_disposition_raw_name"])
         if hit is not None:
-            detachments.append(
-                {"ref": _resolved(hit["id"], raw_name), "dp_cost": hit.get("detachment_points")}
-            )
+            force_disposition = hit["id"]
         else:
             diag.warn(
-                "detachment-unresolved",
-                "Detachment name did not match any 40kdc detachment.",
-                raw_name,
+                "disposition-unresolved",
+                "Force Disposition name did not match any 40kdc disposition.",
+                parsed["force_disposition_raw_name"],
             )
-            detachments.append(
-                {
-                    "ref": _unresolved(raw_name, _to_candidates(ds.detachments.find_all(raw_name))),
-                    "dp_cost": None,
-                }
-            )
-    detachment_ids = [d["ref"]["id"] for d in detachments if d["ref"]["id"] is not None]
 
     # --- Battle size. ---------------------------------------------------------
     battle_size = _map_battle_size(parsed["battle_size_raw"])
@@ -251,10 +321,7 @@ def resolve(parsed: dict[str, Any], ds: Dataset, format: str = "listforge") -> d
         "faction_id": faction_id,
         "detachments": detachments,
         "battle_size": battle_size,
-        # Only the canonical roster-json round-trip carries a picked Force
-        # Disposition; other source formats don't encode it yet, so it defaults
-        # to None and the roster-legality checker flags it (advisory).
-        "force_disposition": parsed.get("force_disposition"),
+        "force_disposition": force_disposition,
         "points": {
             "declared_limit": parsed["declared_limit"],
             "detachment_cap": detachment_cap,
@@ -379,6 +446,11 @@ def _resolve_unit(
         if hits:
             diag.resolved_weapons += 1
             wargear.append({"ref": _resolved(hits[0].id, w["raw_name"]), "count": w["count"]})
+            continue
+        wargear_item_id = _resolve_wargear_item_id(ds, hit, w["raw_name"])
+        if wargear_item_id:
+            diag.resolved_weapons += 1
+            wargear.append({"ref": _resolved(wargear_item_id, w["raw_name"]), "count": w["count"]})
         else:
             diag.unresolved_weapons += 1
             diag.warn(
@@ -407,6 +479,45 @@ def _resolve_unit(
     if loadout_groups is not None:
         result["loadout_groups"] = loadout_groups
     result["leader_attachment"] = None
+
+    # Loadout legality — the conservative checker over the fully-resolved counts.
+    # Gated exactly like grouping (an unresolved unit has no datasheet; an
+    # unresolved weapon means the counts under-report the list), plus two
+    # import-specific reliability gates: the parsed model count must sit inside
+    # the composition envelope (the GW flat dialect infers ``model_count: 1`` for
+    # some units, so ``invalid-model-count`` is also filtered), and ``below-min``
+    # is filtered (list formats omit implicit default weapons). Mirror of the TS
+    # reference.
+    if hit is not None and all(w["ref"]["id"] is not None for w in wargear):
+        comp = ds.unit_composition_of(hit.raw) or {}
+        rows = comp.get("models") or []
+        env_min = sum((m.get("min") or 0) for m in rows)
+        env_max = sum((m.get("max") or 0) for m in rows)
+        model_count = parsed["model_count"]
+        if not rows or env_min <= model_count <= env_max:
+            counts: dict[str, int] = {}
+            for w in wargear:
+                wid = w["ref"]["id"]
+                counts[wid] = counts.get(wid, 0) + w["count"]
+            violations = [
+                v
+                for v in check_unit_legality(
+                    hit.raw,
+                    model_count,
+                    ds.wargear_options_of(hit.raw),
+                    counts,
+                    comp.get("models"),
+                    comp.get("tiers"),
+                )
+                if v["code"] not in ("invalid-model-count", "below-min")
+            ]
+            if violations:
+                detail = ", ".join(f"{v['code']}:{v['id']}" for v in violations)
+                diag.warn(
+                    "loadout-illegal",
+                    "Loadout is not buildable from the datasheet's wargear options: " + detail,
+                    parsed["raw_name"],
+                )
     return result
 
 

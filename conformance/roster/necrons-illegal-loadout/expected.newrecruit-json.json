@@ -1,0 +1,149 @@
+{
+  "name": "Imported roster",
+  "generatedBy": "https://newrecruit.eu",
+  "roster": {
+    "name": "Imported roster",
+    "xmlns": "http://www.battlescribe.net/schema/rosterSchema",
+    "generatedBy": "https://newrecruit.eu",
+    "costs": [
+      {
+        "name": "pts",
+        "typeId": "pts-type",
+        "value": 170
+      }
+    ],
+    "forces": [
+      {
+        "id": "force-1",
+        "name": "Army Roster",
+        "catalogueName": "Necrons",
+        "selections": [
+          {
+            "id": "cfg-detachment",
+            "name": "Detachment",
+            "type": "upgrade",
+            "number": 1,
+            "categories": [
+              {
+                "name": "Configuration",
+                "primary": true
+              }
+            ],
+            "selections": [
+              {
+                "id": "cfg-detachment-val",
+                "name": "Awakened Dynasty",
+                "type": "upgrade",
+                "number": 1
+              }
+            ]
+          },
+          {
+            "id": "u-0",
+            "name": "Overlord",
+            "type": "model",
+            "number": 1,
+            "categories": [
+              {
+                "name": "Faction: Necrons",
+                "primary": false
+              }
+            ],
+            "costs": [
+              {
+                "name": "pts",
+                "typeId": "pts-type",
+                "value": 90
+              }
+            ],
+            "selections": [
+              {
+                "id": "u0-warlord",
+                "name": "Warlord",
+                "type": "upgrade",
+                "number": 1
+              },
+              {
+                "id": "w-0",
+                "name": "Overlord's blade",
+                "type": "upgrade",
+                "number": 1,
+                "categories": [
+                  {
+                    "name": "Ranged Weapon",
+                    "primary": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "u-1",
+            "name": "Necron Warriors",
+            "type": "unit",
+            "number": 1,
+            "categories": [
+              {
+                "name": "Faction: Necrons",
+                "primary": false
+              }
+            ],
+            "costs": [
+              {
+                "name": "pts",
+                "typeId": "pts-type",
+                "value": 80
+              }
+            ],
+            "selections": [
+              {
+                "id": "u1-model",
+                "name": "Necron Warriors",
+                "type": "model",
+                "number": 10,
+                "selections": [
+                  {
+                    "id": "w-0",
+                    "name": "Close combat weapon",
+                    "type": "upgrade",
+                    "number": 10,
+                    "categories": [
+                      {
+                        "name": "Ranged Weapon",
+                        "primary": false
+                      }
+                    ]
+                  },
+                  {
+                    "id": "w-1",
+                    "name": "Gauss flayer",
+                    "type": "upgrade",
+                    "number": 10,
+                    "categories": [
+                      {
+                        "name": "Ranged Weapon",
+                        "primary": false
+                      }
+                    ]
+                  },
+                  {
+                    "id": "w-2",
+                    "name": "Gauss reaper",
+                    "type": "upgrade",
+                    "number": 10,
+                    "categories": [
+                      {
+                        "name": "Ranged Weapon",
+                        "primary": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

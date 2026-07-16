@@ -1,0 +1,972 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/allied-rule.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "allied_faction"
+  ],
+  "fields": {
+    "/army_keywords_any": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "faction_keyword_allied_faction.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "faction_keyword_allied_faction.factionKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Resolve host faction-keyword names and emit the nonempty gate."
+        }
+      ],
+      "filters": [
+        "Omit when no host keyword resolves."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Host faction-keyword associations are emitted as the army gate."
+    },
+    "/army_keywords_any/*": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.faction_keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "faction_keyword_allied_faction.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "faction_keyword_allied_faction.factionKeywordId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Resolve each host faction keyword name."
+        }
+      ],
+      "filters": [
+        "Discard unresolved names."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Each emitted gate member is a resolved host faction keyword."
+    },
+    "/battleline_ratio_keywords": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Apply curated overlay ratio constraints."
+        }
+      ],
+      "filters": [
+        "Emit only overlay entries that define a ratio."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "The dump tables do not express this ratio constraint."
+    },
+    "/battleline_ratio_keywords/*": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Apply curated overlay ratio keywords."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Ratio keywords are curated repository rule data."
+    },
+    "/cannot_be_warlord": {
+      "provenance": "derived",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction.requiredWarlordMiniatureId"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Set the lock when no allowed or required warlord miniature resolves."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "A nonempty resolved warlord allowlist suppresses this flag."
+      ],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "The flag is derived from the absence of an eligible resolved warlord. The allowed-warlord association table (allied_faction_allowed_warlord_miniature) was emptied by the data_version 895 export; the extractor still consumes it, so its rows re-enter this derivation when a future snapshot repopulates the table."
+    },
+    "/cannot_take_enhancements": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction.canTakeEnhancements"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Invert the dump permission into the cannot-take flag."
+        }
+      ],
+      "filters": [
+        "Emit only when enhancements are not permitted."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "The extractor directly converts the structured enhancement permission."
+    },
+    "/detachment_ids": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_required_detachment.alliedFactionId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "allied_faction_required_detachment.detachmentId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Slug and resolve required detachment names against authored detachments."
+        }
+      ],
+      "filters": [
+        "Discard unresolved authored detachment ids."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Required-detachment rows are consumed, but only matching repository detachments are emitted."
+    },
+    "/detachment_ids/*": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.detachment.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_required_detachment.alliedFactionId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "allied_faction_required_detachment.detachmentId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Slug each resolved detachment name."
+        }
+      ],
+      "filters": [
+        "Keep only ids present in authored detachments."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "A member is emitted only after repository detachment resolution."
+    },
+    "/excluded_keywords": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current allied-faction table field implements this exclusion list."
+    },
+    "/excluded_keywords/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current allied-faction table field implements this exclusion member."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Stamp the repository release game version."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Game version is repository release context, not dump snapshot metadata."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Stamp the repository dataslate context."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Dataslate is authored repository release context."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Stamp the repository edition context."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Edition is authored repository release context."
+    },
+    "/id": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Use the curated overlay id or synthesize a fallback from resolved context."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Curated overlay ids take precedence over synthesized fallback ids."
+      ],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Stable allied-rule ids are repository identifiers rather than dump GUIDs."
+    },
+    "/keyword_limits": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction_keyword.limitCount",
+        "data.keyword.localisations.*.name",
+        "data.battle_size.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_keyword.alliedFactionId",
+          "direction": "children",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "allied_faction_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        },
+        {
+          "relation": "allied_faction_keyword.battleSizeId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Resolve and sort keyword caps by keyword and battle size."
+        }
+      ],
+      "filters": [
+        "Discard rows with unresolved keyword or battle size."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Structured keyword-limit rows supply the emitted caps."
+    },
+    "/keyword_limits/*": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction_keyword.limitCount"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_keyword.alliedFactionId",
+          "direction": "children",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Project one resolved keyword-limit row."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Each cap is projected from one allied keyword row."
+    },
+    "/keyword_limits/*/battle_size": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.battle_size.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_keyword.battleSizeId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Map the resolved battle-size name to the schema enum."
+        }
+      ],
+      "filters": [
+        "Discard unsupported or unresolved battle sizes."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Battle-size identifiers are converted to repository enum values."
+    },
+    "/keyword_limits/*/keyword": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.keyword.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_keyword.keywordId",
+          "direction": "parent",
+          "purpose": "eligibility"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Resolve the keyword display name."
+        }
+      ],
+      "filters": [
+        "Discard unresolved keyword names."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Keyword ids are projected as resolved repository keyword strings."
+    },
+    "/keyword_limits/*/max_count": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction_keyword.limitCount"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Copy the numeric keyword cap."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "The numeric cap is directly represented by the allied keyword row."
+    },
+    "/label": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Use the curated overlay label or authored fallback label."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Curated overlay labels take precedence over fallback host labels."
+      ],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Display labels are curated repository presentation data."
+    },
+    "/max_units": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current structured allied-faction row supplies a standalone unit-count cap."
+    },
+    "/name": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Use the curated overlay name or fallback label."
+        }
+      ],
+      "filters": [],
+      "precedence": [
+        "Curated overlay names take precedence over fallback labels."
+      ],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Rule names are curated repository display data."
+    },
+    "/notes": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Apply curated overlay notes."
+        }
+      ],
+      "filters": [
+        "Emit only overlay notes."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Notes preserve repository-authored rule context not stored as dump prose."
+    },
+    "/points_limits": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction_points_limit.pointsLimit",
+        "data.battle_size.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_points_limit.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "allied_faction_points_limit.battleSizeId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Resolve and sort points caps by battle size."
+        }
+      ],
+      "filters": [
+        "Discard rows with unresolved battle size."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Structured points-limit rows supply the emitted caps."
+    },
+    "/points_limits/*": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction_points_limit.pointsLimit"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_points_limit.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Project one points-limit row."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Each cap is projected from one allied points row."
+    },
+    "/points_limits/*/battle_size": {
+      "provenance": "joined",
+      "coverage": "implemented",
+      "sources": [
+        "data.battle_size.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_points_limit.battleSizeId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Map the resolved battle-size name to the schema enum."
+        }
+      ],
+      "filters": [
+        "Discard unsupported or unresolved battle sizes."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Battle-size identifiers are converted to repository enum values."
+    },
+    "/points_limits/*/max_points": {
+      "provenance": "direct",
+      "coverage": "implemented",
+      "sources": [
+        "data.allied_faction_points_limit.pointsLimit"
+      ],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Copy the numeric points cap."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "The numeric cap is directly represented by the allied points row."
+    },
+    "/removes_ability_ids": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Apply curated overlay removed abilities."
+        }
+      ],
+      "filters": [
+        "Emit only overlay entries with removed abilities."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Removed ability links are curated repository rule data."
+    },
+    "/removes_ability_ids/*": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Apply one curated removed ability id."
+        }
+      ],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Removed ability ids are curated repository data."
+    },
+    "/required_keywords": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current allied-faction table field implements an all-keyword requirement."
+    },
+    "/required_keywords/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current allied-faction table field implements this required keyword member."
+    },
+    "/roles": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current allied-faction table field maps to the repository role filter."
+    },
+    "/roles/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "No current allied-faction table field maps to this role filter member."
+    },
+    "/source_datasheet_ids": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_datasheet.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "allied_faction_datasheet.datasheetId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Slug and resolve allowed datasheet names to authored unit ids."
+        }
+      ],
+      "filters": [
+        "Discard unresolved unit ids.",
+        "When a source faction is derived, retain only its members."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "The explicit datasheet applicability edge is consumed, subject to repository unit resolution."
+    },
+    "/source_datasheet_ids/*": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_datasheet.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "allied_faction_datasheet.datasheetId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Slug one resolved datasheet name."
+        }
+      ],
+      "filters": [
+        "Keep only authored units in the resolved faction scope."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Each member is emitted only after repository unit resolution."
+    },
+    "/source_faction_id": {
+      "provenance": "derived",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "allied_faction_datasheet.alliedFactionId",
+          "direction": "children",
+          "purpose": "applicability"
+        },
+        {
+          "relation": "allied_faction_datasheet.datasheetId",
+          "direction": "parent",
+          "purpose": "applicability"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Intersect resolved authored unit ownership to derive one source faction id."
+        }
+      ],
+      "filters": [
+        "Emit only when every resolved datasheet shares exactly one repository faction."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Source faction is derived from resolved repository unit ownership, not from an MFM ownership relation."
+    },
+    "/source_keywords": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The current extractor does not project an allied source-keyword filter."
+    },
+    "/source_keywords/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The current extractor does not project a source-keyword member."
+    },
+    "/warlord_datasheet_ids": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.allied_faction.requiredWarlordMiniatureId",
+        "data.miniature.datasheetId",
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Resolve eligible miniature datasheets and slug their authored unit ids."
+        }
+      ],
+      "filters": [
+        "Discard unresolved unit ids."
+      ],
+      "precedence": [
+        "The root required-warlord miniature is added before resolution."
+      ],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Eligible-warlord miniatures are projected only when their authored units resolve. The allowed-warlord association table (allied_faction_allowed_warlord_miniature) was emptied by the data_version 895 export, leaving the root required-warlord miniature as the only populated source; the extractor still consumes the table for future snapshots."
+    },
+    "/warlord_datasheet_ids/*": {
+      "provenance": "joined",
+      "coverage": "partial",
+      "sources": [
+        "data.datasheet.localisations.*.name"
+      ],
+      "joins": [
+        {
+          "relation": "miniature.datasheetId",
+          "direction": "parent",
+          "purpose": "general"
+        }
+      ],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Slug one resolved eligible warlord datasheet."
+        }
+      ],
+      "filters": [
+        "Keep only ids present in authored units."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "Each member is emitted only after miniature and unit resolution."
+    },
+    "/warlord_required_keyword": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [
+        {
+          "symbol": "tools/src/mfm/allies.ts#runAllies",
+          "operation": "Apply the curated overlay warlord keyword requirement."
+        }
+      ],
+      "filters": [
+        "Emit only overlay entries with this requirement."
+      ],
+      "precedence": [],
+      "consumers": [
+        "tools/src/mfm/allies.ts#runAllies"
+      ],
+      "reason": "This host-warlord rule is repository-authored context."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.allied_faction.isMutuallyExclusiveKeywordLimit",
+      "candidate_pointer": "/keyword_limits",
+      "reason": "Structured mutual-exclusivity semantics have no corresponding core field or extractor behavior."
+    },
+    {
+      "source": "data.allied_faction.isSiblingFaction",
+      "candidate_pointer": null,
+      "reason": "Sibling-faction classification has no allied-rule destination."
+    },
+    {
+      "source": "data.allied_faction.replacesRosterFactionKeyword",
+      "candidate_pointer": null,
+      "reason": "Roster faction replacement has no allied-rule destination."
+    },
+    {
+      "source": "data.allied_faction.requiredWarlordMiniatureId",
+      "candidate_pointer": "/warlord_datasheet_ids",
+      "reason": "The candidate relation is not verified; current extraction may use the identifier but cannot document it as a verified join."
+    },
+    {
+      "source": "data.allied_faction_keyword.requiredWarlordMiniatureId",
+      "candidate_pointer": "/warlord_datasheet_ids",
+      "reason": "The candidate relation is not verified and is not projected by the current extractor."
+    },
+    {
+      "source": "data.allied_faction_keyword_slotless_keyword_group.id",
+      "candidate_pointer": null,
+      "reason": "Slotless keyword-group structure has no core allied-rule representation."
+    },
+    {
+      "source": "data.allied_faction_keyword_slotless_keyword_group_donor_keyword.keywordId",
+      "candidate_pointer": null,
+      "reason": "Donor keyword-group semantics are not projected by the current extractor."
+    },
+    {
+      "source": "data.allied_faction_keyword_slotless_keyword_group_receiver_keyword.keywordId",
+      "candidate_pointer": null,
+      "reason": "Receiver keyword-group semantics are not projected by the current extractor."
+    },
+    {
+      "source": "data.allied_faction_parent_faction_keyword.factionKeywordId",
+      "candidate_pointer": "/label",
+      "reason": "Parent factions only supply a fallback label during extraction; no durable core field represents the association."
+    }
+  ]
+}

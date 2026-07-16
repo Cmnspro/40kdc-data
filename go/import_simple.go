@@ -165,7 +165,10 @@ func parseSimple(decoded any) (map[string]any, error) {
 					if key == "battle size" {
 						battleSizeRaw = value
 					} else if key == "detachment" {
-						detachmentRaw = value
+						// Parenthetical suffixes ("(3 Detachment Points)") are
+						// presentation, not part of the name — same strip as
+						// the WTC header.
+						detachmentRaw = stripParenthetical(value)
 					}
 				}
 				continue

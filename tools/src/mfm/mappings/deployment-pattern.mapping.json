@@ -1,0 +1,519 @@
+{
+  "$schema": "../mfm-source-map.schema.json",
+  "entity_schema": "schemas/core/deployment-pattern.schema.json",
+  "mapping_version": 1,
+  "root_tables": [
+    "mission_deployment",
+    "mission_layout",
+    "mission_preset"
+  ],
+  "fields": {
+    "/description": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Deployment-pattern explanatory text is authored in repository data; no structured MFM description field establishes it."
+    },
+    "/game_version": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The deployment-pattern game-version reference is repository context, not a projection of MFM snapshot metadata."
+    },
+    "/game_version/dataslate": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Dataslate labeling is authored repository context; MFM deployment rows do not provide this entity version field."
+    },
+    "/game_version/edition": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Edition labeling is authored repository context; the dump data version is not an implicit edition mapping."
+    },
+    "/id": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.mission_deployment.id",
+        "data.mission_layout.id",
+        "data.mission_preset.id"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM supplies several mission deployment, layout, and preset identifiers, but current repository deployment-pattern slugs are not established as any one of those identities."
+    },
+    "/name": {
+      "provenance": "unresolved-candidate",
+      "coverage": "unimplemented",
+      "sources": [
+        "data.mission_deployment.localisations.*.name",
+        "data.mission_layout.localisations.*.name",
+        "data.mission_preset.localisations.*.name"
+      ],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM supplies labels for deployments, layouts, and presets, but no implemented projection determines which label names a repository deployment pattern."
+    },
+    "/objectives": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM mission deployment records have no objective-marker geometry."
+    },
+    "/objectives/*": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM mission deployment records have no objective-marker coordinates."
+    },
+    "/objectives/*/x": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM mission deployment records have no board-coordinate fields."
+    },
+    "/objectives/*/y": {
+      "provenance": "not-in-mfm",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "MFM mission deployment records have no board-coordinate fields."
+    },
+    "/recommended_terrain_layout_ids": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/data/dataset.ts#recommendedTerrainLayouts"
+      ],
+      "reason": "Repository-authored terrain-layout references are resolved by the dataset; MFM layout-to-deployment association does not establish a terrain-layout entity chain."
+    },
+    "/recommended_terrain_layout_ids/*": {
+      "provenance": "repo-authored",
+      "coverage": "implemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [
+        "tools/src/data/dataset.ts#recommendedTerrainLayouts"
+      ],
+      "reason": "Each terrain-layout reference is repository-authored and resolved by the dataset, not obtained from MFM."
+    },
+    "/source": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "The repository source label is authored metadata; no current projection selects it from MFM mission-pack metadata."
+    },
+    "/territories": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory geometry is repository-authored because MFM has no territory representation."
+    },
+    "/territories/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Each territory is repository-authored board geometry, absent from MFM."
+    },
+    "/territories/*/player": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory side assignment is repository-authored; MFM has no side-specific territory data."
+    },
+    "/territories/*/position": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory origin coordinates are repository-authored board geometry."
+    },
+    "/territories/*/position/x": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory x coordinates are repository-authored board geometry."
+    },
+    "/territories/*/position/y": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory y coordinates are repository-authored board geometry."
+    },
+    "/territories/*/shape": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory shapes are repository-authored geometry; MFM has no territory-shape structure."
+    },
+    "/territories/*/shape/height": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory rectangle height is repository-authored geometry."
+    },
+    "/territories/*/shape/points": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory polygon vertices are repository-authored geometry."
+    },
+    "/territories/*/shape/points/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Each territory polygon vertex is repository-authored geometry."
+    },
+    "/territories/*/shape/points/*/x": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory polygon x coordinates are repository-authored geometry."
+    },
+    "/territories/*/shape/points/*/y": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory polygon y coordinates are repository-authored geometry."
+    },
+    "/territories/*/shape/type": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory shape kind is repository-authored geometry."
+    },
+    "/territories/*/shape/width": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Territory rectangle width is repository-authored geometry."
+    },
+    "/zones": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Deployment-zone geometry is repository-authored because MFM has no zone representation."
+    },
+    "/zones/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Each deployment zone is repository-authored board geometry, absent from MFM."
+    },
+    "/zones/*/color": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone overlay color is repository-authored presentation metadata."
+    },
+    "/zones/*/name": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone labels are repository-authored; MFM mission deployments have no zone labels."
+    },
+    "/zones/*/player": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone side assignment is repository-authored; MFM has no side-specific zone data."
+    },
+    "/zones/*/position": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone origin coordinates are repository-authored board geometry."
+    },
+    "/zones/*/position/x": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone x coordinates are repository-authored board geometry."
+    },
+    "/zones/*/position/y": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone y coordinates are repository-authored board geometry."
+    },
+    "/zones/*/shape": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone shapes are repository-authored geometry; MFM has no zone-shape structure."
+    },
+    "/zones/*/shape/height": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone rectangle height is repository-authored geometry."
+    },
+    "/zones/*/shape/points": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone polygon vertices are repository-authored geometry."
+    },
+    "/zones/*/shape/points/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Each zone polygon vertex is repository-authored geometry."
+    },
+    "/zones/*/shape/points/*/x": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone polygon x coordinates are repository-authored geometry."
+    },
+    "/zones/*/shape/points/*/y": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone polygon y coordinates are repository-authored geometry."
+    },
+    "/zones/*/shape/type": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone shape kind is repository-authored geometry."
+    },
+    "/zones/*/shape/width": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Zone rectangle width is repository-authored geometry."
+    }
+  },
+  "unmapped_mfm_fields": [
+    {
+      "source": "data.mission_layout_linked_deployment.missionDeploymentId",
+      "candidate_pointer": "/recommended_terrain_layout_ids",
+      "reason": "This association links MFM mission layouts and deployments, not repository terrain-layout entities; no layout-to-terrain chain is established."
+    },
+    {
+      "source": "data.mission_layout_linked_deployment.missionLayoutId",
+      "candidate_pointer": "/recommended_terrain_layout_ids",
+      "reason": "This association identifies an MFM mission layout, not a repository terrain-layout entity; it cannot source terrain recommendations."
+    },
+    {
+      "source": "data.mission_preset.missionDeploymentId",
+      "candidate_pointer": "/id",
+      "reason": "A preset's deployment selection is a candidate association only; no projection establishes repository deployment-pattern identity."
+    },
+    {
+      "source": "data.mission_preset.missionLayoutId",
+      "candidate_pointer": "/id",
+      "reason": "A preset's layout selection is a candidate association only; no projection establishes repository deployment-pattern identity."
+    }
+  ]
+}

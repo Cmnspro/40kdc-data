@@ -90,6 +90,14 @@ static RE_CHARACTER_ROLE: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"(?i)\(\s*Character\s*\)").unwrap());
 static RE_WITH_LINE: Lazy<Regex> = Lazy::new(|| Regex::new(r"(?m)^[\t ]*\d+\s+with\b").unwrap());
 static RE_BULLET_ANYWHERE: Lazy<Regex> = Lazy::new(|| Regex::new(r"(?m)^[\t ]*[•◦]").unwrap());
+static RE_DETACHMENT_POINTS_SUFFIX: Lazy<Regex> =
+    Lazy::new(|| Regex::new(r"(?i)\s*\(\d+\s+Detachment Points?\)\s*$").unwrap());
+
+/// Drop the GW app's "(N Detachment Points)" cost suffix from a detachment
+/// preamble line — presentation, not part of the name.
+fn strip_detachment_points_suffix(line: &str) -> String {
+    RE_DETACHMENT_POINTS_SUFFIX.replace(line, "").to_string()
+}
 
 /// Battle-size labels that look like unit headers (`Strike Force (2,000 Points)`)
 /// but are army metadata, not datasheets.
@@ -516,10 +524,14 @@ impl FormatAdapter for GwHeaderlessAdapter {
             } else if current.is_none() && units.is_empty() {
                 // Preamble after the title, before the first unit: faction then
                 // detachment. Names are resolved (and warned on miss) downstream.
+                // The GW app (v2.0.4+) suffixes the detachment line with its cost
+                // — "Awakened Dynasty (3 Detachment Points)" — which is
+                // presentation, not part of the name; strip it so resolution
+                // sees the bare name.
                 if faction_raw_name.is_none() {
                     faction_raw_name = Some(line.to_string());
                 } else if detachment_raw_names.is_empty() {
-                    detachment_raw_names.push(line.to_string());
+                    detachment_raw_names.push(strip_detachment_points_suffix(line));
                 }
             }
         }

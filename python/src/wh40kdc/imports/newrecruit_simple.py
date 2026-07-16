@@ -29,7 +29,11 @@ import re
 from typing import Any
 
 from wh40kdc.imports.adapter import FormatAdapter
-from wh40kdc.imports.newrecruit_text import classify_wargear_list, split_wargear_list
+from wh40kdc.imports.newrecruit_text import (
+    classify_wargear_list,
+    split_wargear_list,
+    strip_parenthetical,
+)
 
 # Point brackets may carry comma-separated faction resources after the pts
 # figure (e.g. `[4485pts, 29Cabal Points]`); the tail is recognized and
@@ -202,7 +206,10 @@ def _parse(decoded: Any) -> dict[str, Any]:
                     if key == "battle size":
                         battle_size_raw = value
                     elif key == "detachment":
-                        detachment_raw_name = value
+                        # Parenthetical suffixes ("(3 Detachment Points)") are
+                        # presentation, not part of the detachment name — same
+                        # strip as the WTC header.
+                        detachment_raw_name = strip_parenthetical(value)
                 continue
 
         # Unit section. A bullet line extends the *current* unit.

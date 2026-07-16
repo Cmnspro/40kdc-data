@@ -231,7 +231,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "exclusion_keywords": [
+      "Monster"
+    ]
   },
   {
     "id": "instinctive-defence-assimilation-swarm",
@@ -576,8 +579,8 @@
     "max_targets": 1
   },
   {
-    "id": "encircling-horrors-ambush-predators",
-    "name": "Encircling Horrors",
+    "id": "encircling-horrors-upgrade-ambush-predators",
+    "name": "Encircling Horrors (Upgrade)",
     "detachment_id": "ambush-predators",
     "cost": 20,
     "keyword_restrictions": [
@@ -591,11 +594,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "cryptophotaic-camouflage-ambush-predators",
-    "name": "Cryptophotaic Camouflage",
+    "id": "cryptophotaic-camouflage-upgrade-ambush-predators",
+    "name": "Cryptophotaic Camouflage (Upgrade)",
     "detachment_id": "ambush-predators",
     "cost": 15,
     "keyword_restrictions": [
@@ -609,11 +612,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "destabilising-predation-talons-of-the-norn-queen",
-    "name": "Destabilising Predation",
+    "id": "destabilising-predation-upgrade-talons-of-the-norn-queen",
+    "name": "Destabilising Predation (Upgrade)",
     "detachment_id": "talons-of-the-norn-queen",
     "cost": 20,
     "keyword_restrictions": [
@@ -627,11 +630,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "synaptoprescience-talons-of-the-norn-queen",
-    "name": "Synaptoprescience",
+    "id": "synaptoprescience-upgrade-talons-of-the-norn-queen",
+    "name": "Synaptoprescience (Upgrade)",
     "detachment_id": "talons-of-the-norn-queen",
     "cost": 25,
     "keyword_restrictions": [
@@ -645,7 +648,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "adapted-organism-the-vardenghast-swarm",
@@ -660,7 +663,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Vardenghast Swarm",
+      "Winged Tyranid Prime"
+    ]
   },
   {
     "id": "psychoclastic-overload-the-vardenghast-swarm",
@@ -675,6 +682,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Psychophage",
+      "Vardenghast Swarm"
+    ],
+    "upgrade_tag": true
   }
 ]

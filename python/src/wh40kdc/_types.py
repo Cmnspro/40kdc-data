@@ -591,6 +591,7 @@ class WargearBudget(TypedDict):
     items: list[EntityId]
     count: int
     per_models: int
+    duplicate_limit: NotRequired[int]
 
 
 class TransportCapacity(TypedDict):

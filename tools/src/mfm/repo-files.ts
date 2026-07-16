@@ -1,0 +1,16 @@
+import { existsSync, readFileSync } from "node:fs";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
+export const REPO_ROOT = path.resolve(currentDirectory, "../../..");
+export const CORE_DIR = path.join(REPO_ROOT, "data", "core");
+export const ENRICHMENT_DIR = path.join(REPO_ROOT, "data", "enrichment");
+
+/** Read an optional repository JSON-array file; malformed JSON still propagates. */
+export function readJsonArray<T>(filePath: string): T[] {
+  if (!existsSync(filePath)) return [];
+  const parsed: unknown = JSON.parse(readFileSync(filePath, "utf8"));
+  if (!Array.isArray(parsed)) throw new Error(`Expected a JSON array in ${filePath}`);
+  return parsed;
+}

@@ -55,7 +55,7 @@
   },
   {
     "id": "priority-drop-beacon-bridgehead-strike",
-    "name": "Priority-drop Beacon",
+    "name": "Priority Drop Beacon",
     "detachment_id": "bridgehead-strike",
     "cost": 25,
     "keyword_restrictions": [
@@ -486,8 +486,8 @@
     "max_targets": 1
   },
   {
-    "id": "exemplar-of-duty-abhuman-auxiliaries",
-    "name": "Exemplar of Duty",
+    "id": "exemplar-of-duty-upgrade-abhuman-auxiliaries",
+    "name": "Exemplar of Duty (Upgrade)",
     "detachment_id": "abhuman-auxiliaries",
     "cost": 10,
     "keyword_restrictions": [
@@ -501,11 +501,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "long-range-scout-designation-force",
-    "name": "Long-range Scout",
+    "id": "long-range-scout-upgrade-designation-force",
+    "name": "Long-range Scout (Upgrade)",
     "detachment_id": "designation-force",
     "cost": 10,
     "keyword_restrictions": [
@@ -519,11 +519,11 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
-    "id": "recon-star-designation-force",
-    "name": "Recon Star",
+    "id": "recon-star-upgrade-designation-force",
+    "name": "Recon Star (Upgrade)",
     "detachment_id": "designation-force",
     "cost": 10,
     "keyword_restrictions": [
@@ -537,7 +537,7 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 1
+    "max_targets": 3
   },
   {
     "id": "battalion-commander-steel-hammer",
@@ -648,8 +648,8 @@
     "max_targets": 1
   },
   {
-    "id": "omnissian-unguents-armoured-infantry",
-    "name": "Omnissian Unguents",
+    "id": "omnissian-unguents-aura-armoured-infantry",
+    "name": "Omnissian Unguents (Aura)",
     "detachment_id": "armoured-infantry",
     "cost": 35,
     "keyword_restrictions": [
@@ -696,7 +696,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Drayden's Lance",
+      "Officer"
+    ]
   },
   {
     "id": "draydens-drill-draydens-lance",
@@ -711,6 +715,11 @@
     "game_modes": [
       "combat-patrol"
     ],
-    "points_provisional": false
+    "points_provisional": false,
+    "keyword_restrictions": [
+      "Drayden's Lance",
+      "Kasrkin"
+    ],
+    "upgrade_tag": true
   }
 ]
