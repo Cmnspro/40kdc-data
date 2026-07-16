@@ -608,7 +608,13 @@ function miniScopedSingleCaps(
       }
     }
     if (minRatio == null) continue;
-    const perN = Math.ceil(1 / minRatio);
+    // Only an exactly-expressible "1 per N" ratio becomes a per-option cap:
+    // `per_n_models` computes floor(models / N), so a k-per-N row with k > 1
+    // (e.g. Plague Marines' "2 per 5" → 1/ratio = 2.5) has no faithful N —
+    // rounding up under-caps (3 at 10 models instead of 4) and flags legal
+    // squads. Those stay loose (any_number); under-enforcing beats false-illegal.
+    const perN = 1 / minRatio;
+    if (!Number.isInteger(perN)) continue;
     const [id] = [...itemIds];
     const key = `${s.miniatureId}::${id}`;
     out.set(key, Math.min(out.get(key) ?? Infinity, perN));
@@ -954,6 +960,18 @@ export function deriveWargear(
   const multiModel = dumpComposition(dump, datasheetId).length > 1;
   const miniCaps = miniScopedSingleCaps(dump, datasheetId, resolve);
   const swapInputTypes = swapInputTypesByMiniWeapon(dump, datasheetId, resolve);
+
+  // Flat limited-set allowances: when a swap's granted weapons are all covered
+  // by flat budgets, the option's own model cap is the summed allowance (e.g.
+  // Battle Sisters' TWO "1 model's boltgun can be replaced" rules collapse into
+  // one dump menu — the flat budget carries the real total of 2, and a checkbox
+  // cap of 1 would over-tighten the replaced weapon's floor).
+  const flatBudgetCap = new Map<string, { key: string; count: number }>();
+  limitedSetBudgets(dump, datasheetId, resolve).forEach((b, i) => {
+    if (b.per_models !== 0) return;
+    for (const id of b.items) flatBudgetCap.set(id, { key: `b${i}`, count: b.count });
+  });
+
   const options: DerivedOption[] = [];
 
   for (const set of (sets ?? []).slice().sort((a, b) => a.id.localeCompare(b.id))) {
@@ -1001,9 +1019,27 @@ export function deriveWargear(
     // `replaces` and `replacement` side (which would make a fixed base weapon
     // look swappable and corrupt its bounds). Branches that remove the same set
     // are grouped into one option's `replacement_choice`.
+    const setLimit = Math.max(1, set.limit ?? 1);
+    const allowDup = set.allowDuplicates === true;
     const fullBase = base ?? branches[0];
     const scope = new Set<string>(branches.flat());
-    const baseSet = fullBase.filter((id) => scope.has(id));
+    let baseSet = fullBase.filter((id) => scope.has(id));
+    // A duplicates-allowed multi-pick set is a per-SLOT menu taken `limit`
+    // times (Wraithlord: "each of this model's [2] shuriken catapults can be
+    // replaced…" ships as choices [catapult]/[flamer] with limit 2). Each
+    // branch describes ONE pick, so the delta base is one pick's slice of the
+    // base — dividing the base counts by the pick limit (2 catapults / 2 picks
+    // = 1 per pick). Pure-addition sets (seeker missiles, battlesuit mounts)
+    // have an empty in-scope base and are unaffected.
+    if (allowDup && setLimit > 1 && baseSet.length > 0) {
+      const counts = new Map<string, number>();
+      for (const id of baseSet) counts.set(id, (counts.get(id) ?? 0) + 1);
+      const perPick: string[] = [];
+      for (const [id, n] of counts) {
+        for (let i = 0; i < Math.floor(n / setLimit); i++) perPick.push(id);
+      }
+      baseSet = perPick;
+    }
     const groups = new Map<string, { removed: string[]; added: string[][] }>();
     const seenAdded = new Set<string>();
     for (const b of branches) {
@@ -1023,39 +1059,100 @@ export function deriveWargear(
 
     for (const { removed, added } of groups.values()) {
       if (added.length === 0) continue;
-      // The model_constraint caps how many MODELS may take this swap. Squad caps on
-      // the *weapons* it grants are enforced by `wargear_budgets` (shared, flat, and
-      // datasheet-wide single-weapon sets), so an option whose granted weapons are
-      // budgeted or uncapped stays `any_number` (the swap itself is per-model — this
-      // is what lets a base weapon drop to 0). The only caps applied per-option are
-      // the mini-scoped single-weapon sets (not budgets): take the binding ratio over
-      // the weapons this option actually grants.
-      const mc: ModelConstraint = {};
-      if (mini && multiModel) mc.model_name = mini;
-      let perN: number | null = null;
-      if (set.miniatureId) {
+      const baseConstraint = (): ModelConstraint => {
+        const mc: ModelConstraint = {};
+        if (mini && multiModel) mc.model_name = mini;
+        return mc;
+      };
+      const pushOption = (mc: ModelConstraint, branches_: string[][]) => {
+        const opt: DerivedOption = {
+          model_constraint: Object.keys(mc).length ? mc : null,
+        };
+        if (removed.length > 0) opt.replaces = removed;
+        if (branches_.length === 1) opt.replacement = branches_[0];
+        else opt.replacement_choice = branches_;
+        options.push(opt);
+      };
+
+      // Multi-pick sets (`limit > 1`): the set's limit IS the cap the app
+      // enforces (the MFM checkbox-cap principle, generalized).
+      if (setLimit > 1 && allowDup) {
+        // "up to N of the following, and can take duplicates" — each pick may
+        // repeat, so the option is per-model multi-take: `any_number` with
+        // `max_count = limit` (the checker caps at model_count × max_count).
+        const mc = baseConstraint();
+        mc.any_number = true;
+        mc.max_count = setLimit;
+        pushOption(mc, added);
+        continue;
+      }
+      if (setLimit > 1 && !allowDup) {
+        // "up to N of the following" without duplicates — the picks are
+        // DIFFERENT items (a Battlewagon takes the wreckin' ball AND the
+        // grabbin' klaw), so each branch is its own once-only option rather
+        // than one one-of-N choice.
         for (const branch of added) {
+          const mc = baseConstraint();
+          mc.max_count = 1;
+          pushOption(mc, [branch]);
+        }
+        continue;
+      }
+
+      // Single-pick sets: the model_constraint caps how many MODELS may take
+      // this swap. Squad caps on the *weapons* it grants are enforced by
+      // `wargear_budgets` (shared and datasheet-wide single-weapon sets), so an
+      // option whose granted weapons are ratio-budgeted or uncapped stays
+      // `any_number` (the swap itself is per-model — this is what lets a base
+      // weapon drop to 0). Per-option caps come from, in precedence order:
+      //   1. the mini-scoped single-weapon `wargear_limit` ratio sets — applied
+      //      PER BRANCH, not option-wide: one dump menu can mix a per-5 sniper
+      //      rifle with an any-number combat knife (Scout Squad), and stamping
+      //      the tightest ratio on every branch falsely caps the loose ones;
+      //   2. flat budgets covering every granted weapon of the partition — the
+      //      summed allowance (several GW rules can collapse into one dump
+      //      menu, so the flat budget's total, not a checkbox 1, bounds the
+      //      swaps away);
+      //   3. the checkbox heuristic (a 0/1 toggle caps at one instance).
+      // Branches partition by their own ratio; each partition is its own option.
+      const branchPerN = (branch: string[]): number | null => {
+        let perN: number | null = null;
+        if (set.miniatureId) {
           for (const id of branch) {
             const c = miniCaps.get(`${set.miniatureId}::${id}`);
             if (c != null) perN = perN == null ? c : Math.min(perN, c);
           }
         }
-      }
-      // Precedence: a `wargear_limit` ratio (mini-scoped single set) binds first;
-      // else if the dump offers this swap solely via a checkbox (a 0/1 toggle), the
-      // app caps it at 1 instance unit-wide (Goremongers' blood harpoon); else the
-      // swap is per-model (`any_number`, capped by model count / a shared budget).
-      if (perN != null) mc.per_n_models = perN;
-      else if (set.miniatureId && checkboxCapped(added, set.miniatureId, swapInputTypes)) mc.max_count = 1;
-      else mc.any_number = true;
-
-      const opt: DerivedOption = {
-        model_constraint: Object.keys(mc).length ? mc : null,
+        return perN;
       };
-      if (removed.length > 0) opt.replaces = removed;
-      if (added.length === 1) opt.replacement = added[0];
-      else opt.replacement_choice = added;
-      options.push(opt);
+      const partitions = new Map<number | null, string[][]>();
+      for (const branch of added) {
+        const key = branchPerN(branch);
+        (partitions.get(key) ?? partitions.set(key, []).get(key)!).push(branch);
+      }
+      for (const [perN, partBranches] of partitions) {
+        const mc = baseConstraint();
+        const grantedIds = partBranches.flat();
+        const flatCovered =
+          removed.length > 0 &&
+          grantedIds.length > 0 &&
+          grantedIds.every((id) => flatBudgetCap.has(id));
+        if (perN != null) {
+          mc.per_n_models = perN;
+        } else if (flatCovered) {
+          const byBudget = new Map<string, number>();
+          for (const id of grantedIds) {
+            const b = flatBudgetCap.get(id)!;
+            byBudget.set(b.key, b.count);
+          }
+          mc.max_count = [...byBudget.values()].reduce((a, c) => a + c, 0);
+        } else if (set.miniatureId && checkboxCapped(partBranches, set.miniatureId, swapInputTypes)) {
+          mc.max_count = 1;
+        } else {
+          mc.any_number = true;
+        }
+        pushOption(mc, partBranches);
+      }
     }
   }
 

@@ -231,16 +231,8 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "wreckin-ball"
-      ],
-      [
-        "ard-case"
-      ],
-      [
-        "grabbin-klaw"
-      ]
+    "replacement": [
+      "wreckin-ball"
     ],
     "model_constraint": {
       "max_count": 1
@@ -256,7 +248,7 @@
     },
     "is_free": true,
     "replacement": [
-      "lobba"
+      "ard-case"
     ],
     "model_constraint": {
       "max_count": 1
@@ -272,14 +264,47 @@
     },
     "is_free": true,
     "replacement": [
-      "big-shoota"
+      "grabbin-klaw"
     ],
     "model_constraint": {
-      "any_number": true
+      "max_count": 1
     }
   },
   {
     "id": "battlewagon-wgo-mfm-4",
+    "unit_id": "battlewagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "lobba"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-5",
+    "unit_id": "battlewagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "big-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true,
+      "max_count": 4
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-6",
     "unit_id": "battlewagon",
     "faction_id": "orks",
     "game_version": {
@@ -303,7 +328,7 @@
     }
   },
   {
-    "id": "battlewagon-wgo-mfm-5",
+    "id": "battlewagon-wgo-mfm-7",
     "unit_id": "battlewagon",
     "faction_id": "orks",
     "game_version": {
@@ -652,12 +677,6 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "big-shoota",
-      "big-shoota",
-      "dread-klaw",
-      "dread-klaw"
-    ],
     "replacement_choice": [
       [
         "kustom-mega-blasta"
@@ -666,11 +685,18 @@
         "skorcha"
       ],
       [
+        "dread-klaw"
+      ],
+      [
         "rokkit-launcha-deff-dread"
+      ],
+      [
+        "big-shoota"
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 4
     }
   },
   {

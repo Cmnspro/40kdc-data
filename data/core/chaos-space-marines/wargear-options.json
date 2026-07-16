@@ -549,10 +549,27 @@
     "replaces": [
       "astartes-chainsword"
     ],
+    "replacement": [
+      "mutations"
+    ],
+    "model_constraint": {
+      "model_name": "Raptor",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "raptors-wgo-mfm-3",
+    "unit_id": "raptors",
+    "faction_id": "chaos-space-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astartes-chainsword"
+    ],
     "replacement_choice": [
-      [
-        "mutations"
-      ],
       [
         "close-combat-weapon",
         "flamer"
@@ -571,11 +588,11 @@
     ],
     "model_constraint": {
       "model_name": "Raptor",
-      "per_n_models": 3
+      "any_number": true
     }
   },
   {
-    "id": "raptors-wgo-mfm-3",
+    "id": "raptors-wgo-mfm-4",
     "unit_id": "raptors",
     "faction_id": "chaos-space-marines",
     "game_version": {
@@ -591,11 +608,11 @@
     ],
     "model_constraint": {
       "model_name": "Raptor",
-      "per_n_models": 3
+      "any_number": true
     }
   },
   {
-    "id": "raptors-wgo-mfm-4",
+    "id": "raptors-wgo-mfm-5",
     "unit_id": "raptors",
     "faction_id": "chaos-space-marines",
     "game_version": {
@@ -1193,7 +1210,7 @@
     ],
     "model_constraint": {
       "model_name": "Traitor Guardsmen",
-      "any_number": true
+      "max_count": 3
     }
   },
   {
@@ -1863,7 +1880,7 @@
     ],
     "model_constraint": {
       "model_name": "Chaos Biker",
-      "any_number": true
+      "max_count": 2
     }
   },
   {
@@ -1973,7 +1990,7 @@
     ],
     "model_constraint": {
       "model_name": "Fellgor Beastmen",
-      "max_count": 1
+      "max_count": 2
     }
   },
   {

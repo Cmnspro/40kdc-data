@@ -48,20 +48,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "shield-drone"
-      ],
-      [
-        "gun-drone"
-      ],
-      [
-        "marker-drone"
-      ]
+    "replacement": [
+      "shield-drone"
     ],
     "model_constraint": {
       "model_name": "Crisis Fireknife Shas’ui",
-      "any_number": true
+      "max_count": 1
     }
   },
   {
@@ -73,16 +65,42 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "gun-drone"
-      ],
-      [
-        "shield-drone"
-      ],
-      [
-        "marker-drone"
-      ]
+    "replacement": [
+      "gun-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Fireknife Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-5",
+    "unit_id": "crisis-fireknife-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "marker-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Fireknife Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-6",
+    "unit_id": "crisis-fireknife-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "gun-drone"
     ],
     "model_constraint": {
       "model_name": "Crisis Fireknife Shas’vre",
@@ -90,7 +108,41 @@
     }
   },
   {
-    "id": "crisis-fireknife-battlesuits-wgo-mfm-5",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-7",
+    "unit_id": "crisis-fireknife-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "shield-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Fireknife Shas’vre",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-8",
+    "unit_id": "crisis-fireknife-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "marker-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Fireknife Shas’vre",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-9",
     "unit_id": "crisis-fireknife-battlesuits",
     "faction_id": "tau-empire",
     "game_version": {
@@ -110,7 +162,7 @@
     }
   },
   {
-    "id": "crisis-fireknife-battlesuits-wgo-mfm-6",
+    "id": "crisis-fireknife-battlesuits-wgo-mfm-10",
     "unit_id": "crisis-fireknife-battlesuits",
     "faction_id": "tau-empire",
     "game_version": {
@@ -142,7 +194,8 @@
       "seeker-missile"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -215,7 +268,7 @@
     ],
     "model_constraint": {
       "model_name": "Stealth Shas’vre",
-      "max_count": 1
+      "max_count": 2
     }
   },
   {
@@ -235,7 +288,7 @@
     ],
     "model_constraint": {
       "model_name": "Stealth Shas’ui",
-      "any_number": true
+      "max_count": 2
     }
   },
   {
@@ -261,7 +314,8 @@
     ],
     "model_constraint": {
       "model_name": "Stealth Shas’vre",
-      "max_count": 1
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -357,6 +411,28 @@
     }
   },
   {
+    "id": "taunar-supremacy-armour-wgo-mfm-2",
+    "unit_id": "taunar-supremacy-armour",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "tri-axis-ion-cannon"
+      ],
+      [
+        "fusion-eradicator"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true,
+      "max_count": 2
+    }
+  },
+  {
     "id": "pathfinder-team-wgo-mfm-1",
     "unit_id": "pathfinder-team",
     "faction_id": "tau-empire",
@@ -378,7 +454,8 @@
     ],
     "model_constraint": {
       "model_name": "Pathfinder Shas’ui",
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -403,7 +480,7 @@
     ],
     "model_constraint": {
       "model_name": "Pathfinder",
-      "any_number": true
+      "max_count": 3
     }
   },
   {
@@ -490,7 +567,8 @@
     ],
     "model_constraint": {
       "model_name": "Fire Warrior Shas’ui",
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -522,16 +600,8 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "gun-drone"
-      ],
-      [
-        "marker-drone"
-      ],
-      [
-        "shield-drone"
-      ]
+    "replacement": [
+      "gun-drone"
     ],
     "model_constraint": {
       "model_name": "Crisis Starscythe Shas’vre",
@@ -547,15 +617,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "burst-cannon"
-    ],
     "replacement": [
-      "tau-flamer"
+      "marker-drone"
     ],
     "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
+      "model_name": "Crisis Starscythe Shas’vre",
+      "max_count": 1
     }
   },
   {
@@ -567,15 +634,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "tau-flamer"
-    ],
     "replacement": [
-      "burst-cannon"
+      "shield-drone"
     ],
     "model_constraint": {
-      "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
+      "model_name": "Crisis Starscythe Shas’vre",
+      "max_count": 1
     }
   },
   {
@@ -594,12 +658,52 @@
       "tau-flamer"
     ],
     "model_constraint": {
+      "model_name": "Crisis Starscythe Shas’ui",
+      "any_number": true
+    }
+  },
+  {
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-5",
+    "unit_id": "crisis-starscythe-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "tau-flamer"
+    ],
+    "replacement": [
+      "burst-cannon"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Starscythe Shas’ui",
+      "any_number": true
+    }
+  },
+  {
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-6",
+    "unit_id": "crisis-starscythe-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "burst-cannon"
+    ],
+    "replacement": [
+      "tau-flamer"
+    ],
+    "model_constraint": {
       "model_name": "Crisis Starscythe Shas’vre",
       "max_count": 1
     }
   },
   {
-    "id": "crisis-starscythe-battlesuits-wgo-mfm-5",
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-7",
     "unit_id": "crisis-starscythe-battlesuits",
     "faction_id": "tau-empire",
     "game_version": {
@@ -619,7 +723,7 @@
     }
   },
   {
-    "id": "crisis-starscythe-battlesuits-wgo-mfm-6",
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-8",
     "unit_id": "crisis-starscythe-battlesuits",
     "faction_id": "tau-empire",
     "game_version": {
@@ -627,20 +731,46 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "gun-drone"
-      ],
-      [
-        "shield-drone"
-      ],
-      [
-        "marker-drone"
-      ]
+    "replacement": [
+      "gun-drone"
     ],
     "model_constraint": {
       "model_name": "Crisis Starscythe Shas’ui",
-      "any_number": true
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-9",
+    "unit_id": "crisis-starscythe-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "shield-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Starscythe Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-starscythe-battlesuits-wgo-mfm-10",
+    "unit_id": "crisis-starscythe-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "marker-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Starscythe Shas’ui",
+      "max_count": 1
     }
   },
   {
@@ -683,7 +813,8 @@
       "seeker-missile"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 6
     }
   },
   {
@@ -752,7 +883,8 @@
     ],
     "model_constraint": {
       "model_name": "Breacher Fire Warrior Shas’ui",
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -819,7 +951,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -977,7 +1110,8 @@
       "seeker-missile"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 6
     }
   },
   {
@@ -1121,7 +1255,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1166,7 +1301,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 3
     }
   },
   {
@@ -1209,7 +1345,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1252,7 +1389,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1370,7 +1508,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1382,10 +1521,10 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "burst-cannon-commander-in-enforcer-battlesuit"
-    ],
     "replacement_choice": [
+      [
+        "burst-cannon-commander-in-enforcer-battlesuit"
+      ],
       [
         "tau-flamer"
       ],
@@ -1415,7 +1554,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 3
     }
   },
   {
@@ -1484,7 +1624,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1519,7 +1660,8 @@
       "seeker-missile"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1602,7 +1744,8 @@
       "seeker-missile"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1614,20 +1757,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "shield-drone"
-      ],
-      [
-        "gun-drone"
-      ],
-      [
-        "marker-drone"
-      ]
+    "replacement": [
+      "shield-drone"
     ],
     "model_constraint": {
       "model_name": "Crisis Sunforge Shas’vre",
-      "any_number": true
+      "max_count": 1
     }
   },
   {
@@ -1639,20 +1774,80 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "marker-drone"
-      ],
-      [
-        "shield-drone"
-      ],
-      [
-        "gun-drone"
-      ]
+    "replacement": [
+      "gun-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Sunforge Shas’vre",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-sunforge-battlesuits-wgo-mfm-3",
+    "unit_id": "crisis-sunforge-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "marker-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Sunforge Shas’vre",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-sunforge-battlesuits-wgo-mfm-4",
+    "unit_id": "crisis-sunforge-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "marker-drone"
     ],
     "model_constraint": {
       "model_name": "Crisis Sunforge Shas’ui",
-      "any_number": true
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-sunforge-battlesuits-wgo-mfm-5",
+    "unit_id": "crisis-sunforge-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "shield-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Sunforge Shas’ui",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "crisis-sunforge-battlesuits-wgo-mfm-6",
+    "unit_id": "crisis-sunforge-battlesuits",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "gun-drone"
+    ],
+    "model_constraint": {
+      "model_name": "Crisis Sunforge Shas’ui",
+      "max_count": 1
     }
   },
   {

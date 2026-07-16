@@ -170,16 +170,11 @@
     "replaces": [
       "heavy-bolt-pistol"
     ],
-    "replacement_choice": [
-      [
-        "pyre-pistol"
-      ],
-      [
-        "plasma-pistol-sword-brethren-squad"
-      ]
+    "replacement": [
+      "pyre-pistol"
     ],
     "model_constraint": {
-      "per_n_models": 3
+      "any_number": true
     }
   },
   {
@@ -192,15 +187,10 @@
     },
     "is_free": true,
     "replaces": [
-      "astartes-chainsword"
+      "heavy-bolt-pistol"
     ],
-    "replacement_choice": [
-      [
-        "thunder-hammer"
-      ],
-      [
-        "master-crafted-power-weapon-sword-brethren-squad"
-      ]
+    "replacement": [
+      "plasma-pistol-sword-brethren-squad"
     ],
     "model_constraint": {
       "per_n_models": 5
@@ -208,6 +198,44 @@
   },
   {
     "id": "sword-brethren-squad-wgo-mfm-3",
+    "unit_id": "sword-brethren-squad",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astartes-chainsword"
+    ],
+    "replacement": [
+      "thunder-hammer"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "sword-brethren-squad-wgo-mfm-4",
+    "unit_id": "sword-brethren-squad",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astartes-chainsword"
+    ],
+    "replacement": [
+      "master-crafted-power-weapon-sword-brethren-squad"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "sword-brethren-squad-wgo-mfm-5",
     "unit_id": "sword-brethren-squad",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -812,10 +840,26 @@
     "replaces": [
       "astartes-chainsword-death-company-marines"
     ],
+    "replacement": [
+      "eviscerator"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "death-company-marines-wgo-mfm-2",
+    "unit_id": "death-company-marines",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astartes-chainsword-death-company-marines"
+    ],
     "replacement_choice": [
-      [
-        "eviscerator"
-      ],
       [
         "thunder-hammer-death-company-marines"
       ],
@@ -827,11 +871,11 @@
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
+      "max_count": 1
     }
   },
   {
-    "id": "death-company-marines-wgo-mfm-2",
+    "id": "death-company-marines-wgo-mfm-3",
     "unit_id": "death-company-marines",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -1170,36 +1214,12 @@
         "eviscerator"
       ],
       [
-        "power-fist",
-        "inferno-pistol"
-      ],
-      [
-        "power-weapon",
-        "inferno-pistol"
-      ],
-      [
-        "hand-flamer",
-        "power-weapon"
-      ],
-      [
         "eviscerator",
         "plasma-pistol-death-company-marines-with-jump-packs"
       ],
       [
         "hand-flamer",
         "eviscerator"
-      ],
-      [
-        "plasma-pistol-death-company-marines-with-jump-packs",
-        "power-fist"
-      ],
-      [
-        "power-fist",
-        "hand-flamer"
-      ],
-      [
-        "power-weapon",
-        "plasma-pistol-death-company-marines-with-jump-packs"
       ]
     ],
     "model_constraint": {
@@ -1216,6 +1236,49 @@
     },
     "is_free": true,
     "replaces": [
+      "heavy-bolt-pistol",
+      "astartes-chainsword-death-company-marines-with-jump-packs"
+    ],
+    "replacement_choice": [
+      [
+        "power-fist",
+        "inferno-pistol"
+      ],
+      [
+        "power-weapon",
+        "inferno-pistol"
+      ],
+      [
+        "hand-flamer",
+        "power-weapon"
+      ],
+      [
+        "plasma-pistol-death-company-marines-with-jump-packs",
+        "power-fist"
+      ],
+      [
+        "power-fist",
+        "hand-flamer"
+      ],
+      [
+        "power-weapon",
+        "plasma-pistol-death-company-marines-with-jump-packs"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "death-company-marines-with-jump-packs-wgo-mfm-4",
+    "unit_id": "death-company-marines-with-jump-packs",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
       "astartes-chainsword-death-company-marines-with-jump-packs"
     ],
     "replacement_choice": [
@@ -1224,10 +1287,26 @@
       ],
       [
         "power-fist"
-      ],
-      [
-        "eviscerator"
       ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "death-company-marines-with-jump-packs-wgo-mfm-5",
+    "unit_id": "death-company-marines-with-jump-packs",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astartes-chainsword-death-company-marines-with-jump-packs"
+    ],
+    "replacement": [
+      "eviscerator"
     ],
     "model_constraint": {
       "per_n_models": 5
@@ -2238,7 +2317,7 @@
     ],
     "model_constraint": {
       "model_name": "Deathwatch Terminator",
-      "any_number": true
+      "max_count": 3
     }
   },
   {
@@ -3239,7 +3318,7 @@
     ],
     "model_constraint": {
       "model_name": "Devastator",
-      "any_number": true
+      "max_count": 4
     }
   },
   {
@@ -3563,9 +3642,6 @@
         "combat-knife-scout-squad"
       ],
       [
-        "scout-sniper-rifle"
-      ],
-      [
         "heavy-bolter-scout-squad"
       ],
       [
@@ -3574,11 +3650,31 @@
     ],
     "model_constraint": {
       "model_name": "Scout",
-      "per_n_models": 5
+      "any_number": true
     }
   },
   {
     "id": "scout-squad-wgo-mfm-2",
+    "unit_id": "scout-squad",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement": [
+      "scout-sniper-rifle"
+    ],
+    "model_constraint": {
+      "model_name": "Scout",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "scout-squad-wgo-mfm-3",
     "unit_id": "scout-squad",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -6236,13 +6332,28 @@
     "replaces": [
       "plasma-pistol-wolf-scouts"
     ],
-    "replacement_choice": [
-      [
-        "plasma-gun"
-      ],
-      [
-        "instigator-bolt-carbine"
-      ]
+    "replacement": [
+      "plasma-gun"
+    ],
+    "model_constraint": {
+      "model_name": "Wolf Scout",
+      "max_count": 1
+    }
+  },
+  {
+    "id": "wolf-scouts-wgo-mfm-2",
+    "unit_id": "wolf-scouts",
+    "faction_id": "adeptus-astartes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "plasma-pistol-wolf-scouts"
+    ],
+    "replacement": [
+      "instigator-bolt-carbine"
     ],
     "model_constraint": {
       "model_name": "Wolf Scout",
@@ -6250,7 +6361,7 @@
     }
   },
   {
-    "id": "wolf-scouts-wgo-mfm-2",
+    "id": "wolf-scouts-wgo-mfm-3",
     "unit_id": "wolf-scouts",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -6267,7 +6378,7 @@
     }
   },
   {
-    "id": "wolf-scouts-wgo-mfm-3",
+    "id": "wolf-scouts-wgo-mfm-4",
     "unit_id": "wolf-scouts",
     "faction_id": "adeptus-astartes",
     "game_version": {

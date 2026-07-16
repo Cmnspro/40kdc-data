@@ -106,14 +106,14 @@
     },
     "is_free": true,
     "replaces": [
-      "shuriken-catapult-wraithlord",
       "shuriken-catapult-wraithlord"
     ],
     "replacement": [
       "flamer"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -143,7 +143,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -239,11 +240,29 @@
         "blaster"
       ],
       [
-        "long-rifle"
-      ],
-      [
         "shuriken-rifle"
       ]
+    ],
+    "model_constraint": {
+      "model_name": "Corsair Voidscarred",
+      "any_number": true
+    }
+  },
+  {
+    "id": "corsair-voidscarred-wgo-mfm-3",
+    "unit_id": "corsair-voidscarred",
+    "faction_id": "aeldari",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "shuriken-pistol",
+      "power-sword"
+    ],
+    "replacement": [
+      "long-rifle"
     ],
     "model_constraint": {
       "model_name": "Corsair Voidscarred",
@@ -251,7 +270,7 @@
     }
   },
   {
-    "id": "corsair-voidscarred-wgo-mfm-3",
+    "id": "corsair-voidscarred-wgo-mfm-4",
     "unit_id": "corsair-voidscarred",
     "faction_id": "aeldari",
     "game_version": {
@@ -271,7 +290,7 @@
     }
   },
   {
-    "id": "corsair-voidscarred-wgo-mfm-4",
+    "id": "corsair-voidscarred-wgo-mfm-5",
     "unit_id": "corsair-voidscarred",
     "faction_id": "aeldari",
     "game_version": {
@@ -434,7 +453,7 @@
     ],
     "model_constraint": {
       "model_name": "Storm Guardian",
-      "any_number": true
+      "max_count": 2
     }
   },
   {
@@ -459,7 +478,7 @@
     ],
     "model_constraint": {
       "model_name": "Storm Guardian",
-      "any_number": true
+      "max_count": 4
     }
   },
   {
@@ -828,7 +847,6 @@
     },
     "is_free": true,
     "replaces": [
-      "shuriken-cannon-war-walkers",
       "shuriken-cannon-war-walkers"
     ],
     "replacement_choice": [
@@ -846,7 +864,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -870,7 +889,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1443,7 +1463,7 @@
     ],
     "model_constraint": {
       "model_name": "Kabalite Warrior",
-      "max_count": 1
+      "max_count": 4
     }
   },
   {
@@ -1524,7 +1544,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {

@@ -122,24 +122,27 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "graviton-pulsar",
-      "volkite-veuglaire"
-    ],
     "replacement_choice": [
       [
         "siege-claw",
         "rad-cleanser"
       ],
       [
+        "volkite-veuglaire"
+      ],
+      [
         "lightning-lock"
       ],
       [
         "conversion-beam-cannon"
+      ],
+      [
+        "graviton-pulsar"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true,
+      "max_count": 2
     }
   },
   {

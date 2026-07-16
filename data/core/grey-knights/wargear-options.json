@@ -311,16 +311,8 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "gatling-psilencer"
-      ],
-      [
-        "heavy-incinerator"
-      ],
-      [
-        "heavy-psycannon"
-      ]
+    "replacement": [
+      "gatling-psilencer"
     ],
     "model_constraint": {
       "max_count": 1
@@ -328,6 +320,38 @@
   },
   {
     "id": "nemesis-dreadknight-wgo-mfm-2",
+    "unit_id": "nemesis-dreadknight",
+    "faction_id": "grey-knights",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "heavy-incinerator"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "nemesis-dreadknight-wgo-mfm-3",
+    "unit_id": "nemesis-dreadknight",
+    "faction_id": "grey-knights",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "heavy-psycannon"
+    ],
+    "model_constraint": {
+      "max_count": 1
+    }
+  },
+  {
+    "id": "nemesis-dreadknight-wgo-mfm-4",
     "unit_id": "nemesis-dreadknight",
     "faction_id": "grey-knights",
     "game_version": {
@@ -556,7 +580,7 @@
     ],
     "model_constraint": {
       "model_name": "Purgator",
-      "any_number": true
+      "max_count": 8
     }
   },
   {

@@ -188,13 +188,7 @@
         "strangleweb"
       ],
       [
-        "termagant-devourer"
-      ],
-      [
         "shardlauncher"
-      ],
-      [
-        "termagant-spinefists"
       ],
       [
         "spike-rifle"
@@ -202,6 +196,30 @@
     ],
     "model_constraint": {
       "per_n_models": 10
+    }
+  },
+  {
+    "id": "termagants-wgo-mfm-2",
+    "unit_id": "termagants",
+    "faction_id": "tyranids",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "fleshborer"
+    ],
+    "replacement_choice": [
+      [
+        "termagant-devourer"
+      ],
+      [
+        "termagant-spinefists"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
     }
   },
   {

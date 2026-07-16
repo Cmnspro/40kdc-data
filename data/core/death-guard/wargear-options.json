@@ -362,6 +362,28 @@
         "plague-spewer"
       ],
       [
+        "blight-launcher"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Plague Marine",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "plague-marines-wgo-mfm-4",
+    "unit_id": "plague-marines",
+    "faction_id": "death-guard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "boltgun"
+    ],
+    "replacement_choice": [
+      [
         "plague-belcher"
       ],
       [
@@ -369,9 +391,6 @@
       ],
       [
         "heavy-plague-weapon"
-      ],
-      [
-        "blight-launcher"
       ],
       [
         "plasma-gun"
@@ -382,7 +401,7 @@
     ],
     "model_constraint": {
       "model_name": "Plague Marine",
-      "per_n_models": 3
+      "any_number": true
     }
   },
   {
@@ -828,14 +847,31 @@
       ],
       [
         "reaper-autocannon"
-      ],
-      [
-        "combi-weapon"
       ]
     ],
     "model_constraint": {
       "model_name": "Blightlord Terminator",
       "per_n_models": 5
+    }
+  },
+  {
+    "id": "blightlord-terminators-wgo-mfm-4",
+    "unit_id": "blightlord-terminators",
+    "faction_id": "death-guard",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "combi-bolter"
+    ],
+    "replacement": [
+      "combi-weapon"
+    ],
+    "model_constraint": {
+      "model_name": "Blightlord Terminator",
+      "any_number": true
     }
   }
 ]
