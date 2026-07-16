@@ -373,6 +373,22 @@ def _unit_lookup_candidates(raw_name: str, faction_id: str | None, ds: Dataset) 
     return deduped
 
 
+def _singular(s: str) -> str:
+    """Singular/plural- and case-insensitive form for model-line matching:
+    :func:`normalize_name` then drop every 's' at a word boundary — exact mirror
+    of the TS ``normalizeName(s).replace(/s\\b/g, "")`` (a boundary is a
+    following non-``\\w`` character or end of string)."""
+    n = normalize_name(s)
+    out = []
+    for i, ch in enumerate(n):
+        nxt = n[i + 1] if i + 1 < len(n) else ""
+        next_is_word = nxt.isascii() and (nxt.isalnum() or nxt == "_")
+        if ch == "s" and not next_is_word:
+            continue
+        out.append(ch)
+    return "".join(out)
+
+
 def _resolve_unit(
     parsed: dict[str, Any],
     faction_id: str | None,
@@ -432,8 +448,44 @@ def _resolve_unit(
     )
     enhancement_points = None if enhancement is None else parsed["enhancement_points"]
 
+    # ── Model-line reclassification ─────────────────────────────────────────
+    # The flat GW dialects print model bullets at the same indent as weapon
+    # bullets, so the parser cannot tell "• 9x Pathfinder" from "• 10x Pulse
+    # carbine" — the model names land in ``wargear`` and ``model_count``
+    # collapses to its 1 fallback. The RESOLVED unit knows its composition row
+    # names — and its own name covers vehicle squadrons ("2x Hippogriff AFV") —
+    # so a wargear entry matching one (singular/plural-insensitive) is a model
+    # line: its count rebuilds the model count and it leaves the wargear bag.
+    # Mirror of the TS reference.
+    model_count = parsed["model_count"]
+    wargear_lines = parsed["wargear"]
+    if hit is not None:
+        model_names = {_singular(hit.name)}
+        for alias in hit.raw.get("aliases") or []:
+            model_names.add(_singular(alias))
+        for m in (ds.unit_composition_of(hit.raw) or {}).get("models") or []:
+            if m.get("name"):
+                model_names.add(_singular(m["name"]))
+        model_lines = [w for w in parsed["wargear"] if _singular(w["raw_name"]) in model_names]
+        model_sum = sum(w["count"] for w in model_lines)
+        if model_sum > 0:
+            wargear_lines = [
+                w for w in parsed["wargear"] if _singular(w["raw_name"]) not in model_names
+            ]
+            # When the reclassified lines cover EVERY composition row name, they
+            # fully enumerate the unit and the parser's count was its synthetic 1
+            # fallback — the sum stands alone. Any uncovered row means the parser
+            # genuinely counted those models (a colon-dialect line) and the flat
+            # lines are the REST of the squad — the counts add. Mirror of TS.
+            rows = (ds.unit_composition_of(hit.raw) or {}).get("models") or []
+            line_names = {_singular(w["raw_name"]) for w in model_lines}
+            covered = all(
+                not m.get("name") or _singular(m["name"]) in line_names for m in rows
+            )
+            model_count = model_sum if covered else model_count + model_sum
+
     wargear = []
-    for w in parsed["wargear"]:
+    for w in wargear_lines:
         # Prefer the resolved unit's own weapon of this name — picks the right
         # per-unit stat variant — falling back to the global lookup only when the
         # unit is unresolved or fields no weapon of that name.
@@ -464,7 +516,7 @@ def _resolve_unit(
 
     result: dict[str, Any] = {
         "ref": ref,
-        "model_count": parsed["model_count"],
+        "model_count": model_count,
         "points": parsed["points"],
         "is_warlord": parsed["is_warlord"],
         "enhancement": enhancement,
@@ -475,7 +527,7 @@ def _resolve_unit(
     # resolved unit, so a re-export reproduces the same grouped lines the exporter
     # emits (round-trip), without the text parsers understanding model-name labels.
     # Omitted (key absent) when it can't decompose exactly, to match the other impls.
-    loadout_groups = _build_loadout_groups(hit, parsed["model_count"], wargear, ds)
+    loadout_groups = _build_loadout_groups(hit, model_count, wargear, ds)
     if loadout_groups is not None:
         result["loadout_groups"] = loadout_groups
     result["leader_attachment"] = None
@@ -493,7 +545,6 @@ def _resolve_unit(
         rows = comp.get("models") or []
         env_min = sum((m.get("min") or 0) for m in rows)
         env_max = sum((m.get("max") or 0) for m in rows)
-        model_count = parsed["model_count"]
         if not rows or env_min <= model_count <= env_max:
             counts: dict[str, int] = {}
             for w in wargear:

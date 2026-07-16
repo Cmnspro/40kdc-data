@@ -20,6 +20,7 @@ from wh40kdc.data.dataset import Dataset
 from wh40kdc.imports.adapter import FormatAdapter, select_adapter
 from wh40kdc.imports.decode import decode_listforge
 from wh40kdc.imports.gw import gw_adapter
+from wh40kdc.imports.gw_headerless import gw_headerless_adapter
 from wh40kdc.imports.listforge import listforge_adapter
 from wh40kdc.imports.listforge_text import listforge_text_adapter
 from wh40kdc.imports.newrecruit_json import newrecruit_json_adapter
@@ -55,7 +56,14 @@ ADAPTERS: tuple[FormatAdapter, ...] = (
     newrecruit_wtc_full_adapter,
     newrecruit_wtc_compact_adapter,
     newrecruit_simple_adapter,
+    # listforge-text requires the `name - faction - detachment (N Points)` first
+    # line none of the others accept; it runs right before the headerless
+    # fallback so its framed header wins when present.
     listforge_text_adapter,
+    # Fallback for bullet-bearing plain text without a summary fence (GW app
+    # export, NewRecruit copy-text, `##` markdown lists). Placed after the
+    # framed text adapters so they win when their headers are present.
+    gw_headerless_adapter,
     listforge_adapter,
 )
 
