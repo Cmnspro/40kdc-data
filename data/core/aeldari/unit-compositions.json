@@ -2493,7 +2493,7 @@
     "faction_id": "aeldari",
     "models": [
       {
-        "name": "Warlock Conclave",
+        "name": "Warlock",
         "min": 2,
         "max": 4,
         "is_leader_model": false,
@@ -2502,8 +2502,8 @@
           "diameter": 32
         },
         "default_weapon_ids": [
-          "shuriken-pistol",
           "destructor",
+          "shuriken-pistol",
           "witchblade"
         ]
       }
@@ -2511,7 +2511,27 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Warlock",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Warlock",
+            "min": 3,
+            "max": 4
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "farseer",

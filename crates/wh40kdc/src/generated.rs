@@ -18900,7 +18900,7 @@ impl<'de> ::serde::Deserialize<'de> for WargearName {
 ///    "model_constraint": {
 ///      "oneOf": [
 ///        {
-///          "description": "Limits how many models may take this option. The eligible-model count is: `any_number` ? model_count : `per_n_models` ? floor(model_count / per_n_models) : (`max_count` ?? 1); then clamped by `max_count` when both are set. `model_name` scopes the option to a specific model profile (e.g. the unit's champion); omit for single-profile units.",
+///          "description": "Limits how many times this option may be taken. The cap is: `any_number` with `max_count: L` ? model_count * L (a per-model multi-take mount — 'up to L of the following, and can take duplicates') : `any_number` ? model_count : `per_n_models` ? floor(model_count / per_n_models) : (`max_count` ?? 1); a `max_count` alongside `per_n_models` clamps it. `model_name` scopes the option to a specific model profile (e.g. the unit's champion); omit for single-profile units.",
 ///          "type": "object",
 ///          "properties": {
 ///            "any_number": {
@@ -18991,13 +18991,13 @@ pub struct WargearOption {
     pub replaces: ::std::vec::Vec<EntityId>,
     pub unit_id: EntityId,
 }
-///Limits how many models may take this option. The eligible-model count is: `any_number` ? model_count : `per_n_models` ? floor(model_count / per_n_models) : (`max_count` ?? 1); then clamped by `max_count` when both are set. `model_name` scopes the option to a specific model profile (e.g. the unit's champion); omit for single-profile units.
+///Limits how many times this option may be taken. The cap is: `any_number` with `max_count: L` ? model_count * L (a per-model multi-take mount — 'up to L of the following, and can take duplicates') : `any_number` ? model_count : `per_n_models` ? floor(model_count / per_n_models) : (`max_count` ?? 1); a `max_count` alongside `per_n_models` clamps it. `model_name` scopes the option to a specific model profile (e.g. the unit's champion); omit for single-profile units.
 ///
 /// <details><summary>JSON schema</summary>
 ///
 /// ```json
 ///{
-///  "description": "Limits how many models may take this option. The eligible-model count is: `any_number` ? model_count : `per_n_models` ? floor(model_count / per_n_models) : (`max_count` ?? 1); then clamped by `max_count` when both are set. `model_name` scopes the option to a specific model profile (e.g. the unit's champion); omit for single-profile units.",
+///  "description": "Limits how many times this option may be taken. The cap is: `any_number` with `max_count: L` ? model_count * L (a per-model multi-take mount — 'up to L of the following, and can take duplicates') : `any_number` ? model_count : `per_n_models` ? floor(model_count / per_n_models) : (`max_count` ?? 1); a `max_count` alongside `per_n_models` clamps it. `model_name` scopes the option to a specific model profile (e.g. the unit's champion); omit for single-profile units.",
 ///  "type": "object",
 ///  "properties": {
 ///    "any_number": {

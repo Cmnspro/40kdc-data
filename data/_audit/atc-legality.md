@@ -12,20 +12,20 @@ is a data or checker bug, not mass cheating.
 - `examples/atc-viewer/src/data/atc-2026.json`: 248 lists (0 without text skipped)
 - `examples/atc-viewer/src/data/atc-5s.json`: 230 lists (2 without text skipped)
 - **Lists**: 478, parse failures: 18
-- **Legality**: 948 violating units across 282 lists
-- **Composition drift**: 38 dataset units
+- **Legality**: 117 violating units across 75 lists
+- **Composition drift**: 37 dataset units
 
 ### Warnings by code
 
 | code | count |
 |---|--:|
-| `weapon-unresolved` | 940 |
-| `loadout-illegal` | 633 |
+| `weapon-unresolved` | 691 |
 | `detachment-unresolved` | 230 |
 | `faction-unresolved` | 210 |
 | `leader-attachment-inferred` | 151 |
 | `unit-unresolved` | 111 |
 | `multi-force` | 52 |
+| `loadout-illegal` | 33 |
 | `battle-size-unmapped` | 8 |
 | `enhancement-unresolved` | 8 |
 | `points-mismatch` | 2 |
@@ -34,118 +34,44 @@ is a data or checker bug, not mass cheating.
 
 | outcome | count |
 |---|--:|
-| `grouped` | 2308 |
+| `grouped` | 2838 |
 | `unit-unresolved` | 111 |
-| `wargear-unresolved` | 689 |
-| `single-model` | 3363 |
-| `no-recorded-defaults` | 12 |
-| `solver-null` | 669 |
+| `wargear-unresolved` | 570 |
+| `single-model` | 3361 |
+| `no-recorded-defaults` | 0 |
+| `solver-null` | 272 |
 
 ## Legality violations (ranked `code:unitId`)
 
 | violation | count |
 |---|--:|
-| `exceeds-max:cultist-mob` | 92 |
-| `exceeds-allowance:pathfinder-team` | 55 |
-| `swap-conflict:cultist-mob` | 46 |
-| `exceeds-max:rogal-dorn-commander` | 42 |
-| `exceeds-max:piranhas` | 36 |
-| `exceeds-allowance:death-company-marines-with-jump-packs` | 35 |
-| `exceeds-max:commander-in-coldstar-battlesuit` | 35 |
-| `exceeds-allowance:legionaries` | 34 |
-| `exceeds-max:attilan-rough-riders` | 32 |
-| `exceeds-max:commander-in-enforcer-battlesuit` | 29 |
+| `below-min:hyperadapted-raveners` | 29 |
 | `exceeds-max:pink-horrors` | 26 |
-| `exceeds-max:scout-squad` | 26 |
-| `exceeds-max:chaos-predator-destructor` | 21 |
-| `swap-conflict:rogal-dorn-commander` | 21 |
-| `swap-conflict:sekhetar-robots` | 21 |
-| `below-min:servitor-battleclade` | 20 |
-| `exceeds-max:hammerhead-gunship` | 20 |
-| `exceeds-allowance:chaos-terminator-squad` | 19 |
-| `exceeds-max:rogal-dorn-battle-tank` | 18 |
-| `below-min:cadian-command-squad` | 17 |
-| `exceeds-allowance:custodian-guard` | 16 |
-| `below-min:death-company-marines-with-jump-packs` | 15 |
-| `exceeds-allowance:boyz` | 15 |
-| `exceeds-allowance:kommandos` | 15 |
-| `exceeds-max:cthonian-beserks` | 15 |
+| `below-min:servitor-battleclade` | 24 |
 | `below-min:tormentors` | 14 |
-| `exceeds-allowance:plague-marines` | 14 |
-| `exceeds-allowance:skitarii-rangers` | 14 |
-| `below-min:acolyte-hybrids-with-autopistols` | 12 |
 | `below-min:company-heroes` | 12 |
-| `exceeds-allowance:battle-sisters-squad` | 12 |
-| `exceeds-max:cadian-shock-troops` | 12 |
-| `below-min:death-korps-of-krieg` | 11 |
-| `exceeds-allowance:paladin-squad` | 11 |
-| `exceeds-max:cadian-command-squad` | 11 |
-| `exceeds-max:sky-ray-gunship` | 11 |
-| `below-min:kabalite-warriors` | 10 |
-| `below-min:militarum-tempestus-command-squad` | 10 |
-| `exceeds-allowance:wolf-guard-terminators` | 10 |
-| `exceeds-max:broadside-battlesuits` | 10 |
 | `exceeds-max:decimus-kill-team` | 10 |
-| `exceeds-max:devilfish` | 10 |
-| `exceeds-max:wraithlord` | 10 |
-| `exceeds-allowance:cadian-shock-troops` | 9 |
-| `swap-conflict:rogal-dorn-battle-tank` | 9 |
-| `below-min:cadian-shock-troops` | 8 |
 | `below-min:imperial-navy-breachers` | 8 |
-| `exceeds-allowance:seraphim-squad` | 8 |
-| `exceeds-allowance:skitarii-vanguard` | 8 |
-| `exceeds-max:armoured-sentinels` | 8 |
 | `exceeds-max:blue-horrors` | 8 |
-| `exceeds-max:raptors` | 8 |
-| `invalid-model-count:pathfinder-team` | 8 |
-| `exceeds-allowance:cadian-recon-squad` | 7 |
-| `exceeds-allowance:chosen` | 7 |
-| `below-min:fellgor-beastmen` | 6 |
-| `below-min:hand-of-the-archon` | 6 |
 | `below-min:indomitor-kill-team` | 6 |
-| `below-min:plague-marines` | 6 |
-| `exceeds-allowance:catachan-jungle-fighters` | 6 |
-| `exceeds-allowance:inquisitorial-agents` | 6 |
-| `exceeds-allowance:purgation-squad` | 6 |
-| `exceeds-allowance:sanguinary-guard` | 6 |
-| `exceeds-allowance:sisters-novitiate-squad` | 6 |
-| `exceeds-allowance:sisters-of-battle-squad` | 6 |
-| `exceeds-max:forgefiend` | 6 |
-| `exceeds-max:hippogriff-afv` | 6 |
-| `exceeds-max:sword-brethren-squad` | 6 |
-| `invalid-model-count:stormboyz` | 6 |
-| `swap-conflict:noise-marines` | 6 |
-| `exceeds-allowance:skorpekh-destroyers` | 5 |
-| `exceeds-max:baal-predator` | 5 |
-| `exceeds-max:battlewagon` | 5 |
-| `exceeds-max:maulerfiend` | 5 |
-| `invalid-model-count:boyz` | 5 |
-| `invalid-model-count:stealth-battlesuits` | 5 |
-| `swap-conflict:lychguard` | 5 |
+| `below-min:cadian-command-squad` | 5 |
+| `exceeds-allowance:death-company-marines-with-jump-packs` | 5 |
 | `below-min:decimus-kill-team` | 4 |
 | `below-min:pink-horrors` | 4 |
-| `below-min:scout-squad` | 4 |
 | `below-min:spectrus-kill-team` | 4 |
-| `exceeds-allowance:storm-guardians` | 4 |
-| `exceeds-allowance:tankbustas` | 4 |
-| `exceeds-max:canoptek-spyders` | 4 |
-| `exceeds-max:gladiator-lancer` | 4 |
-| `exceeds-max:plague-marines` | 4 |
+| `exceeds-max:broadside-battlesuits` | 4 |
 | `exceeds-max:rhino` | 4 |
-| `exceeds-max:sicarian-infiltrators` | 4 |
-| `invalid-model-count:crisis-starscythe-battlesuits` | 4 |
-| `invalid-model-count:mandrakes` | 4 |
-| `invalid-model-count:scourges-with-heavy-weapons` | 4 |
 | `below-min:red-corsairs-raiders` | 3 |
-| `below-min:wolf-scouts` | 3 |
-| `exceeds-allowance:brotherhood-terminator-squad` | 3 |
-| `exceeds-allowance:deathwatch-veterans` | 3 |
-| `exceeds-max:baneblade` | 3 |
-| `exceeds-max:cadre-fireblade` | 3 |
+| `exceeds-max:cadian-command-squad` | 3 |
 | `exceeds-max:indomitor-kill-team` | 3 |
-| `exceeds-max:predator-destructor` | 3 |
-| `exceeds-max:serberys-raiders` | 3 |
-| … 107 more | |
+| `below-min:cultist-mob` | 2 |
+| `below-min:zoanthropes` | 2 |
+| `exceeds-allowance:khorne-berzerkers` | 2 |
+| `below-min:corsair-voidscarred` | 1 |
+| `below-min:fortis-kill-team` | 1 |
+| `below-min:wolf-guard-headtakers` | 1 |
+| `invalid-model-count:cadian-recon-squad` | 1 |
+| `invalid-model-count:squighog-boyz` | 1 |
 
 ## `solver-null` grouping failures (ranked unit)
 
@@ -154,67 +80,50 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 
 | unit | count |
 |---|--:|
-| `pathfinder-team` | 51 |
-| `scout-squad` | 47 |
-| `cultist-mob` | 45 |
-| `crisis-sunforge-battlesuits` | 29 |
+| `pathfinder-team` | 59 |
 | `hyperadapted-raveners` | 29 |
-| `crisis-starscythe-battlesuits` | 28 |
-| `daemonettes` | 24 |
-| `tzaangors` | 19 |
-| `crisis-fireknife-battlesuits` | 17 |
-| `cadian-shock-troops` | 16 |
-| `khorne-berzerkers` | 16 |
-| `cthonian-beserks` | 15 |
-| `death-company-marines-with-jump-packs` | 15 |
-| `skitarii-rangers` | 14 |
 | `tormentors` | 14 |
-| `bloodletters` | 13 |
 | `pink-horrors` | 13 |
-| `plaguebearers` | 13 |
-| `attilan-rough-riders` | 12 |
+| `plague-marines` | 13 |
+| `servitor-battleclade` | 12 |
 | `victrix-honour-guard` | 12 |
 | `paladin-squad` | 11 |
-| `plague-marines` | 11 |
-| `sicarian-infiltrators` | 11 |
-| `kabalite-warriors` | 10 |
-| `raptors` | 10 |
-| `red-corsairs-raiders` | 10 |
-| `servitor-battleclade` | 10 |
 | `warp-spiders` | 10 |
-| `skitarii-vanguard` | 8 |
-| `bloodcrushers` | 7 |
 | `howling-banshees` | 7 |
-| `infiltrator-squad` | 7 |
-| `battle-sisters-squad` | 6 |
-| `catachan-jungle-fighters` | 6 |
+| `nobz` | 7 |
 | `company-heroes` | 6 |
-| `fellgor-beastmen` | 6 |
-| `nobz` | 6 |
+| `deathwing-knights` | 6 |
 | `breacher-team` | 5 |
 | `havocs` | 5 |
 | `lootas` | 5 |
 | `blue-horrors` | 4 |
 | `brotherhood-terminator-squad` | 4 |
 | `chaos-terminator-squad` | 4 |
-| `deathwing-knights` | 4 |
+| `cadian-shock-troops` | 3 |
 | `chaos-terminators` | 3 |
 | `decimus-kill-team` | 3 |
 | `fire-dragons` | 3 |
 | `flash-gitz` | 3 |
 | `jakhals` | 3 |
-| `seekers` | 3 |
-| `sisters-of-battle-squad` | 3 |
-| `wolf-scouts` | 3 |
-| `wulfen-with-storm-shields` | 3 |
+| `piranhas` | 3 |
 | `blightlord-terminators` | 2 |
-| `breaka-boyz` | 2 |
 | `indomitor-kill-team` | 2 |
+| `raptors` | 2 |
+| `sisters-of-battle-squad` | 2 |
 | `spectrus-kill-team` | 2 |
 | `swooping-hawks` | 2 |
 | `termagants` | 2 |
 | `atalan-jackals` | 1 |
-| … 14 more | |
+| `cultist-mob` | 1 |
+| `dark-reapers` | 1 |
+| `deathwing-terminator-squad` | 1 |
+| `fortis-kill-team` | 1 |
+| `inquisitorial-agents` | 1 |
+| `red-corsairs-raiders` | 1 |
+| `strike-team` | 1 |
+| `striking-scorpions` | 1 |
+| `wolf-guard-headtakers` | 1 |
+| `zoanthropes` | 1 |
 
 ## Unresolved names: `battle-size-unmapped`
 
@@ -398,67 +307,13 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 
 | raw name | count |
 |---|--:|
-| `Pathfinder Team` | 54 |
-| `Cultist Mob` | 45 |
-| `Piranhas` | 28 |
-| `Scout Squad` | 26 |
-| `Commander in Coldstar Battlesuit` | 25 |
-| `Chaos Predator Destructor` | 21 |
-| `Commander in Enforcer Battlesuit` | 21 |
-| `Rogal Dorn Commander` | 21 |
-| `Sekhetar Robots` | 21 |
-| `Legionaries` | 18 |
-| `Boyz` | 15 |
-| `Cthonian Beserks` | 15 |
-| `Death Company Marines with Jump Packs` | 15 |
-| `Skitarii Rangers` | 14 |
 | `Pink Horrors` | 13 |
-| `Attilan Rough Riders` | 12 |
-| `Paladin Squad` | 11 |
-| `Plague Marines` | 11 |
-| `Sky Ray Gunship` | 11 |
-| `Cadian Shock Troops` | 10 |
-| `Hammerhead Gunship` | 10 |
-| `Wolf Guard Terminators` | 10 |
-| `Rogal Dorn Battle Tank` | 9 |
-| `Raptors` | 8 |
-| `Seraphim Squad` | 8 |
-| `Skitarii Vanguard` | 8 |
-| `Battle Sisters Squad` | 6 |
-| `Catachan Jungle Fighters` | 6 |
-| `Forgefiend` | 6 |
-| `Noise Marines` | 6 |
-| `Purgation Squad` | 6 |
-| `Sanguinary Guard` | 6 |
-| `Sword Brethren Squad` | 6 |
-| `Baal Predator` | 5 |
-| `Battlewagon` | 5 |
-| `Chaos Terminator Squad` | 5 |
-| `Devilfish` | 5 |
-| `Lychguard` | 5 |
-| `Maulerfiend` | 5 |
-| `Skorpekh Destroyers` | 5 |
-| `Wraithlord` | 5 |
+| `Death Company Marines with Jump Packs` | 5 |
 | `Blue Horrors` | 4 |
-| `Chosen` | 4 |
-| `Gladiator Lancer` | 4 |
 | `Rhino` | 4 |
-| `Brotherhood Terminator Squad` | 3 |
-| `Cadre Fireblade` | 3 |
 | `Decimus Kill Team` | 3 |
-| `Predator Destructor` | 3 |
-| `Sisters of Battle Squad` | 3 |
-| `Wolf Scouts` | 3 |
-| `Wulfen with Storm Shields` | 3 |
-| `Baneblade` | 2 |
-| `Chaos Predator Annihilator` | 2 |
-| `Deathwatch Veterans` | 2 |
-| `Dominion Squad` | 2 |
-| `Foetid Bloat-drone` | 2 |
-| `Impulsor` | 2 |
 | `Indomitor Kill Team` | 2 |
 | `Khorne Berzerkers` | 2 |
-| … 27 more | |
 
 ## Unresolved names: `unit-unresolved`
 
@@ -542,7 +397,6 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Nullstone Field Generator (Aura)` | 19 |
 | `Rollbar Searchlight` | 19 |
 | `Bomb Squig` | 18 |
-| `Boss Nob` | 17 |
 | `Shadowfield` | 16 |
 | `Collar of Khorne` | 15 |
 | `Remote Mine` | 14 |
@@ -553,44 +407,45 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Tyrant’s Claw heavy flamer` | 11 |
 | `Multiwave Comms Array` | 9 |
 | `The Lion Helm` | 9 |
-| `Pathfinder` | 8 |
-| `Pathfinder Shas’ui` | 8 |
 | `Vox‑relay Beacon` | 8 |
 | `Macro-scalpel` | 7 |
 | `Stimm-needler` | 7 |
 | `Choppas` | 6 |
 | `Hover Drone` | 6 |
 | `Refractor Field` | 6 |
-| `Stormboy` | 6 |
-| `Tempestus Scion` | 6 |
 | `Advanced Guardian Drone` | 5 |
 | `Command-link Drone (Aura)` | 5 |
 | `Flip Belt` | 5 |
 | `Force-orb cane` | 5 |
-| `Stealth Shas’ui` | 5 |
-| `Stealth Shas’vre` | 5 |
 | `Tome‐skull` | 5 |
-| `Crisis Starscythe Shas’ui` | 4 |
-| `Crisis Starscythe Shas’vre` | 4 |
 | `Endurant Shield` | 4 |
 | `Fabricator Claw Array (Aura)` | 4 |
 | `Gloom Prism (Aura)` | 4 |
-| `Mandrake` | 4 |
-| `Nightfiend` | 4 |
 | `Nurgle` | 4 |
 | `Preymark Crest` | 4 |
 | `Serpent shield` | 4 |
-| `Solarite` | 4 |
 | `Alchemyk Counteragents` | 3 |
 | `Aquiline Prow` | 3 |
-| `Crisis Fireknife Shas’ui` | 3 |
-| `Crisis Fireknife Shas’vre` | 3 |
 | `Forceshield` | 3 |
 | `Grot Assistant` | 3 |
 | `Grot Oiler` | 3 |
 | `Gyro-optimised actuators [+15 points]` | 3 |
-| `Hekatrix` | 3 |
-| … 185 more | |
+| `Pech’ra` | 3 |
+| `Reaper chain-cleaver and Thermal spear` | 3 |
+| `Servo-scribes` | 3 |
+| `Vigilator Sister Superior: Executioner greatblade` | 3 |
+| `Vigilator: 9 with Executioner greatblade` | 3 |
+| `2 Armiger autocannons` | 2 |
+| `Alchemicus Familiar` | 2 |
+| `Antimatter Meteor` | 2 |
+| `Armoured feet and Questoris heavy stubber` | 2 |
+| `Atomiser beams` | 2 |
+| `Augury halo [+20 points]` | 2 |
+| `Bannernob` | 2 |
+| `Broadside Shas’ui` | 2 |
+| `Cavalry sabre & clawed limbs` | 2 |
+| `Chaos Undivided` | 2 |
+| … 75 more | |
 
 ## Composition drift (dataset-wide)
 
@@ -605,7 +460,7 @@ Units whose composition `default_weapon_ids` reference ids unreachable from
 - `adeptus-astartes/wolf-guard-battle-leader` — unreachable: storm-shield
 - `adeptus-astartes/wolf-guard-headtakers` — unreachable: storm-shield
 - `adeptus-astartes/wulfen` — unreachable: death-totem
-- `adeptus-astartes/wulfen-with-storm-shields` — unreachable: storm-shield
+- `adeptus-astartes/wulfen-with-storm-shields` — unreachable: death-totem
 - `adeptus-mechanicus/archaeopter-fusilave` — unreachable: command-uplink
 - `adeptus-mechanicus/archaeopter-stratoraptor` — unreachable: command-uplink
 - `adeptus-mechanicus/archaeopter-transvector` — unreachable: command-uplink
@@ -622,7 +477,6 @@ Units whose composition `default_weapon_ids` reference ids unreachable from
 - `chaos-daemons/feculent-gnarlmaw` — unreachable: feculent-gnarlmaw
 - `chaos-daemons/pink-horrors` — unreachable: coruscating-flames
 - `chaos-daemons/skull-altar` — unreachable: skull-altar
-- `chaos-space-marines/cultist-mob` — unreachable: autogun, close-combat-weapon
 - `chaos-space-marines/dark-commune` — unreachable: chaos-icon
 - `genestealer-cults/achilles-ridgerunners` — unreachable: flare-launcher
 - `grey-knights/grey-knights-thunderhawk-gunship` — unreachable: thunderhawk-cluster-bombs

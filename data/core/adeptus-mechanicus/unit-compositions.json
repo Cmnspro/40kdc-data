@@ -249,7 +249,7 @@
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Sydonian Dragoons with Radium Jezzails",
+        "name": "Sydonian Dragoon",
         "min": 1,
         "max": 3,
         "is_leader_model": false,
@@ -257,13 +257,47 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "phosphor-serpenta",
+          "radium-jezzail",
+          "ironstrider-feet"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sydonian Dragoon",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sydonian Dragoon",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sydonian Dragoon",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "belisarius-cawl",
@@ -500,19 +534,18 @@
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Sicarian Princeps",
-        "profile_name": "Sicarian Infiltrator",
+        "name": "Sicarian Infiltrator Princeps",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "stubcarbine",
-          "power-weapon"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "stubcarbine",
+          "power-weapon"
+        ]
       },
       {
         "name": "Sicarian Infiltrator",
@@ -532,7 +565,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sicarian Infiltrator Princeps",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sicarian Infiltrator",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sicarian Infiltrator Princeps",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sicarian Infiltrator",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "archaeopter-transvector",
@@ -667,19 +730,18 @@
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Pteraxii Alpha",
-        "profile_name": "Pteraxii Skystalker",
+        "name": "Pteraxii Skystalker Alpha",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "flechette-blaster",
-          "taser-goad-pteraxii-skystalkers"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "flechette-blaster",
+          "taser-goad-pteraxii-skystalkers"
+        ]
       },
       {
         "name": "Pteraxii Skystalker",
@@ -699,7 +761,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Pteraxii Skystalker Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Pteraxii Skystalker",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Pteraxii Skystalker Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Pteraxii Skystalker",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kataphron-breachers",
@@ -750,18 +842,17 @@
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Sicarian Princeps",
-        "profile_name": "Sicarian Ruststalker",
+        "name": "Sicarian Ruststalker Princeps",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "transonic-blades-and-chordclaw"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "transonic-razor-and-chordclaw"
+        ]
       },
       {
         "name": "Sicarian Ruststalker",
@@ -780,7 +871,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sicarian Ruststalker Princeps",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sicarian Ruststalker",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sicarian Ruststalker Princeps",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Sicarian Ruststalker",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "technoarcheologist",
@@ -865,20 +986,20 @@
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Serberys Alpha",
-        "profile_name": "Serberys Raider",
+        "name": "Serberys Raider Alpha",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "mechanicus-pistol-serberys-raiders",
-          "cavalry-sabre-and-clawed-limbs"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "oval",
           "width": 60,
           "length": 35.5
-        }
+        },
+        "default_weapon_ids": [
+          "mechanicus-pistol-serberys-raiders",
+          "galvanic-carbine",
+          "cavalry-sabre-and-clawed-limbs"
+        ]
       },
       {
         "name": "Serberys Raider",
@@ -899,14 +1020,44 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Serberys Raider Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Serberys Raider",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Serberys Raider Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Serberys Raider",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "sydonian-dragoons-with-taser-lances",
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Sydonian Dragoons with Taser Lances",
+        "name": "Sydonian Dragoon",
         "min": 1,
         "max": 3,
         "is_leader_model": false,
@@ -914,43 +1065,77 @@
           "shape": "oval",
           "width": 105,
           "length": 70
-        }
+        },
+        "default_weapon_ids": [
+          "taser-lance",
+          "phosphor-serpenta"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Sydonian Dragoon",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sydonian Dragoon",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Sydonian Dragoon",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "serberys-sulphurhounds",
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Serberys Alpha",
-        "profile_name": "Serberys Sulphurhound",
+        "name": "Serberys Sulphurhound Alpha",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "mechanicus-pistol-serberys-sulphurhounds",
-          "cavalry-arc-maul"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "oval",
           "width": 60,
           "length": 35.5
-        }
+        },
+        "default_weapon_ids": [
+          "mechanicus-pistol-serberys-sulphurhounds",
+          "sulphur-breath",
+          "cavalry-arc-maul",
+          "clawed-limbs"
+        ]
       },
       {
         "name": "Serberys Sulphurhound",
         "min": 2,
         "max": 5,
         "default_weapon_ids": [
-          "clawed-limbs",
-          "sulphur-breath",
           "phosphor-pistol",
-          "phosphor-pistol"
+          "phosphor-pistol",
+          "sulphur-breath",
+          "clawed-limbs"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -963,7 +1148,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Serberys Sulphurhound Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Serberys Sulphurhound",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Serberys Sulphurhound Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Serberys Sulphurhound",
+            "min": 3,
+            "max": 5
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "tech-priest-enginseer",
@@ -1120,19 +1335,19 @@
     "faction_id": "adeptus-mechanicus",
     "models": [
       {
-        "name": "Pteraxii Alpha",
-        "profile_name": "Pteraxii Sterylizor",
+        "name": "Pteraxii Sterylizor Alpha",
         "min": 1,
         "max": 1,
-        "default_weapon_ids": [
-          "flechette-blaster",
-          "taser-goad-pteraxii-sterylizors"
-        ],
         "is_leader_model": true,
         "base_size_mm": {
           "shape": "round",
           "diameter": 40
-        }
+        },
+        "default_weapon_ids": [
+          "flechette-blaster",
+          "pteraxii-talons",
+          "taser-goad-pteraxii-sterylizors"
+        ]
       },
       {
         "name": "Pteraxii Sterylizor",
@@ -1152,7 +1367,37 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Pteraxii Sterylizor Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Pteraxii Sterylizor",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Pteraxii Sterylizor Alpha",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Pteraxii Sterylizor",
+            "min": 5,
+            "max": 9
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "archaeopter-fusilave",

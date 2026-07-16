@@ -12,7 +12,7 @@
       "chaos-familiar"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -31,7 +31,7 @@
       "combi-weapon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -97,7 +97,7 @@
     ],
     "model_constraint": {
       "model_name": "Visionary",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -122,7 +122,7 @@
     ],
     "model_constraint": {
       "model_name": "Visionary",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -141,7 +141,7 @@
       "magma-cutter"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -160,7 +160,7 @@
       "baleflamer"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -208,7 +208,7 @@
     ],
     "model_constraint": {
       "model_name": "Terminator Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -233,7 +233,7 @@
     ],
     "model_constraint": {
       "model_name": "Terminator Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -292,7 +292,7 @@
     ],
     "model_constraint": {
       "model_name": "Terminator Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -308,7 +308,7 @@
       "havoc-launcher"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -329,7 +329,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -346,7 +346,7 @@
     ],
     "model_constraint": {
       "model_name": "Possessed",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -363,7 +363,7 @@
     ],
     "model_constraint": {
       "model_name": "Possessed Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -407,7 +407,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -423,7 +423,7 @@
       "havoc-launcher"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -448,7 +448,7 @@
     ],
     "model_constraint": {
       "model_name": "Havoc Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -485,7 +485,7 @@
     ],
     "model_constraint": {
       "model_name": "Havoc Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -534,7 +534,7 @@
     ],
     "model_constraint": {
       "model_name": "Raptor Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -549,10 +549,27 @@
     "replaces": [
       "astartes-chainsword"
     ],
+    "replacement": [
+      "mutations"
+    ],
+    "model_constraint": {
+      "model_name": "Raptor",
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "raptors-wgo-mfm-3",
+    "unit_id": "raptors",
+    "faction_id": "chaos-space-marines",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "astartes-chainsword"
+    ],
     "replacement_choice": [
-      [
-        "mutations"
-      ],
       [
         "close-combat-weapon",
         "flamer"
@@ -571,11 +588,11 @@
     ],
     "model_constraint": {
       "model_name": "Raptor",
-      "per_n_models": 3
+      "any_number": true
     }
   },
   {
-    "id": "raptors-wgo-mfm-3",
+    "id": "raptors-wgo-mfm-4",
     "unit_id": "raptors",
     "faction_id": "chaos-space-marines",
     "game_version": {
@@ -591,11 +608,11 @@
     ],
     "model_constraint": {
       "model_name": "Raptor",
-      "per_n_models": 3
+      "any_number": true
     }
   },
   {
-    "id": "raptors-wgo-mfm-4",
+    "id": "raptors-wgo-mfm-5",
     "unit_id": "raptors",
     "faction_id": "chaos-space-marines",
     "game_version": {
@@ -616,7 +633,7 @@
     ],
     "model_constraint": {
       "model_name": "Raptor Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -643,7 +660,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -682,7 +699,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -709,7 +726,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -728,7 +745,7 @@
       "ectoplasma-destructor"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -765,7 +782,7 @@
       "havoc-launcher"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -809,7 +826,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -826,7 +843,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -996,7 +1013,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1016,7 +1033,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1039,7 +1056,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1059,7 +1076,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1079,7 +1096,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1100,7 +1117,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1122,7 +1139,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1139,7 +1156,7 @@
     ],
     "model_constraint": {
       "model_name": "Chosen",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1159,7 +1176,7 @@
     ],
     "model_constraint": {
       "model_name": "Traitor Sergeant",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1193,7 +1210,7 @@
     ],
     "model_constraint": {
       "model_name": "Traitor Guardsmen",
-      "any_number": true
+      "max_count": 3
     }
   },
   {
@@ -1218,7 +1235,7 @@
     ],
     "model_constraint": {
       "model_name": "Traitor Sergeant",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1237,7 +1254,7 @@
       "baleflamer"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1253,7 +1270,7 @@
       "havoc-launcher"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1274,7 +1291,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1345,7 +1362,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1364,7 +1381,7 @@
       "combi-weapon-chaos-lord-in-terminator-armour"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1388,7 +1405,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1448,7 +1465,7 @@
     ],
     "model_constraint": {
       "model_name": "Red Corsairs Raider Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1717,7 +1734,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1736,7 +1753,7 @@
       "plasma-pistol-chaos-lord-with-jump-pack"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1755,7 +1772,7 @@
       "power-fist-chaos-lord-with-jump-pack"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1775,7 +1792,7 @@
     ],
     "model_constraint": {
       "model_name": "Cultist Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1799,7 +1816,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1818,7 +1835,7 @@
       "power-fist-chaos-lord"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1863,7 +1880,7 @@
     ],
     "model_constraint": {
       "model_name": "Chaos Biker",
-      "any_number": true
+      "max_count": 2
     }
   },
   {
@@ -1894,7 +1911,7 @@
     ],
     "model_constraint": {
       "model_name": "Biker Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1911,7 +1928,7 @@
     ],
     "model_constraint": {
       "model_name": "Biker Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1928,7 +1945,7 @@
     ],
     "model_constraint": {
       "model_name": "Chaos Biker",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1973,7 +1990,7 @@
     ],
     "model_constraint": {
       "model_name": "Fellgor Beastmen",
-      "max_count": 1
+      "max_count": 2
     }
   },
   {
@@ -1993,7 +2010,7 @@
     ],
     "model_constraint": {
       "model_name": "Fellgor Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2038,7 +2055,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2070,7 +2087,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2087,7 +2104,7 @@
     ],
     "model_constraint": {
       "model_name": "Legionary",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2118,7 +2135,7 @@
     ],
     "model_constraint": {
       "model_name": "Aspiring Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2149,7 +2166,7 @@
     ],
     "model_constraint": {
       "model_name": "Aspiring Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2210,7 +2227,7 @@
     ],
     "model_constraint": {
       "model_name": "Aspiring Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2283,7 +2300,7 @@
     ],
     "model_constraint": {
       "model_name": "Aspiring Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2299,7 +2316,7 @@
       "plasma-pistol-red-corsairs-reave-captain"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2318,7 +2335,7 @@
       "power-maul"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2337,7 +2354,7 @@
       "skullhurler"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2361,7 +2378,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   }
 ]

@@ -20,7 +20,14 @@ var importAdapters = []formatAdapter{
 	newrecruitWtcFullAdapter,
 	newrecruitWtcCompactAdapter,
 	newrecruitSimpleAdapter,
+	// listforge-text requires the `name - faction - detachment (N Points)` first
+	// line none of the others accept; it runs right before the headerless
+	// fallback so its framed header wins when present.
 	listforgeTextAdapter,
+	// Fallback for bullet-bearing plain text without a summary fence (GW app
+	// export, NewRecruit copy-text, `##` markdown lists). Placed after the framed
+	// text adapters so they win when their headers are present.
+	gwHeaderlessAdapter,
 	listforgeAdapter,
 }
 

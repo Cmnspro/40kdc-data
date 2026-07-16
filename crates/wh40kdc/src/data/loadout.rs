@@ -57,8 +57,13 @@ impl ViolationCode {
     }
 }
 
-/// The maximum number of models that may take `option` in a unit of
-/// `model_count` models. See [`super`] / the TS mirror for the semantics.
+/// The maximum number of TIMES `option` may be taken in a unit of `model_count`
+/// models: `any_number` alone → once per model; `any_number` WITH `max_count: L`
+/// → up to L per model (a multi-take mount: "up to 2 seeker missiles", "up to
+/// three of the following, and can take duplicates"); else `per_n_models` →
+/// floor(n / per), clamped by `max_count` when set; else `max_count ?? 1` (a flat
+/// allowance). A null constraint is treated as unrestricted (every model). Never
+/// negative.
 pub fn option_cap(
     option: &WargearOption,
     model_count: u64,
@@ -67,29 +72,39 @@ pub fn option_cap(
     let Some(c) = option.model_constraint.as_ref() else {
         return model_count;
     };
+    // Per-model multiplicity: >1 only for the any_number+max_count multi-take
+    // shape; every other shape takes an option at most once per model.
+    let per_model = if c.any_number {
+        c.max_count.map(|m| m.get()).unwrap_or(1)
+    } else {
+        1
+    };
     let mut cap = if c.any_number {
-        model_count
+        model_count * per_model
     } else if let Some(per) = c.per_n_models {
         model_count / per.get()
     } else {
         c.max_count.map(|m| m.get()).unwrap_or(1)
     };
-    if let Some(m) = c.max_count {
-        cap = cap.min(m.get());
-    }
-    // Eligible-model clamp: an option scoped to a named model profile can be taken
-    // by no more models than exist of that profile — a lone champion caps the swap
-    // at 1 even when `per_n_models` would allow more. The composition row name is
-    // the authority; a name with no matching row leaves the cap unclamped.
-    if let (Some(name), Some(ms)) = (c.model_name.as_ref(), models) {
-        if let Some(eligible) = eligible_model_count(ms, model_count, name) {
-            cap = cap.min(eligible);
+    if !c.any_number {
+        if let Some(m) = c.max_count {
+            cap = cap.min(m.get());
         }
     }
-    // A swap is per-model: at most one per model, so never more than
-    // model_count — a `max_count` larger than the current squad size must not
-    // drive a weapon count negative. (u64 floors the lower bound at zero.)
-    cap.min(model_count)
+    // Eligible-model clamp: an option scoped to a named model profile can be taken
+    // by no more models than exist of that profile (× the per-model multiplicity) —
+    // a lone champion caps the swap at 1 even when `per_n_models` would allow more.
+    // The composition row name is the authority; a name with no matching row leaves
+    // the cap unclamped.
+    if let (Some(name), Some(ms)) = (c.model_name.as_ref(), models) {
+        if let Some(eligible) = eligible_model_count(ms, model_count, name) {
+            cap = cap.min(eligible * per_model);
+        }
+    }
+    // At most `per_model` takes per model, so never more than model_count ×
+    // per_model — a flat `max_count` larger than the current squad size must not
+    // drive a swapped weapon count negative. (u64 floors the lower bound at zero.)
+    cap.min(model_count * per_model)
 }
 
 /// How many models of profile `name` a unit of `model_count` fields, per
@@ -364,18 +379,27 @@ pub fn weapon_bounds(
                 .or_insert(WeaponBound { min: 0, max: 0 });
             b.min = b.min.saturating_sub(cap);
         }
-        let mut adds: HashSet<String> = HashSet::new();
-        for id in &option.replacement {
-            adds.insert(id.to_string());
-        }
-        for group in &option.replacement_choice {
+        // A replacement id can appear in multiple options / both choice branches;
+        // sum the caps so its ceiling reflects every way to add it. Within one
+        // branch, multiplicity counts: a twin-mount swap authored
+        // ['lascannon','lascannon'] adds TWO per take (maximal_loadout already
+        // honors this — collapsing to a set here capped every paired sponson,
+        // Forgefiend ectoplasma, and 2-particle-beamer Spyder at half its legal
+        // count). Across branches an id's ceiling uses its largest single branch.
+        let mut add_mult: HashMap<String, u64> = HashMap::new();
+        for group in option_bundles(option) {
+            let mut per: HashMap<String, u64> = HashMap::new();
             for id in group {
-                adds.insert(id.to_string());
+                *per.entry(id).or_insert(0) += 1;
+            }
+            for (id, n) in per {
+                let e = add_mult.entry(id).or_insert(0);
+                *e = (*e).max(n);
             }
         }
-        for id in adds {
+        for (id, n) in add_mult {
             let b = bounds.entry(id).or_insert(WeaponBound { min: 0, max: 0 });
-            b.max += cap;
+            b.max += cap * n;
         }
     }
     // A single-weapon flat budget caps the weapon's ceiling regardless of how many
@@ -1110,8 +1134,13 @@ fn swap_conflicts(
             if !o.replaces.iter().any(|r| r.as_str() == base.as_str()) {
                 continue;
             }
-            // Only a plain, single-target swap of this exact base weapon is unambiguous.
-            if o.replaces.len() != 1 || !o.replacement_choice.is_empty() {
+            // Only a plain, single-target, single-item swap of this exact base
+            // weapon is unambiguous. A 1→N bundle (Lychguard warscythe → shield +
+            // sword) yields TWO added copies per freed slot — summing each against
+            // the slot pool double-counts every bundle swap, so it stays on the
+            // looser bounds.
+            if o.replaces.len() != 1 || !o.replacement_choice.is_empty() || o.replacement.len() > 1
+            {
                 messy = true;
                 break;
             }
@@ -1128,7 +1157,11 @@ fn swap_conflicts(
                 break;
             }
         }
-        if messy || clean_adds.is_empty() {
+        // A base weapon that is itself ADDABLE by another option lives on several
+        // models' slots at once (the Krieg power weapon: the Commissar's default
+        // AND a Veteran's chainsword upgrade) — the single-slot pool can't
+        // attribute its copies, so it too stays on the per-id bounds.
+        if messy || clean_adds.is_empty() || added_by.get(base.as_str()).copied().unwrap_or(0) > 0 {
             continue;
         }
         // The slot can hold at most as many weapons as there are models carrying
@@ -1256,11 +1289,19 @@ mod tests {
         let (bz, opts) = berzerkers();
         // plasma-pistol is a single-weapon per-N allowance (not a shared budget):
         // 2 on the troopers + 1 on the champion = 3 at 10 models, so 4 trips the
-        // per-weapon bound. (The maximal loadout is a per-weapon upper bound and is
-        // intentionally budget-blind, so it is not asserted legal here.)
+        // per-weapon bound. The champion's swap is `any_number` scoped by
+        // `model_name`, so the composition rows are required to clamp it to the
+        // one champion — exactly what the roster checker supplies.
+        let ds = Dataset::embedded();
+        let comp = ds
+            .unit_compositions
+            .iter()
+            .find(|c| c.unit_id.as_str() == "khorne-berzerkers")
+            .expect("berzerkers composition");
+        let models = loadout_models(&comp.models);
         let mut over = HashMap::new();
         over.insert("plasma-pistol-khorne-berzerkers".to_string(), 4i64);
-        let v = validate_loadout(bz, 10, &opts, &over, None);
+        let v = validate_loadout(bz, 10, &opts, &over, Some(&models));
         assert_eq!(v.len(), 1);
         assert_eq!(v[0].id, "plasma-pistol-khorne-berzerkers");
         assert_eq!(v[0].code, ViolationCode::ExceedsMax);

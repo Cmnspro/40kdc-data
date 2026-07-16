@@ -31,36 +31,42 @@ def option_cap(
     model_count: int,
     models: list[LoadoutModel] | None = None,
 ) -> int:
-    """Maximum number of models that may take ``option`` in a unit of ``model_count``.
+    """Maximum number of TIMES ``option`` may be taken in a unit of ``model_count``.
 
-    ``any_number`` → all models; else ``per_n_models`` → floor(n / per); else
-    ``max_count ?? 1``; then clamped by ``max_count`` when set. A null
-    constraint is treated as unrestricted (every model). Never negative.
+    ``any_number`` alone → once per model; ``any_number`` WITH ``max_count: L``
+    → up to L per model (a multi-take mount: "up to 2 seeker missiles", "up to
+    three of the following, and can take duplicates"); else ``per_n_models`` →
+    floor(n / per), clamped by ``max_count`` when set; else ``max_count ?? 1``
+    (a flat allowance). A null constraint is treated as unrestricted (every
+    model). Never negative.
     """
     c = option.get("model_constraint")
     if not c:
         return max(0, model_count)
+    # Per-model multiplicity: >1 only for the any_number+max_count multi-take
+    # shape; every other shape takes an option at most once per model.
+    max_count = c.get("max_count")
+    per_model = (max_count if max_count is not None else 1) if c.get("any_number") else 1
     if c.get("any_number"):
-        cap = model_count
+        cap = model_count * per_model
     elif c.get("per_n_models"):
         cap = math.floor(model_count / c["per_n_models"])
     else:
-        max_count = c.get("max_count")
         cap = max_count if max_count is not None else 1
-    if c.get("max_count") is not None:
-        cap = min(cap, c["max_count"])
-    # Eligible-model clamp: an option scoped to a named model profile can be taken by
-    # no more models than exist of that profile — a lone champion caps the swap at 1
-    # even when per_n_models would allow more. A name with no matching row leaves the
-    # cap unclamped.
+    if not c.get("any_number") and max_count is not None:
+        cap = min(cap, max_count)
+    # Eligible-model clamp: an option scoped to a named model profile can be taken
+    # by no more models than exist of that profile (× the per-model multiplicity) —
+    # a lone champion caps the swap at 1 even when per_n_models would allow more.
+    # A name with no matching row leaves the cap unclamped.
     if c.get("model_name") and models:
         eligible = _eligible_model_count(models, model_count, c["model_name"])
         if eligible is not None:
-            cap = min(cap, eligible)
-    # A swap is per-model: at most one per model, so never more than model_count —
-    # a max_count larger than the current squad size must not drive a weapon count
-    # negative.
-    return max(0, min(cap, model_count))
+            cap = min(cap, eligible * per_model)
+    # At most per_model takes per model, so never more than model_count × per_model —
+    # a flat max_count larger than the current squad size must not drive a swapped
+    # weapon count negative.
+    return max(0, min(cap, model_count * per_model))
 
 
 def _eligible_model_count(
@@ -590,12 +596,26 @@ def weapon_bounds(
             bounds[id_] = {"min": max(0, b["min"] - cap), "max": b["max"]}
         # A replacement id can appear in multiple options / both choice
         # branches; sum the caps so its ceiling reflects every way to add it.
-        adds: set[str] = set(option.get("replacement") or [])
-        for group in option.get("replacement_choice") or []:
-            adds.update(group)
-        for id_ in adds:
+        # Within one branch, multiplicity counts: a twin-mount swap authored
+        # ['lascannon', 'lascannon'] adds TWO per take (maximal_loadout already
+        # honors this — collapsing to a set here capped every paired sponson,
+        # Forgefiend ectoplasma, and 2-particle-beamer Spyder at half its legal
+        # count). Across branches an id's ceiling uses its largest single branch.
+        add_mult: dict[str, int] = {}
+        branches = (
+            [option["replacement"]]
+            if option.get("replacement")
+            else (option.get("replacement_choice") or [])
+        )
+        for group in branches:
+            per: dict[str, int] = {}
+            for id_ in group:
+                per[id_] = per.get(id_, 0) + 1
+            for id_, n in per.items():
+                add_mult[id_] = max(add_mult.get(id_, 0), n)
+        for id_, n in add_mult.items():
             b = bounds.get(id_, {"min": 0, "max": 0})
-            bounds[id_] = {"min": b["min"], "max": b["max"] + cap}
+            bounds[id_] = {"min": b["min"], "max": b["max"] + cap * n}
     # A single-weapon flat budget caps the weapon's ceiling regardless of how
     # many swap slots can add it (see :func:`_clamp_flat_budgets`), so an
     # editor/salvo input clamped against these bounds can never reach an
@@ -802,9 +822,13 @@ def _swap_conflicts(
     A model's replaceable slot holds the base weapon OR one of its swap
     replacements, never both, so ``count(base) + sum(count(replacements))``
     cannot exceed its base count. Enforced only for the unambiguous shape — a
-    base weapon swapped out by plain (non-choice) options that replace it alone,
-    whose replacement ids are unique within this unit's option set and aren't
-    themselves base weapons. Mirror of ``tools/src/data/loadout.ts``.
+    base weapon swapped out by plain (non-choice), single-item options that
+    replace it alone, whose replacement ids are unique within this unit's option
+    set and aren't themselves base weapons, and where the base weapon is not
+    itself addable by another option. A 1→N bundle swap (one item out, several
+    in) and a base weapon that another option can add both defeat the
+    single-slot pool, so they stay on the looser per-id bounds. Mirror of
+    ``tools/src/data/loadout.ts``.
     """
     base_map = _base_counts(unit, model_count, options, models)
     base_ids = set(base_map.keys())
@@ -823,7 +847,16 @@ def _swap_conflicts(
             replaces = o.get("replaces") or []
             if base not in replaces:
                 continue
-            if len(replaces) != 1 or (o.get("replacement_choice") or []):
+            # Only a plain, single-target, single-item swap of this exact base
+            # weapon is unambiguous. A 1→N bundle (Lychguard warscythe → shield +
+            # sword) yields TWO added copies per freed slot — summing each against
+            # the slot pool double-counts every bundle swap, so it stays on the
+            # looser bounds.
+            if (
+                len(replaces) != 1
+                or (o.get("replacement_choice") or [])
+                or len(o.get("replacement") or []) > 1
+            ):
                 messy = True
                 break
             for b in o.get("replacement") or []:
@@ -833,7 +866,11 @@ def _swap_conflicts(
                 clean_adds.add(b)
             if messy:
                 break
-        if messy or not clean_adds:
+        # A base weapon that is itself ADDABLE by another option lives on several
+        # models' slots at once (the Krieg power weapon: the Commissar's default
+        # AND a Veteran's chainsword upgrade) — the single-slot pool can't
+        # attribute its copies, so it too stays on the per-id bounds.
+        if messy or not clean_adds or added_by.get(base, 0) > 0:
             continue
         # The slot can hold at most as many weapons as there are models carrying
         # this base weapon by default — its base count (model_count when not

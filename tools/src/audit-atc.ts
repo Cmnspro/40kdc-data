@@ -186,11 +186,44 @@ function auditCompositionDrift(ds: Dataset): CompositionDrift[] {
   );
 }
 
+/**
+ * Walk every list in the corpus files, invoking `cb` per non-empty
+ * `armyListText`. Returns the per-file corpus stats. Shared by the audit and
+ * the `--emit-cases` generator so both see the exact same lists.
+ */
+function forEachCorpusList(
+  root: string,
+  cb: (rel: string, faction: string, text: string) => void,
+): AtcAuditReport["corpus"] {
+  const corpus: AtcAuditReport["corpus"] = [];
+  for (const rel of CORPUS_FILES) {
+    const path = resolve(root, rel);
+    if (!existsSync(path)) {
+      throw new Error(`corpus file missing: ${rel} (run from the repo root checkout)`);
+    }
+    const data = JSON.parse(readFileSync(path, "utf-8")) as CorpusFile;
+    let fileLists = 0;
+    let skipped = 0;
+    for (const team of data.teams ?? []) {
+      for (const player of team.players ?? []) {
+        const text = player.armyListText;
+        if (!text || !text.trim()) {
+          skipped += 1;
+          continue;
+        }
+        fileLists += 1;
+        cb(rel, player.faction ?? "(unknown)", text);
+      }
+    }
+    corpus.push({ file: rel, lists: fileLists, skipped_no_text: skipped });
+  }
+  return corpus;
+}
+
 export function auditAtcCorpus(opts: { rootDir?: string } = {}): AtcAuditReport {
   const root = opts.rootDir ?? DEFAULT_ROOT;
   const ds = Dataset.embedded();
 
-  const corpus: AtcAuditReport["corpus"] = [];
   const parseFailures: AtcAuditReport["parse_failures"] = [];
   const warningsByCode = new Map<string, number>();
   const violationsByKey = new Map<string, number>();
@@ -205,69 +238,49 @@ export function auditAtcCorpus(opts: { rootDir?: string } = {}): AtcAuditReport 
   let listsWithViolations = 0;
   let violatingUnits = 0;
 
-  for (const rel of CORPUS_FILES) {
-    const path = resolve(root, rel);
-    if (!existsSync(path)) {
-      throw new Error(`corpus file missing: ${rel} (run from the repo root checkout)`);
+  const corpus = forEachCorpusList(root, (rel, faction, text) => {
+    lists += 1;
+
+    const res = tryImportRoster(text);
+    if (!res.ok) {
+      parseFailures.push({
+        file: rel,
+        list: listLabel(text),
+        faction,
+        reason: `${res.reason}: ${res.message}`,
+      });
+      return;
     }
-    const data = JSON.parse(readFileSync(path, "utf-8")) as CorpusFile;
-    let fileLists = 0;
-    let skipped = 0;
+    const roster = res.roster;
 
-    for (const team of data.teams ?? []) {
-      for (const player of team.players ?? []) {
-        const text = player.armyListText;
-        if (!text || !text.trim()) {
-          skipped += 1;
-          continue;
-        }
-        lists += 1;
-        fileLists += 1;
-        const faction = player.faction ?? "(unknown)";
-
-        const res = tryImportRoster(text);
-        if (!res.ok) {
-          parseFailures.push({
-            file: rel,
-            list: listLabel(text),
-            faction,
-            reason: `${res.reason}: ${res.message}`,
-          });
-          continue;
-        }
-        const roster = res.roster;
-
-        for (const w of roster.diagnostics.warnings) {
-          bump(warningsByCode, w.code);
-          if (w.raw_name) {
-            const names = unresolvedByCode.get(w.code) ?? new Map<string, number>();
-            bump(names, w.raw_name);
-            unresolvedByCode.set(w.code, names);
-          }
-        }
-
-        for (const unit of roster.units) {
-          const outcome = classifyGrouping(unit, roster, ds);
-          groupingByOutcome.set(outcome, (groupingByOutcome.get(outcome) ?? 0) + 1);
-          if (outcome === "solver-null" && unit.ref.id) bump(solverNullUnits, unit.ref.id);
-        }
-
-        const legality = checkRosterLegality(roster, ds);
-        let listViolated = false;
-        for (const entry of legality) {
-          if (entry.violations.length === 0) continue;
-          violatingUnits += 1;
-          listViolated = true;
-          for (const v of entry.violations) {
-            bump(violationsByKey, `${v.code}:${entry.unitId}`);
-            bump(violationsByCode, v.code);
-          }
-        }
-        if (listViolated) listsWithViolations += 1;
+    for (const w of roster.diagnostics.warnings) {
+      bump(warningsByCode, w.code);
+      if (w.raw_name) {
+        const names = unresolvedByCode.get(w.code) ?? new Map<string, number>();
+        bump(names, w.raw_name);
+        unresolvedByCode.set(w.code, names);
       }
     }
-    corpus.push({ file: rel, lists: fileLists, skipped_no_text: skipped });
-  }
+
+    for (const unit of roster.units) {
+      const outcome = classifyGrouping(unit, roster, ds);
+      groupingByOutcome.set(outcome, (groupingByOutcome.get(outcome) ?? 0) + 1);
+      if (outcome === "solver-null" && unit.ref.id) bump(solverNullUnits, unit.ref.id);
+    }
+
+    const legality = checkRosterLegality(roster, ds);
+    let listViolated = false;
+    for (const entry of legality) {
+      if (entry.violations.length === 0) continue;
+      violatingUnits += 1;
+      listViolated = true;
+      for (const v of entry.violations) {
+        bump(violationsByKey, `${v.code}:${entry.unitId}`);
+        bump(violationsByCode, v.code);
+      }
+    }
+    if (listViolated) listsWithViolations += 1;
+  });
 
   const compositionDrift = auditCompositionDrift(ds);
 
@@ -342,6 +355,187 @@ export function findRegressions(baseline: AtcAuditReport, fresh: AtcAuditReport)
     );
   }
   return out;
+}
+
+// ─── Corpus-derived conformance cases (`--emit-cases`) ──────────────────
+
+/** conformance/roster_legality case shape (see tools/test/conformance.test.ts). */
+export interface EmittedLegalityCase {
+  name: string;
+  args: {
+    unitId: string;
+    factionId?: string;
+    modelCount: number;
+    counts: Record<string, number>;
+  };
+  expected: string[];
+}
+
+/**
+ * Clusters whose corpus violation was hand-audited as REAL: the emitted case
+ * pins the violation instead of `[]`, proving the checker still catches it.
+ * (khorne-berzerkers: two corpus lists genuinely field 2× icon of Khorne.)
+ */
+const GENUINE_CLUSTERS = new Set(["exceeds-allowance:khorne-berzerkers"]);
+
+/**
+ * Violation families emitted as checker-layer cases. `below-min` is excluded —
+ * a printed list can't prove a floor violation (builders omit default
+ * sidearms), which is why the importer suppresses it. `invalid-model-count` is
+ * excluded — it is an importer model-count parse artifact, pinned by
+ * roster-area (import) cases instead of checker-layer counts.
+ */
+const EMIT_CODES = new Set(["exceeds-allowance", "exceeds-max", "swap-conflict"]);
+
+/**
+ * Derive conformance `roster_legality` cases from the ATC corpus: for every
+ * violation cluster (`code:unitId`) in the emitted families, capture one real
+ * flagged instance — `{unitId, factionId, modelCount, counts}`, entity ids and
+ * numbers only (IP-safe, no list text or player names) — expecting `[]`.
+ * These encode the corpus audit's verdict that TO-accepted loadouts are legal;
+ * they are RED against the pre-fix checker/data and flip green as the
+ * false-positive classes are fixed.
+ *
+ * Instance choice per cluster prefers, in order: an instance with a
+ * composition-plausible model count and no below-min/invalid-model-count
+ * violations (its `[]` expectation is purely the target bug); then a
+ * size-plausible instance; then any. Clusters that picked the identical
+ * instance (one loadout violating two codes) merge into a single case named
+ * for both codes.
+ */
+export function emitAtcCases(opts: { rootDir?: string } = {}): {
+  cases: EmittedLegalityCase[];
+  clusters: number;
+} {
+  const root = opts.rootDir ?? DEFAULT_ROOT;
+  const ds = Dataset.embedded();
+
+  interface Candidate {
+    unitId: string;
+    factionId: string | null;
+    modelCount: number;
+    counts: Map<string, number>;
+    violationStrings: string[];
+    tier: number;
+  }
+  const byCluster = new Map<string, Candidate>();
+
+  // modelCount fits some declared size (tiers when present, else the models
+  // envelope); units with no composition are trivially plausible.
+  const sizePlausible = (unitId: string, factionId: string | null, modelCount: number): boolean => {
+    const view =
+      (factionId ? ds.units.getInFaction(unitId, factionId) : undefined) ?? ds.units.getAny(unitId);
+    if (!view) return true;
+    const comp = ds.unitCompositionOf(view.raw);
+    const tiers = comp?.tiers;
+    if (tiers?.length) {
+      return tiers.some((t) => {
+        const min = t.models.reduce((s, m) => s + (m.min ?? 0), 0);
+        const max = t.models.reduce((s, m) => s + (m.max ?? 0), 0);
+        return modelCount >= min && modelCount <= max;
+      });
+    }
+    const models = comp?.models;
+    if (models?.length) {
+      const min = models.reduce((s, m) => s + (m.min ?? 0), 0);
+      const max = models.reduce((s, m) => s + (m.max ?? 0), 0);
+      return modelCount >= min && modelCount <= max;
+    }
+    return true;
+  };
+
+  forEachCorpusList(root, (_rel, _faction, text) => {
+    const res = tryImportRoster(text);
+    if (!res.ok) return;
+    const roster = res.roster;
+    for (const entry of checkRosterLegality(roster, ds)) {
+      if (entry.violations.length === 0) continue;
+      const codes = new Set(entry.violations.map((v) => v.code));
+      if (![...codes].some((c) => EMIT_CODES.has(c))) continue;
+      const rosterUnit = roster.units[entry.unitIndex];
+      const counts = new Map<string, number>();
+      for (const w of rosterUnit.wargear) {
+        if (w.ref.id === null) continue;
+        counts.set(w.ref.id, (counts.get(w.ref.id) ?? 0) + w.count);
+      }
+      // The RESOLVED unit's own faction, not the roster's (often unresolved):
+      // it pins the case to the exact faction copy the check ran against.
+      const view = resolveRosterUnit(rosterUnit, ds, roster.faction_id);
+      const factionId = view?.raw.faction_id ?? roster.faction_id;
+      const plausible = sizePlausible(entry.unitId, factionId, entry.modelCount);
+      const clean = plausible && !codes.has("below-min") && !codes.has("invalid-model-count");
+      const tier = clean ? 0 : plausible ? 1 : 2;
+      const candidate: Candidate = {
+        unitId: entry.unitId,
+        factionId,
+        modelCount: entry.modelCount,
+        counts,
+        violationStrings: entry.violations.map((v) => `${v.code}:${v.id}`).sort(),
+        tier,
+      };
+      for (const code of codes) {
+        if (!EMIT_CODES.has(code)) continue;
+        const key = `${code}:${entry.unitId}`;
+        const cur = byCluster.get(key);
+        if (!cur || tier < cur.tier) byCluster.set(key, candidate);
+      }
+    }
+  });
+
+  // Merge clusters that chose the same instance; deterministic name & order.
+  const bySig = new Map<string, { codes: string[]; cand: Candidate }>();
+  for (const [key, cand] of [...byCluster.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    const code = key.slice(0, key.indexOf(":"));
+    const sig = JSON.stringify({
+      u: cand.unitId,
+      f: cand.factionId,
+      m: cand.modelCount,
+      c: [...cand.counts.entries()].sort(([a], [b]) => a.localeCompare(b)),
+    });
+    const cur = bySig.get(sig);
+    if (cur) cur.codes.push(code);
+    else bySig.set(sig, { codes: [code], cand });
+  }
+
+  const cases: EmittedLegalityCase[] = [];
+  for (const { codes, cand } of bySig.values()) {
+    const genuine = codes.some((c) => GENUINE_CLUSTERS.has(`${c}:${cand.unitId}`));
+    cases.push({
+      name: `atc-${[...new Set(codes)].sort().join("-")}-${cand.unitId}`,
+      args: {
+        unitId: cand.unitId,
+        ...(cand.factionId ? { factionId: cand.factionId } : {}),
+        modelCount: cand.modelCount,
+        counts: Object.fromEntries(
+          [...cand.counts.entries()].sort(([a], [b]) => a.localeCompare(b)),
+        ),
+      },
+      expected: genuine ? cand.violationStrings : [],
+    });
+  }
+  cases.sort((a, b) => a.name.localeCompare(b.name));
+  return { cases, clusters: byCluster.size };
+}
+
+/** Render cases in the corpus file's house style: inline args, 2-space indent. */
+function formatLegalityCases(cases: EmittedLegalityCase[]): string {
+  const inline = (v: unknown): string => {
+    if (v === null || typeof v !== "object") return JSON.stringify(v);
+    if (Array.isArray(v)) return `[${v.map(inline).join(", ")}]`;
+    const entries = Object.entries(v as Record<string, unknown>);
+    if (entries.length === 0) return "{}";
+    return `{ ${entries.map(([k, val]) => `${JSON.stringify(k)}: ${inline(val)}`).join(", ")} }`;
+  };
+  const blocks = cases.map((c) =>
+    [
+      "  {",
+      `    "name": ${JSON.stringify(c.name)},`,
+      `    "args": ${inline(c.args)},`,
+      `    "expected": ${c.expected.length ? `[${c.expected.map((e) => JSON.stringify(e)).join(", ")}]` : "[]"}`,
+      "  }",
+    ].join("\n"),
+  );
+  return `[\n${blocks.join(",\n")}\n]\n`;
 }
 
 // ─── Markdown rendering ──────────────────────────────────────────────────
@@ -448,7 +642,25 @@ const isMain =
 if (isMain) {
   const args = process.argv.slice(2);
   if (args.includes("--help") || args.includes("-h")) {
-    console.log("Usage: npx tsx tools/src/audit-atc.ts [--dry-run | --check]");
+    console.log("Usage: npx tsx tools/src/audit-atc.ts [--dry-run | --check | --emit-cases]");
+    process.exit(0);
+  }
+
+  if (args.includes("--emit-cases")) {
+    // ADD-ONLY: existing `atc-*` cases are regression pins captured when their
+    // cluster still violated — once the fix lands they hold the door shut, so a
+    // re-run against a healthier tree must never drop them. Only clusters with
+    // no pin yet gain a case.
+    const casesPath = resolve(DEFAULT_ROOT, "conformance/roster_legality/cases.json");
+    const existing = JSON.parse(readFileSync(casesPath, "utf-8")) as EmittedLegalityCase[];
+    const have = new Set(existing.map((c) => c.name));
+    const { cases, clusters } = emitAtcCases();
+    const added = cases.filter((c) => !have.has(c.name));
+    writeFileSync(casesPath, formatLegalityCases([...existing, ...added]));
+    console.log(
+      `Emitted ${added.length} new corpus-derived cases (${clusters} violating clusters seen, ` +
+        `${existing.length} existing cases kept) → conformance/roster_legality/cases.json`,
+    );
     process.exit(0);
   }
 

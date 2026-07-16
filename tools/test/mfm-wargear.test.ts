@@ -432,13 +432,13 @@ describe("deriveDefaults quantity rule + heterogeneity guard (option-group model
   });
 });
 
-describe("deriveWargear checkbox cap (wargear_option.inputType)", () => {
+describe("deriveWargear per-model swaps and ratio caps", () => {
   const wi = (id: string, name: string) => ({ id, wargearType: "weapon", localisations: { en: { name } } });
   const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   // Two model types. A multi-model "Goremonger" offering its chainblade swapped for
-  // one of {autopistol, blood-harpoon} — both CHECKBOX swaps (the GW "1 X → 1 Y"
-  // shape). A "Trooper" with a STEPPER swap (any number) and a CHECKBOX swap that is
-  // ALSO governed by a 1-per-5 wargear_limit (ratio must win over the checkbox).
+  // one of {autopistol, blood-harpoon} (per-model menu — stays any_number). A
+  // "Trooper" with an uncapped swap (any number) and a swap that is governed by
+  // a 1-per-5 wargear_limit (the ratio is the only per-option cap source).
   function dump(): MfmDump {
     return new MfmDump({
       data: {
@@ -528,12 +528,15 @@ describe("deriveWargear checkbox cap (wargear_option.inputType)", () => {
   const d = deriveWargear(dump(), "ds", slug);
   const byRemoved = (id: string) => d.options.find((o) => (o.replaces ?? []).includes(id));
 
-  it("caps a checkbox swap at 1 instance unit-wide (max_count: 1)", () => {
+  it("a checkbox swap with no limited set stays per-model (any_number)", () => {
+    // The app checkbox is a per-MODEL-card toggle, not a unit-wide cap: every
+    // true unit-wide 1-cap lives in a limited set (Goremongers' real blood
+    // harpoon carries one, and its single-item flat budget clamps the bounds).
     const o = byRemoved("chainblade")!;
     expect(o.replaces).toEqual(["chainblade"]);
-    // the two checkbox alternatives merge under one option (same replaced weapon)
+    // the two alternatives merge under one option (same replaced weapon)
     expect(o.replacement_choice).toEqual([["autopistol"], ["blood-harpoon"]]);
-    expect(o.model_constraint).toEqual({ model_name: "Goremonger", max_count: 1 });
+    expect(o.model_constraint).toEqual({ model_name: "Goremonger", any_number: true });
   });
 
   it("leaves a stepper swap uncapped (any_number)", () => {
@@ -542,7 +545,7 @@ describe("deriveWargear checkbox cap (wargear_option.inputType)", () => {
     expect(o.model_constraint).toEqual({ model_name: "Trooper", any_number: true });
   });
 
-  it("lets a wargear_limit ratio win over the checkbox (per_n_models, not max_count)", () => {
+  it("a wargear_limit ratio caps the swap (per_n_models)", () => {
     const o = byRemoved("pistol")!;
     expect(o.replacement).toEqual(["heavy-weapon"]);
     expect(o.model_constraint).toEqual({ model_name: "Trooper", per_n_models: 5 });
@@ -577,7 +580,8 @@ describe("limitedSetBudgets — per-item duplicate cap capture", () => {
   // A multi-item shared set (the Cadian special-weapon pattern): pick `choiceLimit`
   // per `modelCount` models, but no more than `duplicateLimit` of the SAME item.
   // GW tiers it (2/1 at 10 models, 4/2 at 20) — the binding (tightest-ratio) row's
-  // dup must ride alongside its count/per_models.
+  // dup must ride alongside its count/per_models. Faithful shape: one CHOICE per
+  // alternative weapon (a multi-item choice is a bundle, not alternatives).
   const budgetResolve = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   const sharedDump = (limits: Array<{ modelCount: number; choiceLimit: number; duplicateLimit: number | null }>) =>
     new MfmDump({
@@ -587,10 +591,13 @@ describe("limitedSetBudgets — per-item duplicate cap capture", () => {
           { id: "wi-b", wargearType: "weapon", localisations: { en: { name: "Beta" } } },
         ],
         limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
-        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice: [
+          { id: "lwc-a", limitedWargearChoiceSetId: "lim" },
+          { id: "lwc-b", limitedWargearChoiceSetId: "lim" },
+        ],
         limited_wargear_choice_wargear_item: [
-          { id: "x1", count: 1, wargearItemId: "wi-a", limitedWargearChoiceId: "lwc" },
-          { id: "x2", count: 1, wargearItemId: "wi-b", limitedWargearChoiceId: "lwc" },
+          { id: "x1", count: 1, wargearItemId: "wi-a", limitedWargearChoiceId: "lwc-a" },
+          { id: "x2", count: 1, wargearItemId: "wi-b", limitedWargearChoiceId: "lwc-b" },
         ],
         wargear_limit: limits.map((l, i) => ({ id: `wl${i}`, ...l, limitedWargearChoiceSetId: "lim" })),
       },
@@ -626,6 +633,293 @@ describe("limitedSetBudgets — per-item duplicate cap capture", () => {
     );
     expect(budgets).toEqual([{ items: ["alpha", "beta"], count: 2, per_models: 10 }]);
     expect("duplicate_limit" in budgets[0]).toBe(false);
+  });
+
+  it("a modelCount:0 row alongside scaling rows is NOT flat — the ratio binds", () => {
+    // The Death Company / Legionaries / CSM Chaos Terminators shape: (0,1)+(10,2)
+    // means "1 at minimum size, 2 at 10" = 1 per 5 — flattening to a per-unit 1
+    // halved a 10-model squad's legal allowance (an ATC false-positive class).
+    const budgets = limitedSetBudgets(
+      sharedDump([
+        { modelCount: 0, choiceLimit: 1, duplicateLimit: null },
+        { modelCount: 10, choiceLimit: 2, duplicateLimit: null },
+      ]),
+      "ds1",
+      budgetResolve,
+    );
+    expect(budgets).toEqual([{ items: ["alpha", "beta"], count: 2, per_models: 10 }]);
+  });
+});
+
+describe("limitedSetBudgets — choice bundles, copy counts, and exclusions", () => {
+  const budgetResolve = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+  it("a multi-item choice scales the cap: choiceLimit counts picks, not copies", () => {
+    // Wolf Guard Terminators: one choice = [assault cannon + power fist],
+    // limit (5,1)/(10,2) — two picks at 10 models legally sum to FOUR items.
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-ac", wargearType: "weapon", localisations: { en: { name: "Assault cannon" } } },
+          { id: "wi-pf", wargearType: "weapon", localisations: { en: { name: "Power fist" } } },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-ac", limitedWargearChoiceId: "lwc" },
+          { id: "x2", count: 1, wargearItemId: "wi-pf", limitedWargearChoiceId: "lwc" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 5, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+          { id: "wl1", modelCount: 10, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve)).toEqual([
+      { items: ["assault-cannon", "power-fist"], count: 2, per_models: 5 },
+    ]);
+  });
+
+  it("an item-row count: 2 scales the cap (the Seraphim 2-hand-flamer swap)", () => {
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-hf", wargearType: "weapon", localisations: { en: { name: "Hand flamer" } } },
+          { id: "wi-ip", wargearType: "weapon", localisations: { en: { name: "Inferno pistol" } } },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [
+          { id: "lwc-hf", limitedWargearChoiceSetId: "lim" },
+          { id: "lwc-ip", limitedWargearChoiceSetId: "lim" },
+        ],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 2, wargearItemId: "wi-hf", limitedWargearChoiceId: "lwc-hf" },
+          { id: "x2", count: 2, wargearItemId: "wi-ip", limitedWargearChoiceId: "lwc-ip" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 0, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+          { id: "wl1", modelCount: 10, choiceLimit: 4, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    // 4 picks per 10 models × 2 copies per pick = 8 copies per 10 (4 at 5 models).
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve)).toEqual([
+      { items: ["hand-flamer", "inferno-pistol"], count: 8, per_models: 10 },
+    ]);
+  });
+
+  it("excludes derived-default items from the budget (the boltgun+simulacrum class)", () => {
+    // The choice retains the model's default boltgun ("that model's boltgun cannot
+    // be replaced") — counting it would make every STOCK squad flag.
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-bg", wargearType: "weapon", localisations: { en: { name: "Boltgun" } } },
+          { id: "wi-si", wargearType: "wargear", localisations: { en: { name: "Simulacrum" } } },
+        ],
+        miniature: [{ id: "m1", localisations: { en: { name: "Battle Sister" } } }],
+        wargear_option_group: [],
+        unit_composition: [],
+        wargear_option: [{ id: "wo-bg", wargearItemId: "wi-bg" }],
+        base_miniature_loadout: [{ id: "bml1", datasheetId: "ds1", miniatureId: "m1" }],
+        base_miniature_loadout_wargear_option: [
+          { id: "bo1", count: 1, wargearOptionId: "wo-bg", baseMiniatureLoadoutId: "bml1" },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-bg", limitedWargearChoiceId: "lwc" },
+          { id: "x2", count: 1, wargearItemId: "wi-si", limitedWargearChoiceId: "lwc" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 0, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve)).toEqual([
+      { items: ["simulacrum"], count: 1, per_models: 0 },
+    ]);
+  });
+
+  it("excludes items shared with another limited set (the Kommandos close-combat-weapon)", () => {
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-ccw", wargearType: "weapon", localisations: { en: { name: "Close combat weapon" } } },
+          { id: "wi-rl", wargearType: "weapon", localisations: { en: { name: "Rokkit launcha" } } },
+          { id: "wi-ks", wargearType: "weapon", localisations: { en: { name: "Kustom shoota" } } },
+        ],
+        limited_wargear_choice_set: [
+          { id: "lim-rl", mandatory: false, datasheetId: "ds1", miniatureId: "m1" },
+          { id: "lim-ks", mandatory: false, datasheetId: "ds1", miniatureId: "m1" },
+        ],
+        limited_wargear_choice: [
+          { id: "lwc-rl", limitedWargearChoiceSetId: "lim-rl" },
+          { id: "lwc-ks", limitedWargearChoiceSetId: "lim-ks" },
+        ],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-ccw", limitedWargearChoiceId: "lwc-rl" },
+          { id: "x2", count: 1, wargearItemId: "wi-rl", limitedWargearChoiceId: "lwc-rl" },
+          { id: "x3", count: 1, wargearItemId: "wi-ccw", limitedWargearChoiceId: "lwc-ks" },
+          { id: "x4", count: 1, wargearItemId: "wi-ks", limitedWargearChoiceId: "lwc-ks" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 0, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim-rl" },
+          { id: "wl1", modelCount: 0, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim-ks" },
+        ],
+      },
+    });
+    // The companion ccw rides in BOTH sets' bundles — its copies can't be
+    // attributed to either allowance, so each budget keeps only its own weapon
+    // (sets emit in id order: lim-ks before lim-rl).
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve)).toEqual([
+      { items: ["kustom-shoota"], count: 2, per_models: 0 },
+      { items: ["rokkit-launcha"], count: 1, per_models: 0 },
+    ]);
+  });
+
+  it("excludes items another model type's option adds (the Plague champion plasma gun)", () => {
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-pg", wargearType: "weapon", localisations: { en: { name: "Plasma gun" } } },
+          { id: "wi-mg", wargearType: "weapon", localisations: { en: { name: "Meltagun" } } },
+          { id: "wi-pb", wargearType: "weapon", localisations: { en: { name: "Plague belcher" } } },
+        ],
+        miniature: [{ id: "m1", localisations: { en: { name: "Plague Marine" } } }],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [
+          { id: "lwc-pg", limitedWargearChoiceSetId: "lim" },
+          { id: "lwc-mg", limitedWargearChoiceSetId: "lim" },
+          { id: "lwc-pb", limitedWargearChoiceSetId: "lim" },
+        ],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-pg", limitedWargearChoiceId: "lwc-pg" },
+          { id: "x2", count: 1, wargearItemId: "wi-mg", limitedWargearChoiceId: "lwc-mg" },
+          { id: "x3", count: 1, wargearItemId: "wi-pb", limitedWargearChoiceId: "lwc-pb" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 5, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    const championOption = {
+      id: "wgo-champ",
+      unit_id: "plague-marines",
+      faction_id: "death-guard",
+      game_version: { edition: "11th", dataslate: "x" },
+      model_constraint: { model_name: "Plague Champion", max_count: 1 },
+      replaces: ["boltgun"],
+      replacement: ["plasma-gun"],
+    };
+    // The champion's own swap must not spend the troopers' per-5 allowance —
+    // plasma-gun copies are unattributable, so only the other specials stay
+    // policed. (Had the set collapsed to ONE surviving item, the mini-scoped
+    // single-weapon gate would drop the budget entirely.)
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve, [championOption])).toEqual([
+      { items: ["meltagun", "plague-belcher"], count: 1, per_models: 5 },
+    ]);
+  });
+
+  it("excludes items an uncapped option adds (the Boyz any-number shoota ccw)", () => {
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-ccw", wargearType: "weapon", localisations: { en: { name: "Close combat weapon" } } },
+          { id: "wi-rl", wargearType: "weapon", localisations: { en: { name: "Rokkit launcha" } } },
+          { id: "wi-bs", wargearType: "weapon", localisations: { en: { name: "Big shoota" } } },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [
+          { id: "lwc-rl", limitedWargearChoiceSetId: "lim" },
+          { id: "lwc-bs", limitedWargearChoiceSetId: "lim" },
+        ],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-ccw", limitedWargearChoiceId: "lwc-rl" },
+          { id: "x2", count: 1, wargearItemId: "wi-rl", limitedWargearChoiceId: "lwc-rl" },
+          { id: "x3", count: 1, wargearItemId: "wi-ccw", limitedWargearChoiceId: "lwc-bs" },
+          { id: "x4", count: 1, wargearItemId: "wi-bs", limitedWargearChoiceId: "lwc-bs" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 10, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    const shootaSwap = {
+      id: "wgo-shoota",
+      unit_id: "boyz",
+      faction_id: "orks",
+      game_version: { edition: "11th", dataslate: "x" },
+      model_constraint: { any_number: true },
+      replaces: ["slugga", "choppa"],
+      replacement: ["shoota", "close-combat-weapon"],
+    };
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve, [shootaSwap])).toEqual([
+      { items: ["big-shoota", "rokkit-launcha"], count: 1, per_models: 10 },
+    ]);
+  });
+
+  it("keeps items whose uncapped branch realizes one of the set's own choices", () => {
+    // Budget-governed swaps are deliberately authored any_number (the budget IS
+    // the enforcement). A WE Terminator branch [chainfist + combi-weapon] is the
+    // set's own chainfist pick with the free combi-bolter swap alongside — NOT
+    // an ungoverned path, so chainfist must stay policed.
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-cf", wargearType: "weapon", localisations: { en: { name: "Chainfist" } } },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: null }],
+        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-cf", limitedWargearChoiceId: "lwc" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 5, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+          { id: "wl1", modelCount: 10, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    const trooperSwap = {
+      id: "wgo-trooper",
+      unit_id: "chaos-terminators",
+      faction_id: "world-eaters",
+      game_version: { edition: "11th", dataslate: "x" },
+      model_constraint: { model_name: "World Eaters Terminator", any_number: true },
+      replaces: ["combi-bolter", "accursed-weapon"],
+      replacement_choice: [["chainfist", "combi-weapon"]],
+    };
+    // (5,1) and (10,2) tie at ratio 0.2 — first row wins, semantically identical.
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve, [trooperSwap])).toEqual([
+      { items: ["chainfist"], count: 1, per_models: 5 },
+    ]);
+  });
+
+  it("drops a set whose every item is excluded", () => {
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-bg", wargearType: "weapon", localisations: { en: { name: "Boltgun" } } },
+        ],
+        miniature: [{ id: "m1", localisations: { en: { name: "Trooper" } } }],
+        wargear_option_group: [],
+        unit_composition: [],
+        wargear_option: [{ id: "wo-bg", wargearItemId: "wi-bg" }],
+        base_miniature_loadout: [{ id: "bml1", datasheetId: "ds1", miniatureId: "m1" }],
+        base_miniature_loadout_wargear_option: [
+          { id: "bo1", count: 1, wargearOptionId: "wo-bg", baseMiniatureLoadoutId: "bml1" },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-bg", limitedWargearChoiceId: "lwc" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 0, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve)).toEqual([]);
   });
 });
 

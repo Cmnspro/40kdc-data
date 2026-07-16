@@ -4,25 +4,9 @@
     "faction_id": "genestealer-cults",
     "models": [
       {
-        "name": "Atalan Leader",
-        "profile_name": "Atalan Jackal",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "close-combat-weapon",
-          "atalan-small-arms"
-        ],
-        "is_leader_model": true,
-        "base_size_mm": {
-          "shape": "oval",
-          "width": 60,
-          "length": 35.5
-        }
-      },
-      {
         "name": "Atalan Jackal",
-        "min": 3,
-        "max": 7,
+        "min": 4,
+        "max": 8,
         "default_weapon_ids": [
           "atalan-small-arms",
           "close-combat-weapon"
@@ -39,9 +23,9 @@
         "min": 1,
         "max": 2,
         "default_weapon_ids": [
-          "close-combat-weapon",
           "atalan-small-arms",
-          "heavy-stubber"
+          "heavy-stubber",
+          "close-combat-weapon"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -54,7 +38,51 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Atalan Jackal",
+            "min": 4,
+            "max": 4
+          },
+          {
+            "name": "Atalan Wolfquad",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Atalan Jackal",
+            "min": 5,
+            "max": 8
+          },
+          {
+            "name": "Atalan Wolfquad",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Atalan Jackal",
+            "min": 8,
+            "max": 8
+          },
+          {
+            "name": "Atalan Wolfquad",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "kelermorph",

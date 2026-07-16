@@ -10,17 +10,28 @@ import (
 // Wargear-loadout maths shared by every consumer of the dataset. Go mirror of
 // python .../data/loadout.py.
 
-// optionCap is the maximum number of models that may take an option in a unit
-// of modelCount.
+// optionCap is the maximum number of TIMES an option may be taken in a unit of
+// modelCount models: any_number alone → once per model; any_number WITH
+// max_count: L → up to L per model (a multi-take mount: "up to 2 seeker
+// missiles", "up to three of the following, and can take duplicates"); else
+// per_n_models → floor(n / per), clamped by max_count when set; else
+// max_count ?? 1 (a flat allowance). A null constraint is treated as
+// unrestricted (every model). Never negative.
 func optionCap(option map[string]any, modelCount int, models []any) int {
 	c, _ := getMap(option, "model_constraint")
 	if len(c) == 0 {
 		return maxInt(0, modelCount)
 	}
+	// Per-model multiplicity: >1 only for the any_number+max_count multi-take
+	// shape; every other shape takes an option at most once per model.
+	perModel := 1
+	if truthy(c["any_number"]) && c["max_count"] != nil {
+		perModel = asInt(c["max_count"])
+	}
 	var cap int
 	switch {
 	case truthy(c["any_number"]):
-		cap = modelCount
+		cap = modelCount * perModel
 	case truthy(c["per_n_models"]):
 		per := asInt(c["per_n_models"])
 		cap = int(math.Floor(float64(modelCount) / float64(per)))
@@ -31,22 +42,22 @@ func optionCap(option map[string]any, modelCount int, models []any) int {
 			cap = 1
 		}
 	}
-	if c["max_count"] != nil {
+	if !truthy(c["any_number"]) && c["max_count"] != nil {
 		cap = minInt(cap, asInt(c["max_count"]))
 	}
 	// Eligible-model clamp: an option scoped to a named model profile can be taken
-	// by no more models than exist of that profile — a lone champion caps the swap
-	// at 1 even when per_n_models would allow more. A name with no matching row
-	// leaves the cap unclamped.
+	// by no more models than exist of that profile (× the per-model multiplicity) —
+	// a lone champion caps the swap at 1 even when per_n_models would allow more. A
+	// name with no matching row leaves the cap unclamped.
 	if name, ok := c["model_name"].(string); ok && name != "" && len(models) > 0 {
 		if eligible, ok := eligibleModelCount(models, modelCount, name); ok {
-			cap = minInt(cap, eligible)
+			cap = minInt(cap, eligible*perModel)
 		}
 	}
-	// A swap is per-model: at most one per model, so never more than modelCount —
-	// a max_count larger than the current squad size must not drive a weapon
-	// count negative.
-	return maxInt(0, minInt(cap, modelCount))
+	// At most perModel takes per model, so never more than modelCount × perModel —
+	// a flat max_count larger than the current squad size must not drive a swapped
+	// weapon count negative.
+	return maxInt(0, minInt(cap, modelCount*perModel))
 }
 
 // eligibleModelCount is how many models of profile name a unit of modelCount
@@ -752,18 +763,36 @@ func weaponBounds(unit map[string]any, modelCount int, options []any, models []a
 			b := bounds[id]
 			bounds[id] = intRange{maxInt(0, b.min-cap), b.max}
 		}
-		adds := map[string]struct{}{}
-		for _, id := range getStrList(o, "replacement") {
-			adds[id] = struct{}{}
-		}
-		for _, group := range getList(o, "replacement_choice") {
-			for _, id := range toStrList(group) {
-				adds[id] = struct{}{}
+		// A replacement id can appear in multiple options / both choice branches;
+		// sum the caps so its ceiling reflects every way to add it. Within one
+		// branch, multiplicity counts: a twin-mount swap authored
+		// ['lascannon','lascannon'] adds TWO per take (maximalLoadout already
+		// honors this — collapsing to a set here capped every paired sponson,
+		// Forgefiend ectoplasma, and 2-particle-beamer Spyder at half its legal
+		// count). Across branches an id's ceiling uses its largest single branch.
+		addMult := map[string]int{}
+		var branches [][]string
+		if o["replacement"] != nil {
+			branches = [][]string{getStrList(o, "replacement")}
+		} else {
+			for _, group := range getList(o, "replacement_choice") {
+				branches = append(branches, toStrList(group))
 			}
 		}
-		for id := range adds {
+		for _, group := range branches {
+			per := map[string]int{}
+			for _, id := range group {
+				per[id]++
+			}
+			for id, n := range per {
+				if n > addMult[id] {
+					addMult[id] = n
+				}
+			}
+		}
+		for id, n := range addMult {
 			b := bounds[id]
-			bounds[id] = intRange{b.min, b.max + cap}
+			bounds[id] = intRange{b.min, b.max + cap*n}
 		}
 	}
 	// A single-weapon flat budget caps the weapon's ceiling regardless of how
@@ -857,7 +886,12 @@ func swapConflicts(unit map[string]any, modelCount int, options []any, counts ma
 			if !contains(replaces, base) {
 				continue
 			}
-			if len(replaces) != 1 || len(getList(o, "replacement_choice")) > 0 {
+			// Only a plain, single-target, single-item swap of this exact base
+			// weapon is unambiguous. A 1→N bundle (Lychguard warscythe → shield +
+			// sword) yields TWO added copies per freed slot — summing each against
+			// the slot pool double-counts every bundle swap, so it stays on the
+			// looser bounds.
+			if len(replaces) != 1 || len(getList(o, "replacement_choice")) > 0 || len(getStrList(o, "replacement")) > 1 {
 				messy = true
 				break
 			}
@@ -872,7 +906,11 @@ func swapConflicts(unit map[string]any, modelCount int, options []any, counts ma
 				break
 			}
 		}
-		if messy || len(cleanAdds) == 0 {
+		// A base weapon that is itself ADDABLE by another option lives on several
+		// models' slots at once (the Krieg power weapon: the Commissar's default
+		// AND a Veteran's chainsword upgrade) — the single-slot pool can't attribute
+		// its copies, so it too stays on the per-id bounds.
+		if messy || len(cleanAdds) == 0 || addedBy[base] > 0 {
 			continue
 		}
 		// The slot can hold at most as many weapons as there are models carrying

@@ -107,9 +107,56 @@ fn parse_pts(raw: &str) -> Option<u64> {
     raw.replace(',', "").parse().ok()
 }
 
+/// BCP prepends a `++…++`-fenced summary block (`Player Name:` / `Factions
+/// Used:` / `Army Points:` …) above the GW app text it embeds. The block is not
+/// part of the pasted roster, and it derails the body grammar: the fence line
+/// gets consumed as the title and the first real unit's points line as the army
+/// limit — so strip the leading block when present. Only a block whose fence
+/// pair wraps a BCP marker is removed, so a framed GW export's own `+ …` fence
+/// is left intact. Mirror of the TS `stripBcpSummary`.
+fn strip_bcp_summary(text: &str) -> &str {
+    let is_fence = |l: &str| !l.is_empty() && l.chars().all(|c| c == '+');
+    let is_marker = |l: &str| {
+        let t = l.trim_start();
+        ["Player Name", "Team Name", "Factions Used", "Army Points"]
+            .iter()
+            .any(|k| {
+                t.strip_prefix(k)
+                    .is_some_and(|rest| rest.trim_start().starts_with(':'))
+            })
+    };
+    let mut offset = 0usize;
+    let mut fence_seen = false;
+    let mut marker_seen = false;
+    for line in text.split_inclusive('\n') {
+        let bare = line.trim_end_matches(['\n', '\r']);
+        if !fence_seen {
+            if bare.trim().is_empty() {
+                offset += line.len();
+                continue;
+            }
+            if !is_fence(bare.trim()) {
+                return text; // first non-blank line is not a fence
+            }
+            fence_seen = true;
+            offset += line.len();
+            continue;
+        }
+        offset += line.len();
+        if is_fence(bare.trim()) {
+            // Closing fence: strip only when the block carried a BCP marker.
+            return if marker_seen { &text[offset..] } else { text };
+        }
+        if is_marker(bare) {
+            marker_seen = true;
+        }
+    }
+    text // no closing fence
+}
+
 /// Accept bullet-bearing plain text that no framed adapter claims.
 fn headerless_text(decoded: &Value) -> Option<&str> {
-    let s = decoded.as_str()?;
+    let s = strip_bcp_summary(decoded.as_str()?);
     if !RE_BULLET_ANYWHERE.is_match(s) {
         return None; // need at least one bullet to be this family
     }

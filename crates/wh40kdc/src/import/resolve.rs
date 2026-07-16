@@ -13,7 +13,7 @@
 //!
 //! Rust mirror of `tools/src/import/resolve.ts`.
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 use crate::data::{
     check_unit_legality, group_loadout, loadout_models, loadout_tiers, normalize_name,
@@ -78,6 +78,26 @@ fn resolved(id: &str, raw_name: &str) -> ResolvedRef {
         resolved: true,
         candidates: Vec::new(),
     }
+}
+
+/// Singular/plural- and case-insensitive form for model-line matching:
+/// [`normalize_name`] then drop every 's' at a word boundary. Exact mirror of
+/// the TS `singular` (`normalizeName(s).replace(/s\b/g, "")` — a boundary is a
+/// following non-`\w` character or end of string).
+fn singular(s: &str) -> String {
+    let n = normalize_name(s);
+    let chars: Vec<char> = n.chars().collect();
+    let mut out = String::with_capacity(n.len());
+    for (i, &ch) in chars.iter().enumerate() {
+        let next_is_word = chars
+            .get(i + 1)
+            .is_some_and(|c| c.is_ascii_alphanumeric() || *c == '_');
+        if ch == 's' && !next_is_word {
+            continue;
+        }
+        out.push(ch);
+    }
+    out
 }
 
 /// Split a dual-detachment line on its " and " / comma joiners (the resolve-time
@@ -423,9 +443,75 @@ fn resolve_unit(
         None
     };
 
-    let wargear: Vec<RosterWargear> = parsed
-        .wargear
+    // ── Model-line reclassification ────────────────────────────────────────
+    // The flat GW dialects print model bullets at the same indent as weapon
+    // bullets, so the parser cannot tell "• 9x Pathfinder" from "• 10x Pulse
+    // carbine" — the model names land in `wargear` and `model_count` collapses
+    // to its 1 fallback. The RESOLVED unit knows its composition row names —
+    // and its own name covers vehicle squadrons ("2x Hippogriff AFV") — so a
+    // wargear entry matching one (singular/plural-insensitive) is a model
+    // line: its count rebuilds the model count and it leaves the wargear bag.
+    // Mirror of the TS reference.
+    let mut model_count = parsed.model_count;
+    let mut wargear_lines: Vec<&crate::import::types::ParsedWargear> =
+        parsed.wargear.iter().collect();
+    if let Some(unit) = hit {
+        let mut model_names: HashSet<String> = HashSet::new();
+        model_names.insert(singular(&unit.name));
+        for alias in &unit.aliases {
+            model_names.insert(singular(alias));
+        }
+        if let Some(comp) = ds.unit_compositions.iter().find(|c| {
+            c.unit_id.as_str() == unit.id.as_str()
+                && c.faction_id.as_str() == unit.faction_id.as_str()
+        }) {
+            for m in &comp.models {
+                model_names.insert(singular(&m.name));
+            }
+        }
+        let model_lines: Vec<&crate::import::types::ParsedWargear> = parsed
+            .wargear
+            .iter()
+            .filter(|w| model_names.contains(&singular(&w.raw_name)))
+            .collect();
+        let model_sum: u64 = model_lines.iter().map(|w| w.count as u64).sum();
+        if model_sum > 0 {
+            wargear_lines = parsed
+                .wargear
+                .iter()
+                .filter(|w| !model_names.contains(&singular(&w.raw_name)))
+                .collect();
+            // When the reclassified lines cover EVERY composition row name, they
+            // fully enumerate the unit and the parser's count was its synthetic 1
+            // fallback — the sum stands alone. Any uncovered row means the parser
+            // genuinely counted those models (a colon-dialect line) and the flat
+            // lines are the REST of the squad — the counts add. Mirror of TS.
+            let line_names: HashSet<String> =
+                model_lines.iter().map(|w| singular(&w.raw_name)).collect();
+            let covered = ds
+                .unit_compositions
+                .iter()
+                .find(|c| {
+                    c.unit_id.as_str() == unit.id.as_str()
+                        && c.faction_id.as_str() == unit.faction_id.as_str()
+                })
+                .map(|c| {
+                    c.models
+                        .iter()
+                        .all(|m| line_names.contains(&singular(&m.name)))
+                })
+                .unwrap_or(true);
+            model_count = if covered {
+                model_sum
+            } else {
+                model_count + model_sum
+            };
+        }
+    }
+
+    let wargear: Vec<RosterWargear> = wargear_lines
         .iter()
+        .copied()
         .map(|w| {
             // Prefer the resolved unit's own weapon of this name — picks the right
             // per-unit stat variant — falling back to the global lookup only when
@@ -468,7 +554,7 @@ fn resolve_unit(
     // Reconstruct the per-model-type loadout groups deterministically from the
     // resolved unit, so a re-export reproduces the same grouped lines the exporter
     // emits (round-trip) without the text parsers understanding model-name labels.
-    let loadout_groups = build_loadout_groups(hit, parsed.model_count, &wargear, ds);
+    let loadout_groups = build_loadout_groups(hit, model_count, &wargear, ds);
 
     // Loadout legality — the conservative checker over the fully-resolved counts.
     // Gated exactly like grouping (an unresolved unit has no datasheet; an
@@ -488,8 +574,7 @@ fn resolve_unit(
             let rows = models.as_deref().unwrap_or(&[]);
             let env_min: u64 = rows.iter().map(|m| m.min).sum();
             let env_max: u64 = rows.iter().map(|m| m.max).sum();
-            let plausible =
-                rows.is_empty() || (parsed.model_count >= env_min && parsed.model_count <= env_max);
+            let plausible = rows.is_empty() || (model_count >= env_min && model_count <= env_max);
             if plausible {
                 let mut counts: HashMap<String, i64> = HashMap::new();
                 for w in &wargear {
@@ -501,7 +586,7 @@ fn resolve_unit(
                 let tiers = comp.map(|c| loadout_tiers(&c.tiers));
                 let violations: Vec<_> = check_unit_legality(
                     unit,
-                    parsed.model_count,
+                    model_count,
                     &options,
                     &counts,
                     models.as_deref(),
@@ -532,7 +617,7 @@ fn resolve_unit(
 
     RosterUnit {
         ref_,
-        model_count: parsed.model_count,
+        model_count,
         points: parsed.points,
         is_warlord: parsed.is_warlord,
         enhancement,

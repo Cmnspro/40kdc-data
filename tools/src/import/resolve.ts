@@ -388,7 +388,46 @@ function resolveUnit(
     : null;
   const enhancement_points = enhancement === null ? null : parsed.enhancement_points;
 
-  const wargear = parsed.wargear.map((w) => {
+  // ── Model-line reclassification ────────────────────────────────────────
+  // The flat GW dialects print model bullets at the same indent as weapon
+  // bullets, so the parser cannot tell "• 9x Pathfinder" from "• 10x Pulse
+  // carbine" — the model names land in `wargear` and `model_count` collapses
+  // to its 1 fallback (which failed every tier check and inflated per-model
+  // ceilings across the ATC corpus). The RESOLVED unit knows its composition
+  // row names — and its own name covers vehicle squadrons ("2x Hippogriff
+  // AFV") — so a wargear entry matching one (singular/plural-insensitive) is a
+  // model line: its count rebuilds the model count and it leaves the wargear
+  // bag. Well-indented exports never put model names in wargear, so this is a
+  // no-op for them.
+  const singular = (s: string) => normalizeName(s).replace(/s\b/g, "");
+  let model_count = parsed.model_count;
+  let wargearLines = parsed.wargear;
+  if (hit) {
+    const modelNames = new Set<string>([singular(hit.name)]);
+    for (const alias of hit.raw.aliases ?? []) modelNames.add(singular(alias));
+    for (const m of ds.unitCompositionOf(hit.raw)?.models ?? []) {
+      if (m.name) modelNames.add(singular(m.name));
+    }
+    const isModelLine = (raw: string) => modelNames.has(singular(raw));
+    const modelLines = parsed.wargear.filter((w) => isModelLine(w.raw_name));
+    const modelSum = modelLines.reduce((s, w) => s + w.count, 0);
+    if (modelSum > 0) {
+      wargearLines = parsed.wargear.filter((w) => !isModelLine(w.raw_name));
+      // When the reclassified lines cover EVERY composition row name, they
+      // fully enumerate the unit and the parser's count was its synthetic 1
+      // fallback — the sum stands alone (Stormboyz: "4x Stormboy" + "1x Boss
+      // Nob" = 5). Any uncovered row means the parser genuinely counted those
+      // models (a colon-dialect "1x Shas'ui: …" line) and the flat lines are
+      // the REST of the squad — the counts add (1 + "9x Pathfinders" = 10).
+      const rows = ds.unitCompositionOf(hit.raw)?.models ?? [];
+      const lineNames = new Set(modelLines.map((w) => singular(w.raw_name)));
+      const covered =
+        rows.length === 0 || rows.every((m) => !m.name || lineNames.has(singular(m.name)));
+      model_count = covered ? modelSum : parsed.model_count + modelSum;
+    }
+  }
+
+  const wargear = wargearLines.map((w) => {
     // Prefer the resolved unit's own weapon of this name — picks the right
     // per-unit stat variant — falling back to the global lookup only when the
     // unit is unresolved or fields no weapon of that name.
@@ -417,7 +456,7 @@ function resolveUnit(
   // emits (round-trip), without the text parsers having to understand model-name
   // labels. Only when the unit and every weapon resolved and the loadout
   // decomposes exactly (groupLoadout returns null otherwise).
-  const loadout_groups = buildLoadoutGroups(hit, parsed.model_count, wargear, ds);
+  const loadout_groups = buildLoadoutGroups(hit, model_count, wargear, ds);
 
   // Loadout legality — the conservative checker over the fully-resolved counts.
   // Gated exactly like grouping (an unresolved unit has no datasheet to check;
@@ -437,13 +476,13 @@ function resolveUnit(
     const envMin = rows.reduce((s, m) => s + (m.min ?? 0), 0);
     const envMax = rows.reduce((s, m) => s + (m.max ?? 0), 0);
     const plausibleCount =
-      rows.length === 0 || (parsed.model_count >= envMin && parsed.model_count <= envMax);
+      rows.length === 0 || (model_count >= envMin && model_count <= envMax);
     if (plausibleCount) {
       const counts = new Map<string, number>();
       for (const w of wargear) counts.set(w.ref.id!, (counts.get(w.ref.id!) ?? 0) + w.count);
       const violations = checkUnitLegality(
         hit.raw,
-        parsed.model_count,
+        model_count,
         ds.wargearOptionsOf(hit.raw),
         counts,
         comp?.models,
@@ -463,7 +502,7 @@ function resolveUnit(
 
   return {
     ref,
-    model_count: parsed.model_count,
+    model_count,
     points: parsed.points,
     is_warlord: parsed.is_warlord,
     enhancement,

@@ -21,7 +21,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob on Warbike",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -78,7 +78,7 @@
       "grot-orderly"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -149,7 +149,7 @@
       "traktor-blasta"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -168,7 +168,7 @@
       "drilla"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -184,7 +184,7 @@
       "twin-supa-shoota"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -200,7 +200,7 @@
       "blastajet-force-field"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -219,7 +219,7 @@
       "twin-tellyport-mega-blasta"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -231,19 +231,11 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement_choice": [
-      [
-        "wreckin-ball"
-      ],
-      [
-        "ard-case"
-      ],
-      [
-        "grabbin-klaw"
-      ]
+    "replacement": [
+      "wreckin-ball"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -256,10 +248,10 @@
     },
     "is_free": true,
     "replacement": [
-      "lobba"
+      "ard-case"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -272,7 +264,7 @@
     },
     "is_free": true,
     "replacement": [
-      "big-shoota"
+      "grabbin-klaw"
     ],
     "model_constraint": {
       "any_number": true
@@ -280,6 +272,39 @@
   },
   {
     "id": "battlewagon-wgo-mfm-4",
+    "unit_id": "battlewagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "lobba"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-5",
+    "unit_id": "battlewagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "big-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true,
+      "max_count": 4
+    }
+  },
+  {
+    "id": "battlewagon-wgo-mfm-6",
     "unit_id": "battlewagon",
     "faction_id": "orks",
     "game_version": {
@@ -299,11 +324,11 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "battlewagon-wgo-mfm-5",
+    "id": "battlewagon-wgo-mfm-7",
     "unit_id": "battlewagon",
     "faction_id": "orks",
     "game_version": {
@@ -318,7 +343,7 @@
       "deff-rolla"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -338,7 +363,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -363,7 +388,7 @@
     ],
     "model_constraint": {
       "model_name": "Breaka Boy",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -410,7 +435,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -427,7 +452,7 @@
     ],
     "model_constraint": {
       "model_name": "Tankbusta",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -487,7 +512,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -541,7 +566,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -561,7 +586,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -577,7 +602,7 @@
       "wreckin-ball"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -593,7 +618,7 @@
       "grot-orderly"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -640,7 +665,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -652,12 +677,6 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "big-shoota",
-      "big-shoota",
-      "dread-klaw",
-      "dread-klaw"
-    ],
     "replacement_choice": [
       [
         "kustom-mega-blasta"
@@ -666,11 +685,18 @@
         "skorcha"
       ],
       [
+        "dread-klaw"
+      ],
+      [
         "rokkit-launcha-deff-dread"
+      ],
+      [
+        "big-shoota"
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 4
     }
   },
   {
@@ -686,7 +712,7 @@
       "twin-supa-shoota-dakkajet"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -713,7 +739,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -734,7 +760,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -775,7 +801,7 @@
       "killsaw-mek"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -862,7 +888,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -884,7 +910,7 @@
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -900,7 +926,7 @@
       "thump-gun"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -990,7 +1016,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1006,7 +1032,7 @@
       "skorcha-missile-rack"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1022,7 +1048,7 @@
       "attack-squig"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1041,7 +1067,7 @@
       "power-klaw-warboss"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   }
 ]

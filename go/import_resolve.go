@@ -513,8 +513,70 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		enhancementPoints = parsed["enhancement_points"]
 	}
 
+	// ── Model-line reclassification ─────────────────────────────────────────
+	// The flat GW dialects print model bullets at the same indent as weapon
+	// bullets, so the parser cannot tell "• 9x Pathfinder" from "• 10x Pulse
+	// carbine" — the model names land in wargear and model_count collapses to
+	// its 1 fallback. The RESOLVED unit knows its composition row names — and
+	// its own name covers vehicle squadrons ("2x Hippogriff AFV") — so a wargear
+	// entry matching one (singular/plural-insensitive) is a model line: its
+	// count rebuilds the model count and it leaves the wargear bag. Mirror of
+	// the TS reference.
+	modelCount := asInt(parsed["model_count"])
+	wargearLines := getList(parsed, "wargear")
+	if hit != nil {
+		modelNames := map[string]bool{singularName(hit.Name()): true}
+		for _, a := range getStrList(hit.Raw, "aliases") {
+			modelNames[singularName(a)] = true
+		}
+		models, _ := ds.unitCompositionOf(hit.Raw)
+		for _, mAny := range models {
+			m, _ := asMap(mAny)
+			if name := getStr(m, "name"); name != "" {
+				modelNames[singularName(name)] = true
+			}
+		}
+		modelSum := 0
+		lineNames := map[string]bool{}
+		for _, wAny := range wargearLines {
+			w, _ := asMap(wAny)
+			if n := singularName(getStr(w, "raw_name")); modelNames[n] {
+				modelSum += asInt(w["count"])
+				lineNames[n] = true
+			}
+		}
+		if modelSum > 0 {
+			kept := make([]any, 0, len(wargearLines))
+			for _, wAny := range wargearLines {
+				w, _ := asMap(wAny)
+				if !modelNames[singularName(getStr(w, "raw_name"))] {
+					kept = append(kept, wAny)
+				}
+			}
+			wargearLines = kept
+			// When the reclassified lines cover EVERY composition row name, they
+			// fully enumerate the unit and the parser's count was its synthetic 1
+			// fallback — the sum stands alone. Any uncovered row means the parser
+			// genuinely counted those models (a colon-dialect line) and the flat
+			// lines are the REST of the squad — the counts add. Mirror of TS.
+			covered := true
+			for _, mAny := range models {
+				m, _ := asMap(mAny)
+				if name := getStr(m, "name"); name != "" && !lineNames[singularName(name)] {
+					covered = false
+					break
+				}
+			}
+			if covered {
+				modelCount = modelSum
+			} else {
+				modelCount += modelSum
+			}
+		}
+	}
+
 	wargear := []any{}
-	for _, wAny := range getList(parsed, "wargear") {
+	for _, wAny := range wargearLines {
 		w := wAny.(map[string]any)
 		// Prefer the resolved unit's own weapon of this name — picks the right
 		// per-unit stat variant — falling back to the global lookup only when the
@@ -542,7 +604,7 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 
 	result := map[string]any{
 		"ref":                ref,
-		"model_count":        parsed["model_count"],
+		"model_count":        modelCount,
 		"points":             parsed["points"],
 		"is_warlord":         parsed["is_warlord"],
 		"enhancement":        enhancement,
@@ -554,7 +616,7 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 	// resolved unit, so a re-export reproduces the same grouped lines the exporter
 	// emits (round-trip), without the text parsers understanding model-name labels.
 	// Omitted (key absent) when it can't decompose exactly, to match the other impls.
-	if lg := buildLoadoutGroups(hit, asInt(parsed["model_count"]), wargear, ds); lg != nil {
+	if lg := buildLoadoutGroups(hit, modelCount, wargear, ds); lg != nil {
 		result["loadout_groups"] = lg
 	}
 
@@ -579,7 +641,6 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 			counts[id] += asInt(w["count"])
 		}
 		if allResolved {
-			modelCount := asInt(parsed["model_count"])
 			models, tiers := ds.unitCompositionOf(hit.Raw)
 			envMin, envMax := 0, 0
 			for _, mAny := range models {
@@ -610,6 +671,28 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 		}
 	}
 	return result
+}
+
+// singularName is the singular/plural- and case-insensitive form for
+// model-line matching: normalizeName then drop every 's' at a word boundary —
+// exact mirror of the TS normalizeName(s).replace(/s\\b/g, "") (a boundary is
+// a following non-word character or end of string).
+func singularName(s string) string {
+	n := NormalizeName(s)
+	runes := []rune(n)
+	out := make([]rune, 0, len(runes))
+	for i, ch := range runes {
+		nextIsWord := false
+		if i+1 < len(runes) {
+			c := runes[i+1]
+			nextIsWord = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+		}
+		if ch == 's' && !nextIsWord {
+			continue
+		}
+		out = append(out, ch)
+	}
+	return string(out)
 }
 
 // splitDetachmentParts splits a dual-detachment line on its " and " / comma

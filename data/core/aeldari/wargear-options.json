@@ -15,7 +15,7 @@
       "revenant-pulsar"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -34,7 +34,7 @@
       "sonic-lance"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -56,7 +56,7 @@
     ],
     "model_constraint": {
       "model_name": "Striking Scorpion Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -77,7 +77,7 @@
     ],
     "model_constraint": {
       "model_name": "Striking Scorpion Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -93,7 +93,7 @@
       "ghostglaive"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -106,14 +106,14 @@
     },
     "is_free": true,
     "replaces": [
-      "shuriken-catapult-wraithlord",
       "shuriken-catapult-wraithlord"
     ],
     "replacement": [
       "flamer"
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -143,7 +143,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -162,7 +163,7 @@
       "shuriken-cannon-wave-serpent"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -192,7 +193,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -209,7 +210,7 @@
     ],
     "model_constraint": {
       "model_name": "Voidscarred Felarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -239,11 +240,29 @@
         "blaster"
       ],
       [
-        "long-rifle"
-      ],
-      [
         "shuriken-rifle"
       ]
+    ],
+    "model_constraint": {
+      "model_name": "Corsair Voidscarred",
+      "any_number": true
+    }
+  },
+  {
+    "id": "corsair-voidscarred-wgo-mfm-3",
+    "unit_id": "corsair-voidscarred",
+    "faction_id": "aeldari",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "shuriken-pistol",
+      "power-sword"
+    ],
+    "replacement": [
+      "long-rifle"
     ],
     "model_constraint": {
       "model_name": "Corsair Voidscarred",
@@ -251,7 +270,7 @@
     }
   },
   {
-    "id": "corsair-voidscarred-wgo-mfm-3",
+    "id": "corsair-voidscarred-wgo-mfm-4",
     "unit_id": "corsair-voidscarred",
     "faction_id": "aeldari",
     "game_version": {
@@ -267,11 +286,11 @@
     ],
     "model_constraint": {
       "model_name": "Corsair Voidscarred",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "corsair-voidscarred-wgo-mfm-4",
+    "id": "corsair-voidscarred-wgo-mfm-5",
     "unit_id": "corsair-voidscarred",
     "faction_id": "aeldari",
     "game_version": {
@@ -292,7 +311,7 @@
     ],
     "model_constraint": {
       "model_name": "Voidscarred Felarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -311,7 +330,7 @@
       "shuriken-cannon-fire-prism"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -335,7 +354,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -365,7 +384,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -385,7 +404,7 @@
     ],
     "model_constraint": {
       "model_name": "Klaivex",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -414,7 +433,7 @@
     ],
     "model_constraint": {
       "model_name": "Fire Dragon Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -434,7 +453,7 @@
     ],
     "model_constraint": {
       "model_name": "Storm Guardian",
-      "any_number": true
+      "max_count": 2
     }
   },
   {
@@ -459,7 +478,7 @@
     ],
     "model_constraint": {
       "model_name": "Storm Guardian",
-      "any_number": true
+      "max_count": 4
     }
   },
   {
@@ -497,7 +516,7 @@
       "singing-spear-farseer-skyrunner"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -522,7 +541,7 @@
     ],
     "model_constraint": {
       "model_name": "Skyreaver Felarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -589,7 +608,7 @@
     ],
     "model_constraint": {
       "model_name": "Heavy Weapon Platform",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -828,7 +847,6 @@
     },
     "is_free": true,
     "replaces": [
-      "shuriken-cannon-war-walkers",
       "shuriken-cannon-war-walkers"
     ],
     "replacement_choice": [
@@ -846,7 +864,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -870,7 +889,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -891,7 +911,7 @@
       "heavy-wraithcannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -910,7 +930,7 @@
       "heavy-wraithcannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -929,7 +949,7 @@
       "heavy-wraithcannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -979,7 +999,7 @@
     ],
     "model_constraint": {
       "model_name": "Arena Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1001,7 +1021,7 @@
     ],
     "model_constraint": {
       "model_name": "Arena Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1040,7 +1060,7 @@
     ],
     "model_constraint": {
       "model_name": "Arena Champion",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1069,7 +1089,7 @@
     ],
     "model_constraint": {
       "model_name": "Swooping Hawk Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1109,7 +1129,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1129,7 +1149,7 @@
     ],
     "model_constraint": {
       "model_name": "Shining Spear Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1146,7 +1166,7 @@
     ],
     "model_constraint": {
       "model_name": "Shining Spear Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1171,7 +1191,7 @@
     ],
     "model_constraint": {
       "model_name": "Shining Spear Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1196,7 +1216,7 @@
     ],
     "model_constraint": {
       "model_name": "Voidreaver Felarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1273,7 +1293,7 @@
     ],
     "model_constraint": {
       "model_name": "Voidreaver Felarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1292,7 +1312,7 @@
       "neuro-disruptor-shadowseer"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1322,7 +1342,7 @@
     ],
     "model_constraint": {
       "model_name": "Warp Spider Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1350,7 +1370,7 @@
     ],
     "model_constraint": {
       "model_name": "Dark Reaper Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1375,7 +1395,7 @@
     ],
     "model_constraint": {
       "model_name": "Sybarite",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1392,7 +1412,7 @@
     ],
     "model_constraint": {
       "model_name": "Sybarite",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1412,7 +1432,7 @@
     ],
     "model_constraint": {
       "model_name": "Sybarite",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1443,7 +1463,7 @@
     ],
     "model_constraint": {
       "model_name": "Kabalite Warrior",
-      "max_count": 1
+      "max_count": 4
     }
   },
   {
@@ -1462,7 +1482,7 @@
       "prismatic-cannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1481,7 +1501,7 @@
       "singing-spear"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1500,7 +1520,7 @@
       "heavy-wraithcannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1524,7 +1544,8 @@
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "any_number": true,
+      "max_count": 2
     }
   },
   {
@@ -1544,7 +1565,7 @@
     ],
     "model_constraint": {
       "model_name": "Hekatrix",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1582,7 +1603,7 @@
       "singing-spear-farseer"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1601,7 +1622,7 @@
       "shuriken-cannon-night-spinner"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1625,7 +1646,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1655,7 +1676,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1714,7 +1735,7 @@
     ],
     "model_constraint": {
       "model_name": "Dire Avenger Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1731,7 +1752,7 @@
     ],
     "model_constraint": {
       "model_name": "Dire Avenger Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1756,7 +1777,7 @@
     ],
     "model_constraint": {
       "model_name": "Howling Banshee Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1777,7 +1798,7 @@
     ],
     "model_constraint": {
       "model_name": "Howling Banshee Exarch",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1796,7 +1817,7 @@
       "shuriken-cannon-falcon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1826,7 +1847,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1861,7 +1882,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1909,7 +1930,7 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1928,7 +1949,7 @@
       "harlequins-special-weapon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1968,7 +1989,7 @@
       "disintegrator-cannon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2025,7 +2046,7 @@
       "blast-pistol-ynnari-archon"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2089,7 +2110,7 @@
     ],
     "model_constraint": {
       "model_name": "Lead Player",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2139,7 +2160,7 @@
     ],
     "model_constraint": {
       "model_name": "Lead Player",
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2158,7 +2179,7 @@
       "splinter-cannon-ynnari-venom"
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
