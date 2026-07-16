@@ -18,7 +18,7 @@ from __future__ import annotations
 from typing import Any
 
 from wh40kdc.data.dataset import Dataset
-from wh40kdc.data.loadout import group_loadout
+from wh40kdc.data.loadout import check_unit_legality, group_loadout
 from wh40kdc.data.normalize import normalize_name, strip_leading_the
 
 #: The dataset edition/dataslate stamped onto an imported roster.
@@ -462,6 +462,45 @@ def _resolve_unit(
     if loadout_groups is not None:
         result["loadout_groups"] = loadout_groups
     result["leader_attachment"] = None
+
+    # Loadout legality — the conservative checker over the fully-resolved counts.
+    # Gated exactly like grouping (an unresolved unit has no datasheet; an
+    # unresolved weapon means the counts under-report the list), plus two
+    # import-specific reliability gates: the parsed model count must sit inside
+    # the composition envelope (the GW flat dialect infers ``model_count: 1`` for
+    # some units, so ``invalid-model-count`` is also filtered), and ``below-min``
+    # is filtered (list formats omit implicit default weapons). Mirror of the TS
+    # reference.
+    if hit is not None and all(w["ref"]["id"] is not None for w in wargear):
+        comp = ds.unit_composition_of(hit.raw) or {}
+        rows = comp.get("models") or []
+        env_min = sum((m.get("min") or 0) for m in rows)
+        env_max = sum((m.get("max") or 0) for m in rows)
+        model_count = parsed["model_count"]
+        if not rows or env_min <= model_count <= env_max:
+            counts: dict[str, int] = {}
+            for w in wargear:
+                wid = w["ref"]["id"]
+                counts[wid] = counts.get(wid, 0) + w["count"]
+            violations = [
+                v
+                for v in check_unit_legality(
+                    hit.raw,
+                    model_count,
+                    ds.wargear_options_of(hit.raw),
+                    counts,
+                    comp.get("models"),
+                    comp.get("tiers"),
+                )
+                if v["code"] not in ("invalid-model-count", "below-min")
+            ]
+            if violations:
+                detail = ", ".join(f"{v['code']}:{v['id']}" for v in violations)
+                diag.warn(
+                    "loadout-illegal",
+                    "Loadout is not buildable from the datasheet's wargear options: " + detail,
+                    parsed["raw_name"],
+                )
     return result
 
 

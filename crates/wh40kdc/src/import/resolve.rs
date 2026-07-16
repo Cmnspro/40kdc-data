@@ -15,7 +15,10 @@
 
 use std::collections::{BTreeMap, HashMap};
 
-use crate::data::{group_loadout, loadout_models, normalize_name, strip_leading_the, Dataset};
+use crate::data::{
+    check_unit_legality, group_loadout, loadout_models, loadout_tiers, normalize_name,
+    strip_leading_the, Dataset, ViolationCode,
+};
 
 use super::types::{
     AttachmentRole, BattleSize, Candidate, Diagnostics, ParsedRoster, ParsedUnit, ResolvedRef,
@@ -436,6 +439,66 @@ fn resolve_unit(
     // resolved unit, so a re-export reproduces the same grouped lines the exporter
     // emits (round-trip) without the text parsers understanding model-name labels.
     let loadout_groups = build_loadout_groups(hit, parsed.model_count, &wargear, ds);
+
+    // Loadout legality — the conservative checker over the fully-resolved counts.
+    // Gated exactly like grouping (an unresolved unit has no datasheet; an
+    // unresolved weapon means the counts under-report the list), plus two
+    // import-specific reliability gates: the parsed model count must sit inside
+    // the composition envelope (the GW flat dialect infers `model_count: 1` for
+    // some units, so `invalid-model-count` is also filtered), and `below-min` is
+    // filtered (list formats omit implicit default weapons). Mirror of the TS
+    // reference.
+    if let Some(unit) = hit {
+        if wargear.iter().all(|w| w.ref_.id.is_some()) {
+            let comp = ds.unit_compositions.iter().find(|c| {
+                c.unit_id.as_str() == unit.id.as_str()
+                    && c.faction_id.as_str() == unit.faction_id.as_str()
+            });
+            let models = comp.map(|c| loadout_models(&c.models));
+            let rows = models.as_deref().unwrap_or(&[]);
+            let env_min: u64 = rows.iter().map(|m| m.min).sum();
+            let env_max: u64 = rows.iter().map(|m| m.max).sum();
+            let plausible =
+                rows.is_empty() || (parsed.model_count >= env_min && parsed.model_count <= env_max);
+            if plausible {
+                let mut counts: HashMap<String, i64> = HashMap::new();
+                for w in &wargear {
+                    if let Some(id) = &w.ref_.id {
+                        *counts.entry(id.clone()).or_insert(0) += w.count as i64;
+                    }
+                }
+                let options = ds.wargear_options_of(unit);
+                let tiers = comp.map(|c| loadout_tiers(&c.tiers));
+                let violations: Vec<_> = check_unit_legality(
+                    unit,
+                    parsed.model_count,
+                    &options,
+                    &counts,
+                    models.as_deref(),
+                    tiers.as_deref(),
+                )
+                .into_iter()
+                .filter(|v| {
+                    v.code != ViolationCode::InvalidModelCount && v.code != ViolationCode::BelowMin
+                })
+                .collect();
+                if !violations.is_empty() {
+                    let detail = violations
+                        .iter()
+                        .map(|v| format!("{}:{}", v.code.as_str(), v.id))
+                        .collect::<Vec<_>>()
+                        .join(", ");
+                    diag.warn(
+                        WarningCode::LoadoutIllegal,
+                        &format!(
+                            "Loadout is not buildable from the datasheet's wargear options: {detail}"
+                        ),
+                        Some(&parsed.raw_name),
+                    );
+                }
+            }
+        }
+    }
 
     RosterUnit {
         ref_,

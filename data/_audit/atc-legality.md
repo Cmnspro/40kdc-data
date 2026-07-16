@@ -20,6 +20,7 @@ is a data or checker bug, not mass cheating.
 | code | count |
 |---|--:|
 | `weapon-unresolved` | 940 |
+| `loadout-illegal` | 633 |
 | `detachment-unresolved` | 430 |
 | `faction-unresolved` | 210 |
 | `leader-attachment-inferred` | 151 |
@@ -392,6 +393,72 @@ partition solver could not decompose — bad `replaces` data or genuinely illega
 | `Dogmata` | 1 |
 | `Imagifier` | 1 |
 | `Warlock` | 1 |
+
+## Unresolved names: `loadout-illegal`
+
+| raw name | count |
+|---|--:|
+| `Pathfinder Team` | 54 |
+| `Cultist Mob` | 45 |
+| `Piranhas` | 28 |
+| `Scout Squad` | 26 |
+| `Commander in Coldstar Battlesuit` | 25 |
+| `Chaos Predator Destructor` | 21 |
+| `Commander in Enforcer Battlesuit` | 21 |
+| `Rogal Dorn Commander` | 21 |
+| `Sekhetar Robots` | 21 |
+| `Legionaries` | 18 |
+| `Boyz` | 15 |
+| `Cthonian Beserks` | 15 |
+| `Death Company Marines with Jump Packs` | 15 |
+| `Skitarii Rangers` | 14 |
+| `Pink Horrors` | 13 |
+| `Attilan Rough Riders` | 12 |
+| `Paladin Squad` | 11 |
+| `Plague Marines` | 11 |
+| `Sky Ray Gunship` | 11 |
+| `Cadian Shock Troops` | 10 |
+| `Hammerhead Gunship` | 10 |
+| `Wolf Guard Terminators` | 10 |
+| `Rogal Dorn Battle Tank` | 9 |
+| `Raptors` | 8 |
+| `Seraphim Squad` | 8 |
+| `Skitarii Vanguard` | 8 |
+| `Battle Sisters Squad` | 6 |
+| `Catachan Jungle Fighters` | 6 |
+| `Forgefiend` | 6 |
+| `Noise Marines` | 6 |
+| `Purgation Squad` | 6 |
+| `Sanguinary Guard` | 6 |
+| `Sword Brethren Squad` | 6 |
+| `Baal Predator` | 5 |
+| `Battlewagon` | 5 |
+| `Chaos Terminator Squad` | 5 |
+| `Devilfish` | 5 |
+| `Lychguard` | 5 |
+| `Maulerfiend` | 5 |
+| `Skorpekh Destroyers` | 5 |
+| `Wraithlord` | 5 |
+| `Blue Horrors` | 4 |
+| `Chosen` | 4 |
+| `Gladiator Lancer` | 4 |
+| `Rhino` | 4 |
+| `Brotherhood Terminator Squad` | 3 |
+| `Cadre Fireblade` | 3 |
+| `Decimus Kill Team` | 3 |
+| `Predator Destructor` | 3 |
+| `Sisters of Battle Squad` | 3 |
+| `Wolf Scouts` | 3 |
+| `Wulfen with Storm Shields` | 3 |
+| `Baneblade` | 2 |
+| `Chaos Predator Annihilator` | 2 |
+| `Deathwatch Veterans` | 2 |
+| `Dominion Squad` | 2 |
+| `Foetid Bloat-drone` | 2 |
+| `Impulsor` | 2 |
+| `Indomitor Kill Team` | 2 |
+| `Khorne Berzerkers` | 2 |
+| … 27 more | |
 
 ## Unresolved names: `unit-unresolved`
 

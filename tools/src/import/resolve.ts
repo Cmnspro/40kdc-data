@@ -17,7 +17,7 @@
 import type { Dataset } from "../data/dataset.js";
 import type { UnitView } from "../data/entities.js";
 import { detachmentCapForBattleSize } from "../data/battle-sizes.js";
-import { groupLoadout } from "../data/loadout.js";
+import { checkUnitLegality, groupLoadout } from "../data/loadout.js";
 import { normalizeName, stripLeadingThe } from "../data/normalize.js";
 import type {
   BattleSize,
@@ -402,6 +402,48 @@ function resolveUnit(
   // labels. Only when the unit and every weapon resolved and the loadout
   // decomposes exactly (groupLoadout returns null otherwise).
   const loadout_groups = buildLoadoutGroups(hit, parsed.model_count, wargear, ds);
+
+  // Loadout legality — the conservative checker over the fully-resolved counts.
+  // Gated exactly like grouping (an unresolved unit has no datasheet to check;
+  // an unresolved weapon means the counts under-report the list), plus two
+  // import-specific reliability gates:
+  //   - the parsed model count must sit inside the composition envelope — the
+  //     GW flat dialect prints no model line for some units and the parser
+  //     infers `model_count: 1`, which would misfire every count-relative
+  //     ceiling (so `invalid-model-count` is also filtered);
+  //   - `below-min` is filtered — list formats routinely omit a model's
+  //     implicit default weapons (a Purifier Squad's purifying flame), so a
+  //     floor can't be judged from printed wargear lines.
+  // The opt-in `checkRosterLegality`/`checkRoster` APIs keep reporting both.
+  if (hit && wargear.every((w) => w.ref.id !== null)) {
+    const comp = ds.unitCompositionOf(hit.raw);
+    const rows = comp?.models ?? [];
+    const envMin = rows.reduce((s, m) => s + (m.min ?? 0), 0);
+    const envMax = rows.reduce((s, m) => s + (m.max ?? 0), 0);
+    const plausibleCount =
+      rows.length === 0 || (parsed.model_count >= envMin && parsed.model_count <= envMax);
+    if (plausibleCount) {
+      const counts = new Map<string, number>();
+      for (const w of wargear) counts.set(w.ref.id!, (counts.get(w.ref.id!) ?? 0) + w.count);
+      const violations = checkUnitLegality(
+        hit.raw,
+        parsed.model_count,
+        ds.wargearOptionsOf(hit.raw),
+        counts,
+        comp?.models,
+        comp?.tiers,
+      ).filter((v) => v.code !== "invalid-model-count" && v.code !== "below-min");
+      if (violations.length > 0) {
+        diag.warn(
+          "loadout-illegal",
+          `Loadout is not buildable from the datasheet's wargear options: ${violations
+            .map((v) => `${v.code}:${v.id}`)
+            .join(", ")}`,
+          parsed.raw_name,
+        );
+      }
+    }
+  }
 
   return {
     ref,

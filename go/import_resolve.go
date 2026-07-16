@@ -526,6 +526,58 @@ func resolveUnit(parsed map[string]any, factionID string, detachmentIDs []string
 	if lg := buildLoadoutGroups(hit, asInt(parsed["model_count"]), wargear, ds); lg != nil {
 		result["loadout_groups"] = lg
 	}
+
+	// Loadout legality — the conservative checker over the fully-resolved counts.
+	// Gated exactly like grouping (an unresolved unit has no datasheet; an
+	// unresolved weapon means the counts under-report the list), plus two
+	// import-specific reliability gates: the parsed model count must sit inside
+	// the composition envelope (the GW flat dialect infers model_count 1 for some
+	// units, so invalid-model-count is also filtered), and below-min is filtered
+	// (list formats omit implicit default weapons). Mirror of the TS reference.
+	if hit != nil {
+		allResolved := true
+		counts := map[string]int{}
+		for _, wAny := range wargear {
+			w, _ := asMap(wAny)
+			r, _ := asMap(w["ref"])
+			id, ok := r["id"].(string)
+			if !ok || id == "" {
+				allResolved = false
+				break
+			}
+			counts[id] += asInt(w["count"])
+		}
+		if allResolved {
+			modelCount := asInt(parsed["model_count"])
+			models, tiers := ds.unitCompositionOf(hit.Raw)
+			envMin, envMax := 0, 0
+			for _, mAny := range models {
+				m, _ := asMap(mAny)
+				envMin += asInt(m["min"])
+				envMax += asInt(m["max"])
+			}
+			if len(models) == 0 || (modelCount >= envMin && modelCount <= envMax) {
+				var violations []map[string]string
+				for _, v := range checkUnitLegality(hit.Raw, modelCount, ds.wargearOptionsOf(hit.Raw), counts, models, tiers) {
+					if v["code"] == "invalid-model-count" || v["code"] == "below-min" {
+						continue
+					}
+					violations = append(violations, v)
+				}
+				if len(violations) > 0 {
+					parts := make([]string, 0, len(violations))
+					for _, v := range violations {
+						parts = append(parts, v["code"]+":"+v["id"])
+					}
+					diag.warn(
+						"loadout-illegal",
+						"Loadout is not buildable from the datasheet's wargear options: "+strings.Join(parts, ", "),
+						parsed["raw_name"],
+					)
+				}
+			}
+		}
+	}
 	return result
 }
 
