@@ -11,7 +11,8 @@ frontmatter both pin it). Some agents spawn helper agents themselves (see `spawn
 
 - Frontmatter keys: `name`, `description`, `model`, `tools`, and optionally
   `spawns` and `output`. `name` matches the filename. `model` is an EXPLICIT provider/model
-  id. This suite is pinned to `openai-codex/gpt-5.5` for dry-run reliability; do NOT use
+  id. This suite is pinned to explicit Anthropic ids (`anthropic/claude-opus-4-8`,
+  `anthropic/claude-sonnet-5`, `anthropic/claude-haiku-4-5`, per the tier table below); do NOT use
   bare tier aliases (`haiku`/`sonnet`/`opus`) here — OMP fuzzy matching has resolved them
   to stale Anthropic ids and account-level rate limits can kill nested spawns mid-run.
 - `spawns` (CSV/array of agent names) lets an agent spawn those helpers itself via
