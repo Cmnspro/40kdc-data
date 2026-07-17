@@ -368,8 +368,8 @@ fn describe_simple(s: &SimpleCondition) -> String {
         ),
         T::PlayerTurnIs => {
             let turn = match ps(p, "turn") {
-                Some("your-turn") => "your",
-                Some("opponent-turn") => "the opponent's",
+                Some("your-turn") | Some("your") | Some("own") => "your",
+                Some("opponent-turn") | Some("opponent") => "the opponent's",
                 _ => "either player's",
             };
             format!("{negate}in {turn} turn")
@@ -458,14 +458,21 @@ fn describe_simple(s: &SimpleCondition) -> String {
             }
         }
         T::OpponentUnitWithinRange => {
+            let rv = ["range", "range_inches", "within_inches"]
+                .iter()
+                .filter_map(|k| p.get(*k))
+                .find(|v| !v.is_null());
             let r = if pnn(p, "weapon_name") {
                 format!("range of {}", dekebab(&pj(p, "weapon_name")))
             } else if pnn(p, "range_multiplier") {
                 "half range of its ranged weapons".to_string()
-            } else if ps(p, "range") == Some("engagement") {
+            } else if rv.and_then(Value::as_str) == Some("engagement") {
                 "engagement range".to_string()
             } else {
-                format!("{}\"", pj(p, "range"))
+                format!(
+                    "{}\"",
+                    rv.map(effect::jval).unwrap_or_else(|| "?".to_string())
+                )
             };
             format!("{negate}an enemy unit is within {r}")
         }

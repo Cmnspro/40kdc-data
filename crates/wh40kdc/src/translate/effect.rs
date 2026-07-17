@@ -493,6 +493,28 @@ fn join_and_lead_ins(operands: &[ConditionNode]) -> String {
             parts.push(excluded_target_keywords(&kws));
             continue;
         }
+        if let ConditionNode::SimpleCondition(s) = &operands[i] {
+            if !s.negated && s.type_ == SimpleConditionType::UnitHasKeyword {
+                let mut kws: Vec<String> = Vec::new();
+                while i < operands.len() {
+                    match &operands[i] {
+                        ConditionNode::SimpleCondition(s2)
+                            if !s2.negated && s2.type_ == SimpleConditionType::UnitHasKeyword =>
+                        {
+                            kws.push(jv(&s2.parameters, "keyword"));
+                            i += 1;
+                        }
+                        _ => break,
+                    }
+                }
+                parts.push(if kws.len() >= 2 {
+                    format!("if the unit is a {} unit", kws.join(" "))
+                } else {
+                    format!("if the unit has the {} keyword", kws[0])
+                });
+                continue;
+            }
+        }
         parts.push(condition_lead_in(&operands[i]));
         i += 1;
     }
@@ -560,8 +582,10 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                 }
                 T::TimingIs => describe_timing(nstr(p, "timing").unwrap_or("?")),
                 T::PlayerTurnIs => match nstr(p, "turn") {
-                    Some("your-turn") => "in your turn".to_string(),
-                    Some("opponent-turn") => "in the opponent's turn".to_string(),
+                    Some("your-turn") | Some("your") | Some("own") => "in your turn".to_string(),
+                    Some("opponent-turn") | Some("opponent") => {
+                        "in the opponent's turn".to_string()
+                    }
                     _ => "in either player's turn".to_string(),
                 },
                 T::ModelIsLeader => "while this model leads a unit".to_string(),
@@ -629,10 +653,13 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                         format!("range of {}", dekebab(&jv(p, "weapon_name")))
                     } else if notnull(p, "range_multiplier") {
                         "half range of its ranged weapons".to_string()
-                    } else if nstr(p, "range") == Some("engagement") {
-                        "engagement range".to_string()
                     } else {
-                        format!("{}\"", jv(p, "range"))
+                        let rv = first(p, &["range", "range_inches", "within_inches"]);
+                        if rv.and_then(Value::as_str) == Some("engagement") {
+                            "engagement range".to_string()
+                        } else {
+                            format!("{}\"", rv.map(jval).unwrap_or_else(|| "?".to_string()))
+                        }
                     };
                     format!("while an enemy unit is within {where_}")
                 }
@@ -1210,11 +1237,19 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             }
         }
         T::ReRoll => {
-            let noun = roll_name(m.get("roll").unwrap_or(&Value::Null));
-            let which = if nstr(m, "subset") == Some("ones") {
-                format!("a {noun} roll of 1")
+            let which = if nstr(m, "roll") == Some("any") {
+                if nstr(m, "subset") == Some("ones") {
+                    "any roll of 1".to_string()
+                } else {
+                    "any roll".to_string()
+                }
             } else {
-                format!("the {noun} roll")
+                let noun = roll_name(m.get("roll").unwrap_or(&Value::Null));
+                if nstr(m, "subset") == Some("ones") {
+                    format!("a {noun} roll of 1")
+                } else {
+                    format!("the {noun} roll")
+                }
             };
             format!("you can re-roll {which}")
         }
@@ -1844,10 +1879,17 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             format!("{subj} can arrive from Strategic Reserves regardless of mission rules")
         }
         T::RemoveBattleShock => format!("{subj} {} no longer Battle-shocked", agree(&subj, "is")),
-        T::FallbackAndAct => format!(
-            "{subj} {} eligible to shoot and declare a charge in a turn in which it Fell Back",
-            agree(&subj, "is")
-        ),
+        T::FallbackAndAct => {
+            let acts = if m.get("can_charge").and_then(Value::as_bool) == Some(true) {
+                "shoot and declare a charge"
+            } else {
+                "shoot"
+            };
+            format!(
+                "{subj} {} eligible to {acts} in a turn in which it Fell Back",
+                agree(&subj, "is")
+            )
+        }
         T::FightEligibilityExtension => {
             let r = jv(m, "range");
             format!(
@@ -2607,7 +2649,7 @@ fn condition_within_range(c: &ConditionNode) -> Option<f64> {
         }
         _ => return None,
     };
-    s.parameters.get("range").and_then(Value::as_f64)
+    first(&s.parameters, &["range", "range_inches", "within_inches"]).and_then(Value::as_f64)
 }
 
 /// Usage limit → front-of-sentence lead clause ("once per turn", "twice per

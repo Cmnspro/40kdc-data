@@ -1650,6 +1650,70 @@ function genEffectTranslation(): void {
       expected: { text: describeAbility({ effect: fc.effect as Effect, scope: fc.scope }) },
     });
   }
+
+  // Audit-corpus describer fixes (fallback-and-act default, re-roll "any",
+  // player-turn opponent, opponent-unit-within-range within_inches, and the
+  // compound unit-has-keyword lead-in). These exact shapes come from the human-
+  // corrected aeldari audit oracle; every string is engine-authored, so a second
+  // impl must independently reproduce it.
+  const FORCED_AUDIT_CASES: { id: string; effect: Record<string, unknown>; scope: Record<string, unknown> }[] = [
+    {
+      id: "fallback-and-act-shoot-only",
+      effect: { type: "fallback-and-act", target: "unit", modifier: {} },
+      scope: { range: "unit", duration: "permanent" },
+    },
+    {
+      id: "fallback-and-act-can-charge",
+      effect: { type: "fallback-and-act", target: "unit", modifier: { can_charge: true } },
+      scope: { range: "unit", duration: "permanent" },
+    },
+    {
+      id: "superlative-strategist",
+      effect: {
+        type: "conditional",
+        condition: { type: "model-is-leader" },
+        effect: {
+          type: "sequence",
+          steps: [
+            { type: "re-roll", target: "unit", modifier: { roll: "advance", subset: "all-failures" } },
+            {
+              type: "conditional",
+              condition: { type: "timing-is", parameters: { timing: "agile-manoeuvre" } },
+              effect: { type: "re-roll", target: "unit", modifier: { roll: "any", subset: "all-failures" } },
+            },
+          ],
+        },
+      },
+      scope: { range: "unit", duration: "turn" },
+    },
+    {
+      id: "deceptive-feint",
+      effect: {
+        type: "conditional",
+        condition: {
+          operator: "and",
+          operands: [
+            { type: "phase-is", parameters: { phase: "movement" } },
+            { type: "player-turn-is", parameters: { turn: "opponent" } },
+            { type: "opponent-unit-within-range", parameters: { within_inches: 8 } },
+            { operator: "not", operands: [{ type: "engagement-state" }] },
+            { type: "unit-has-keyword", parameters: { keyword: "HARLEQUINS" } },
+            { type: "unit-has-keyword", parameters: { keyword: "INFANTRY" } },
+          ],
+        },
+        effect: { type: "movement-modifier", target: "unit", modifier: { move_type: "normal", distance: "D3+3" } },
+      },
+      scope: { range: "unit", duration: "turn" },
+    },
+  ];
+  for (const fc of FORCED_AUDIT_CASES) {
+    cases.push({
+      caseId: `${fc.id}#${cases.length}`,
+      effect: fc.effect,
+      scope: fc.scope,
+      expected: { text: describeAbility({ effect: fc.effect as Effect, scope: fc.scope }) },
+    });
+  }
   writeJson(join(CONFORMANCE, "effect-translation", "cases.json"), cases);
   console.log(`effect-translation/cases.json: ${cases.length} cases (${seen.size} node types)`);
 }

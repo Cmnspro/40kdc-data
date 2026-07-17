@@ -565,6 +565,15 @@ function joinAndLeadIns(operands: Condition[]): string {
       parts.push(excludedTargetKeywords(kws));
       continue;
     }
+    if (!op.negated && op.type === "unit-has-keyword") {
+      const kws: string[] = [];
+      while (i < operands.length && !operands[i].negated && operands[i].type === "unit-has-keyword") {
+        kws.push(jstr((operands[i].parameters ?? {}).keyword));
+        i++;
+      }
+      parts.push(kws.length >= 2 ? `if the unit is a ${kws.join(" ")} unit` : `if the unit has the ${kws[0]} keyword`);
+      continue;
+    }
     parts.push(conditionLeadIn(op));
     i++;
   }
@@ -605,12 +614,16 @@ function conditionLeadIn(c: Condition): string {
       return `after being attached to a ${p.keyword ? `${jstr(p.keyword)} ` : ""}unit`;
     case "timing-is":
       return describeTiming(p.timing);
-    case "player-turn-is":
-      return p.turn === "your-turn"
-        ? "in your turn"
-        : p.turn === "opponent-turn"
-          ? "in the opponent's turn"
-          : "in either player's turn";
+    case "player-turn-is": {
+      const t = jstr(p.turn);
+      const phrase =
+        t === "your-turn" || t === "your" || t === "own"
+          ? "your"
+          : t === "opponent-turn" || t === "opponent"
+            ? "the opponent's"
+            : "either player's";
+      return `in ${phrase} turn`;
+    }
     case "model-is-leader":
       return "while this model leads a unit";
     case "charged-this-turn":
@@ -663,7 +676,10 @@ function conditionLeadIn(c: Condition): string {
       let where: string;
       if (p.weapon_name != null) where = `range of ${dekebab(jstr(p.weapon_name))}`;
       else if (p.range_multiplier != null) where = "half range of its ranged weapons";
-      else where = p.range === "engagement" ? "engagement range" : `${jstr(p.range)}"`;
+      else {
+        const range = p.range ?? p.range_inches ?? p.within_inches;
+        where = range === "engagement" ? "engagement range" : `${jstr(range)}"`;
+      }
       return `while an enemy unit is within ${where}`;
     }
     case "engagement-state": {
@@ -932,8 +948,15 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to ${rollName(m.roll)} rolls${ctxNote}`;
     }
     case "re-roll": {
-      const noun = rollName(m.roll);
-      const which = m.subset === "ones" ? `a ${noun} roll of 1` : `the ${noun} roll`;
+      const rn = jstr(m.roll);
+      const which =
+        rn === "any"
+          ? m.subset === "ones"
+            ? "any roll of 1"
+            : "any roll"
+          : m.subset === "ones"
+            ? `a ${rollName(m.roll)} roll of 1`
+            : `the ${rollName(m.roll)} roll`;
       return `you can re-roll ${which}`;
     }
     case "mortal-wounds": {
@@ -1269,8 +1292,10 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       const led = m.led_by != null ? ` led by a ${titleCase(jstr(m.led_by))} model` : "";
       return `at the start of the Declare Battle Formations step, ${subj} can join one friendly unit${led}, becoming part of that Bodyguard unit`;
     }
-    case "fallback-and-act":
-      return `${subj} is eligible to shoot and declare a charge in a turn in which it Fell Back`;
+    case "fallback-and-act": {
+      const acts = m.can_charge === true ? "shoot and declare a charge" : "shoot";
+      return `${subj} is eligible to ${acts} in a turn in which it Fell Back`;
+    }
     case "fight-eligibility-extension": {
       const r = jstr(m.range);
       return (
@@ -1632,7 +1657,8 @@ function timingOfCondition(c?: Condition): string | undefined {
 /** The numeric range of a top-level within-range condition, else undefined. */
 function conditionWithinRange(c?: Condition): number | undefined {
   if (c?.type !== "unit-within-range-of" && c?.type !== "opponent-unit-within-range") return undefined;
-  const r = (c.parameters ?? {}).range;
+  const params = c.parameters ?? {};
+  const r = params.range ?? params.range_inches ?? params.within_inches;
   return typeof r === "number" ? r : undefined;
 }
 

@@ -223,9 +223,9 @@ def describe_condition(c: Condition) -> str:
         return f"{negate}{describe_timing(p.get('timing'))}"
     if ctype == "player-turn-is":
         turn = p.get("turn")
-        if turn == "your-turn":
+        if turn in ("your-turn", "your", "own"):
             whose = "your"
-        elif turn == "opponent-turn":
+        elif turn in ("opponent-turn", "opponent"):
             whose = "the opponent's"
         else:
             whose = "either player's"
@@ -279,10 +279,13 @@ def describe_condition(c: Condition) -> str:
             within = f"range of {dekebab(_str(p.get('weapon_name')))}"
         elif p.get("range_multiplier") is not None:
             within = "half range of its ranged weapons"
-        elif p.get("range") == "engagement":
-            within = "engagement range"
         else:
-            within = f'{_str(p.get("range"))}"'
+            range_ = p.get("range")
+            if range_ is None:
+                range_ = p.get("range_inches")
+            if range_ is None:
+                range_ = p.get("within_inches")
+            within = "engagement range" if range_ == "engagement" else f'{_str(range_)}"'
         return f"{negate}an enemy unit is within {within}"
     if ctype == "unit-within-range-of":
         tt = _str(p.get("target_type") if p.get("target_type") is not None else "target")

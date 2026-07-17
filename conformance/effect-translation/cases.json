@@ -651,7 +651,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "In either player's turn, during the Shooting phase, until the end of the phase, this model has a 5+ invulnerable save."
+      "text": "In the opponent's turn, during the Shooting phase, until the end of the phase, this model has a 5+ invulnerable save."
     }
   },
   {
@@ -675,7 +675,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "During the Fight phase, the unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      "text": "During the Fight phase, the unit is eligible to shoot in a turn in which it Fell Back."
     }
   },
   {
@@ -800,7 +800,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      "text": "The unit is eligible to shoot in a turn in which it Fell Back."
     }
   },
   {
@@ -842,7 +842,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      "text": "The unit is eligible to shoot in a turn in which it Fell Back."
     }
   },
   {
@@ -1351,7 +1351,7 @@
       "frequency": "once-per-phase"
     },
     "expected": {
-      "text": "Once per phase, during the Shooting phase, in either player's turn, when destroyed by a ranged attack, unless while the unit is Battle-shocked, unless while the unit is within Engagement Range, until the end of the phase, the unit can make a Surge move of up to D6\"."
+      "text": "Once per phase, during the Shooting phase, in the opponent's turn, when destroyed by a ranged attack, unless while the unit is Battle-shocked, unless while the unit is within Engagement Range, until the end of the phase, the unit can make a Surge move of up to D6\"."
     }
   },
   {
@@ -1366,7 +1366,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      "text": "The unit is eligible to shoot in a turn in which it Fell Back."
     }
   },
   {
@@ -1684,7 +1684,7 @@
       "duration": "battle"
     },
     "expected": {
-      "text": "At the start of the battle, for the rest of the battle:\n  -> If the unit has the ARCHON keyword, if the unit has the KABALITE WARRIORS keyword, you gain 2 Pain Token Pool.\n  -> If the unit has the SUCCUBUS keyword, if the unit has the WYCHES keyword, you gain 2 Pain Token Pool.\n  -> If the unit has the HAEMONCULUS keyword, if the unit has the WRACKS keyword, you gain 2 Pain Token Pool."
+      "text": "At the start of the battle, for the rest of the battle:\n  -> If the unit is a ARCHON KABALITE WARRIORS unit, you gain 2 Pain Token Pool.\n  -> If the unit is a SUCCUBUS WYCHES unit, you gain 2 Pain Token Pool.\n  -> If the unit is a HAEMONCULUS WRACKS unit, you gain 2 Pain Token Pool."
     }
   },
   {
@@ -2796,7 +2796,7 @@
       "duration": "until-next-command-phase"
     },
     "expected": {
-      "text": "At the start of the Command phase, select one enemy unit (your Assemblage of Might target). Until your next Command phase, each time a friendly unit makes an attack against it, if the unit has the ADEPTUS CUSTODES keyword, if the unit has the CHARACTER keyword, the unit gets +1 to Wound rolls."
+      "text": "At the start of the Command phase, select one enemy unit (your Assemblage of Might target). Until your next Command phase, each time a friendly unit makes an attack against it, if the unit is a ADEPTUS CUSTODES CHARACTER unit, the unit gets +1 to Wound rolls."
     }
   },
   {
@@ -3176,7 +3176,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      "text": "The unit is eligible to shoot in a turn in which it Fell Back."
     }
   },
   {
@@ -5156,7 +5156,7 @@
       "duration": "battle"
     },
     "expected": {
-      "text": "When declaring Battle Formations, if the unit has the AETHON SHAAN keyword, if the unit has the KAYVAAN SHRIKE keyword, for the rest of the battle:\n  -> The unit gains the Captain keyword.\n  -> The unit loses the Chapter Master keyword.\n  -> The unit loses the Lone Operative ability."
+      "text": "When declaring Battle Formations, if the unit is a AETHON SHAAN KAYVAAN SHRIKE unit, for the rest of the battle:\n  -> The unit gains the Captain keyword.\n  -> The unit loses the Chapter Master keyword.\n  -> The unit loses the Lone Operative ability."
     }
   },
   {
@@ -5338,7 +5338,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit's ranged weapons gain [ASSAULT].\nWhile an enemy unit is within ?\", add 1 to the unit's Strength characteristic."
+      "text": "The unit's ranged weapons gain [ASSAULT].\nWhile an enemy unit is within 12\", add 1 to the unit's Strength characteristic."
     }
   },
   {
@@ -5754,7 +5754,7 @@
       "duration": "turn"
     },
     "expected": {
-      "text": "At the end of the turn, in either player's turn, unless while the unit is within Engagement Range, until the end of the turn, the unit has the Deep Strike ability."
+      "text": "At the end of the turn, in the opponent's turn, unless while the unit is within Engagement Range, until the end of the turn, the unit has the Deep Strike ability."
     }
   },
   {
@@ -5826,7 +5826,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "During the Command phase, in either player's turn against PSYKER targets or while the unit is below its starting strength, until the end of the phase:\n  -> Modify the Leadership characteristic of enemy units within 12\".\n  -> While the unit is below half strength, subtract 1 from the Battle-shock test of enemy units within 12\"."
+      "text": "During the Command phase, in the opponent's turn against PSYKER targets or while the unit is below its starting strength, until the end of the phase:\n  -> Modify the Leadership characteristic of enemy units within 12\".\n  -> While the unit is below half strength, subtract 1 from the Battle-shock test of enemy units within 12\"."
     }
   },
   {
@@ -6474,7 +6474,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "During the Command phase, in either player's turn against AFFLICTED targets, until the end of the phase:\n  While the unit is below half strength:\n    -> Roll one 2D6: on a 7 or less, the unit suffers D3 mortal wounds.\n  Unless while the unit is below half strength:\n    -> Roll one 2D6: on a 6 or less, the unit suffers D3 mortal wounds."
+      "text": "During the Command phase, in the opponent's turn against AFFLICTED targets, until the end of the phase:\n  While the unit is below half strength:\n    -> Roll one 2D6: on a 7 or less, the unit suffers D3 mortal wounds.\n  Unless while the unit is below half strength:\n    -> Roll one 2D6: on a 6 or less, the unit suffers D3 mortal wounds."
     }
   },
   {
@@ -7724,7 +7724,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The unit's ranged weapons gain [ASSAULT].\nWhile an enemy unit is within ?\", add 1 to the unit's Strength characteristic."
+      "text": "The unit's ranged weapons gain [ASSAULT].\nWhile an enemy unit is within 6\", add 1 to the unit's Strength characteristic."
     }
   },
   {
@@ -9228,7 +9228,7 @@
       "frequency": "once-per-opponent-turn"
     },
     "expected": {
-      "text": "Once per opponent's turn, in either player's turn, while the unit is on the battlefield, if 1+ friendly units destroyed this turn, until the end of the turn:\n  -> Destroy 1 model in this model.\n  -> This model has the Deep Strike ability."
+      "text": "Once per opponent's turn, in the opponent's turn, while the unit is on the battlefield, if 1+ friendly units destroyed this turn, until the end of the turn:\n  -> Destroy 1 model in this model.\n  -> This model has the Deep Strike ability."
     }
   },
   {
@@ -10340,7 +10340,7 @@
       "duration": "battle-round"
     },
     "expected": {
-      "text": "At the start of the battle round, until the end of the battle round, if the unit has the ADEPTUS ASTARTES keyword, if the unit has the PSYKER keyword, select one of the following (Psychic Discipline): add 2 to the unit's Move characteristic / you can re-roll a Hit roll of 1; you can re-roll a Wound roll of 1 / while an enemy unit is within ?\", add 1 to the unit's Armour Penetration characteristic (ranged) / while making ranged attacks, subtract 1 from the attacking unit's Strength characteristic / the unit ignores any modifiers to its characteristics; ignore modifiers the unit's All rolls."
+      "text": "At the start of the battle round, until the end of the battle round, if the unit is a ADEPTUS ASTARTES PSYKER unit, select one of the following (Psychic Discipline): add 2 to the unit's Move characteristic / you can re-roll a Hit roll of 1; you can re-roll a Wound roll of 1 / while an enemy unit is within 12\", add 1 to the unit's Armour Penetration characteristic (ranged) / while making ranged attacks, subtract 1 from the attacking unit's Strength characteristic / the unit ignores any modifiers to its characteristics; ignore modifiers the unit's All rolls."
     }
   },
   {
@@ -10873,7 +10873,7 @@
       "duration": "battle"
     },
     "expected": {
-      "text": "During the Movement phase, in either player's turn, at the end of the turn, if within an area terrain feature, for the rest of the battle, the terrain area is marked as shadow of chaos."
+      "text": "During the Movement phase, in your turn, at the end of the turn, if within an area terrain feature, for the rest of the battle, the terrain area is marked as shadow of chaos."
     }
   },
   {
@@ -10955,7 +10955,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The terrain area is marked as shadow of chaos.\nIf the unit has the KHORNE keyword, if the unit has the LEGIONES DAEMONICA keyword, friendly units within 6\" can re-roll Battle-shock tests."
+      "text": "The terrain area is marked as shadow of chaos.\nIf the unit is a KHORNE LEGIONES DAEMONICA unit, friendly units within 6\" can re-roll Battle-shock tests."
     }
   },
   {
@@ -11005,7 +11005,7 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "The terrain area is marked as shadow of chaos.\nIf the unit has the KHORNE keyword, if the unit has the LEGIONES DAEMONICA keyword, friendly units within 6\" can re-roll Battle-shock tests."
+      "text": "The terrain area is marked as shadow of chaos.\nIf the unit is a KHORNE LEGIONES DAEMONICA unit, friendly units within 6\" can re-roll Battle-shock tests."
     }
   },
   {
@@ -11932,7 +11932,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "During the Shooting phase, in either player's turn, after an enemy unit shoots, if the unit was hit by a ranged attack this phase, until the end of the phase:\n  -> Select up to 1 friendly Orks Infantry unit:\n    -> The unit can disembark.\n    -> The unit can make a Surge move of up to D6\"."
+      "text": "During the Shooting phase, in the opponent's turn, after an enemy unit shoots, if the unit was hit by a ranged attack this phase, until the end of the phase:\n  -> Select up to 1 friendly Orks Infantry unit:\n    -> The unit can disembark.\n    -> The unit can make a Surge move of up to D6\"."
     }
   },
   {
@@ -13142,6 +13142,148 @@
     },
     "expected": {
       "text": "This model can move through enemy models, but cannot end that move within Engagement Range of any enemy unit."
+    }
+  },
+  {
+    "caseId": "fallback-and-act-shoot-only#358",
+    "effect": {
+      "type": "fallback-and-act",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "The unit is eligible to shoot in a turn in which it Fell Back."
+    }
+  },
+  {
+    "caseId": "fallback-and-act-can-charge#359",
+    "effect": {
+      "type": "fallback-and-act",
+      "target": "unit",
+      "modifier": {
+        "can_charge": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "The unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+    }
+  },
+  {
+    "caseId": "superlative-strategist#360",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "model-is-leader"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "advance",
+              "subset": "all-failures"
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "timing-is",
+              "parameters": {
+                "timing": "agile-manoeuvre"
+              }
+            },
+            "effect": {
+              "type": "re-roll",
+              "target": "unit",
+              "modifier": {
+                "roll": "any",
+                "subset": "all-failures"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "expected": {
+      "text": "While this model leads a unit, until the end of the turn:\n  -> You can re-roll the Advance roll.\n  -> At agile manoeuvre, you can re-roll any roll."
+    }
+  },
+  {
+    "caseId": "deceptive-feint#361",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "movement"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "opponent"
+            }
+          },
+          {
+            "type": "opponent-unit-within-range",
+            "parameters": {
+              "within_inches": 8
+            }
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "type": "engagement-state"
+              }
+            ]
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "HARLEQUINS"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "INFANTRY"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "normal",
+          "distance": "D3+3"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "expected": {
+      "text": "During the Movement phase, in the opponent's turn, while an enemy unit is within 8\", unless while the unit is within Engagement Range, if the unit is a HARLEQUINS INFANTRY unit, until the end of the turn, the unit can make a Normal move of up to D3+3\"."
     }
   }
 ]
