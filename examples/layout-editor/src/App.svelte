@@ -47,6 +47,7 @@
   import type { TerrainTemplate } from "@alpaca-software/40kdc-data";
   import type { TerrainSetDef } from "./lib/sets.js";
   import Board from "./lib/Board.svelte";
+  import EventCompanionReference from "./lib/EventCompanionReference.svelte";
   import Inspector from "./lib/Inspector.svelte";
   import Library from "./lib/Library.svelte";
   import Palette from "./lib/Palette.svelte";
@@ -73,6 +74,8 @@
   const board = $derived(boardOf(layout));
   const zones = $derived<DeployZone[]>(deploymentZones(deployment));
   const divider = $derived<TerritoryDivider | null>(territoryDivider(deployment, board));
+  let referenceImage = $state<string | null>(null);
+  let referenceOpacity = $state(0.45);
 
   let solverHover = $state<SolverHover | null>(null);
   let solverLines = $state<SolverLine[]>([]);
@@ -388,6 +391,11 @@
         aria-label="Layout title"
         placeholder="Untitled layout"
       />
+      <EventCompanionReference
+        {layout}
+        bind:opacity={referenceOpacity}
+        onimage={(image) => (referenceImage = image)}
+      />
       <Board
         bind:this={boardRef}
         {layout}
@@ -401,6 +409,8 @@
         {showKeystones}
         {keystoneFacing}
         {warnPieceIds}
+        {referenceImage}
+        {referenceOpacity}
         onselect={(id) => (selectedId = id)}
         {onmove}
         {onorient}

@@ -11,6 +11,7 @@ import {
   reanchorToNearestArea,
   reanchorAllFeatures,
   templateById,
+  eventCompanionPage,
   type EditLayout,
   type EditPiece,
 } from "./model.js";
@@ -250,5 +251,28 @@ describe("reanchorToNearestArea", () => {
     const l = layout([a, f]);
     reanchorAllFeatures(l);
     expect(l.pieces.find((p) => p.id === "f")!.parent_area_id).toBe("a");
+  });
+});
+
+describe("eventCompanionPage", () => {
+  it.each([
+    ["take-and-hold-vs-purge-the-foe", 1, 12],
+    ["take-and-hold-vs-purge-the-foe", 3, 14],
+    ["disruption-vs-purge-the-foe", 1, 27],
+    ["disruption-vs-purge-the-foe", 3, 29],
+    ["disruption-vs-reconnaissance", 1, 39],
+    ["disruption-vs-reconnaissance", 3, 41],
+  ])("maps %s variant %i to page %i", (mission_matchup_id, variant, page) => {
+    expect(eventCompanionPage({ mission_matchup_id, variant })).toBe(page);
+  });
+
+  it.each([
+    {},
+    { mission_matchup_id: "unknown", variant: 1 },
+    { mission_matchup_id: "take-and-hold-vs-purge-the-foe", variant: 0 },
+    { mission_matchup_id: "take-and-hold-vs-purge-the-foe", variant: 4 },
+    { mission_matchup_id: "take-and-hold-vs-purge-the-foe", variant: 1.5 },
+  ])("rejects layouts without a mapped drawing", (layout) => {
+    expect(eventCompanionPage(layout)).toBeNull();
   });
 });

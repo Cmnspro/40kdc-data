@@ -38,6 +38,9 @@
     keystoneFacing?: boolean;
     /** Resolved ids of pieces named by a "needs review" warning, outlined on the board. */
     warnPieceIds?: Set<string>;
+    /** Ephemeral reference image rendered from a locally selected PDF. */
+    referenceImage?: string | null;
+    referenceOpacity?: number;
     onselect: (id: string | null) => void;
     onmove: (id: string, position: Vec2) => void;
     onorient: (id: string, patch: { rotation_degrees?: number; mirror?: Mirror }) => void;
@@ -54,6 +57,8 @@
     showKeystones = true,
     keystoneFacing = false,
     warnPieceIds = new Set<string>(),
+    referenceImage = null,
+    referenceOpacity = 0.45,
     onselect,
     onmove,
     onorient,
@@ -263,6 +268,18 @@
 >
   <g class="board-layer" bind:this={gEl} transform="translate({board.height},0) rotate(90)">
     <rect x="0" y="0" width={board.width} height={board.height} class="board-bg" />
+    {#if referenceImage}
+      <image
+        href={referenceImage}
+        x="0"
+        y="0"
+        width={board.width}
+        height={board.height}
+        preserveAspectRatio="none"
+        opacity={referenceOpacity}
+        pointer-events="none"
+      />
+    {/if}
 
     <!-- deployment zones (under the grid, like the printed card) -->
     {#each zones as z, i (z.player + i)}

@@ -689,6 +689,38 @@ interface MatchupRecord {
 const MATCHUPS: MatchupRecord[] = ds.missionMatchups.all.map((m) => m as MatchupRecord);
 const MATCHUP_BY_ID = new Map(MATCHUPS.map((m) => [m.id, m]));
 
+/** Printed Event Companion ordering, deliberately distinct from the library grid ordering. */
+const EVENT_COMPANION_DISPOSITIONS = [
+  "take-and-hold",
+  "purge-the-foe",
+  "disruption",
+  "reconnaissance",
+  "priority-assets",
+] as const;
+const eventCompanionDispositionIndex = (disposition: string): number =>
+  EVENT_COMPANION_DISPOSITIONS.indexOf(
+    disposition as (typeof EVENT_COMPANION_DISPOSITIONS)[number],
+  );
+
+/**
+ * The 1-based Event Companion PDF page for a standard layout, or `null` when
+ * the layout has no official matchup/variant drawing.
+ */
+export function eventCompanionPage(
+  layout: Pick<EditLayout, "mission_matchup_id" | "variant">,
+): number | null {
+  const matchup = layout.mission_matchup_id ? MATCHUP_BY_ID.get(layout.mission_matchup_id) : undefined;
+  const variant = layout.variant;
+  if (!matchup || typeof variant !== "number" || !Number.isInteger(variant) || variant < 1 || variant > 3) return null;
+
+  const a = eventCompanionDispositionIndex(matchup.disposition);
+  const b = eventCompanionDispositionIndex(matchup.opponent_disposition);
+  if (a < 0 || b < 0) return null;
+  const [i, j] = a <= b ? [a, b] : [b, a];
+  const pairOrdinal = i * 5 - (i * (i - 1)) / 2 + (j - i);
+  return 9 + pairOrdinal * 3 + (variant - 1);
+}
+
 /** Unordered-pair key for a matchup grid cell: the two dispositions in DISPOSITIONS order. */
 export function pairKey(a: string, b: string): string {
   const [lo, hi] = (DISPOSITION_INDEX.get(a) ?? 99) <= (DISPOSITION_INDEX.get(b) ?? 99) ? [a, b] : [b, a];
