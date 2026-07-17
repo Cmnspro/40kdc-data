@@ -101,6 +101,7 @@ fn event_phrase(e: &str) -> Option<&'static str> {
         "falls-back" => "when the unit Falls Back",
         "charge-move" => "when the unit makes a Charge move",
         "moved-through-terrain" => "when the unit moves through terrain",
+        "moved-through-tall-terrain" => "when the unit moves through terrain over 4\" tall",
         "enemy-unit-ended-move" => "an enemy unit ends a move",
         "enemy-unit-fell-back" => "an enemy unit Falls Back",
         "before-hit-roll" => "before a Hit roll is made",
@@ -172,8 +173,8 @@ fn timing_alias(t: &str) -> Option<&'static str> {
         "reinforcements-step" => "reinforcements",
         "setup" => "unit-set-up",
         "set-up-this-turn" => "unit-set-up",
-        "after-move-through-terrain-over-4-inches" => "moved-through-terrain",
-        "after-moving-through-tall-terrain" => "moved-through-terrain",
+        "after-move-through-terrain-over-4-inches" => "moved-through-tall-terrain",
+        "after-moving-through-tall-terrain" => "moved-through-tall-terrain",
         "when-this-unit-selected-to-shoot" => "selected-to-shoot",
         _ => return None,
     })
@@ -229,6 +230,17 @@ pub(super) fn describe_timing(t: &str) -> String {
         return format!("each time {}", dekebab(t));
     }
     format!("at {}", dekebab(t))
+}
+
+/// `timing-is` negation, generic over every [`describe_timing`] phrase: a
+/// `when …` clause becomes `unless …`; anything else is bare-prepended with
+/// `unless `. Mirrors the TS `negatedTiming` helper.
+pub(super) fn negated_timing(t: &str) -> String {
+    let phrase = describe_timing(t);
+    match phrase.strip_prefix("when ") {
+        Some(rest) => format!("unless {rest}"),
+        None => format!("unless {phrase}"),
+    }
 }
 
 /// TS `param != null` over the open parameter map.
@@ -362,10 +374,14 @@ fn describe_simple(s: &SimpleCondition) -> String {
     match s.type_ {
         // ── Ability-DSL conditions ──────────────────────────────────────────
         T::PhaseIs => format!("{negate}during the {} phase", pj(p, "phase")),
-        T::TimingIs => format!(
-            "{negate}{}",
-            describe_timing(ps(p, "timing").unwrap_or("?"))
-        ),
+        T::TimingIs => {
+            let timing = ps(p, "timing").unwrap_or("?");
+            if s.negated {
+                negated_timing(timing)
+            } else {
+                describe_timing(timing)
+            }
+        }
         T::PlayerTurnIs => {
             let turn = match ps(p, "turn") {
                 Some("your-turn") | Some("your") | Some("own") => "your",

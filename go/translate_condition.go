@@ -51,8 +51,8 @@ var timingAliases = map[string]string{
 	"reinforcements-step":                   "reinforcements",
 	"setup":                                 "unit-set-up",
 	"set-up-this-turn":                      "unit-set-up",
-	"after-move-through-terrain-over-4-inches": "moved-through-terrain",
-	"after-moving-through-tall-terrain":        "moved-through-terrain",
+	"after-move-through-terrain-over-4-inches": "moved-through-tall-terrain",
+	"after-moving-through-tall-terrain":        "moved-through-tall-terrain",
 	"when-this-unit-selected-to-shoot":         "selected-to-shoot",
 }
 
@@ -100,6 +100,17 @@ func describeTiming(timing any) string {
 	return "at " + dekebab(t)
 }
 
+// negatedTiming renders a `timing-is` negation, generic over every
+// describeTiming phrase: a "when ..." clause becomes "unless ..."; anything
+// else is bare-prepended with "unless ". Mirrors the TS negatedTiming helper.
+func negatedTiming(timing any) string {
+	phrase := describeTiming(timing)
+	if rest, ok := strings.CutPrefix(phrase, "when "); ok {
+		return "unless " + rest
+	}
+	return "unless " + phrase
+}
+
 var eventPhrases = map[string]string{
 	"start-of-phase":                  "at the start of the phase",
 	"end-of-phase":                    "at the end of the phase",
@@ -127,6 +138,7 @@ var eventPhrases = map[string]string{
 	"falls-back":                      "when the unit Falls Back",
 	"charge-move":                     "when the unit makes a Charge move",
 	"moved-through-terrain":           "when the unit moves through terrain",
+	"moved-through-tall-terrain":      "when the unit moves through terrain over 4\" tall",
 	"enemy-unit-ended-move":           "an enemy unit ends a move",
 	"enemy-unit-fell-back":            "an enemy unit Falls Back",
 	"before-hit-roll":                 "before a Hit roll is made",
@@ -203,7 +215,10 @@ func describeCondition(c map[string]any) string {
 	case "phase-is":
 		return negate + "during the " + cstr(p["phase"]) + " phase"
 	case "timing-is":
-		return negate + describeTiming(p["timing"])
+		if c["negated"] == true {
+			return negatedTiming(p["timing"])
+		}
+		return describeTiming(p["timing"])
 	case "player-turn-is":
 		whose := "either player's"
 		switch p["turn"] {

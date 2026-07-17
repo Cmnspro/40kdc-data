@@ -11270,7 +11270,7 @@
             "condition": {
               "type": "timing-is",
               "parameters": {
-                "timing": "moved-through-terrain"
+                "timing": "moved-through-tall-terrain"
               }
             },
             "effect": {
@@ -11296,7 +11296,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "During the Movement phase, until the end of the phase:\n  -> This model can move over non-Titanic models as though they were not there.\n  -> This model can move over terrain features 4\" or lower as though they were not there.\n  -> This model can move through enemy models.\n  -> This model can move over terrain features over 4\" as though they were not there.\n  When the unit moves through terrain:\n    -> Roll one D6: on exactly 1, modify this model's Leadership characteristic."
+      "text": "During the Movement phase, until the end of the phase:\n  -> This model can move over non-Titanic models as though they were not there.\n  -> This model can move over terrain features 4\" or lower as though they were not there.\n  -> This model can move through enemy models.\n  -> This model can move over terrain features over 4\" as though they were not there.\n  When the unit moves through terrain over 4\" tall:\n    -> Roll one D6: on exactly 1, modify this model's Leadership characteristic."
     }
   },
   {
@@ -13284,6 +13284,221 @@
     },
     "expected": {
       "text": "During the Movement phase, in the opponent's turn, while an enemy unit is within 8\", unless while the unit is within Engagement Range, if the unit is a HARLEQUINS INFANTRY unit, until the end of the turn, the unit can make a Normal move of up to D3+3\"."
+    }
+  },
+  {
+    "caseId": "moved-through-tall-terrain-inline#362",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "moved-through-tall-terrain"
+        }
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "self",
+        "modifier": {
+          "keywords": [
+            "stealth"
+          ]
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "When the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH]."
+    }
+  },
+  {
+    "caseId": "moved-through-tall-terrain-trigger-condition#363",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "self",
+      "modifier": {
+        "keywords": [
+          "stealth"
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "trigger": {
+      "event": "before-hit-roll",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "moved-through-tall-terrain"
+        }
+      }
+    },
+    "expected": {
+      "text": "Before a Hit roll is made, if when the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH]."
+    }
+  },
+  {
+    "caseId": "moved-through-tall-terrain-negated-inline#364",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "moved-through-tall-terrain"
+        },
+        "negated": true
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "self",
+        "modifier": {
+          "keywords": [
+            "stealth"
+          ]
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "Unless the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH]."
+    }
+  },
+  {
+    "caseId": "moved-through-tall-terrain-negated-trigger-condition#365",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "self",
+      "modifier": {
+        "keywords": [
+          "stealth"
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "trigger": {
+      "event": "before-hit-roll",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "moved-through-tall-terrain"
+        },
+        "negated": true
+      }
+    },
+    "expected": {
+      "text": "Before a Hit roll is made, if unless the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH]."
+    }
+  },
+  {
+    "caseId": "moved-through-tall-terrain-trigger-event#366",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "self",
+      "modifier": {
+        "keywords": [
+          "stealth"
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "trigger": {
+      "event": "moved-through-tall-terrain"
+    },
+    "expected": {
+      "text": "When the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH]."
+    }
+  },
+  {
+    "caseId": "moved-through-tall-terrain-legacy-aliases#367",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "after-move-through-terrain-over-4-inches"
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "self",
+            "modifier": {
+              "keywords": [
+                "stealth"
+              ]
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "after-moving-through-tall-terrain"
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "self",
+            "modifier": {
+              "keywords": [
+                "stealth"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "When the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH].\nWhen the unit moves through terrain over 4\" tall, this model's weapons gain [STEALTH]."
+    }
+  },
+  {
+    "caseId": "moved-through-terrain-generic-unaffected#368",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "moved-through-terrain"
+        }
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "self",
+        "modifier": {
+          "keywords": [
+            "stealth"
+          ]
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "When the unit moves through terrain, this model's weapons gain [STEALTH]."
     }
   }
 ]

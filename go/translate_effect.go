@@ -522,6 +522,9 @@ func conditionLeadIn(c map[string]any) string {
 	if c["negated"] == true && c["type"] == "unit-has-keyword" {
 		return "unless the unit has the " + ejstr(p["keyword"]) + " keyword"
 	}
+	if c["negated"] == true && c["type"] == "timing-is" {
+		return negatedTiming(p["timing"])
+	}
 	if c["negated"] == true {
 		return "if " + describeCondition(c)
 	}
@@ -1683,10 +1686,25 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 			"models within " + r + "\" of one or more enemy models are eligible " +
 			"and can target enemy units within " + r + "\""
 	case "engagement-passthrough":
+		var base string
 		if truthy(m["no_end_in_engagement"]) {
-			return subj + " can move through enemy models, but cannot end that move within Engagement Range of any enemy unit"
+			base = subj + " can move through enemy models, but cannot end that move within Engagement Range of any enemy unit"
+		} else {
+			base = subj + " can move through enemy models"
 		}
-		return subj + " can move through enemy models"
+		if moves, ok := asList(m["applies_to_moves"]); ok && len(moves) > 0 {
+			parts := make([]string, len(moves))
+			for i, x := range moves {
+				xs := ejstr(x)
+				if n, ok := moveNoun[xs]; ok {
+					parts[i] = n
+				} else {
+					parts[i] = dekebab(xs)
+				}
+			}
+			return base + ", during its " + andList(parts) + " moves"
+		}
+		return base
 	case "attack-restriction":
 		return describeAttackRestriction(m, subj)
 	case "objective-control-modifier":

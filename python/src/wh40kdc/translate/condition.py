@@ -83,8 +83,8 @@ _TIMING_ALIASES: dict[str, str] = {
     "reinforcements-step": "reinforcements",
     "setup": "unit-set-up",
     "set-up-this-turn": "unit-set-up",
-    "after-move-through-terrain-over-4-inches": "moved-through-terrain",
-    "after-moving-through-tall-terrain": "moved-through-terrain",
+    "after-move-through-terrain-over-4-inches": "moved-through-tall-terrain",
+    "after-moving-through-tall-terrain": "moved-through-tall-terrain",
     "when-this-unit-selected-to-shoot": "selected-to-shoot",
 }
 
@@ -132,6 +132,16 @@ def describe_timing(timing: Any) -> str:
     return f"at {dekebab(t)}"
 
 
+def negated_timing(timing: Any) -> str:
+    """``timing-is`` negation, generic over every ``describe_timing`` phrase: a
+    ``when ...`` clause becomes ``unless ...``; anything else is bare-prepended
+    with ``unless ``. Mirrors the TS ``negatedTiming`` helper."""
+    phrase = describe_timing(timing)
+    if phrase.startswith("when "):
+        return f"unless {phrase[5:]}"
+    return f"unless {phrase}"
+
+
 # Canonical ``game-event`` token → natural clause, for the reactive ``trigger.event``.
 # Unmapped events degrade to ``when <dekebab>``. Mirrors TS EVENT_PHRASES.
 _EVENT_PHRASES: dict[str, str] = {
@@ -161,6 +171,7 @@ _EVENT_PHRASES: dict[str, str] = {
     "falls-back": "when the unit Falls Back",
     "charge-move": "when the unit makes a Charge move",
     "moved-through-terrain": "when the unit moves through terrain",
+    "moved-through-tall-terrain": 'when the unit moves through terrain over 4" tall',
     "enemy-unit-ended-move": "an enemy unit ends a move",
     "enemy-unit-fell-back": "an enemy unit Falls Back",
     "before-hit-roll": "before a Hit roll is made",
@@ -220,7 +231,8 @@ def describe_condition(c: Condition) -> str:
     if ctype == "phase-is":
         return f"{negate}during the {_str(p.get('phase'))} phase"
     if ctype == "timing-is":
-        return f"{negate}{describe_timing(p.get('timing'))}"
+        timing = p.get("timing")
+        return negated_timing(timing) if c.get("negated") else describe_timing(timing)
     if ctype == "player-turn-is":
         turn = p.get("turn")
         if turn in ("your-turn", "your", "own"):
