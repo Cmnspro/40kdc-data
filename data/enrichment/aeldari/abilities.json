@@ -1070,6 +1070,11 @@
       "dataslate": "pre-launch-provisional"
     },
     "version": "2025-q3",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "start-of-phase",
+      "optional": false
+    },
     "effect": {
       "type": "conditional",
       "condition": {
@@ -1087,14 +1092,13 @@
       }
     },
     "scope": {
-      "range": "unit",
+      "range": "engagement-range",
       "duration": "permanent"
     },
     "unit_ids": [
       "ynnari-incubi"
     ],
-    "ability_type": "unit",
-    "behavior": "passive"
+    "ability_type": "unit"
   },
   {
     "ability_id": "assured-destruction",
@@ -2594,6 +2598,11 @@
             "passthrough": [
               "non-titanic-models",
               "terrain-le-4"
+            ],
+            "applies_to_moves": [
+              "normal",
+              "advance",
+              "fall-back"
             ]
           }
         },
@@ -2601,7 +2610,26 @@
           "type": "engagement-passthrough",
           "target": "self",
           "modifier": {
-            "no_end_in_engagement": true
+            "no_end_in_engagement": true,
+            "applies_to_moves": [
+              "normal",
+              "advance",
+              "fall-back"
+            ]
+          }
+        },
+        {
+          "type": "movement-modifier",
+          "target": "self",
+          "modifier": {
+            "passthrough": [
+              "tall-terrain"
+            ],
+            "applies_to_moves": [
+              "normal",
+              "advance",
+              "fall-back"
+            ]
           }
         },
         {
@@ -2609,7 +2637,7 @@
           "condition": {
             "type": "timing-is",
             "parameters": {
-              "timing": "moved-through-terrain"
+              "timing": "moved-through-tall-terrain"
             }
           },
           "effect": {
@@ -2618,10 +2646,10 @@
             "threshold": 1,
             "comparison": "eq",
             "on_success": {
-              "type": "ability-grant",
+              "type": "unit-tag",
               "target": "self",
               "modifier": {
-                "grant_type": "inflict-battle-shock"
+                "tag": "battle-shocked"
               }
             }
           }
@@ -3686,15 +3714,11 @@
             }
           },
           {
-            "type": "timing-is",
+            "type": "was-hit-by-attack",
             "parameters": {
-              "timing": "after-scoring-hit"
-            }
-          },
-          {
-            "type": "opponent-unit-within-range",
-            "parameters": {
-              "weapon_name": "doomweaver"
+              "subject": "target",
+              "weapon_name": "doomweaver",
+              "count_min": 1
             }
           }
         ]
@@ -3719,10 +3743,9 @@
             }
           },
           {
-            "type": "roll-modifier",
+            "type": "charge-roll-modifier",
             "target": "defender",
             "modifier": {
-              "roll": "charge",
               "operation": "subtract",
               "value": 2
             }
@@ -3731,8 +3754,8 @@
       }
     },
     "scope": {
-      "range": "self",
-      "duration": "turn"
+      "range": "any-visible",
+      "duration": "until-next-command-phase"
     },
     "unit_ids": [
       "night-spinner"
@@ -4180,7 +4203,7 @@
     ],
     "ability_type": "unit",
     "behavior": "activated",
-    "community_notes": "[APPROX] Used at the start of your opponent's Shooting phase; the selected unit must be visible to and within 36\" of this unit (the visibility/36\" range restriction is not expressible in the selector). The selected AELDARI INFANTRY unit gains the Stealth ability until the end of that phase. Full rule in raw-text store."
+    "community_notes": "[APPROX] Used at the start of your opponent's Shooting phase; the selection is MANDATORY (select exactly one eligible unit), not the optional 'up to one' the select-units selector can express, and the selected unit must be visible to and within 36\" of this unit. Neither the mandatory exactly-one count nor the visibility/36\" range gate is expressible in the selector (it carries only max_count, plus keywords/owner). The selected AELDARI INFANTRY unit gains the Stealth ability until the end of that phase. Full rule in raw-text store."
   },
   {
     "ability_id": "acrobatic-grace",
@@ -5392,45 +5415,10 @@
     "effect": {
       "type": "conditional",
       "condition": {
-        "operator": "and",
+        "operator": "not",
         "operands": [
           {
-            "type": "phase-is",
-            "parameters": {
-              "phase": "movement"
-            }
-          },
-          {
-            "type": "player-turn-is",
-            "parameters": {
-              "turn": "opponent"
-            }
-          },
-          {
-            "type": "opponent-unit-within-range",
-            "parameters": {
-              "within_inches": 8
-            }
-          },
-          {
-            "operator": "not",
-            "operands": [
-              {
-                "type": "engagement-state"
-              }
-            ]
-          },
-          {
-            "type": "unit-has-keyword",
-            "parameters": {
-              "keyword": "HARLEQUINS"
-            }
-          },
-          {
-            "type": "unit-has-keyword",
-            "parameters": {
-              "keyword": "INFANTRY"
-            }
+            "type": "engagement-state"
           }
         ]
       },
@@ -5443,11 +5431,26 @@
         }
       }
     },
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "bearer",
+        "range": 8
+      },
+      "optional": true
+    },
     "scope": {
       "range": "unit",
-      "duration": "turn"
+      "duration": "phase"
     },
-    "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+    "applies_to": {
+      "required_keywords": [
+        "HARLEQUINS",
+        "INFANTRY"
+      ]
+    },
+    "community_notes": "Reactive counter-move. Trigger gates on an enemy ending a move within 8 inches of the bearer, in the opponent's Movement phase; the bearer (a HARLEQUINS INFANTRY unit, curated via applies_to) then makes a Normal move of D3+3 inches unless it is within Engagement Range. Provisional 11e; see #21."
   },
   {
     "ability_id": "a-foot-in-the-future-fateful-performance",

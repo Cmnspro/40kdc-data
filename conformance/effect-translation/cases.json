@@ -11238,23 +11238,27 @@
             "target": "self",
             "modifier": {
               "passthrough": [
-                "non-titanic-models"
-              ]
-            }
-          },
-          {
-            "type": "movement-modifier",
-            "target": "self",
-            "modifier": {
-              "passthrough": [
+                "non-titanic-models",
                 "terrain-le-4"
+              ],
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
               ]
             }
           },
           {
             "type": "engagement-passthrough",
             "target": "self",
-            "modifier": {}
+            "modifier": {
+              "no_end_in_engagement": true,
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
+              ]
+            }
           },
           {
             "type": "movement-modifier",
@@ -11262,6 +11266,11 @@
             "modifier": {
               "passthrough": [
                 "tall-terrain"
+              ],
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
               ]
             }
           },
@@ -11279,11 +11288,10 @@
               "threshold": 1,
               "comparison": "eq",
               "on_success": {
-                "type": "leadership-modifier",
+                "type": "unit-tag",
                 "target": "self",
                 "modifier": {
-                  "test": "battle-shock",
-                  "operation": "apply"
+                  "tag": "battle-shocked"
                 }
               }
             }
@@ -11296,7 +11304,7 @@
       "duration": "phase"
     },
     "expected": {
-      "text": "During the Movement phase, until the end of the phase:\n  -> This model can move over non-Titanic models as though they were not there.\n  -> This model can move over terrain features 4\" or lower as though they were not there.\n  -> This model can move through enemy models.\n  -> This model can move over terrain features over 4\" as though they were not there.\n  When the unit moves through terrain over 4\" tall:\n    -> Roll one D6: on exactly 1, modify this model's Leadership characteristic."
+      "text": "During the Movement phase, until the end of the phase:\n  -> This model can move over non-Titanic models and terrain features 4\" or lower as though they were not there, during its Normal, Advance and Fall Back moves.\n  -> This model can move through enemy models, but cannot end that move within Engagement Range of any enemy unit, during its Normal, Advance and Fall Back moves.\n  -> This model can move over terrain features over 4\" as though they were not there, during its Normal, Advance and Fall Back moves.\n  When the unit moves through terrain over 4\" tall:\n    -> Roll one D6: on exactly 1, this model is marked as battle shocked."
     }
   },
   {

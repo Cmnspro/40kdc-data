@@ -106,7 +106,7 @@
       "defensive": 9,
       "inert": 79,
       "stub": 2,
-      "stubStructural": 3,
+      "stubStructural": 2,
       "gwTextLeak": 0,
       "defensiveSkipped": 0
     },
@@ -183,7 +183,7 @@
       "defensive": 6,
       "inert": 43,
       "stub": 5,
-      "stubStructural": 1,
+      "stubStructural": 0,
       "gwTextLeak": 0,
       "defensiveSkipped": 1
     },
@@ -244,10 +244,10 @@
     },
     {
       "faction": "tyranids",
-      "total": 114,
+      "total": 115,
       "offensive": 22,
       "defensive": 8,
-      "inert": 87,
+      "inert": 88,
       "stub": 5,
       "stubStructural": 1,
       "gwTextLeak": 0,
@@ -266,12 +266,12 @@
     }
   ],
   "totals": {
-    "total": 3122,
+    "total": 3123,
     "offensive": 768,
     "defensive": 266,
-    "inert": 2174,
+    "inert": 2175,
     "stub": 118,
-    "stubStructural": 42,
+    "stubStructural": 40,
     "gwTextLeak": 0,
     "defensiveSkipped": 57
   },
@@ -282,7 +282,7 @@
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 158
+      "count": 159
     },
     {
       "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
@@ -290,7 +290,7 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 102
+      "count": 104
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
@@ -397,15 +397,19 @@
       "count": 10
     },
     {
-      "reason": "dice-gated effect: stochastic; not expressible as a buff",
-      "count": 10
-    },
-    {
       "reason": "conditional: cannot evaluate condition \"unit-below-half-strength\" against current context",
       "count": 9
     },
     {
       "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
+      "count": 9
+    },
+    {
+      "reason": "effect type \"engagement-passthrough\" is not modelled by the buff layer",
+      "count": 9
+    },
+    {
+      "reason": "dice-gated effect: stochastic; not expressible as a buff",
       "count": 9
     },
     {
@@ -422,10 +426,6 @@
     },
     {
       "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
-      "count": 7
-    },
-    {
-      "reason": "effect type \"engagement-passthrough\" is not modelled by the buff layer",
       "count": 7
     },
     {
@@ -8424,7 +8424,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "aeldari",
@@ -8894,7 +8894,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "aeldari",
@@ -14471,7 +14471,7 @@
       "ability_id": "super-heavy-walker",
       "name": "Super-heavy Walker",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
@@ -22581,7 +22581,7 @@
       "ability_id": "super-heavy-walker",
       "name": "Super-heavy Walker",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
@@ -30498,6 +30498,16 @@
     },
     {
       "faction": "tyranids",
+      "ability_id": "untrammelled-ferocity-crusher-stampede",
+      "name": "Untrammelled Ferocity",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tyranids",
       "ability_id": "insurmountable-odds",
       "name": "Insurmountable Odds",
       "shape": "conditional",
@@ -30970,7 +30980,7 @@
       "faction": "world-eaters",
       "ability_id": "super-heavy-war-engine",
       "name": "Super-heavy War Engine",
-      "shape": "sequence",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
