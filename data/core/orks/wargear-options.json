@@ -524,15 +524,28 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replacement": [
+      "shoota"
+    ],
+    "model_constraint": {
+      "model_name": "Boy",
+      "any_number": true
+    }
+  },
+  {
+    "id": "boyz-wgo-mfm-2",
+    "unit_id": "boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
     "replaces": [
       "slugga",
       "choppa"
     ],
     "replacement_choice": [
-      [
-        "shoota",
-        "close-combat-weapon"
-      ],
       [
         "big-shoota",
         "close-combat-weapon"
@@ -548,7 +561,7 @@
     }
   },
   {
-    "id": "boyz-wgo-mfm-2",
+    "id": "boyz-wgo-mfm-3",
     "unit_id": "boyz",
     "faction_id": "orks",
     "game_version": {
@@ -570,7 +583,7 @@
     }
   },
   {
-    "id": "boyz-wgo-mfm-3",
+    "id": "boyz-wgo-mfm-4",
     "unit_id": "boyz",
     "faction_id": "orks",
     "game_version": {
@@ -583,6 +596,23 @@
     ],
     "replacement": [
       "power-klaw"
+    ],
+    "model_constraint": {
+      "model_name": "Boss Nob",
+      "any_number": true
+    }
+  },
+  {
+    "id": "boyz-wgo-mfm-5",
+    "unit_id": "boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "kustom-shoota"
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
@@ -1044,8 +1074,13 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "kombi-weapon",
+      "twin-sluggas",
+      "big-choppa-warboss"
+    ],
     "replacement": [
-      "attack-squig"
+      "kustom-shoota"
     ],
     "model_constraint": {
       "any_number": true
@@ -1065,6 +1100,22 @@
     ],
     "replacement": [
       "power-klaw-warboss"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "warboss-wgo-mfm-3",
+    "unit_id": "warboss",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "attack-squig"
     ],
     "model_constraint": {
       "any_number": true

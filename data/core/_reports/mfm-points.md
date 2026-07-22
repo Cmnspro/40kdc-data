@@ -10,7 +10,7 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 | adeptus-custodes | 35 | 0 | 0 | 0 | 0 | 0 |
 | adeptus-mechanicus | 38 | 0 | 0 | 0 | 0 | 0 |
 | aeldari | 76 | 0 | 0 | 0 | 0 | 0 |
-| agents-of-the-imperium | 33 | 0 | 0 | 4 | 0 | 0 |
+| agents-of-the-imperium | 33 | 0 | 0 | 3 | 0 | 0 |
 | astra-militarum | 75 | 0 | 0 | 0 | 0 | 0 |
 | chaos-daemons | 53 | 0 | 0 | 0 | 0 | 0 |
 | chaos-knights | 20 | 0 | 0 | 0 | 0 | 0 |
@@ -23,24 +23,24 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 | imperial-knights | 23 | 0 | 0 | 0 | 0 | 0 |
 | leagues-of-votann | 26 | 0 | 0 | 0 | 0 | 0 |
 | necrons | 57 | 0 | 0 | 4 | 0 | 0 |
-| orks | 63 | 0 | 0 | 1 | 0 | 0 |
+| orks | 63 | 0 | 0 | 1 | 1 | 0 |
 | tau-empire | 47 | 0 | 0 | 0 | 0 | 0 |
 | thousand-sons | 32 | 0 | 0 | 0 | 0 | 0 |
 | tyranids | 57 | 0 | 0 | 0 | 0 | 0 |
 | world-eaters | 29 | 0 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **1093** | **0** | **0** | **18** | **2** | **0** |
+| **TOTAL** | **1093** | **0** | **0** | **17** | **3** | **0** |
 
 ## adeptus-astartes
 
 **Ambiguous (multiple same-size base comps — kept repo value):**
 - bladeguard-veteran-squad
-- vanguard-veteran-squad-with-jump-packs
-- chaplain-with-jump-pack
 - assault-intercessor-squad
 - repulsor-executioner
 - captain-with-jump-pack
 - assault-intercessors-with-jump-packs
 - outrider-squad
+- chaplain-with-jump-pack
+- vanguard-veteran-squad-with-jump-packs
 - wolf-guard-headtakers
 
 **Size structure differs — review (kept repo value):**
@@ -51,7 +51,6 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 
 **Ambiguous (multiple same-size base comps — kept repo value):**
 - callidus-assassin
-- eversor-assassin
 - culexus-assassin
 - vindicare-assassin
 
@@ -68,6 +67,9 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 **Ambiguous (multiple same-size base comps — kept repo value):**
 - flash-gitz
 
+**Size structure differs — review (kept repo value):**
+- gretchin: repo sizes [11, 22] vs dump [10, 22]
+
 ## New units in dump (no repo entity — author in a follow-up): 41
 
 - astra-militarum/draydens-lance-attilan-rough-riders
@@ -76,7 +78,6 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 - aeldari/kygharils-protectors-dire-avengers
 - emperors-children/shalaxi-helbane
 - agents-of-the-imperium/inquisitors-hand-vigilant-squad
-- drukhari/coven-of-agonies-wracks
 - death-guard/plague-drones
 - death-guard/plaguebearers
 - black-templars/gladiator-lancer
@@ -87,7 +88,6 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 - thousand-sons/blue-horrors
 - death-guard/beasts-of-nurgle
 - thousand-sons/kairos-fateweaver
-- orks/ardmob-boyz
 - black-templars/gladiator-reaper
 - world-eaters/bloodcrushers
 - tyranids/vardenghast-swarm-termagants
@@ -111,4 +111,6 @@ Ambiguous units (multiple same-size base comps) are preserved, not overwritten.
 - emperors-children/fiends
 - world-eaters/bloodthirster
 - emperors-children/defiler
+- orks/ardmob-boyz
+- drukhari/coven-of-agonies-wracks
 

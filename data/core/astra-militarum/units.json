@@ -391,12 +391,12 @@
         "models": 5,
         "cost": 85,
         "unit_count_min": 1,
-        "unit_count_max": 1
+        "unit_count_max": 2
       },
       {
         "models": 5,
         "cost": 95,
-        "unit_count_min": 2,
+        "unit_count_min": 3,
         "unit_count_max": null
       }
     ],
@@ -581,7 +581,7 @@
     "points": [
       {
         "models": 10,
-        "cost": 100
+        "cost": 95
       }
     ],
     "keywords": [
@@ -873,13 +873,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 465,
+        "cost": 430,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 485,
+        "cost": 465,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -940,7 +940,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 85
+        "cost": 75,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 85,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1533,13 +1541,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 420,
+        "cost": 385,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 440,
+        "cost": 415,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -2059,7 +2067,7 @@
       {
         "models": 6,
         "models_max": 10,
-        "cost": 155,
+        "cost": 150,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
@@ -2072,7 +2080,7 @@
       {
         "models": 6,
         "models_max": 10,
-        "cost": 165,
+        "cost": 160,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -2162,13 +2170,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 430,
+        "cost": 395,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 450,
+        "cost": 430,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -2298,13 +2306,13 @@
     "points": [
       {
         "models": 10,
-        "cost": 115,
+        "cost": 105,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
       {
         "models": 10,
-        "cost": 125,
+        "cost": 120,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -2412,7 +2420,7 @@
     "points": [
       {
         "models": 5,
-        "cost": 65
+        "cost": 60
       }
     ],
     "keywords": [
@@ -2581,13 +2589,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 415,
+        "cost": 380,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 435,
+        "cost": 410,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -2873,13 +2881,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 450,
+        "cost": 415,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 470,
+        "cost": 450,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -3247,7 +3255,7 @@
     "points": [
       {
         "models": 6,
-        "cost": 65
+        "cost": 60
       }
     ],
     "keywords": [
@@ -3382,13 +3390,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 190,
+        "cost": 180,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
       {
         "models": 1,
-        "cost": 200,
+        "cost": 190,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -3454,7 +3462,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 75
+        "cost": 65,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 75,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -3695,13 +3711,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 420,
+        "cost": 385,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 440,
+        "cost": 420,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -3831,13 +3847,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 235,
+        "cost": 215,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
       {
         "models": 1,
-        "cost": 250,
+        "cost": 230,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -3889,7 +3905,13 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "wargear_costs": [
+      {
+        "item_id": "demolisher-battle-cannon",
+        "cost": 15
+      }
+    ]
   },
   {
     "id": "valkyrie",
@@ -4042,13 +4064,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 410,
+        "cost": 375,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 430,
+        "cost": 405,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -4176,7 +4198,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 85
+        "cost": 75,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 85,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -4439,13 +4469,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 450,
+        "cost": 415,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 470,
+        "cost": 450,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -4821,7 +4851,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 75
+        "cost": 65,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 75,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -4977,7 +5015,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 130
+        "cost": 120
       }
     ],
     "keywords": [

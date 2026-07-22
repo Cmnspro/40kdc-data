@@ -41,8 +41,8 @@ for review, never overwritten. Rule prose is authored separately — untouched.
 | tyranids | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 0 | 1 |
 | ultramarines | 2 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 2 |
 | white-scars | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 1 |
-| world-eaters | 9 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 1 |
-| **TOTAL** | **290** | **0** | **53** | **4** | **0** | **7** | **0** | **0** | **225** | **3** | **62** |
+| world-eaters | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 1 |
+| **TOTAL** | **290** | **0** | **51** | **4** | **0** | **7** | **0** | **0** | **225** | **3** | **62** |
 
 ## adepta-sororitas
 - detachment_rule_ids UNAUTHORED sanctuary-guardians: dump rule(s) [blessed-believers] have no authored ability yet

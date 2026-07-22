@@ -111,16 +111,16 @@ mod tests {
     fn ordinal_bands_we_chaos_terminators() {
         let ct = we_chaos_terminators();
         // 1st–2nd copy: lower band.
-        assert_eq!(base_unit_points(ct, 5, 1), 175);
-        assert_eq!(base_unit_points(ct, 5, 2), 175);
-        assert_eq!(base_unit_points(ct, 10, 1), 350);
+        assert_eq!(base_unit_points(ct, 5, 1), 165);
+        assert_eq!(base_unit_points(ct, 5, 2), 165);
+        assert_eq!(base_unit_points(ct, 10, 1), 330);
         // 3rd+ copy: higher band (open-ended top).
-        assert_eq!(base_unit_points(ct, 5, 3), 185);
-        assert_eq!(base_unit_points(ct, 10, 3), 360);
-        assert_eq!(base_unit_points(ct, 5, 7), 185);
-        // The second build is a 6–10 range tier, so 7 models prices at it (350),
+        assert_eq!(base_unit_points(ct, 5, 3), 175);
+        assert_eq!(base_unit_points(ct, 10, 3), 340);
+        assert_eq!(base_unit_points(ct, 5, 7), 175);
+        // The second build is a 6–10 range tier, so 7 models prices at it (330),
         // not the 5-model tier — a count inside a range resolves to that range.
-        assert_eq!(base_unit_points(ct, 7, 1), 350);
+        assert_eq!(base_unit_points(ct, 7, 1), 330);
     }
 
     #[test]
@@ -138,8 +138,8 @@ mod tests {
         assert!(points_tier_missing(ct, 4, 1));
     }
 
-    /// Venatari Custodians: 3 models @160, or 4–6 models @320 (a GW range-priced
-    /// tier with `models_max = 6`). Every size in the range prices at 320.
+    /// Venatari Custodians: 3 models @150 for the first two copies (160
+    /// thereafter), or 4–6 @300 (310 thereafter).
     #[test]
     fn range_priced_tier_venatari() {
         let ds = Dataset::embedded();
@@ -149,10 +149,10 @@ mod tests {
             .into_iter()
             .find(|u| u.id.as_str() == "venatari-custodians")
             .expect("venatari custodians in dataset");
-        assert_eq!(base_unit_points(ven, 3, 1), 160);
-        assert_eq!(base_unit_points(ven, 4, 1), 320);
-        assert_eq!(base_unit_points(ven, 5, 1), 320);
-        assert_eq!(base_unit_points(ven, 6, 1), 320);
+        assert_eq!(base_unit_points(ven, 3, 1), 150);
+        assert_eq!(base_unit_points(ven, 4, 1), 300);
+        assert_eq!(base_unit_points(ven, 5, 1), 300);
+        assert_eq!(base_unit_points(ven, 6, 1), 300);
         // Outside every tier range → missing (below the floor, above the ceiling).
         assert!(points_tier_missing(ven, 2, 1));
         assert!(!points_tier_missing(ven, 4, 1));

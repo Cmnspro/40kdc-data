@@ -6,7 +6,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | Dir | Matched | Options | Defaults Δ | Synth | Unresolved | Fuzzy | Notes | New-in-dump | Repo-only (fallback) |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
 | adepta-sororitas | 37 | 56 | 0 | 0 | 12 | 0 | 0 | 0 | 0 |
-| adeptus-astartes | 194 | 271 | 0 | 0 | 58 | 1 | 7 | 0 | 0 |
+| adeptus-astartes | 194 | 273 | 0 | 0 | 58 | 1 | 7 | 0 | 0 |
 | adeptus-custodes | 35 | 23 | 0 | 0 | 7 | 0 | 0 | 0 | 0 |
 | adeptus-mechanicus | 38 | 34 | 0 | 0 | 10 | 0 | 0 | 0 | 0 |
 | aeldari | 76 | 93 | 6 | 0 | 32 | 2 | 0 | 0 | 0 |
@@ -17,18 +17,18 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | chaos-space-marines | 58 | 96 | 0 | 0 | 11 | 3 | 3 | 99 | 0 |
 | death-guard | 35 | 31 | 0 | 0 | 4 | 0 | 0 | 6 | 0 |
 | drukhari | 27 | 39 | 0 | 0 | 3 | 1 | 0 | 0 | 0 |
-| emperors-children | 20 | 24 | 0 | 0 | 0 | 0 | 4 | 6 | 0 |
+| emperors-children | 20 | 24 | 0 | 0 | 0 | 0 | 2 | 6 | 0 |
 | genestealer-cults | 28 | 17 | 0 | 0 | 18 | 1 | 0 | 0 | 0 |
 | grey-knights | 30 | 41 | 0 | 0 | 14 | 1 | 0 | 0 | 0 |
 | imperial-knights | 23 | 31 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 | leagues-of-votann | 26 | 32 | 0 | 0 | 18 | 1 | 1 | 0 | 0 |
 | necrons | 57 | 25 | 2 | 0 | 23 | 0 | 0 | 0 | 0 |
-| orks | 63 | 51 | 0 | 0 | 20 | 2 | 0 | 0 | 0 |
+| orks | 63 | 54 | 0 | 0 | 27 | 2 | 0 | 0 | 0 |
 | tau-empire | 47 | 87 | 4 | 0 | 23 | 0 | 0 | 0 | 0 |
 | thousand-sons | 32 | 41 | 0 | 0 | 6 | 0 | 0 | 6 | 0 |
 | tyranids | 57 | 18 | 0 | 0 | 2 | 1 | 0 | 0 | 0 |
 | world-eaters | 29 | 40 | 0 | 0 | 0 | 0 | 0 | 5 | 0 |
-| **TOTAL** | **1093** | **1290** | **12** | **0** | **342** | **15** | **21** | **214** | **0** |
+| **TOTAL** | **1093** | **1295** | **12** | **0** | **349** | **15** | **19** | **214** | **0** |
 
 ## adepta-sororitas
 
@@ -47,7 +47,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 - `Book of Salvation` — ezekiel
 - `Centurion assault launcher` — centurion-assault-squad
 - `Chainsword` — askars-wolfpack-blood-claws, assault-force-intercessor-squad, sanguinary-spearhead-assault-intercessor-squad, vow-sworn-crusader-squad, vow-sworn-sword-brethren-squad
-- `Feral Claws` — askars-wolfpack-wulfen
+- `Frost Blades and Feral Claws` — askars-wolfpack-wulfen
 - `Fulmination` — assault-force-librarian
 - `Grenade Launcher` — assault-force-intercessor-squad
 - `Knives and Fists` — assault-force-intercessor-squad, vengeful-brethren-hellblaster-squad, vengeful-brethren-intercessor-squad, vow-sworn-crusader-squad
@@ -181,8 +181,6 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 **Notes (cap approximations / alternates):**
 - chaos-terminators: alternate loadout_choice_set ce82b2b8 (Chaos Terminator) — review
 - chaos-terminators: alternate loadout_choice_set dc056a28 (Terminator Champion) — review
-- callous-blades-infractors: Obsessionist: no model_count — base_miniature_loadout fallback
-- callous-blades-infractors: Infractor: no model_count — base_miniature_loadout fallback
 
 ## genestealer-cults
 
@@ -255,7 +253,11 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 - `Distraction Grot` — kommandos
 - `Grot Assistant` — big-mek-with-shokk-attack-gun
 - `Grot Oiler` — big-mek-in-mega-armour
-- `Kustom Choppa` — ardmob-warboss
+- `Kombi-rokkit` — ardmob-boyz
+- `Kombi-shoota` — ardmob-boyz
+- `Kombi‑rokkit` — boyz
+- `Kombi‑shoota` — boyz
+- `Kustom Choppa` — ardmob-warboss, warboss
 - `Lobbin' Bombs` — ardmob-gretchin
 - `Psychic Powers` — ardmob-weirdboy
 - `Pulsa Rokkit` — tankbustas

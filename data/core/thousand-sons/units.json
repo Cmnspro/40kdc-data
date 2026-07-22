@@ -227,7 +227,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 60
+        "cost": 65
       }
     ],
     "keywords": [
@@ -350,7 +350,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 85
+        "cost": 85,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 95,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -482,7 +490,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 90
+        "cost": 80,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 90,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -785,7 +801,7 @@
     "points": [
       {
         "models": 3,
-        "cost": 45
+        "cost": 50
       },
       {
         "models": 4,
@@ -924,7 +940,7 @@
       {
         "models": 6,
         "models_max": 10,
-        "cost": 370,
+        "cost": 385,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
@@ -937,7 +953,7 @@
       {
         "models": 6,
         "models_max": 10,
-        "cost": 385,
+        "cost": 400,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -1076,13 +1092,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 130,
+        "cost": 140,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
       {
         "models": 1,
-        "cost": 140,
+        "cost": 150,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -1147,13 +1163,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 290,
+        "cost": 300,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 320,
+        "cost": 340,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -1205,11 +1221,11 @@
     "wargear_costs": [
       {
         "item_id": "hades-lascannon",
-        "cost": 10
+        "cost": 15
       },
       {
         "item_id": "heavy-reaper-autocannon",
-        "cost": 10
+        "cost": 15
       }
     ]
   },
@@ -1381,12 +1397,29 @@
     "points": [
       {
         "models": 2,
-        "cost": 80
+        "cost": 85,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 3,
         "models_max": 4,
-        "cost": 160
+        "cost": 175,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 2,
+        "cost": 100,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 3,
+        "models_max": 4,
+        "cost": 190,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1716,13 +1749,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 130,
+        "cost": 140,
         "unit_count_min": 1,
         "unit_count_max": 2
       },
       {
         "models": 1,
-        "cost": 140,
+        "cost": 150,
         "unit_count_min": 3,
         "unit_count_max": null
       }
@@ -1836,7 +1869,13 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "wargear_costs": [
+      {
+        "item_id": "ectoplasma-cannon",
+        "cost": 5
+      }
+    ]
   },
   {
     "id": "heldrake",
