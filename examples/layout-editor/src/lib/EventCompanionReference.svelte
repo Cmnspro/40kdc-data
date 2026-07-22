@@ -21,6 +21,35 @@
 
   const pageNumber = $derived(eventCompanionPage(layout));
 
+  // The Companion layout cards place the 44×60 board art in this fixed A4-page
+  // rectangle. Crop in page-relative coordinates so rendering still follows
+  // PDF.js's chosen scale, then counter-rotate for Board's existing 90° layer.
+  const BOARD_CROP = {
+    x: 127.69082641601562 / 595.2760009765625,
+    y: 276.6623229980469 / 841.8900146484375,
+    width: (468.4483337402344 - 127.69082641601562) / 595.2760009765625,
+    height: (741.4985961914062 - 276.6623229980469) / 841.8900146484375,
+  } as const;
+
+  function cropAndCounterRotate(source: HTMLCanvasElement): HTMLCanvasElement {
+    const sx = Math.round(source.width * BOARD_CROP.x);
+    const sy = Math.round(source.height * BOARD_CROP.y);
+    const sw = Math.round(source.width * BOARD_CROP.width);
+    const sh = Math.round(source.height * BOARD_CROP.height);
+    if (sw <= 0 || sh <= 0 || sx < 0 || sy < 0 || sx + sw > source.width || sy + sh > source.height) {
+      throw new Error("reference board crop is outside the PDF page");
+    }
+    const board = document.createElement("canvas");
+    board.width = sh;
+    board.height = sw;
+    const context = board.getContext("2d");
+    if (!context) throw new Error("canvas unavailable");
+    context.translate(0, sw);
+    context.rotate(-Math.PI / 2);
+    context.drawImage(source, sx, sy, sw, sh, 0, 0, sw, sh);
+    return board;
+  }
+
   function clearImage(): void {
     onimage(null);
     if (currentUrl) URL.revokeObjectURL(currentUrl);
@@ -89,8 +118,9 @@
         await renderTask.promise;
         pdfPage.cleanup();
         if (generation !== renderGeneration) return;
-        const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
-        if (!blob) throw new Error("PNG conversion failed");
+        const boardCanvas = cropAndCounterRotate(canvas);
+        const blob = await new Promise<Blob | null>((resolve) => boardCanvas.toBlob(resolve, "image/png"));
+        if (!blob || generation !== renderGeneration) return;
         const nextUrl = URL.createObjectURL(blob);
         const previousUrl = currentUrl;
         currentUrl = nextUrl;
