@@ -7,7 +7,7 @@ eligibility merged by `leader_id` (existing records preserved where the dump is 
 | Dir | Matched | Roles Δ | Leaders (dump) | Leaders (kept) | Unresolved leaders |
 |---|--:|--:|--:|--:|--:|
 | adepta-sororitas | 13 | 0 | 13 | 0 | 0 |
-| adeptus-astartes | 69 | 2 | 69 | 0 | 0 |
+| adeptus-astartes | 69 | 0 | 69 | 0 | 0 |
 | adeptus-custodes | 8 | 0 | 8 | 0 | 0 |
 | adeptus-mechanicus | 6 | 0 | 6 | 0 | 0 |
 | aeldari | 22 | 0 | 22 | 0 | 0 |
@@ -27,11 +27,5 @@ eligibility merged by `leader_id` (existing records preserved where the dump is 
 | thousand-sons | 7 | 0 | 7 | 0 | 0 |
 | tyranids | 8 | 0 | 8 | 0 | 0 |
 | world-eaters | 5 | 0 | 5 | 0 | 0 |
-| **TOTAL** | **286** | **2** | **286** | **0** | **0** |
-
-## adeptus-astartes
-
-**attachment_role changes (old → new):**
-- `lieutenant`: leader → support
-- `lieutenant-in-phobos-armour`: leader → support
+| **TOTAL** | **286** | **0** | **286** | **0** | **0** |
 

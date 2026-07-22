@@ -1026,7 +1026,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 75
+        "cost": 65,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 75,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1089,7 +1097,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 65
+        "cost": 55
       }
     ],
     "keywords": [
@@ -1280,25 +1288,25 @@
     "points": [
       {
         "models": 4,
-        "cost": 210,
+        "cost": 200,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 5,
-        "cost": 260,
+        "cost": 250,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 4,
-        "cost": 230,
+        "cost": 220,
         "unit_count_min": 2,
         "unit_count_max": null
       },
       {
         "models": 5,
-        "cost": 280,
+        "cost": 270,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -1537,12 +1545,29 @@
     "points": [
       {
         "models": 3,
-        "cost": 160
+        "cost": 150,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 4,
         "models_max": 6,
-        "cost": 320
+        "cost": 300,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 3,
+        "cost": 160,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 4,
+        "models_max": 6,
+        "cost": 310,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1579,7 +1604,13 @@
       "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": false
+    "points_provisional": false,
+    "wargear_costs": [
+      {
+        "item_id": "venatari-lance",
+        "cost": 5
+      }
+    ]
   },
   {
     "id": "shield-captain-in-allarus-terminator-armour",

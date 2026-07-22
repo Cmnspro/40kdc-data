@@ -1,4 +1,4 @@
-# MFM coverage — dump data_version 895
+# MFM coverage — dump data_version 909
 
 Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 **Repo-only** = in repo, absent from the (Legends-free) dump → dropped (Legends/Forge-World; see cull-legends).
@@ -6,7 +6,7 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 | Faction dir | Units matched | Units new | Units shared-skip | Units repo-only | Det matched | Det new | Det repo-only | Enh matched | Enh new | Enh repo-only |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
 | adepta-sororitas | 37 | 0 | 0 | 0 | 9 | 0 | 0 | 27 | 0 | 0 |
-| adeptus-astartes | 108 | 0 | 0 | 0 | 16 | 7 | 0 | 58 | 29 | 0 |
+| adeptus-astartes | 108 | 0 | 0 | 0 | 16 | 8 | 0 | 58 | 31 | 0 |
 | adeptus-custodes | 35 | 0 | 0 | 0 | 10 | 0 | 0 | 32 | 0 | 0 |
 | adeptus-mechanicus | 38 | 0 | 0 | 0 | 11 | 0 | 0 | 36 | 0 | 0 |
 | aeldari | 76 | 0 | 0 | 0 | 16 | 0 | 0 | 52 | 2 | 3 |
@@ -27,22 +27,22 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 | imperial-knights | 23 | 0 | 0 | 0 | 8 | 0 | 0 | 26 | 0 | 2 |
 | leagues-of-votann | 26 | 0 | 0 | 0 | 11 | 0 | 0 | 33 | 3 | 1 |
 | necrons | 57 | 0 | 0 | 0 | 13 | 0 | 0 | 38 | 6 | 2 |
-| orks | 63 | 0 | 0 | 0 | 13 | 0 | 0 | 38 | 6 | 7 |
+| orks | 63 | 0 | 0 | 0 | 13 | 1 | 0 | 38 | 8 | 7 |
 | space-wolves | 0 | 0 | 25 | 0 | 8 | 0 | 0 | 24 | 0 | 1 |
 | tau-empire | 47 | 0 | 0 | 0 | 8 | 0 | 0 | 25 | 0 | 3 |
 | thousand-sons | 32 | 0 | 6 | 0 | 10 | 0 | 0 | 32 | 0 | 0 |
 | tyranids | 57 | 0 | 0 | 0 | 11 | 0 | 0 | 35 | 1 | 3 |
 | world-eaters | 29 | 0 | 5 | 0 | 9 | 0 | 0 | 28 | 0 | 0 |
-| **TOTAL** | **1007** | **0** | **118** | **0** | **283** | **7** | **0** | **900** | **57** | **26** |
+| **TOTAL** | **1007** | **0** | **118** | **0** | **283** | **9** | **0** | **900** | **61** | **26** |
 
 ## Whole-dataset categories
 
 | Category | Repo | Dump |
 |---|--:|--:|
-| Stratagems | 10 | 1432 |
+| Stratagems | 10 | 1438 |
 | Missions | 25 | 49 primary + 18 secondary |
 | Force dispositions | 5 | 5 |
-| Detachment→disposition map | — | 290 (1:1) |
+| Detachment→disposition map | — | 292 (1:1) |
 
 ## Unmapped faction keywords (own live datasheets, no repo dir)
 
@@ -51,7 +51,7 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 
 ## adeptus-astartes
 
-**Detachments new in dump** (7):
+**Detachments new in dump** (8):
 - Hammer of Avernii (hammer-of-avernii)
 - Reclamation Force (reclamation-force)
 - Emperor’s Shield (emperors-shield)
@@ -59,12 +59,12 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 - Spearpoint Task Force (spearpoint-task-force)
 - Blade of Ultramar (blade-of-ultramar)
 - Forgefather’s Seekers (forgefathers-seekers)
+- Vengeful Hosts (vengeful-hosts)
 
-**Enhancements new in dump** (29):
+**Enhancements new in dump** (31):
 - Coronal Susurrant / Shadowmark Talon (coronal-susurrant-shadowmark-talon)
 - Champion of the Feast / Emperor’s Shield (champion-of-the-feast-emperors-shield)
 - Disciple of Rhetoricus / Emperor’s Shield (disciple-of-rhetoricus-emperors-shield)
-- Armour of Antoninus / Blade of Ultramar (armour-of-antoninus-blade-of-ultramar)
 - Oath of Macragge / Blade of Ultramar (oath-of-macragge-blade-of-ultramar)
 - Liberatum / Reclamation Force (liberatum-reclamation-force)
 - Malodraxian Standard / Emperor’s Shield (malodraxian-standard-emperors-shield)
@@ -90,6 +90,9 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 - Scroll of Proclamation / Reclamation Force (scroll-of-proclamation-reclamation-force)
 - Spy-skull Data Link / Ceramite Sentinels (spy-skull-data-link-ceramite-sentinels)
 - Hunter’s Eye / Spearpoint Task Force (hunters-eye-spearpoint-task-force)
+- Armour of Antoninus / Blade of Ultramar (armour-of-antoninus-blade-of-ultramar)
+- Avenging Angel / Vengeful Hosts (avenging-angel-vengeful-hosts)
+- Orksbane / Vengeful Hosts (orksbane-vengeful-hosts)
 
 ## aeldari
 
@@ -100,9 +103,9 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 ## agents-of-the-imperium
 
 **Enhancements new in dump** (4):
+- Intraneural Biotech / Veiled Blade Elimination Force (intraneural-biotech-veiled-blade-elimination-force)
 - Decoy Targets / Veiled Blade Elimination Force (decoy-targets-veiled-blade-elimination-force)
 - Esoteric Explosives / Veiled Blade Elimination Force (esoteric-explosives-veiled-blade-elimination-force)
-- Intraneural Biotech / Veiled Blade Elimination Force (intraneural-biotech-veiled-blade-elimination-force)
 - Micromelta Rounds / Veiled Blade Elimination Force (micromelta-rounds-veiled-blade-elimination-force)
 
 ## astra-militarum
@@ -154,13 +157,18 @@ Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 
 ## orks
 
-**Enhancements new in dump** (6):
+**Detachments new in dump** (1):
+- Equatorial Hordes (equatorial-hordes)
+
+**Enhancements new in dump** (8):
 - Slippery Git / Taktikal Brigade (slippery-git-taktikal-brigade)
 - Dakkamek / Speedwaaagh! (dakkamek-speedwaaagh)
 - Kustom Shokk Box / Speedwaaagh! (kustom-shokk-box-speedwaaagh)
 - Master Meknologist / Speedwaaagh! (master-meknologist-speedwaaagh)
 - Supa-Burny Fuel / Speedwaaagh! (supa-burny-fuel-speedwaaagh)
 - Extra Platin’ / ’Ardmob (extra-platin-ardmob)
+- Kunnin’ Hunta / Equatorial Hordes (kunnin-hunta-equatorial-hordes)
+- Unkillable Scourge / Equatorial Hordes (unkillable-scourge-equatorial-hordes)
 
 ## tyranids
 

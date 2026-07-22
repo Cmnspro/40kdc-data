@@ -80,6 +80,7 @@ interface UnitRecord {
   id: string;
   name?: string;
   weapon_ids?: string[];
+  points?: { models: number; models_max?: number }[];
   [k: string]: unknown;
 }
 interface CompModel {
@@ -2329,13 +2330,24 @@ export function runCompositionTiers(dump: MfmDump, onlyDir?: string): CompTiersR
       if (matchedRepoIds.has(id) || !compsByUnit.has(id)) continue;
       matchedRepoIds.add(id);
       matched++;
-
+      const u = unitsById.get(id);
       const agg = aggregateComposition(dump, ds.id!);
       if (agg.skip) {
         skipped.push({ dir, id, reason: `dump composition has duplicate model names (kill-team shape)` });
         continue;
       }
       if (!agg.tiers.length) continue;
+      const priced = (tier: DumpTier) => {
+        const min = tier.reduce((sum, row) => sum + row.min, 0);
+        const max = tier.reduce((sum, row) => sum + row.max, 0);
+        return u?.points?.some((price) => min >= price.models && max <= (price.models_max ?? price.models));
+      };
+      if (!agg.tiers.every(priced)) {
+        skipped.push({ dir, id, reason: "dump composition tiers are not covered by current unit price tiers" });
+        continue;
+      }
+
+
       const envNames = new Set(agg.envelope.keys());
 
       for (const comp of compsByUnit.get(id) ?? []) {
@@ -2386,7 +2398,6 @@ export function runCompositionTiers(dump: MfmDump, onlyDir?: string): CompTiersR
           min: Math.min(...agg.tiers.map((t) => t.reduce((s, r) => s + r.min, 0))),
           max: Math.max(...agg.tiers.map((t) => t.reduce((s, r) => s + r.max, 0))),
         };
-        const u = unitsById.get(id);
         if (u) {
           const before = JSON.stringify(u.model_count ?? null);
           if (before !== JSON.stringify(span)) {
