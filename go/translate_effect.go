@@ -449,6 +449,25 @@ func joinAndLeadIns(operands []any) string {
 			parts = append(parts, excludedTargetKeywords(kws))
 			continue
 		}
+		if om["negated"] != true && om["type"] == "unit-has-keyword" {
+			var kws []string
+			for i < len(operands) {
+				m, _ := asMap(operands[i])
+				if m["negated"] != true && m["type"] == "unit-has-keyword" {
+					mp, _ := getMap(m, "parameters")
+					kws = append(kws, ejstr(mp["keyword"]))
+					i++
+				} else {
+					break
+				}
+			}
+			if len(kws) >= 2 {
+				parts = append(parts, "if the unit is a "+strings.Join(kws, " ")+" unit")
+			} else {
+				parts = append(parts, "if the unit has the "+kws[0]+" keyword")
+			}
+			continue
+		}
 		parts = append(parts, conditionLeadIn(om))
 		i++
 	}
@@ -519,9 +538,9 @@ func conditionLeadIn(c map[string]any) string {
 		return describeTiming(p["timing"])
 	case "player-turn-is":
 		switch p["turn"] {
-		case "your-turn":
+		case "your-turn", "your", "own":
 			return "in your turn"
-		case "opponent-turn":
+		case "opponent-turn", "opponent":
 			return "in the opponent's turn"
 		}
 		return "in either player's turn"
@@ -584,15 +603,22 @@ func conditionLeadIn(c map[string]any) string {
 		return "when destroyed by a " + ejstr(p["attack_type"]) + " attack"
 	case "opponent-unit-within-range":
 		var where string
+		rng := p["range"]
+		if rng == nil {
+			rng = p["range_inches"]
+		}
+		if rng == nil {
+			rng = p["within_inches"]
+		}
 		switch {
 		case p["weapon_name"] != nil:
 			where = "range of " + dekebab(ejstr(p["weapon_name"]))
 		case p["range_multiplier"] != nil:
 			where = "half range of its ranged weapons"
-		case p["range"] == "engagement":
+		case rng == "engagement":
 			where = "engagement range"
 		default:
-			where = ejstr(p["range"]) + "\""
+			where = ejstr(rng) + "\""
 		}
 		return "while an enemy unit is within " + where
 	case "engagement-state":
@@ -1120,10 +1146,18 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		}
 		return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to " + roll + " rolls" + ctxNote
 	case "re-roll":
-		noun := rollName(m["roll"])
-		which := "the " + noun + " roll"
-		if m["subset"] == "ones" {
-			which = "a " + noun + " roll of 1"
+		var which string
+		if ejstr(m["roll"]) == "any" {
+			which = "any roll"
+			if m["subset"] == "ones" {
+				which = "any roll of 1"
+			}
+		} else {
+			noun := rollName(m["roll"])
+			which = "the " + noun + " roll"
+			if m["subset"] == "ones" {
+				which = "a " + noun + " roll of 1"
+			}
 		}
 		return "you can re-roll " + which
 	case "mortal-wounds":
@@ -1638,7 +1672,11 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		}
 		return "at the start of the Declare Battle Formations step, " + subj + " can join one friendly unit" + led + ", becoming part of that Bodyguard unit"
 	case "fallback-and-act":
-		return subj + " " + ev(subj, "is") + " eligible to shoot and declare a charge in a turn in which it Fell Back"
+		acts := "shoot"
+		if m["can_charge"] == true {
+			acts = "shoot and declare a charge"
+		}
+		return subj + " " + ev(subj, "is") + " eligible to " + acts + " in a turn in which it Fell Back"
 	case "fight-eligibility-extension":
 		r := ejstr(m["range"])
 		return "when determining which models in " + subj + " are eligible to fight, " +
@@ -2246,7 +2284,14 @@ func conditionWithinRange(c map[string]any) (float64, bool) {
 		return 0, false
 	}
 	p, _ := getMap(c, "parameters")
-	return num(p["range"])
+	rng := p["range"]
+	if rng == nil {
+		rng = p["range_inches"]
+	}
+	if rng == nil {
+		rng = p["within_inches"]
+	}
+	return num(rng)
 }
 
 func renderTopLevel(e map[string]any, scope map[string]any, usage map[string]any, trigger any) string {

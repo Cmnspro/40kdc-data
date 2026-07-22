@@ -478,6 +478,20 @@ def _join_and_lead_ins(operands: list[Condition]) -> str:
                 i += 1
             parts.append(_excluded_target_keywords(kws))
             continue
+        if not op.get("negated") and op.get("type") == "unit-has-keyword":
+            kws = []
+            while (
+                i < len(operands)
+                and not operands[i].get("negated")
+                and operands[i].get("type") == "unit-has-keyword"
+            ):
+                kws.append(_jstr((operands[i].get("parameters") or {}).get("keyword")))
+                i += 1
+            if len(kws) >= 2:
+                parts.append(f"if the unit is a {' '.join(kws)} unit")
+            else:
+                parts.append(f"if the unit has the {kws[0]} keyword")
+            continue
         parts.append(_condition_lead_in(op))
         i += 1
     acc = ""
@@ -521,9 +535,9 @@ def _condition_lead_in(c: Condition) -> str:
         return describe_timing(p.get("timing"))
     if ctype == "player-turn-is":
         turn = p.get("turn")
-        if turn == "your-turn":
+        if turn in ("your-turn", "your", "own"):
             return "in your turn"
-        if turn == "opponent-turn":
+        if turn in ("opponent-turn", "opponent"):
             return "in the opponent's turn"
         return "in either player's turn"
     if ctype == "model-is-leader":
@@ -581,10 +595,13 @@ def _condition_lead_in(c: Condition) -> str:
             where = f"range of {dekebab(_jstr(p.get('weapon_name')))}"
         elif p.get("range_multiplier") is not None:
             where = "half range of its ranged weapons"
-        elif p.get("range") == "engagement":
-            where = "engagement range"
         else:
-            where = f'{_jstr(p.get("range"))}"'
+            range_ = p.get("range")
+            if range_ is None:
+                range_ = p.get("range_inches")
+            if range_ is None:
+                range_ = p.get("within_inches")
+            where = "engagement range" if range_ == "engagement" else f'{_jstr(range_)}"'
         return f"while an enemy unit is within {where}"
     if ctype == "engagement-state":
         state = p.get("state")
@@ -986,8 +1003,11 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         sgn = _signed(m.get("operation"), m["value"])
         return f"{subj} {_v(subj, 'gets')} {sgn} to {roll} rolls{ctx_note}"
     if etype == "re-roll":
-        noun = _roll_name(m.get("roll"))
-        which = f"a {noun} roll of 1" if m.get("subset") == "ones" else f"the {noun} roll"
+        if _jstr(m.get("roll")) == "any":
+            which = "any roll of 1" if m.get("subset") == "ones" else "any roll"
+        else:
+            noun = _roll_name(m.get("roll"))
+            which = f"a {noun} roll of 1" if m.get("subset") == "ones" else f"the {noun} roll"
         return f"you can re-roll {which}"
     if etype == "mortal-wounds":
         range_ = m.get("range")
@@ -1426,10 +1446,8 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             f"{subj} can join one friendly unit{led}, becoming part of that Bodyguard unit"
         )
     if etype == "fallback-and-act":
-        return (
-            f"{subj} {_v(subj, 'is')} eligible to shoot and declare a charge "
-            "in a turn in which it Fell Back"
-        )
+        acts = "shoot and declare a charge" if m.get("can_charge") is True else "shoot"
+        return f"{subj} {_v(subj, 'is')} eligible to {acts} in a turn in which it Fell Back"
     if etype == "fight-eligibility-extension":
         r = _jstr(m.get("range"))
         return (
@@ -1731,7 +1749,12 @@ def _condition_within_range(c: dict[str, Any] | None) -> float | int | None:
     """The numeric range of a top-level within-range condition, else None."""
     if not c or c.get("type") not in ("unit-within-range-of", "opponent-unit-within-range"):
         return None
-    r = (c.get("parameters") or {}).get("range")
+    params = c.get("parameters") or {}
+    r = params.get("range")
+    if r is None:
+        r = params.get("range_inches")
+    if r is None:
+        r = params.get("within_inches")
     return r if isinstance(r, (int, float)) and not isinstance(r, bool) else None
 
 

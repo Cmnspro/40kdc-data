@@ -207,9 +207,9 @@ func describeCondition(c map[string]any) string {
 	case "player-turn-is":
 		whose := "either player's"
 		switch p["turn"] {
-		case "your-turn":
+		case "your-turn", "your", "own":
 			whose = "your"
-		case "opponent-turn":
+		case "opponent-turn", "opponent":
 			whose = "the opponent's"
 		}
 		return negate + "in " + whose + " turn"
@@ -286,15 +286,22 @@ func describeCondition(c map[string]any) string {
 		return negate + subject + " was hit by " + article + weapon + " this phase"
 	case "opponent-unit-within-range":
 		var within string
+		rng := p["range"]
+		if rng == nil {
+			rng = p["range_inches"]
+		}
+		if rng == nil {
+			rng = p["within_inches"]
+		}
 		switch {
 		case p["weapon_name"] != nil:
 			within = "range of " + dekebab(cstr(p["weapon_name"]))
 		case p["range_multiplier"] != nil:
 			within = "half range of its ranged weapons"
-		case p["range"] == "engagement":
+		case rng == "engagement":
 			within = "engagement range"
 		default:
-			within = cstr(p["range"]) + "\""
+			within = cstr(rng) + "\""
 		}
 		return negate + "an enemy unit is within " + within
 	case "unit-within-range-of":

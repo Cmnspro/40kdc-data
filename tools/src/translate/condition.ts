@@ -204,8 +204,16 @@ export function describeCondition(c: Condition): string {
       return `${negate}during the ${str(p.phase)} phase`;
     case "timing-is":
       return `${negate}${describeTiming(p.timing)}`;
-    case "player-turn-is":
-      return `${negate}in ${p.turn === "your-turn" ? "your" : p.turn === "opponent-turn" ? "the opponent's" : "either player's"} turn`;
+    case "player-turn-is": {
+      const t = str(p.turn);
+      const phrase =
+        t === "your-turn" || t === "your" || t === "own"
+          ? "your"
+          : t === "opponent-turn" || t === "opponent"
+            ? "the opponent's"
+            : "either player's";
+      return `${negate}in ${phrase} turn`;
+    }
     case "charged-this-turn":
       return `${negate}the unit charged this turn`;
     case "advanced-this-turn":
@@ -247,8 +255,10 @@ export function describeCondition(c: Condition): string {
       let where: string;
       if (p.weapon_name != null) where = `range of ${dekebab(str(p.weapon_name))}`;
       else if (p.range_multiplier != null) where = "half range of its ranged weapons";
-      else if (p.range === "engagement") where = "engagement range";
-      else where = `${str(p.range)}"`;
+      else {
+        const range = p.range ?? p.range_inches ?? p.within_inches;
+        where = range === "engagement" ? "engagement range" : `${str(range)}"`;
+      }
       return `${negate}an enemy unit is within ${where}`;
     }
     case "unit-within-range-of": {
