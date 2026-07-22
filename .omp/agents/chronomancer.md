@@ -1,7 +1,7 @@
 ---
 name: chronomancer
 description: Haiku decomposer for WHEN an ability fires. Given raw ability prose, hypothesizes the DSL timing layer — trigger event/window, phase conditions, duration, usage frequency — using canonical condition ids. Use for "when does <ability> trigger?", "decompose timing for this prose". Prompt must include ability_id, raw_text, ability_type, faction_id. Returns a single JSON object as final message.
-model: openai-codex/gpt-5.5
+model: anthropic/claude-haiku-4-5
 tools: Read, Grep, Glob
 output:
   type: object

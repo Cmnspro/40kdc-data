@@ -5850,6 +5850,7 @@ impl<'de> ::serde::Deserialize<'de> for ForceDispositionText {
 ///    "falls-back",
 ///    "charge-move",
 ///    "moved-through-terrain",
+///    "moved-through-tall-terrain",
 ///    "enemy-unit-ended-move",
 ///    "enemy-unit-fell-back",
 ///    "before-hit-roll",
@@ -5947,6 +5948,8 @@ pub enum GameEvent {
     ChargeMove,
     #[serde(rename = "moved-through-terrain")]
     MovedThroughTerrain,
+    #[serde(rename = "moved-through-tall-terrain")]
+    MovedThroughTallTerrain,
     #[serde(rename = "enemy-unit-ended-move")]
     EnemyUnitEndedMove,
     #[serde(rename = "enemy-unit-fell-back")]
@@ -6043,6 +6046,7 @@ impl ::std::fmt::Display for GameEvent {
             Self::FallsBack => f.write_str("falls-back"),
             Self::ChargeMove => f.write_str("charge-move"),
             Self::MovedThroughTerrain => f.write_str("moved-through-terrain"),
+            Self::MovedThroughTallTerrain => f.write_str("moved-through-tall-terrain"),
             Self::EnemyUnitEndedMove => f.write_str("enemy-unit-ended-move"),
             Self::EnemyUnitFellBack => f.write_str("enemy-unit-fell-back"),
             Self::BeforeHitRoll => f.write_str("before-hit-roll"),
@@ -6110,6 +6114,7 @@ impl ::std::str::FromStr for GameEvent {
             "falls-back" => Ok(Self::FallsBack),
             "charge-move" => Ok(Self::ChargeMove),
             "moved-through-terrain" => Ok(Self::MovedThroughTerrain),
+            "moved-through-tall-terrain" => Ok(Self::MovedThroughTallTerrain),
             "enemy-unit-ended-move" => Ok(Self::EnemyUnitEndedMove),
             "enemy-unit-fell-back" => Ok(Self::EnemyUnitFellBack),
             "before-hit-roll" => Ok(Self::BeforeHitRoll),

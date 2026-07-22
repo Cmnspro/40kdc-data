@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 42 stub abilities.
+Total: 40 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -19,7 +19,6 @@ Total: 42 stub abilities.
 | astra-militarum | brutal-disciplinarian | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
 | chaos-knights | flush-the-quarry-helhunt-lance | conditional | effect type "movement-modifier" is not modelled by the buff layer |
 | chaos-knights | imperious-advance-traitoris-lance | conditional | effect type "movement-modifier" is not modelled by the buff layer |
-| chaos-knights | super-heavy-walker | conditional | effect type "movement-modifier" is not modelled by the buff layer |
 | chaos-space-marines | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | masters-of-the-maelstrom | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | chaos-space-marines | super-heavy-war-engine | stat-modifier | stat-modifier: operation "undefined" not supported |
@@ -36,7 +35,6 @@ Total: 42 stub abilities.
 | genestealer-cults | hordes-of-the-faithful | stat-modifier | stat-modifier: operation "undefined" not supported |
 | genestealer-cults | underground-egress | conditional | empty modifier |
 | grey-knights | hallowed-ground | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
-| imperial-knights | super-heavy-walker | conditional | effect type "movement-modifier" is not modelled by the buff layer |
 | necrons | engrammatic-logic | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
 | orks | aerial-deployment | conditional | empty modifier |
 | orks | tuff-git-blitz-brigade | conditional | conditional: cannot evaluate condition "undefined" against current context |

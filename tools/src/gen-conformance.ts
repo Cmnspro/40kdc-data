@@ -1714,6 +1714,108 @@ function genEffectTranslation(): void {
       expected: { text: describeAbility({ effect: fc.effect as Effect, scope: fc.scope }) },
     });
   }
+  // moved-through-tall-terrain canonical game-event: pins the new timing-is
+  // negation arm (inline conditional lead-in AND trigger-condition predicate
+  // form), the event dispatched directly as a trigger.event, the two legacy
+  // TIMING_ALIASES strings resolving onto the same canonical phrase, and a
+  // generic moved-through-terrain control case proving the new alias doesn't
+  // bleed onto the untouched sibling timing. No enrichment ability exercises
+  // the trigger-condition/negated/legacy-alias forms directly, so these are
+  // forced synthetic exemplars; expected text still comes from the reference
+  // describer, so a second impl must independently reproduce it.
+  const FORCED_MOVED_THROUGH_TALL_TERRAIN_CASES: {
+    id: string;
+    effect?: Record<string, unknown>;
+    scope?: Record<string, unknown>;
+    trigger?: Record<string, unknown>;
+  }[] = [
+    {
+      id: "moved-through-tall-terrain-inline",
+      effect: {
+        type: "conditional",
+        condition: { type: "timing-is", parameters: { timing: "moved-through-tall-terrain" } },
+        effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "moved-through-tall-terrain-trigger-condition",
+      effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+      scope: { range: "self", duration: "permanent" },
+      trigger: {
+        event: "before-hit-roll",
+        condition: { type: "timing-is", parameters: { timing: "moved-through-tall-terrain" } },
+      },
+    },
+    {
+      id: "moved-through-tall-terrain-negated-inline",
+      effect: {
+        type: "conditional",
+        condition: { type: "timing-is", parameters: { timing: "moved-through-tall-terrain" }, negated: true },
+        effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "moved-through-tall-terrain-negated-trigger-condition",
+      effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+      scope: { range: "self", duration: "permanent" },
+      trigger: {
+        event: "before-hit-roll",
+        condition: { type: "timing-is", parameters: { timing: "moved-through-tall-terrain" }, negated: true },
+      },
+    },
+    {
+      id: "moved-through-tall-terrain-trigger-event",
+      effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+      scope: { range: "self", duration: "permanent" },
+      trigger: { event: "moved-through-tall-terrain" },
+    },
+    {
+      id: "moved-through-tall-terrain-legacy-aliases",
+      effect: {
+        type: "sequence",
+        steps: [
+          {
+            type: "conditional",
+            condition: { type: "timing-is", parameters: { timing: "after-move-through-terrain-over-4-inches" } },
+            effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+          },
+          {
+            type: "conditional",
+            condition: { type: "timing-is", parameters: { timing: "after-moving-through-tall-terrain" } },
+            effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+          },
+        ],
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "moved-through-terrain-generic-unaffected",
+      effect: {
+        type: "conditional",
+        condition: { type: "timing-is", parameters: { timing: "moved-through-terrain" } },
+        effect: { type: "keyword-grant", target: "self", modifier: { keywords: ["stealth"] } },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+  ];
+  for (const fc of FORCED_MOVED_THROUGH_TALL_TERRAIN_CASES) {
+    const entry: Record<string, unknown> = {
+      caseId: `${fc.id}#${cases.length}`,
+      effect: fc.effect,
+      scope: fc.scope,
+    };
+    if (fc.trigger) entry.trigger = fc.trigger;
+    entry.expected = {
+      text: describeAbility({
+        effect: fc.effect as Effect,
+        scope: fc.scope,
+        trigger: fc.trigger as AbilityTrigger | undefined,
+      }),
+    };
+    cases.push(entry);
+  }
   writeJson(join(CONFORMANCE, "effect-translation", "cases.json"), cases);
   console.log(`effect-translation/cases.json: ${cases.length} cases (${seen.size} node types)`);
 }

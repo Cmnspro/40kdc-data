@@ -1346,23 +1346,27 @@
             "target": "self",
             "modifier": {
               "passthrough": [
-                "non-titanic-models"
-              ]
-            }
-          },
-          {
-            "type": "movement-modifier",
-            "target": "self",
-            "modifier": {
-              "passthrough": [
+                "non-titanic-models",
                 "terrain-le-4"
+              ],
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
               ]
             }
           },
           {
             "type": "engagement-passthrough",
             "target": "self",
-            "modifier": {}
+            "modifier": {
+              "no_end_in_engagement": true,
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
+              ]
+            }
           },
           {
             "type": "movement-modifier",
@@ -1370,6 +1374,11 @@
             "modifier": {
               "passthrough": [
                 "tall-terrain"
+              ],
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
               ]
             }
           },
@@ -1378,7 +1387,7 @@
             "condition": {
               "type": "timing-is",
               "parameters": {
-                "timing": "moved-through-terrain"
+                "timing": "moved-through-tall-terrain"
               }
             },
             "effect": {
@@ -1387,11 +1396,10 @@
               "threshold": 1,
               "comparison": "eq",
               "on_success": {
-                "type": "leadership-modifier",
+                "type": "unit-tag",
                 "target": "self",
                 "modifier": {
-                  "test": "battle-shock",
-                  "operation": "apply"
+                  "tag": "battle-shocked"
                 }
               }
             }

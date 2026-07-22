@@ -64,8 +64,8 @@ const TIMING_ALIASES: Record<string, string> = {
   "reinforcements-step": "reinforcements",
   setup: "unit-set-up",
   "set-up-this-turn": "unit-set-up",
-  "after-move-through-terrain-over-4-inches": "moved-through-terrain",
-  "after-moving-through-tall-terrain": "moved-through-terrain",
+  "after-move-through-terrain-over-4-inches": "moved-through-tall-terrain",
+  "after-moving-through-tall-terrain": "moved-through-tall-terrain",
   "when-this-unit-selected-to-shoot": "selected-to-shoot",
 };
 
@@ -106,6 +106,12 @@ export function describeTiming(timing: unknown): string {
   return `at ${dekebab(t)}`;
 }
 
+/** `timing-is` negation, generic over every `describeTiming` phrase: a `when …` clause becomes `unless …`; anything else is bare-prepended with `unless `. */
+export function negatedTiming(timing: unknown): string {
+  const phrase = describeTiming(timing);
+  return phrase.startsWith("when ") ? `unless ${phrase.slice(5)}` : `unless ${phrase}`;
+}
+
 /** `2` + `objective` → `2+ objectives`. Nouns here are all regular plurals. */
 function count(n: unknown, noun: string): string {
   return `${str(n)}+ ${noun}s`;
@@ -143,6 +149,7 @@ const EVENT_PHRASES: Record<string, string> = {
   "falls-back": "when the unit Falls Back",
   "charge-move": "when the unit makes a Charge move",
   "moved-through-terrain": "when the unit moves through terrain",
+  "moved-through-tall-terrain": "when the unit moves through terrain over 4\" tall",
   "enemy-unit-ended-move": "an enemy unit ends a move",
   "enemy-unit-fell-back": "an enemy unit Falls Back",
   "before-hit-roll": "before a Hit roll is made",
@@ -203,7 +210,7 @@ export function describeCondition(c: Condition): string {
     case "phase-is":
       return `${negate}during the ${str(p.phase)} phase`;
     case "timing-is":
-      return `${negate}${describeTiming(p.timing)}`;
+      return c.negated ? negatedTiming(p.timing) : describeTiming(p.timing);
     case "player-turn-is": {
       const t = str(p.turn);
       const phrase =

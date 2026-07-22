@@ -14,7 +14,7 @@
  * Unknown leaf types degrade to a deterministic bracketed form (`[the-type]`).
  */
 
-import { describeCondition, describeTiming, eventClause, dekebab, type Condition } from "./condition.js";
+import { describeCondition, describeTiming, negatedTiming, eventClause, dekebab, type Condition } from "./condition.js";
 
 /**
  * Minimal structural view of an effect node. Matches the ability-dsl effect
@@ -604,6 +604,7 @@ function conditionLeadIn(c: Condition): string {
     return negatedTargetKeywords([jstr((c.parameters ?? {}).keyword)]);
   if (c.negated && c.type === "unit-has-keyword")
     return `unless the unit has the ${jstr((c.parameters ?? {}).keyword)} keyword`;
+  if (c.negated && c.type === "timing-is") return negatedTiming((c.parameters ?? {}).timing);
   if (c.negated) return `if ${describeCondition(c)}`;
 
   const p = c.parameters ?? {};
@@ -1304,10 +1305,15 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
         `and can target enemy units within ${r}"`
       );
     }
-    case "engagement-passthrough":
-      return m.no_end_in_engagement
+    case "engagement-passthrough": {
+      const base = m.no_end_in_engagement
         ? `${subj} can move through enemy models, but cannot end that move within Engagement Range of any enemy unit`
         : `${subj} can move through enemy models`;
+      const moveKinds = Array.isArray(m.applies_to_moves)
+        ? andList((m.applies_to_moves as string[]).map((x) => MOVE_NOUN[x] ?? dekebab(x)))
+        : null;
+      return moveKinds ? `${base}, during its ${moveKinds} moves` : base;
+    }
     case "attack-restriction":
       return describeAttackRestriction(m, subj);
     case "objective-control-modifier": {

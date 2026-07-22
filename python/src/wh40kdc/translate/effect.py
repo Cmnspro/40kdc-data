@@ -21,6 +21,7 @@ from wh40kdc.translate.condition import (
     describe_condition,
     describe_timing,
     event_clause,
+    negated_timing,
 )
 
 Effect = dict[str, Any]
@@ -521,6 +522,8 @@ def _condition_lead_in(c: Condition) -> str:
     if c.get("negated") and c.get("type") == "unit-has-keyword":
         kw = _jstr((c.get("parameters") or {}).get("keyword"))
         return f"unless the unit has the {kw} keyword"
+    if c.get("negated") and c.get("type") == "timing-is":
+        return negated_timing((c.get("parameters") or {}).get("timing"))
     if c.get("negated"):
         return f"if {describe_condition(c)}"
 
@@ -1457,11 +1460,16 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         )
     if etype == "engagement-passthrough":
         if m.get("no_end_in_engagement"):
-            return (
+            base = (
                 f"{subj} can move through enemy models, but cannot end that move "
                 "within Engagement Range of any enemy unit"
             )
-        return f"{subj} can move through enemy models"
+        else:
+            base = f"{subj} can move through enemy models"
+        if isinstance(m.get("applies_to_moves"), list) and m["applies_to_moves"]:
+            move_kinds = _and_list([_MOVE_NOUN.get(x, dekebab(x)) for x in m["applies_to_moves"]])
+            return f"{base}, during its {move_kinds} moves"
+        return base
     if etype == "attack-restriction":
         return _describe_attack_restriction(m, subj)
     if etype == "objective-control-modifier":

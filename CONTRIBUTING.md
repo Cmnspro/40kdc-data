@@ -77,25 +77,25 @@ Repair worklist by faction — abilities still needing DSL work (not total cover
 | adeptus-astartes | 3 | 16 | 0 | 7 |
 | aeldari | 3 | 8 | 0 | 5 |
 | emperors-children | 3 | 8 | 0 | 1 |
-| chaos-knights | 3 | 2 | 0 | 0 |
 | world-eaters | 3 | 0 | 0 | 0 |
 | orks | 2 | 5 | 0 | 3 |
 | astra-militarum | 2 | 3 | 0 | 5 |
+| chaos-knights | 2 | 2 | 0 | 0 |
 | genestealer-cults | 2 | 1 | 0 | 1 |
 | tyranids | 1 | 5 | 0 | 5 |
 | drukhari | 1 | 5 | 0 | 1 |
-| imperial-knights | 1 | 5 | 0 | 1 |
 | grey-knights | 1 | 2 | 0 | 1 |
 | necrons | 1 | 2 | 0 | 1 |
 | chaos-daemons | 0 | 7 | 0 | 4 |
 | adepta-sororitas | 0 | 7 | 0 | 1 |
+| imperial-knights | 0 | 5 | 0 | 1 |
 | adeptus-custodes | 0 | 3 | 0 | 3 |
 | tau-empire | 0 | 3 | 0 | 3 |
 | adeptus-mechanicus | 0 | 0 | 0 | 2 |
 | agents-of-the-imperium | 0 | 0 | 0 | 2 |
 | _core | 0 | 0 | 0 | 0 |
 | leagues-of-votann | 0 | 0 | 0 | 0 |
-| **TOTAL** | **42** | **118** | **0** | **57** |
+| **TOTAL** | **40** | **118** | **0** | **57** |
 
 `stub*` = empty-modifier placeholder nodes (highest need first) · `notes-stub` = flagged in `community_notes` · `gw-leak` = suspected verbatim GW text · `def-skipped` = defensive abilities skipped by the buff walk. Enumerated stub ids: [`data/_audit/worklist.md`](data/_audit/worklist.md). Full total+repair breakdown: [`data/_audit/summary.md`](data/_audit/summary.md).
 <!-- coverage:end -->

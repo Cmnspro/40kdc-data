@@ -9,7 +9,8 @@
 use serde_json::{Map, Value};
 
 use super::{
-    battle_round_ordinal, dekebab, describe_node, describe_timing, event_clause, num_param,
+    battle_round_ordinal, dekebab, describe_node, describe_timing, event_clause, negated_timing,
+    num_param,
 };
 use crate::generated::{
     Ability, AbilityAppliesTo, AbilityTrigger, AbilityUsage, AbilityUsageFrequency, AuraEffect,
@@ -565,6 +566,9 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                             "unless the unit has the {} keyword",
                             jv(&s.parameters, "keyword")
                         )
+                    }
+                    SimpleConditionType::TimingIs => {
+                        negated_timing(nstr(&s.parameters, "timing").unwrap_or("?"))
                     }
                     _ => format!("if {}", describe_node(n)),
                 };
@@ -1899,10 +1903,18 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             )
         }
         T::EngagementPassthrough => {
-            if truthy(m, "no_end_in_engagement") {
+            let base = if truthy(m, "no_end_in_engagement") {
                 format!("{subj} can move through enemy models, but cannot end that move within Engagement Range of any enemy unit")
             } else {
                 format!("{subj} can move through enemy models")
+            };
+            match m.get("applies_to_moves") {
+                Some(Value::Array(a)) if !a.is_empty() => {
+                    let move_kinds =
+                        and_list(&a.iter().map(|x| move_noun(&jval(x))).collect::<Vec<_>>());
+                    format!("{base}, during its {move_kinds} moves")
+                }
+                _ => base,
             }
         }
         T::AttackRestriction => describe_attack_restriction(m, &subj),

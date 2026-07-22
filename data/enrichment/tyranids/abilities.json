@@ -4042,6 +4042,106 @@
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
   },
   {
+    "ability_id": "untrammelled-ferocity-crusher-stampede",
+    "name": "Untrammelled Ferocity",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tyranids",
+    "detachment_id": "crusher-stampede",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "movement"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "passthrough": [
+                "non-titanic-models",
+                "terrain-le-4"
+              ],
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
+              ]
+            }
+          },
+          {
+            "type": "engagement-passthrough",
+            "target": "unit",
+            "modifier": {
+              "no_end_in_engagement": true
+            }
+          },
+          {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "passthrough": [
+                "tall-terrain"
+              ],
+              "applies_to_moves": [
+                "normal",
+                "advance",
+                "fall-back"
+              ]
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "timing-is",
+              "parameters": {
+                "timing": "moved-through-tall-terrain"
+              }
+            },
+            "effect": {
+              "type": "dice-gated",
+              "dice": "D6",
+              "threshold": 1,
+              "comparison": "eq",
+              "on_success": {
+                "type": "unit-tag",
+                "target": "unit",
+                "modifier": {
+                  "tag": "battle-shocked"
+                }
+              },
+              "on_fail": null
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tyranids",
+        "Monster"
+      ]
+    },
+    "community_notes": "[APPROX] Target prerequisite 'has not been selected to move this phase' is a selection-sequencing precondition with no condition-schema representation, so it is not encoded in the effect tree. The effect models the co-occurring move permissions of one Normal, Advance or Fall Back move rather than gating each on which passthrough is used."
+  },
+  {
     "ability_id": "insurmountable-odds",
     "name": "Insurmountable Odds",
     "authored_by": "40kdc-community",

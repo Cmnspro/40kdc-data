@@ -68,6 +68,7 @@ GameEvent: TypeAlias = Literal[
     "falls-back",
     "charge-move",
     "moved-through-terrain",
+    "moved-through-tall-terrain",
     "enemy-unit-ended-move",
     "enemy-unit-fell-back",
     "before-hit-roll",
