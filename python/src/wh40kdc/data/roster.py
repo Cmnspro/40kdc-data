@@ -103,6 +103,25 @@ def validate_roster_core(spec: dict[str, Any], dataset: Dataset) -> dict[str, An
                 return scoped
         return dataset.units.get_any(unit_id)
 
+    # The army faction's keywords ([Imperium, Adeptus Astartes, Blood Angels]
+    # for a chapter): every unit in the faction's pool owns them — the
+    # <CHAPTER>-style keyword that chapter-shared datasheet records can't
+    # carry. Granted with the same subset rule that scopes a chapter's unit
+    # pool, so allied units never gain them.
+    army_keywords: list[str] = []
+    if faction_id:
+        army_faction = dataset.factions.get(faction_id)
+        if army_faction is not None:
+            army_keywords = list(army_faction.raw.get("keywords") or [])
+    army_keyword_set = set(army_keywords)
+
+    def owned_keywords(unit: dict[str, Any]) -> set[str]:
+        owned = _keyword_set(unit)
+        faction_kws = unit.get("faction_keywords") or []
+        if army_keyword_set and all(k in army_keyword_set for k in faction_kws):
+            owned |= army_keyword_set
+        return owned
+
     views = [resolve_unit(u.get("unit_id") or "") for u in spec_units]
 
     # --- Per-unit loadout (reuse the tier/bounds checker). --------------------
@@ -167,7 +186,7 @@ def validate_roster_core(spec: dict[str, Any], dataset: Dataset) -> dict[str, An
                 f"{enh['id']} can only be taken by a Character",
                 idx,
             )
-        kws = _keyword_set(view.raw)
+        kws = owned_keywords(view.raw)
         if any(k not in kws for k in (enh.get("keyword_restrictions") or [])):
             err(
                 "enhancement-keyword-mismatch",
@@ -279,7 +298,7 @@ def validate_roster_core(spec: dict[str, Any], dataset: Dataset) -> dict[str, An
             view = views[idx]
             if view is None:
                 continue
-            kws = _keyword_set(view.raw)
+            kws = owned_keywords(view.raw)
             if any(k not in kws for k in (restrictions.get("required_keywords") or [])):
                 err(
                     "detachment-restriction-required",
@@ -331,7 +350,7 @@ def validate_roster_core(spec: dict[str, Any], dataset: Dataset) -> dict[str, An
     for d in detachments:
         for um in d.get("unit_minimums") or []:
             count = sum(
-                1 for v in views if v is not None and um["keyword"] in _keyword_set(v.raw)
+                1 for v in views if v is not None and um["keyword"] in owned_keywords(v.raw)
             )
             if count < um["min"]:
                 err(

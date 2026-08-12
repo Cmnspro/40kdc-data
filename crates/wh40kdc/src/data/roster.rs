@@ -147,6 +147,29 @@ fn keyword_set(view: &Unit) -> HashSet<String> {
     out
 }
 
+/// A unit's full keyword ownership: `keyword_set` plus the army faction's
+/// keywords ([Imperium, Adeptus Astartes, Blood Angels] for a chapter) — the
+/// <CHAPTER>-style keyword that chapter-shared datasheet records can't carry.
+/// Granted with the same subset rule that scopes a chapter's unit pool, so
+/// allied units never gain them.
+fn owned_keywords(view: &Unit, army_keywords: &HashSet<String>) -> HashSet<String> {
+    let mut out = keyword_set(view);
+    if army_keywords.is_empty() {
+        return out;
+    }
+    let in_pool = view
+        .faction_keywords
+        .as_ref()
+        .map(|kws| kws.0.iter().all(|k| army_keywords.contains(k.as_str())))
+        .unwrap_or(true);
+    if in_pool {
+        for k in army_keywords {
+            out.insert(k.clone());
+        }
+    }
+    out
+}
+
 /// Whether a unit counts as a Character for enhancement eligibility.
 fn is_character(view: &Unit) -> bool {
     matches!(
@@ -166,6 +189,13 @@ fn is_character(view: &Unit) -> bool {
 pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegality {
     let mut army: Vec<RosterViolation> = Vec::new();
     let faction = spec.faction_id.as_deref();
+    // The army faction's keyword list, granted to its whole unit pool (see
+    // `owned_keywords`).
+    let army_keywords: HashSet<String> = faction
+        .and_then(|f| dataset.factions.get(f))
+        .and_then(|fac| fac.keywords.as_ref())
+        .map(|k| k.0.iter().map(|kw| kw.as_str().to_string()).collect())
+        .unwrap_or_default();
 
     let resolve_unit = |unit_id: &str| -> Option<&Unit> {
         if unit_id.is_empty() {
@@ -263,7 +293,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
                 severity: Severity::Error,
             });
         }
-        let kws = keyword_set(view);
+        let kws = owned_keywords(view, &army_keywords);
         if let Some(req) = &enh.keyword_restrictions {
             if req.0.iter().any(|k| !kws.contains(k.as_str())) {
                 army.push(RosterViolation {
@@ -442,7 +472,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
         let Some(r) = &d.restrictions else { continue };
         for (idx, _su) in spec.units.iter().enumerate() {
             let Some(view) = views[idx] else { continue };
-            let kws = keyword_set(view);
+            let kws = owned_keywords(view, &army_keywords);
             if let Some(req) = &r.required_keywords {
                 if req.0.iter().any(|k| !kws.contains(k.as_str())) {
                     army.push(RosterViolation {
@@ -481,11 +511,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
     // so a removed-without-replacement unit (e.g. Librarians for Black Templars)
     // carries `excluded_faction_keywords`; it is illegal when the army's faction
     // keywords intersect that list. Mirror of TS `unit-excluded-from-faction`.
-    let faction_keywords: HashSet<String> = faction
-        .and_then(|f| dataset.factions.get(f))
-        .and_then(|fac| fac.keywords.as_ref())
-        .map(|k| k.0.iter().map(|kw| kw.as_str().to_string()).collect())
-        .unwrap_or_default();
+    let faction_keywords = &army_keywords;
     if !faction_keywords.is_empty() {
         for (idx, _su) in spec.units.iter().enumerate() {
             let Some(view) = views[idx] else { continue };
@@ -542,7 +568,7 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
             let count = views
                 .iter()
                 .filter(|v| {
-                    v.map(|view| keyword_set(view).contains(keyword))
+                    v.map(|view| owned_keywords(view, &army_keywords).contains(keyword))
                         .unwrap_or(false)
                 })
                 .count() as u64;
