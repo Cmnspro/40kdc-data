@@ -11,7 +11,7 @@ use std::collections::{BTreeMap, HashMap, HashSet};
 
 use crate::data::battle_sizes::{detachment_cap_for_battle_size, points_limit_for_battle_size};
 use crate::data::loadout::{check_unit_legality, loadout_models, loadout_tiers, Violation};
-use crate::data::pricing::{base_unit_points, wargear_points};
+use crate::data::pricing::{host_unit_points, wargear_points};
 use crate::generated::{Unit, UnitRole};
 use crate::import::{BattleSize, Roster};
 use crate::Dataset;
@@ -375,13 +375,17 @@ pub fn validate_roster_core(spec: &NormRoster, dataset: &Dataset) -> RosterLegal
     }
 
     // --- Points total (ordinal-aware) + wargear + enhancement costs. ----------
+    // Host-aware: a foreign unit with an `allied_points` entry for this army
+    // (Agents' Imperium price, a chapter's reprice of a shared datasheet)
+    // prices from that entry, not its native table.
+    let roster_faction = faction.and_then(|f| dataset.factions.get(f));
     let mut ordinals: HashMap<String, u64> = HashMap::new();
     let mut total: u64 = 0;
     for (idx, su) in spec.units.iter().enumerate() {
         let Some(view) = views[idx] else { continue };
         let ord = ordinals.entry(su.unit_id.clone()).or_insert(0);
         *ord += 1;
-        total += base_unit_points(view, su.model_count, *ord);
+        total += host_unit_points(view, su.model_count, *ord, roster_faction);
         total += wargear_points(view, &su.counts);
         if let Some(enh_id) = &su.enhancement_id {
             total += dataset

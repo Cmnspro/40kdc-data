@@ -218,6 +218,15 @@ func validateRosterCore(spec normRoster, ds *Dataset) ([]unitLoadoutResult, []ro
 	}
 
 	// --- Points total (ordinal-aware) + enhancement costs. --------------------
+	// Host-aware: a foreign unit with an allied_points entry for this army
+	// (Agents' Imperium price, a chapter's reprice of a shared datasheet)
+	// prices from that entry, not its native table.
+	var rosterFaction map[string]any
+	if spec.factionID != "" {
+		if f, ok := ds.Factions.Get(spec.factionID); ok {
+			rosterFaction = f.Raw
+		}
+	}
 	ordinals := map[string]int{}
 	total := 0
 	for idx, su := range spec.units {
@@ -227,7 +236,7 @@ func validateRosterCore(spec normRoster, ds *Dataset) ([]unitLoadoutResult, []ro
 		}
 		ord := ordinals[su.unitID] + 1
 		ordinals[su.unitID] = ord
-		total += baseUnitPoints(view.Raw, su.modelCount, ord)
+		total += hostUnitPoints(view.Raw, su.modelCount, ord, rosterFaction)
 		total += wargearPoints(view.Raw, su.counts)
 		if su.enhancementID != "" {
 			if eAny, ok := ds.Enhancements.Get(su.enhancementID); ok {
