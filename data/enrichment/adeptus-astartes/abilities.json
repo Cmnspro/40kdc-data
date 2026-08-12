@@ -1408,28 +1408,74 @@
     "authored_by": "40kdc-community",
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "launch"
     },
     "version": "2025-q3",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "type": "phase-is",
-        "parameters": {
-          "phase": "fight"
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "all-failures",
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-within-range-of",
+                "negated": true,
+                "parameters": {
+                  "target_type": "friendly-keyword",
+                  "keyword": "Blood Angels Character",
+                  "range": 6
+                }
+              },
+              {
+                "type": "unit-within-range-of",
+                "negated": true,
+                "parameters": {
+                  "target_type": "friendly-keyword",
+                  "keyword": "Chaplain",
+                  "range": 12
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "rule-state",
+                "target": "unit",
+                "modifier": {
+                  "direction": "suppressed",
+                  "rule_kind": "core-rule",
+                  "rule": "fall-back"
+                }
+              },
+              {
+                "type": "objective-control-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "OC",
+                  "operation": "set",
+                  "value": 0
+                }
+              }
+            ]
+          }
         }
-      },
-      "effect": {
-        "type": "re-roll",
-        "target": "unit",
-        "modifier": {
-          "roll": "hit",
-          "subset": "all-failures"
-        }
-      }
+      ]
     },
     "scope": {
-      "range": "aura-6",
+      "range": "unit",
       "duration": "permanent"
     },
     "unit_ids": [
@@ -1441,7 +1487,8 @@
       "death-company-marines-with-jump-packs"
     ],
     "ability_type": "unit",
-    "behavior": "passive"
+    "behavior": "passive",
+    "community_notes": "re-authored against launch rules: melee hit re-rolls, plus the leash drawback (Fall Back suppressed, OC set to 0) while outside 6\" of a friendly Blood Angels Character and 12\" of a friendly Chaplain"
   },
   {
     "ability_id": "driven-by-fury",

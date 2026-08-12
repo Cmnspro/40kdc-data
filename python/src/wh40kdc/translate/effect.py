@@ -1092,7 +1092,14 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         else:
             noun = _roll_name(m.get("roll"))
             which = f"a {noun} roll of 1" if m.get("subset") == "ones" else f"the {noun} roll"
-        weapon = f" with {_jstr(m['weapon_type'])} weapons" if m.get("weapon_type") else ""
+        # An attack_type scopes the re-roll to melee/ranged attacks (Black
+        # Rage's melee hit re-rolls); weapon_type keeps its wording precedence.
+        if m.get("weapon_type"):
+            weapon = f" with {_jstr(m['weapon_type'])} weapons"
+        elif m.get("attack_type") is not None and m.get("attack_type") != "any":
+            weapon = f" for {_jstr(m['attack_type'])} attacks"
+        else:
+            weapon = ""
         return f"you can re-roll {which}{weapon}"
     if etype == "mortal-wounds":
         range_ = m.get("range")
@@ -1584,6 +1591,10 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             )
         if m.get("operation") == "halve":
             return f"halve the Objective Control characteristic of {subj}"
+        # An absolute set (Black Rage's OC 0) mirrors stat-modifier's wording.
+        if m.get("operation") == "set":
+            oc_of = _of_or_possessive(subj, "Objective Control characteristic")
+            return f"modify {oc_of} to {_jstr(m.get('value'))}"
         if m.get("operation") is not None:
             sgn = _signed(m["operation"], m.get("value"))
             pron = _pronoun(subj)
