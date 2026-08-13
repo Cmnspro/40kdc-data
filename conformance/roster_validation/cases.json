@@ -542,7 +542,7 @@
   },
   {
     "name": "points-over-limit-from-wargear-costs",
-    "note": "6 Terminator Assault Squads at 6 models = 1860 base (legal at 2000), but each squad's five thunder hammers (wargear_costs 5 pts each = 25/squad, +150) push the army to 2010 — over the limit. points-over-limit here is produced ONLY by charging wargear_costs over the loadout, so every port must sum them identically (issue 75).",
+    "note": "6 Terminator Assault Squads at 6 models = 1860 base (legal at 2000), but each squad's five thunder hammers (wargear_costs 5 pts each = 25/squad, +150) push the army to 2010 \u2014 over the limit. points-over-limit here is produced ONLY by charging wargear_costs over the loadout, so every port must sum them identically (issue 75).",
     "args": {
       "factionId": "adeptus-astartes",
       "battleSize": "strike-force",
@@ -617,6 +617,118 @@
     },
     "expected": [
       "army|error|points-over-limit:roster"
+    ]
+  },
+  {
+    "name": "chapter-keyword-enhancement-legal",
+    "args": {
+      "factionId": "blood-angels",
+      "battleSize": "strike-force",
+      "forceDisposition": "take-and-hold",
+      "detachments": [
+        {
+          "id": "liberator-assault-group"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "chaplain",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": "gift-of-foresight-liberator-assault-group",
+          "leaderBodyguardId": null,
+          "counts": {
+            "crozius-arcanum": 1,
+            "absolvor-bolt-pistol": 1
+          }
+        }
+      ]
+    },
+    "expected": []
+  },
+  {
+    "name": "chapter-keyword-enhancement-terminator-mismatch",
+    "args": {
+      "factionId": "blood-angels",
+      "battleSize": "strike-force",
+      "forceDisposition": "take-and-hold",
+      "detachments": [
+        {
+          "id": "orbital-assault-force"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "chaplain",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": "dedicated-gunship-orbital-assault-force",
+          "leaderBodyguardId": null,
+          "counts": {
+            "crozius-arcanum": 1,
+            "absolvor-bolt-pistol": 1
+          }
+        }
+      ]
+    },
+    "expected": [
+      "u0|error|enhancement-keyword-mismatch:dedicated-gunship-orbital-assault-force"
+    ]
+  },
+  {
+    "name": "chapter-restriction-own-pool-legal",
+    "args": {
+      "factionId": "ultramarines",
+      "battleSize": "strike-force",
+      "forceDisposition": "priority-assets",
+      "detachments": [
+        {
+          "id": "blade-of-ultramar"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "chaplain",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {
+            "crozius-arcanum": 1,
+            "absolvor-bolt-pistol": 1
+          }
+        }
+      ]
+    },
+    "expected": []
+  },
+  {
+    "name": "chapter-restriction-cross-chapter-violated",
+    "args": {
+      "factionId": "adeptus-astartes",
+      "battleSize": "strike-force",
+      "forceDisposition": "priority-assets",
+      "detachments": [
+        {
+          "id": "blade-of-ultramar"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "chaplain",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {
+            "crozius-arcanum": 1,
+            "absolvor-bolt-pistol": 1
+          }
+        }
+      ]
+    },
+    "expected": [
+      "u0|error|detachment-restriction-required:chaplain"
     ]
   }
 ]

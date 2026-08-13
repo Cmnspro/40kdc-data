@@ -230,8 +230,26 @@ export function validateRosterCore(spec: NormRoster, dataset: Dataset): RosterLe
     }
     return dataset.units.getAny(unitId);
   };
-  const keywordSet = (view: UnitView): Set<string> =>
-    new Set<string>([...(view.raw.keywords ?? []), ...(view.raw.faction_keywords ?? [])]);
+  // The army faction's keywords ([Imperium, Adeptus Astartes, Blood Angels]
+  // for a chapter): every unit in the faction's pool owns them — the
+  // <CHAPTER>-style keyword that chapter-shared datasheet records can't
+  // carry. Granted with the same subset rule that scopes a chapter's unit
+  // pool, so allied units never gain them.
+  const armyKeywords: string[] = spec.factionId
+    ? (dataset.factions.get(spec.factionId)?.raw.keywords ?? [])
+    : [];
+  const armyKeywordSet = new Set<string>(armyKeywords);
+  const keywordSet = (view: UnitView): Set<string> => {
+    const owned = new Set<string>([
+      ...(view.raw.keywords ?? []),
+      ...(view.raw.faction_keywords ?? []),
+    ]);
+    const factionKws = view.raw.faction_keywords ?? [];
+    if (armyKeywordSet.size > 0 && factionKws.every((k) => armyKeywordSet.has(k))) {
+      for (const k of armyKeywords) owned.add(k);
+    }
+    return owned;
+  };
   const isCharacter = (view: UnitView): boolean => {
     const r = view.raw.role;
     return r === "character" || r === "epic-hero" || (view.raw.keywords ?? []).includes("Character");

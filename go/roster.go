@@ -67,13 +67,43 @@ func validateRosterCore(spec normRoster, ds *Dataset) ([]unitLoadoutResult, []ro
 		}
 		return nil
 	}
+	// The army faction's keywords ([Imperium, Adeptus Astartes, Blood Angels]
+	// for a chapter): every unit in the faction's pool owns them — the
+	// <CHAPTER>-style keyword that chapter-shared datasheet records can't
+	// carry. Granted with the same subset rule that scopes a chapter's unit
+	// pool, so allied units never gain them.
+	var armyKeywords []string
+	if spec.factionID != "" {
+		if fac, ok := ds.Factions.Get(spec.factionID); ok {
+			armyKeywords = getStrList(fac.Raw, "keywords")
+		}
+	}
+	armyKeywordSet := map[string]struct{}{}
+	for _, k := range armyKeywords {
+		armyKeywordSet[k] = struct{}{}
+	}
 	keywordSet := func(view *UnitView) map[string]struct{} {
 		s := map[string]struct{}{}
 		for _, k := range getStrList(view.Raw, "keywords") {
 			s[k] = struct{}{}
 		}
-		for _, k := range getStrList(view.Raw, "faction_keywords") {
+		factionKws := getStrList(view.Raw, "faction_keywords")
+		for _, k := range factionKws {
 			s[k] = struct{}{}
+		}
+		if len(armyKeywordSet) > 0 {
+			inPool := true
+			for _, k := range factionKws {
+				if _, ok := armyKeywordSet[k]; !ok {
+					inPool = false
+					break
+				}
+			}
+			if inPool {
+				for _, k := range armyKeywords {
+					s[k] = struct{}{}
+				}
+			}
 		}
 		return s
 	}
