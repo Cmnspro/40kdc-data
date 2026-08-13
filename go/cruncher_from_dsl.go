@@ -38,9 +38,10 @@ type effectTranslation struct {
 }
 
 type dslOpts struct {
-	context     map[string]any
-	perspective string
-	abilityID   string
+	context       map[string]any
+	perspective   string
+	abilityID     string
+	defaultTarget string
 }
 
 // effectToBuffs walks an ability DSL effect tree, producing the buff stack plus
@@ -120,6 +121,10 @@ func dslWalk(node any, source map[string]any, opts dslOpts, out *effectTranslati
 	case "select-units":
 		// Targeting wrapper — the selected units receive the nested effect.
 		dslWalk(n["effect"], source, opts, out)
+	case "leader-model-ability-grant":
+		out.unsupported = append(out.unsupported, unsup("leader-model-ability-grant: attached leader beneficiary is not resolved by the buff engine", n))
+	case "persistent-designation":
+		out.unsupported = append(out.unsupported, unsup("persistent-designation: retained selection state is not resolved by the buff engine", n))
 	case "designate-target":
 		// Mark an enemy unit; when `to: attackers-of-target` the nested effect is
 		// a buff every friendly attack against that unit receives (Oath of Moment).
@@ -140,6 +145,13 @@ func dslWalk(node any, source map[string]any, opts dslOpts, out *effectTranslati
 	case "issue-orders":
 		// Officer issues one Order from the menu — each is an opt-in lever.
 		enumerateNamedOptions(n, source, opts, out, opts.abilityID+"?order", 1)
+	case "resource-action-menu":
+		// Each action is an INDEPENDENT reactive lever, not a pick-one group:
+		// unlike stance-select/issue-orders, multiple actions (and repeats of
+		// the same action by different units — see
+		// usage.repeatable_if_different_unit) can fire in the same phase, so
+		// no shared group/maxActivations cap is attached here.
+		enumerateMenuActions(n, source, opts, out)
 	default:
 		out.unsupported = append(out.unsupported, unsup("effect type \""+jsStr(n["type"])+"\" is not modelled by the buff layer", n))
 	}
@@ -621,6 +633,53 @@ func enumerateNamedOptions(node, source map[string]any, opts dslOpts, out *effec
 			"label": name,
 			"buffs": buffs,
 			"group": map[string]any{"id": groupID, "maxActivations": maxActivations},
+		})
+	}
+}
+
+// enumerateMenuActions emits one opt-in lever per buff-bearing
+// resource-action-menu action. Unlike enumerateNamedOptions (stance-select /
+// issue-orders, a pick-one group), each action here is an INDEPENDENT
+// decision with its own trigger and cost — no shared group/maxActivations
+// cap, since a unit's per-phase manoeuvre limit isn't a mutual-exclusion pool
+// the cruncher can enforce (and usage.repeatable_if_different_unit
+// explicitly allows the same action to recur via a different unit in one
+// phase). A single eligibility.requires_keyword narrows the lever to
+// attackers carrying that keyword; multiple required keywords have no
+// single-field applicability representation today and are left ungated
+// (correctness-conservative: the lever still surfaces, just without that
+// extra restriction attached).
+func enumerateMenuActions(node, source map[string]any, opts dslOpts, out *effectTranslation) {
+	actions, _ := asList(node["actions"])
+	for _, actionAny := range actions {
+		action, ok := asMap(actionAny)
+		if !ok {
+			continue
+		}
+		applicability := map[string]any{}
+		if elig, ok := getMap(action, "eligibility"); ok {
+			requiresKeyword := getStrList(elig, "requires_keyword")
+			if len(requiresKeyword) == 1 {
+				applicability = map[string]any{"requiresAttackerKeyword": requiresKeyword[0]}
+			}
+		}
+		var buffs []any
+		collectGatedBuffs(action["effect"], source, opts, applicability, &buffs)
+		if len(buffs) == 0 {
+			continue
+		}
+		label, _ := action["label"].(string)
+		if label == "" {
+			label = labelForBuffs(buffs)
+		}
+		id, _ := action["id"].(string)
+		if id == "" {
+			id = label
+		}
+		out.activatable = append(out.activatable, map[string]any{
+			"id":    opts.abilityID + "#" + id,
+			"label": label,
+			"buffs": buffs,
 		})
 	}
 }

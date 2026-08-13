@@ -35,36 +35,105 @@ _CONTAINER_TYPES = {
     "dice-pool-allocation",
     "select-units",
     "for-each-unit",
+    "leader-model-ability-grant",
     "designate-target",
+    "persistent-designation",
     "stance-select",
     "risk-reward",
     "issue-orders",
+    "resource-action-menu",
 }
 
 
 def _select_units_subject(sel: Any) -> str:
-    """``one enemy Vehicle unit within 12"`` — the ``select-units`` selector phrase.
-    Their ``up to`` wording. Keywords retain their corpus display casing here;
-    other values use natural title casing in either form."""
+    """Render count and bearer-relative candidate gates for ``select-units``."""
     sel = sel or {}
     owner = _jstr(sel.get("owner"))
-    within = (
-        f' within {_jstr(sel.get("within_inches"))}"'
-        if sel.get("within_inches") is not None
-        else ""
-    )
     keywords = " ".join(_title_case(_jstr(k)) for k in (sel.get("keywords") or []))
     owner_keywords = f" {keywords}" if keywords else ""
-    if sel.get("count") is not None:
-        count = sel["count"]
-        noun = "unit" if count == 1 else "units"
-        quantity = "one" if count == 1 else _jstr(count)
-        return f"{quantity} {owner}{owner_keywords} {noun}{within}{_selection_eligibility(sel)}"
-    noun = "unit" if sel.get("max_count") == 1 else "units"
+    exact_count = sel.get("count")
+    min_count = sel.get("min_count")
+    max_count = sel.get("max_count")
+    if exact_count is None and min_count is not None and float(min_count) == float(max_count):
+        exact_count = max_count
+    bounded = min_count is not None and exact_count is None
+    count = exact_count if exact_count is not None else max_count
+    single = count == 1
+    noun = "unit" if single else "units"
+    if exact_count is not None:
+        quantity = "one" if single else _jstr(count)
+    elif bounded:
+        quantity = f"from {_jstr(min_count)} through {_jstr(max_count)}"
+    else:
+        quantity = f"up to {_jstr(max_count)}"
+    if sel.get("within_inches") is not None:
+        within = f' within {_jstr(sel["within_inches"])}"'
+    elif isinstance(sel.get("range_inches"), (int, float)):
+        within = f" within {_jstr(sel['range_inches'])} inches of the bearer"
+    else:
+        within = ""
+    visible = " visible to the bearer" if sel.get("visibility_required") is True else ""
+    inclusive = ", inclusive" if bounded else ""
     return (
-        f"up to {_jstr(sel.get('max_count'))} {owner}{owner_keywords} {noun}"
-        f"{within}{_selection_eligibility(sel)}"
+        f"{quantity} {owner}{owner_keywords} {noun}{inclusive}{within}{visible}"
+        f"{_selection_eligibility(sel)}"
     )
+
+
+def _select_units_engagement(sel: Any) -> str:
+    sel = sel or {}
+    if sel.get("engagement_relation") == "engaged-with-bearer":
+        return "For each selected unit, it must be engaged with the bearer."
+    if sel.get("engagement_relation") == "not-engaged-with-bearer":
+        return "For each selected unit, it must not be engaged with the bearer."
+    return ""
+
+
+def _selected_recipient(text: str, sel: Any) -> str:
+    sel = sel or {}
+    count = sel.get("count", sel.get("max_count", 0))
+    recipient = "each selected unit" if count > 1 else "the selected unit"
+    text = text.replace("The unit's", "Each selected unit's").replace(
+        "the unit's", f"{recipient}'s"
+    )
+    return text.replace("The unit", "Each selected unit").replace("the unit", recipient)
+
+
+def _select_units_inline(sel: Any, effect: Effect, ctx: Ctx) -> str:
+    subject = _select_units_subject(sel)
+    engagement = _select_units_engagement(sel)
+    nested = _selected_recipient(
+        describe_effect_inline(effect, {**ctx, "selected_unit": True}), sel
+    )
+    return (
+        f"select {subject}. {engagement} {_capitalize(nested)}"
+        if engagement
+        else f"select {subject}: {nested}"
+    )
+
+
+def _leader_model_ability_grant_clause(e: Effect, ctx: Ctx) -> str:
+    """Render the beneficiary-only leader relation without a bearer fallback."""
+    filt = e.get("leader_filter") or {}
+    identity = _title_case(_jstr(filt.get("identity"))) if filt.get("identity") else ""
+    keywords = " and ".join(_bracket_keyword(k) for k in (filt.get("keywords") or []))
+    role = (
+        "the attached CHARACTER leader model"
+        if e.get("beneficiary") == "attached-character-leader"
+        else "the attached leader model"
+    )
+    leader = (
+        f"{role}{f' identified as {identity}' if identity else ''}"
+        f"{f' with {keywords}' if keywords else ''}"
+    )
+    unit_keywords = " and ".join(
+        _bracket_keyword(k) for k in (e.get("attached_unit_filter") or [])
+    )
+    source = f"the bearer unit{f' with {unit_keywords}' if unit_keywords else ''}"
+    nested = dict((e.get("grant") or {}).get("effect") or {})
+    nested["target"] = "self"
+    rendered = describe_effect_inline(nested, ctx).replace("this model", "that leader model", 1)
+    return f"while {leader} leads {source}, {rendered}"
 
 
 
@@ -144,6 +213,57 @@ def _capitalize(s: str) -> str:
 
 
 _TITLE_SMALL = {"of", "or", "and", "the", "a", "an", "to", "in", "on", "for", "with"}
+
+
+def _persistent_designation_name(designation: Any, scope: Any) -> str:
+    label = _title_case(_jstr(designation))
+    if scope == "objective-marker":
+        return f"your {label}" if label.endswith(" Marker") else f"your {label} Marker"
+    return f"your {label}" if re.search(r"\bTarget$", label) else f"your {label} target"
+
+
+def _persistent_designation_label(designation: Any, scope: Any) -> str:
+    return f" ({_persistent_designation_name(designation, scope)})"
+
+
+def _persistent_designation_supported(e: Effect) -> bool:
+    select_raw = e.get("select")
+    consumer_raw = e.get("consumer")
+    sel = select_raw if isinstance(select_raw, dict) else {}
+    consumer = consumer_raw if isinstance(consumer_raw, dict) else {}
+    if consumer.get("beneficiary") != "bearer":
+        return False
+    return (
+        sel.get("scope") == "enemy-unit" and consumer.get("relation") == "attacks-selected-unit"
+    ) or (
+        sel.get("scope") == "objective-marker"
+        and consumer.get("relation") == "within-selected-marker"
+    )
+
+
+def _persistent_designation_lead(e: Effect) -> str:
+    select_raw = e.get("select")
+    sel = select_raw if isinstance(select_raw, dict) else {}
+    scope_noun = "objective marker" if sel.get("scope") == "objective-marker" else "enemy unit"
+    label = _persistent_designation_label(e.get("designation"), sel.get("scope"))
+    timing = sel.get("timing")
+    select_lead = f"{describe_timing(timing)}, select" if timing else "select"
+    return f"{select_lead} one {scope_noun}{label}."
+
+
+def _persistent_designation_when(e: Effect) -> str:
+    select_raw = e.get("select")
+    consumer_raw = e.get("consumer")
+    sel = select_raw if isinstance(select_raw, dict) else {}
+    consumer = consumer_raw if isinstance(consumer_raw, dict) else {}
+    name = _persistent_designation_name(e.get("designation"), sel.get("scope"))
+    relation = (
+        f"while this model is within range of {name}"
+        if consumer.get("relation") == "within-selected-marker"
+        else "each time this model makes an attack against it"
+    )
+    _, trail = _duration_clauses(e.get("duration"))
+    return f"{_capitalize(trail)}, {relation}" if trail else relation
 
 
 def _title_case(s: str) -> str:
@@ -450,10 +570,46 @@ def _usage_clause(u: dict[str, Any]) -> str:
     return f"{base} per {_jstr(u['per'])}" if u.get("per") is not None else base
 
 
+
+
+def _resource_noun(m: dict[str, Any], count: Any = None) -> str:
+    """Player-facing noun for a ``resource-gain``/``resource-spend``/
+    ``resource-clear`` modifier's pool, or a menu action's ``cost``.
+    ``resource_label`` (a singular noun, e.g. "Battle Focus token") is an
+    author-provided override that pluralizes by count and never leaks the
+    internal ``pool_id``; absent, falls back to the established
+    ``_pool_name`` title-casing (backward compatible with every pre-existing
+    resource node)."""
+    label = m.get("resource_label")
+    if not isinstance(label, str) or not label:
+        pool = m.get("pool_id") if m.get("pool_id") is not None else m.get("resource")
+        return _pool_name(pool)
+    n = _round_number(count) if count is not None else None
+    return label if n == 1 else f"{label}s"
+
+
+def _is_end_of_phase_disembark_battle_shock(t: dict[str, Any]) -> bool:
+    condition = t.get("condition")
+    if t.get("event") != "end-of-phase" or not isinstance(condition, dict):
+        return False
+    operands = condition.get("operands")
+    return (
+        condition.get("operator") == "and"
+        and isinstance(operands, list)
+        and len(operands) == 2
+        and not operands[0].get("negated")
+        and not operands[1].get("negated")
+        and operands[0].get("type") == "disembarked-from-transport"
+        and operands[1].get("type") == "is-battle-shocked"
+    )
+
+
 def _describe_trigger(t: dict[str, Any]) -> str:
     """Reactive trigger -> front-of-sentence lead clause
     ("an enemy unit ends a move within 9\" of this model")."""
     s = event_clause(t.get("event"))
+    if t.get("event") == "falls-back" and t.get("subject") == "enemy-unit":
+        s = "an enemy unit Falls Back"
     # Narrow a move event to its move kinds: "ends a move" -> "ends a Normal,
     # Advance or Fall Back move".
     move_types = t.get("move_types")
@@ -472,9 +628,113 @@ def _describe_trigger(t: dict[str, Any]) -> str:
         else:
             of = "this unit"
         s += f' within {_jstr(prox["range"])}" of {of}'
-    if t.get("condition"):
+    if _is_end_of_phase_disembark_battle_shock(t):
+        s += ", if the unit disembarked from a Transport this turn and is Battle-shocked"
+    elif t.get("condition"):
         s += f", if {describe_condition(t['condition'])}"
     return s
+
+
+def _menu_action_subject(elig: dict[str, Any] | None) -> str:
+    """``excludes_keyword``/``requires_keyword`` -> the eligible-unit noun
+    phrase for a menu action ("one friendly non-TITANIC unit" / "a friendly
+    VEHICLE unit"). Absent eligibility keywords fall back to the plain
+    subject."""
+    elig = elig or {}
+    requires = elig.get("requires_keyword") or []
+    excludes = elig.get("excludes_keyword") or []
+    if excludes:
+        return f"one friendly non-{'/'.join(_jstr(k) for k in excludes)} unit"
+    if requires:
+        return f"a friendly {' '.join(_jstr(k) for k in requires)} unit"
+    return "the unit"
+
+
+def _menu_action_eligibility_clause(elig: dict[str, Any] | None) -> str:
+    """A menu action's ``eligibility`` -> a trailing parenthetical naming
+    which unit may use it and any extra requirements (``eligibility.requires``
+    conditions, rendered via the shared ``describe_condition`` and joined
+    with "and"). ``""`` when the action is open to any unit with no further
+    gate."""
+    if not elig:
+        return ""
+    has_keyword_gate = bool(elig.get("requires_keyword")) or bool(elig.get("excludes_keyword"))
+    requirement_phrases = [describe_condition(c) for c in elig.get("requires") or []]
+    if not has_keyword_gate and not requirement_phrases:
+        return ""
+    parts: list[str] = []
+    if has_keyword_gate:
+        parts.append(f"only usable by {_menu_action_subject(elig)}")
+    if requirement_phrases:
+        parts.append(" and ".join(requirement_phrases))
+    return f" ({', '.join(parts)})" if parts else ""
+
+
+def _menu_action_duration_clause(duration: Any) -> str:
+    """A menu action's ``duration`` -> a trailing clause. ``immediate`` (and
+    absent) render with NO clause -- a one-off action whose only lasting
+    result is the board position it leaves behind."""
+    if duration == "until-end-of-phase":
+        return "until the end of the phase"
+    if duration == "until-end-of-turn":
+        return "until the end of the turn"
+    return ""
+
+
+def _describe_menu_action(a: dict[str, Any], ctx: Ctx) -> str:
+    """One ``resource-action-menu`` action -> a bullet body ("Label: trigger,
+    spend N tokens, effect, duration (notes).")."""
+    label = _jstr(a.get("label") if a.get("label") is not None else a.get("id"))
+    triggers = _normalize_triggers(a.get("when"))
+    trig = " or ".join(s for s in (_describe_trigger(t) for t in triggers) if s)
+    cost = a.get("cost") or {}
+    cost_phrase = f"spend {_jstr(cost.get('amount'))} {_resource_noun(cost, cost.get('amount'))}"
+    eff_clause = describe_effect_inline(a.get("effect") or {}, ctx)
+    dur_clause = _menu_action_duration_clause(a.get("duration"))
+    usage_note = (
+        " (may be triggered more than once per phase if a different unit performs it each time)"
+        if (a.get("usage") or {}).get("repeatable_if_different_unit")
+        else ""
+    )
+    body = ", ".join(
+        p
+        for p in (
+            f"{trig}{_menu_action_eligibility_clause(a.get('eligibility'))}",
+            cost_phrase,
+            eff_clause,
+            dur_clause,
+        )
+        if p
+    )
+    return f"{label}: {body}{usage_note}."
+
+
+def _shared_usage_clause(su: dict[str, Any] | None) -> str:
+    """``shared_usage`` -> a menu-level sentence fragment ("a unit may perform
+    at most one action per phase; unless stated otherwise, a given action may
+    be triggered once per phase"). ``""`` when absent."""
+    if not su:
+        return ""
+    parts: list[str] = []
+    unit_max = su.get("unit_max_manoeuvres_per_phase")
+    if unit_max is not None:
+        parts.append(
+            "a unit may perform at most one action per phase"
+            if unit_max == 1
+            else f"a unit may perform at most {_jstr(unit_max)} actions per phase"
+        )
+    default_max = su.get("default_manoeuvre_max_per_phase")
+    if default_max is not None:
+        parts.append(
+            "unless stated otherwise, a given action may be triggered once per phase"
+            if default_max == 1
+            else (
+                f"unless stated otherwise, a given action may be triggered up to "
+                f"{_jstr(default_max)} times per phase"
+            )
+        )
+    return "; ".join(parts)
+
 
 
 def _negated_target_keywords(keywords: list[str]) -> str:
@@ -973,6 +1233,17 @@ def _movement_clause(m: dict[str, Any], subj: str) -> str:
     return f"{subj} can make a Normal move{of_up_to}"
 
 
+def _keyword_filter_clause(value: Any, noun: str) -> str:
+    if not isinstance(value, dict):
+        return noun
+    required = " and ".join(_jstr(k) for k in value.get("required_keywords") or [])
+    excluded = " or ".join(_jstr(k) for k in value.get("excluded_keywords") or [])
+    return (
+        f"{noun}{f' with {required}' if required else ''}"
+        f"{f' without {excluded}' if excluded else ''}"
+    )
+
+
 def _aura_clause(e: Effect, m: dict[str, Any], ctx: Ctx) -> str:
     """Generic aura ``modifier`` -> one lowercase-initial clause."""
     # Range-extension of a named aura (e.g. Gift of Poxes: contagion +3").
@@ -990,11 +1261,20 @@ def _aura_clause(e: Effect, m: dict[str, Any], ctx: Ctx) -> str:
     else:
         range_text = None
     who = _aura_recipient(e)
-    within = f"{who} within {range_text}" if range_text is not None else who
+    recipient = _keyword_filter_clause(m.get("recipient_filter"), who)
+    within = f"{recipient} within {range_text}" if range_text is not None else recipient
+    filtered = m.get("emitter_filter") is not None or m.get("recipient_filter") is not None
     if m.get("effect") is not None:
         inner_ctx = {**ctx, "selected_unit": True} if m.get("eligible") is not None else dict(ctx)
-        return f"{within} {describe_effect_inline(m['effect'], inner_ctx)}"
-    return f"{within} is affected"
+        nested = describe_effect_inline(m["effect"], inner_ctx)
+        nested_subject = re.sub(r"^the unit\b\s*", "", nested)
+        effect_text = f", and each such unit {nested_subject}" if filtered else f" {nested}"
+    else:
+        effect_text = ", and each such unit is affected" if filtered else " is affected"
+    if m.get("emitter_filter") is not None:
+        emitter = _keyword_filter_clause(m["emitter_filter"], "this model")
+        return f"{emitter} projects an aura to {within}{effect_text}"
+    return f"{within}{effect_text}"
 
 
 def describe_effect_inline(e: Effect, ctx: Ctx | None = None) -> str:
@@ -1073,10 +1353,11 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         stat_of = _of_or_possessive(subj, f"{_stat_name(m['stat'])} characteristic")
         return f"{verb} {_jstr(val)} {prep} {stat_of}{scope}"
     if etype == "roll-modifier":
+        roll_value = m.get("roll", m.get("test"))
         ctx_note = f" ({_jstr(m['context'])})" if m.get("context") else ""
-        roll = _roll_name(m.get("roll"))
+        roll = _roll_name(roll_value)
         if m.get("critical_on") is not None:
-            crit = "Critical Wounds" if m.get("roll") == "wound" else "Critical Hits"
+            crit = "Critical Wounds" if roll_value == "wound" else "Critical Hits"
             crit_on = _jstr(m["critical_on"])
             return f"{subj} {_v(subj, 'scores')} {crit} on {roll} rolls of {crit_on}+"
         if m.get("operation") == "set":
@@ -1406,13 +1687,16 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             gate = dekebab(gate_val)
         return f"{subj} can only be selected as the target of {at} if {gate}"
     if etype == "resource-gain":
+        if m.get("count_mode") == "by-battle-size" or m.get("count_by_battle_size") is not None:
+            return (
+                f"you gain {_resource_noun(m)} based on the current battle size "
+                "(see the accompanying table)"
+            )
         amount = m.get("amount") if m.get("amount") is not None else m.get("value")
-        pool = m.get("pool_id") if m.get("pool_id") is not None else m.get("resource")
-        return f"you gain {_jstr(amount)} {_pool_name(pool)}"
+        return f"you gain {_jstr(amount)} {_resource_noun(m, amount)}"
     if etype == "resource-spend":
         amount = m.get("amount") if m.get("amount") is not None else m.get("value")
-        pool = m.get("pool_id") if m.get("pool_id") is not None else m.get("resource")
-        base = f"spend {_jstr(amount)} {_pool_name(pool)}"
+        base = f"spend {_jstr(amount)} {_resource_noun(m, amount)}"
         cap_obj = m.get("cap")
         if (
             isinstance(cap_obj, dict)
@@ -1423,6 +1707,9 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             per = _jstr(cap_obj.get("per"))
             return f"{base} (no more than {count} per {per})"
         return base
+    if etype == "resource-clear":
+        scope = "all" if m.get("scope") == "all" else "all unspent"
+        return f"{scope} {_resource_noun(m, 2)} are lost"
     if etype == "leadership-modifier":
         test = f"{_test_name(m.get('test'))} test" if m.get("test") is not None else None
         if test is not None and m.get("operation") is None:
@@ -1656,11 +1943,16 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
             f"{describe_effect_inline(e.get('effect') or {}, inner_ctx)}"
         )
     if etype == "select-units":
-        sel = e.get("selector") or {}
-        inner_ctx = {**ctx, "selected_unit": True}
+        return _select_units_inline(e.get("selector"), e.get("effect") or {}, ctx)
+    if etype == "leader-model-ability-grant":
+        return _leader_model_ability_grant_clause(e, ctx)
+    if etype == "persistent-designation":
+        if not _persistent_designation_supported(e):
+            return "[persistent-designation]"
+        consumer = e.get("consumer") or {}
         return (
-            f"select {_select_units_subject(sel)}: "
-            f"{describe_effect_inline(e.get('effect') or {}, inner_ctx)}"
+            f"{_persistent_designation_lead(e)} {_persistent_designation_when(e)}, "
+            f"{describe_effect_inline(consumer.get('effect') or {}, ctx)}"
         )
     if etype == "designate-target":
         sel_raw = e.get("select")
@@ -1697,6 +1989,10 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
     if etype == "issue-orders":
         names = " / ".join(_jstr(o.get("name")) for o in e.get("options") or [])
         return f"issue Orders, each one of: {names}"
+
+    if etype == "resource-action-menu":
+        actions = " / ".join(_describe_menu_action(a, ctx) for a in e.get("actions") or [])
+        return f"actions may be performed when their conditions are met: {actions}"
 
     return f"[{etype if etype is not None else 'unknown'}]"
 
@@ -1755,13 +2051,33 @@ def describe_effect(e: Effect, depth: int = 0, ctx: Ctx | None = None) -> str:
             )
         return "\n".join(lines)
     if etype == "select-units":
+        selector = e.get("selector") or {}
         inner = e.get("effect") or {}
-        sel = e.get("selector") or {}
-        lead = f"Select {_select_units_subject(sel)}"
         inner_ctx = {**ctx, "selected_unit": True}
+        engagement = _select_units_engagement(selector)
+        lead = f"Select {_select_units_subject(selector)}"
+        header = f"{indent}{arrow}{lead}. {engagement}" if engagement else f"{indent}{arrow}{lead}"
         if inner.get("type") in _CONTAINER_TYPES:
-            return f"{indent}{lead}:\n" + describe_effect(inner, depth + 1, inner_ctx)
-        return f"{indent}{lead}: {_capitalize(describe_effect_inline(inner, inner_ctx))}."
+            count = selector.get("count", selector.get("max_count", 0))
+            if count > 1:
+                nested = describe_effect(inner, depth + 2, inner_ctx)
+                return f"{header}:\n{indent}  -> For each selected unit:\n{nested}"
+            return f"{header}:\n" + describe_effect(inner, depth + 1, inner_ctx)
+        nested = _selected_recipient(describe_effect_inline(inner, inner_ctx), selector)
+        return f"{header} {_capitalize(nested)}." if engagement else f"{header}: {nested}."
+    if etype == "leader-model-ability-grant":
+        text = _capitalize(_leader_model_ability_grant_clause(e, ctx))
+        return f"{indent}{arrow}{text}."
+    if etype == "persistent-designation":
+        if not _persistent_designation_supported(e):
+            return f"{indent}{arrow}[persistent-designation]."
+        consumer = e.get("consumer") or {}
+        inner = consumer.get("effect") or {}
+        lead = _capitalize(_persistent_designation_lead(e))
+        head = f"{indent}{arrow}{lead} {_persistent_designation_when(e)}"
+        if inner.get("type") in _CONTAINER_TYPES:
+            return f"{head}:\n" + describe_effect(inner, depth + 1, ctx)
+        return f"{head}, {describe_effect_inline(inner, ctx)}."
     if etype == "for-each-unit":
         inner = e.get("effect") or {}
         inner_ctx = {**ctx, "selected_unit": True}
@@ -1829,6 +2145,17 @@ def describe_effect(e: Effect, depth: int = 0, ctx: Ctx | None = None) -> str:
                 f"{indent}  - {_jstr(opt.get('name'))}: "
                 f"{describe_effect_inline(opt.get('effect') or {}, ctx)}."
             )
+        return "\n".join(lines)
+    if etype == "resource-action-menu":
+        su = _shared_usage_clause(e.get("shared_usage"))
+        intro = (
+            f"Actions may be performed when their conditions are met. {_capitalize(su)}"
+            if su
+            else "Actions may be performed when their conditions are met"
+        )
+        lines = [f"{indent}{arrow}{intro}:"]
+        for action in e.get("actions") or []:
+            lines.append(f"{indent}  - {_describe_menu_action(action, ctx)}")
         return "\n".join(lines)
     # Leaf at block position — a single capitalized sentence.
     return f"{indent}{arrow}{_capitalize(describe_effect_inline(e, ctx))}."
@@ -1963,7 +2290,10 @@ def _render_top_level(
     if e.get("type") in _CONTAINER_TYPES:
         # A designate-target carrying its own `duration` renders that duration
         # itself — repeating the scope duration in the head would double it.
-        own_duration = e.get("type") == "designate-target" and e.get("duration") is not None
+        own_duration = (
+            e.get("type") in {"designate-target", "persistent-designation"}
+            and e.get("duration") is not None
+        )
         block = describe_effect(e, 0, ctx)
         head = ", ".join(part for part in (trig, lead or ("" if own_duration else trail)) if part)
         return _capitalize(head) + ":\n" + block if head else block

@@ -5,14 +5,13 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 40 stub abilities.
+Total: 39 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
 | adeptus-astartes | heroes-of-ultramar | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |
-| aeldari | battle-focus | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | far-reaching-doom | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | support-artillery | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | astra-militarum | aerial-deployment | conditional | empty modifier |
@@ -37,7 +36,7 @@ Total: 40 stub abilities.
 | grey-knights | hallowed-ground | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
 | necrons | engrammatic-logic | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
 | orks | aerial-deployment | conditional | empty modifier |
-| orks | tuff-git-blitz-brigade | conditional | conditional: cannot evaluate condition "undefined" against current context |
+| orks | tuff-git-blitz-brigade | remove-battle-shock | effect type "remove-battle-shock" is not modelled by the buff layer |
 | thousand-sons | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | dark-ascension-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | flow-of-magic | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |

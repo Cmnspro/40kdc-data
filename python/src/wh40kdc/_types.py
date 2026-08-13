@@ -67,6 +67,7 @@ GameEvent: TypeAlias = Literal[
     "fall-back-move",
     "falls-back",
     "charge-move",
+    "charge-declaration",
     "moved-through-terrain",
     "moved-through-tall-terrain",
     "enemy-unit-ended-move",
@@ -733,6 +734,10 @@ class Interaction(TypedDict):
     notes: NotRequired[str]
 
 
+class EventBoundReference(TypedDict):
+    event_var: str
+
+
 class SimpleCondition(TypedDict):
     type: Literal[
         "phase-is",
@@ -781,6 +786,7 @@ class SimpleCondition(TypedDict):
         "faction-rule-active",
         "battle-round",
         "token-count-at-or-above",
+        "unit-was-in-engagement-range-of",
     ]
     parameters: NotRequired[dict[str, Any]]
     negated: NotRequired[bool]
@@ -878,6 +884,7 @@ class SingleEffect(TypedDict):
         "unit-attachment",
         "fight-eligibility-extension",
         "recovery-pool",
+        "resource-clear",
     ]
     target: Literal[
         "self",
@@ -935,6 +942,176 @@ class Select(TypedDict):
 
 class Eligible1(TypedDict):
     keyword: NotRequired[str]
+
+
+ResourceGainBattleSizeCounts = TypedDict(
+    "ResourceGainBattleSizeCounts",
+    {
+        "incursion": int,
+        "strike-force": int,
+        "onslaught": int,
+    },
+)
+
+
+class SharedUsage(TypedDict):
+    unit_max_manoeuvres_per_phase: NotRequired[int]
+    default_manoeuvre_max_per_phase: NotRequired[int]
+
+
+class Cost1(TypedDict):
+    pool_id: str
+    amount: int
+    resource_label: NotRequired[str]
+
+
+class Usage1(TypedDict):
+    repeatable_if_different_unit: NotRequired[bool]
+
+
+class Cost2(TypedDict):
+    cp: NotRequired[int]
+
+
+class NamedRegionRef(TypedDict):
+    region_id: str
+    owner_faction: str
+
+
+Keyword2: TypeAlias = str
+
+
+class UnitPredicate(TypedDict):
+    faction: str
+    keywords: list[Keyword2]
+
+
+class NamedRegionSourceGate(TypedDict):
+    gate_ref: str
+    owner: str
+    unit_predicate: UnitPredicate
+    range_to_marker_inches: NotRequired[float]
+
+
+class NamedRegionMembership(TypedDict):
+    unit_scope: Literal["model", "whole-unit"]
+    relation: str
+
+
+class NamedRegionBranchActor(TypedDict):
+    role: str
+    gate_ref: str
+
+
+class NamedRegionBranchTiming(TypedDict):
+    event: str
+
+
+class Activation(TypedDict):
+    event: Literal["always-active"]
+
+
+class Expiry(TypedDict):
+    event: Literal["never"]
+
+
+class NamedRegionBaseline(TypedDict):
+    kind: Literal["fixed-zone"]
+    zone: Literal["own-deployment-zone"]
+    activation: Activation
+    expiry: Expiry
+
+
+class Threshold(TypedDict):
+    comparison: Literal["at-least"]
+    fraction: float
+
+
+class ControlGate(TypedDict):
+    marker_scope: Literal["markers-in-zone"]
+    controlled_by: Literal["owner-army"]
+    threshold: Threshold
+
+
+class Activation1(TypedDict):
+    event: Literal["phase-start"]
+    evaluation: Literal["snapshot-once"]
+    canonical_condition_ids: list[str]
+
+
+class Expiry1(TypedDict):
+    event: Literal["phase-end"]
+
+
+class NamedRegionPhaseExtension(TypedDict):
+    kind: Literal["objective-majority-zone"]
+    zone: Literal["no-mans-land", "opponent-deployment-zone"]
+    control_gate: ControlGate
+    activation: Activation1
+    expiry: Expiry1
+
+
+class AdditiveExtension(TypedDict):
+    kind: str
+    source_gate: NamedRegionSourceGate
+
+
+class NamedRegionProducer(TypedDict):
+    region_ref: NamedRegionRef
+    mode: Literal["complete", "extension"]
+    parent_ref: NamedRegionRef | None
+    baseline: list[NamedRegionBaseline]
+    phase_extensions: list[NamedRegionPhaseExtension]
+    additive_extensions: list[AdditiveExtension]
+
+
+class BeneficiaryGate(TypedDict):
+    owner: str
+    faction: NotRequired[str]
+    operator: Literal["and", "or"]
+    keywords: list[Keyword2]
+
+
+class KeywordFilter(TypedDict):
+    required_keywords: list[RequiredKeyword]
+    excluded_keywords: NotRequired[list[ExcludedKeyword]]
+
+
+class BeneficiaryBoundEffectNode(TypedDict):
+    type: str
+    modifier: NotRequired[dict[str, Any]]
+    scaling: NotRequired[Scaling]
+
+
+class LeaderFilter(TypedDict):
+    identity: NotRequired[str]
+    keywords: NotRequired[list[Keyword2]]
+
+
+AttachedUnitFilterItem: TypeAlias = str
+
+
+class Grant(TypedDict):
+    recipient: Literal["beneficiary"]
+    effect: BeneficiaryBoundEffectNode
+
+
+class LeaderModelAbilityGrantEffect(TypedDict):
+    type: Literal["leader-model-ability-grant"]
+    source: Literal["bearer-unit"]
+    beneficiary: Literal["leading-leader-model", "attached-character-leader"]
+    leader_filter: NotRequired[LeaderFilter]
+    attached_unit_filter: list[AttachedUnitFilterItem] | None
+    duration: Literal["while-leading"]
+    grant: Grant
+    recipient_binding: Literal["beneficiary-only"]
+
+
+class Select1(TypedDict):
+    scope: Literal["enemy-unit", "objective-marker"]
+    count: NotRequired[Literal[1]]
+    timing: str
+    selection_policy: Literal["one-time"]
 
 
 class Scope(TypedDict):
@@ -1064,6 +1241,7 @@ class Trigger(TypedDict):
     optional: NotRequired[bool]
     cost: NotRequired[Cost]
     window: NotRequired[str]
+    binds_event_variable: NotRequired[str]
 
 
 class Ability(TypedDict):
@@ -1117,6 +1295,9 @@ EffectNode: TypeAlias = Union[
     "DesignateTargetEffect",
     "RiskRewardEffect",
     "IssueOrdersEffect",
+    "ResourceActionMenuEffect",
+    LeaderModelAbilityGrantEffect,
+    "PersistentDesignationEffect",
 ]
 
 
@@ -1167,6 +1348,12 @@ class Selector(TypedDict):
     owner: Literal["friendly", "enemy"]
     within_inches: NotRequired[float]
     eligibility: NotRequired[Condition]
+    min_count: NotRequired[int]
+    range_inches: NotRequired[float]
+    visibility_required: NotRequired[bool]
+    engagement_relation: NotRequired[
+        Literal["any", "engaged-with-bearer", "not-engaged-with-bearer"]
+    ]
 
 
 class Selector1(TypedDict):
@@ -1176,6 +1363,12 @@ class Selector1(TypedDict):
     owner: Literal["friendly", "enemy"]
     within_inches: NotRequired[float]
     eligibility: NotRequired[Condition]
+    min_count: NotRequired[int]
+    range_inches: NotRequired[float]
+    visibility_required: NotRequired[bool]
+    engagement_relation: NotRequired[
+        Literal["any", "engaged-with-bearer", "not-engaged-with-bearer"]
+    ]
 
 
 class SelectUnitsEffect(TypedDict):
@@ -1254,6 +1447,8 @@ class Modifier1(TypedDict):
     of: NotRequired[str]
     effect: NotRequired[EffectNode]
     eligible: NotRequired[Eligible]
+    emitter_filter: NotRequired[KeywordFilter]
+    recipient_filter: NotRequired[KeywordFilter]
 
 
 class AuraEffect(TypedDict):
@@ -1307,6 +1502,98 @@ class IssueOrdersEffect(TypedDict):
     range: NotRequired[float]
     eligible: NotRequired[Eligible1]
     options: list[Option1]
+
+
+class Eligibility(TypedDict):
+    requires_keyword: NotRequired[list[str]]
+    excludes_keyword: NotRequired[list[str]]
+    selector_count: NotRequired[int]
+    requires: NotRequired[list[Condition]]
+
+
+class Action1(TypedDict):
+    id: str
+    label: str
+    when: ResourceActionMenuTrigger | list[ResourceActionMenuTrigger]
+    cost: Cost1
+    eligibility: NotRequired[Eligibility]
+    usage: NotRequired[Usage1]
+    duration: NotRequired[Literal["immediate", "until-end-of-phase", "until-end-of-turn"]]
+    effect: EffectNode
+
+
+class ResourceActionMenuEffect(TypedDict):
+    type: Literal["resource-action-menu"]
+    menu_id: str
+    pool_id: str
+    shared_usage: NotRequired[SharedUsage]
+    actions: list[Action1]
+
+
+class ResourceActionMenuTrigger(TypedDict):
+    event: GameEvent
+    subject: NotRequired[
+        Literal["self", "bearer", "friendly-unit", "enemy-unit", "any-unit", "model-in-bearer"]
+    ]
+    proximity: NotRequired[Proximity]
+    move_types: NotRequired[list[Literal["normal", "advance", "fall-back", "charge"]]]
+    condition: NotRequired[Condition]
+    optional: NotRequired[bool]
+    cost: NotRequired[Cost2]
+    window: NotRequired[str]
+    binds_event_variable: NotRequired[str]
+
+
+class NamedRegionBranch(TypedDict):
+    source: NamedRegionBranchActor
+    beneficiary: NamedRegionBranchActor
+    target: Literal[
+        "self",
+        "bearer",
+        "unit",
+        "attached-unit",
+        "attacker",
+        "defender",
+        "target",
+        "friendly-within-aura",
+        "enemy-within-aura",
+        "all-friendly",
+        "all-enemy",
+    ]
+    timing: NamedRegionBranchTiming
+    duration: str
+    effect: EffectNode
+    optional: bool
+
+
+class NamedRegionConsumer(TypedDict):
+    state_ref: NamedRegionRef
+    beneficiary_gate: BeneficiaryGate
+    membership: NamedRegionMembership
+    qualified_condition: Condition
+    default_branch: NamedRegionBranch
+    qualified_branch: NamedRegionBranch
+
+
+class NamedRegionState(TypedDict):
+    region_ref: NamedRegionRef
+    producer: NamedRegionProducer
+    consumer: NamedRegionConsumer
+    branch_precedence: Literal["qualified-replaces-default"]
+
+
+class Consumer(TypedDict):
+    relation: Literal["attacks-selected-unit", "within-selected-marker"]
+    beneficiary: Literal["bearer"]
+    effect: EffectNode
+
+
+class PersistentDesignationEffect(TypedDict):
+    type: Literal["persistent-designation"]
+    designation: str
+    select: Select1
+    consumer: Consumer
+    duration: Literal["phase", "turn", "battle-round", "battle", "until-next-command-phase"]
 
 
 Effect: TypeAlias = EffectNode

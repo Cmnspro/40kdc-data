@@ -5,9 +5,9 @@ translator could not auto-apply.
 The buff layer is intentionally a subset of the DSL: it covers the math the
 cruncher's expected-value engine reads and reports everything else — choice
 nodes (player decisions), dice-gated effects (stochastic), defender-side
-bs-modifier, attack-restrictions, ability grants, mortal wound triggers — as
-``unsupported`` so a UI can surface "this ability has effects we can't
-auto-apply" rather than silently dropping them.
+bs-modifier, attack-restrictions, unsupported ability grants, mortal wound
+triggers — as ``unsupported`` so a UI can surface "this ability has effects
+we can't auto-apply" rather than silently dropping them.
 
 Python mirror of ``tools/src/cruncher/from-dsl.ts``. Applied-buff list order
 and unsupported-reason strings are pinned by
@@ -89,6 +89,8 @@ def _walk(node: Any, source: BuffSource, opts: dict[str, Any], out: EffectTransl
     if _is_model_scoped_from_attached_member(node, source):
         out["unsupported"].append({"reason": _MODEL_SCOPED_REASON, "effectFragment": node})
         return
+    if opts.get("defaultTarget") is not None and "target" not in node:
+        node = {**node, "target": opts["defaultTarget"]}
     node_type = node.get("type")
     if node_type == "re-roll":
         _translate_reroll(node, source, opts, out)
@@ -129,6 +131,26 @@ def _walk(node: Any, source: BuffSource, opts: dict[str, Any], out: EffectTransl
     elif node_type == "select-units":
         # Targeting wrapper — the selected units receive the nested effect.
         _walk(node.get("effect"), source, opts, out)
+    elif node_type == "leader-model-ability-grant":
+        out["unsupported"].append(
+            {
+                "reason": (
+                    "leader-model-ability-grant: attached leader beneficiary "
+                    "is not resolved by the buff engine"
+                ),
+                "effectFragment": node,
+            }
+        )
+    elif node_type == "persistent-designation":
+        out["unsupported"].append(
+            {
+                "reason": (
+                    "persistent-designation: retained selection state "
+                    "is not resolved by the buff engine"
+                ),
+                "effectFragment": node,
+            }
+        )
     elif node_type == "designate-target":
         # Mark an enemy unit; when `to: attackers-of-target` the nested effect is
         # a buff every friendly attack against that unit receives (Oath of Moment).
@@ -157,6 +179,13 @@ def _walk(node: Any, source: BuffSource, opts: dict[str, Any], out: EffectTransl
     elif node_type == "issue-orders":
         # Officer issues one Order from the menu — each is an opt-in lever.
         _enumerate_named_options(node, source, opts, out, f"{opts['abilityId']}?order", 1)
+    elif node_type == "resource-action-menu":
+        # Each action is an INDEPENDENT reactive lever, not a pick-one group:
+        # unlike stance-select/issue-orders, multiple actions (and repeats of
+        # the same action by different units — see
+        # `usage.repeatable_if_different_unit`) can fire in the same phase,
+        # so no shared `group`/`maxActivations` cap is attached here.
+        _enumerate_menu_actions(node, source, opts, out)
     else:
         # Unknown effect — record it. Covers ability-grant, deep-strike,
         # mortal-wounds, cp-gain, movement-modifier, etc.
@@ -824,6 +853,50 @@ def _enumerate_named_options(
                 "buffs": buffs,
                 "group": {"id": group_id, "maxActivations": max_activations},
             }
+        )
+
+
+def _enumerate_menu_actions(
+    node: dict[str, Any], source: BuffSource, opts: dict[str, Any], out: EffectTranslation
+) -> None:
+    """Emit one opt-in lever per buff-bearing ``resource-action-menu`` action.
+    Unlike :func:`_enumerate_named_options` (stance-select / issue-orders, a
+    pick-one group), each action here is an INDEPENDENT decision with its own
+    trigger and cost — no shared ``group``/``maxActivations`` cap, since a
+    unit's per-phase manoeuvre limit isn't a mutual-exclusion pool the
+    cruncher can enforce (and ``usage.repeatable_if_different_unit``
+    explicitly allows the same action to recur via a different unit in one
+    phase). A single ``eligibility.requires_keyword`` narrows the lever to
+    attackers carrying that keyword; multiple required keywords have no
+    single-field applicability representation today and are left ungated
+    (correctness-conservative: the lever still surfaces, just without that
+    extra restriction attached)."""
+    actions = node.get("actions")
+    if not isinstance(actions, list):
+        actions = []
+    for action in actions:
+        if not _is_object(action):
+            continue
+        eligibility = action.get("eligibility")
+        eligibility = eligibility if _is_object(eligibility) else None
+        requires_keyword = eligibility.get("requires_keyword") if eligibility else None
+        applicability: dict[str, Any] = {}
+        if (
+            isinstance(requires_keyword, list)
+            and len(requires_keyword) == 1
+            and isinstance(requires_keyword[0], str)
+        ):
+            applicability = {"requiresAttackerKeyword": requires_keyword[0]}
+        buffs: list[Buff] = []
+        _collect_gated_buffs(action.get("effect"), source, opts, applicability, buffs)
+        if not buffs:
+            continue
+        label_val = action.get("label")
+        label = label_val if isinstance(label_val, str) and label_val else _label_for_buffs(buffs)
+        id_val = action.get("id")
+        action_id = id_val if isinstance(id_val, str) and id_val else label
+        out["activatable"].append(
+            {"id": f"{opts['abilityId']}#{action_id}", "label": label, "buffs": buffs}
         )
 
 
