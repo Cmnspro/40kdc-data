@@ -1005,7 +1005,13 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
           : m.subset === "ones"
             ? `a ${rollName(m.roll)} roll of 1`
             : `the ${rollName(m.roll)} roll`;
-      const weapon = m.weapon_type ? ` with ${jstr(m.weapon_type)} weapons` : "";
+      // An attack_type scopes the re-roll to melee/ranged attacks (Black
+      // Rage's melee hit re-rolls); weapon_type keeps its wording precedence.
+      const weapon = m.weapon_type
+        ? ` with ${jstr(m.weapon_type)} weapons`
+        : m.attack_type != null && m.attack_type !== "any"
+          ? ` for ${jstr(m.attack_type)} attacks`
+          : "";
       return `you can re-roll ${which}${weapon}`;
     }
     case "mortal-wounds": {
@@ -1379,6 +1385,9 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       if (m.sticky)
         return `${subj} ${v(subj, "retains")} control of objective markers even after no models remain in range, until the enemy retakes them (sticky objectives)`;
       if (m.operation === "halve") return `halve the Objective Control characteristic of ${subj}`;
+      // An absolute set (Black Rage's OC 0) mirrors stat-modifier's wording.
+      if (m.operation === "set")
+        return `modify ${ofOrPossessive(subj, "Objective Control characteristic")} to ${jstr(m.value)}`;
       if (m.operation != null)
         return `${subj} ${v(subj, "gets")} ${signed(m.operation, m.value)} to ${pronoun(subj)} Objective Control characteristic`;
       return `modify ${ofOrPossessive(subj, "Objective Control characteristic")}`;

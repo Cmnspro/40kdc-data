@@ -1336,7 +1336,16 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     format!("the {noun} roll")
                 }
             };
-            format!("you can re-roll {which}")
+            // An attack_type scopes the re-roll to melee/ranged attacks (Black
+            // Rage's melee hit re-rolls); weapon_type keeps its wording precedence.
+            let weapon = if notnull(m, "weapon_type") {
+                format!(" with {} weapons", jv(m, "weapon_type"))
+            } else if notnull(m, "attack_type") && nstr(m, "attack_type") != Some("any") {
+                format!(" for {} attacks", jv(m, "attack_type"))
+            } else {
+                String::new()
+            };
+            format!("you can re-roll {which}{weapon}")
         }
         T::MortalWounds => {
             let range = first(m, &["range", "range_inches"])
@@ -2037,6 +2046,13 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 format!("{subj} {} control of objective markers even after no models remain in range, until the enemy retakes them (sticky objectives)", agree(&subj, "retains"))
             } else if nstr(m, "operation") == Some("halve") {
                 format!("halve the Objective Control characteristic of {subj}")
+            } else if nstr(m, "operation") == Some("set") {
+                // An absolute set (Black Rage's OC 0) mirrors stat-modifier's wording.
+                format!(
+                    "modify {} to {}",
+                    of_or_possessive(&subj, "Objective Control characteristic"),
+                    jv(m, "value")
+                )
             } else if notnull(m, "operation") {
                 format!(
                     "{subj} {} {} to {} Objective Control characteristic",

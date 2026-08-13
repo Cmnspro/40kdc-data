@@ -1262,7 +1262,15 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 				which = "a " + noun + " roll of 1"
 			}
 		}
-		return "you can re-roll " + which
+		// An attack_type scopes the re-roll to melee/ranged attacks (Black
+		// Rage's melee hit re-rolls); weapon_type keeps its wording precedence.
+		weapon := ""
+		if m["weapon_type"] != nil {
+			weapon = " with " + ejstr(m["weapon_type"]) + " weapons"
+		} else if m["attack_type"] != nil && m["attack_type"] != "any" {
+			weapon = " for " + ejstr(m["attack_type"]) + " attacks"
+		}
+		return "you can re-roll " + which + weapon
 	case "mortal-wounds":
 		return describeMortalWounds(e, m, subj, ctx)
 	case "feel-no-pain":
@@ -1828,6 +1836,10 @@ func describeEffectInlineBase(e map[string]any, ctx map[string]any) string {
 		}
 		if m["operation"] == "halve" {
 			return "halve the Objective Control characteristic of " + subj
+		}
+		// An absolute set (Black Rage's OC 0) mirrors stat-modifier's wording.
+		if m["operation"] == "set" {
+			return "modify " + ofOrPossessive(subj, "Objective Control characteristic") + " to " + ejstr(m["value"])
 		}
 		if m["operation"] != nil {
 			return subj + " " + ev(subj, "gets") + " " + esigned(m["operation"], m["value"]) + " to " + pronoun(subj) + " Objective Control characteristic"

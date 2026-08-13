@@ -3571,7 +3571,80 @@
     }
   },
   {
-    "caseId": "blackstar-cluster-launcher#113",
+    "caseId": "black-rage#113",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "all-failures",
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "and",
+            "operands": [
+              {
+                "type": "unit-within-range-of",
+                "negated": true,
+                "parameters": {
+                  "target_type": "friendly-keyword",
+                  "keyword": "Blood Angels Character",
+                  "range": 6
+                }
+              },
+              {
+                "type": "unit-within-range-of",
+                "negated": true,
+                "parameters": {
+                  "target_type": "friendly-keyword",
+                  "keyword": "Chaplain",
+                  "range": 12
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "rule-state",
+                "target": "unit",
+                "modifier": {
+                  "direction": "suppressed",
+                  "rule_kind": "core-rule",
+                  "rule": "fall-back"
+                }
+              },
+              {
+                "type": "objective-control-modifier",
+                "target": "unit",
+                "modifier": {
+                  "stat": "OC",
+                  "operation": "set",
+                  "value": 0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "You can re-roll the Hit roll for melee attacks.\nIf not within 6\" of a friendly Blood Angels Character unit, if not within 12\" of a friendly Chaplain unit:\n  -> The unit cannot Fall Back.\n  -> Modify the unit's Objective Control characteristic to 0."
+    }
+  },
+  {
+    "caseId": "blackstar-cluster-launcher#114",
     "effect": {
       "type": "mortal-wounds",
       "target": "defender",
@@ -3588,7 +3661,7 @@
     }
   },
   {
-    "caseId": "blackwing-mantle#114",
+    "caseId": "blackwing-mantle#115",
     "effect": {
       "type": "cp-refund",
       "target": "self",
@@ -3605,7 +3678,7 @@
     }
   },
   {
-    "caseId": "blade-of-celerity-lords-of-dread#115",
+    "caseId": "blade-of-celerity-lords-of-dread#116",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -3635,7 +3708,7 @@
     }
   },
   {
-    "caseId": "blade-of-endless-bloodshed-khorne-daemonkin#116",
+    "caseId": "blade-of-endless-bloodshed-khorne-daemonkin#117",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -3702,7 +3775,7 @@
     }
   },
   {
-    "caseId": "blessing-of-burning-blood-khorne-daemonkin#117",
+    "caseId": "blessing-of-burning-blood-khorne-daemonkin#118",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -3745,7 +3818,7 @@
     }
   },
   {
-    "caseId": "blessings-of-khorne#118",
+    "caseId": "blessings-of-khorne#119",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -3932,7 +4005,7 @@
     }
   },
   {
-    "caseId": "blinding-spray#119",
+    "caseId": "blinding-spray#120",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -3956,7 +4029,7 @@
     }
   },
   {
-    "caseId": "blitzkaptin-blitz-brigade#120",
+    "caseId": "blitzkaptin-blitz-brigade#121",
     "effect": {
       "type": "select-units",
       "selector": {
@@ -3984,7 +4057,7 @@
     }
   },
   {
-    "caseId": "blood-forged-armour-khorne-daemonkin#121",
+    "caseId": "blood-forged-armour-khorne-daemonkin#122",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4028,7 +4101,7 @@
     }
   },
   {
-    "caseId": "blood-offering-berzerker-warband#122",
+    "caseId": "blood-offering-berzerker-warband#123",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4062,7 +4135,7 @@
     }
   },
   {
-    "caseId": "blood-tithe#123",
+    "caseId": "blood-tithe#124",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4196,7 +4269,7 @@
     }
   },
   {
-    "caseId": "bloodied-terror#124",
+    "caseId": "bloodied-terror#125",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4222,7 +4295,7 @@
     }
   },
   {
-    "caseId": "bloodrust-deluge-contagion-engines#125",
+    "caseId": "bloodrust-deluge-contagion-engines#126",
     "effect": {
       "type": "unit-tag",
       "target": "unit",
@@ -4246,7 +4319,7 @@
     }
   },
   {
-    "caseId": "bloodthirsty-horde-cult-of-blood#126",
+    "caseId": "bloodthirsty-horde-cult-of-blood#127",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4276,7 +4349,7 @@
     }
   },
   {
-    "caseId": "blur-of-blades#127",
+    "caseId": "blur-of-blades#128",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4297,7 +4370,7 @@
     }
   },
   {
-    "caseId": "bodyguard#128",
+    "caseId": "bodyguard#129",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4320,7 +4393,7 @@
     }
   },
   {
-    "caseId": "bold-gallantry#129",
+    "caseId": "bold-gallantry#130",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4346,7 +4419,7 @@
     }
   },
   {
-    "caseId": "bonded-heroes#130",
+    "caseId": "bonded-heroes#131",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4401,7 +4474,7 @@
     }
   },
   {
-    "caseId": "boon-of-blood#131",
+    "caseId": "boon-of-blood#132",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4440,7 +4513,7 @@
     }
   },
   {
-    "caseId": "bound-creation#132",
+    "caseId": "bound-creation#133",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4463,7 +4536,7 @@
     }
   },
   {
-    "caseId": "bounding-assault#133",
+    "caseId": "bounding-assault#134",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4488,7 +4561,7 @@
     }
   },
   {
-    "caseId": "brazen-idol-cult-of-blood#134",
+    "caseId": "brazen-idol-cult-of-blood#135",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4575,7 +4648,7 @@
     }
   },
   {
-    "caseId": "broad-spectrum-data-tether#135",
+    "caseId": "broad-spectrum-data-tether#136",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -4592,7 +4665,7 @@
     }
   },
   {
-    "caseId": "brood-surge#136",
+    "caseId": "brood-surge#137",
     "effect": {
       "type": "shoot-on-death",
       "target": "self",
@@ -4607,7 +4680,7 @@
     }
   },
   {
-    "caseId": "brutal-disciplinarian#137",
+    "caseId": "brutal-disciplinarian#138",
     "effect": {
       "type": "select-units",
       "selector": {
@@ -4636,7 +4709,7 @@
     }
   },
   {
-    "caseId": "brutal-example#138",
+    "caseId": "brutal-example#139",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4662,7 +4735,7 @@
     }
   },
   {
-    "caseId": "burning-lance#139",
+    "caseId": "burning-lance#140",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4685,7 +4758,7 @@
     }
   },
   {
-    "caseId": "butcher-lord-cult-of-blood#140",
+    "caseId": "butcher-lord-cult-of-blood#141",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4727,7 +4800,7 @@
     }
   },
   {
-    "caseId": "cacophonic-accompaniment-elegant-brutes#141",
+    "caseId": "cacophonic-accompaniment-elegant-brutes#142",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4764,7 +4837,7 @@
     }
   },
   {
-    "caseId": "call-to-murder-lords-of-the-warp#142",
+    "caseId": "call-to-murder-lords-of-the-warp#143",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4800,7 +4873,7 @@
     }
   },
   {
-    "caseId": "callous-competition#143",
+    "caseId": "callous-competition#144",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -4862,7 +4935,7 @@
     }
   },
   {
-    "caseId": "canoptek-retinue#144",
+    "caseId": "canoptek-retinue#145",
     "effect": {
       "type": "unit-attachment",
       "target": "unit",
@@ -4879,7 +4952,7 @@
     }
   },
   {
-    "caseId": "canoptek-swarm#145",
+    "caseId": "canoptek-swarm#146",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4915,7 +4988,7 @@
     }
   },
   {
-    "caseId": "carnival-of-excess-lords-of-the-warp#146",
+    "caseId": "carnival-of-excess-lords-of-the-warp#147",
     "effect": {
       "type": "fight-first",
       "target": "unit",
@@ -4942,7 +5015,7 @@
     }
   },
   {
-    "caseId": "channelled-force#147",
+    "caseId": "channelled-force#148",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -4994,7 +5067,7 @@
     }
   },
   {
-    "caseId": "channeller-stones#148",
+    "caseId": "channeller-stones#149",
     "effect": {
       "type": "damage-reduction",
       "target": "self",
@@ -5014,7 +5087,7 @@
     }
   },
   {
-    "caseId": "chaos-icon#149",
+    "caseId": "chaos-icon#150",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5041,7 +5114,7 @@
     }
   },
   {
-    "caseId": "chaos-lord#150",
+    "caseId": "chaos-lord#151",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5065,7 +5138,7 @@
     }
   },
   {
-    "caseId": "chapter-master-of-the-raven-guard#151",
+    "caseId": "chapter-master-of-the-raven-guard#152",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5133,7 +5206,7 @@
     }
   },
   {
-    "caseId": "chittering-swarm#152",
+    "caseId": "chittering-swarm#153",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5177,11 +5250,11 @@
       "duration": "permanent"
     },
     "expected": {
-      "text": "While the unit is within Engagement Range, enemy units within 6\" get -1 to their Objective Control characteristic.\nIf within 6\" of friendly cryptek, this model gets -1 to its Objective Control characteristic."
+      "text": "While the unit is within Engagement Range, enemy units within 6\" get -1 to their Objective Control characteristic.\nIf within 6\" of friendly cryptek, modify this model's Objective Control characteristic to 1."
     }
   },
   {
-    "caseId": "choice-samples#153",
+    "caseId": "choice-samples#154",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5204,7 +5277,7 @@
     }
   },
   {
-    "caseId": "chosen-of-the-blood-god-cult-of-blood#154",
+    "caseId": "chosen-of-the-blood-god-cult-of-blood#155",
     "effect": {
       "type": "aura",
       "target": "friendly-within-aura",
@@ -5228,7 +5301,7 @@
     }
   },
   {
-    "caseId": "claimed-for-the-cult#155",
+    "caseId": "claimed-for-the-cult#156",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -5245,7 +5318,7 @@
     }
   },
   {
-    "caseId": "cloaked-assassin#156",
+    "caseId": "cloaked-assassin#157",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -5273,7 +5346,7 @@
     }
   },
   {
-    "caseId": "close-range-eradication#157",
+    "caseId": "close-range-eradication#158",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5315,7 +5388,7 @@
     }
   },
   {
-    "caseId": "cogbound-alliance#158",
+    "caseId": "cogbound-alliance#159",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -5389,7 +5462,7 @@
     }
   },
   {
-    "caseId": "combat-doctrines#159",
+    "caseId": "combat-doctrines#160",
     "effect": {
       "type": "stance-select",
       "mode": "consumable",
@@ -5437,7 +5510,7 @@
     }
   },
   {
-    "caseId": "combat-drugs#160",
+    "caseId": "combat-drugs#161",
     "effect": {
       "type": "stance-select",
       "mode": "re-selectable",
@@ -5541,47 +5614,6 @@
     },
     "expected": {
       "text": "Until the start of your next Command phase:\nAt the start of the Command phase, select one:\n  - Adrenalight: add 1 to the unit's Attacks characteristic for melee weapons.\n  - Hypex: add 2 to the unit's Move characteristic.\n  - Serpentin: subtract 1 from the unit's Weapon Skill characteristic for melee weapons.\n  - Painbringer: add 1 to the unit's Toughness characteristic.\n  - Grave Lotus: add 1 to the unit's Strength characteristic for melee weapons.\n  - Splintermind: subtract 1 from the Leadership characteristic of the unit; subtract 1 from the unit's Ballistic Skill characteristic for ranged weapons."
-    }
-  },
-  {
-    "caseId": "combined-fire-armoured-infantry#161",
-    "effect": {
-      "type": "sequence",
-      "steps": [
-        {
-          "type": "rule-state",
-          "target": "all-enemy",
-          "modifier": {
-            "direction": "suppressed",
-            "rule_kind": "core-rule",
-            "rule": "benefit-of-cover"
-          }
-        },
-        {
-          "type": "stat-modifier",
-          "target": "all-friendly",
-          "modifier": {
-            "stat": "S",
-            "operation": "add",
-            "value": 2,
-            "applies_to_keywords": [
-              "Armoured Skirmisher"
-            ]
-          }
-        }
-      ]
-    },
-    "scope": {
-      "range": "unit",
-      "duration": "phase"
-    },
-    "applies_to": {
-      "required_keywords": [
-        "Armoured Skirmisher"
-      ]
-    },
-    "expected": {
-      "text": "Until the end of the phase:\nAll enemy units cannot benefit from Cover.\nAdd 2 to all friendly units' Strength characteristic.\nApplies to: units with Armoured Skirmisher."
     }
   },
   {
