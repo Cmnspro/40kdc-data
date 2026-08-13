@@ -774,51 +774,7 @@
     }
   },
   {
-    "id": "tiger-shark-wgo-mfm-1",
-    "unit_id": "tiger-shark",
-    "faction_id": "tau-empire",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "ion-cannon",
-      "ion-cannon"
-    ],
-    "replacement_choice": [
-      [
-        "swiftstrike-railgun",
-        "swiftstrike-railgun"
-      ],
-      [
-        "swiftstrike-burst-cannon",
-        "swiftstrike-burst-cannon"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "tiger-shark-wgo-mfm-2",
-    "unit_id": "tiger-shark",
-    "faction_id": "tau-empire",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement": [
-      "seeker-missile"
-    ],
-    "model_constraint": {
-      "any_number": true,
-      "max_count": 6
-    }
-  },
-  {
-    "id": "tiger-shark-wgo-mfm-3",
+    "id": "tiger-shark-wgo-bsd-1",
     "unit_id": "tiger-shark",
     "faction_id": "tau-empire",
     "game_version": {
@@ -833,13 +789,34 @@
     "replacement": [
       "cyclic-ion-blaster",
       "cyclic-ion-blaster"
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
+    ]
   },
   {
-    "id": "tiger-shark-wgo-mfm-4",
+    "id": "tiger-shark-wgo-bsd-2",
+    "unit_id": "tiger-shark",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "swiftstrike-burst-cannon",
+        "swiftstrike-burst-cannon"
+      ],
+      [
+        "swiftstrike-railgun",
+        "swiftstrike-railgun"
+      ]
+    ],
+    "replaces": [
+      "ion-cannon",
+      "ion-cannon"
+    ]
+  },
+  {
+    "id": "tiger-shark-wgo-bsd-3",
     "unit_id": "tiger-shark",
     "faction_id": "tau-empire",
     "game_version": {
@@ -853,10 +830,28 @@
     "replacement": [
       "skyspear-missile-rack",
       "skyspear-missile-rack"
-    ],
+    ]
+  },
+  {
+    "id": "tiger-shark-wgo-bsd-4",
+    "unit_id": "tiger-shark",
+    "faction_id": "tau-empire",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
     "model_constraint": {
-      "any_number": true
-    }
+      "max_count": 6
+    },
+    "replacement": [
+      "seeker-missile",
+      "seeker-missile",
+      "seeker-missile",
+      "seeker-missile",
+      "seeker-missile",
+      "seeker-missile"
+    ]
   },
   {
     "id": "breacher-team-wgo-mfm-1",
@@ -1686,7 +1681,7 @@
     }
   },
   {
-    "id": "hammerhead-gunship-wgo-mfm-1",
+    "id": "hammerhead-gunship-wgo-bsd-1",
     "unit_id": "hammerhead-gunship",
     "faction_id": "tau-empire",
     "game_version": {
@@ -1699,13 +1694,10 @@
     ],
     "replacement": [
       "ion-cannon"
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
+    ]
   },
   {
-    "id": "hammerhead-gunship-wgo-mfm-2",
+    "id": "hammerhead-gunship-wgo-bsd-2",
     "unit_id": "hammerhead-gunship",
     "faction_id": "tau-empire",
     "game_version": {
@@ -1713,26 +1705,23 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "twin-pulse-carbine-hammerhead-gunship",
-      "twin-pulse-carbine-hammerhead-gunship"
-    ],
     "replacement_choice": [
-      [
-        "smart-missile-system",
-        "smart-missile-system"
-      ],
       [
         "accelerator-burst-cannon",
         "accelerator-burst-cannon"
+      ],
+      [
+        "smart-missile-system",
+        "smart-missile-system"
       ]
     ],
-    "model_constraint": {
-      "any_number": true
-    }
+    "replaces": [
+      "twin-pulse-carbine-hammerhead-gunship",
+      "twin-pulse-carbine-hammerhead-gunship"
+    ]
   },
   {
-    "id": "hammerhead-gunship-wgo-mfm-3",
+    "id": "hammerhead-gunship-wgo-bsd-3",
     "unit_id": "hammerhead-gunship",
     "faction_id": "tau-empire",
     "game_version": {
@@ -1740,13 +1729,13 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement": [
-      "seeker-missile"
-    ],
     "model_constraint": {
-      "any_number": true,
       "max_count": 2
-    }
+    },
+    "replacement": [
+      "seeker-missile",
+      "seeker-missile"
+    ]
   },
   {
     "id": "crisis-sunforge-battlesuits-wgo-mfm-1",
