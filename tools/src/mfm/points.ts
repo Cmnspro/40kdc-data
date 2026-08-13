@@ -11,6 +11,12 @@
  *     are ALLIED prices — the unit's cost when included in a host army of that
  *     faction — and feed `allied_points`, keyed by host_faction. The untagged
  *     (native) compositions feed `points`.
+ *   - A shared-roster TWIN (a chapter section's reprint of a parent-dir unit,
+ *     e.g. Blood Angels' Assault Intercessors) prices the same datasheet for
+ *     its own army. Where its table differs from the reconciled native one,
+ *     it also feeds `allied_points`, keyed by the twin's home faction dir —
+ *     see {@link routeChapterTwin}. Identically-priced twins (exclude-and-
+ *     replace reprints) contribute nothing.
  *
  * Matching is PER FACTION: the same unit name has a separate datasheet per faction
  * (Chaos Spawn costs differently in each Chaos army), so a datasheet is matched to
@@ -30,7 +36,7 @@ type UnitCompositionRow,
 type UnitCompositionMiniatureRow,
 type DatasheetPointsStepRow, } from "./loader.js";
 import { readJsonArray, CORE_DIR } from "./repo-files.js";
-import { repoDirs } from "./faction-map.js";
+import { repoDirForFactionName, repoDirs } from "./faction-map.js";
 import { candidateDirs, homeScore } from "./wargear.js";
 import type { StagedWrite } from "./apply.js";
 
@@ -201,6 +207,49 @@ export function cleanTier<T extends Tier>(t: T): T {
   return { ...out, unit_count_max: out.unit_count_max ?? null };
 }
 
+/**
+ * Route a chapter twin's derived native tiers into a unit's `allied_points`.
+ *
+ * The MFM prints a chapter section's copy of a shared Space Marine datasheet
+ * with the chapter's OWN price table (Blood Angels' Assault Intercessors cost
+ * more than the generic entry; four chapters run the Repulsor Executioner
+ * cheaper). The repo holds the unit once, in the shared parent roster, so a
+ * reprint's tiers are host-army pricing — the same concept as
+ * referenceGrouping (Imperium) compositions — keyed by the twin's home
+ * faction dir.
+ *
+ * Returns the unit's next `allied_points`: this host's entries replaced by
+ * the twin's tiers, every other host untouched. A twin that prices
+ * identically to the reconciled native table (an exclude-and-replace twin,
+ * not a reprice) contributes nothing and clears stale entries for its host.
+ * Twin tiers at sizes the native table doesn't price (optional-attachment
+ * builds) are dropped, mirroring the native-ranges trust rule.
+ */
+export function routeChapterTwin(
+  rec: Pick<UnitRecord, "points" | "allied_points">,
+  host: string,
+  twinNative: Tier[]
+): AlliedTier[] {
+  const nativeRanges = new Set(
+    (rec.points ?? []).map((t) => `${t.models}:${t.models_max ?? t.models}`)
+  );
+  const clean = twinNative
+    .map(cleanTier)
+    .filter((t) => nativeRanges.has(`${t.models}:${t.models_max ?? t.models}`));
+  const others = (rec.allied_points ?? []).filter((a) => a.host_faction !== host);
+  if (!clean.length || normNative(clean) === normNative(rec.points ?? [])) return others;
+  return [...others, ...clean.map((t) => ({ ...t, host_faction: host }))];
+}
+
+/** The datasheet's own home faction dir (`blood-angels` for a BA reprint), or null. */
+function homeDir(dump: MfmDump, ds: DatasheetRow): string | null {
+  const pub = dump.byId("publication").get(ds.publicationId);
+  const name = pub?.factionKeywordId
+    ? dump.enName(dump.byId("faction_keyword").get(pub.factionKeywordId))
+    : undefined;
+  return repoDirForFactionName(name);
+}
+
 function normNative(ts: Tier[] = []): string {
   return JSON.stringify(
     ts
@@ -300,9 +349,33 @@ export function runPoints(dump: MfmDump, write: boolean): PointsReport {
       } catch {
         continue;
       }
-      if (matchedRepoIds.has(id)) continue;
       const rec = byId.get(id);
       if (!rec) continue; // not in this dir — may still match in another candidate dir
+      if (matchedRepoIds.has(id)) {
+        // Shared-roster TWIN of an already-priced unit: a chapter section's
+        // reprint of a parent-dir datasheet. Where the reprint carries its own
+        // price table (Blood Angels' Assault Intercessors cost more than the
+        // generic Space Marines entry), that table is host-army pricing for
+        // the twin's home faction — route it to `allied_points` instead of
+        // dropping it (the old behaviour, which silently lost every chapter
+        // reprice).
+        const host = homeDir(dump, ds);
+        if (!host || host === dir) continue;
+        const twin = deriveDatasheet(dump, ds.id!);
+        // Underivable twin (ambiguous / priceless): leave existing entries
+        // for this host alone rather than guessing or wiping them.
+        if (twin.ambiguous || !twin.native.length) continue;
+        const next = routeChapterTwin(rec, host, twin.native);
+        if (normAllied(rec.allied_points) !== normAllied(next)) {
+          res.alliedAdded.push({
+            id,
+            allied: next.filter((a) => a.host_faction === host),
+          });
+        }
+        if (next.length) rec.allied_points = next;
+        else delete rec.allied_points;
+        continue;
+      }
       matchedRepoIds.add(id);
       matchedDatasheets.add(ds.id!);
       res.matched++;
