@@ -360,7 +360,7 @@
     }
   },
   {
-    "id": "chaos-rhino-wgo-mfm-1",
+    "id": "chaos-rhino-wgo-bsd-1",
     "unit_id": "chaos-rhino",
     "faction_id": "emperors-children",
     "game_version": {
@@ -373,26 +373,15 @@
         "combi-bolter"
       ],
       [
-        "havoc-launcher",
-        "combi-weapon"
-      ],
-      [
-        "havoc-launcher",
-        "combi-bolter"
-      ],
-      [
-        "havoc-launcher"
-      ],
-      [
         "combi-weapon"
       ]
     ],
     "model_constraint": {
-      "any_number": true
+      "max_count": 1
     }
   },
   {
-    "id": "chaos-rhino-wgo-mfm-2",
+    "id": "chaos-rhino-wgo-bsd-2",
     "unit_id": "chaos-rhino",
     "faction_id": "emperors-children",
     "game_version": {
@@ -400,21 +389,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "combi-bolter"
-    ],
-    "replacement_choice": [
-      [
-        "havoc-launcher"
-      ],
-      [
-        "combi-weapon",
-        "havoc-launcher"
-      ]
-    ],
     "model_constraint": {
-      "any_number": true
-    }
+      "max_count": 1
+    },
+    "replacement": [
+      "havoc-launcher"
+    ]
   },
   {
     "id": "heldrake-wgo-mfm-1",
