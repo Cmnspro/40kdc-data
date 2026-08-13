@@ -559,7 +559,7 @@
     }
   },
   {
-    "id": "wracks-wgo-mfm-1",
+    "id": "wracks-wgo-bsd-1",
     "unit_id": "wracks",
     "faction_id": "drukhari",
     "game_version": {
@@ -569,32 +569,17 @@
     "is_free": true,
     "replaces": [
       "twin-torturers-tools"
-    ],
-    "replacement_choice": [
-      [
-        "liquifier-gun",
-        "torturers-tool"
-      ],
-      [
-        "torturers-tool",
-        "ossefactor"
-      ],
-      [
-        "hexrifle",
-        "torturers-tool"
-      ],
-      [
-        "stinger-pistol",
-        "torturers-tool"
-      ]
     ],
     "model_constraint": {
-      "model_name": "Wrack",
-      "any_number": true
-    }
+      "max_count": 2
+    },
+    "replacement": [
+      "hexrifle",
+      "torturers-tool"
+    ]
   },
   {
-    "id": "wracks-wgo-mfm-2",
+    "id": "wracks-wgo-bsd-2",
     "unit_id": "wracks",
     "faction_id": "drukhari",
     "game_version": {
@@ -605,48 +590,97 @@
     "replaces": [
       "twin-torturers-tools"
     ],
-    "replacement_choice": [
-      [
-        "torturers-tool",
-        "ossefactor"
-      ],
-      [
-        "power-weapon-wracks",
-        "liquifier-gun"
-      ],
-      [
-        "torturers-tool",
-        "power-weapon-wracks"
-      ],
-      [
-        "liquifier-gun",
-        "torturers-tool"
-      ],
-      [
-        "power-weapon-wracks",
-        "stinger-pistol"
-      ],
-      [
-        "ossefactor",
-        "power-weapon-wracks"
-      ],
-      [
-        "hexrifle",
-        "power-weapon-wracks"
-      ],
-      [
-        "torturers-tool",
-        "stinger-pistol"
-      ],
-      [
-        "torturers-tool",
-        "hexrifle"
-      ]
+    "model_constraint": {
+      "max_count": 2
+    },
+    "replacement": [
+      "liquifier-gun",
+      "torturers-tool"
+    ]
+  },
+  {
+    "id": "wracks-wgo-bsd-3",
+    "unit_id": "wracks",
+    "faction_id": "drukhari",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-torturers-tools"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "replacement": [
+      "ossefactor",
+      "torturers-tool"
+    ]
+  },
+  {
+    "id": "wracks-wgo-bsd-4",
+    "unit_id": "wracks",
+    "faction_id": "drukhari",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-torturers-tools"
+    ],
+    "model_constraint": {
+      "max_count": 2
+    },
+    "replacement": [
+      "stinger-pistol",
+      "torturers-tool"
+    ]
+  },
+  {
+    "id": "wracks-wgo-bsd-5",
+    "unit_id": "wracks",
+    "faction_id": "drukhari",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-torturers-tools"
+    ],
+    "model_constraint": {
+      "per_n_models": 5
+    },
+    "replacement": [
+      "hexrifle",
+      "liquifier-gun",
+      "ossefactor",
+      "stinger-pistol",
+      "torturers-tool"
+    ]
+  },
+  {
+    "id": "wracks-wgo-bsd-6",
+    "unit_id": "wracks",
+    "faction_id": "drukhari",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-torturers-tools"
     ],
     "model_constraint": {
       "model_name": "Acothyst",
       "any_number": true
-    }
+    },
+    "replacement": [
+      "power-weapon-wracks",
+      "torturers-tool"
+    ]
   },
   {
     "id": "archon-wgo-mfm-1",
