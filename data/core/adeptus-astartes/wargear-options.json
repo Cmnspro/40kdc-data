@@ -5269,11 +5269,25 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replacement": [
-      "astartes-grenade-launcher"
+    "replaces": [
+      "bolt-rifle"
+    ],
+    "replacement_choice": [
+      [
+        "astartes-chainsword-intercessor-squad"
+      ],
+      [
+        "hand-flamer"
+      ],
+      [
+        "plasma-pistol-intercessor-squad"
+      ],
+      [
+        "power-weapon"
+      ]
     ],
     "model_constraint": {
-      "model_name": "Intercessor",
+      "model_name": "Intercessor Sergeant",
       "any_number": true
     }
   },
@@ -5287,69 +5301,20 @@
     },
     "is_free": true,
     "replaces": [
-      "bolt-rifle",
       "close-combat-weapon"
     ],
     "replacement_choice": [
       [
-        "plasma-pistol-intercessor-squad",
         "astartes-chainsword-intercessor-squad"
       ],
       [
-        "power-weapon",
-        "plasma-pistol-intercessor-squad"
+        "power-fist"
       ],
       [
-        "astartes-chainsword-intercessor-squad",
-        "thunder-hammer-intercessor-squad"
-      ],
-      [
-        "power-weapon",
-        "thunder-hammer-intercessor-squad"
-      ],
-      [
-        "astartes-chainsword-intercessor-squad",
-        "hand-flamer"
-      ],
-      [
-        "power-weapon",
-        "astartes-chainsword-intercessor-squad"
-      ],
-      [
-        "power-weapon",
         "power-weapon"
       ],
       [
-        "power-weapon",
-        "power-fist"
-      ],
-      [
-        "hand-flamer",
-        "power-weapon"
-      ],
-      [
-        "astartes-chainsword-intercessor-squad",
-        "astartes-chainsword-intercessor-squad"
-      ],
-      [
-        "plasma-pistol-intercessor-squad",
         "thunder-hammer-intercessor-squad"
-      ],
-      [
-        "hand-flamer",
-        "thunder-hammer-intercessor-squad"
-      ],
-      [
-        "hand-flamer",
-        "power-fist"
-      ],
-      [
-        "astartes-chainsword-intercessor-squad",
-        "power-fist"
-      ],
-      [
-        "plasma-pistol-intercessor-squad",
-        "power-fist"
       ]
     ],
     "model_constraint": {
@@ -5366,90 +5331,11 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "close-combat-weapon"
-    ],
-    "replacement_choice": [
-      [
-        "power-fist"
-      ],
-      [
-        "power-weapon",
-        "astartes-grenade-launcher"
-      ],
-      [
-        "thunder-hammer-intercessor-squad"
-      ],
-      [
-        "astartes-chainsword-intercessor-squad",
-        "astartes-grenade-launcher"
-      ],
-      [
-        "power-fist",
-        "astartes-grenade-launcher"
-      ],
-      [
-        "thunder-hammer-intercessor-squad",
-        "astartes-grenade-launcher"
-      ],
-      [
-        "power-weapon"
-      ],
-      [
-        "astartes-chainsword-intercessor-squad"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Intercessor Sergeant",
-      "any_number": true
-    }
-  },
-  {
-    "id": "intercessor-squad-wgo-mfm-4",
-    "unit_id": "intercessor-squad",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "bolt-rifle"
-    ],
-    "replacement_choice": [
-      [
-        "hand-flamer"
-      ],
-      [
-        "plasma-pistol-intercessor-squad"
-      ],
-      [
-        "power-weapon"
-      ],
-      [
-        "astartes-chainsword-intercessor-squad"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Intercessor Sergeant",
-      "any_number": true
-    }
-  },
-  {
-    "id": "intercessor-squad-wgo-mfm-5",
-    "unit_id": "intercessor-squad",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
     "replacement": [
       "astartes-grenade-launcher"
     ],
     "model_constraint": {
-      "model_name": "Intercessor Sergeant",
-      "any_number": true
+      "per_n_models": 5
     }
   },
   {
