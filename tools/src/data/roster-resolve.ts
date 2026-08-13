@@ -12,7 +12,7 @@ import type { Dataset } from "./dataset.js";
 import type { UnitView, WeaponView } from "./entities.js";
 import { detachmentCapForBattleSize, pointsLimitForBattleSize } from "./battle-sizes.js";
 import { checkUnitLegality, type Violation } from "./loadout.js";
-import { baseUnitPoints, wargearPoints } from "./pricing.js";
+import { hostUnitPoints, wargearPoints } from "./pricing.js";
 
 /**
  * Resolve a roster's unit entry against the dataset, returning the linked
@@ -327,6 +327,10 @@ export function validateRosterCore(spec: NormRoster, dataset: Dataset): RosterLe
   });
 
   // --- Points total (ordinal-aware) + wargear + enhancement costs. ----------
+  // Host-aware: a foreign unit with an allied_points entry for this army
+  // (Agents' Imperium price, a chapter's reprice of a shared datasheet)
+  // prices from that entry, not its native table.
+  const rosterFaction = spec.factionId ? dataset.factions.get(spec.factionId)?.raw : undefined;
   const ordinals = new Map<string, number>();
   let total = 0;
   spec.units.forEach((su, idx) => {
@@ -334,7 +338,7 @@ export function validateRosterCore(spec: NormRoster, dataset: Dataset): RosterLe
     if (!view) return;
     const ord = (ordinals.get(su.unitId) ?? 0) + 1;
     ordinals.set(su.unitId, ord);
-    total += baseUnitPoints(view.raw, su.modelCount, ord);
+    total += hostUnitPoints(view.raw, su.modelCount, ord, rosterFaction);
     total += wargearPoints(view.raw, su.counts);
     if (su.enhancementId) total += dataset.enhancements.get(su.enhancementId)?.cost ?? 0;
   });

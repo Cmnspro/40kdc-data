@@ -730,5 +730,177 @@
     "expected": [
       "u0|error|detachment-restriction-required:chaplain"
     ]
+  },
+  {
+    "name": "allied-pricing-legal-at-limit",
+    "note": "8 Vindicare Assassins in a Blood Angels host army price at their Imperium allied_points cost (125, native 110): exactly 1000 at incursion. Pins that host-army pricing selects the allied table for a foreign unit whose host_faction keyword the army's faction carries.",
+    "args": {
+      "factionId": "blood-angels",
+      "battleSize": "incursion",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "wrath-of-the-doomed"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": []
+  },
+  {
+    "name": "allied-pricing-points-over-limit",
+    "note": "The 9th Vindicare totals 1125 under allied pricing vs 990 native — points-over-limit fires ONLY when the Imperium allied_points entry is applied.",
+    "args": {
+      "factionId": "blood-angels",
+      "battleSize": "incursion",
+      "forceDisposition": "purge-the-foe",
+      "detachments": [
+        {
+          "id": "wrath-of-the-doomed"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        },
+        {
+          "unitId": "vindicare-assassin",
+          "modelCount": 1,
+          "isWarlord": false,
+          "enhancementId": null,
+          "leaderBodyguardId": null,
+          "counts": {}
+        }
+      ]
+    },
+    "expected": [
+      "army|error|points-over-limit:roster"
+    ]
   }
 ]

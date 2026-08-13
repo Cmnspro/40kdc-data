@@ -21,7 +21,7 @@ from wh40kdc.data.battle_sizes import (
 )
 from wh40kdc.data.dataset import Dataset
 from wh40kdc.data.loadout import check_unit_legality
-from wh40kdc.data.pricing import base_unit_points, wargear_points
+from wh40kdc.data.pricing import host_unit_points, wargear_points
 
 #: Army-construction violation codes (distinct from per-unit loadout codes).
 ROSTER_VIOLATION_CODES = (
@@ -236,6 +236,11 @@ def validate_roster_core(spec: dict[str, Any], dataset: Dataset) -> dict[str, An
             )
 
     # --- Points total (ordinal-aware) + enhancement costs. --------------------
+    # Host-aware: a foreign unit with an ``allied_points`` entry for this army
+    # (Agents' Imperium price, a chapter's reprice of a shared datasheet)
+    # prices from that entry, not its native table.
+    roster_faction_view = dataset.factions.get(faction_id) if faction_id else None
+    roster_faction = roster_faction_view.raw if roster_faction_view else None
     ordinals: dict[str, int] = {}
     total = 0
     for idx, su in enumerate(spec_units):
@@ -245,7 +250,7 @@ def validate_roster_core(spec: dict[str, Any], dataset: Dataset) -> dict[str, An
         unit_id = su.get("unit_id") or ""
         ordinal = ordinals.get(unit_id, 0) + 1
         ordinals[unit_id] = ordinal
-        total += base_unit_points(view.raw, su.get("model_count") or 0, ordinal)
+        total += host_unit_points(view.raw, su.get("model_count") or 0, ordinal, roster_faction)
         total += wargear_points(view.raw, su.get("counts") or {})
         enhancement_id = su.get("enhancement_id")
         if enhancement_id:

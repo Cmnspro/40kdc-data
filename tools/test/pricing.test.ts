@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 
 import { dataset } from "../src/data/index.js";
-import { baseUnitPoints, pointsTierMissing, wargearPoints } from "../src/data/pricing.js";
+import type { Unit } from "../src/generated.js";
+import { baseUnitPoints, hostUnitPoints, pointsTierMissing, wargearPoints } from "../src/data/pricing.js";
 
 // World Eaters Chaos Terminators are priced by army ordinal: 165 for your 1st–2nd
 // copy, 175 for your 3rd+ at 5 models, and 330/340 for a 6–10 model squad (a
@@ -100,5 +101,65 @@ describe("wargearPoints — per-item MFM surcharge over a loadout", () => {
   it("is 0 for items with no cost entry and for a unit without wargear_costs", () => {
     expect(wargearPoints(tas, new Map([["storm-bolter", 3]]))).toBe(0);
     expect(wargearPoints(ven, new Map([["kinetic-destroyer", 6]]))).toBe(0);
+  });
+});
+
+// Vindicare Assassin carries host-army pricing: 110 native, 125 when allied
+// into any IMPERIUM army (`allied_points`, host_faction: "imperium"). The
+// Exaction Squad prices the other way (90 native, 85 allied) — direction is
+// data, not a rule.
+const vind = dataset.units.getInFaction("vindicare-assassin", "agents-of-the-imperium")!.raw;
+const agents = dataset.factions.get("agents-of-the-imperium")!.raw;
+const bloodAngels = dataset.factions.get("blood-angels")!.raw;
+const tyranids = dataset.factions.get("tyranids")!.raw;
+
+describe("hostUnitPoints — allied (host-army) pricing", () => {
+  it("prices a foreign unit from its host entry when the army owns the host keyword", () => {
+    expect(hostUnitPoints(vind, 1, 1, bloodAngels)).toBe(125);
+    const exaction = dataset.units.getAny("exaction-squad")!.raw;
+    expect(hostUnitPoints(exaction, 11, 1, bloodAngels)).toBe(85);
+  });
+
+  it("prices natively in the unit's own army, regardless of matching entries", () => {
+    // agents-of-the-imperium itself owns the Imperium keyword — the own-faction
+    // guard must win over the keyword match.
+    expect(hostUnitPoints(vind, 1, 1, agents)).toBe(110);
+  });
+
+  it("falls back to native with no matching host, and with no army context", () => {
+    expect(hostUnitPoints(vind, 1, 1, tyranids)).toBe(110);
+    expect(hostUnitPoints(vind, 1, 1)).toBe(110);
+    expect(hostUnitPoints(vind, 1, 1, null)).toBe(110);
+  });
+
+  it("prefers an exact faction-id entry over a keyword entry", () => {
+    const unit = {
+      id: "u",
+      faction_id: "adeptus-astartes",
+      points: [{ models: 5, cost: 85 }],
+      allied_points: [
+        { models: 5, cost: 95, host_faction: "blood-angels" },
+        { models: 5, cost: 90, host_faction: "imperium" },
+      ],
+    } as Unit;
+    expect(hostUnitPoints(unit, 5, 1, bloodAngels)).toBe(95);
+  });
+
+  it("keeps ordinal-band selection within the host table", () => {
+    const unit = {
+      id: "u",
+      faction_id: "adeptus-astartes",
+      points: [
+        { models: 5, cost: 85, unit_count_min: 1, unit_count_max: 2 },
+        { models: 5, cost: 95, unit_count_min: 3, unit_count_max: null },
+      ],
+      allied_points: [
+        { models: 5, cost: 95, unit_count_min: 1, unit_count_max: 2, host_faction: "blood-angels" },
+        { models: 5, cost: 105, unit_count_min: 3, unit_count_max: null, host_faction: "blood-angels" },
+      ],
+    } as Unit;
+    expect(hostUnitPoints(unit, 5, 1, bloodAngels)).toBe(95);
+    expect(hostUnitPoints(unit, 5, 3, bloodAngels)).toBe(105);
+    expect(baseUnitPoints(unit, 5, 3)).toBe(95);
   });
 });
