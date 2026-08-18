@@ -32,7 +32,7 @@ export {
 } from "./entities.js";
 export { normalizeName, stripLeadingThe } from "./normalize.js";
 export { isMeleeProfile } from "./weapon-profile.js";
-export type { WeaponProfile } from "./weapon-profile.js";
+export type { UnitProfile, WeaponProfile } from "./weapon-profile.js";
 export { emptyRawData } from "./types.js";
 export type { RawData } from "./types.js";
 
@@ -45,6 +45,7 @@ export {
   clampWeaponCount,
   validateLoadout,
   groupLoadout,
+  completeLoadout,
 } from "./loadout.js";
 export type {
   Loadout,
@@ -53,6 +54,7 @@ export type {
   LoadoutModel,
   LoadoutGroup,
   LoadoutGroupWeapon,
+  CompletedLoadout,
 } from "./loadout.js";
 
 // Unit point-cost maths: ordinal-aware tier selection over `points` bands.

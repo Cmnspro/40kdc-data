@@ -77,6 +77,7 @@
     "detachment_id": "crusher-stampede",
     "cost": 15,
     "keyword_restrictions": [
+      "Monster",
       "Tyranids"
     ],
     "ability_id": null,
@@ -95,6 +96,7 @@
     "detachment_id": "crusher-stampede",
     "cost": 20,
     "keyword_restrictions": [
+      "Monster",
       "Tyranids"
     ],
     "ability_id": null,
@@ -113,6 +115,7 @@
     "detachment_id": "crusher-stampede",
     "cost": 10,
     "keyword_restrictions": [
+      "Monster",
       "Tyranids"
     ],
     "ability_id": null,
@@ -131,6 +134,7 @@
     "detachment_id": "crusher-stampede",
     "cost": 25,
     "keyword_restrictions": [
+      "Monster",
       "Tyranids"
     ],
     "ability_id": null,
@@ -314,7 +318,7 @@
     "detachment_id": "vanguard-onslaught",
     "cost": 15,
     "keyword_restrictions": [
-      "Tyranids"
+      "Vanguard Invader"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -332,7 +336,7 @@
     "detachment_id": "vanguard-onslaught",
     "cost": 10,
     "keyword_restrictions": [
-      "Tyranids"
+      "Vanguard Invader"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -368,6 +372,7 @@
     "detachment_id": "synaptic-nexus",
     "cost": 10,
     "keyword_restrictions": [
+      "Psyker",
       "Tyranids"
     ],
     "ability_id": null,
@@ -386,6 +391,7 @@
     "detachment_id": "synaptic-nexus",
     "cost": 30,
     "keyword_restrictions": [
+      "Synapse",
       "Tyranids"
     ],
     "ability_id": null,
@@ -404,6 +410,7 @@
     "detachment_id": "synaptic-nexus",
     "cost": 20,
     "keyword_restrictions": [
+      "Synapse",
       "Tyranids"
     ],
     "ability_id": null,
@@ -422,6 +429,7 @@
     "detachment_id": "synaptic-nexus",
     "cost": 15,
     "keyword_restrictions": [
+      "Synapse",
       "Tyranids"
     ],
     "ability_id": null,
@@ -457,9 +465,6 @@
     "name": "Ocular Adaptation",
     "detachment_id": "warrior-bioform-onslaught",
     "cost": 20,
-    "keyword_restrictions": [
-      "Tyranids"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -468,7 +473,17 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Tyranid Prime with Lash Whip",
+        "Tyranids"
+      ],
+      [
+        "Tyranids",
+        "Winged Tyranid Prime"
+      ]
+    ]
   },
   {
     "id": "sensory-assimilation-warrior-bioform-onslaught",
@@ -493,9 +508,6 @@
     "name": "Elevated Might",
     "detachment_id": "warrior-bioform-onslaught",
     "cost": 30,
-    "keyword_restrictions": [
-      "Tyranids"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -504,7 +516,17 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Tyranids",
+        "Winged Tyranid Prime"
+      ],
+      [
+        "Tyranid Prime with Lash Whip",
+        "Tyranids"
+      ]
+    ]
   },
   {
     "id": "synaptic-strategy-subterranean-assault",
@@ -566,7 +588,7 @@
     "detachment_id": "subterranean-assault",
     "cost": 20,
     "keyword_restrictions": [
-      "Tyranids"
+      "Trygon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -583,9 +605,6 @@
     "name": "Encircling Horrors (Upgrade)",
     "detachment_id": "ambush-predators",
     "cost": 20,
-    "keyword_restrictions": [
-      "Tyranids"
-    ],
     "ability_id": "encircling-horrors-ambush-predators",
     "is_unique": true,
     "game_version": {
@@ -594,7 +613,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 3
+    "max_targets": 3,
+    "keyword_restriction_groups": [
+      [
+        "Neurolictor",
+        "Tyranids"
+      ],
+      [
+        "Lictor",
+        "Tyranids"
+      ],
+      [
+        "Tyranids",
+        "Von Ryan’s Leapers"
+      ]
+    ]
   },
   {
     "id": "cryptophotaic-camouflage-upgrade-ambush-predators",
@@ -602,7 +635,8 @@
     "detachment_id": "ambush-predators",
     "cost": 15,
     "keyword_restrictions": [
-      "Tyranids"
+      "Tyranids",
+      "Von Ryan’s Leapers"
     ],
     "ability_id": "cryptophotaic-camouflage-ambush-predators",
     "is_unique": true,
@@ -620,6 +654,7 @@
     "detachment_id": "talons-of-the-norn-queen",
     "cost": 20,
     "keyword_restrictions": [
+      "Norn Emissary",
       "Tyranids"
     ],
     "ability_id": "destabilising-predation-talons-of-the-norn-queen",
@@ -638,6 +673,7 @@
     "detachment_id": "talons-of-the-norn-queen",
     "cost": 25,
     "keyword_restrictions": [
+      "Norn Assimilator",
       "Tyranids"
     ],
     "ability_id": "synaptoprescience-talons-of-the-norn-queen",
@@ -684,9 +720,26 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Psychophage",
-      "Vardenghast Swarm"
+      "Vardenghast Swarm Psychophage"
     ],
     "upgrade_tag": true
+  },
+  {
+    "id": "synaptic-linchpin-invasion-fleet",
+    "name": "Synaptic Linchpin",
+    "detachment_id": "invasion-fleet",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Tyranids"
+    ]
   }
 ]

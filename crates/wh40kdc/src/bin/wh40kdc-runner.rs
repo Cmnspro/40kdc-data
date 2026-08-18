@@ -498,6 +498,18 @@ fn handle_check_roster_legality(state: &mut RunnerState, args: &Value) -> Value 
         })
         .unwrap_or_default();
 
+    let keyword_overrides: Vec<Vec<String>> = units_in
+        .iter()
+        .map(|u| {
+            u.get("keywordOverrides")
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+                .map(str::to_string)
+                .collect()
+        })
+        .collect();
     let units: Vec<wh40kdc::NormUnit> = units_in
         .iter()
         .map(|u| {
@@ -545,7 +557,11 @@ fn handle_check_roster_legality(state: &mut RunnerState, args: &Value) -> Value 
         units,
     };
 
-    let result = wh40kdc::validate_roster_core(&spec, state.dataset());
+    let result = wh40kdc::validate_roster_core_with_keyword_overrides(
+        &spec,
+        state.dataset(),
+        &keyword_overrides,
+    );
     let mut lines: Vec<String> = Vec::new();
     for u in &result.units {
         for v in &u.violations {
@@ -1432,7 +1448,8 @@ fn handle_score_state(state: &mut RunnerState, args: &Value) -> Value {
                     };
                 if kind == "score-secondary" {
                     let vp = score_secondary_event(&asserted, card, pg.approach);
-                    pg = score_secondary(&pg, round, cid, vp);
+                    let (rc, gc) = optional_caps(op);
+                    pg = score_secondary(&pg, round, cid, vp, rc, gc);
                 } else {
                     // The app path: compute the round's raw total, then clamp on store.
                     let (rc, gc) = optional_caps(op);

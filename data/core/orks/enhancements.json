@@ -77,7 +77,7 @@
     "detachment_id": "da-big-hunt",
     "cost": 30,
     "keyword_restrictions": [
-      "Orks"
+      "Beastboss on Squigosaur"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -95,7 +95,7 @@
     "detachment_id": "da-big-hunt",
     "cost": 25,
     "keyword_restrictions": [
-      "Orks"
+      "Beast Snagga"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -113,7 +113,7 @@
     "detachment_id": "da-big-hunt",
     "cost": 15,
     "keyword_restrictions": [
-      "Orks"
+      "Beast Snagga"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -131,7 +131,7 @@
     "detachment_id": "da-big-hunt",
     "cost": 20,
     "keyword_restrictions": [
-      "Orks"
+      "Beastboss on Squigosaur"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -149,7 +149,7 @@
     "detachment_id": "kult-of-speed",
     "cost": 10,
     "keyword_restrictions": [
-      "Orks"
+      "Deffkilla Wartrike"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -167,6 +167,7 @@
     "detachment_id": "kult-of-speed",
     "cost": 35,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -185,7 +186,7 @@
     "detachment_id": "kult-of-speed",
     "cost": 15,
     "keyword_restrictions": [
-      "Orks"
+      "Deffkilla Wartrike"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -221,7 +222,7 @@
     "detachment_id": "dread-mob",
     "cost": 15,
     "keyword_restrictions": [
-      "Orks"
+      "Mek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -239,7 +240,7 @@
     "detachment_id": "dread-mob",
     "cost": 20,
     "keyword_restrictions": [
-      "Orks"
+      "Mek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -257,7 +258,7 @@
     "detachment_id": "dread-mob",
     "cost": 35,
     "keyword_restrictions": [
-      "Orks"
+      "Mek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -275,7 +276,7 @@
     "detachment_id": "dread-mob",
     "cost": 10,
     "keyword_restrictions": [
-      "Orks"
+      "Mek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -293,6 +294,7 @@
     "detachment_id": "green-tide",
     "cost": 10,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -311,6 +313,7 @@
     "detachment_id": "green-tide",
     "cost": 25,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -329,6 +332,7 @@
     "detachment_id": "green-tide",
     "cost": 15,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -347,6 +351,7 @@
     "detachment_id": "green-tide",
     "cost": 20,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -365,7 +370,7 @@
     "detachment_id": "bully-boyz",
     "cost": 25,
     "keyword_restrictions": [
-      "Orks"
+      "Warboss in Mega Armour"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -383,7 +388,8 @@
     "detachment_id": "bully-boyz",
     "cost": 20,
     "keyword_restrictions": [
-      "Orks"
+      "Infantry",
+      "Warboss"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -401,7 +407,8 @@
     "detachment_id": "bully-boyz",
     "cost": 15,
     "keyword_restrictions": [
-      "Orks"
+      "Infantry",
+      "Warboss"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -419,7 +426,8 @@
     "detachment_id": "bully-boyz",
     "cost": 10,
     "keyword_restrictions": [
-      "Orks"
+      "Infantry",
+      "Warboss"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -509,6 +517,7 @@
     "detachment_id": "more-dakka",
     "cost": 15,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -527,6 +536,7 @@
     "detachment_id": "more-dakka",
     "cost": 15,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": null,
@@ -581,7 +591,7 @@
     "detachment_id": "freebooter-krew",
     "cost": 10,
     "keyword_restrictions": [
-      "Orks"
+      "Warboss"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -616,9 +626,6 @@
     "name": "Bionik Workshop",
     "detachment_id": "freebooter-krew",
     "cost": 15,
-    "keyword_restrictions": [
-      "Orks"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -627,7 +634,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Big Mek"
+      ],
+      [
+        "Painboy"
+      ]
+    ]
   },
   {
     "id": "razgits-magik-map-freebooter-krew",
@@ -653,7 +668,7 @@
     "detachment_id": "rollin-deff",
     "cost": 10,
     "keyword_restrictions": [
-      "Orks"
+      "Wagon"
     ],
     "ability_id": "boarding-ramps-rollin-deff",
     "is_unique": true,
@@ -671,7 +686,7 @@
     "detachment_id": "rollin-deff",
     "cost": 15,
     "keyword_restrictions": [
-      "Orks"
+      "Wagon"
     ],
     "ability_id": "targetin-gizmos-rollin-deff",
     "is_unique": true,
@@ -725,6 +740,7 @@
     "detachment_id": "blitz-brigade",
     "cost": 10,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": "runnin-boots-blitz-brigade",
@@ -761,7 +777,7 @@
     "detachment_id": "blitz-brigade",
     "cost": 10,
     "keyword_restrictions": [
-      "Orks"
+      "Mek"
     ],
     "ability_id": "supercharged-squig-oil-blitz-brigade",
     "is_unique": true,
@@ -779,6 +795,7 @@
     "detachment_id": "blitz-brigade",
     "cost": 5,
     "keyword_restrictions": [
+      "Infantry",
       "Orks"
     ],
     "ability_id": "tuff-git-blitz-brigade",
@@ -806,8 +823,153 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "'Ardmob",
+      "’Ardmob Warboss",
+      "Orks"
+    ]
+  },
+  {
+    "id": "slippery-git-taktikal-brigade",
+    "name": "Slippery Git",
+    "detachment_id": "taktikal-brigade",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
       "Warboss"
+    ],
+    "exclusion_keywords": [
+      "Mega Armour"
+    ],
+    "attachment_bodyguard_ids": [
+      "kommandos"
+    ]
+  },
+  {
+    "id": "dakkamek-speedwaaagh",
+    "name": "Dakkamek",
+    "detachment_id": "speedwaaagh",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Mek"
+    ]
+  },
+  {
+    "id": "kustom-shokk-box-speedwaaagh",
+    "name": "Kustom Shokk Box",
+    "detachment_id": "speedwaaagh",
+    "cost": 10,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Deffkilla Wartrike"
+    ]
+  },
+  {
+    "id": "master-meknologist-speedwaaagh",
+    "name": "Master Meknologist",
+    "detachment_id": "speedwaaagh",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Big Mek"
+    ]
+  },
+  {
+    "id": "supa-burny-fuel-speedwaaagh",
+    "name": "Supa-Burny Fuel",
+    "detachment_id": "speedwaaagh",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Deffkilla Wartrike"
+    ]
+  },
+  {
+    "id": "kunnin-hunta-equatorial-hordes",
+    "name": "Kunnin’ Hunta",
+    "detachment_id": "equatorial-hordes",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Infantry",
+        "Warboss"
+      ],
+      [
+        "Beastboss"
+      ]
+    ]
+  },
+  {
+    "id": "unkillable-scourge-equatorial-hordes",
+    "name": "Unkillable Scourge",
+    "detachment_id": "equatorial-hordes",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Beastboss"
+      ],
+      [
+        "Infantry",
+        "Warboss"
+      ]
     ]
   }
 ]

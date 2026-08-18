@@ -57,8 +57,9 @@ class UnitView:
         faction_id = self.raw.get("faction_id", "")
         return _resolve_all(
             self.raw.get("weapon_ids"),
-            lambda id_: self._ds.weapons.get_in_faction(id_, faction_id)
-            or self._ds.weapons.get_any(id_),
+            lambda id_: (
+                self._ds.weapons.get_in_faction(id_, faction_id) or self._ds.weapons.get_any(id_)
+            ),
         )
 
     @property
@@ -70,14 +71,49 @@ class UnitView:
         faction_id = self.raw.get("faction_id", "")
         return _resolve_all(
             self.raw.get("ability_ids"),
-            lambda id_: self._ds.abilities.get_in_faction(id_, faction_id)
-            or self._ds.abilities.get_any(id_),
+            lambda id_: (
+                self._ds.abilities.get_in_faction(id_, faction_id)
+                or self._ds.abilities.get_any(id_)
+            ),
         )
 
     @property
     def wargear_options(self) -> list[dict[str, Any]]:
         """Wargear options (weapon swaps, add-ons, choices) authored for this unit."""
         return self._ds.wargear_options_of(self.raw)
+
+    @property
+    def faction_id(self) -> str:
+        return self.raw["faction_id"]
+
+    @property
+    def role(self) -> str | None:
+        return self.raw.get("role")
+
+    @property
+    def keywords(self) -> list[str]:
+        return self.raw.get("keywords") or []
+
+    @property
+    def faction_keywords(self) -> list[str]:
+        return self.raw.get("faction_keywords") or []
+
+    @property
+    def model_count(self) -> dict[str, Any] | None:
+        return self.raw.get("model_count")
+
+    @property
+    def points(self) -> list[dict[str, Any]]:
+        return self.raw.get("points") or []
+
+    @property
+    def profiles(self) -> list[dict[str, Any]]:
+        """All stat profiles for this unit (at least one is always present)."""
+        return self.raw["profiles"]
+
+    @property
+    def profile_count(self) -> int:
+        return len(self.raw["profiles"])
 
     def profile_at(self, i: int = 0) -> dict[str, Any]:
         """The stat profile at index ``i`` (default 0)."""
@@ -227,6 +263,19 @@ class WeaponView:
     def units(self) -> list[UnitView]:
         """Units that list this weapon in their ``weapon_ids``."""
         return self._ds.units_with_weapon(self.raw["id"])
+
+    @property
+    def type(self) -> str:
+        return self.raw["type"]
+
+    @property
+    def profiles(self) -> list[dict[str, Any]]:
+        """All stat profiles for this weapon (at least one is always present)."""
+        return self.raw["profiles"]
+
+    @property
+    def profile_count(self) -> int:
+        return len(self.raw["profiles"])
 
     def profile_at(self, i: int = 0) -> dict[str, Any]:
         """The stat profile at index ``i`` (default 0)."""

@@ -113,7 +113,7 @@
     "detachment_id": "annihilation-legion",
     "cost": 15,
     "keyword_restrictions": [
-      "Necrons"
+      "Destroyer Cult"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -131,7 +131,7 @@
     "detachment_id": "annihilation-legion",
     "cost": 10,
     "keyword_restrictions": [
-      "Necrons"
+      "Destroyer Cult"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -149,7 +149,7 @@
     "detachment_id": "canoptek-court",
     "cost": 20,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -167,7 +167,7 @@
     "detachment_id": "canoptek-court",
     "cost": 15,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -185,7 +185,7 @@
     "detachment_id": "canoptek-court",
     "cost": 15,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -203,7 +203,7 @@
     "detachment_id": "canoptek-court",
     "cost": 10,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -221,7 +221,7 @@
     "detachment_id": "obeisance-phalanx",
     "cost": 10,
     "keyword_restrictions": [
-      "Necrons"
+      "Overlord"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -239,7 +239,7 @@
     "detachment_id": "obeisance-phalanx",
     "cost": 20,
     "keyword_restrictions": [
-      "Necrons"
+      "Overlord"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -257,7 +257,7 @@
     "detachment_id": "obeisance-phalanx",
     "cost": 15,
     "keyword_restrictions": [
-      "Necrons"
+      "Overlord"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -275,7 +275,7 @@
     "detachment_id": "obeisance-phalanx",
     "cost": 25,
     "keyword_restrictions": [
-      "Necrons"
+      "Overlord"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -364,9 +364,6 @@
     "name": "Dread Majesty (Aura)",
     "detachment_id": "starshatter-arsenal",
     "cost": 30,
-    "keyword_restrictions": [
-      "Necrons"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -375,7 +372,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Overlord"
+      ],
+      [
+        "Catacomb Command Barge"
+      ]
+    ]
   },
   {
     "id": "miniaturised-nebuloscope-starshatter-arsenal",
@@ -436,9 +441,6 @@
     "name": "Destroyer Ankh",
     "detachment_id": "cursed-legion",
     "cost": 20,
-    "keyword_restrictions": [
-      "Necrons"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -447,7 +449,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Catacomb Command Barge"
+      ],
+      [
+        "Overlord"
+      ]
+    ]
   },
   {
     "id": "murdermind-cursed-legion",
@@ -455,7 +465,7 @@
     "detachment_id": "cursed-legion",
     "cost": 15,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -465,7 +475,13 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "attachment_bodyguard_ids": [
+      "lokhust-destroyers",
+      "lokhust-heavy-destroyers",
+      "ophydian-destroyers",
+      "skorpekh-destroyers"
+    ]
   },
   {
     "id": "mask-of-the-nekrosor-cursed-legion",
@@ -491,7 +507,7 @@
     "detachment_id": "cursed-legion",
     "cost": 25,
     "keyword_restrictions": [
-      "Necrons"
+      "Destroyer Cult"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -527,7 +543,7 @@
     "detachment_id": "cryptek-conclave",
     "cost": 10,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -563,7 +579,7 @@
     "detachment_id": "cryptek-conclave",
     "cost": 15,
     "keyword_restrictions": [
-      "Necrons"
+      "Cryptek"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -581,6 +597,7 @@
     "detachment_id": "hand-of-the-dynasty",
     "cost": 20,
     "keyword_restrictions": [
+      "Necron Warriors",
       "Necrons"
     ],
     "ability_id": "enlivened-sentinels-hand-of-the-dynasty",
@@ -599,6 +616,7 @@
     "detachment_id": "hand-of-the-dynasty",
     "cost": 15,
     "keyword_restrictions": [
+      "Immortals",
       "Necrons"
     ],
     "ability_id": "tools-of-dominion-hand-of-the-dynasty",
@@ -617,7 +635,8 @@
     "detachment_id": "skyshroud-spearhead",
     "cost": 5,
     "keyword_restrictions": [
-      "Necrons"
+      "Necrons",
+      "Tomb Blades"
     ],
     "ability_id": "recursive-reanimation-skyshroud-spearhead",
     "is_unique": true,
@@ -635,7 +654,8 @@
     "detachment_id": "skyshroud-spearhead",
     "cost": 20,
     "keyword_restrictions": [
-      "Necrons"
+      "Destroyer Cult",
+      "Mounted"
     ],
     "ability_id": "deepening-madness-skyshroud-spearhead",
     "is_unique": true,
@@ -698,8 +718,7 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Amonhotekh's Guard",
-      "Overlord"
+      "Overlord Amonhotekh"
     ]
   },
   {
@@ -717,9 +736,121 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Amonhotekh's Guard",
-      "Necron Warriors"
+      "Amonhotekh's Guard Necron Warriors"
     ],
     "upgrade_tag": true
+  },
+  {
+    "id": "singularity-matrix-pantheon-of-woe",
+    "name": "Singularity Matrix",
+    "detachment_id": "pantheon-of-woe",
+    "cost": 45,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "DNU",
+      "Necrons"
+    ]
+  },
+  {
+    "id": "quantum-goad-pantheon-of-woe",
+    "name": "Quantum Goad",
+    "detachment_id": "pantheon-of-woe",
+    "cost": 45,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "DNU",
+      "Necrons"
+    ]
+  },
+  {
+    "id": "animus-damper-pantheon-of-woe",
+    "name": "Animus Damper",
+    "detachment_id": "pantheon-of-woe",
+    "cost": 35,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "DNU",
+      "Necrons"
+    ]
+  },
+  {
+    "id": "reletavistic-tether-pantheon-of-woe",
+    "name": "Reletavistic Tether",
+    "detachment_id": "pantheon-of-woe",
+    "cost": 40,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "DNU",
+      "Necrons"
+    ]
+  },
+  {
+    "id": "mark-of-the-nekrosor-cursed-legion",
+    "name": "Mark of the Nekrosor",
+    "detachment_id": "cursed-legion",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Destroyer Cult"
+    ]
+  },
+  {
+    "id": "mortality-shroud-aura-upgrade-the-phaerons-armoury",
+    "name": "Mortality Shroud (Aura) (Upgrade)",
+    "detachment_id": "the-phaerons-armoury",
+    "cost": 10,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": true,
+    "max_targets": 3,
+    "keyword_restrictions": [
+      "Necrons",
+      "Obelisk"
+    ]
   }
 ]

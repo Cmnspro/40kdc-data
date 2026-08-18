@@ -95,6 +95,7 @@
     "detachment_id": "hearthband",
     "cost": 15,
     "keyword_restrictions": [
+      "Kâhl",
       "Leagues of Votann"
     ],
     "ability_id": null,
@@ -131,6 +132,7 @@
     "detachment_id": "hearthband",
     "cost": 30,
     "keyword_restrictions": [
+      "Kâhl",
       "Leagues of Votann"
     ],
     "ability_id": null,
@@ -293,7 +295,7 @@
     "detachment_id": "brandfast-oathband",
     "cost": 10,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Kâhl"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -329,7 +331,7 @@
     "detachment_id": "brandfast-oathband",
     "cost": 15,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Kâhl"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -347,7 +349,7 @@
     "detachment_id": "brandfast-oathband",
     "cost": 5,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Brôkhyr"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -382,9 +384,6 @@
     "name": "Calculated Tenacity",
     "detachment_id": "hearthfyre-arsenal",
     "cost": 15,
-    "keyword_restrictions": [
-      "Leagues of Votann"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -393,7 +392,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Brôkhyr"
+      ],
+      [
+        "Memnyr Strategist"
+      ]
+    ]
   },
   {
     "id": "mantle-of-elders-hearthfyre-arsenal",
@@ -401,7 +408,7 @@
     "detachment_id": "hearthfyre-arsenal",
     "cost": 10,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Memnyr Strategist"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -419,7 +426,7 @@
     "detachment_id": "hearthfyre-arsenal",
     "cost": 5,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Brôkhyr"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -437,7 +444,7 @@
     "detachment_id": "mercenary-oathband",
     "cost": 20,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Kâhl"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -455,7 +462,7 @@
     "detachment_id": "mercenary-oathband",
     "cost": 20,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Memnyr Strategist"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -509,7 +516,8 @@
     "detachment_id": "armoured-trailblazers",
     "cost": 15,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Leagues of Votann",
+      "Sagitaur"
     ],
     "ability_id": "saturation-rounds-armoured-trailblazers",
     "is_unique": true,
@@ -527,7 +535,8 @@
     "detachment_id": "armoured-trailblazers",
     "cost": 15,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Leagues of Votann",
+      "Sagitaur"
     ],
     "ability_id": "optimised-attack-lines-armoured-trailblazers",
     "is_unique": true,
@@ -545,7 +554,7 @@
     "detachment_id": "farseekers",
     "cost": 10,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Pioneers"
     ],
     "ability_id": "pan-spectral-lockons-farseekers",
     "is_unique": true,
@@ -563,7 +572,7 @@
     "detachment_id": "hearthguard-covenant",
     "cost": 10,
     "keyword_restrictions": [
-      "Leagues of Votann"
+      "Kâhl"
     ],
     "ability_id": "ironskein-hearthguard-covenant",
     "is_unique": true,
@@ -590,8 +599,7 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Bane-Slayer's Bulwark",
-      "Thunderkyn"
+      "Bane Slayer's Bulwark Brokhyr Thunderkyn"
     ],
     "upgrade_tag": true
   },
@@ -612,6 +620,65 @@
     "keyword_restrictions": [
       "Bane-Slayer's Bulwark",
       "Einhyr Champion"
+    ]
+  },
+  {
+    "id": "shroudwerke-talismans-upgrade-farseekers",
+    "name": "Shroudwërke Talismans (Upgrade)",
+    "detachment_id": "farseekers",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": true,
+    "max_targets": 3,
+    "keyword_restrictions": [
+      "Yaegirs"
+    ]
+  },
+  {
+    "id": "farstrydr-node-hearthfyre-arsenal",
+    "name": "Fârstrydr Node",
+    "detachment_id": "hearthfyre-arsenal",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Memnyr Strategist"
+      ],
+      [
+        "Brôkhyr"
+      ]
+    ]
+  },
+  {
+    "id": "high-kahl-hearthguard-covenant",
+    "name": "High Kâhl",
+    "detachment_id": "hearthguard-covenant",
+    "cost": 30,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Kâhl"
     ]
   }
 ]

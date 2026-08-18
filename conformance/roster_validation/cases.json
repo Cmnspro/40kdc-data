@@ -451,7 +451,7 @@
       "forceDisposition": "priority-assets",
       "detachments": [
         {
-          "id": "devotees-of-destruction"
+          "id": "nightmare-hunt"
         },
         {
           "id": "murdertalon-raiders"
@@ -469,7 +469,8 @@
       ]
     },
     "expected": [
-      "army|error|detachment-tag-conflict:nightmare"
+      "army|error|detachment-tag-conflict:nightmare",
+      "army|warn|disposition-invalid:priority-assets"
     ]
   },
   {
@@ -929,6 +930,61 @@
     },
     "expected": [
       "army|error|points-over-limit:roster"
+    ]
+  },
+  {
+    "name": "enhancement-keyword-or-group-eligible",
+    "args": {
+      "factionId": "genestealer-cults",
+      "battleSize": "strike-force",
+      "forceDisposition": "take-and-hold",
+      "detachments": [
+        {
+          "id": "biosanctic-broodsurge"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "patriarch",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": "predatory-instincts-biosanctic-broodsurge",
+          "leaderBodyguardId": null,
+          "counts": {
+            "patriarchs-claws": 1
+          }
+        }
+      ]
+    },
+    "expected": []
+  },
+  {
+    "name": "enhancement-keyword-or-group-ineligible",
+    "args": {
+      "factionId": "genestealer-cults",
+      "battleSize": "strike-force",
+      "forceDisposition": "take-and-hold",
+      "detachments": [
+        {
+          "id": "biosanctic-broodsurge"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "magus",
+          "modelCount": 1,
+          "isWarlord": true,
+          "enhancementId": "predatory-instincts-biosanctic-broodsurge",
+          "leaderBodyguardId": null,
+          "counts": {
+            "force-stave": 1,
+            "autopistol-magus": 1
+          }
+        }
+      ]
+    },
+    "expected": [
+      "u0|error|enhancement-keyword-mismatch:predatory-instincts-biosanctic-broodsurge"
     ]
   }
 ]

@@ -59,7 +59,7 @@
     "detachment_id": "realspace-raiders",
     "cost": 25,
     "keyword_restrictions": [
-      "Drukhari"
+      "Archon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -95,7 +95,7 @@
     "detachment_id": "realspace-raiders",
     "cost": 15,
     "keyword_restrictions": [
-      "Drukhari"
+      "Succubus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -131,7 +131,7 @@
     "detachment_id": "realspace-raiders",
     "cost": 15,
     "keyword_restrictions": [
-      "Drukhari"
+      "Haemonculus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -148,9 +148,6 @@
     "name": "Archraider",
     "detachment_id": "reapers-wager",
     "cost": 15,
-    "keyword_restrictions": [
-      "Drukhari"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -159,16 +156,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Drukhari"
+      ],
+      [
+        "Harlequins"
+      ]
+    ]
   },
   {
     "id": "webway-walker-reapers-wager",
     "name": "Webway Walker",
     "detachment_id": "reapers-wager",
     "cost": 15,
-    "keyword_restrictions": [
-      "Drukhari"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -177,7 +179,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Drukhari"
+      ],
+      [
+        "Harlequins"
+      ]
+    ]
   },
   {
     "id": "reapers-cowl-reapers-wager",
@@ -185,7 +195,7 @@
     "detachment_id": "reapers-wager",
     "cost": 25,
     "keyword_restrictions": [
-      "Drukhari"
+      "Harlequins"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -221,7 +231,7 @@
     "detachment_id": "spectacle-of-spite",
     "cost": 15,
     "keyword_restrictions": [
-      "Drukhari"
+      "Succubus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -239,7 +249,7 @@
     "detachment_id": "spectacle-of-spite",
     "cost": 15,
     "keyword_restrictions": [
-      "Drukhari"
+      "Succubus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -257,7 +267,7 @@
     "detachment_id": "spectacle-of-spite",
     "cost": 25,
     "keyword_restrictions": [
-      "Drukhari"
+      "Succubus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -275,7 +285,7 @@
     "detachment_id": "spectacle-of-spite",
     "cost": 20,
     "keyword_restrictions": [
-      "Drukhari"
+      "Succubus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -293,7 +303,7 @@
     "detachment_id": "covenite-coterie",
     "cost": 25,
     "keyword_restrictions": [
-      "Drukhari"
+      "Haemonculus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -311,7 +321,7 @@
     "detachment_id": "covenite-coterie",
     "cost": 5,
     "keyword_restrictions": [
-      "Drukhari"
+      "Haemonculus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -329,7 +339,7 @@
     "detachment_id": "covenite-coterie",
     "cost": 20,
     "keyword_restrictions": [
-      "Drukhari"
+      "Haemonculus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -347,7 +357,7 @@
     "detachment_id": "covenite-coterie",
     "cost": 15,
     "keyword_restrictions": [
-      "Drukhari"
+      "Haemonculus"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -365,7 +375,7 @@
     "detachment_id": "kabalite-cartel",
     "cost": 5,
     "keyword_restrictions": [
-      "Drukhari"
+      "Archon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -383,7 +393,7 @@
     "detachment_id": "kabalite-cartel",
     "cost": 25,
     "keyword_restrictions": [
-      "Drukhari"
+      "Archon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -401,7 +411,7 @@
     "detachment_id": "kabalite-cartel",
     "cost": 30,
     "keyword_restrictions": [
-      "Drukhari"
+      "Archon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -419,7 +429,7 @@
     "detachment_id": "kabalite-cartel",
     "cost": 20,
     "keyword_restrictions": [
-      "Drukhari"
+      "Archon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -437,7 +447,8 @@
     "detachment_id": "exhibition-of-slaughter",
     "cost": 20,
     "keyword_restrictions": [
-      "Drukhari"
+      "Drukhari",
+      "Succubus"
     ],
     "ability_id": "periapt-of-torments-exhibition-of-slaughter",
     "is_unique": true,
@@ -455,7 +466,8 @@
     "detachment_id": "exhibition-of-slaughter",
     "cost": 20,
     "keyword_restrictions": [
-      "Drukhari"
+      "Drukhari",
+      "Succubus"
     ],
     "ability_id": "hyperstimm-trafficker-exhibition-of-slaughter",
     "is_unique": true,
@@ -473,6 +485,7 @@
     "detachment_id": "kabalite-agonysts",
     "cost": 15,
     "keyword_restrictions": [
+      "Archon",
       "Drukhari"
     ],
     "ability_id": "towering-arrogance-kabalite-agonysts",
@@ -491,6 +504,7 @@
     "detachment_id": "kabalite-agonysts",
     "cost": 20,
     "keyword_restrictions": [
+      "Archon",
       "Drukhari"
     ],
     "ability_id": "contempt-for-rivals-kabalite-agonysts",
@@ -509,7 +523,8 @@
     "detachment_id": "tools-of-torment",
     "cost": 20,
     "keyword_restrictions": [
-      "Drukhari"
+      "Drukhari",
+      "Haemonculus"
     ],
     "ability_id": "gnarlskin-experimentor-tools-of-torment",
     "is_unique": true,
@@ -526,9 +541,6 @@
     "name": "Elixir of the Corpse Courts (Upgrade)",
     "detachment_id": "tools-of-torment",
     "cost": 15,
-    "keyword_restrictions": [
-      "Drukhari"
-    ],
     "ability_id": "elixir-of-the-corpse-courts-tools-of-torment",
     "is_unique": true,
     "game_version": {
@@ -537,7 +549,17 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 3
+    "max_targets": 3,
+    "keyword_restriction_groups": [
+      [
+        "Cronos",
+        "Drukhari"
+      ],
+      [
+        "Drukhari",
+        "Talos"
+      ]
+    ]
   },
   {
     "id": "superior-soulcraft-coven-of-agonies",
@@ -554,8 +576,7 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Coven of Agonies",
-      "Cronos"
+      "Coven of Agonies Cronos"
     ],
     "upgrade_tag": true
   },

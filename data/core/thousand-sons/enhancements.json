@@ -5,6 +5,7 @@
     "detachment_id": "grand-coven",
     "cost": 20,
     "keyword_restrictions": [
+      "Psyker",
       "Thousand Sons"
     ],
     "ability_id": null,
@@ -23,7 +24,7 @@
     "detachment_id": "grand-coven",
     "cost": 15,
     "keyword_restrictions": [
-      "Thousand Sons"
+      "Exalted Sorcerer"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -148,9 +149,6 @@
     "name": "Nethershriek Mind-Eater",
     "detachment_id": "changehost-of-deceit",
     "cost": 10,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -159,7 +157,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Thousand Sons"
+      ],
+      [
+        "Lord of Change"
+      ]
+    ]
   },
   {
     "id": "diabolic-savant-changehost-of-deceit",
@@ -167,6 +173,7 @@
     "detachment_id": "changehost-of-deceit",
     "cost": 20,
     "keyword_restrictions": [
+      "Infantry",
       "Thousand Sons"
     ],
     "ability_id": null,
@@ -184,9 +191,6 @@
     "name": "Duplicitous Malediction",
     "detachment_id": "changehost-of-deceit",
     "cost": 15,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -195,7 +199,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Thousand Sons"
+      ],
+      [
+        "Lord of Change"
+      ]
+    ]
   },
   {
     "id": "tome-of-true-names-changehost-of-deceit",
@@ -203,6 +215,7 @@
     "detachment_id": "changehost-of-deceit",
     "cost": 20,
     "keyword_restrictions": [
+      "Infantry",
       "Thousand Sons"
     ],
     "ability_id": null,
@@ -221,7 +234,7 @@
     "detachment_id": "warpmeld-pact",
     "cost": 10,
     "keyword_restrictions": [
-      "Thousand Sons"
+      "Tzaangor Shaman"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -239,7 +252,7 @@
     "detachment_id": "warpmeld-pact",
     "cost": 20,
     "keyword_restrictions": [
-      "Thousand Sons"
+      "Tzaangor Shaman"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -256,9 +269,6 @@
     "name": "Bray Lord",
     "detachment_id": "warpmeld-pact",
     "cost": 15,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -267,7 +277,18 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Infernal Master"
+      ],
+      [
+        "Sorcerer"
+      ]
+    ],
+    "attachment_bodyguard_ids": [
+      "tzaangors"
+    ]
   },
   {
     "id": "flowing-flesh-warpmeld-pact",
@@ -275,7 +296,7 @@
     "detachment_id": "warpmeld-pact",
     "cost": 10,
     "keyword_restrictions": [
-      "Thousand Sons"
+      "Tzaangor Shaman"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -347,6 +368,7 @@
     "detachment_id": "rubricae-phalanx",
     "cost": 20,
     "keyword_restrictions": [
+      "Infantry",
       "Thousand Sons"
     ],
     "ability_id": null,
@@ -383,6 +405,7 @@
     "detachment_id": "warpforged-cabal",
     "cost": 20,
     "keyword_restrictions": [
+      "Infantry",
       "Thousand Sons"
     ],
     "ability_id": null,
@@ -436,9 +459,6 @@
     "name": "Eruption of Vitality",
     "detachment_id": "ritual-of-regeneration",
     "cost": 35,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": "eruption-of-vitality-ritual-of-regeneration",
     "is_unique": true,
     "game_version": {
@@ -447,16 +467,25 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Infantry",
+        "Psyker",
+        "Thousand Sons"
+      ],
+      [
+        "Mounted",
+        "Psyker",
+        "Thousand Sons"
+      ]
+    ]
   },
   {
     "id": "curse-of-life-ritual-of-regeneration",
     "name": "Curse of Life",
     "detachment_id": "ritual-of-regeneration",
     "cost": 20,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": "curse-of-life-ritual-of-regeneration",
     "is_unique": true,
     "game_version": {
@@ -465,16 +494,25 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Infantry",
+        "Psyker",
+        "Thousand Sons"
+      ],
+      [
+        "Mounted",
+        "Psyker",
+        "Thousand Sons"
+      ]
+    ]
   },
   {
     "id": "walking-rampart-sekhetar-cohort",
     "name": "Walking Rampart",
     "detachment_id": "sekhetar-cohort",
     "cost": 30,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": "walking-rampart-sekhetar-cohort",
     "is_unique": true,
     "game_version": {
@@ -483,16 +521,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Sorcerer"
+      ],
+      [
+        "Exalted Sorcerer"
+      ]
+    ]
   },
   {
     "id": "occulus-infernum-sekhetar-cohort",
     "name": "Occulus Infernum",
     "detachment_id": "sekhetar-cohort",
     "cost": 20,
-    "keyword_restrictions": [
-      "Thousand Sons"
-    ],
     "ability_id": "occulus-infernum-sekhetar-cohort",
     "is_unique": true,
     "game_version": {
@@ -501,7 +544,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Sorcerer"
+      ],
+      [
+        "Exalted Sorcerer"
+      ]
+    ]
   },
   {
     "id": "unravelled-fates-servants-of-change",
@@ -509,7 +560,8 @@
     "detachment_id": "servants-of-change",
     "cost": 15,
     "keyword_restrictions": [
-      "Thousand Sons"
+      "Thousand Sons",
+      "Tzaangor Shaman"
     ],
     "ability_id": "unravelled-fates-servants-of-change",
     "is_unique": true,
@@ -527,7 +579,7 @@
     "detachment_id": "servants-of-change",
     "cost": 10,
     "keyword_restrictions": [
-      "Spawn"
+      "Chaos Spawn"
     ],
     "ability_id": "thicket-of-bladed-bone-servants-of-change",
     "is_unique": true,

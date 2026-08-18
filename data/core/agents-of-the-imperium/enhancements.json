@@ -41,7 +41,7 @@
     "detachment_id": "ordo-xenos-alien-hunters",
     "cost": 30,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Watch Master"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -59,7 +59,7 @@
     "detachment_id": "ordo-xenos-alien-hunters",
     "cost": 25,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Watch Master"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -76,9 +76,6 @@
     "name": "Liber Heresius",
     "detachment_id": "ordo-hereticus-purgation-force",
     "cost": 10,
-    "keyword_restrictions": [
-      "Agents of the Imperium"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -87,7 +84,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Inquisitor"
+      ],
+      [
+        "Ministorum Priest"
+      ]
+    ]
   },
   {
     "id": "no-escape-aura-ordo-hereticus-purgation-force",
@@ -95,7 +100,7 @@
     "detachment_id": "ordo-hereticus-purgation-force",
     "cost": 25,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Inquisitor"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -112,9 +117,6 @@
     "name": "Witch Hunter",
     "detachment_id": "ordo-hereticus-purgation-force",
     "cost": 15,
-    "keyword_restrictions": [
-      "Agents of the Imperium"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -123,16 +125,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Inquisitor"
+      ],
+      [
+        "Ministorum Priest"
+      ]
+    ]
   },
   {
     "id": "ignis-judicium-ordo-hereticus-purgation-force",
     "name": "Ignis Judicium",
     "detachment_id": "ordo-hereticus-purgation-force",
     "cost": 10,
-    "keyword_restrictions": [
-      "Agents of the Imperium"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -141,7 +148,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Inquisitor"
+      ],
+      [
+        "Ministorum Priest"
+      ]
+    ]
   },
   {
     "id": "formidable-resolve-ordo-malleus-daemon-hunters",
@@ -149,7 +164,7 @@
     "detachment_id": "ordo-malleus-daemon-hunters",
     "cost": 5,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Inquisitor"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -167,7 +182,7 @@
     "detachment_id": "ordo-malleus-daemon-hunters",
     "cost": 10,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Inquisitor"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -185,7 +200,7 @@
     "detachment_id": "ordo-malleus-daemon-hunters",
     "cost": 10,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Inquisitor"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -203,7 +218,7 @@
     "detachment_id": "ordo-malleus-daemon-hunters",
     "cost": 20,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Inquisitor"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -257,7 +272,7 @@
     "detachment_id": "imperialis-fleet",
     "cost": 20,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Voidfarers"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -275,7 +290,7 @@
     "detachment_id": "imperialis-fleet",
     "cost": 10,
     "keyword_restrictions": [
-      "Agents of the Imperium"
+      "Voidfarers"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -302,8 +317,7 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Eversor Assassin",
-      "Inquisitor's Hand"
+      "Inquisitor's Hand Eversor Assassin"
     ]
   },
   {
@@ -323,6 +337,82 @@
     "keyword_restrictions": [
       "Inquisitor's Hand",
       "Ministorum Priest"
+    ]
+  },
+  {
+    "id": "intraneural-biotech-veiled-blade-elimination-force",
+    "name": "Intraneural Biotech",
+    "detachment_id": "veiled-blade-elimination-force",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Agents of the Imperium",
+      "DNU"
+    ]
+  },
+  {
+    "id": "decoy-targets-veiled-blade-elimination-force",
+    "name": "Decoy Targets",
+    "detachment_id": "veiled-blade-elimination-force",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Agents of the Imperium",
+      "DNU"
+    ]
+  },
+  {
+    "id": "esoteric-explosives-veiled-blade-elimination-force",
+    "name": "Esoteric Explosives",
+    "detachment_id": "veiled-blade-elimination-force",
+    "cost": 10,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Agents of the Imperium",
+      "DNU"
+    ]
+  },
+  {
+    "id": "micromelta-rounds-veiled-blade-elimination-force",
+    "name": "Micromelta Rounds",
+    "detachment_id": "veiled-blade-elimination-force",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Agents of the Imperium",
+      "DNU"
     ]
   }
 ]

@@ -58,9 +58,6 @@
     "name": "Mantle of Ophelia",
     "detachment_id": "hallowed-martyrs",
     "cost": 20,
-    "keyword_restrictions": [
-      "Adepta Sororitas"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -69,7 +66,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Palatine"
+      ],
+      [
+        "Canoness"
+      ]
+    ]
   },
   {
     "id": "psalm-of-righteous-judgement-penitent-host",
@@ -95,7 +100,7 @@
     "detachment_id": "penitent-host",
     "cost": 15,
     "keyword_restrictions": [
-      "Adepta Sororitas"
+      "Penitent"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -113,7 +118,7 @@
     "detachment_id": "penitent-host",
     "cost": 15,
     "keyword_restrictions": [
-      "Adepta Sororitas"
+      "Penitent"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -130,9 +135,6 @@
     "name": "Catechism of Divine Penitence",
     "detachment_id": "penitent-host",
     "cost": 15,
-    "keyword_restrictions": [
-      "Adepta Sororitas"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -141,7 +143,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Ministorum Priest"
+      ],
+      [
+        "Palatine"
+      ],
+      [
+        "Canoness"
+      ]
+    ],
+    "attachment_bodyguard_ids": [
+      "repentia-squad"
+    ]
   },
   {
     "id": "righteous-rage-bringers-of-flame",
@@ -202,9 +218,6 @@
     "name": "Iron Surplice of Saint Istalela",
     "detachment_id": "bringers-of-flame",
     "cost": 10,
-    "keyword_restrictions": [
-      "Adepta Sororitas"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -213,16 +226,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Palatine"
+      ],
+      [
+        "Canoness"
+      ]
+    ]
   },
   {
     "id": "litanies-of-faith-army-of-faith",
     "name": "Litanies of Faith",
     "detachment_id": "army-of-faith",
     "cost": 10,
-    "keyword_restrictions": [
-      "Adepta Sororitas"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -231,7 +249,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Canoness"
+      ],
+      [
+        "Palatine"
+      ]
+    ]
   },
   {
     "id": "blade-of-saint-ellynor-army-of-faith",
@@ -365,6 +391,7 @@
     "detachment_id": "chorus-of-condemnation",
     "cost": 15,
     "keyword_restrictions": [
+      "Adepta Sororitas",
       "Canoness with Jump Pack"
     ],
     "ability_id": "clarion-of-urgency-chorus-of-condemnation",
@@ -383,6 +410,7 @@
     "detachment_id": "chorus-of-condemnation",
     "cost": 10,
     "keyword_restrictions": [
+      "Adepta Sororitas",
       "Exorcist"
     ],
     "ability_id": "symphonic-payload-chorus-of-condemnation",
@@ -401,6 +429,7 @@
     "detachment_id": "sacred-champions",
     "cost": 20,
     "keyword_restrictions": [
+      "Adepta Sororitas",
       "Celestian Sacresants"
     ],
     "ability_id": "writ-of-compunction-sacred-champions",
@@ -437,7 +466,8 @@
     "detachment_id": "sanctified-orators",
     "cost": 25,
     "keyword_restrictions": [
-      "Adepta Sororitas Character"
+      "Adepta Sororitas",
+      "Character"
     ],
     "ability_id": "hagiomnifex-sanctified-orators",
     "is_unique": true,
@@ -488,7 +518,7 @@
     "points_provisional": false,
     "keyword_restrictions": [
       "Adepta Sororitas",
-      "Sanctuary Canoness Adalya"
+      "Canoness"
     ]
   }
 ]

@@ -95,7 +95,7 @@
     "detachment_id": "mortarions-hammer",
     "cost": 10,
     "keyword_restrictions": [
-      "Death Guard"
+      "Malignant Plaguecaster"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -113,7 +113,8 @@
     "detachment_id": "flyblown-host",
     "cost": 15,
     "keyword_restrictions": [
-      "Death Guard"
+      "Death Guard",
+      "Plague Marines"
     ],
     "ability_id": "insectile-murmuration-flyblown-host",
     "is_unique": true,
@@ -131,7 +132,8 @@
     "detachment_id": "paragons-of-putrescence",
     "cost": 20,
     "keyword_restrictions": [
-      "Death Guard"
+      "Death Guard",
+      "Infantry"
     ],
     "ability_id": "rejuvenating-swarm-paragons-of-putrescence",
     "is_unique": true,
@@ -170,7 +172,8 @@
     "detachment_id": "flyblown-host",
     "cost": 15,
     "keyword_restrictions": [
-      "Death Guard"
+      "Death Guard",
+      "Plague Marines"
     ],
     "ability_id": "plagueveil-flyblown-host",
     "is_unique": true,
@@ -188,7 +191,7 @@
     "detachment_id": "mortarions-hammer",
     "cost": 30,
     "keyword_restrictions": [
-      "Death Guard"
+      "Lord of Virulence"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -206,7 +209,7 @@
     "detachment_id": "champions-of-contagion",
     "cost": 20,
     "keyword_restrictions": [
-      "Death Guard"
+      "Biologus Putrifier"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -224,7 +227,7 @@
     "detachment_id": "champions-of-contagion",
     "cost": 15,
     "keyword_restrictions": [
-      "Death Guard"
+      "Malignant Plaguecaster"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -242,7 +245,7 @@
     "detachment_id": "champions-of-contagion",
     "cost": 25,
     "keyword_restrictions": [
-      "Death Guard"
+      "Plague Surgeon"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -260,7 +263,7 @@
     "detachment_id": "champions-of-contagion",
     "cost": 35,
     "keyword_restrictions": [
-      "Death Guard"
+      "Lord of Poxes"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -314,7 +317,7 @@
     "detachment_id": "tallyband-summoners",
     "cost": 15,
     "keyword_restrictions": [
-      "Death Guard"
+      "Great Unclean One"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -332,7 +335,7 @@
     "detachment_id": "tallyband-summoners",
     "cost": 20,
     "keyword_restrictions": [
-      "Death Guard"
+      "Malignant Plaguecaster"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -350,7 +353,7 @@
     "detachment_id": "shamblerot-vectorium",
     "cost": 25,
     "keyword_restrictions": [
-      "Death Guard"
+      "Noxious Blightbringer"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -386,7 +389,7 @@
     "detachment_id": "shamblerot-vectorium",
     "cost": 10,
     "keyword_restrictions": [
-      "Death Guard"
+      "Malignant Plaguecaster"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -422,7 +425,7 @@
     "detachment_id": "death-lords-chosen",
     "cost": 10,
     "keyword_restrictions": [
-      "Death Guard"
+      "Terminator"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -440,7 +443,7 @@
     "detachment_id": "death-lords-chosen",
     "cost": 15,
     "keyword_restrictions": [
-      "Death Guard"
+      "Terminator"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -458,7 +461,7 @@
     "detachment_id": "death-lords-chosen",
     "cost": 30,
     "keyword_restrictions": [
-      "Death Guard"
+      "Terminator"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -476,7 +479,7 @@
     "detachment_id": "death-lords-chosen",
     "cost": 20,
     "keyword_restrictions": [
-      "Death Guard"
+      "Terminator"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -494,7 +497,7 @@
     "detachment_id": "contagion-engines",
     "cost": 15,
     "keyword_restrictions": [
-      "Contagion Engine"
+      "Contagion Engines"
     ],
     "ability_id": "parasitic-woe-reaper-contagion-engines",
     "is_unique": true,
@@ -511,9 +514,6 @@
     "name": "Lancet of the Worldsore (Upgrade)",
     "detachment_id": "contagion-engines",
     "cost": 15,
-    "keyword_restrictions": [
-      "Helbrute"
-    ],
     "ability_id": "lancet-of-the-worldsore-contagion-engines",
     "is_unique": true,
     "game_version": {
@@ -522,7 +522,17 @@
     },
     "points_provisional": false,
     "upgrade_tag": true,
-    "max_targets": 3
+    "max_targets": 3,
+    "keyword_restriction_groups": [
+      [
+        "Death Guard",
+        "Helbrute"
+      ],
+      [
+        "Death Guard",
+        "Myphitic Blight-haulers"
+      ]
+    ]
   },
   {
     "id": "host-of-the-hybridised-pox-paragons-of-putrescence",

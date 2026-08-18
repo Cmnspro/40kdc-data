@@ -77,7 +77,7 @@
     "detachment_id": "shield-host",
     "cost": 20,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Shield-Captain"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -95,7 +95,7 @@
     "detachment_id": "shield-host",
     "cost": 20,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Shield-Captain"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -112,9 +112,6 @@
     "name": "Auric Mantle",
     "detachment_id": "shield-host",
     "cost": 15,
-    "keyword_restrictions": [
-      "Adeptus Custodes"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -123,16 +120,21 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Blade Champion"
+      ],
+      [
+        "Shield-Captain"
+      ]
+    ]
   },
   {
     "id": "panoptispex-shield-host",
     "name": "Panoptispex",
     "detachment_id": "shield-host",
     "cost": 5,
-    "keyword_restrictions": [
-      "Adeptus Custodes"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -141,7 +143,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Blade Champion"
+      ],
+      [
+        "Shield-Captain"
+      ]
+    ]
   },
   {
     "id": "raptor-blade-null-maiden-vigil",
@@ -149,7 +159,7 @@
     "detachment_id": "null-maiden-vigil",
     "cost": 5,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Anathema Psykana"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -167,7 +177,7 @@
     "detachment_id": "null-maiden-vigil",
     "cost": 10,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Anathema Psykana"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -185,7 +195,7 @@
     "detachment_id": "null-maiden-vigil",
     "cost": 15,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Anathema Psykana"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -203,7 +213,7 @@
     "detachment_id": "null-maiden-vigil",
     "cost": 25,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Anathema Psykana"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -329,7 +339,8 @@
     "detachment_id": "solar-spearhead",
     "cost": 15,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Adeptus Custodes",
+      "Vehicle"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -346,9 +357,6 @@
     "name": "Veteran of the Kataphraktoi",
     "detachment_id": "solar-spearhead",
     "cost": 10,
-    "keyword_restrictions": [
-      "Adeptus Custodes"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -357,7 +365,17 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Adeptus Custodes",
+        "Infantry"
+      ],
+      [
+        "Adeptus Custodes",
+        "Mounted"
+      ]
+    ]
   },
   {
     "id": "superior-creation-lions-of-the-emperor",
@@ -365,7 +383,8 @@
     "detachment_id": "lions-of-the-emperor",
     "cost": 25,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Adeptus Custodes",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -401,7 +420,7 @@
     "detachment_id": "lions-of-the-emperor",
     "cost": 15,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Shield-Captain"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -419,7 +438,7 @@
     "detachment_id": "lions-of-the-emperor",
     "cost": 30,
     "keyword_restrictions": [
-      "Adeptus Custodes"
+      "Shield-Captain"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -578,8 +597,8 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Blade Champion",
-      "Tristraen's Gilded Blades"
+      "Adeptus Custodes",
+      "Tristraen of the Gilded Blades"
     ]
   }
 ]

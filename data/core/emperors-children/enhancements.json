@@ -131,7 +131,8 @@
     "detachment_id": "peerless-bladesmen",
     "cost": 30,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Emperor’s Children",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -149,7 +150,8 @@
     "detachment_id": "rapid-evisceration",
     "cost": 25,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Emperor’s Children",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -167,7 +169,8 @@
     "detachment_id": "rapid-evisceration",
     "cost": 20,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Emperor’s Children",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -185,7 +188,8 @@
     "detachment_id": "rapid-evisceration",
     "cost": 35,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Emperor’s Children",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -203,7 +207,8 @@
     "detachment_id": "rapid-evisceration",
     "cost": 35,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Emperor’s Children",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -239,7 +244,8 @@
     "detachment_id": "carnival-of-excess",
     "cost": 10,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Emperor’s Children",
+      "Infantry"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -274,9 +280,6 @@
     "name": "Warp Walker",
     "detachment_id": "carnival-of-excess",
     "cost": 30,
-    "keyword_restrictions": [
-      "Emperor’s Children"
-    ],
     "ability_id": null,
     "is_unique": true,
     "game_version": {
@@ -285,7 +288,15 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "keyword_restriction_groups": [
+      [
+        "Emperor’s Children"
+      ],
+      [
+        "Keeper of Secrets"
+      ]
+    ]
   },
   {
     "id": "pledge-to-eternal-servitude-coterie-of-the-conceited",
@@ -455,7 +466,7 @@
     "detachment_id": "court-of-the-phoenician",
     "cost": 15,
     "keyword_restrictions": [
-      "Emperor’s Children"
+      "Lord Exultant"
     ],
     "ability_id": null,
     "is_unique": true,
@@ -465,7 +476,10 @@
     },
     "points_provisional": false,
     "upgrade_tag": false,
-    "max_targets": 1
+    "max_targets": 1,
+    "attachment_bodyguard_ids": [
+      "flawless-blades"
+    ]
   },
   {
     "id": "soulstain-made-manifest-court-of-the-phoenician",
@@ -491,6 +505,7 @@
     "detachment_id": "court-of-the-phoenician",
     "cost": 20,
     "keyword_restrictions": [
+      "Daemon Prince",
       "Emperor’s Children"
     ],
     "ability_id": null,
@@ -509,7 +524,8 @@
     "detachment_id": "elegant-brutes",
     "cost": 20,
     "keyword_restrictions": [
-      "Emperor's Children"
+      "Emperor’s Children",
+      "Lord Kakophonist"
     ],
     "ability_id": "cacophonic-accompaniment-elegant-brutes",
     "is_unique": true,
@@ -527,7 +543,7 @@
     "detachment_id": "elegant-brutes",
     "cost": 15,
     "keyword_restrictions": [
-      "Emperor's Children",
+      "Emperor’s Children",
       "Terminator Squad"
     ],
     "ability_id": "frenzied-ferocity-elegant-brutes",
@@ -546,7 +562,8 @@
     "detachment_id": "frenzied-host",
     "cost": 20,
     "keyword_restrictions": [
-      "Emperor's Children"
+      "Emperor’s Children",
+      "Lord Exultant"
     ],
     "ability_id": "euphoric-crown-frenzied-host",
     "is_unique": true,
@@ -564,7 +581,8 @@
     "detachment_id": "frenzied-host",
     "cost": 20,
     "keyword_restrictions": [
-      "Emperor's Children"
+      "Emperor’s Children",
+      "Lord Exultant"
     ],
     "ability_id": "howling-plate-frenzied-host",
     "is_unique": true,
@@ -582,7 +600,7 @@
     "detachment_id": "spectacle-of-slaughter",
     "cost": 20,
     "keyword_restrictions": [
-      "Emperor's Children",
+      "Emperor’s Children",
       "Flawless Blades"
     ],
     "ability_id": "eager-patrons-spectacle-of-slaughter",
@@ -601,7 +619,7 @@
     "detachment_id": "spectacle-of-slaughter",
     "cost": 15,
     "keyword_restrictions": [
-      "Emperor's Children",
+      "Emperor’s Children",
       "Flawless Blades"
     ],
     "ability_id": "beguiling-grotesquerie-spectacle-of-slaughter",
@@ -648,9 +666,26 @@
     ],
     "points_provisional": false,
     "keyword_restrictions": [
-      "Callous Blades",
-      "Infractors"
+      "Callous Blades Infractors"
     ],
     "upgrade_tag": true
+  },
+  {
+    "id": "pledge-of-eternal-servitude-coterie-of-the-conceited",
+    "name": "Pledge of Eternal Servitude",
+    "detachment_id": "coterie-of-the-conceited",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Emperor’s Children"
+    ]
   }
 ]
