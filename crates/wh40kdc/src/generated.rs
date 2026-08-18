@@ -19803,6 +19803,7 @@ impl ::std::convert::TryFrom<::std::string::String> for Side {
 ///        "controls-objective",
 ///        "is-attached",
 ///        "terrain-area-control",
+///        "region-membership",
 ///        "engagement-state",
 ///        "territory-control",
 ///        "fights-first",
@@ -19874,6 +19875,7 @@ pub struct SimpleCondition {
 ///    "controls-objective",
 ///    "is-attached",
 ///    "terrain-area-control",
+///    "region-membership",
 ///    "engagement-state",
 ///    "territory-control",
 ///    "fights-first",
@@ -19962,6 +19964,8 @@ pub enum SimpleConditionType {
     IsAttached,
     #[serde(rename = "terrain-area-control")]
     TerrainAreaControl,
+    #[serde(rename = "region-membership")]
+    RegionMembership,
     #[serde(rename = "engagement-state")]
     EngagementState,
     #[serde(rename = "territory-control")]
@@ -20038,6 +20042,7 @@ impl ::std::fmt::Display for SimpleConditionType {
             Self::ControlsObjective => f.write_str("controls-objective"),
             Self::IsAttached => f.write_str("is-attached"),
             Self::TerrainAreaControl => f.write_str("terrain-area-control"),
+            Self::RegionMembership => f.write_str("region-membership"),
             Self::EngagementState => f.write_str("engagement-state"),
             Self::TerritoryControl => f.write_str("territory-control"),
             Self::FightsFirst => f.write_str("fights-first"),
@@ -20098,6 +20103,7 @@ impl ::std::str::FromStr for SimpleConditionType {
             "controls-objective" => Ok(Self::ControlsObjective),
             "is-attached" => Ok(Self::IsAttached),
             "terrain-area-control" => Ok(Self::TerrainAreaControl),
+            "region-membership" => Ok(Self::RegionMembership),
             "engagement-state" => Ok(Self::EngagementState),
             "territory-control" => Ok(Self::TerritoryControl),
             "fights-first" => Ok(Self::FightsFirst),
@@ -20192,6 +20198,9 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///    },
 ///    {
 ///      "$comment": "`unit-attachment`: this unit can join another friendly unit during the Declare Battle Formations step, becoming part of that Bodyguard unit. `led_by` (optional) is the keyword the joined unit must be led by; `mandatory` (optional) marks the attachment as forced (the unit must be attached to a Leader or it counts as destroyed)."
+///    },
+///    {
+///      "$comment": "`named-region-state` carries its structured producer and consumer state in the modifier object."
 ///    }
 ///  ],
 ///  "required": [
@@ -20225,59 +20234,60 @@ impl ::std::convert::TryFrom<::std::string::String> for SimpleConditionType {
 ///    "type": {
 ///      "type": "string",
 ///      "enum": [
-///        "stat-modifier",
-///        "roll-modifier",
-///        "re-roll",
-///        "mortal-wounds",
-///        "feel-no-pain",
-///        "invulnerable-save",
-///        "ward",
-///        "keyword-grant",
-///        "unit-keyword",
+///        "ability-grant",
+///        "attack-restriction",
+///        "auto-result",
+///        "battle-shock-test",
+///        "bs-modifier",
+///        "charge-roll-modifier",
+///        "cp-gain",
+///        "cp-on-destroy",
+///        "cp-refund",
+///        "damage-reduction",
 ///        "deep-strike",
+///        "disembark",
+///        "disembark-after-move",
+///        "engagement-passthrough",
 ///        "fallback-and-act",
+///        "feel-no-pain",
+///        "fight-eligibility-extension",
 ///        "fight-first",
 ///        "fight-last",
-///        "shoot-on-death",
 ///        "fight-on-death",
-///        "objective-control-modifier",
+///        "firing-deck",
+///        "flyover",
+///        "invulnerable-save",
+///        "keyword-grant",
 ///        "leadership-modifier",
-///        "damage-reduction",
-///        "attack-restriction",
-///        "ability-grant",
-///        "cp-gain",
-///        "cp-refund",
 ///        "model-destruction",
-///        "resurrection",
+///        "modifier-immunity",
+///        "mortal-wounds",
+///        "named-region-state",
+///        "objective-control-modifier",
+///        "objective-tag",
+///        "pool-add-die",
+///        "re-roll",
+///        "recovery-pool",
+///        "remove-battle-shock",
+///        "replace-roll-from-pool",
+///        "resource-clear",
 ///        "resource-gain",
 ///        "resource-spend",
-///        "charge-roll-modifier",
-///        "terrain-area-tag",
-///        "objective-tag",
-///        "unit-tag",
-///        "bs-modifier",
-///        "engagement-passthrough",
-///        "strategic-reserves-arrival",
-///        "remove-battle-shock",
-///        "unit-keyword-grant",
-///        "auto-result",
-///        "firing-deck",
-///        "disembark-after-move",
-///        "disembark",
+///        "resurrection",
+///        "roll-modifier",
 ///        "rule-state",
-///        "pool-add-die",
-///        "replace-roll-from-pool",
-///        "flyover",
-///        "cp-on-destroy",
-///        "battle-shock-test",
-///        "modifier-immunity",
+///        "shoot-on-death",
+///        "stat-modifier",
 ///        "stratagem-cost-modifier",
-///        "targeting-permission",
 ///        "stratagem-targeting-permission",
+///        "strategic-reserves-arrival",
+///        "targeting-permission",
+///        "terrain-area-tag",
 ///        "unit-attachment",
-///        "fight-eligibility-extension",
-///        "recovery-pool",
-///        "resource-clear"
+///        "unit-keyword",
+///        "unit-keyword-grant",
+///        "unit-tag",
+///        "ward"
 ///      ]
 ///    }
 ///  },
@@ -20424,59 +20434,60 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
 ///{
 ///  "type": "string",
 ///  "enum": [
-///    "stat-modifier",
-///    "roll-modifier",
-///    "re-roll",
-///    "mortal-wounds",
-///    "feel-no-pain",
-///    "invulnerable-save",
-///    "ward",
-///    "keyword-grant",
-///    "unit-keyword",
+///    "ability-grant",
+///    "attack-restriction",
+///    "auto-result",
+///    "battle-shock-test",
+///    "bs-modifier",
+///    "charge-roll-modifier",
+///    "cp-gain",
+///    "cp-on-destroy",
+///    "cp-refund",
+///    "damage-reduction",
 ///    "deep-strike",
+///    "disembark",
+///    "disembark-after-move",
+///    "engagement-passthrough",
 ///    "fallback-and-act",
+///    "feel-no-pain",
+///    "fight-eligibility-extension",
 ///    "fight-first",
 ///    "fight-last",
-///    "shoot-on-death",
 ///    "fight-on-death",
-///    "objective-control-modifier",
+///    "firing-deck",
+///    "flyover",
+///    "invulnerable-save",
+///    "keyword-grant",
 ///    "leadership-modifier",
-///    "damage-reduction",
-///    "attack-restriction",
-///    "ability-grant",
-///    "cp-gain",
-///    "cp-refund",
 ///    "model-destruction",
-///    "resurrection",
+///    "modifier-immunity",
+///    "mortal-wounds",
+///    "named-region-state",
+///    "objective-control-modifier",
+///    "objective-tag",
+///    "pool-add-die",
+///    "re-roll",
+///    "recovery-pool",
+///    "remove-battle-shock",
+///    "replace-roll-from-pool",
+///    "resource-clear",
 ///    "resource-gain",
 ///    "resource-spend",
-///    "charge-roll-modifier",
-///    "terrain-area-tag",
-///    "objective-tag",
-///    "unit-tag",
-///    "bs-modifier",
-///    "engagement-passthrough",
-///    "strategic-reserves-arrival",
-///    "remove-battle-shock",
-///    "unit-keyword-grant",
-///    "auto-result",
-///    "firing-deck",
-///    "disembark-after-move",
-///    "disembark",
+///    "resurrection",
+///    "roll-modifier",
 ///    "rule-state",
-///    "pool-add-die",
-///    "replace-roll-from-pool",
-///    "flyover",
-///    "cp-on-destroy",
-///    "battle-shock-test",
-///    "modifier-immunity",
+///    "shoot-on-death",
+///    "stat-modifier",
 ///    "stratagem-cost-modifier",
-///    "targeting-permission",
 ///    "stratagem-targeting-permission",
+///    "strategic-reserves-arrival",
+///    "targeting-permission",
+///    "terrain-area-tag",
 ///    "unit-attachment",
-///    "fight-eligibility-extension",
-///    "recovery-pool",
-///    "resource-clear"
+///    "unit-keyword",
+///    "unit-keyword-grant",
+///    "unit-tag",
+///    "ward"
 ///  ]
 ///}
 /// ```
@@ -20494,171 +20505,174 @@ impl ::std::convert::TryFrom<::std::string::String> for SingleEffectTarget {
     PartialOrd
 )]
 pub enum SingleEffectType {
-    #[serde(rename = "stat-modifier")]
-    StatModifier,
-    #[serde(rename = "roll-modifier")]
-    RollModifier,
-    #[serde(rename = "re-roll")]
-    ReRoll,
-    #[serde(rename = "mortal-wounds")]
-    MortalWounds,
-    #[serde(rename = "feel-no-pain")]
-    FeelNoPain,
-    #[serde(rename = "invulnerable-save")]
-    InvulnerableSave,
-    #[serde(rename = "ward")]
-    Ward,
-    #[serde(rename = "keyword-grant")]
-    KeywordGrant,
-    #[serde(rename = "unit-keyword")]
-    UnitKeyword,
+    #[serde(rename = "ability-grant")]
+    AbilityGrant,
+    #[serde(rename = "attack-restriction")]
+    AttackRestriction,
+    #[serde(rename = "auto-result")]
+    AutoResult,
+    #[serde(rename = "battle-shock-test")]
+    BattleShockTest,
+    #[serde(rename = "bs-modifier")]
+    BsModifier,
+    #[serde(rename = "charge-roll-modifier")]
+    ChargeRollModifier,
+    #[serde(rename = "cp-gain")]
+    CpGain,
+    #[serde(rename = "cp-on-destroy")]
+    CpOnDestroy,
+    #[serde(rename = "cp-refund")]
+    CpRefund,
+    #[serde(rename = "damage-reduction")]
+    DamageReduction,
     #[serde(rename = "deep-strike")]
     DeepStrike,
+    #[serde(rename = "disembark")]
+    Disembark,
+    #[serde(rename = "disembark-after-move")]
+    DisembarkAfterMove,
+    #[serde(rename = "engagement-passthrough")]
+    EngagementPassthrough,
     #[serde(rename = "fallback-and-act")]
     FallbackAndAct,
+    #[serde(rename = "feel-no-pain")]
+    FeelNoPain,
+    #[serde(rename = "fight-eligibility-extension")]
+    FightEligibilityExtension,
     #[serde(rename = "fight-first")]
     FightFirst,
     #[serde(rename = "fight-last")]
     FightLast,
-    #[serde(rename = "shoot-on-death")]
-    ShootOnDeath,
     #[serde(rename = "fight-on-death")]
     FightOnDeath,
-    #[serde(rename = "objective-control-modifier")]
-    ObjectiveControlModifier,
+    #[serde(rename = "firing-deck")]
+    FiringDeck,
+    #[serde(rename = "flyover")]
+    Flyover,
+    #[serde(rename = "invulnerable-save")]
+    InvulnerableSave,
+    #[serde(rename = "keyword-grant")]
+    KeywordGrant,
     #[serde(rename = "leadership-modifier")]
     LeadershipModifier,
-    #[serde(rename = "damage-reduction")]
-    DamageReduction,
-    #[serde(rename = "attack-restriction")]
-    AttackRestriction,
-    #[serde(rename = "ability-grant")]
-    AbilityGrant,
-    #[serde(rename = "cp-gain")]
-    CpGain,
-    #[serde(rename = "cp-refund")]
-    CpRefund,
     #[serde(rename = "model-destruction")]
     ModelDestruction,
-    #[serde(rename = "resurrection")]
-    Resurrection,
+    #[serde(rename = "modifier-immunity")]
+    ModifierImmunity,
+    #[serde(rename = "mortal-wounds")]
+    MortalWounds,
+    #[serde(rename = "named-region-state")]
+    NamedRegionState,
+    #[serde(rename = "objective-control-modifier")]
+    ObjectiveControlModifier,
+    #[serde(rename = "objective-tag")]
+    ObjectiveTag,
+    #[serde(rename = "pool-add-die")]
+    PoolAddDie,
+    #[serde(rename = "re-roll")]
+    ReRoll,
+    #[serde(rename = "recovery-pool")]
+    RecoveryPool,
+    #[serde(rename = "remove-battle-shock")]
+    RemoveBattleShock,
+    #[serde(rename = "replace-roll-from-pool")]
+    ReplaceRollFromPool,
+    #[serde(rename = "resource-clear")]
+    ResourceClear,
     #[serde(rename = "resource-gain")]
     ResourceGain,
     #[serde(rename = "resource-spend")]
     ResourceSpend,
-    #[serde(rename = "charge-roll-modifier")]
-    ChargeRollModifier,
-    #[serde(rename = "terrain-area-tag")]
-    TerrainAreaTag,
-    #[serde(rename = "objective-tag")]
-    ObjectiveTag,
-    #[serde(rename = "unit-tag")]
-    UnitTag,
-    #[serde(rename = "bs-modifier")]
-    BsModifier,
-    #[serde(rename = "engagement-passthrough")]
-    EngagementPassthrough,
-    #[serde(rename = "strategic-reserves-arrival")]
-    StrategicReservesArrival,
-    #[serde(rename = "remove-battle-shock")]
-    RemoveBattleShock,
-    #[serde(rename = "unit-keyword-grant")]
-    UnitKeywordGrant,
-    #[serde(rename = "auto-result")]
-    AutoResult,
-    #[serde(rename = "firing-deck")]
-    FiringDeck,
-    #[serde(rename = "disembark-after-move")]
-    DisembarkAfterMove,
-    #[serde(rename = "disembark")]
-    Disembark,
+    #[serde(rename = "resurrection")]
+    Resurrection,
+    #[serde(rename = "roll-modifier")]
+    RollModifier,
     #[serde(rename = "rule-state")]
     RuleState,
-    #[serde(rename = "pool-add-die")]
-    PoolAddDie,
-    #[serde(rename = "replace-roll-from-pool")]
-    ReplaceRollFromPool,
-    #[serde(rename = "flyover")]
-    Flyover,
-    #[serde(rename = "cp-on-destroy")]
-    CpOnDestroy,
-    #[serde(rename = "battle-shock-test")]
-    BattleShockTest,
-    #[serde(rename = "modifier-immunity")]
-    ModifierImmunity,
+    #[serde(rename = "shoot-on-death")]
+    ShootOnDeath,
+    #[serde(rename = "stat-modifier")]
+    StatModifier,
     #[serde(rename = "stratagem-cost-modifier")]
     StratagemCostModifier,
-    #[serde(rename = "targeting-permission")]
-    TargetingPermission,
     #[serde(rename = "stratagem-targeting-permission")]
     StratagemTargetingPermission,
+    #[serde(rename = "strategic-reserves-arrival")]
+    StrategicReservesArrival,
+    #[serde(rename = "targeting-permission")]
+    TargetingPermission,
+    #[serde(rename = "terrain-area-tag")]
+    TerrainAreaTag,
     #[serde(rename = "unit-attachment")]
     UnitAttachment,
-    #[serde(rename = "fight-eligibility-extension")]
-    FightEligibilityExtension,
-    #[serde(rename = "recovery-pool")]
-    RecoveryPool,
-    #[serde(rename = "resource-clear")]
-    ResourceClear,
+    #[serde(rename = "unit-keyword")]
+    UnitKeyword,
+    #[serde(rename = "unit-keyword-grant")]
+    UnitKeywordGrant,
+    #[serde(rename = "unit-tag")]
+    UnitTag,
+    #[serde(rename = "ward")]
+    Ward,
 }
 impl ::std::fmt::Display for SingleEffectType {
     fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
         match *self {
-            Self::StatModifier => f.write_str("stat-modifier"),
-            Self::RollModifier => f.write_str("roll-modifier"),
-            Self::ReRoll => f.write_str("re-roll"),
-            Self::MortalWounds => f.write_str("mortal-wounds"),
-            Self::FeelNoPain => f.write_str("feel-no-pain"),
-            Self::InvulnerableSave => f.write_str("invulnerable-save"),
-            Self::Ward => f.write_str("ward"),
-            Self::KeywordGrant => f.write_str("keyword-grant"),
-            Self::UnitKeyword => f.write_str("unit-keyword"),
+            Self::AbilityGrant => f.write_str("ability-grant"),
+            Self::AttackRestriction => f.write_str("attack-restriction"),
+            Self::AutoResult => f.write_str("auto-result"),
+            Self::BattleShockTest => f.write_str("battle-shock-test"),
+            Self::BsModifier => f.write_str("bs-modifier"),
+            Self::ChargeRollModifier => f.write_str("charge-roll-modifier"),
+            Self::CpGain => f.write_str("cp-gain"),
+            Self::CpOnDestroy => f.write_str("cp-on-destroy"),
+            Self::CpRefund => f.write_str("cp-refund"),
+            Self::DamageReduction => f.write_str("damage-reduction"),
             Self::DeepStrike => f.write_str("deep-strike"),
+            Self::Disembark => f.write_str("disembark"),
+            Self::DisembarkAfterMove => f.write_str("disembark-after-move"),
+            Self::EngagementPassthrough => f.write_str("engagement-passthrough"),
             Self::FallbackAndAct => f.write_str("fallback-and-act"),
+            Self::FeelNoPain => f.write_str("feel-no-pain"),
+            Self::FightEligibilityExtension => f.write_str("fight-eligibility-extension"),
             Self::FightFirst => f.write_str("fight-first"),
             Self::FightLast => f.write_str("fight-last"),
-            Self::ShootOnDeath => f.write_str("shoot-on-death"),
             Self::FightOnDeath => f.write_str("fight-on-death"),
-            Self::ObjectiveControlModifier => f.write_str("objective-control-modifier"),
+            Self::FiringDeck => f.write_str("firing-deck"),
+            Self::Flyover => f.write_str("flyover"),
+            Self::InvulnerableSave => f.write_str("invulnerable-save"),
+            Self::KeywordGrant => f.write_str("keyword-grant"),
             Self::LeadershipModifier => f.write_str("leadership-modifier"),
-            Self::DamageReduction => f.write_str("damage-reduction"),
-            Self::AttackRestriction => f.write_str("attack-restriction"),
-            Self::AbilityGrant => f.write_str("ability-grant"),
-            Self::CpGain => f.write_str("cp-gain"),
-            Self::CpRefund => f.write_str("cp-refund"),
             Self::ModelDestruction => f.write_str("model-destruction"),
-            Self::Resurrection => f.write_str("resurrection"),
+            Self::ModifierImmunity => f.write_str("modifier-immunity"),
+            Self::MortalWounds => f.write_str("mortal-wounds"),
+            Self::NamedRegionState => f.write_str("named-region-state"),
+            Self::ObjectiveControlModifier => f.write_str("objective-control-modifier"),
+            Self::ObjectiveTag => f.write_str("objective-tag"),
+            Self::PoolAddDie => f.write_str("pool-add-die"),
+            Self::ReRoll => f.write_str("re-roll"),
+            Self::RecoveryPool => f.write_str("recovery-pool"),
+            Self::RemoveBattleShock => f.write_str("remove-battle-shock"),
+            Self::ReplaceRollFromPool => f.write_str("replace-roll-from-pool"),
+            Self::ResourceClear => f.write_str("resource-clear"),
             Self::ResourceGain => f.write_str("resource-gain"),
             Self::ResourceSpend => f.write_str("resource-spend"),
-            Self::ChargeRollModifier => f.write_str("charge-roll-modifier"),
-            Self::TerrainAreaTag => f.write_str("terrain-area-tag"),
-            Self::ObjectiveTag => f.write_str("objective-tag"),
-            Self::UnitTag => f.write_str("unit-tag"),
-            Self::BsModifier => f.write_str("bs-modifier"),
-            Self::EngagementPassthrough => f.write_str("engagement-passthrough"),
-            Self::StrategicReservesArrival => f.write_str("strategic-reserves-arrival"),
-            Self::RemoveBattleShock => f.write_str("remove-battle-shock"),
-            Self::UnitKeywordGrant => f.write_str("unit-keyword-grant"),
-            Self::AutoResult => f.write_str("auto-result"),
-            Self::FiringDeck => f.write_str("firing-deck"),
-            Self::DisembarkAfterMove => f.write_str("disembark-after-move"),
-            Self::Disembark => f.write_str("disembark"),
+            Self::Resurrection => f.write_str("resurrection"),
+            Self::RollModifier => f.write_str("roll-modifier"),
             Self::RuleState => f.write_str("rule-state"),
-            Self::PoolAddDie => f.write_str("pool-add-die"),
-            Self::ReplaceRollFromPool => f.write_str("replace-roll-from-pool"),
-            Self::Flyover => f.write_str("flyover"),
-            Self::CpOnDestroy => f.write_str("cp-on-destroy"),
-            Self::BattleShockTest => f.write_str("battle-shock-test"),
-            Self::ModifierImmunity => f.write_str("modifier-immunity"),
+            Self::ShootOnDeath => f.write_str("shoot-on-death"),
+            Self::StatModifier => f.write_str("stat-modifier"),
             Self::StratagemCostModifier => f.write_str("stratagem-cost-modifier"),
-            Self::TargetingPermission => f.write_str("targeting-permission"),
             Self::StratagemTargetingPermission => {
                 f.write_str("stratagem-targeting-permission")
             }
+            Self::StrategicReservesArrival => f.write_str("strategic-reserves-arrival"),
+            Self::TargetingPermission => f.write_str("targeting-permission"),
+            Self::TerrainAreaTag => f.write_str("terrain-area-tag"),
             Self::UnitAttachment => f.write_str("unit-attachment"),
-            Self::FightEligibilityExtension => f.write_str("fight-eligibility-extension"),
-            Self::RecoveryPool => f.write_str("recovery-pool"),
-            Self::ResourceClear => f.write_str("resource-clear"),
+            Self::UnitKeyword => f.write_str("unit-keyword"),
+            Self::UnitKeywordGrant => f.write_str("unit-keyword-grant"),
+            Self::UnitTag => f.write_str("unit-tag"),
+            Self::Ward => f.write_str("ward"),
         }
     }
 }
@@ -20668,59 +20682,60 @@ impl ::std::str::FromStr for SingleEffectType {
         value: &str,
     ) -> ::std::result::Result<Self, self::error::ConversionError> {
         match value {
-            "stat-modifier" => Ok(Self::StatModifier),
-            "roll-modifier" => Ok(Self::RollModifier),
-            "re-roll" => Ok(Self::ReRoll),
-            "mortal-wounds" => Ok(Self::MortalWounds),
-            "feel-no-pain" => Ok(Self::FeelNoPain),
-            "invulnerable-save" => Ok(Self::InvulnerableSave),
-            "ward" => Ok(Self::Ward),
-            "keyword-grant" => Ok(Self::KeywordGrant),
-            "unit-keyword" => Ok(Self::UnitKeyword),
+            "ability-grant" => Ok(Self::AbilityGrant),
+            "attack-restriction" => Ok(Self::AttackRestriction),
+            "auto-result" => Ok(Self::AutoResult),
+            "battle-shock-test" => Ok(Self::BattleShockTest),
+            "bs-modifier" => Ok(Self::BsModifier),
+            "charge-roll-modifier" => Ok(Self::ChargeRollModifier),
+            "cp-gain" => Ok(Self::CpGain),
+            "cp-on-destroy" => Ok(Self::CpOnDestroy),
+            "cp-refund" => Ok(Self::CpRefund),
+            "damage-reduction" => Ok(Self::DamageReduction),
             "deep-strike" => Ok(Self::DeepStrike),
+            "disembark" => Ok(Self::Disembark),
+            "disembark-after-move" => Ok(Self::DisembarkAfterMove),
+            "engagement-passthrough" => Ok(Self::EngagementPassthrough),
             "fallback-and-act" => Ok(Self::FallbackAndAct),
+            "feel-no-pain" => Ok(Self::FeelNoPain),
+            "fight-eligibility-extension" => Ok(Self::FightEligibilityExtension),
             "fight-first" => Ok(Self::FightFirst),
             "fight-last" => Ok(Self::FightLast),
-            "shoot-on-death" => Ok(Self::ShootOnDeath),
             "fight-on-death" => Ok(Self::FightOnDeath),
-            "objective-control-modifier" => Ok(Self::ObjectiveControlModifier),
+            "firing-deck" => Ok(Self::FiringDeck),
+            "flyover" => Ok(Self::Flyover),
+            "invulnerable-save" => Ok(Self::InvulnerableSave),
+            "keyword-grant" => Ok(Self::KeywordGrant),
             "leadership-modifier" => Ok(Self::LeadershipModifier),
-            "damage-reduction" => Ok(Self::DamageReduction),
-            "attack-restriction" => Ok(Self::AttackRestriction),
-            "ability-grant" => Ok(Self::AbilityGrant),
-            "cp-gain" => Ok(Self::CpGain),
-            "cp-refund" => Ok(Self::CpRefund),
             "model-destruction" => Ok(Self::ModelDestruction),
-            "resurrection" => Ok(Self::Resurrection),
+            "modifier-immunity" => Ok(Self::ModifierImmunity),
+            "mortal-wounds" => Ok(Self::MortalWounds),
+            "named-region-state" => Ok(Self::NamedRegionState),
+            "objective-control-modifier" => Ok(Self::ObjectiveControlModifier),
+            "objective-tag" => Ok(Self::ObjectiveTag),
+            "pool-add-die" => Ok(Self::PoolAddDie),
+            "re-roll" => Ok(Self::ReRoll),
+            "recovery-pool" => Ok(Self::RecoveryPool),
+            "remove-battle-shock" => Ok(Self::RemoveBattleShock),
+            "replace-roll-from-pool" => Ok(Self::ReplaceRollFromPool),
+            "resource-clear" => Ok(Self::ResourceClear),
             "resource-gain" => Ok(Self::ResourceGain),
             "resource-spend" => Ok(Self::ResourceSpend),
-            "charge-roll-modifier" => Ok(Self::ChargeRollModifier),
-            "terrain-area-tag" => Ok(Self::TerrainAreaTag),
-            "objective-tag" => Ok(Self::ObjectiveTag),
-            "unit-tag" => Ok(Self::UnitTag),
-            "bs-modifier" => Ok(Self::BsModifier),
-            "engagement-passthrough" => Ok(Self::EngagementPassthrough),
-            "strategic-reserves-arrival" => Ok(Self::StrategicReservesArrival),
-            "remove-battle-shock" => Ok(Self::RemoveBattleShock),
-            "unit-keyword-grant" => Ok(Self::UnitKeywordGrant),
-            "auto-result" => Ok(Self::AutoResult),
-            "firing-deck" => Ok(Self::FiringDeck),
-            "disembark-after-move" => Ok(Self::DisembarkAfterMove),
-            "disembark" => Ok(Self::Disembark),
+            "resurrection" => Ok(Self::Resurrection),
+            "roll-modifier" => Ok(Self::RollModifier),
             "rule-state" => Ok(Self::RuleState),
-            "pool-add-die" => Ok(Self::PoolAddDie),
-            "replace-roll-from-pool" => Ok(Self::ReplaceRollFromPool),
-            "flyover" => Ok(Self::Flyover),
-            "cp-on-destroy" => Ok(Self::CpOnDestroy),
-            "battle-shock-test" => Ok(Self::BattleShockTest),
-            "modifier-immunity" => Ok(Self::ModifierImmunity),
+            "shoot-on-death" => Ok(Self::ShootOnDeath),
+            "stat-modifier" => Ok(Self::StatModifier),
             "stratagem-cost-modifier" => Ok(Self::StratagemCostModifier),
-            "targeting-permission" => Ok(Self::TargetingPermission),
             "stratagem-targeting-permission" => Ok(Self::StratagemTargetingPermission),
+            "strategic-reserves-arrival" => Ok(Self::StrategicReservesArrival),
+            "targeting-permission" => Ok(Self::TargetingPermission),
+            "terrain-area-tag" => Ok(Self::TerrainAreaTag),
             "unit-attachment" => Ok(Self::UnitAttachment),
-            "fight-eligibility-extension" => Ok(Self::FightEligibilityExtension),
-            "recovery-pool" => Ok(Self::RecoveryPool),
-            "resource-clear" => Ok(Self::ResourceClear),
+            "unit-keyword" => Ok(Self::UnitKeyword),
+            "unit-keyword-grant" => Ok(Self::UnitKeywordGrant),
+            "unit-tag" => Ok(Self::UnitTag),
+            "ward" => Ok(Self::Ward),
             _ => Err("invalid value".into()),
         }
     }

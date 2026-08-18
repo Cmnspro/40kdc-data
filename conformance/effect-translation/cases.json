@@ -8544,100 +8544,172 @@
   {
     "caseId": "flow-of-magic#218",
     "effect": {
-      "type": "sequence",
-      "steps": [
-        {
-          "type": "terrain-area-tag",
-          "target": "self",
-          "modifier": {}
+      "type": "named-region-state",
+      "target": "all-friendly",
+      "modifier": {
+        "region_ref": {
+          "region_id": "flow-of-magic",
+          "owner_faction": "thousand-sons"
         },
-        {
-          "type": "conditional",
-          "condition": {
-            "operator": "and",
-            "operands": [
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "start"
+        "producer": {
+          "region_ref": {
+            "region_id": "flow-of-magic",
+            "owner_faction": "thousand-sons"
+          },
+          "mode": "complete",
+          "parent_ref": null,
+          "baseline": [
+            {
+              "kind": "fixed-zone",
+              "zone": "own-deployment-zone",
+              "activation": {
+                "event": "always-active"
+              },
+              "expiry": {
+                "event": "never"
+              }
+            }
+          ],
+          "phase_extensions": [
+            {
+              "kind": "objective-majority-zone",
+              "zone": "no-mans-land",
+              "control_gate": {
+                "marker_scope": "markers-in-zone",
+                "controlled_by": "owner-army",
+                "threshold": {
+                  "comparison": "at-least",
+                  "fraction": 0.5
                 }
               },
-              {
-                "type": "objective-majority",
-                "parameters": {
-                  "zone": "no-mans-land"
-                }
+              "activation": {
+                "event": "phase-start",
+                "evaluation": "snapshot-once",
+                "canonical_condition_ids": [
+                  "timing-is",
+                  "objective-majority"
+                ]
+              },
+              "expiry": {
+                "event": "phase-end"
               }
-            ]
-          },
-          "effect": {
-            "type": "terrain-area-tag",
-            "target": "self",
-            "modifier": {}
-          }
-        },
-        {
-          "type": "conditional",
-          "condition": {
-            "operator": "and",
-            "operands": [
-              {
-                "type": "timing-is",
-                "parameters": {
-                  "timing": "start"
+            },
+            {
+              "kind": "objective-majority-zone",
+              "zone": "opponent-deployment-zone",
+              "control_gate": {
+                "marker_scope": "markers-in-zone",
+                "controlled_by": "owner-army",
+                "threshold": {
+                  "comparison": "at-least",
+                  "fraction": 0.5
                 }
               },
-              {
-                "type": "objective-majority",
-                "parameters": {
-                  "zone": "opponent-deployment-zone"
-                }
+              "activation": {
+                "event": "phase-start",
+                "evaluation": "snapshot-once",
+                "canonical_condition_ids": [
+                  "timing-is",
+                  "objective-majority"
+                ]
+              },
+              "expiry": {
+                "event": "phase-end"
               }
+            }
+          ],
+          "additive_extensions": []
+        },
+        "consumer": {
+          "state_ref": {
+            "region_id": "flow-of-magic",
+            "owner_faction": "thousand-sons"
+          },
+          "beneficiary_gate": {
+            "owner": "owner-army",
+            "faction": "thousand-sons",
+            "operator": "and",
+            "keywords": [
+              "THOUSAND SONS"
             ]
           },
-          "effect": {
-            "type": "terrain-area-tag",
-            "target": "self",
-            "modifier": {}
-          }
-        },
-        {
-          "type": "re-roll",
-          "target": "self",
-          "modifier": {
-            "roll": "wound",
-            "subset": "ones",
-            "weapon_keyword": "Psychic"
-          }
-        },
-        {
-          "type": "conditional",
-          "condition": {
-            "type": "terrain-area-control",
-            "parameters": {
-              "area": "flow-of-magic",
-              "relation": "wholly-within"
-            }
+          "membership": {
+            "unit_scope": "model",
+            "relation": "wholly-within"
           },
-          "effect": {
-            "type": "roll-modifier",
-            "target": "self",
-            "modifier": {
-              "roll": "wound",
-              "operation": "add",
-              "value": 1,
-              "weapon_keyword": "Psychic"
-            }
+          "qualified_condition": {
+            "type": "region-membership",
+            "state_ref": {
+              "region_id": "flow-of-magic",
+              "owner_faction": "thousand-sons"
+            },
+            "unit_scope": "model",
+            "relation": "wholly-within",
+            "canonical_condition_ids": [
+              "terrain-area-control"
+            ]
+          },
+          "default_branch": {
+            "source": {
+              "role": "eligible-source",
+              "gate_ref": "beneficiary_gate"
+            },
+            "beneficiary": {
+              "role": "eligible-beneficiary",
+              "gate_ref": "beneficiary_gate"
+            },
+            "target": "attacker",
+            "timing": {
+              "event": "each-attack"
+            },
+            "duration": "attack-resolution",
+            "effect": {
+              "type": "re-roll",
+              "target": "attacker",
+              "modifier": {
+                "roll": "wound",
+                "subset": "ones",
+                "weapon_keyword": "Psychic"
+              }
+            },
+            "optional": false
+          },
+          "qualified_branch": {
+            "source": {
+              "role": "eligible-source",
+              "gate_ref": "beneficiary_gate"
+            },
+            "beneficiary": {
+              "role": "eligible-beneficiary",
+              "gate_ref": "beneficiary_gate"
+            },
+            "target": "attacker",
+            "timing": {
+              "event": "each-attack"
+            },
+            "duration": "attack-resolution",
+            "effect": {
+              "type": "roll-modifier",
+              "target": "attacker",
+              "modifier": {
+                "operation": "add",
+                "value": 1,
+                "roll": "wound",
+                "weapon_keyword": "Psychic"
+              }
+            },
+            "optional": false
           }
-        }
-      ]
+        },
+        "branch_precedence": "qualified-replaces-default"
+      }
     },
     "scope": {
-      "range": "unit",
-      "duration": "battle"
+      "range": "any-on-battlefield",
+      "duration": "permanent"
     },
     "expected": {
-      "text": "For the rest of the battle:\nThe terrain area is marked.\nAt the start of the turn, if you hold more objectives than the opponent, the terrain area is marked.\nAt the start of the turn, if you hold more objectives than the opponent, the terrain area is marked.\nYou can re-roll a Wound roll of 1.\nIf you control a terrain area with 1+ models, this model gets +1 to Wound rolls."
+      "text": "Your deployment zone is always within Flow of Magic. At the start of each phase, No Man's Land is within Flow of Magic until the end of that phase if you control at least half of its objective markers. The same applies separately to your opponent's deployment zone. Models in THOUSAND SONS units from your Thousand Sons army can re-roll Wound rolls of 1 for Psychic attacks. If such a model is wholly within Flow of Magic, it gets +1 to Wound for those Psychic attacks instead."
     }
   },
   {
@@ -10770,61 +10842,170 @@
   {
     "caseId": "power-matrix#266",
     "effect": {
-      "type": "conditional",
-      "condition": {
-        "operator": "or",
-        "operands": [
-          {
-            "type": "unit-has-keyword",
-            "parameters": {
-              "keyword": "CRYPTEK"
-            }
+      "type": "named-region-state",
+      "target": "all-friendly",
+      "modifier": {
+        "region_ref": {
+          "region_id": "power-matrix",
+          "owner_faction": "necrons"
+        },
+        "producer": {
+          "region_ref": {
+            "region_id": "power-matrix",
+            "owner_faction": "necrons"
           },
-          {
-            "type": "unit-has-keyword",
-            "parameters": {
-              "keyword": "CANOPTEK"
+          "mode": "complete",
+          "parent_ref": null,
+          "baseline": [
+            {
+              "kind": "fixed-zone",
+              "zone": "own-deployment-zone",
+              "activation": {
+                "event": "always-active"
+              },
+              "expiry": {
+                "event": "never"
+              }
             }
-          }
-        ]
-      },
-      "effect": {
-        "type": "sequence",
-        "steps": [
-          {
-            "type": "re-roll",
-            "target": "attacker",
-            "modifier": {
-              "roll": "hit",
-              "subset": "ones"
-            }
-          },
-          {
-            "type": "conditional",
-            "condition": {
-              "type": "terrain-area-control",
-              "parameters": {
-                "area": "power-matrix"
+          ],
+          "phase_extensions": [
+            {
+              "kind": "objective-majority-zone",
+              "zone": "no-mans-land",
+              "control_gate": {
+                "marker_scope": "markers-in-zone",
+                "controlled_by": "owner-army",
+                "threshold": {
+                  "comparison": "at-least",
+                  "fraction": 0.5
+                }
+              },
+              "activation": {
+                "event": "phase-start",
+                "evaluation": "snapshot-once",
+                "canonical_condition_ids": [
+                  "timing-is",
+                  "objective-majority"
+                ]
+              },
+              "expiry": {
+                "event": "phase-end"
               }
             },
+            {
+              "kind": "objective-majority-zone",
+              "zone": "opponent-deployment-zone",
+              "control_gate": {
+                "marker_scope": "markers-in-zone",
+                "controlled_by": "owner-army",
+                "threshold": {
+                  "comparison": "at-least",
+                  "fraction": 0.5
+                }
+              },
+              "activation": {
+                "event": "phase-start",
+                "evaluation": "snapshot-once",
+                "canonical_condition_ids": [
+                  "timing-is",
+                  "objective-majority"
+                ]
+              },
+              "expiry": {
+                "event": "phase-end"
+              }
+            }
+          ],
+          "additive_extensions": []
+        },
+        "consumer": {
+          "state_ref": {
+            "region_id": "power-matrix",
+            "owner_faction": "necrons"
+          },
+          "beneficiary_gate": {
+            "owner": "owner-army",
+            "faction": "necrons",
+            "operator": "or",
+            "keywords": [
+              "CRYPTEK",
+              "CANOPTEK"
+            ]
+          },
+          "membership": {
+            "unit_scope": "whole-unit",
+            "relation": "wholly-within"
+          },
+          "qualified_condition": {
+            "type": "region-membership",
+            "state_ref": {
+              "region_id": "power-matrix",
+              "owner_faction": "necrons"
+            },
+            "unit_scope": "whole-unit",
+            "relation": "wholly-within",
+            "canonical_condition_ids": [
+              "terrain-area-control"
+            ]
+          },
+          "default_branch": {
+            "source": {
+              "role": "eligible-source",
+              "gate_ref": "beneficiary_gate"
+            },
+            "beneficiary": {
+              "role": "eligible-beneficiary",
+              "gate_ref": "beneficiary_gate"
+            },
+            "target": "attacker",
+            "timing": {
+              "event": "each-attack"
+            },
+            "duration": "attack-resolution",
             "effect": {
               "type": "re-roll",
               "target": "attacker",
               "modifier": {
                 "roll": "hit",
-                "subset": "all-failures"
+                "subset": "ones"
               }
-            }
+            },
+            "optional": true
+          },
+          "qualified_branch": {
+            "source": {
+              "role": "eligible-source",
+              "gate_ref": "beneficiary_gate"
+            },
+            "beneficiary": {
+              "role": "eligible-beneficiary",
+              "gate_ref": "beneficiary_gate"
+            },
+            "target": "attacker",
+            "timing": {
+              "event": "each-attack"
+            },
+            "duration": "attack-resolution",
+            "effect": {
+              "type": "re-roll",
+              "target": "attacker",
+              "modifier": {
+                "roll": "hit",
+                "result_scope": "any-result"
+              }
+            },
+            "optional": true
           }
-        ]
+        },
+        "branch_precedence": "qualified-replaces-default"
       }
     },
     "scope": {
       "range": "any-on-battlefield",
-      "duration": "battle"
+      "duration": "permanent"
     },
     "expected": {
-      "text": "If the unit has the CRYPTEK or CANOPTEK keywords, for the rest of the battle:\n  -> You can re-roll a Hit roll of 1.\n  -> If you control a terrain area with 1+ models, you can re-roll the Hit roll."
+      "text": "Your deployment zone is always within Power Matrix. At the start of each phase, No Man's Land is within Power Matrix until the end of that phase if you control at least half of its objective markers. The same applies separately to your opponent's deployment zone. Models in CRYPTEK or CANOPTEK units from your Necrons army can re-roll Hit rolls of 1. If such a unit is wholly within Power Matrix, those models can re-roll the Hit roll instead."
     }
   },
   {
@@ -12322,7 +12503,24 @@
     }
   },
   {
-    "caseId": "the-emperors-shield#300",
+    "caseId": "the-dark-master-aura#300",
+    "effect": {
+      "type": "terrain-area-tag",
+      "target": "self",
+      "modifier": {
+        "tag": "shadow-of-chaos"
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "permanent"
+    },
+    "expected": {
+      "text": "The terrain area is marked as shadow of chaos."
+    }
+  },
+  {
+    "caseId": "the-emperors-shield#301",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12352,7 +12550,7 @@
     }
   },
   {
-    "caseId": "the-lord-s-will#301",
+    "caseId": "the-lord-s-will#302",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12375,7 +12573,7 @@
     }
   },
   {
-    "caseId": "titanic-agility#302",
+    "caseId": "titanic-agility#303",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -12407,7 +12605,7 @@
     }
   },
   {
-    "caseId": "torture-device#303",
+    "caseId": "torture-device#304",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12436,7 +12634,7 @@
     }
   },
   {
-    "caseId": "tox-cycler#304",
+    "caseId": "tox-cycler#305",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12481,7 +12679,7 @@
     }
   },
   {
-    "caseId": "tuff-git-blitz-brigade#305",
+    "caseId": "tuff-git-blitz-brigade#306",
     "effect": {
       "type": "remove-battle-shock",
       "target": "unit",
@@ -12513,7 +12711,7 @@
     }
   },
   {
-    "caseId": "voice-of-command#306",
+    "caseId": "voice-of-command#307",
     "effect": {
       "type": "issue-orders",
       "range": 6,
@@ -12614,7 +12812,7 @@
     }
   },
   {
-    "caseId": "waaagh-banner#307",
+    "caseId": "waaagh-banner#308",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -12654,7 +12852,7 @@
     }
   },
   {
-    "caseId": "warp-tainted-warpstrike-champions#308",
+    "caseId": "warp-tainted-warpstrike-champions#309",
     "effect": {
       "type": "objective-tag",
       "target": "unit",
@@ -12678,7 +12876,7 @@
     }
   },
   {
-    "caseId": "yooz-in-trouble-now-blitz-brigade#309",
+    "caseId": "yooz-in-trouble-now-blitz-brigade#310",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12749,7 +12947,7 @@
     }
   },
   {
-    "caseId": "movement-modifier-scouts#310",
+    "caseId": "movement-modifier-scouts#311",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -12767,7 +12965,7 @@
     }
   },
   {
-    "caseId": "grant-label-charge-after-disembark#311",
+    "caseId": "grant-label-charge-after-disembark#312",
     "effect": {
       "type": "ability-grant",
       "target": "unit",
@@ -12784,7 +12982,7 @@
     }
   },
   {
-    "caseId": "grant-label-charge-after-fallback#312",
+    "caseId": "grant-label-charge-after-fallback#313",
     "effect": {
       "type": "ability-grant",
       "target": "self",
@@ -12801,7 +12999,7 @@
     }
   },
   {
-    "caseId": "engagement-state-engaged#313",
+    "caseId": "engagement-state-engaged#314",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12824,7 +13022,7 @@
     }
   },
   {
-    "caseId": "engagement-state-on-battlefield#314",
+    "caseId": "engagement-state-on-battlefield#315",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12847,7 +13045,7 @@
     }
   },
   {
-    "caseId": "engagement-state-embarked#315",
+    "caseId": "engagement-state-embarked#316",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12870,7 +13068,7 @@
     }
   },
   {
-    "caseId": "engagement-state-empty#316",
+    "caseId": "engagement-state-empty#317",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12891,7 +13089,7 @@
     }
   },
   {
-    "caseId": "engagement-state-negated#317",
+    "caseId": "engagement-state-negated#318",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12915,7 +13113,7 @@
     }
   },
   {
-    "caseId": "disposition-matches-reserves#318",
+    "caseId": "disposition-matches-reserves#319",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12938,7 +13136,7 @@
     }
   },
   {
-    "caseId": "disposition-matches-enemy#319",
+    "caseId": "disposition-matches-enemy#320",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12961,7 +13159,7 @@
     }
   },
   {
-    "caseId": "fights-first-cond#320",
+    "caseId": "fights-first-cond#321",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -12987,7 +13185,7 @@
     }
   },
   {
-    "caseId": "scaling-attacks-per-models#321",
+    "caseId": "scaling-attacks-per-models#322",
     "effect": {
       "type": "stat-modifier",
       "target": "unit",
@@ -13011,7 +13209,7 @@
     }
   },
   {
-    "caseId": "scaling-strength-wounds-lost#322",
+    "caseId": "scaling-strength-wounds-lost#323",
     "effect": {
       "type": "stat-modifier",
       "target": "self",
@@ -13036,7 +13234,7 @@
     }
   },
   {
-    "caseId": "dice-pool-inline-label#323",
+    "caseId": "dice-pool-inline-label#324",
     "effect": {
       "type": "choice",
       "options": [
@@ -13079,7 +13277,7 @@
     }
   },
   {
-    "caseId": "unit-within-range-closest-eligible#324",
+    "caseId": "unit-within-range-closest-eligible#325",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -13107,7 +13305,7 @@
     }
   },
   {
-    "caseId": "dice-pool-requirement-anyof#325",
+    "caseId": "dice-pool-requirement-anyof#326",
     "effect": {
       "type": "dice-pool-allocation",
       "pool": {
@@ -13150,7 +13348,7 @@
     }
   },
   {
-    "caseId": "rule-state-forgo-faction-rule#326",
+    "caseId": "rule-state-forgo-faction-rule#327",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -13174,7 +13372,7 @@
     }
   },
   {
-    "caseId": "rule-state-faction-rule-granted#327",
+    "caseId": "rule-state-faction-rule-granted#328",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -13193,7 +13391,7 @@
     }
   },
   {
-    "caseId": "rule-state-cover-granted#328",
+    "caseId": "rule-state-cover-granted#329",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -13212,7 +13410,7 @@
     }
   },
   {
-    "caseId": "rule-state-advance-suppressed#329",
+    "caseId": "rule-state-advance-suppressed#330",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -13231,7 +13429,7 @@
     }
   },
   {
-    "caseId": "rule-state-overwatch-against-bearer#330",
+    "caseId": "rule-state-overwatch-against-bearer#331",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -13250,7 +13448,7 @@
     }
   },
   {
-    "caseId": "rule-state-desperate-escape-granted#331",
+    "caseId": "rule-state-desperate-escape-granted#332",
     "effect": {
       "type": "rule-state",
       "target": "all-enemy",
@@ -13269,7 +13467,7 @@
     }
   },
   {
-    "caseId": "rule-state-desperate-escape-suppressed#332",
+    "caseId": "rule-state-desperate-escape-suppressed#333",
     "effect": {
       "type": "rule-state",
       "target": "self",
@@ -13288,7 +13486,7 @@
     }
   },
   {
-    "caseId": "rule-state-ability-granted#333",
+    "caseId": "rule-state-ability-granted#334",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -13307,7 +13505,7 @@
     }
   },
   {
-    "caseId": "rule-state-keyword-suppressed#334",
+    "caseId": "rule-state-keyword-suppressed#335",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -13326,7 +13524,7 @@
     }
   },
   {
-    "caseId": "rule-state-ordered-retreat-suppressed#335",
+    "caseId": "rule-state-ordered-retreat-suppressed#336",
     "effect": {
       "type": "rule-state",
       "target": "enemy-within-aura",
@@ -13345,7 +13543,7 @@
     }
   },
   {
-    "caseId": "rule-state-ordered-retreat-granted#336",
+    "caseId": "rule-state-ordered-retreat-granted#337",
     "effect": {
       "type": "rule-state",
       "target": "unit",
@@ -13364,7 +13562,7 @@
     }
   },
   {
-    "caseId": "keyword-grant-anti-string#337",
+    "caseId": "keyword-grant-anti-string#338",
     "effect": {
       "type": "keyword-grant",
       "target": "unit",
@@ -13381,7 +13579,7 @@
     }
   },
   {
-    "caseId": "keyword-grant-anti-structured#338",
+    "caseId": "keyword-grant-anti-structured#339",
     "effect": {
       "type": "keyword-grant",
       "target": "unit",
@@ -13399,7 +13597,7 @@
     }
   },
   {
-    "caseId": "keyword-grant-rated-value#339",
+    "caseId": "keyword-grant-rated-value#340",
     "effect": {
       "type": "keyword-grant",
       "target": "unit",
@@ -13417,7 +13615,7 @@
     }
   },
   {
-    "caseId": "auto-result-battle-shock-pass#340",
+    "caseId": "auto-result-battle-shock-pass#341",
     "effect": {
       "type": "auto-result",
       "target": "unit",
@@ -13435,7 +13633,7 @@
     }
   },
   {
-    "caseId": "auto-result-hit-six#341",
+    "caseId": "auto-result-hit-six#342",
     "effect": {
       "type": "auto-result",
       "target": "unit",
@@ -13453,7 +13651,7 @@
     }
   },
   {
-    "caseId": "firing-deck#342",
+    "caseId": "firing-deck#343",
     "effect": {
       "type": "firing-deck",
       "target": "self",
@@ -13470,7 +13668,7 @@
     }
   },
   {
-    "caseId": "disembark-after-move#343",
+    "caseId": "disembark-after-move#344",
     "effect": {
       "type": "disembark-after-move",
       "target": "self",
@@ -13485,7 +13683,7 @@
     }
   },
   {
-    "caseId": "usage-once-per-turn#344",
+    "caseId": "usage-once-per-turn#345",
     "effect": {
       "type": "cp-gain",
       "target": "self",
@@ -13505,7 +13703,7 @@
     }
   },
   {
-    "caseId": "usage-n-per-battle-per-unit#345",
+    "caseId": "usage-n-per-battle-per-unit#346",
     "effect": {
       "type": "stat-modifier",
       "target": "unit",
@@ -13529,7 +13727,7 @@
     }
   },
   {
-    "caseId": "trigger-enemy-ended-move#346",
+    "caseId": "trigger-enemy-ended-move#347",
     "effect": {
       "type": "movement-modifier",
       "target": "self",
@@ -13555,7 +13753,7 @@
     }
   },
   {
-    "caseId": "trigger-on-model-destroyed#347",
+    "caseId": "trigger-on-model-destroyed#348",
     "effect": {
       "type": "mortal-wounds",
       "target": "all-enemy",
@@ -13576,7 +13774,7 @@
     }
   },
   {
-    "caseId": "trigger-before-save-with-condition#348",
+    "caseId": "trigger-before-save-with-condition#349",
     "effect": {
       "type": "re-roll",
       "target": "unit",
@@ -13601,7 +13799,7 @@
     }
   },
   {
-    "caseId": "move-passthrough-models-terrain#349",
+    "caseId": "move-passthrough-models-terrain#350",
     "effect": {
       "type": "movement-modifier",
       "target": "self",
@@ -13621,7 +13819,7 @@
     }
   },
   {
-    "caseId": "move-passthrough-applies-excludes#350",
+    "caseId": "move-passthrough-applies-excludes#351",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13647,7 +13845,7 @@
     }
   },
   {
-    "caseId": "move-ignore-vertical#351",
+    "caseId": "move-ignore-vertical#352",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13664,7 +13862,7 @@
     }
   },
   {
-    "caseId": "move-normal-applies#352",
+    "caseId": "move-normal-applies#353",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13687,7 +13885,7 @@
     }
   },
   {
-    "caseId": "move-normal-negative#353",
+    "caseId": "move-normal-negative#354",
     "effect": {
       "type": "movement-modifier",
       "target": "defender",
@@ -13705,7 +13903,7 @@
     }
   },
   {
-    "caseId": "move-advance-bonus#354",
+    "caseId": "move-advance-bonus#355",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13723,7 +13921,7 @@
     }
   },
   {
-    "caseId": "move-pile-in#355",
+    "caseId": "move-pile-in#356",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13742,7 +13940,7 @@
     }
   },
   {
-    "caseId": "move-consolidation#356",
+    "caseId": "move-consolidation#357",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13761,7 +13959,7 @@
     }
   },
   {
-    "caseId": "move-surge#357",
+    "caseId": "move-surge#358",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13779,7 +13977,7 @@
     }
   },
   {
-    "caseId": "move-shoot-and-scoot#358",
+    "caseId": "move-shoot-and-scoot#359",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13797,7 +13995,7 @@
     }
   },
   {
-    "caseId": "move-redeploy-reserves-max#359",
+    "caseId": "move-redeploy-reserves-max#360",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13816,7 +14014,7 @@
     }
   },
   {
-    "caseId": "move-redeploy-marker#360",
+    "caseId": "move-redeploy-marker#361",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13837,7 +14035,7 @@
     }
   },
   {
-    "caseId": "move-redeploy-placement#361",
+    "caseId": "move-redeploy-placement#362",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13858,7 +14056,7 @@
     }
   },
   {
-    "caseId": "move-infiltrate#362",
+    "caseId": "move-infiltrate#363",
     "effect": {
       "type": "movement-modifier",
       "target": "unit",
@@ -13875,7 +14073,7 @@
     }
   },
   {
-    "caseId": "aura-range-bonus#363",
+    "caseId": "aura-range-bonus#364",
     "effect": {
       "type": "aura",
       "target": "enemy-within-aura",
@@ -13893,7 +14091,7 @@
     }
   },
   {
-    "caseId": "aura-tiered-effect#364",
+    "caseId": "aura-tiered-effect#365",
     "effect": {
       "type": "aura",
       "target": "enemy-within-aura",
@@ -13923,7 +14121,7 @@
     }
   },
   {
-    "caseId": "rehome-deep-strike-min-distance#365",
+    "caseId": "rehome-deep-strike-min-distance#366",
     "effect": {
       "type": "deep-strike",
       "target": "unit",
@@ -13941,7 +14139,7 @@
     }
   },
   {
-    "caseId": "rehome-engagement-no-end#366",
+    "caseId": "rehome-engagement-no-end#367",
     "effect": {
       "type": "engagement-passthrough",
       "target": "self",
@@ -13958,7 +14156,7 @@
     }
   },
   {
-    "caseId": "fallback-and-act-shoot-only#367",
+    "caseId": "fallback-and-act-shoot-only#368",
     "effect": {
       "type": "fallback-and-act",
       "target": "unit",
@@ -13973,7 +14171,7 @@
     }
   },
   {
-    "caseId": "fallback-and-act-can-charge#368",
+    "caseId": "fallback-and-act-can-charge#369",
     "effect": {
       "type": "fallback-and-act",
       "target": "unit",
@@ -13990,7 +14188,7 @@
     }
   },
   {
-    "caseId": "superlative-strategist#369",
+    "caseId": "superlative-strategist#370",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -14036,7 +14234,7 @@
     }
   },
   {
-    "caseId": "deceptive-feint#370",
+    "caseId": "deceptive-feint#371",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -14100,7 +14298,7 @@
     }
   },
   {
-    "caseId": "moved-through-tall-terrain-inline#371",
+    "caseId": "moved-through-tall-terrain-inline#372",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -14128,7 +14326,7 @@
     }
   },
   {
-    "caseId": "moved-through-tall-terrain-trigger-condition#372",
+    "caseId": "moved-through-tall-terrain-trigger-condition#373",
     "effect": {
       "type": "keyword-grant",
       "target": "self",
@@ -14156,7 +14354,7 @@
     }
   },
   {
-    "caseId": "moved-through-tall-terrain-negated-inline#373",
+    "caseId": "moved-through-tall-terrain-negated-inline#374",
     "effect": {
       "type": "conditional",
       "condition": {
@@ -14185,7 +14383,7 @@
     }
   },
   {
-    "caseId": "moved-through-tall-terrain-negated-trigger-condition#374",
+    "caseId": "moved-through-tall-terrain-negated-trigger-condition#375",
     "effect": {
       "type": "keyword-grant",
       "target": "self",
@@ -14214,7 +14412,7 @@
     }
   },
   {
-    "caseId": "moved-through-tall-terrain-trigger-event#375",
+    "caseId": "moved-through-tall-terrain-trigger-event#376",
     "effect": {
       "type": "keyword-grant",
       "target": "self",
@@ -14236,7 +14434,7 @@
     }
   },
   {
-    "caseId": "moved-through-tall-terrain-legacy-aliases#376",
+    "caseId": "moved-through-tall-terrain-legacy-aliases#377",
     "effect": {
       "type": "sequence",
       "steps": [
@@ -14287,7 +14485,7 @@
     }
   },
   {
-    "caseId": "moved-through-terrain-generic-unaffected#377",
+    "caseId": "moved-through-terrain-generic-unaffected#378",
     "effect": {
       "type": "conditional",
       "condition": {

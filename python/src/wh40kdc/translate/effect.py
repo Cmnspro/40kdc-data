@@ -948,6 +948,171 @@ def _condition_lead_in(c: Condition) -> str:
     return f"if {describe_condition(c)}"
 
 
+def _named_region_title(value: Any) -> str:
+    return _title_case(_jstr(value))
+
+
+def _named_region_relation(value: Any) -> str:
+    return "wholly within" if value == "wholly-within" else dekebab(_jstr(value))
+
+
+def _named_region_keywords(value: Any) -> str:
+    return " or ".join(_jstr(v) for v in value) if isinstance(value, list) else "?"
+
+
+def _named_region_prefix(m: dict[str, Any]) -> str:
+    ref = m.get("region_ref") or {}
+    region = _named_region_title(ref.get("region_id"))
+    producer = m.get("producer") or {}
+    sentences: list[str] = []
+    for entry in producer.get("baseline") or []:
+        zone = _jstr((entry or {}).get("zone"))
+        if zone == "own-deployment-zone":
+            sentences.append(f"Your deployment zone is always within {region}.")
+        elif zone != "?":
+            sentences.append(f"{_named_region_title(zone)} is always within {region}.")
+    has_phase_extension = False
+    for entry in producer.get("phase_extensions") or []:
+        zone = _jstr((entry or {}).get("zone"))
+        if zone == "no-mans-land":
+            sentences.append(
+                f"At the start of each phase, No Man's Land is within {region} "
+                "until the end of that phase if you control at least half of "
+                "its objective markers."
+            )
+            has_phase_extension = True
+        elif zone == "opponent-deployment-zone":
+            sentences.append(
+                "The same applies separately to your opponent's deployment zone."
+                if has_phase_extension
+                else (
+                    "At the start of each phase, your opponent's deployment zone "
+                    f"is within {region} until the end of that phase if you control "
+                    "at least half of its objective markers."
+                )
+            )
+            has_phase_extension = True
+        elif zone != "?":
+            label = _named_region_title(zone)
+            sentences.append(
+                f"At the start of each phase, {label} is within {region} until "
+                "the end of that phase if you control at least half of its "
+                "objective markers."
+            )
+            has_phase_extension = True
+    source_parts: list[str] = []
+    for entry in producer.get("additive_extensions") or []:
+        addition = entry or {}
+        gate = addition.get("source_gate") or {}
+        predicate = gate.get("unit_predicate") or {}
+        if not predicate:
+            continue
+        faction = _named_region_title(predicate.get("faction"))
+        keywords = _named_region_keywords(predicate.get("keywords"))
+        radius = (
+            f' within {_jstr(addition["radius_inches"])}"'
+            if addition.get("radius_inches") is not None
+            else ""
+        )
+        source_parts.append(f"{faction} units with {keywords}{radius}")
+    unique_source_parts = list(dict.fromkeys(source_parts))
+    if unique_source_parts:
+        sentences.append(
+            f"Selected objective markers extend {region} around {' or '.join(unique_source_parts)}."
+        )
+    return " ".join(sentences)
+
+
+def _named_region_subject(m: dict[str, Any]) -> str:
+    consumer = m.get("consumer") or {}
+    gate = consumer.get("beneficiary_gate") or {}
+    faction = _named_region_title(gate.get("faction")) if gate.get("faction") is not None else ""
+    keywords = _named_region_keywords(gate.get("keywords"))
+    faction_part = f" from your {faction} army" if faction else " from your army"
+    return f"Models in {keywords} units{faction_part}"
+
+
+def _named_region_effect(branch: dict[str, Any], qualified: bool, ctx: Ctx | None = None) -> str:
+    effect_raw = branch.get("effect")
+    effect: dict[str, Any] = {}
+    if isinstance(effect_raw, dict):
+        effect = effect_raw
+    modifier_raw = effect.get("modifier")
+    modifier: dict[str, Any] = {}
+    if isinstance(modifier_raw, dict):
+        modifier = modifier_raw
+    roll = _roll_name(modifier.get("roll"))
+    if effect.get("type") == "re-roll":
+        if modifier.get("result_scope") == "any-result":
+            text = f"can re-roll the {roll} roll"
+        elif modifier.get("subset") == "ones":
+            text = f"can re-roll {roll} rolls of 1"
+        else:
+            text = f"can re-roll {roll} rolls"
+    elif effect.get("type") == "roll-modifier" and modifier.get("value") is not None:
+        text = f"gets {_signed(modifier.get('operation'), modifier.get('value'))} to {roll}"
+    else:
+        text = describe_effect_inline(effect, ctx)
+    if modifier.get("weapon_keyword") is not None:
+        text += f" for {'those ' if qualified else ''}{_jstr(modifier['weapon_keyword'])} attacks"
+    return text
+
+
+def _named_region_branch(
+    m: dict[str, Any],
+    whole_unit: bool,
+    qualified: bool,
+    conditional: bool = False,
+    ctx: Ctx | None = None,
+) -> str:
+    consumer = m.get("consumer") or {}
+    branch = consumer.get("qualified_branch" if qualified else "default_branch") or {}
+    effect = _named_region_effect(branch, qualified, ctx)
+    if conditional:
+        return f"{_named_region_subject(m)} {effect}"
+    if not qualified:
+        return f"{_named_region_subject(m)} {effect}."
+    membership = consumer.get("membership") or {}
+    region = _named_region_title((m.get("region_ref") or {}).get("region_id"))
+    relation = _named_region_relation(membership.get("relation"))
+    subject = (
+        f"If such a unit is {relation} {region}, those models"
+        if whole_unit
+        else f"If such a model is {relation} {region}, it"
+    )
+    return f"{subject} {effect} instead"
+
+
+def _describe_named_region_state(m: dict[str, Any], ctx: Ctx | None = None) -> str:
+    consumer = m.get("consumer") or {}
+    membership = consumer.get("membership") or {}
+    whole_unit = membership.get("unit_scope") == "whole-unit"
+    return " ".join(
+        [
+            _named_region_prefix(m),
+            _named_region_branch(m, whole_unit, False, ctx=ctx),
+            _named_region_branch(m, whole_unit, True, ctx=ctx),
+        ]
+    )
+
+
+def _describe_named_region_conditional(
+    m: dict[str, Any], condition: Condition, ctx: Ctx | None = None
+) -> str:
+    consumer = m.get("consumer") or {}
+    membership = consumer.get("membership") or {}
+    whole_unit = membership.get("unit_scope") == "whole-unit"
+    positive = {**condition, "negated": False}
+    predicate = describe_condition(positive)
+    default = _named_region_branch(m, whole_unit, False, True, ctx)
+    qualified = _named_region_branch(m, whole_unit, True, True, ctx)
+    if condition.get("negated"):
+        return (
+            f"{_named_region_prefix(m)} Unless {predicate}, {default}. If {predicate}, {qualified}."
+        )
+    return f"{_named_region_prefix(m)} When {predicate}, {qualified}. Otherwise, {default}."
+
+
 def _describe_rule_state(m: dict[str, Any], subj: str) -> str:
     """``rule-state``: a named rule switched on/off for the subject. The
     ``faction-rule`` + ``suppressed`` path reproduces the legacy
@@ -1566,6 +1731,8 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
         count = _dice_case(m.get("count")) if m.get("count") is not None else "1"
         noun = "model" if count == "1" else "models"
         return f"destroy {count} {noun} in {subj}"
+    if etype == "named-region-state":
+        return _describe_named_region_state(m, ctx)
     if etype == "rule-state":
         return _describe_rule_state(m, subj)
     if etype == "pool-add-die":
@@ -1894,8 +2061,13 @@ def _describe_effect_inline_base(e: Effect, ctx: Ctx | None = None) -> str:
 
     # Container types — inline forms.
     if etype == "conditional":
+        inner = e.get("effect") or {}
+        if inner.get("type") == "named-region-state":
+            return _describe_named_region_conditional(
+                inner.get("modifier") or {}, e.get("condition") or {}, ctx
+            )
         lead = _condition_lead_in(e.get("condition") or {})
-        return f"{lead}, {describe_effect_inline(e.get('effect') or {}, ctx)}"
+        return f"{lead}, {describe_effect_inline(inner, ctx)}"
     if etype == "sequence":
         return "; ".join(describe_effect_inline(s, ctx) for s in e.get("steps") or [])
     if etype == "choice":
@@ -1991,6 +2163,13 @@ def describe_effect(e: Effect, depth: int = 0, ctx: Ctx | None = None) -> str:
 
     if etype == "conditional":
         inner = e.get("effect") or {}
+        if inner.get("type") == "named-region-state":
+            text = _capitalize(
+                _describe_named_region_conditional(
+                    inner.get("modifier") or {}, e.get("condition") or {}, ctx
+                )
+            )
+            return f"{indent}{arrow}{text if text.endswith('.') else text + '.'}"
         if inner.get("type") in _CONTAINER_TYPES:
             return (
                 f"{indent}{_capitalize(_condition_lead_in(e.get('condition') or {}))}:\n"
@@ -2259,6 +2438,10 @@ def _render_top_level(
 
     if e.get("type") == "conditional":
         inner = e.get("effect") or {}
+        if inner.get("type") == "named-region-state":
+            return _describe_named_region_conditional(
+                inner.get("modifier") or {}, e.get("condition") or {}, ctx
+            )
         # B1: drop the condition lead-in when it merely restates a trigger's timing
         # (e.g. trigger start-of-phase + condition timing-is start-of-phase).
         cond_timing = _timing_of_condition(e.get("condition"))

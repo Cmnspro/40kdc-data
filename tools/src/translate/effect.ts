@@ -1469,6 +1469,8 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
       const noun = count === "1" ? "model" : "models";
       return `destroy ${count} ${noun} in ${subj}`;
     }
+    case "named-region-state":
+      return describeNamedRegionState(m, ctx);
     case "rule-state":
       return describeRuleState(m, subj);
     case "cp-gain":
@@ -1716,6 +1718,8 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
 
     // Container types — inline forms.
     case "conditional":
+      if (e.effect?.type === "named-region-state")
+        return describeNamedRegionConditional(e.effect.modifier ?? {}, e.condition ?? {}, ctx);
       return `${conditionLeadIn(e.condition ?? {})}, ${describeEffectInline(e.effect ?? {}, ctx)}`;
     case "sequence":
       return (e.steps ?? []).map((s) => describeEffectInline(s, ctx)).join("; ");
@@ -1775,6 +1779,156 @@ function describeEffectInlineBase(e: Effect, ctx: Ctx = {}): string {
     default:
       return `[${e.type ?? "unknown"}]`;
   }
+}
+
+function namedRegionRecord(value: unknown): Record<string, unknown> {
+  return value != null && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+}
+
+function namedRegionTitle(value: unknown): string {
+  return titleCase(jstr(value));
+}
+
+function namedRegionRelation(value: unknown): string {
+  return jstr(value) === "wholly-within" ? "wholly within" : dekebab(jstr(value));
+}
+
+function namedRegionKeywords(value: unknown): string {
+  return Array.isArray(value) ? value.map(jstr).join(" or ") : "?";
+}
+
+function namedRegionPrefix(m: Record<string, unknown>): string {
+  const ref = namedRegionRecord(m.region_ref);
+  const region = namedRegionTitle(ref.region_id);
+  const producer = namedRegionRecord(m.producer);
+  const sentences: string[] = [];
+  const baseline = Array.isArray(producer.baseline) ? producer.baseline : [];
+  for (const entry of baseline) {
+    const zone = jstr(namedRegionRecord(entry).zone);
+    if (zone === "own-deployment-zone") {
+      sentences.push(`Your deployment zone is always within ${region}.`);
+    } else if (zone !== "?") {
+      sentences.push(`${namedRegionTitle(zone)} is always within ${region}.`);
+    }
+  }
+  const phaseExtensions = Array.isArray(producer.phase_extensions) ? producer.phase_extensions : [];
+  let hasPhaseExtension = false;
+  for (const entry of phaseExtensions) {
+    const zone = jstr(namedRegionRecord(entry).zone);
+    if (zone === "no-mans-land") {
+      sentences.push(
+        `At the start of each phase, No Man's Land is within ${region} until the end of that phase if you control at least half of its objective markers.`,
+      );
+      hasPhaseExtension = true;
+    } else if (zone === "opponent-deployment-zone") {
+      sentences.push(
+        hasPhaseExtension
+          ? "The same applies separately to your opponent's deployment zone."
+          : `At the start of each phase, your opponent's deployment zone is within ${region} until the end of that phase if you control at least half of its objective markers.`,
+      );
+      hasPhaseExtension = true;
+    } else if (zone !== "?") {
+      const label = namedRegionTitle(zone);
+      sentences.push(
+        `At the start of each phase, ${label} is within ${region} until the end of that phase if you control at least half of its objective markers.`,
+      );
+      hasPhaseExtension = true;
+    }
+  }
+  const additions = Array.isArray(producer.additive_extensions) ? producer.additive_extensions : [];
+  const sourceParts = additions
+    .map((entry) => {
+      const addition = namedRegionRecord(entry);
+      const gate = namedRegionRecord(addition.source_gate);
+      const predicate = namedRegionRecord(gate.unit_predicate);
+      if (Object.keys(predicate).length === 0) return "";
+      const faction = namedRegionTitle(predicate.faction);
+      const keywords = namedRegionKeywords(predicate.keywords);
+      const radius = addition.radius_inches != null ? ` within ${jstr(addition.radius_inches)}"` : "";
+      return `${faction} units with ${keywords}${radius}`;
+    })
+    .filter((part) => part.length > 0);
+  const uniqueSourceParts = [...new Set(sourceParts)];
+  if (uniqueSourceParts.length > 0) {
+    sentences.push(`Selected objective markers extend ${region} around ${uniqueSourceParts.join(" or ")}.`);
+  }
+  return sentences.join(" ");
+}
+
+function namedRegionSubject(m: Record<string, unknown>): string {
+  const consumer = namedRegionRecord(m.consumer);
+  const gate = namedRegionRecord(consumer.beneficiary_gate);
+  const faction = gate.faction != null ? namedRegionTitle(gate.faction) : "";
+  const keywords = namedRegionKeywords(gate.keywords);
+  const factionPart = faction ? ` from your ${faction} army` : " from your army";
+  return `Models in ${keywords} units${factionPart}`;
+}
+
+function namedRegionEffect(branch: Record<string, unknown>, qualified: boolean, ctx: Ctx = {}): string {
+  const effect = namedRegionRecord(branch.effect);
+  const modifier = namedRegionRecord(effect.modifier);
+  const roll = rollName(modifier.roll);
+  let text: string;
+  if (effect.type === "re-roll") {
+    text =
+      modifier.result_scope === "any-result"
+        ? `can re-roll the ${roll} roll`
+        : modifier.subset === "ones"
+          ? `can re-roll ${roll} rolls of 1`
+          : `can re-roll ${roll} rolls`;
+  } else if (effect.type === "roll-modifier" && modifier.value != null) {
+    text = `gets ${signed(modifier.operation, modifier.value)} to ${roll}`;
+  } else {
+    text = describeEffectInline(effect as Effect, ctx);
+  }
+  if (modifier.weapon_keyword != null) {
+    text += ` for ${qualified ? "those " : ""}${jstr(modifier.weapon_keyword)} attacks`;
+  }
+  return text;
+}
+
+function namedRegionBranchText(
+  m: Record<string, unknown>,
+  wholeUnit: boolean,
+  qualified: boolean,
+  conditional = false,
+  ctx: Ctx = {},
+): string {
+  const consumer = namedRegionRecord(m.consumer);
+  const branch = namedRegionRecord(consumer[qualified ? "qualified_branch" : "default_branch"]);
+  const effect = namedRegionEffect(branch, qualified, ctx);
+  if (conditional) return `${namedRegionSubject(m)} ${effect}`;
+  if (!qualified) return `${namedRegionSubject(m)} ${effect}.`;
+  const membership = namedRegionRecord(consumer.membership);
+  const region = namedRegionTitle(namedRegionRecord(m.region_ref).region_id);
+  const relation = namedRegionRelation(membership.relation);
+  const subject = wholeUnit
+    ? `If such a unit is ${relation} ${region}, those models`
+    : `If such a model is ${relation} ${region}, it`;
+  return `${subject} ${effect} instead`;
+}
+
+function describeNamedRegionState(m: Record<string, unknown>, ctx: Ctx = {}): string {
+  const consumer = namedRegionRecord(m.consumer);
+  const membership = namedRegionRecord(consumer.membership);
+  const wholeUnit = membership.unit_scope === "whole-unit";
+  return `${namedRegionPrefix(m)} ${namedRegionBranchText(m, wholeUnit, false, false, ctx)} ${namedRegionBranchText(m, wholeUnit, true, false, ctx)}`;
+}
+
+function describeNamedRegionConditional(m: Record<string, unknown>, condition: Condition, ctx: Ctx = {}): string {
+  const consumer = namedRegionRecord(m.consumer);
+  const membership = namedRegionRecord(consumer.membership);
+  const wholeUnit = membership.unit_scope === "whole-unit";
+  const positive: Condition = { ...condition, negated: false };
+  const predicate = describeCondition(positive);
+  const defaultText = namedRegionBranchText(m, wholeUnit, false, true, ctx);
+  const qualifiedText = namedRegionBranchText(m, wholeUnit, true, true, ctx);
+  if (condition.negated) {
+    return `${namedRegionPrefix(m)} Unless ${predicate}, ${defaultText}. If ${predicate}, ${qualifiedText}.`;
+  }
+  return `${namedRegionPrefix(m)} When ${predicate}, ${qualifiedText}. Otherwise, ${defaultText}.`;
 }
 
 /** Per-slug GW-prose for `attack-restriction` (reads `restriction` or `restriction_type`). */

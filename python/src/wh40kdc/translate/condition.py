@@ -224,6 +224,24 @@ def event_clause(event: Any) -> str:
     return _EVENT_PHRASES.get(e, f"when {dekebab(e)}")
 
 
+def _region_membership_phrase(p: dict[str, Any], negated: bool = False) -> str:
+    state_ref = p.get("state_ref")
+    state_region = state_ref.get("region_id") if isinstance(state_ref, dict) else None
+    raw_region = p.get("region_id", state_region)
+    region = " ".join(word.capitalize() for word in dekebab(_str(raw_region)).split())
+    relation = (
+        "wholly within"
+        if p.get("relation") == "wholly-within"
+        else dekebab(_str(p.get("relation", "within")))
+    )
+    subject = (
+        "every model in the eligible attacking unit"
+        if p.get("unit_scope") == "whole-unit"
+        else "the eligible attacking model"
+    )
+    return f"{'not ' if negated else ''}{subject} is {relation} {region}"
+
+
 def describe_selection_eligibility(c: Condition) -> str:
     """Render a condition as a predicate on an already-named candidate unit."""
     if c.get("type") == "is-battle-shocked" and not c.get("operator"):
@@ -545,6 +563,8 @@ def describe_condition(c: Condition) -> str:
         if p.get("in_enemy_dz"):
             s += " in the enemy deployment zone"
         return s
+    if ctype == "region-membership":
+        return _region_membership_phrase(p, bool(c.get("negated")))
     if ctype == "terrain-area-control":
         min_models = p.get("min_models")
         n = min_models if min_models is not None else 1

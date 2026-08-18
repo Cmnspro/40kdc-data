@@ -22,15 +22,15 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 | emperors-children | 87 | 23 | 3 | 62 | 3 | 8 | 0 | 1 |
 | genestealer-cults | 88 | 21 | 7 | 63 | 2 | 1 | 0 | 1 |
 | grey-knights | 61 | 16 | 5 | 41 | 1 | 2 | 0 | 1 |
-| imperial-knights | 76 | 29 | 6 | 43 | 0 | 5 | 0 | 1 |
+| imperial-knights | 77 | 29 | 6 | 44 | 0 | 5 | 0 | 1 |
 | leagues-of-votann | 76 | 22 | 7 | 49 | 0 | 0 | 0 | 0 |
 | necrons | 158 | 30 | 23 | 113 | 1 | 2 | 0 | 1 |
 | orks | 159 | 34 | 14 | 116 | 2 | 5 | 0 | 3 |
 | tau-empire | 129 | 29 | 6 | 96 | 0 | 3 | 0 | 3 |
-| thousand-sons | 130 | 32 | 9 | 94 | 7 | 12 | 0 | 2 |
+| thousand-sons | 130 | 32 | 9 | 94 | 6 | 12 | 0 | 2 |
 | tyranids | 115 | 21 | 7 | 89 | 1 | 5 | 0 | 5 |
 | world-eaters | 133 | 17 | 10 | 107 | 3 | 0 | 0 | 0 |
-| **TOTAL** | **3123** | **766** | **263** | **2179** | **39** | **117** | **0** | **57** |
+| **TOTAL** | **3124** | **766** | **263** | **2180** | **38** | **117** | **0** | **57** |
 
 `stub*` = structural (empty-modifier placeholder node) — the authoring worklist. `notes-stub` = flagged in community_notes.
 
@@ -81,7 +81,6 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `5` — roll-modifier: operation "crit-on" not supported
 - `5` — stat-modifier on "W" is outside the damage path
 - `5` — effect type "charge-roll-modifier" is not modelled by the buff layer
-- `5` — effect type "terrain-area-tag" is not modelled by the buff layer
 - `5` — effect type "auto-result" is not modelled by the buff layer
 - `5` — conditional: cannot evaluate condition "faction-rule-active" against current context
 - `5` — effect type "unit-keyword-grant" is not modelled by the buff layer
@@ -90,7 +89,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `4` — conditional: cannot evaluate condition "attack-stat-compare" against current context
 - `4` — conditional: cannot evaluate condition "disembarked-from-transport" against current context
 - `4` — stat-modifier on "Ld" is outside the damage path
-- `4` — conditional: cannot evaluate condition "terrain-area-control" against current context
+- `4` — effect type "terrain-area-tag" is not modelled by the buff layer
 - `3` — effect type "resource-gain" is not modelled by the buff layer
 - `3` — effect type "shoot-on-death" is not modelled by the buff layer
 - `3` — conditional: cannot evaluate condition "attack-is-type" against current context
@@ -101,6 +100,7 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `3` — stat-modifier on "WS" is outside the damage path
 - `3` — conditional: cannot evaluate condition "within-range-of-objective" against current context
 - `3` — roll-modifier: operation "undefined" not supported
+- `3` — conditional: cannot evaluate condition "terrain-area-control" against current context
 - `2` — effect type "replace-roll-from-pool" is not modelled by the buff layer
 - `2` — re-roll on "attacks-characteristic" (subset …) is outside the damage path
 - `2` — leader-model-ability-grant: attached leader beneficiary is not resolved by the buff engine
@@ -134,7 +134,6 @@ abilities that translate into cruncher buffs via the real `effectToBuffs`
 - `1` — stat-modifier AP: operation "set-on-crit-wound" not supported
 - `1` — stat-modifier on "R" is outside the damage path
 - `1` — stat-modifier on "BS" is outside the damage path
-- `1` — re-roll: narrows by "weapon_keyword" which the cruncher can't resolve here
 - `1` — effect type "battle-shock-test" is not modelled by the buff layer
 - `1` — effect type "pool-add-die" is not modelled by the buff layer
 - `1` — effect type "flyover" is not modelled by the buff layer

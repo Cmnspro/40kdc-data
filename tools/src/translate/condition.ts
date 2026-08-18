@@ -198,6 +198,25 @@ export function eventClause(event: unknown): string {
   return EVENT_PHRASES[e] ?? `when ${dekebab(e)}`;
 }
 
+function titleWords(value: unknown): string {
+  return dekebab(str(value))
+    .split(" ")
+    .filter((word) => word.length > 0)
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function regionMembershipPhrase(p: Record<string, unknown>, negated = false): string {
+  const region = titleWords(p.region_id ?? (p.state_ref as Record<string, unknown> | undefined)?.region_id);
+  const relation = str(p.relation ?? "within");
+  const relationPhrase = relation === "wholly-within" ? "wholly within" : dekebab(relation);
+  const subject =
+    p.unit_scope === "whole-unit"
+      ? "every model in the eligible attacking unit"
+      : "the eligible attacking model";
+  return `${negated ? "not " : ""}${subject} is ${relationPhrase} ${region}`;
+}
+
 /**
  * Render a condition as a predicate on an already-named candidate unit. This
  * keeps selection eligibility distinct from an ability's trigger condition.
@@ -460,6 +479,8 @@ export function describeCondition(c: Condition): string {
       if (p.in_enemy_dz) s += " in the enemy deployment zone";
       return s;
     }
+    case "region-membership":
+      return regionMembershipPhrase(p, Boolean(c.negated));
     case "terrain-area-control":
       return `${negate}you control a terrain area with ${str(p.min_models ?? 1)}+ models`;
     case "territory-control": {

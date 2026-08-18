@@ -144,6 +144,128 @@ describe("effectToBuffs: leaves", () => {
   });
 });
 
+describe("effectToBuffs: nested relationship containers", () => {
+  it("does not apply a leader-model grant without resolving its attached beneficiary", () => {
+    const effect = {
+      type: "leader-model-ability-grant",
+      grant: {
+        effect: { type: "feel-no-pain", modifier: { threshold: 4 } },
+      },
+    };
+    const result = effectToBuffs(effect, unitRule, ctx, "target");
+    expect(result.applied).toEqual([]);
+    expect(result.unsupported).toEqual([
+      {
+        reason: "leader-model-ability-grant: attached leader beneficiary is not resolved by the buff engine",
+        effectFragment: effect,
+      },
+    ]);
+  });
+
+  it("does not apply a persistent designation without its retained selection state", () => {
+    const effect = {
+      type: "persistent-designation",
+      consumer: {
+        effect: {
+          type: "re-roll",
+          target: "bearer",
+          modifier: { roll: "hit", subset: "all-failures" },
+        },
+      },
+    };
+    const result = effectToBuffs(effect, unitRule, ctx);
+    expect(result.applied).toEqual([]);
+    expect(result.unsupported).toEqual([
+      {
+        reason: "persistent-designation: retained selection state is not resolved by the buff engine",
+        effectFragment: effect,
+      },
+    ]);
+  });
+});
+
+describe("effectToBuffs: named-region-state", () => {
+  const namedRegion = (keywords: string[], operator: "and" | "or" = "or", defaultEffect: Record<string, unknown> = {
+    type: "re-roll",
+    target: "attacker",
+    modifier: { roll: "hit", subset: "ones" },
+  }) => ({
+    type: "named-region-state",
+    target: "all-friendly",
+    modifier: {
+      consumer: {
+        beneficiary_gate: { operator, keywords },
+        default_branch: { effect: defaultEffect },
+        qualified_branch: {
+          effect: {
+            type: "re-roll",
+            target: "attacker",
+            modifier: { roll: "hit", result_scope: "any-result" },
+          },
+        },
+      },
+    },
+  });
+
+  it("applies the default branch for a matching case-insensitive OR gate", () => {
+    const result = effectToBuffs(
+      namedRegion(["CRYPTEK", "CANOPTEK"]),
+      unitRule,
+      { phase: "shooting", attackerKeywords: ["canoptek"] },
+    );
+    expect(result.applied).toHaveLength(1);
+    expect(result.applied[0].contribution).toEqual({
+      type: "reroll",
+      roll: "hit",
+      subset: "ones",
+    });
+    expect(result.unsupported).toHaveLength(1);
+    expect(result.unsupported[0].reason).toContain("qualified replacement");
+  });
+
+  it("applies neither branch when the beneficiary gate does not match", () => {
+    const result = effectToBuffs(
+      namedRegion(["CRYPTEK", "CANOPTEK"]),
+      unitRule,
+      { phase: "shooting", attackerKeywords: ["WARRIOR"] },
+    );
+    expect(result.applied).toEqual([]);
+    expect(result.unsupported).toEqual([]);
+  });
+
+  it("reports qualified replacement as unsupported instead of stacking it", () => {
+    const result = effectToBuffs(
+      namedRegion(["CRYPTEK"]),
+      unitRule,
+      { phase: "shooting", attackerKeywords: ["CRYPTEK"] },
+    );
+    expect(result.applied).toHaveLength(1);
+    expect(result.unsupported.map((entry) => entry.reason)).toContain(
+      "named-region-state qualified branch: region membership is unavailable in EngineContext; qualified replacement is unsupported",
+    );
+  });
+
+  it("keeps Flow of Magic weapon narrowing unsupported", () => {
+    const result = effectToBuffs(
+      namedRegion(
+        ["THOUSAND SONS"],
+        "and",
+        {
+          type: "re-roll",
+          target: "attacker",
+          modifier: { roll: "wound", subset: "ones", weapon_keyword: "Psychic" },
+        },
+      ),
+      unitRule,
+      { phase: "shooting", attackerKeywords: ["thousand sons"] },
+    );
+    expect(result.applied).toEqual([]);
+    expect(result.unsupported.map((entry) => entry.reason)).toContain(
+      're-roll: narrows by "weapon_keyword" which the cruncher can\'t resolve here',
+    );
+  });
+});
+
 describe("effectToBuffs: unhonorable narrowing filters fail safe", () => {
   // A weapon-name / model filter the cruncher can't resolve here must NOT apply
   // the buff unfiltered (silent over-apply); it surfaces as `unsupported`.
