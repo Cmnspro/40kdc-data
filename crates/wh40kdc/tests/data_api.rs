@@ -498,17 +498,15 @@ fn collection_is_iterable() {
 #[test]
 fn terrain_catalog_and_layouts_are_embedded() {
     let ds = Dataset::embedded();
-    // 13 canonical/KOTC templates plus Battlemaster's 12 feature and 44 composed
-    // area variants. Composed areas retain their source scenery as child features.
-    assert_eq!(ds.terrain_templates.len(), 69);
-    assert_eq!(
-        ds.terrain_templates
-            .get("bm-bm-terrain-11e-1-composite-01-m0-p0")
-            .unwrap()
-            .features
-            .len(),
-        2
-    );
+    // 19 canonical/KOTC templates plus Battlemaster's 14 feature and 47
+    // composed area variants. Every source variant has its own stable ID.
+    assert_eq!(ds.terrain_templates.len(), 80);
+    let sample = ds
+        .terrain_templates
+        .iter()
+        .find(|template| template.name.as_str() == "Battlemaster BigRect CD EF 01")
+        .expect("Battlemaster composite");
+    assert_eq!(sample.features.len(), 2);
     assert!(ds.terrain_templates.get("area-large").is_some());
     for ruin in ["kotc-ruin-inner", "kotc-ruin-deployment"] {
         assert_eq!(
@@ -543,7 +541,7 @@ fn terrain_catalog_and_layouts_are_embedded() {
     );
     assert!(ds.terrain_templates.get("wall-medium").is_none());
     assert!(ds.terrain_templates.get("scaffold").is_none());
-    assert!(ds.terrain_layouts.get("take-and-hold-mirror-1").is_some());
+    assert!(ds.terrain_layouts.get("bm-take-vs-disrupt-01").is_some());
     // The KOTC colosseum is a first-class dataset layout on a 36×36 board.
     let colosseum = ds
         .terrain_layouts
@@ -562,13 +560,15 @@ fn resolve_terrain_produces_board_vertices() {
     let ds = Dataset::embedded();
     let layout = ds
         .terrain_layouts
-        .get("take-and-hold-mirror-1")
-        .expect("take-and-hold-mirror-1 layout");
+        .get("bm-take-vs-disrupt-01")
+        .expect("bm-take-vs-disrupt-01 layout");
     let resolved = ds
         .resolve_terrain(layout)
         .expect("resolves against embedded catalog");
     assert!(!resolved.is_empty());
-    // Every resolved piece is a polygon (>= 3 vertices) inside the 60x44 board.
+    // Source outlines may extend just over 1" beyond the nominal board edge;
+    // Battlemaster dimensions retain their thousandth-inch measurement precision.
+    const EDGE_OVERHANG: f64 = 1.01;
     for p in &resolved {
         assert!(
             p.vertices.len() >= 3,
@@ -577,7 +577,10 @@ fn resolve_terrain_produces_board_vertices() {
         );
         for v in &p.vertices {
             assert!(
-                v.x >= -1.0 && v.x <= 61.0 && v.y >= -1.0 && v.y <= 45.0,
+                v.x >= -EDGE_OVERHANG
+                    && v.x <= 60.0 + EDGE_OVERHANG
+                    && v.y >= -EDGE_OVERHANG
+                    && v.y <= 44.0 + EDGE_OVERHANG,
                 "vertex off-board: {v:?}"
             );
         }

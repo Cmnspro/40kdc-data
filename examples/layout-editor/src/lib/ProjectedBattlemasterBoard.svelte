@@ -1,6 +1,6 @@
 <script lang="ts">
   import { resolveLayout } from "@alpaca-software/40kdc-data";
-  import type { ResolvedPiece, TerrainLayout, TerrainTemplate } from "@alpaca-software/40kdc-data";
+  import type { ResolvedPiece, ResolvedWall, TerrainLayout, TerrainTemplate } from "@alpaca-software/40kdc-data";
   import { referenceImageBox, type ReferenceFit } from "./model.js";
 
   interface Props {
@@ -31,6 +31,7 @@
     return "#b05a20";
   };
   const points = (piece: ResolvedPiece): string => piece.vertices.map((point) => `${point.x},${point.y}`).join(" ");
+  const wallPts = (pts: ResolvedWall["points"]): string => pts.map((p) => `${p.x},${p.y}`).join(" ");
 </script>
 
 <svg class="projected-board" viewBox="0 0 44 60" role="img" aria-label={`Battlemaster projection: ${layout.name}`}>
@@ -58,6 +59,19 @@
         >
           <title>{piece.name ?? piece.id ?? "Battlemaster terrain"}</title>
         </polygon>
+      {/each}
+      {#each resolved as piece, pi}
+        {#if piece.walls}
+          {#each piece.walls as w, wi}
+            <polyline
+              points={wallPts(w.points)}
+              class="wall"
+              class:dense={piece.terrain_category === "dense"}
+              class:light={piece.terrain_category === "light"}
+              stroke-width={w.thickness ?? 0.25}
+            />
+          {/each}
+        {/if}
       {/each}
     </g>
   </g>
@@ -89,4 +103,13 @@
     stroke: var(--piece-color);
     stroke-width: 0.16;
   }
+  .wall {
+    fill: none;
+    stroke: oklch(0.3 0.04 30);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+  .wall.dense { stroke: oklch(0.28 0.06 150); }
+  .wall.light { stroke: oklch(0.35 0.05 60); stroke-dasharray: 0.4 0.25; }
 </style>

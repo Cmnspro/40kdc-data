@@ -1,13 +1,15 @@
 import { BSON } from "bson";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   decodeBakedCache,
   decodeSpawnerSave,
   mergeBattlemasterProjection,
   projectBattlemasterCache,
+  projectBattlemasterRestApi,
 } from "../src/project-battlemaster.js";
 import type { TerrainLayout, TerrainTemplate } from "../src/terrain/resolve.js";
+import { resolveLayout } from "../src/terrain/resolve.js";
 
 function syntheticCache(): Record<string, unknown> {
   return {
@@ -163,6 +165,156 @@ describe("Battlemaster read-only projector", () => {
     });
     expect(layout.pieces[0]!.position.x).not.toBe(35);
     expect(layout.pieces[0]!.position.y).toBeCloseTo(25.9985);
+  });
+
+  it("projects REST API layouts with source metadata and composed walls", async () => {
+    const meta = {
+      slug: "take-vs-take-01",
+      name: "Take vs Take 01",
+      owner: "test-owner",
+      chapterApprovedSlot: {
+        slotIndex: 1,
+        archetypeA: "take-and-hold",
+        archetypeB: "take-and-hold",
+      },
+      chapterApprovedDeploymentKey: 6,
+    };
+    const detail = {
+      layout: meta,
+      units: { linear: "in", origin: "center", yAxis: "up" },
+      terrain: [
+        {
+          name: "SmallRect Generator",
+          kind: "area",
+          footprint: {
+            origin: { x: 0, y: 0 },
+            widthIn: 6.003,
+            heightIn: 4.003,
+            rotationDeg: 0,
+          },
+          outline: {
+            points: [
+              { x: 0, y: 0 },
+              { x: 6.003, y: 0 },
+              { x: 6.003, y: 4.003 },
+              { x: 0, y: 4.003 },
+            ],
+          },
+          walls: [],
+          parts: [
+            {
+              name: "Generator",
+              material: "dense",
+              hasRoof: true,
+              origin: { x: 1, y: 1 },
+              rotationDeg: 0,
+              mirroredX: false,
+              mirroredY: false,
+              boundsWidthIn: 4,
+              boundsHeightIn: 2,
+              outline: null,
+              walls: [
+                {
+                  points: [
+                    { x: 0, y: 0 },
+                    { x: 4, y: 0 },
+                  ],
+                  thicknessIn: 0.25,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      deployment: {
+        deploymentKey: 6,
+        objectives: [{ index: 4, center: { x: 0, y: 1 }, diameterMm: null }],
+        zones: [],
+      },
+    };
+    const fetch = vi.fn(async (input: string | URL | Request) => {
+      const url = String(input);
+      const body = url.includes("/layouts/test-owner/")
+        ? detail
+        : { layouts: [meta], totalCount: 1 };
+      return new Response(JSON.stringify(body), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    });
+
+    const projection = await projectBattlemasterRestApi({
+      owner: "test-owner",
+      fetch,
+    });
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(projection.source).toMatchObject({
+      kind: "rest-api",
+      owner: "test-owner",
+    });
+    expect(projection.summary).toMatchObject({
+      source_kind: "rest-api",
+      layouts: 1,
+      layout_instances: 1,
+      feature_instances: 2,
+      feature_templates: 1,
+      composite_templates: 1,
+      resolved_pieces: 2,
+    });
+    const featureTemplate = projection.terrain_templates.find(
+      (template) => template.kind === "feature",
+    )!;
+    const compositeTemplate = projection.terrain_templates.find(
+      (template) => template.kind === "area",
+    )!;
+    expect(featureTemplate).toMatchObject({
+      id: expect.stringMatching(/^bm-part-generator-[a-f0-9]{10}$/),
+      has_roof: true,
+      terrain_category: "dense",
+      walls: [expect.objectContaining({ thickness: 0.25 })],
+    });
+    expect(compositeTemplate).toMatchObject({
+      id: expect.stringMatching(
+        /^bm-composite-smallrect-generator-[a-f0-9]{10}$/,
+      ),
+      features: [expect.objectContaining({ template: featureTemplate.id })],
+    });
+
+    const resolved = resolveLayout(
+      projection.terrain_layouts[0]!,
+      projection.terrain_templates,
+    );
+    expect(resolved[1]).toMatchObject({
+      id: "area-01--feature-1",
+      vertices: [
+        { x: 27.9985, y: 23.0015 },
+        { x: 31.9985, y: 23.0015 },
+        { x: 31.9985, y: 21.0015 },
+        { x: 27.9985, y: 21.0015 },
+      ],
+      walls: [
+        {
+          points: [
+            { x: 27.9985, y: 23.0015 },
+            { x: 31.9985, y: 23.0015 },
+          ],
+          thickness: 0.25,
+        },
+      ],
+    });
+    expect(projection.terrain_layouts[0]).toMatchObject({
+      id: "bm-take-vs-take-01",
+      mission_matchup_id: "take-and-hold-vs-take-and-hold",
+      deployment_pattern_id: "tipping-point",
+      pieces: [
+        expect.objectContaining({
+          is_objective: true,
+          objective_role: "expansion",
+          objective: { position: { x: 30, y: 21 } },
+        }),
+      ],
+    });
   });
 
   it("replaces all projected layouts while preserving unrelated terrain", () => {
