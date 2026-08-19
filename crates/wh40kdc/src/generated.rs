@@ -22445,6 +22445,10 @@ impl<'de> ::serde::Deserialize<'de> for TerrainLayoutSource {
 ///      "default": true,
 ///      "type": "boolean"
 ///    },
+///    "has_roof": {
+///      "description": "Whether this feature has a roof. Meaningful for `kind: \"feature\"`.",
+///      "type": "boolean"
+///    },
 ///    "id": {
 ///      "$ref": "#/$defs/entity-id"
 ///    },
@@ -22460,6 +22464,14 @@ impl<'de> ::serde::Deserialize<'de> for TerrainLayoutSource {
 ///      "type": "string",
 ///      "maxLength": 128,
 ///      "minLength": 1
+///    },
+///    "outline": {
+///      "description": "High-resolution boundary polygon for this template's base plate (the full die-cut nub outline). When present, rendering tools should prefer this over `footprint` for display; the resolver continues to use `footprint` for centroid and placement math. In the same local-inches frame as `footprint`.",
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/vec2"
+///      },
+///      "minItems": 3
 ///    },
 ///    "source": {
 ///      "description": "Catalog or mission pack the template originates from.",
@@ -22494,6 +22506,13 @@ impl<'de> ::serde::Deserialize<'de> for TerrainLayoutSource {
 ///        }
 ///      },
 ///      "additionalProperties": false
+///    },
+///    "walls": {
+///      "description": "Wall polylines for this feature, in the same local frame as `footprint`. Meaningful for `kind: \"feature\"`.",
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/wall"
+///      }
 ///    }
 ///  },
 ///  "additionalProperties": false
@@ -22520,10 +22539,16 @@ pub struct TerrainTemplate {
     ///Whether models may be placed on the ground footprint. `false` marks an elevated-only piece (a platform reachable only on its `upper_floor`, e.g. a gantry/catwalk) or a solid obstacle with no valid placement (e.g. a generator). Meaningful for `kind: "feature"`.
     #[serde(default = "defaults::default_bool::<true>")]
     pub ground_accessible: bool,
+    ///Whether this feature has a roof. Meaningful for `kind: "feature"`.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub has_roof: ::std::option::Option<bool>,
     pub id: EntityId,
     ///`area` = a gameplay terrain zone; `feature` = physical scenery placed on an area.
     pub kind: TerrainTemplateKind,
     pub name: TerrainTemplateName,
+    ///High-resolution boundary polygon for this template's base plate (the full die-cut nub outline). When present, rendering tools should prefer this over `footprint` for display; the resolver continues to use `footprint` for centroid and placement math. In the same local-inches frame as `footprint`.
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub outline: ::std::vec::Vec<Vec2>,
     ///Catalog or mission pack the template originates from.
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub source: ::std::option::Option<TerrainTemplateSource>,
@@ -22532,6 +22557,9 @@ pub struct TerrainTemplate {
     pub terrain_category: ::std::option::Option<TerrainTemplateTerrainCategory>,
     #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
     pub upper_floor: ::std::option::Option<TerrainTemplateUpperFloor>,
+    ///Wall polylines for this feature, in the same local frame as `footprint`. Meaningful for `kind: "feature"`.
+    #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+    pub walls: ::std::vec::Vec<Wall>,
 }
 ///`area` = a gameplay terrain zone; `feature` = physical scenery placed on an area.
 ///
@@ -25490,6 +25518,43 @@ pub struct UnitWargearCostsItem {
 pub struct Vec2 {
     pub x: f64,
     pub y: f64,
+}
+///A wall polyline: an open path of 2+ vertices with optional thickness, in the same local frame as the footprint.
+///
+/// <details><summary>JSON schema</summary>
+///
+/// ```json
+///{
+///  "description": "A wall polyline: an open path of 2+ vertices with optional thickness, in the same local frame as the footprint.",
+///  "type": "object",
+///  "required": [
+///    "points"
+///  ],
+///  "properties": {
+///    "points": {
+///      "type": "array",
+///      "items": {
+///        "$ref": "#/$defs/vec2"
+///      },
+///      "minItems": 2
+///    },
+///    "thickness": {
+///      "description": "Wall thickness in inches. Omit for thin walls.",
+///      "type": "number",
+///      "exclusiveMinimum": 0.0
+///    }
+///  },
+///  "additionalProperties": false
+///}
+/// ```
+/// </details>
+#[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct Wall {
+    pub points: ::std::vec::Vec<Vec2>,
+    ///Wall thickness in inches. Omit for thin walls.
+    #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+    pub thickness: ::std::option::Option<f64>,
 }
 ///A non-weapon item a model may carry — an icon, attachment, or other piece of equipment with no weapon profile. Weapons live in weapon.schema.json; this entity exists so wargear-option swaps and add-ons can reference equipment that is not a weapon.
 ///

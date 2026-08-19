@@ -16,12 +16,16 @@ import { RAW_DATA } from "../src/data/bundle.generated.js";
 
 describe("terrain (embedded catalog + layout resolution)", () => {
   it("embeds the 11e template catalog and imported layouts", () => {
-    // 13 canonical/KOTC templates plus Battlemaster's 12 feature and 44 composed
-    // area variants. Composed areas retain their source scenery as child features.
-    expect(dataset.terrainTemplates.all.length).toBe(69);
-    expect(
-      dataset.terrainTemplates.get("bm-bm-terrain-11e-1-composite-01-m0-p0")?.features,
-    ).toHaveLength(2);
+    // 19 canonical/KOTC templates plus Battlemaster REST API's 13 feature and
+    // 44 composed area variants (minor count variance when BM adds layout
+    // variety). Composed areas retain their source scenery as child features.
+    expect(dataset.terrainTemplates.all.length).toBeGreaterThanOrEqual(70);
+    const rawTemplateIds = RAW_DATA.terrainTemplates.map((template) => template.id);
+    expect(new Set(rawTemplateIds).size).toBe(rawTemplateIds.length);
+    const sampleComposite = dataset.terrainTemplates.all.find(
+      (t) => t.kind === "area" && t.source === "battlemaster-11e" && (t.features?.length ?? 0) > 0,
+    );
+    expect(sampleComposite?.features?.length).toBeGreaterThanOrEqual(1);
     expect(dataset.terrainTemplates.get("area-large")).toBeDefined();
     expect(dataset.terrainTemplates.get("kotc-ruin-inner")?.terrain_category).toBe("dense");
     expect(dataset.terrainTemplates.get("kotc-ruin-deployment")?.terrain_category).toBe("dense");
@@ -31,7 +35,20 @@ describe("terrain (embedded catalog + layout resolution)", () => {
     // removed in the catalog correction
     expect(dataset.terrainTemplates.get("wall-medium")).toBeUndefined();
     expect(dataset.terrainTemplates.get("scaffold")).toBeUndefined();
-    expect(dataset.terrainLayouts.get("take-and-hold-mirror-1")).toBeDefined();
+    // BM REST API feature templates carry wall polylines
+    const wallTemplate = dataset.terrainTemplates.all.find(
+      (t) => t.kind === "feature" && t.source === "battlemaster-11e" && (t.walls?.length ?? 0) > 0,
+    );
+    expect(wallTemplate).toBeDefined();
+    expect(wallTemplate!.walls![0]!.points.length).toBeGreaterThanOrEqual(2);
+    // BM REST API area templates carry high-res outlines
+    const outlineTemplate = dataset.terrainTemplates.all.find(
+      (t) => t.kind === "area" && t.source === "battlemaster-11e" && (t.outline?.length ?? 0) > 0,
+    );
+    expect(outlineTemplate).toBeDefined();
+    expect(outlineTemplate!.outline!.length).toBeGreaterThanOrEqual(100);
+    // Layouts exist with the REST API id scheme
+    expect(dataset.terrainLayouts.get("bm-take-vs-take-01")).toBeDefined();
     // The KOTC colosseum is a first-class dataset layout on a 36×36 board.
     const colosseum = dataset.terrainLayouts.get("kotc-colosseum");
     expect(colosseum?.board).toEqual({ width: 36, height: 36 });
@@ -42,19 +59,33 @@ describe("terrain (embedded catalog + layout resolution)", () => {
   });
 
   it("exposes the new layout classification fields", () => {
-    expect(dataset.terrainLayouts.get("take-and-hold-mirror-1")!.deployment_pattern_id).toBe(
+    expect(dataset.terrainLayouts.get("bm-take-vs-take-01")!.deployment_pattern_id).toBe(
       "tipping-point",
     );
-    const sd = dataset.terrainLayouts.get("take-and-hold-vs-purge-the-foe-2")!;
+    const sd = dataset.terrainLayouts.get("bm-take-vs-purge-02")!;
     expect(sd.deployment_pattern_id).toBe("search-and-destroy");
     expect(sd.mission_matchup_id).toBe("take-and-hold-vs-purge-the-foe");
     expect(sd.variant).toBe(2);
+    for (const layout of dataset.terrainLayouts.all.filter(
+      (candidate) => candidate.source === "battlemaster-11e",
+    )) {
+      const centerPieces = (layout.pieces ?? []).filter(
+        (piece) => piece.objective_role === "center",
+      );
+      expect(centerPieces).toHaveLength(2);
+      expect(centerPieces[0]!.link_group).toBe(centerPieces[1]!.link_group);
+    }
   });
 
+
   it("resolveTerrain produces on-board polygons (mirror of Rust resolve_terrain)", () => {
-    const layout = dataset.terrainLayouts.get("take-and-hold-mirror-1")!;
+    const layout = dataset.terrainLayouts.get("bm-take-vs-take-01")!;
     const resolved = dataset.resolveTerrain(layout);
     expect(resolved.length).toBeGreaterThan(0);
+    const resolvedIds = resolved
+      .map((piece) => piece.id)
+      .filter((id): id is string => id !== null);
+    expect(new Set(resolvedIds).size).toBe(resolvedIds.length);
     for (const p of resolved) {
       expect(p.vertices.length).toBeGreaterThanOrEqual(3);
       for (const v of p.vertices) {

@@ -529,6 +529,22 @@ export interface Vec2 {
   y: number;
 }
 /**
+ * A wall polyline: an open path of 2+ vertices with optional thickness, in the same local frame as the footprint.
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "wall".
+ */
+export interface Wall {
+  /**
+   * @minItems 2
+   */
+  points: [Vec2, Vec2, ...Vec2[]];
+  /**
+   * Wall thickness in inches. Omit for thin walls.
+   */
+  thickness?: number;
+}
+/**
  * A model's base. 'round' carries 'diameter'; 'oval' carries 'width'+'length'. 'flying-base' (with 'size': small/large), 'hull', and 'unique' are categories the GW base-size guide gives without standard millimetre dimensions; entries carrying such a category, or any millimetre value not taken from an authoritative source, set 'draft': true to mark them for later hand-authoring.
  *
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
@@ -2117,6 +2133,20 @@ export interface TerrainTemplate {
    * 11e terrain category (§13.02–13.05). Applies to kind: "feature". Dense features enable the Hidden rule; light features provide cover but not obscuring.
    */
   terrain_category?: "exposed" | "light" | "dense";
+  /**
+   * Wall polylines for this feature, in the same local frame as `footprint`. Meaningful for `kind: "feature"`.
+   */
+  walls?: Wall[];
+  /**
+   * Whether this feature has a roof. Meaningful for `kind: "feature"`.
+   */
+  has_roof?: boolean;
+  /**
+   * High-resolution boundary polygon for this template's base plate (the full die-cut nub outline). When present, rendering tools should prefer this over `footprint` for display; the resolver continues to use `footprint` for centroid and placement math. In the same local-inches frame as `footprint`.
+   *
+   * @minItems 3
+   */
+  outline?: [Vec2, Vec2, Vec2, ...Vec2[]];
   game_version: GameVersionReference;
 }
 /**

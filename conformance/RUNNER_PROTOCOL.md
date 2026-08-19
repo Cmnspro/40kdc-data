@@ -300,21 +300,23 @@ Maps two grand totals onto the WTC 20-point result. Response value is
 {"op":"resolve_terrain","args":{"layout":{…TerrainLayout…},"templates":[{…TerrainTemplate…}, …]}}
 ```
 
-Resolves a template-anchored terrain layout to absolute board-space polygon
-vertices (board inches, y-down). `layout` is a `terrain-layout` document;
-`templates` is the catalog its piece `template` references resolve against
-(passed inline so the op is dataset-independent). Response value is
-`{"pieces": [{"id": <string|null>, "name": <string|null>, "piece_type":
-"area"|"feature", "floor": <int>, "vertices": [{"x": <num>, "y": <num>}, …]},
-…]}`.
+Resolves a template-anchored terrain layout to absolute board-space geometry
+(board inches, y-down). `layout` is a `terrain-layout` document; `templates` is
+the catalog its piece `template` references resolve against (passed inline so
+the op is dataset-independent). Response value is `{"pieces": [...]}`. Every
+resolved piece contains `id`, `name`, `piece_type`, `floor`, and `vertices`.
+Feature templates additionally propagate `has_roof` and `terrain_category` when
+present, plus `walls` as board-space polylines with their optional `thickness`.
 
 Pieces are emitted in `layout.pieces` order; an area piece that instances a
 template carrying composed `features` emits those features immediately after it,
-in template-declaration order. Vertices are rounded to 4 dp; the differ compares
-them with float tolerance (`5e-4`) and the identity fields exactly. Equivalent
-to TS `resolveLayout(layout, templates)` / Rust `resolve_layout(&layout,
-&templates)`. A layout that references a missing template, or a piece with
-neither `footprint` nor `template`, returns `error_kind: "INVALID_INPUT"`.
+in template-declaration order. A composed feature's resolved ID is namespaced by
+its parent piece ID (`<parent>--<feature>`) so separate instances cannot collide.
+Vertices and wall points are rounded to 4 dp; the differ compares coordinates
+with float tolerance (`5e-4`) and all other fields exactly. Equivalent to TS
+`resolveLayout(layout, templates)` / Rust `resolve_layout(&layout, &templates)`.
+A layout that references a missing template, or a piece with neither `footprint`
+nor `template`, returns `error_kind: "INVALID_INPUT"`.
 
 The transform contract (mirror → rotate → translate about the footprint
 centroid; clockwise rotation in the y-down frame) is specified in CONFORMANCE.md

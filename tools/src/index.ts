@@ -37,6 +37,7 @@ export {
 } from "./terrain/index.js";
 export type {
   ResolvedPiece,
+  ResolvedWall,
   ResolvedVec2,
   BoardEdge,
   FeatureRef,
