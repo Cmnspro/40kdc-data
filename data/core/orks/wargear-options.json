@@ -82,33 +82,6 @@
     }
   },
   {
-    "id": "killa-kans-wgo-mfm-1",
-    "unit_id": "killa-kans",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "kan-shoota"
-    ],
-    "replacement_choice": [
-      [
-        "rokkit-launcha"
-      ],
-      [
-        "grotzooka"
-      ],
-      [
-        "skorcha"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
     "id": "lootas-wgo-mfm-1",
     "unit_id": "lootas",
     "faction_id": "orks",
@@ -495,7 +468,7 @@
     },
     "replacement": [
       "close-combat-weapon",
-      "kustom-shoota"
+      "kustom-shoota-kommandos"
     ]
   },
   {
@@ -567,7 +540,7 @@
       "max_count": 1
     },
     "replacement": [
-      "burna",
+      "burna-kommandos",
       "close-combat-weapon"
     ]
   },
@@ -611,116 +584,6 @@
     ],
     "replaces": [
       "choppa"
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "any_number": true
-    }
-  },
-  {
-    "id": "boyz-wgo-mfm-1",
-    "unit_id": "boyz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement": [
-      "shoota"
-    ],
-    "model_constraint": {
-      "model_name": "Boy",
-      "any_number": true
-    }
-  },
-  {
-    "id": "boyz-wgo-mfm-2",
-    "unit_id": "boyz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "slugga",
-      "choppa"
-    ],
-    "replacement_choice": [
-      [
-        "big-shoota",
-        "close-combat-weapon"
-      ],
-      [
-        "close-combat-weapon",
-        "rokkit-launcha-boyz"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Boy",
-      "any_number": true
-    }
-  },
-  {
-    "id": "boyz-wgo-mfm-3",
-    "unit_id": "boyz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "slugga",
-      "big-choppa"
-    ],
-    "replacement": [
-      "kombi-weapon",
-      "close-combat-weapon"
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "any_number": true
-    }
-  },
-  {
-    "id": "boyz-wgo-mfm-4",
-    "unit_id": "boyz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "kombi-rokkit",
-        "kombi-shoota"
-      ],
-      [
-        "kustom-shoota"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "any_number": true
-    }
-  },
-  {
-    "id": "boyz-wgo-mfm-5",
-    "unit_id": "boyz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "big-choppa"
-    ],
-    "replacement": [
-      "power-klaw"
     ],
     "model_constraint": {
       "model_name": "Boss Nob",
@@ -851,22 +714,6 @@
     "model_constraint": {
       "any_number": true,
       "max_count": 4
-    }
-  },
-  {
-    "id": "dakkajet-wgo-mfm-1",
-    "unit_id": "dakkajet",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement": [
-      "twin-supa-shoota-dakkajet"
-    ],
-    "model_constraint": {
-      "any_number": true
     }
   },
   {
@@ -1016,107 +863,6 @@
     }
   },
   {
-    "id": "nobz-wgo-mfm-1",
-    "unit_id": "nobz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement": [
-      "ammo-runt"
-    ],
-    "model_constraint": {
-      "any_number": true,
-      "max_count": 2
-    }
-  },
-  {
-    "id": "nobz-wgo-mfm-2",
-    "unit_id": "nobz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "slugga",
-      "big-choppa"
-    ],
-    "replacement": [
-      "kombi-weapon",
-      "close-combat-weapon-nobz"
-    ],
-    "model_constraint": {
-      "model_name": "Nob",
-      "any_number": true
-    }
-  },
-  {
-    "id": "nobz-wgo-mfm-3",
-    "unit_id": "nobz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "big-choppa"
-    ],
-    "replacement": [
-      "power-klaw"
-    ],
-    "model_constraint": {
-      "model_name": "Nob",
-      "any_number": true
-    }
-  },
-  {
-    "id": "nobz-wgo-mfm-4",
-    "unit_id": "nobz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "big-choppa"
-    ],
-    "replacement": [
-      "power-klaw"
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "any_number": true
-    }
-  },
-  {
-    "id": "nobz-wgo-mfm-5",
-    "unit_id": "nobz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "slugga",
-      "big-choppa"
-    ],
-    "replacement": [
-      "kombi-weapon",
-      "close-combat-weapon-nobz"
-    ],
-    "model_constraint": {
-      "model_name": "Boss Nob",
-      "any_number": true
-    }
-  },
-  {
     "id": "beastboss-on-squigosaur-wgo-mfm-1",
     "unit_id": "beastboss-on-squigosaur",
     "faction_id": "orks",
@@ -1142,7 +888,7 @@
     },
     "is_free": true,
     "replaces": [
-      "kustom-shoota"
+      "kustom-shoota-meganobz"
     ],
     "model_constraint": {
       "max_count": 6
@@ -1161,8 +907,8 @@
     },
     "is_free": true,
     "replaces": [
-      "kustom-shoota",
-      "power-klaw"
+      "kustom-shoota-meganobz",
+      "power-klaw-meganobz"
     ],
     "model_constraint": {
       "max_count": 6
@@ -1182,7 +928,7 @@
     },
     "is_free": true,
     "replaces": [
-      "power-klaw"
+      "power-klaw-meganobz"
     ],
     "model_constraint": {
       "max_count": 6
@@ -1201,7 +947,7 @@
     },
     "is_free": true,
     "replaces": [
-      "kustom-shoota"
+      "kustom-shoota-meganobz"
     ],
     "model_constraint": {
       "max_count": 6
@@ -1220,8 +966,8 @@
     },
     "is_free": true,
     "replaces": [
-      "kustom-shoota",
-      "power-klaw"
+      "kustom-shoota-meganobz",
+      "power-klaw-meganobz"
     ],
     "model_constraint": {
       "max_count": 6
@@ -1246,22 +992,6 @@
       [
         "kannon-gargantuan-squiggoth"
       ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "burna-bommer-wgo-mfm-1",
-    "unit_id": "burna-bommer",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement": [
-      "skorcha-missile-rack"
     ],
     "model_constraint": {
       "any_number": true
@@ -1319,6 +1049,347 @@
     "is_free": true,
     "replacement": [
       "attack-squig"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "dakkajet-wgo-codex-1",
+    "unit_id": "dakkajet",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replacement": [
+      "twin-supa-shoota-dakkajet"
+    ],
+    "model_constraint": {
+      "any_number": true,
+      "max_count": 1
+    }
+  },
+  {
+    "id": "burna-bommer-wgo-codex-1",
+    "unit_id": "burna-bommer",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "skorcha-missile-rack"
+    ],
+    "replacement": [
+      "twin-big-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "boyz-wgo-codex-1",
+    "unit_id": "boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-choppa-boyz",
+      "kombi-skorcha-boyz"
+    ],
+    "replacement": [
+      "big-choppa-boyz"
+    ],
+    "model_constraint": {
+      "model_name": "Nob"
+    }
+  },
+  {
+    "id": "boyz-wgo-codex-2",
+    "unit_id": "boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-choppa-boyz"
+    ],
+    "replacement": [
+      "power-klaw-boyz"
+    ],
+    "model_constraint": {
+      "model_name": "Nob"
+    }
+  },
+  {
+    "id": "boyz-wgo-codex-3",
+    "unit_id": "boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kombi-skorcha-boyz"
+    ],
+    "replacement_choice": [
+      [
+        "kombi-rokkit-boyz"
+      ],
+      [
+        "kustom-shoota-boyz"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Nob"
+    }
+  },
+  {
+    "id": "boyz-wgo-codex-4",
+    "unit_id": "boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "shoota-boyz-unit"
+    ],
+    "replacement_choice": [
+      [
+        "big-shoota-boyz"
+      ],
+      [
+        "rokkit-launcha-boyz"
+      ],
+      [
+        "burna-boyz-unit"
+      ]
+    ],
+    "model_constraint": {
+      "max_count": 2,
+      "model_name": "Boy",
+      "per_n_models": 10
+    }
+  },
+  {
+    "id": "nobz-wgo-codex-1",
+    "unit_id": "nobz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-krumpa",
+      "kustom-shoota-nobz"
+    ],
+    "replacement": [
+      "big-skorcha-nobz",
+      "kustom-choppa-nobz"
+    ],
+    "model_constraint": {
+      "max_count": 2,
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "nobz-wgo-codex-2",
+    "unit_id": "nobz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-krumpa",
+      "kustom-shoota-nobz"
+    ],
+    "replacement": [
+      "kustom-shoota-nobz",
+      "kustom-choppa-nobz"
+    ],
+    "model_constraint": {
+      "max_count": 2,
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "nobz-wgo-codex-3",
+    "unit_id": "nobz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-krumpa",
+      "kustom-shoota-nobz"
+    ],
+    "replacement": [
+      "big-skorcha-nobz",
+      "big-choppa-nobz"
+    ],
+    "model_constraint": {
+      "max_count": 2,
+      "per_n_models": 5
+    }
+  },
+  {
+    "id": "nobz-wgo-codex-4",
+    "unit_id": "nobz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-krumpa",
+      "kustom-shoota-nobz"
+    ],
+    "replacement": [
+      "paired-kustom-krumpas"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "nobz-wgo-codex-5",
+    "unit_id": "nobz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "kustom-shoota-nobz"
+    ],
+    "replacement": [
+      "kombi-rokkit-nobz"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "gunwagon-wgo-1",
+    "unit_id": "gunwagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replacement": [
+      "wreckin-ball-gunwagon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "gunwagon-wgo-2",
+    "unit_id": "gunwagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replacement": [
+      "grabbin-klaw-gunwagon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "gunwagon-wgo-3",
+    "unit_id": "gunwagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replacement": [
+      "lobba-gunwagon"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "gunwagon-wgo-4",
+    "unit_id": "gunwagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replacement": [
+      "big-shoota"
+    ],
+    "model_constraint": {
+      "any_number": true,
+      "max_count": 4
+    }
+  },
+  {
+    "id": "gunwagon-wgo-5",
+    "unit_id": "gunwagon",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "kannon-gunwagon"
+      ],
+      [
+        "killkannon-gunwagon"
+      ],
+      [
+        "zzap-gun-gunwagon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "warbuggies-wgo-1",
+    "unit_id": "warbuggies",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "is_free": true,
+    "replaces": [
+      "mek-speshul"
+    ],
+    "replacement": [
+      "rivet-kannon"
     ],
     "model_constraint": {
       "any_number": true

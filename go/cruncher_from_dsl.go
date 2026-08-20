@@ -110,7 +110,7 @@ func dslWalk(node any, source map[string]any, opts dslOpts, out *effectTranslati
 		translateNamedRegionState(n, source, opts, out)
 	case "conditional":
 		translateConditional(n, source, opts, out)
-	case "sequence":
+	case "rules-bundle", "sequence":
 		for _, step := range getList(n, "steps") {
 			dslWalk(step, source, opts, out)
 		}
@@ -799,7 +799,7 @@ func collectGatedBuffs(node any, source map[string]any, opts dslOpts, applicabil
 			return
 		}
 		return
-	case "sequence":
+	case "rules-bundle", "sequence":
 		for _, step := range getList(n, "steps") {
 			collectGatedBuffs(step, source, opts, applicability, outBuffs)
 		}

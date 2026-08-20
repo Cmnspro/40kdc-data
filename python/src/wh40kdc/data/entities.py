@@ -193,6 +193,57 @@ class AbilityView:
         when the ability declares no scope."""
         return [u for u in candidates if self.affects_unit(u)]
 
+    def _resolve_rules_bundles(
+        self,
+        effect: Any,
+        seen: frozenset[str] | None = None,
+    ) -> Any:
+        """Expand entity-backed grants into reusable bundle effect trees.
+
+        Unresolved, malformed, and cyclic references remain untouched so the
+        DSL translator emits its normal unsupported diagnostic.
+        """
+        seen = seen or frozenset([self.id])
+        if isinstance(effect, list):
+            copy: list[Any] | None = None
+            for index, value in enumerate(effect):
+                resolved = self._resolve_rules_bundles(value, seen)
+                if resolved is not value:
+                    if copy is None:
+                        copy = list(effect)
+                    copy[index] = resolved
+            return copy if copy is not None else effect
+        if not isinstance(effect, dict):
+            return effect
+
+        modifier = effect.get("modifier")
+        ability_id = modifier.get("ability_id") if isinstance(modifier, dict) else None
+        if (
+            effect.get("type") == "ability-grant"
+            and isinstance(modifier, dict)
+            and modifier.get("rules_bundle") is True
+            and isinstance(ability_id, str)
+            and ability_id not in seen
+        ):
+            faction_id = self.raw.get("faction_id")
+            target = (
+                self._ds.abilities.get_in_faction(ability_id, faction_id)
+                if isinstance(faction_id, str)
+                else None
+            ) or self._ds.abilities.get_any(ability_id)
+            target_effect = target.raw.get("effect") if target is not None else None
+            if isinstance(target_effect, dict) and target_effect.get("type") == "rules-bundle":
+                return self._resolve_rules_bundles(target_effect, seen | frozenset([ability_id]))
+
+        copy_dict: dict[str, Any] | None = None
+        for key, value in effect.items():
+            resolved = self._resolve_rules_bundles(value, seen)
+            if resolved is not value:
+                if copy_dict is None:
+                    copy_dict = dict(effect)
+                copy_dict[key] = resolved
+        return copy_dict if copy_dict is not None else effect
+
     def get_buffs(
         self,
         source: dict[str, Any],
@@ -217,7 +268,12 @@ class AbilityView:
         from wh40kdc.cruncher.from_dsl import effect_to_buffs
 
         ctx = context if context is not None else {"phase": "shooting"}
-        translated = effect_to_buffs(self.raw.get("effect"), source, ctx, perspective)
+        translated = effect_to_buffs(
+            self._resolve_rules_bundles(self.raw.get("effect")),
+            source,
+            ctx,
+            perspective,
+        )
         # A range-scoped ability (DSL scope.range_inches, e.g. a "within 18\""
         # reroll) gates on distance to the target. Stamp it here, not in the
         # effect translator, so the effect-translation corpus (bare effects) is

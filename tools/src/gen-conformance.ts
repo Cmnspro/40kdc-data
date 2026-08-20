@@ -1705,6 +1705,226 @@ function genEffectTranslation(): void {
       },
       scope: { range: "unit", duration: "turn" },
     },
+    {
+      id: "heal-selected-model",
+      effect: {
+        type: "select-units",
+        selector: {
+          owner: "friendly",
+          count: 1,
+          target_kind: "model",
+          within_inches: 3,
+          keywords: ["ORKS", "VEHICLE"],
+          exclusions: [{ type: "target-has-keyword", parameters: { keyword: "AIRCRAFT" } }],
+        },
+        effect: {
+          type: "sequence",
+          steps: [
+            { type: "heal-wounds", target: "unit", modifier: { amount: "D3" } },
+            { type: "stat-modifier", target: "unit", modifier: { stat: "hit", operation: "add", value: 1 } },
+          ],
+        },
+      },
+      scope: { range: "unit", duration: "until-next-movement-phase" },
+    },
+    {
+      id: "tracking-token",
+      effect: {
+        type: "sequence",
+        steps: [
+          {
+            type: "select-units",
+            selector: { owner: "enemy", count: 1, within_inches: 12 },
+            effect: {
+              type: "detection-range-modifier",
+              target: "unit",
+              modifier: { operation: "add", value: 3 },
+            },
+          },
+          {
+            type: "tracking-token",
+            target: "unit",
+            modifier: { token: "Kommandos Grot", placement: "next-to-target" },
+          },
+        ],
+      },
+      scope: { range: "unit", duration: "turn" },
+    },
+    {
+      id: "psychic-model-bundle",
+      effect: {
+        type: "for-each-unit",
+        selector: { owner: "friendly", keywords: ["ORKS", "PSYKER"], target_kind: "model" },
+        effect: {
+          type: "named-effect",
+          name: "Roar of Mork",
+          kind: "psychic",
+          level: 1,
+          optional: true,
+          effect: {
+            type: "sequence",
+            steps: [
+              {
+                type: "dice-gated",
+                dice: "D6",
+                threshold: 1,
+                comparison: "eq",
+                on_success: { type: "set-battle-shock", target: "selected-models-unit", modifier: {} },
+              },
+              {
+                type: "select-units",
+                selector: { owner: "enemy", count: 1, within_inches: 12 },
+                effect: {
+                  type: "battle-shock-test",
+                  target: "unit",
+                  modifier: { operation: "subtract", value: 1 },
+                  scaling: { per: 10, of: "models-in-bearer-unit", round: "down" },
+                },
+              },
+            ],
+          },
+        },
+      },
+      scope: { range: "unit", duration: "battle" },
+    },
+    {
+      id: "designate-bearer-target-with-eligibility",
+      effect: {
+        type: "designate-target",
+        designation: "pulsa-rokkit-target",
+        select: {
+          scope: "enemy-unit",
+          count: 1,
+          timing: "when-selected-to-shoot",
+          within_inches: 24,
+          keywords: ["MONSTER", "VEHICLE"],
+          keyword_match: "any",
+        },
+        applies: {
+          to: "bearer-attacks-target",
+          effect: {
+            type: "sequence",
+            steps: [
+              {
+                type: "stat-modifier",
+                target: "unit",
+                modifier: { stat: "AP", operation: "add", value: 1, attack_type: "ranged" },
+              },
+              {
+                type: "keyword-grant",
+                target: "unit",
+                modifier: { keywords: ["Lethal Hits"], weapon_type: "ranged" },
+              },
+            ],
+          },
+        },
+        duration: "phase",
+      },
+      scope: { range: "unit", duration: "phase" },
+    },
+    {
+      id: "conditional-when-selected-to-shoot-alias",
+      effect: {
+        type: "conditional",
+        condition: {
+          type: "timing-is",
+          parameters: { timing: "when-selected-to-shoot" },
+        },
+        effect: {
+          type: "roll-modifier",
+          target: "unit",
+          modifier: { roll: "hit", operation: "add", value: 1 },
+        },
+      },
+      scope: { range: "unit", duration: "phase" },
+    },
+    {
+      id: "transport-capacity-conversion",
+      effect: {
+        type: "transport-capacity-conversion",
+        target: "unit",
+        modifier: {
+          occupancy_kind: "grouped-models",
+          subject_kind: "unit-models",
+          model_keyword: "GRETCHIN",
+          models_per_group: 2,
+          spaces_per_group: 1,
+          rounding: "up",
+        },
+      },
+      scope: { range: "unit", duration: "permanent" },
+    },
+    {
+      id: "transport-grouped-single-keyword-model",
+      effect: {
+        type: "transport-capacity-conversion",
+        target: "self",
+        modifier: {
+          occupancy_kind: "grouped-models",
+          subject_kind: "single-model",
+          model_keyword: "CYCLOPS",
+          models_per_group: 1,
+          spaces_per_group: 2,
+          rounding: "up",
+        },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "transport-fixed-model-spaces-with-capacity-eligibility",
+      effect: {
+        type: "transport-capacity-conversion",
+        target: "self",
+        modifier: {
+          occupancy_kind: "fixed-model-spaces",
+          subject_kind: "single-model",
+          spaces_per_model: 4,
+          transport_eligibility: { requires_capacity_keyword: "TERMINATOR" },
+        },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "transport-fixed-model-spaces-with-embark-as",
+      effect: {
+        type: "transport-capacity-conversion",
+        target: "self",
+        modifier: {
+          occupancy_kind: "fixed-model-spaces",
+          subject_kind: "single-model",
+          spaces_per_model: 7,
+          transport_eligibility: { embark_as_keyword: "INFANTRY" },
+        },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
+    {
+      id: "transport-equivalent-model-keyword",
+      effect: {
+        type: "transport-capacity-conversion",
+        target: "unit",
+        modifier: {
+          occupancy_kind: "equivalent-model",
+          subject_kind: "unit-models",
+          model_keyword: "POSSESSED",
+          equivalent_model_keyword: "TERMINATOR",
+        },
+      },
+      scope: { range: "unit", duration: "permanent" },
+    },
+    {
+      id: "transport-equivalent-model-count",
+      effect: {
+        type: "transport-capacity-conversion",
+        target: "self",
+        modifier: {
+          occupancy_kind: "equivalent-model",
+          subject_kind: "single-model",
+          equivalent_model_count: 2,
+        },
+      },
+      scope: { range: "self", duration: "permanent" },
+    },
   ];
   for (const fc of FORCED_AUDIT_CASES) {
     cases.push({

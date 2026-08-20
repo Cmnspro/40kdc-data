@@ -215,14 +215,23 @@
         },
         "keywords": [
           {
-            "keyword_id": "pistol"
+            "keyword_id": "close-quarters"
+          },
+          {
+            "keyword_id": "lethal-hits",
+            "parameters": {
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -296,11 +305,11 @@
   },
   {
     "id": "power-klaw",
-    "name": "Power klaw",
+    "name": "Power Klaw",
     "type": "melee",
     "profiles": [
       {
-        "name": "Power klaw",
+        "name": "Power Klaw",
         "range": "Melee",
         "stats": {
           "A": 3,
@@ -314,7 +323,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -432,11 +441,11 @@
   },
   {
     "id": "grot-blasta",
-    "name": "Grot blasta",
+    "name": "Grot Blasta",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Grot blasta",
+        "name": "Grot Blasta",
         "range": 12,
         "stats": {
           "A": 1,
@@ -454,32 +463,105 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "rivet-kannon",
-    "name": "Rivet kannon",
+    "name": "Rivet Kannon",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Rivet kannon",
-        "range": 36,
+        "name": "Aimed",
+        "range": 24,
         "stats": {
           "A": 6,
-          "S": 8,
-          "AP": -1,
+          "S": 7,
+          "AP": -2,
           "D": 2,
-          "BS": 5
+          "BS": 4
         },
         "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 4
+            }
+          },
           {
             "keyword_id": "assault"
           },
           {
-            "keyword_id": "rapid-fire",
+            "keyword_id": "devastating-wounds",
             "parameters": {
-              "value": 3
+              "required_target_keywords_any": [
+                "Infantry"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Point Blank",
+        "range": 6,
+        "stats": {
+          "A": "D3+1",
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 4
+            }
+          },
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "devastating-wounds",
+            "parameters": {
+              "required_target_keywords_any": [
+                "Infantry"
+              ]
+            }
+          },
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "spiked-ram",
+    "name": "Spiked Ram",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Spiked Ram",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 7,
+          "AP": -1,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 1
             }
           }
         ]
@@ -487,39 +569,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "spiked-ram",
-    "name": "Spiked ram",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Spiked ram",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 7,
-          "AP": -1,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "urty-syringe",
-    "name": "Urty syringe",
+    "name": "Urty Syringe",
     "type": "melee",
     "profiles": [
       {
-        "name": "Urty syringe",
+        "name": "Urty Syringe",
         "range": "Melee",
         "stats": {
           "A": 1,
@@ -547,7 +606,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -649,16 +708,13 @@
         "name": "Skorcha",
         "range": 12,
         "stats": {
-          "A": "D6",
+          "A": 3,
           "S": 5,
           "AP": -1,
           "D": 1,
           "BS": null
         },
         "keywords": [
-          {
-            "keyword_id": "ignores-cover"
-          },
           {
             "keyword_id": "torrent"
           }
@@ -667,7 +723,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -710,6 +766,15 @@
         },
         "keywords": [
           {
+            "keyword_id": "lethal-hits",
+            "parameters": {
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
+          },
+          {
             "keyword_id": "rapid-fire",
             "parameters": {
               "value": 2
@@ -720,7 +785,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -815,11 +880,11 @@
   },
   {
     "id": "saddlegit-weapons",
-    "name": "Saddlegit weapons",
+    "name": "Saddlegit’s Shiv",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Saddlegit weapons",
+        "name": "Saddlegit’s Shiv",
         "range": 9,
         "stats": {
           "A": 1,
@@ -837,7 +902,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -847,7 +912,7 @@
     "profiles": [
       {
         "name": "Ranged",
-        "range": 12,
+        "range": 9,
         "stats": {
           "A": 1,
           "S": 5,
@@ -860,14 +925,20 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
           },
           {
@@ -890,34 +961,37 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
-          },
-          {
-            "keyword_id": "lance"
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "squig-jaws",
-    "name": "Squig jaws",
+    "name": "Squig’s Jaws",
     "type": "melee",
     "profiles": [
       {
-        "name": "Squig jaws",
+        "name": "Squig’s Jaws",
         "range": "Melee",
         "stats": {
           "A": 3,
@@ -935,7 +1009,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1128,7 +1202,14 @@
           "D": "D6",
           "BS": 5
         },
-        "keywords": []
+        "keywords": [
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
       },
       {
         "name": "Frag",
@@ -1142,14 +1223,23 @@
         },
         "keywords": [
           {
-            "keyword_id": "blast"
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 3
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 4
+            }
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1167,12 +1257,32 @@
           "D": 2,
           "BS": 5
         },
-        "keywords": []
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 3
+            }
+          },
+          {
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 4
+            }
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1184,18 +1294,52 @@
         "name": "Zzap gun",
         "range": 36,
         "stats": {
-          "A": 1,
-          "S": "D6+6",
-          "AP": -3,
-          "D": 5,
-          "BS": 5
+          "A": 2,
+          "S": 8,
+          "AP": -2,
+          "D": 4,
+          "BS": 4
         },
         "keywords": [
           {
             "keyword_id": "anti",
             "parameters": {
+              "target_keyword": "Monster",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
+            }
+          },
+          {
+            "keyword_id": "anti",
+            "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "devastating-wounds",
+            "parameters": {
+              "required_target_keywords_any": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 2
             }
           }
         ]
@@ -1203,7 +1347,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1223,7 +1367,10 @@
         },
         "keywords": [
           {
-            "keyword_id": "blast"
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 3
+            }
           },
           {
             "keyword_id": "indirect-fire"
@@ -1233,7 +1380,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1284,11 +1431,11 @@
   },
   {
     "id": "grabbin-klaw",
-    "name": "Grabbin’ klaw",
+    "name": "Grabbin’ Klaw",
     "type": "melee",
     "profiles": [
       {
-        "name": "Grabbin’ klaw",
+        "name": "Grabbin’ Klaw",
         "range": "Melee",
         "stats": {
           "A": 2,
@@ -1306,16 +1453,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "wreckin-ball",
-    "name": "Wreckin’ ball",
+    "name": "Wreckin’ Ball",
     "type": "melee",
     "profiles": [
       {
-        "name": "Wreckin’ ball",
+        "name": "Wreckin’ Ball",
         "range": "Melee",
         "stats": {
           "A": 1,
@@ -1326,6 +1473,12 @@
         },
         "keywords": [
           {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 2
+            }
+          },
+          {
             "keyword_id": "extra-attacks"
           }
         ]
@@ -1333,7 +1486,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1525,11 +1678,11 @@
   },
   {
     "id": "rokkit-pistol",
-    "name": "Rokkit pistol",
+    "name": "Rokkit Pistol",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Rokkit pistol",
+        "name": "Rokkit Pistol",
         "range": 12,
         "stats": {
           "A": 1,
@@ -1540,29 +1693,29 @@
         },
         "keywords": [
           {
-            "keyword_id": "pistol"
+            "keyword_id": "close-quarters"
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "smash-hammer",
-    "name": "Smash hammer",
+    "name": "Smash Hammer",
     "type": "melee",
     "profiles": [
       {
-        "name": "Smash hammer",
+        "name": "Standard",
         "range": "Melee",
         "stats": {
-          "A": 2,
-          "S": 6,
+          "A": 3,
+          "S": 7,
           "AP": -2,
-          "D": 3,
+          "D": 2,
           "WS": 3
         },
         "keywords": [
@@ -1570,22 +1723,46 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
           }
         ]
+      },
+      {
+        "name": "Hunter",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 14,
+          "AP": -3,
+          "D": 6,
+          "WS": 3
+        },
+        "keywords": [],
+        "target_restrictions": {
+          "required_keywords_any": [
+            "Monster",
+            "Vehicle"
+          ]
+        }
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1608,14 +1785,20 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
           },
           {
@@ -1626,7 +1809,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1639,26 +1822,12 @@
         "range": "Melee",
         "stats": {
           "A": 2,
-          "S": 6,
+          "S": 7,
           "AP": -2,
           "D": 3,
           "WS": 3
         },
         "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Monster",
-              "threshold": 4
-            }
-          },
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Vehicle",
-              "threshold": 4
-            }
-          },
           {
             "keyword_id": "devastating-wounds"
           },
@@ -1670,7 +1839,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1706,28 +1875,37 @@
     "type": "ranged",
     "profiles": [
       {
-        "name": "Supa-gatler",
+        "name": "Aimed",
         "range": 24,
         "stats": {
-          "A": 20,
+          "A": 30,
           "S": 7,
-          "AP": -1,
+          "AP": -2,
           "D": 2,
           "BS": 5
         },
+        "keywords": []
+      },
+      {
+        "name": "Point Blank",
+        "range": 12,
+        "stats": {
+          "A": "3D6+3",
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "BS": null
+        },
         "keywords": [
           {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
+            "keyword_id": "torrent"
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1763,24 +1941,12 @@
     "type": "melee",
     "profiles": [
       {
-        "name": "Sweep",
-        "range": "Melee",
-        "stats": {
-          "A": 18,
-          "S": 10,
-          "AP": -2,
-          "D": 3,
-          "WS": 3
-        },
-        "keywords": []
-      },
-      {
-        "name": "Strike",
+        "name": "Mega-choppa",
         "range": "Melee",
         "stats": {
           "A": 6,
           "S": 24,
-          "AP": -5,
+          "AP": -4,
           "D": 10,
           "WS": 3
         },
@@ -1789,7 +1955,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1798,29 +1964,10 @@
     "type": "ranged",
     "profiles": [
       {
-        "name": "Squint",
-        "range": 18,
-        "stats": {
-          "A": 1,
-          "S": 12,
-          "AP": -4,
-          "D": 3,
-          "BS": 5
-        },
-        "keywords": [
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": "D3"
-            }
-          }
-        ]
-      },
-      {
         "name": "Glare",
         "range": 24,
         "stats": {
-          "A": "D6",
+          "A": 3,
           "S": 5,
           "AP": 0,
           "D": 1,
@@ -1828,20 +1975,29 @@
         },
         "keywords": [
           {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "sustained-hits",
+            "keyword_id": "blast",
             "parameters": {
-              "value": "D3"
+              "value": 1
             }
           }
         ]
+      },
+      {
+        "name": "Squint",
+        "range": 18,
+        "stats": {
+          "A": 1,
+          "S": 12,
+          "AP": -3,
+          "D": 3,
+          "BS": 5
+        },
+        "keywords": []
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1906,11 +2062,11 @@
   },
   {
     "id": "breacha-ram",
-    "name": "Breacha ram",
+    "name": "Breacha Ram",
     "type": "melee",
     "profiles": [
       {
-        "name": "Breacha ram",
+        "name": "Breacha Ram",
         "range": "Melee",
         "stats": {
           "A": 2,
@@ -1924,7 +2080,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -1933,10 +2089,10 @@
     "type": "ranged",
     "profiles": [
       {
-        "name": "Kombi-weapon",
-        "range": 24,
+        "name": "Shoota",
+        "range": 18,
         "stats": {
-          "A": 1,
+          "A": 2,
           "S": 4,
           "AP": 0,
           "D": 1,
@@ -1944,14 +2100,13 @@
         },
         "keywords": [
           {
-            "keyword_id": "anti",
+            "keyword_id": "lethal-hits",
             "parameters": {
-              "target_keyword": "Infantry",
-              "threshold": 4
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
             }
-          },
-          {
-            "keyword_id": "devastating-wounds"
           },
           {
             "keyword_id": "rapid-fire",
@@ -1960,11 +2115,45 @@
             }
           }
         ]
+      },
+      {
+        "name": "Kill Shot",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 5
+        },
+        "keywords": []
+      },
+      {
+        "name": "Point Blank",
+        "range": 12,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "torrent"
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2022,32 +2211,38 @@
   },
   {
     "id": "beast-snagga-klaw",
-    "name": "Beast Snagga klaw",
+    "name": "Beast Snagga Klaw",
     "type": "melee",
     "profiles": [
       {
-        "name": "Beast Snagga klaw",
+        "name": "Beast Snagga Klaw",
         "range": "Melee",
         "stats": {
-          "A": 3,
-          "S": 9,
+          "A": 4,
+          "S": 10,
           "AP": -2,
           "D": 2,
-          "WS": 4
+          "WS": 3
         },
         "keywords": [
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
           }
         ]
@@ -2055,7 +2250,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2193,22 +2388,25 @@
   },
   {
     "id": "kustom-mega-kannon",
-    "name": "Kustom mega-kannon",
+    "name": "Kustom Mega-kannon",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Kustom mega-kannon",
+        "name": "Kustom Mega-kannon",
         "range": 36,
         "stats": {
-          "A": "D6",
+          "A": "D3+1",
           "S": 12,
-          "AP": -1,
-          "D": "D6",
+          "AP": -2,
+          "D": 3,
           "BS": 4
         },
         "keywords": [
           {
-            "keyword_id": "blast"
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 1
+            }
           },
           {
             "keyword_id": "hazardous"
@@ -2218,19 +2416,19 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "traktor-kannon",
-    "name": "Traktor kannon",
+    "name": "Traktor Kannon",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Traktor kannon",
+        "name": "Traktor Kannon",
         "range": 48,
         "stats": {
-          "A": 1,
+          "A": 2,
           "S": 10,
           "AP": -2,
           "D": "D6+1",
@@ -2245,26 +2443,31 @@
             }
           },
           {
-            "keyword_id": "devastating-wounds"
+            "keyword_id": "devastating-wounds",
+            "parameters": {
+              "required_target_keywords_any": [
+                "Fly"
+              ]
+            }
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "grot-crew",
-    "name": "Grot crew",
+    "name": "Scavenged Slug",
     "type": "melee",
     "profiles": [
       {
-        "name": "Grot crew",
+        "name": "Scavenged Slug",
         "range": "Melee",
         "stats": {
-          "A": 6,
+          "A": 5,
           "S": 2,
           "AP": 0,
           "D": 1,
@@ -2275,7 +2478,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2284,31 +2487,47 @@
     "type": "ranged",
     "profiles": [
       {
-        "name": "Snazzgun",
-        "range": 24,
+        "name": "Cutta",
+        "range": 12,
         "stats": {
           "A": 3,
           "S": 6,
           "AP": -1,
-          "D": 2,
-          "BS": 5
+          "D": "D3+2",
+          "BS": 4
         },
         "keywords": [
           {
-            "keyword_id": "heavy"
+            "keyword_id": "hazardous"
           },
           {
-            "keyword_id": "sustained-hits",
+            "keyword_id": "melta",
             "parameters": {
-              "value": 1
+              "value": 2
             }
+          }
+        ]
+      },
+      {
+        "name": "Kill Shot",
+        "range": 36,
+        "stats": {
+          "A": 2,
+          "S": 6,
+          "AP": -2,
+          "D": 2,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "hazardous"
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2336,11 +2555,11 @@
   },
   {
     "id": "stompy-feet-big-mek-dakkarig",
-    "name": "Stompy feet",
+    "name": "Stompy Feet",
     "type": "melee",
     "profiles": [
       {
-        "name": "Stompy feet",
+        "name": "Stompy Feet",
         "range": "Melee",
         "stats": {
           "A": 4,
@@ -2354,7 +2573,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2417,7 +2636,7 @@
     "type": "melee",
     "profiles": [
       {
-        "name": "Beastchoppa",
+        "name": "Standard",
         "range": "Melee",
         "stats": {
           "A": 6,
@@ -2428,25 +2647,35 @@
         },
         "keywords": [
           {
-            "keyword_id": "anti",
+            "keyword_id": "cleave",
             "parameters": {
-              "target_keyword": "Monster",
-              "threshold": 4
-            }
-          },
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Vehicle",
-              "threshold": 4
+              "value": 1
             }
           }
         ]
+      },
+      {
+        "name": "Hunter",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 7,
+          "AP": -2,
+          "D": 2,
+          "WS": 2
+        },
+        "keywords": [],
+        "target_restrictions": {
+          "required_keywords_any": [
+            "Monster",
+            "Vehicle"
+          ]
+        }
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2533,7 +2762,7 @@
     "profiles": [
       {
         "name": "Squig-launchas",
-        "range": 36,
+        "range": 24,
         "stats": {
           "A": "D6+6",
           "S": 5,
@@ -2556,7 +2785,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2572,23 +2801,23 @@
           "S": 7,
           "AP": -1,
           "D": 2,
-          "WS": 4
+          "WS": 3
         },
         "keywords": []
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "thump-gun",
-    "name": "Thump gun",
+    "name": "Thump Gun",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Thump gun",
+        "name": "Thump Gun",
         "range": 18,
         "stats": {
           "A": "D3",
@@ -2599,37 +2828,75 @@
         },
         "keywords": [
           {
-            "keyword_id": "blast"
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Monster",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
+            }
+          },
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Vehicle",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
+            }
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "power-snappa",
-    "name": "Power snappa",
+    "name": "Power Snappa",
     "type": "melee",
     "profiles": [
       {
-        "name": "Power snappa",
+        "name": "Power Snappa",
         "range": "Melee",
         "stats": {
-          "A": 4,
-          "S": 7,
-          "AP": -1,
+          "A": 3,
+          "S": 8,
+          "AP": -2,
           "D": 2,
           "WS": 3
         },
-        "keywords": []
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Monster",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
+            }
+          },
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Vehicle",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
+            }
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2656,12 +2923,12 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "killa-jet",
-    "name": "Killa jet",
+    "name": "Killa Jet",
     "type": "ranged",
     "profiles": [
       {
@@ -2676,10 +2943,10 @@
         },
         "keywords": [
           {
-            "keyword_id": "ignores-cover"
+            "keyword_id": "torrent"
           },
           {
-            "keyword_id": "torrent"
+            "keyword_id": "ignores-cover"
           }
         ]
       },
@@ -2705,16 +2972,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "snagga-klaw",
-    "name": "Snagga klaw",
+    "name": "Snagga Klaw",
     "type": "melee",
     "profiles": [
       {
-        "name": "Snagga klaw",
+        "name": "Snagga Klaw",
         "range": "Melee",
         "stats": {
           "A": 4,
@@ -2728,16 +2995,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "kustom-mega-slugga",
-    "name": "Kustom mega-slugga",
+    "name": "Kustom Mega-Slugga",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Kustom mega-slugga",
+        "name": "Kustom Mega-Slugga",
         "range": 12,
         "stats": {
           "A": "D3",
@@ -2758,7 +3025,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -2948,11 +3215,11 @@
   },
   {
     "id": "runtherd-tools",
-    "name": "Runtherd tools",
+    "name": "Runtherd Tools",
     "type": "melee",
     "profiles": [
       {
-        "name": "Runtherd tools",
+        "name": "Runtherd Tools",
         "range": "Melee",
         "stats": {
           "A": 3,
@@ -2966,16 +3233,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "shokk-attack-gun",
-    "name": "Shokk attack gun",
+    "name": "Shokk Attack Gun",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Shokk attack gun",
+        "name": "Shokk Attack Gun",
         "range": 60,
         "stats": {
           "A": "D6+1",
@@ -2996,16 +3263,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "eavy-lobba",
-    "name": "Eavy lobba",
+    "name": "Eavy Lobba",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Eavy lobba",
+        "name": "Eavy Lobba",
         "range": 48,
         "stats": {
           "A": "D6",
@@ -3016,7 +3283,10 @@
         },
         "keywords": [
           {
-            "keyword_id": "blast"
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 2
+            }
           },
           {
             "keyword_id": "indirect-fire"
@@ -3026,16 +3296,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "stikka-kannon",
-    "name": "Stikka kannon",
+    "name": "Stikka Kannon",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Stikka kannon",
+        "name": "Stikka Kannon",
         "range": 12,
         "stats": {
           "A": 1,
@@ -3049,25 +3319,28 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 2
+              "threshold": 2,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 2
+              "threshold": 2,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
-          },
-          {
-            "keyword_id": "snagged"
           }
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3100,16 +3373,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "butcha-boyz",
-    "name": "Butcha boyz",
+    "name": "Butcha Boyz",
     "type": "melee",
     "profiles": [
       {
-        "name": "Butcha boyz",
+        "name": "Butcha Boyz",
         "range": "Melee",
         "stats": {
           "A": 4,
@@ -3123,14 +3396,20 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
             }
           },
           {
@@ -3141,16 +3420,16 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "savage-horns-and-hooves",
-    "name": "Savage horns and hooves",
+    "name": "Savage Horns and Hooves",
     "type": "melee",
     "profiles": [
       {
-        "name": "Savage horns and hooves",
+        "name": "Savage Horns and Hooves",
         "range": "Melee",
         "stats": {
           "A": 4,
@@ -3171,7 +3450,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3199,22 +3478,39 @@
   },
   {
     "id": "squigosaurs-jaws",
-    "name": "Squigosaur’s jaws",
+    "name": "Squigosaur’s Jaws",
     "type": "melee",
     "profiles": [
       {
-        "name": "Squigosaur’s jaws",
+        "name": "Squigosaur’s Jaws",
         "range": "Melee",
         "stats": {
           "A": 3,
           "S": 7,
           "AP": -2,
           "D": 3,
-          "WS": 4
+          "WS": 3
         },
         "keywords": [
           {
-            "keyword_id": "devastating-wounds"
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Monster",
+              "threshold": 3,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
+            }
+          },
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Vehicle",
+              "threshold": 3,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
+            }
           },
           {
             "keyword_id": "extra-attacks"
@@ -3224,22 +3520,22 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "twin-killsaw",
-    "name": "Twin killsaws",
+    "name": "Twin Killsaws",
     "type": "melee",
     "profiles": [
       {
-        "name": "Twin killsaws",
+        "name": "Twin Killsaws",
         "range": "Melee",
         "stats": {
-          "A": 2,
-          "S": 12,
-          "AP": -3,
-          "D": 2,
+          "A": 3,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
           "WS": 4
         },
         "keywords": [
@@ -3251,32 +3547,35 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "mek-speshul",
-    "name": "Mek speshul",
+    "name": "Mek Speshul",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Mek speshul",
+        "name": "Aimed",
         "range": 24,
         "stats": {
-          "A": 12,
+          "A": 14,
           "S": 5,
           "AP": -1,
           "D": 1,
-          "BS": 5
+          "BS": 4
         },
         "keywords": [
           {
             "keyword_id": "assault"
           },
           {
-            "keyword_id": "rapid-fire",
+            "keyword_id": "lethal-hits",
             "parameters": {
-              "value": 4
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
             }
           },
           {
@@ -3286,11 +3585,30 @@
             }
           }
         ]
+      },
+      {
+        "name": "Point Blank",
+        "range": 6,
+        "stats": {
+          "A": "2D6+2",
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "torrent"
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3499,7 +3817,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3705,11 +4023,11 @@
   },
   {
     "id": "big-choppa-kommandos",
-    "name": "Big choppa",
+    "name": "Big Choppa",
     "type": "melee",
     "profiles": [
       {
-        "name": "Big choppa",
+        "name": "Big Choppa",
         "range": "Melee",
         "stats": {
           "A": 4,
@@ -3718,25 +4036,32 @@
           "D": 2,
           "WS": 3
         },
-        "keywords": []
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "big-choppa-squighog-boyz",
-    "name": "Big choppa",
+    "name": "Big Choppa",
     "type": "melee",
     "profiles": [
       {
-        "name": "Big choppa",
+        "name": "Big Choppa",
         "range": "Melee",
         "stats": {
           "A": 4,
-          "S": 6,
+          "S": 7,
           "AP": -1,
           "D": 2,
           "WS": 3
@@ -3746,14 +4071,26 @@
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Monster",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
             }
           },
           {
             "keyword_id": "anti",
             "parameters": {
               "target_keyword": "Vehicle",
-              "threshold": 4
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 2
             }
           }
         ]
@@ -3761,7 +4098,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3846,7 +4183,7 @@
     "type": "melee",
     "profiles": [
       {
-        "name": "Choppa",
+        "name": "Standard",
         "range": "Melee",
         "stats": {
           "A": 3,
@@ -3856,11 +4193,29 @@
           "WS": 3
         },
         "keywords": []
+      },
+      {
+        "name": "Hunter",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 6,
+          "AP": -2,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": [],
+        "target_restrictions": {
+          "required_keywords_any": [
+            "Monster",
+            "Vehicle"
+          ]
+        }
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3883,7 +4238,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3906,7 +4261,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -3918,7 +4273,7 @@
         "name": "Choppa",
         "range": "Melee",
         "stats": {
-          "A": 4,
+          "A": 3,
           "S": 5,
           "AP": -1,
           "D": 1,
@@ -3929,7 +4284,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4003,11 +4358,11 @@
   },
   {
     "id": "close-combat-weapon-gretchin",
-    "name": "Close combat weapon",
+    "name": "Close Combat Weapon",
     "type": "melee",
     "profiles": [
       {
-        "name": "Close combat weapon",
+        "name": "Close Combat Weapon",
         "range": "Melee",
         "stats": {
           "A": 1,
@@ -4021,7 +4376,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4164,7 +4519,7 @@
         "name": "Killsaw",
         "range": "Melee",
         "stats": {
-          "A": 2,
+          "A": 3,
           "S": 12,
           "AP": -3,
           "D": 2,
@@ -4175,7 +4530,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4272,11 +4627,11 @@
   },
   {
     "id": "rokkit-launcha-big-mek-dakkarig",
-    "name": "Rokkit launcha",
+    "name": "Rokkit Launcha",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Rokkit launcha",
+        "name": "Rokkit Launcha",
         "range": 24,
         "stats": {
           "A": 6,
@@ -4294,34 +4649,30 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "rokkit-launcha-boyz",
-    "name": "Rokkit launcha",
+    "name": "Rokkit Launcha",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Rokkit launcha",
+        "name": "Rokkit Launcha",
         "range": 24,
         "stats": {
-          "A": "D3",
-          "S": 9,
+          "A": 2,
+          "S": 10,
           "AP": -2,
           "D": 3,
           "BS": 5
         },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
+        "keywords": []
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4407,14 +4758,14 @@
   },
   {
     "id": "rokkit-launcha-kommandos",
-    "name": "Rokkit launcha",
+    "name": "Rokkit Launcha",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Rokkit launcha",
+        "name": "Blasta",
         "range": 24,
         "stats": {
-          "A": "D3",
+          "A": 2,
           "S": 9,
           "AP": -2,
           "D": 3,
@@ -4422,14 +4773,29 @@
         },
         "keywords": [
           {
-            "keyword_id": "blast"
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 2
+            }
           }
         ]
+      },
+      {
+        "name": "Busta",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 5
+        },
+        "keywords": []
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4488,29 +4854,43 @@
   },
   {
     "id": "rokkit-launcha-tankbustas",
-    "name": "Rokkit launcha",
+    "name": "Busta Rokkit Launcha",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Rokkit launcha",
+        "name": "Standard",
         "range": 24,
         "stats": {
-          "A": "D3",
+          "A": 3,
           "S": 9,
           "AP": -2,
           "D": 3,
-          "BS": 5
+          "BS": 4
         },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
+        "keywords": []
+      },
+      {
+        "name": "Hunter",
+        "range": 24,
+        "stats": {
+          "A": 3,
+          "S": 12,
+          "AP": -2,
+          "D": 3,
+          "BS": 4
+        },
+        "keywords": [],
+        "target_restrictions": {
+          "required_keywords_any": [
+            "Monster",
+            "Vehicle"
+          ]
+        }
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4538,11 +4918,11 @@
   },
   {
     "id": "saw-blades-hunta-rig",
-    "name": "Saw blades",
+    "name": "Saw Blades",
     "type": "melee",
     "profiles": [
       {
-        "name": "Saw blades",
+        "name": "Saw Blades",
         "range": "Melee",
         "stats": {
           "A": 6,
@@ -4551,21 +4931,31 @@
           "D": 2,
           "WS": 3
         },
-        "keywords": []
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "extra-attacks"
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
     "id": "saw-blades-kill-rig",
-    "name": "Saw blades",
+    "name": "Saw Blades",
     "type": "melee",
     "profiles": [
       {
-        "name": "Saw blades",
+        "name": "Saw Blades",
         "range": "Melee",
         "stats": {
           "A": 6,
@@ -4574,12 +4964,22 @@
           "D": 2,
           "WS": 3
         },
-        "keywords": []
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "extra-attacks"
+          }
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -4668,11 +5068,11 @@
   },
   {
     "id": "smasha-gun-mek-gunz",
-    "name": "Smasha gun",
+    "name": "Smasha Gun",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Smasha gun",
+        "name": "Smasha Gun",
         "range": 48,
         "stats": {
           "A": "D3+1",
@@ -4690,7 +5090,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     }
   },
   {
@@ -5079,6 +5479,1044 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "launch"
+    }
+  },
+  {
+    "id": "crushin-bulk",
+    "name": "Crushin’ Bulk",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Crushin’ Bulk",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 9,
+          "AP": -1,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "extra-attacks"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "extra-dakka",
+    "name": "Extra Dakka",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Extra Dakka",
+        "range": 12,
+        "stats": {
+          "A": 4,
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": [
+          {
+            "keyword_id": "assault"
+          },
+          {
+            "keyword_id": "lethal-hits",
+            "parameters": {
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "big-shoota-boyz",
+    "name": "Big Shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Big Shoota",
+        "range": 36,
+        "stats": {
+          "A": 3,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "burna-boyz-unit",
+    "name": "Burna",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Burna",
+        "range": 12,
+        "stats": {
+          "A": 3,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kombi-rokkit-boyz",
+    "name": "Kombi-rokkit",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Busta",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 5
+        },
+        "keywords": []
+      },
+      {
+        "name": "Shoota",
+        "range": 18,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kombi-skorcha-boyz",
+    "name": "Kombi-skorcha",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kombi-skorcha",
+        "range": 12,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-shoota-boyz",
+    "name": "Kustom Shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kustom Shoota",
+        "range": 18,
+        "stats": {
+          "A": 4,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "shoota-boyz-unit",
+    "name": "Shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Shoota",
+        "range": 18,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "big-choppa-boyz",
+    "name": "Big Choppa",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Big Choppa",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 7,
+          "AP": -1,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "choppa-boyz",
+    "name": "Choppa",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Choppa",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-choppa-boyz",
+    "name": "Kustom Choppa",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Kustom Choppa",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "power-klaw-boyz",
+    "name": "Power Klaw",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power Klaw",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 10,
+          "AP": -2,
+          "D": 2,
+          "WS": 4
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "deffkannon-and-supa-rokkits",
+    "name": "Deffkannon and Supa-rokkits",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Deffkannon and Supa-rokkits",
+        "range": 72,
+        "stats": {
+          "A": 12,
+          "S": 14,
+          "AP": -3,
+          "D": "D6+2",
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kan-blasta",
+    "name": "Kan Blasta",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Dakka",
+        "range": 24,
+        "stats": {
+          "A": 4,
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": []
+      },
+      {
+        "name": "Kill Shot",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 4
+        },
+        "keywords": []
+      },
+      {
+        "name": "Point Blank",
+        "range": 12,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "big-skorcha-nobz",
+    "name": "Big Skorcha",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Big Skorcha",
+        "range": 18,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -1,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-shoota-nobz",
+    "name": "Kustom Shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kustom Shoota",
+        "range": 18,
+        "stats": {
+          "A": 8,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kombi-rokkit-nobz",
+    "name": "Kombi-rokkit",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Busta",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 5
+        },
+        "keywords": []
+      },
+      {
+        "name": "Shoota",
+        "range": 18,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "big-choppa-nobz",
+    "name": "Big Choppa",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Big Choppa",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 7,
+          "AP": -1,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-choppa-nobz",
+    "name": "Kustom Choppa",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Kustom Choppa",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-krumpa",
+    "name": "Kustom Krumpa",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Kustom Krumpa",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 10,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "paired-kustom-krumpas",
+    "name": "Paired Kustom Krumpas",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Paired Kustom Krumpas",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 10,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kannon-gunwagon",
+    "name": "Kannon",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Frag",
+        "range": 36,
+        "stats": {
+          "A": 4,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 3
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "Shell",
+        "range": 36,
+        "stats": {
+          "A": 2,
+          "S": 10,
+          "AP": -2,
+          "D": "D6+1",
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "killkannon-gunwagon",
+    "name": "Killkannon",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Killkannon",
+        "range": 24,
+        "stats": {
+          "A": 4,
+          "S": 6,
+          "AP": -3,
+          "D": 2,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Infantry",
+              "threshold": 3
+            }
+          },
+          {
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 4
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "lobba-gunwagon",
+    "name": "Lobba",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Lobba",
+        "range": 48,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 3
+            }
+          },
+          {
+            "keyword_id": "indirect-fire"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "zzap-gun-gunwagon",
+    "name": "Zzap gun",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Zzap gun",
+        "range": 36,
+        "stats": {
+          "A": 2,
+          "S": 8,
+          "AP": -2,
+          "D": 4,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Monster",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Monster"
+              ]
+            }
+          },
+          {
+            "keyword_id": "anti",
+            "parameters": {
+              "target_keyword": "Vehicle",
+              "threshold": 4,
+              "required_target_keywords_any": [
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "devastating-wounds",
+            "parameters": {
+              "required_target_keywords_any": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          },
+          {
+            "keyword_id": "sustained-hits",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "crushin-bulk-gunwagon",
+    "name": "Crushin’ bulk",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Crushin’ bulk",
+        "range": "Melee",
+        "stats": {
+          "A": 6,
+          "S": 8,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "grabbin-klaw-gunwagon",
+    "name": "Grabbin’ klaw",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Grabbin’ klaw",
+        "range": "Melee",
+        "stats": {
+          "A": 2,
+          "S": 10,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "extra-attacks"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "wreckin-ball-gunwagon",
+    "name": "Wreckin’ ball",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Wreckin’ ball",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 10,
+          "AP": 0,
+          "D": "D6",
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "cleave",
+            "parameters": {
+              "value": 2
+            }
+          },
+          {
+            "keyword_id": "extra-attacks"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-shoota-meganobz",
+    "name": "Kustom Shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Aimed",
+        "range": 18,
+        "stats": {
+          "A": 4,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": [
+          {
+            "keyword_id": "lethal-hits",
+            "parameters": {
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "Point Blank",
+        "range": 6,
+        "stats": {
+          "A": "D3+3",
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "close-quarters"
+          },
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "power-klaw-meganobz",
+    "name": "Power Klaw",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Power Klaw",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 10,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "burna-kommandos",
+    "name": "Burna",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Burna",
+        "range": 12,
+        "stats": {
+          "A": "D6",
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": null
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast",
+            "parameters": {
+              "value": 1
+            }
+          },
+          {
+            "keyword_id": "torrent"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "kustom-shoota-kommandos",
+    "name": "Kustom Shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kustom Shoota",
+        "range": 18,
+        "stats": {
+          "A": 4,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        },
+        "keywords": [
+          {
+            "keyword_id": "lethal-hits",
+            "parameters": {
+              "excluded_target_keywords": [
+                "Monster",
+                "Vehicle"
+              ]
+            }
+          },
+          {
+            "keyword_id": "rapid-fire",
+            "parameters": {
+              "value": 2
+            }
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "id": "gitslasha",
+    "name": "Gitslasha",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Gitslasha",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "WS": 3
+        },
+        "keywords": []
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
     }
   }
 ]

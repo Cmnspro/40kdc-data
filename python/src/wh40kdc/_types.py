@@ -67,6 +67,7 @@ GameEvent: TypeAlias = Literal[
     "fall-back-move",
     "falls-back",
     "charge-move",
+    "end-of-charge-move",
     "charge-declaration",
     "moved-through-terrain",
     "moved-through-tall-terrain",
@@ -690,6 +691,8 @@ class Parameters(TypedDict):
     value: NotRequired[StatValue]
     target_keyword: NotRequired[str]
     threshold: NotRequired[int]
+    required_target_keywords_any: NotRequired[list[Keyword]]
+    excluded_target_keywords: NotRequired[KeywordList]
 
 
 class Keyword1(TypedDict):
@@ -697,11 +700,17 @@ class Keyword1(TypedDict):
     parameters: NotRequired[Parameters]
 
 
+class TargetRestrictions1(TypedDict):
+    required_keywords_any: NotRequired[list[Keyword]]
+    excluded_keywords: NotRequired[KeywordList]
+
+
 class Profile1(TypedDict):
     name: str
     range: NotRequired[int | Literal["Melee"]]
     stats: Stats
     keywords: NotRequired[list[Keyword1]]
+    target_restrictions: NotRequired[TargetRestrictions1 | None]
 
 
 class Weapon(TypedDict):
@@ -727,6 +736,7 @@ class Usage(TypedDict):
     frequency: Literal[
         "once-per-turn",
         "once-per-phase",
+        "once-per-battle-round",
         "once-per-command-phase",
         "once-per-opponent-turn",
         "n-per-battle",
@@ -770,6 +780,7 @@ class SimpleCondition(TypedDict):
         "has-lost-wounds",
         "wounds-remaining-at-or-below",
         "was-hit-by-attack",
+        "wounds-lost-from-attack",
         "opponent-unit-within-range",
         "within-range-of-objective",
         "attack-is-type",
@@ -802,6 +813,9 @@ class SimpleCondition(TypedDict):
         "battle-round",
         "token-count-at-or-above",
         "unit-was-in-engagement-range-of",
+        "unit-model-count",
+        "uniform-ranged-loadout",
+        "all-attacks-target-same-unit",
     ]
     parameters: NotRequired[dict[str, Any]]
     negated: NotRequired[bool]
@@ -813,6 +827,7 @@ class Scaling(TypedDict):
         "enemy-models-in-range",
         "friendly-models-in-range",
         "models-in-bearer-unit",
+        "models-in-or-embarked-in-bearer",
         "enemy-units-in-range",
         "wounds-lost",
     ]
@@ -869,12 +884,15 @@ class SingleEffect(TypedDict):
         "fight-on-death",
         "firing-deck",
         "flyover",
+        "heal-wounds",
+        "hazard-rolls",
         "invulnerable-save",
         "keyword-grant",
         "leadership-modifier",
         "model-destruction",
         "modifier-immunity",
         "mortal-wounds",
+        "detection-range-modifier",
         "named-region-state",
         "objective-control-modifier",
         "objective-tag",
@@ -882,6 +900,7 @@ class SingleEffect(TypedDict):
         "re-roll",
         "recovery-pool",
         "remove-battle-shock",
+        "set-battle-shock",
         "replace-roll-from-pool",
         "resource-clear",
         "resource-gain",
@@ -895,6 +914,8 @@ class SingleEffect(TypedDict):
         "stratagem-targeting-permission",
         "strategic-reserves-arrival",
         "targeting-permission",
+        "tracking-token",
+        "transport-capacity-conversion",
         "terrain-area-tag",
         "unit-attachment",
         "unit-keyword",
@@ -907,9 +928,11 @@ class SingleEffect(TypedDict):
         "bearer",
         "unit",
         "attached-unit",
+        "selected-models-unit",
         "attacker",
         "defender",
         "target",
+        "targets-of-selected-unit-attacks",
         "friendly-within-aura",
         "enemy-within-aura",
         "all-friendly",
@@ -919,13 +942,21 @@ class SingleEffect(TypedDict):
     scaling: NotRequired[Scaling]
 
 
+Result: TypeAlias = int
+
+
 class Pool(TypedDict):
     count: int
     die: str
 
 
+Keyword2: TypeAlias = str
+
+
 class Selector2(TypedDict):
     owner: Literal["friendly", "enemy"]
+    keywords: NotRequired[list[Keyword2]]
+    target_kind: NotRequired[Literal["unit", "model"]]
     within_inches: NotRequired[float]
 
 
@@ -954,10 +985,29 @@ class Select(TypedDict):
     scope: Literal["enemy-unit", "friendly-unit"]
     count: NotRequired[int]
     timing: NotRequired[str]
+    within_inches: NotRequired[float]
+    keywords: NotRequired[list[Keyword2]]
+    keyword_match: NotRequired[Literal["all", "any"]]
 
 
 class Eligible1(TypedDict):
     keyword: NotRequired[str]
+
+
+TransportOccupancySubjectKind: TypeAlias = Literal["unit-models", "single-model"]
+
+
+class TransportEligibility1(TypedDict):
+    requires_capacity_keyword: str
+    embark_as_keyword: NotRequired[str]
+
+
+class TransportEligibility2(TypedDict):
+    requires_capacity_keyword: NotRequired[str]
+    embark_as_keyword: str
+
+
+TransportEligibility: TypeAlias = TransportEligibility1 | TransportEligibility2
 
 
 ResourceGainBattleSizeCounts = TypedDict(
@@ -992,9 +1042,6 @@ class Cost2(TypedDict):
 class NamedRegionRef(TypedDict):
     region_id: str
     owner_faction: str
-
-
-Keyword2: TypeAlias = str
 
 
 class UnitPredicate(TypedDict):
@@ -1150,7 +1197,9 @@ class Scope(TypedDict):
         "battle-round",
         "battle",
         "until-next-command-phase",
+        "until-next-movement-phase",
         "until-next-battle-round",
+        "until-start-next-turn",
         "one-use",
         "permanent",
     ]
@@ -1301,7 +1350,10 @@ EffectNode: TypeAlias = Union[
     "StanceSelectEffect",
     "ChoiceEffect",
     "SequenceEffect",
+    "RulesBundleEffect",
+    "NamedEffect",
     "DiceGatedEffect",
+    "DiceTableEffect",
     "ConditionalEffect",
     "DicePoolAllocationEffect",
     "SelectUnitsEffect",
@@ -1329,6 +1381,20 @@ class SequenceEffect(TypedDict):
     steps: list[EffectNode]
 
 
+class RulesBundleEffect(TypedDict):
+    type: Literal["rules-bundle"]
+    steps: list[EffectNode]
+
+
+class NamedEffect(TypedDict):
+    type: Literal["named-effect"]
+    name: str
+    kind: NotRequired[Literal["psychic"]]
+    level: NotRequired[int]
+    effect: EffectNode
+    optional: NotRequired[bool]
+
+
 class DiceGatedEffect(TypedDict):
     type: Literal["dice-gated"]
     dice: str
@@ -1336,6 +1402,17 @@ class DiceGatedEffect(TypedDict):
     comparison: NotRequired[Literal["gte", "lte", "gt", "lt", "eq"]]
     on_success: NotRequired[EffectNode | None]
     on_fail: NotRequired[EffectNode | None]
+
+
+class Outcome(TypedDict):
+    results: list[Result]
+    effect: EffectNode
+
+
+class DiceTableEffect(TypedDict):
+    type: Literal["dice-table"]
+    dice: Literal["D3", "D6"]
+    outcomes: list[Outcome]
 
 
 class ConditionalEffect(TypedDict):
@@ -1362,6 +1439,7 @@ class Selector(TypedDict):
     max_count: NotRequired[int]
     keywords: NotRequired[list[str]]
     owner: Literal["friendly", "enemy"]
+    target_kind: NotRequired[Literal["unit", "model"]]
     within_inches: NotRequired[float]
     eligibility: NotRequired[Condition]
     min_count: NotRequired[int]
@@ -1377,6 +1455,7 @@ class Selector1(TypedDict):
     max_count: int
     keywords: NotRequired[list[str]]
     owner: Literal["friendly", "enemy"]
+    target_kind: NotRequired[Literal["unit", "model"]]
     within_inches: NotRequired[float]
     eligibility: NotRequired[Condition]
     min_count: NotRequired[int]
@@ -1474,7 +1553,7 @@ class AuraEffect(TypedDict):
 
 
 class Applies(TypedDict):
-    to: Literal["target", "attackers-of-target"]
+    to: Literal["target", "attackers-of-target", "bearer-attacks-target"]
     effect: EffectNode
 
 

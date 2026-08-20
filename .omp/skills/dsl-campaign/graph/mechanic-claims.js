@@ -29,9 +29,12 @@ const QUALIFIER_KINDS = [
 ]
 export const MECHANIC_CHILD_DESCRIPTORS = Object.freeze([
   { container_type: 'sequence', path: 'steps/*', child_kind: 'effect', role: 'members', ordered: true },
+  { container_type: 'rules-bundle', path: 'steps/*', child_kind: 'effect', role: 'members', ordered: true },
+  { container_type: 'named-effect', path: 'effect', child_kind: 'effect', role: 'members', ordered: true },
   { container_type: 'choice', path: 'options/*', child_kind: 'effect', role: 'members', ordered: false },
   { container_type: 'dice-gated', path: 'on_success', child_kind: 'effect', role: 'on-success', ordered: true },
   { container_type: 'dice-gated', path: 'on_fail', child_kind: 'effect', role: 'on-failure', ordered: true },
+  { container_type: 'dice-table', path: 'outcomes/*/effect', child_kind: 'effect', role: 'members', ordered: false },
   { container_type: 'conditional', path: 'condition', child_kind: 'condition', role: 'condition', ordered: true },
   { container_type: 'conditional', path: 'effect', child_kind: 'effect', role: 'members', ordered: true },
   { container_type: 'dice-pool-allocation', path: 'options/*/effect', child_kind: 'effect', role: 'members', ordered: false },

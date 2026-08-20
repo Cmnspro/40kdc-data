@@ -471,6 +471,50 @@
       ],
       "reason": "Only the Anti parser branch produces this reference-site parameter."
     },
+    "/profiles/*/keywords/*/parameters/required_target_keywords_any": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Conditional keyword applicability is retained from reviewed source material; the current MFM projection does not derive it."
+    },
+    "/profiles/*/keywords/*/parameters/required_target_keywords_any/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Conditional keyword applicability is retained from reviewed source material; the current MFM projection does not derive it."
+    },
+    "/profiles/*/keywords/*/parameters/excluded_target_keywords": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Conditional keyword applicability is retained from reviewed source material; the current MFM projection does not derive it."
+    },
+    "/profiles/*/keywords/*/parameters/excluded_target_keywords/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Conditional keyword applicability is retained from reviewed source material; the current MFM projection does not derive it."
+    },
     "/profiles/*/keywords/*/parameters/value": {
       "provenance": "derived",
       "coverage": "partial",
@@ -503,6 +547,61 @@
         "tools/src/mfm/gear-projection.ts#mintWeapon"
       ],
       "reason": "Only supported parameterized keyword forms produce value."
+    },
+    "/profiles/*/target_restrictions": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Hunter profile target legality is retained from reviewed source material; the current MFM projection does not derive it."
+    },
+    "/profiles/*/target_restrictions/required_keywords_any": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Hunter profile target legality is retained from reviewed source material; the current MFM projection does not derive it."
+    },
+    "/profiles/*/target_restrictions/required_keywords_any/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Hunter profile target legality is retained from reviewed source material; the current MFM projection does not derive it."
+    },
+    "/profiles/*/target_restrictions/excluded_keywords": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Profile target exclusions are retained from reviewed source material; the current MFM projection does not derive them."
+    },
+    "/profiles/*/target_restrictions/excluded_keywords/*": {
+      "provenance": "repo-authored",
+      "coverage": "unimplemented",
+      "sources": [],
+      "joins": [],
+      "transforms": [],
+      "filters": [],
+      "precedence": [],
+      "consumers": [],
+      "reason": "Profile target exclusions are retained from reviewed source material; the current MFM projection does not derive them."
     },
     "/profiles/*/name": {
       "provenance": "joined",

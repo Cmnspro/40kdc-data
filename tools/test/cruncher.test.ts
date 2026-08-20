@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Dataset } from "../src/data/dataset.js";
-import { crunch, type EngineInput } from "../src/cruncher/index.js";
+import { crunch, profileCanTarget, type EngineInput } from "../src/cruncher/index.js";
 
 const ds = Dataset.embedded();
 
@@ -239,5 +239,42 @@ describe("crunch: attack-scoped invulnerable save (issue #87)", () => {
     );
     // no ranged/unconditional invuln → effective save armour 6+ → unsaved 5/6.
     near(stage(out, "unsaved") / stage(out, "wounds"), 5 / 6, "melee invuln not leaked to ranged");
+  });
+});
+
+describe("Codex profile targeting", () => {
+  it("rejects Hunter profiles against units without an eligible keyword", () => {
+    const hunter = ds.weapons.getAny("rokkit-launcha-tankbustas")!;
+    const knight = ds.units.getAny("knight-paladin")!;
+    const cultists = ds.units.getAny("cultist-mob")!;
+
+    expect(profileCanTarget(hunter.profileAt(1), knight.raw)).toBe(true);
+    expect(profileCanTarget(hunter.profileAt(1), cultists.raw)).toBe(false);
+  });
+
+  it("filters conditional weapon keywords by target keyword", () => {
+    const weapon = ds.weapons.getAny("extra-dakka")!.raw;
+    const cultists = ds.units.getAny("cultist-mob")!.raw;
+    const knight = ds.units.getAny("knight-paladin")!.raw;
+    const base = {
+      attacker: { weapon, profileIndex: 0 },
+      modelsFiring: 1,
+      buffs: [],
+      context: { phase: "shooting" as const },
+    };
+
+    const vsCultists = crunch({ ...base, target: { unit: cultists, profileIndex: 0 } });
+    const vsKnight = crunch({ ...base, target: { unit: knight, profileIndex: 0 } });
+
+    expect(vsCultists.resolved.extraKeywords.some((entry) => entry.keywordRef.keyword_id === "lethal-hits")).toBe(true);
+    expect(vsKnight.resolved.extraKeywords.some((entry) => entry.keywordRef.keyword_id === "lethal-hits")).toBe(false);
+  });
+
+  it("multiplies Blast bonuses by the keyword value", () => {
+    const output = crunch(
+      inputFor("lobba", 0, 1, "cultist-mob", { phase: "shooting" }, [], 10),
+    );
+
+    expect(stage(output, "attacks")).toBe(9.5);
   });
 });

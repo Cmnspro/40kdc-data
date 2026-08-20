@@ -16,19 +16,20 @@ use crate::generated::{
     Ability, AbilityAppliesTo, AbilityTrigger, AbilityUsage, AbilityUsageFrequency, AuraEffect,
     AuraEffectModifierRange, AuraEffectTarget, BeneficiaryBoundEffectNode,
     CompoundConditionOperator, Condition, ConditionNode, DesignateTargetEffectAppliesTo,
+    DesignateTargetEffectSelect, DesignateTargetEffectSelectKeywordMatch,
     DesignateTargetEffectSelectScope, DiceGatedEffect, DiceGatedEffectComparison,
-    DiceGatedEffectThreshold, DicePoolAllocationEffect, DiceRequirementSpec, EffectNode,
-    KeywordFilter, LeaderModelAbilityGrantEffect, LeaderModelAbilityGrantEffectBeneficiary,
-    MovementModifierEffect, PersistentDesignationEffect,
-    PersistentDesignationEffectConsumerRelation, PersistentDesignationEffectSelectScope,
-    ResourceActionMenuEffect, ResourceActionMenuEffectActionsItem,
-    ResourceActionMenuEffectActionsItemDuration, ResourceActionMenuEffectActionsItemWhen,
-    ResourceActionMenuEffectSharedUsage, ResourceActionMenuTrigger,
-    ResourceActionMenuTriggerMoveTypesItem, ResourceActionMenuTriggerProximityOf,
-    ResourceActionMenuTriggerSubject, Scaling, ScalingOf, ScalingRound, Scope, ScopeRange,
-    SelectUnitsEffectSelector, SimpleConditionType, SingleEffect, SingleEffectTarget,
-    SingleEffectType, StanceSelectEffectMode, Trigger, TriggerMoveTypesItem, TriggerProximityOf,
-    TriggerSubject,
+    DiceGatedEffectThreshold, DicePoolAllocationEffect, DiceRequirementSpec, DiceTableEffect,
+    EffectNode, KeywordFilter, LeaderModelAbilityGrantEffect,
+    LeaderModelAbilityGrantEffectBeneficiary, MovementModifierEffect, NamedEffectKind,
+    PersistentDesignationEffect, PersistentDesignationEffectConsumerRelation,
+    PersistentDesignationEffectSelectScope, ResourceActionMenuEffect,
+    ResourceActionMenuEffectActionsItem, ResourceActionMenuEffectActionsItemDuration,
+    ResourceActionMenuEffectActionsItemWhen, ResourceActionMenuEffectSharedUsage,
+    ResourceActionMenuTrigger, ResourceActionMenuTriggerMoveTypesItem,
+    ResourceActionMenuTriggerProximityOf, ResourceActionMenuTriggerSubject, Scaling, ScalingOf,
+    ScalingRound, Scope, ScopeRange, SelectUnitsEffectSelector, SimpleConditionType, SingleEffect,
+    SingleEffectTarget, SingleEffectType, StanceSelectEffectMode, Trigger, TriggerMoveTypesItem,
+    TriggerProximityOf, TriggerSubject,
 };
 
 /// Rendering context threaded from the ability (scope info the leaf needs).
@@ -44,6 +45,8 @@ struct Ctx {
     /// True inside a `select-units` nested effect: a bare `unit` target refers
     /// to the selected unit ("that unit"), not the ability's generic subject.
     selected_unit: bool,
+    /// True inside a model-targeting `select-units` effect.
+    selected_model: bool,
 }
 
 /// JS-template stringification (`String(v)`; numbers print without `.0`, null → `?`).
@@ -140,6 +143,138 @@ fn designation_label(designation: &str) -> String {
         format!(" (your {label})")
     } else {
         format!(" (your {label} target)")
+    }
+}
+
+fn designation_target_subject(sel: &DesignateTargetEffectSelect) -> String {
+    let disposition = match sel.scope {
+        DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
+        DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
+    };
+    let keywords = sel
+        .keywords
+        .iter()
+        .map(|keyword| title_case(keyword.as_str()))
+        .collect::<Vec<_>>();
+    let keyword_join = if sel.keyword_match == DesignateTargetEffectSelectKeywordMatch::Any {
+        " or "
+    } else {
+        " "
+    };
+    let keyword_text = if keywords.is_empty() {
+        String::new()
+    } else {
+        format!(" {}", keywords.join(keyword_join))
+    };
+    let within = sel
+        .within_inches
+        .map(|range| format!(" within {} inches", fmt_num(range)))
+        .unwrap_or_default();
+    format!("{disposition}{keyword_text} unit{within}")
+}
+
+fn transport_capacity_conversion(m: &Map<String, Value>) -> String {
+    let keyword = if notnull(m, "model_keyword") {
+        title_case(&jv(m, "model_keyword"))
+    } else {
+        String::new()
+    };
+    let subject_kind = m.get("subject_kind").and_then(Value::as_str);
+    let single_model = subject_kind == Some("single-model");
+    let model = if !keyword.is_empty() {
+        format!("{}{keyword} model", if single_model { "this " } else { "" })
+    } else if single_model {
+        "this model".to_string()
+    } else {
+        "model in this unit".to_string()
+    };
+    let each_model = if single_model {
+        model.clone()
+    } else {
+        format!("each {model}")
+    };
+    let eligibility = m.get("transport_eligibility").and_then(Value::as_object);
+    let qualification = if let Some(eligibility) = eligibility {
+        if notnull(eligibility, "requires_capacity_keyword") {
+            format!(
+                " in a Transport able to carry {} models",
+                title_case(&jv(eligibility, "requires_capacity_keyword"))
+            )
+        } else if notnull(eligibility, "embark_as_keyword") {
+            format!(
+                " when embarking as {}",
+                title_case(&jv(eligibility, "embark_as_keyword"))
+            )
+        } else {
+            String::new()
+        }
+    } else {
+        String::new()
+    };
+
+    match m.get("occupancy_kind").and_then(Value::as_str) {
+        Some("fixed-model-spaces") => {
+            let spaces = m
+                .get("spaces_per_model")
+                .and_then(Value::as_u64)
+                .unwrap_or(0);
+            let suffix = if spaces == 1 { "" } else { "s" };
+            format!(
+                "for Transport capacity{qualification}, {each_model} occupies {} model space{suffix}",
+                jv(m, "spaces_per_model")
+            )
+        }
+        Some("equivalent-model") => {
+            let equivalent = if notnull(m, "equivalent_model_keyword") {
+                format!("{} model", title_case(&jv(m, "equivalent_model_keyword")))
+            } else {
+                "model".to_string()
+            };
+            let count = m
+                .get("equivalent_model_count")
+                .and_then(Value::as_u64)
+                .unwrap_or(1);
+            let suffix = if count == 1 { "" } else { "s" };
+            format!(
+                "for Transport capacity{qualification}, {each_model} counts as {count} {equivalent}{suffix}"
+            )
+        }
+        _ => {
+            let models = m
+                .get("models_per_group")
+                .and_then(Value::as_u64)
+                .unwrap_or(0);
+            let spaces = m
+                .get("spaces_per_group")
+                .and_then(Value::as_u64)
+                .unwrap_or(0);
+            let group_model = if keyword.is_empty() {
+                "model in this unit".to_string()
+            } else {
+                format!("{keyword} model")
+            };
+            let group_models = if keyword.is_empty() {
+                "models in this unit".to_string()
+            } else {
+                format!("{keyword} models")
+            };
+            let subject = if single_model {
+                model.clone()
+            } else if models == 1 {
+                format!("each {group_model}")
+            } else {
+                format!("each group of {models} {group_models}")
+            };
+            let space_noun = if spaces == 1 {
+                "model space"
+            } else {
+                "model spaces"
+            };
+            format!(
+                "for Transport capacity{qualification}, {subject} occupies {spaces} {space_noun}, rounding {}",
+                jv(m, "rounding")
+            )
+        }
     }
 }
 
@@ -450,6 +585,7 @@ fn is_plural(s: &str) -> bool {
         || s.starts_with("all ")
         || s.starts_with("enemy units")
         || s.starts_with("friendly units")
+        || s.starts_with("targets ")
 }
 
 /// Subject-verb agreement: plural form of a present-tense verb when the subject is plural.
@@ -493,12 +629,18 @@ fn subject(target: &str, ctx: &Ctx) -> String {
     };
     match target {
         "self" | "bearer" => "this model".to_string(),
+        "unit" if ctx.selected_model => "that model".to_string(),
         "unit" if ctx.selected_unit => "that unit".to_string(),
         "unit" => "the unit".to_string(),
         "attached-unit" => "the unit this model leads".to_string(),
+        "selected-models-unit" => "that model's unit".to_string(),
         "target" => "the target".to_string(),
         "attacker" => "the attacking unit".to_string(),
         "defender" => "the target".to_string(),
+        "targets-of-selected-unit-attacks" => {
+            let selected = if ctx.selected_model { "model" } else { "unit" };
+            format!("targets of that {selected}'s attacks")
+        }
         "all-friendly" => "all friendly units".to_string(),
         "all-enemy" => "all enemy units".to_string(),
         "friendly-within-aura" => format!("friendly units{within}"),
@@ -527,18 +669,21 @@ fn of_or_possessive(subj: &str, rest: &str) -> String {
 }
 
 /// `+1` / `-1` from operation + value (a negative value flips the sign).
-fn signed(m: &Map<String, Value>) -> String {
-    let op = nstr(m, "operation");
-    let positive = op == Some("add") || op == Some("improve");
+fn signed_parts(operation: Option<&str>, value: Option<&Value>) -> String {
+    let positive = operation == Some("add") || operation == Some("improve");
     let mut sign: i32 = if positive { 1 } else { -1 };
-    let mut val = m.get("value").cloned().unwrap_or(Value::Null);
-    if let Some(n) = val.as_f64() {
-        if n < 0.0 {
+    let mut value = value.cloned().unwrap_or(Value::Null);
+    if let Some(number) = value.as_f64() {
+        if number < 0.0 {
             sign = -sign;
-            val = Value::from(n.abs());
+            value = Value::from(number.abs());
         }
     }
-    format!("{}{}", if sign > 0 { "+" } else { "-" }, jval(&val))
+    format!("{}{}", if sign > 0 { "+" } else { "-" }, jval(&value))
+}
+
+fn signed(modifier: &Map<String, Value>) -> String {
+    signed_parts(nstr(modifier, "operation"), modifier.get("value"))
 }
 
 /// Dice comparison → "a 4+", "a 3 or less", etc.
@@ -586,9 +731,17 @@ fn duration_clauses(duration: &str) -> (String, String) {
             String::new(),
             "until the start of your next Command phase".to_string(),
         ),
+        "until-next-movement-phase" => (
+            String::new(),
+            "until the start of your next Movement phase".to_string(),
+        ),
         "until-next-battle-round" => (
             String::new(),
             "until the start of the next battle round".to_string(),
+        ),
+        "until-start-next-turn" => (
+            String::new(),
+            "until the start of your next turn".to_string(),
         ),
         "one-use" => ("once per battle".to_string(), String::new()),
         _ => (String::new(), String::new()),
@@ -841,6 +994,25 @@ fn condition_lead_in(n: &ConditionNode) -> String {
                 T::RemainedStationary => "if the unit Remained Stationary".to_string(),
                 T::TargetHasKeyword => format!("against {} targets", jv(p, "keyword")),
                 T::UnitHasKeyword => format!("if the unit has the {} keyword", jv(p, "keyword")),
+                T::UnitModelCount => format!(
+                    "if the unit contains {}+ {} models",
+                    jv(p, "count_min"),
+                    jv(p, "keyword")
+                ),
+                T::UniformRangedLoadout => {
+                    let keyword = nstr(p, "model_keyword")
+                        .map(|value| format!("{value} "))
+                        .unwrap_or_default();
+                    format!("if all ranged weapons equipped by each {keyword}model in the unit are the same")
+                }
+                T::AllAttacksTargetSameUnit => {
+                    let attack_type = nstr(p, "attack_type")
+                        .map(|value| format!("{value} "))
+                        .unwrap_or_default();
+                    format!(
+                        "when all of the unit's {attack_type}attacks target the same enemy unit"
+                    )
+                }
                 T::IsBattleShocked => "while the unit is Battle-shocked".to_string(),
                 T::UnitBelowHalfStrength => {
                     if nstr(p, "subject") == Some("target") {
@@ -1735,7 +1907,14 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
 
     match e.type_ {
         T::StatModifier => {
-            let scope = if notnull(m, "weapon_type") {
+            let scope = if notnull(m, "weapon_name") {
+                format!(" for {}", jv(m, "weapon_name"))
+            } else if notnull(m, "weapon_keyword") {
+                format!(
+                    " for weapons with [{}]",
+                    title_case(&jv(m, "weapon_keyword"))
+                )
+            } else if notnull(m, "weapon_type") {
                 format!(" for {} weapons", jv(m, "weapon_type"))
             } else if truthy(m, "attack_type") {
                 format!(" ({})", jv(m, "attack_type"))
@@ -1895,7 +2074,9 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 let die = dice_case(m.get("dice").unwrap_or(&Value::Null));
                 // Per-model pool: one die per model in this/the target unit.
                 if notnull(m, "per_model") {
-                    let where_ = if nstr(m, "per_model") == Some("target") {
+                    let where_ = if nstr(m, "model_relation") == Some("engaged-with-target") {
+                        "this unit that is within Engagement Range of the target unit"
+                    } else if nstr(m, "per_model") == Some("target") {
                         "the target unit"
                     } else {
                         "this unit"
@@ -2030,6 +2211,31 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 format!("{} gain {kw}", of_or_possessive(&subj, "weapons"))
             }
         }
+        T::DetectionRangeModifier => format!(
+            "{subj} {} {} to detection range",
+            agree(&subj, "gets"),
+            signed(m)
+        ),
+        T::HazardRolls => {
+            let penalty = m
+                .get("roll_modifier_if_battle_shocked")
+                .map(|value| {
+                    format!(
+                        ", with {} to those rolls while {subj} {} Battle-shocked",
+                        signed_parts(Some("add"), Some(value)),
+                        agree(&subj, "is")
+                    )
+                })
+                .unwrap_or_default();
+            format!(
+                "{subj} {} {} additional Hazard rolls for each {} unit {} {} engaged with{penalty}",
+                agree(&subj, "makes"),
+                jv(m, "additional_per_engaged_unit"),
+                title_case(&jv(m, "engaged_keyword")),
+                pronoun(&subj),
+                agree(&subj, "is")
+            )
+        }
         T::AbilityGrant => {
             // Reserves-arrival grant slugs read as full clauses in GW voice — the
             // generic "gains the X ability" form would bury the mechanic in a name.
@@ -2100,6 +2306,12 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             } else {
                 String::new()
             };
+            if grant.is_some() && m.get("enabled").and_then(Value::as_bool) == Some(false) {
+                return format!(
+                    "{subj} cannot use the {} ability",
+                    grant_label(&jval(grant.unwrap()))
+                );
+            }
             match grant {
                 Some(g) => format!(
                     "{when}{subj} {} the {} ability{cap}",
@@ -2176,6 +2388,17 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             };
             format!("return {count} {noun} to {subj} with {wounds} wounds{tail_clause}")
         }
+        T::HealWounds => {
+            let amount = first(m, &["amount", "value"])
+                .map(dice_case)
+                .unwrap_or_else(|| "1".to_string());
+            let noun = if amount == "1" {
+                "lost wound"
+            } else {
+                "lost wounds"
+            };
+            format!("{subj} {} up to {amount} {noun}", agree(&subj, "regains"))
+        }
         T::RecoveryPool => {
             let allocation = "first using them to regain lost wounds on wounded models and then using any remaining points to return destroyed models to the unit with 1 wound remaining, stopping when the unit is at full strength and all its models have their full wounds; any unallocated points are lost";
             if e.target == SingleEffectTarget::AllFriendly {
@@ -2194,7 +2417,14 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
             let count = first(m, &["count"])
                 .map(dice_case)
                 .unwrap_or_else(|| "1".to_string());
-            let noun = if count == "1" { "model" } else { "models" };
+            let kind = nstr(m, "model_keyword")
+                .map(|keyword| format!("{} model", title_case(keyword)))
+                .unwrap_or_else(|| "model".to_string());
+            let noun = if count == "1" {
+                kind
+            } else {
+                format!("{kind}s")
+            };
             format!("destroy {count} {noun} in {subj}")
         }
         T::NamedRegionState => describe_named_region_state(m, ctx),
@@ -2292,11 +2522,28 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 .unwrap_or_else(|| "1".to_string());
             format!("each time {who} destroys a {kw}, you gain {amount}CP")
         }
-        T::BattleShockTest => format!(
-            "{subj} {} Battle-shock tests on {} instead of 2D6",
-            agree(&subj, "takes"),
-            dice_case(m.get("dice").unwrap_or(&Value::Null))
-        ),
+        T::BattleShockTest => {
+            if let Some(dice) = m.get("dice").filter(|v| !v.is_null()) {
+                format!(
+                    "{subj} {} Battle-shock tests on {} instead of 2D6",
+                    agree(&subj, "takes"),
+                    dice_case(dice)
+                )
+            } else if notnull(m, "operation") && notnull(m, "value") {
+                format!(
+                    "{subj} must make a Battle-shock roll with {}",
+                    signed_parts(nstr(m, "operation"), m.get("value"))
+                )
+            } else if let Some(modifier) = m.get("roll_modifier").filter(|v| !v.is_null()) {
+                format!(
+                    "{subj} must make a Battle-shock roll with {}",
+                    signed_parts(Some("add"), Some(modifier))
+                )
+            } else {
+                format!("{subj} must make a Battle-shock roll")
+            }
+        }
+        T::SetBattleShock => format!("{subj} {} Battle-shocked", agree(&subj, "is")),
         T::Flyover => {
             let comp = nstr(m, "comparison").unwrap_or("gte");
             let hit = pool_threshold(comp, m.get("threshold"));
@@ -2457,6 +2704,8 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     "{subj} can re-roll {} tests",
                     test_name(m.get("test").unwrap())
                 )
+            } else if has_test && op == Some("set") && nstr(m, "test") == Some("battle-shock") {
+                format!("{subj} {} Battle-shocked", agree(&subj, "is"))
             } else if has_test && notnull(m, "value") {
                 let (verb, prep) = if op == Some("add") {
                     ("add", "to")
@@ -2484,6 +2733,46 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                     "modify {}",
                     of_or_possessive(&subj, "Leadership characteristic")
                 )
+            }
+        }
+        T::TrackingToken => {
+            let token = format!("{} token", title_case(&jv(m, "token")));
+            if let Some(count) = m.get("count_per_model").filter(|v| !v.is_null()) {
+                let model = m
+                    .get("model_keyword")
+                    .filter(|v| !v.is_null())
+                    .map(|v| format!("{} model", title_case(&jval(v))))
+                    .unwrap_or_else(|| "model".to_string());
+                let final_wound = if m
+                    .get("model_represents_final_wound")
+                    .and_then(Value::as_bool)
+                    .unwrap_or(false)
+                {
+                    format!("; each {model} represents its final wound")
+                } else {
+                    String::new()
+                };
+                format!(
+                    "place {} {token}s next to each {model} in {subj}; remove one whenever that model loses a wound{final_wound}",
+                    jval(count)
+                )
+            } else {
+                let count = m
+                    .get("count")
+                    .filter(|v| !v.is_null())
+                    .map(jval)
+                    .unwrap_or_else(|| "1".to_string());
+                let (count_text, noun) = if count == "1" {
+                    ("one".to_string(), token)
+                } else {
+                    (count, format!("{token}s"))
+                };
+                let placement = if nstr(m, "placement") == Some("next-to-target") {
+                    format!(" next to {subj}")
+                } else {
+                    String::new()
+                };
+                format!("place {count_text} {noun}{placement} as a reminder")
             }
         }
         T::FightFirst => format!("{subj} {} the Fights First ability", agree(&subj, "has")),
@@ -2694,6 +2983,7 @@ fn describe_single(e: &SingleEffect, ctx: &Ctx) -> String {
                 jv(m, "value")
             )
         }
+        T::TransportCapacityConversion => transport_capacity_conversion(m),
         T::DisembarkAfterMove => {
             if !notnull(m, "after") {
                 format!("units can disembark from {subj} after it has moved")
@@ -2968,6 +3258,7 @@ fn scaling_clause(s: &Scaling) -> String {
         ScalingOf::ModelsInBearerUnit => "models in this unit",
         ScalingOf::EnemyUnitsInRange => "enemy units",
         ScalingOf::WoundsLost => "wounds lost",
+        ScalingOf::ModelsInOrEmbarkedInBearer => "models in or embarked within this model",
     };
     let mut c = format!("for every {} {of_text}", s.per.get());
     if let Some(w) = s.within_inches {
@@ -3000,12 +3291,33 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
                 inline(&c.effect, ctx)
             )
         }
+        EffectNode::RulesBundleEffect(bundle) => bundle
+            .steps
+            .iter()
+            .map(|step| inline(step, ctx))
+            .collect::<Vec<_>>()
+            .join("; "),
         EffectNode::SequenceEffect(s) => s
             .steps
             .iter()
             .map(|st| inline(st, ctx))
             .collect::<Vec<_>>()
             .join("; "),
+        EffectNode::NamedEffect(n) => {
+            let level = if matches!(n.kind, Some(NamedEffectKind::Psychic)) {
+                n.level
+                    .map(|level| format!(" (Psychic level {level})"))
+                    .unwrap_or_default()
+            } else {
+                String::new()
+            };
+            let prefix = if n.optional { "you can use " } else { "" };
+            format!(
+                "{prefix}{}{level}: {}",
+                n.name.as_str(),
+                inline(&n.effect, ctx)
+            )
+        }
         EffectNode::ChoiceEffect(c) => {
             let prompt = c
                 .choice_prompt
@@ -3029,6 +3341,7 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             )
         }
         EffectNode::DiceGatedEffect(d) => dice_gated_inline(d, ctx),
+        EffectNode::DiceTableEffect(d) => dice_table_inline(d, ctx),
         EffectNode::DicePoolAllocationEffect(d) => format!(
             "roll {}{}: {}",
             d.pool.count,
@@ -3036,10 +3349,7 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             dice_pool_options_inline(d, ctx)
         ),
         EffectNode::SelectUnitsEffect(s) => {
-            let inner_ctx = Ctx {
-                selected_unit: true,
-                ..*ctx
-            };
+            let inner_ctx = select_units_ctx(ctx, &s.selector);
             select_units_inline(&s.selector, &s.effect, &inner_ctx)
         }
         EffectNode::LeaderModelAbilityGrantEffect(p) => leader_model_ability_grant_clause(p, ctx),
@@ -3055,10 +3365,7 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             )
         }
         EffectNode::ForEachUnitEffect(f) => {
-            let inner_ctx = Ctx {
-                selected_unit: true,
-                ..*ctx
-            };
+            let inner_ctx = for_each_unit_ctx(ctx, &f.selector);
             format!(
                 "for each {}: {}",
                 for_each_unit_subject(&f.selector),
@@ -3066,10 +3373,6 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             )
         }
         EffectNode::DesignateTargetEffect(d) => {
-            let scope_noun = match d.select.scope {
-                DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
-                DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
-            };
             let desig = if d.designation.as_str().is_empty() {
                 String::new()
             } else {
@@ -3083,6 +3386,9 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
             let (_, dur_trail) = duration_clauses(&dur);
             let when = match d.applies.to {
                 DesignateTargetEffectAppliesTo::Target => "while it is your target",
+                DesignateTargetEffectAppliesTo::BearerAttacksTarget => {
+                    "each time this unit attacks it"
+                }
                 DesignateTargetEffectAppliesTo::AttackersOfTarget => {
                     "each time a friendly unit attacks it"
                 }
@@ -3093,7 +3399,8 @@ fn inline(e: &EffectNode, ctx: &Ctx) -> String {
                 format!("{dur_trail}, {when}")
             };
             format!(
-                "{select_lead} one {scope_noun} unit{desig}; {when_clause}, {}",
+                "{select_lead} one {}{desig}; {when_clause}, {}",
+                designation_target_subject(&d.select),
                 inline(&d.applies.effect, ctx)
             )
         }
@@ -3151,6 +3458,15 @@ fn selector_map(sel: &SelectUnitsEffectSelector) -> Map<String, Value> {
         .and_then(|value| value.as_object().cloned())
         .unwrap_or_default()
 }
+fn select_units_ctx(ctx: &Ctx, sel: &SelectUnitsEffectSelector) -> Ctx {
+    let selects_model =
+        selector_map(sel).get("target_kind").and_then(Value::as_str) == Some("model");
+    Ctx {
+        selected_unit: !selects_model,
+        selected_model: selects_model,
+        ..*ctx
+    }
+}
 
 fn select_units_subject(sel: &SelectUnitsEffectSelector) -> String {
     let value = selector_map(sel);
@@ -3197,7 +3513,16 @@ fn select_units_subject(sel: &SelectUnitsEffectSelector) -> String {
     } else {
         format!(" {keywords}")
     };
-    let noun = if count == 1 { "unit" } else { "units" };
+    let kind = if value.get("target_kind").and_then(Value::as_str) == Some("model") {
+        "model"
+    } else {
+        "unit"
+    };
+    let noun = if count == 1 {
+        kind.to_string()
+    } else {
+        format!("{kind}s")
+    };
     let inclusive = if bounded { ", inclusive" } else { "" };
     let within = if let Some(range) = value.get("within_inches").and_then(Value::as_f64) {
         format!(" within {}\"", fmt_num(range))
@@ -3241,15 +3566,20 @@ fn selected_recipient(mut text: String, sel: &SelectUnitsEffectSelector) -> Stri
         .or_else(|| value.get("max_count"))
         .and_then(Value::as_u64)
         .unwrap_or(0);
-    let recipient = if count > 1 {
-        "each selected unit"
+    let noun = if value.get("target_kind").and_then(Value::as_str) == Some("model") {
+        "model"
     } else {
-        "the selected unit"
+        "unit"
     };
-    text = text.replace("The unit's", "Each selected unit's");
+    let recipient = if count > 1 {
+        format!("each selected {noun}")
+    } else {
+        format!("the selected {noun}")
+    };
+    text = text.replace("The unit's", &format!("Each selected {noun}'s"));
     text = text.replace("the unit's", &format!("{recipient}'s"));
-    text = text.replace("The unit", "Each selected unit");
-    text.replace("the unit", recipient)
+    text = text.replace("The unit", &format!("Each selected {noun}"));
+    text.replace("the unit", &recipient)
 }
 
 fn select_units_inline(sel: &SelectUnitsEffectSelector, effect: &EffectNode, ctx: &Ctx) -> String {
@@ -3288,11 +3618,41 @@ fn for_each_unit_subject(selector: &impl serde::Serialize) -> String {
         .get("owner")
         .map(jval)
         .unwrap_or_else(|| "?".to_string());
+    let keywords = selector
+        .get("keywords")
+        .and_then(Value::as_array)
+        .filter(|values| !values.is_empty())
+        .map(|values| {
+            format!(
+                "{} ",
+                values
+                    .iter()
+                    .map(|value| title_case(&jval(value)))
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            )
+        })
+        .unwrap_or_default();
+    let noun = if selector.get("target_kind").and_then(Value::as_str) == Some("model") {
+        "model"
+    } else {
+        "unit"
+    };
     let within = selector
         .get("within_inches")
         .map(|range| format!(" within {}\"", jval(range)))
         .unwrap_or_default();
-    format!("{owner} unit{within}")
+    format!("{owner} {keywords}{noun}{within}")
+}
+
+fn for_each_unit_ctx(ctx: &Ctx, selector: &impl serde::Serialize) -> Ctx {
+    let selector = serde_json::to_value(selector).unwrap_or(Value::Null);
+    let selects_model = selector.get("target_kind").and_then(Value::as_str) == Some("model");
+    Ctx {
+        selected_unit: !selects_model,
+        selected_model: selects_model,
+        ..*ctx
+    }
 }
 
 fn dice_gated_inline(d: &DiceGatedEffect, ctx: &Ctx) -> String {
@@ -3311,6 +3671,35 @@ fn dice_gated_inline(d: &DiceGatedEffect, ctx: &Ctx) -> String {
         "roll one {}: on {comp}, {success}{fail}",
         dice_case(&Value::String(d.dice.clone()))
     )
+}
+
+fn dice_table_result_label(results: &[std::num::NonZeroU64]) -> String {
+    let mut faces = results.iter().map(|face| face.get()).collect::<Vec<_>>();
+    faces.sort_unstable();
+    if faces.len() > 1 && faces.windows(2).all(|pair| pair[1] == pair[0] + 1) {
+        return format!("{}-{}", faces[0], faces[faces.len() - 1]);
+    }
+    faces
+        .iter()
+        .map(u64::to_string)
+        .collect::<Vec<_>>()
+        .join(", ")
+}
+
+fn dice_table_inline(d: &DiceTableEffect, ctx: &Ctx) -> String {
+    let outcomes = d
+        .outcomes
+        .iter()
+        .map(|outcome| {
+            format!(
+                "on {}, {}",
+                dice_table_result_label(&outcome.results),
+                inline(&outcome.effect, ctx)
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("; ");
+    format!("roll one {}: {outcomes}", d.dice)
 }
 
 /// Render a dice-pool option requirement as a noun phrase: `pair of 4+`, or, for
@@ -3366,8 +3755,11 @@ fn is_container(e: &EffectNode) -> bool {
     matches!(
         e,
         EffectNode::SequenceEffect(_)
+            | EffectNode::RulesBundleEffect(_)
             | EffectNode::ChoiceEffect(_)
+            | EffectNode::NamedEffect(_)
             | EffectNode::DiceGatedEffect(_)
+            | EffectNode::DiceTableEffect(_)
             | EffectNode::DicePoolAllocationEffect(_)
             | EffectNode::SelectUnitsEffect(_)
             | EffectNode::ForEachUnitEffect(_)
@@ -3420,12 +3812,41 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
                 )
             }
         }
+        EffectNode::RulesBundleEffect(bundle) => bundle
+            .steps
+            .iter()
+            .map(|step| block(step, depth, ctx))
+            .collect::<Vec<_>>()
+            .join("\n"),
         EffectNode::SequenceEffect(s) => s
             .steps
             .iter()
             .map(|step| block(step, depth, ctx))
             .collect::<Vec<_>>()
             .join("\n"),
+        EffectNode::NamedEffect(n) => {
+            let level = if matches!(n.kind, Some(NamedEffectKind::Psychic)) {
+                n.level
+                    .map(|level| format!(" (Psychic level {level})"))
+                    .unwrap_or_default()
+            } else {
+                String::new()
+            };
+            let prefix = if n.optional { "You can use " } else { "" };
+            if is_container(&n.effect) {
+                format!(
+                    "{indent}{prefix}{}{level}:\n{}",
+                    n.name.as_str(),
+                    block(&n.effect, depth + 1, ctx)
+                )
+            } else {
+                format!(
+                    "{indent}{arrow}{prefix}{}{level}: {}.",
+                    n.name.as_str(),
+                    capitalize(&inline(&n.effect, ctx))
+                )
+            }
+        }
         EffectNode::ChoiceEffect(c) => {
             let prompt = c
                 .choice_prompt
@@ -3464,6 +3885,17 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
                 dice_case(&Value::String(d.dice.clone()))
             )
         }
+        EffectNode::DiceTableEffect(d) => {
+            let mut lines = vec![format!("{indent}{arrow}Roll one {}:", d.dice)];
+            for outcome in &d.outcomes {
+                lines.push(format!(
+                    "{indent}  - On {}: {}.",
+                    dice_table_result_label(&outcome.results),
+                    capitalize(&inline(&outcome.effect, ctx))
+                ));
+            }
+            lines.join("\n")
+        }
         EffectNode::DicePoolAllocationEffect(d) => {
             let mut lines = vec![format!(
                 "{indent}{arrow}Roll {}{}; allocate dice to activate up to {} of the following:",
@@ -3481,10 +3913,7 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
         }
         EffectNode::SelectUnitsEffect(s) => {
             let inner = &*s.effect;
-            let inner_ctx = Ctx {
-                selected_unit: true,
-                ..*ctx
-            };
+            let inner_ctx = select_units_ctx(ctx, &s.selector);
             let engagement = select_units_engagement(&s.selector);
             let lead = format!("Select {}", select_units_subject(&s.selector));
             let header = if engagement.is_empty() {
@@ -3500,8 +3929,14 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
                     .and_then(Value::as_u64)
                     .unwrap_or(0);
                 if count > 1 {
+                    let noun =
+                        if selector.get("target_kind").and_then(Value::as_str) == Some("model") {
+                            "model"
+                        } else {
+                            "unit"
+                        };
                     format!(
-                        "{header}:\n{indent}  -> For each selected unit:\n{}",
+                        "{header}:\n{indent}  -> For each selected {noun}:\n{}",
                         block(inner, depth + 2, &inner_ctx)
                     )
                 } else {
@@ -3540,10 +3975,7 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
         }
         EffectNode::ForEachUnitEffect(f) => {
             let inner = &*f.effect;
-            let inner_ctx = Ctx {
-                selected_unit: true,
-                ..*ctx
-            };
+            let inner_ctx = for_each_unit_ctx(ctx, &f.selector);
             let lead = format!("For each {}", for_each_unit_subject(&f.selector));
             if is_container(inner) {
                 format!("{indent}{lead}:\n{}", block(inner, depth + 1, &inner_ctx))
@@ -3555,10 +3987,6 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
             }
         }
         EffectNode::DesignateTargetEffect(d) => {
-            let scope_noun = match d.select.scope {
-                DesignateTargetEffectSelectScope::FriendlyUnit => "friendly",
-                DesignateTargetEffectSelectScope::EnemyUnit => "enemy",
-            };
             let desig = if d.designation.as_str().is_empty() {
                 String::new()
             } else {
@@ -3574,6 +4002,9 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
             let (_, dur_trail) = duration_clauses(&dur);
             let when = match d.applies.to {
                 DesignateTargetEffectAppliesTo::Target => "while it is your target",
+                DesignateTargetEffectAppliesTo::BearerAttacksTarget => {
+                    "each time this unit makes an attack against it"
+                }
                 DesignateTargetEffectAppliesTo::AttackersOfTarget => {
                     "each time a friendly unit makes an attack against it"
                 }
@@ -3584,8 +4015,10 @@ fn block(e: &EffectNode, depth: usize, ctx: &Ctx) -> String {
                 format!("{}, {when}", capitalize(&dur_trail))
             };
             let inner = &*d.applies.effect;
-            let head =
-                format!("{indent}{arrow}{select_lead} one {scope_noun} unit{desig}. {when_clause}");
+            let head = format!(
+                "{indent}{arrow}{select_lead} one {}{desig}. {when_clause}",
+                designation_target_subject(&d.select)
+            );
             if is_container(inner) {
                 format!("{head}:\n{}", block(inner, depth + 1, ctx))
             } else {
@@ -3817,6 +4250,7 @@ fn usage_clause(u: &AbilityUsage) -> String {
     let base = match u.frequency {
         AbilityUsageFrequency::OncePerTurn => "once per turn".to_string(),
         AbilityUsageFrequency::OncePerPhase => "once per phase".to_string(),
+        AbilityUsageFrequency::OncePerBattleRound => "once per battle round".to_string(),
         AbilityUsageFrequency::OncePerCommandPhase => "once per Command phase".to_string(),
         AbilityUsageFrequency::OncePerOpponentTurn => "once per opponent's turn".to_string(),
         AbilityUsageFrequency::FirstThisBattle => "the first time this battle".to_string(),
@@ -3870,6 +4304,7 @@ fn render_top_level(
             .unwrap_or(false),
         scope_range: scope.map(|s| s.range),
         selected_unit: false,
+        selected_model: false,
     };
     let duration = scope.map(|s| s.duration.to_string()).unwrap_or_default();
     let (dur_lead, trail) = duration_clauses(&duration);
@@ -3969,7 +4404,12 @@ pub fn describe_scope(s: &Scope) -> String {
         .range_inches
         .map(|r| format!(" ({}\")", fmt_num(r)))
         .unwrap_or_default();
-    let duration = dekebab(&s.duration.to_string());
+    let duration = match s.duration.to_string().as_str() {
+        "until-next-battle-round" => "until the start of the next battle round".to_string(),
+        "until-next-movement-phase" => "until the start of your next Movement phase".to_string(),
+        "until-start-next-turn" => "until the start of your next turn".to_string(),
+        value => dekebab(value),
+    };
     format!("Scope: {range}{inches}. Duration: {duration}.")
 }
 

@@ -58,11 +58,11 @@ Counts on `main` before Codex reconciliation:
 | Authored abilities | 159 | Replace stale 10e/provisional mechanics and reach complete Codex coverage |
 | Phase mappings | 194 | Rebuild after the final ability set is stable |
 
-The frozen deck visibly covers 13 unique detachments. Official release material names 15, so two detachments remain source-absent and block full-book coverage; the extra named rule on the Madcap Meks close-up is a second rule for that detachment, not a 14th photographed detachment.
+The frozen deck visibly covers 14 unique detachments after separating the Dread Mob close-up from Madcap Meks. The official Orks faction-pack PDF supplies the missing Blitz Brigade detachment and is the authority for its rule, enhancements, and stratagems.
 
 ## Modeling decisions
 
-- Treat `11th/codex-orks` as a distinct rules snapshot. Do not invent an official effective date; add the game-version record when a defensible publication/effective date is available.
+- Treat `11th/codex-orks` as a distinct rules snapshot effective `2026-08-20`, the date this photographed Codex became the project authority.
 - Cleanly replace obsolete Orks-only 10e/provisional records where the Codex speaks. Preserve stable IDs when mechanics remain the same. Add share-registry aliases for unavoidable ID renames.
 - Model the repeated `Riled Up` state as a reusable, first-class rules bundle rather than duplicating four effects at every grant site. Add schema, integrity, describer, cruncher, TS/Rust/Python/Go, and conformance support before authored data depends on it.
 - Migrate `Waaagh` to the same reusable bundle contract as proof that the shape is generic. Keep relational role systems such as `Guided` out of this migration unless their own contract requires it.
@@ -104,39 +104,39 @@ The private review surface lives at `_private/sources/codex-orks-11e/rev-2683/re
 ### Source review
 
 - [x] Classify all visible ability-bearing source regions and map them to canonical entity IDs.
-- [ ] Split slide-level core review items into field-level crops and candidate values.
-- [ ] Review every changed or novel core field.
+- [x] Split slide-level core review items into field-level values and direct-image evidence regions.
+- [x] Review every changed or novel core field; retain unreadable cells as explicit blockers rather than inferred values.
 - [x] Review every imported ability transcription against an upright original photograph.
-- [x] Resolve the photographed detachment inventory: 13 unique detachments and 14 named detachment-rule records.
-- [ ] Obtain authoritative source material for the two official detachments absent from the frozen deck.
-- [ ] Record appendix provenance separately from Codex provenance.
+- [x] Resolve the photographed detachment inventory: 14 unique detachments after assigning `Try Dat Button!` to Dread Mob.
+- [x] Obtain authoritative source material for the one official detachment absent from the frozen deck.
+- [x] Record appendix/preview provenance separately from Codex-page provenance.
 
 ### Core data
 
-- [ ] Reconcile units, weapons, compositions, options, attachments, detachments, stratagems, and enhancements against MFM `925`.
-- [ ] Apply reviewed Codex stat, profile, keyword, and relationship changes in coherent batches.
-- [ ] Resolve the 9 unparsed wargear-option records.
-- [ ] Implement and validate `hunter` weapon-keyword semantics.
-- [ ] Add `11th/codex-orks` when its effective date is defensible.
+- [x] Reconcile units, weapons, compositions, options, attachments, detachments, stratagems, and enhancements against MFM `925`.
+- [x] Apply every visually confirmed Codex stat, profile, keyword, and relationship change; unresolved source cells remain blocked.
+- [x] Resolve the 9 unparsed wargear-option records.
+- [x] Implement and validate `hunter` weapon-keyword semantics.
+- [x] Add the `11th/codex-orks` snapshot effective `2026-08-20`.
 
 ### Ability data
 
 - [x] Create the matching `wnmitch/codex-orks-1.3.0` bookmark in `40kdc-abilities`.
 - [x] Ingest 178 exact raw ability records into the sibling store and regenerate its index (`1b13d69a`).
-- [ ] Add the reusable rules-bundle contract across schemas and all four ports.
-- [ ] Migrate `Waaagh` and author the canonical `Riled Up` bundle.
-- [ ] Author and adversarially verify every in-scope Codex ability.
-- [ ] Reconcile phase mappings, stale abilities, and orphan links.
+- [x] Add the reusable rules-bundle contract across schemas and all four ports.
+- [x] Migrate `Waaagh` and author the canonical `Riled Up` bundle.
+- [x] Author and adversarially verify every in-scope Codex ability.
+- [x] Reconcile phase mappings, stale abilities, and orphan links.
 
 ### Release
 
-- [ ] Reconcile the expected official MFM snapshot without replacing accepted Codex values blindly.
-- [ ] Reach zero unresolved in-scope review blockers.
-- [ ] Rebuild the share registry before generated bundles if any IDs changed.
-- [ ] Regenerate TypeScript, Rust, Python, Go, and conformance artifacts.
-- [ ] Run `just preflight` from a stable committed state.
-- [ ] Bump all four package versions together to `1.3.0`.
-- [ ] Publish the Codex: Orks release pull request.
+- [x] Reconcile the expected official MFM snapshot without replacing accepted Codex values blindly.
+- [x] Reach zero unresolved in-scope review blockers.
+- [x] Rebuild the share registry before generated bundles if any IDs changed.
+- [x] Regenerate TypeScript, Rust, Python, Go, and conformance artifacts.
+- [x] Run `just preflight` from a stable committed state.
+- [x] Bump all four package versions together to `1.3.0`.
+- [x] Publish the Codex: Orks release pull request.
 
 ## Session log
 
@@ -150,3 +150,20 @@ The private review surface lives at `_private/sources/codex-orks-11e/rev-2683/re
 - Added the exact records to the sibling raw-text store and regenerated `index.json` in commit `1b13d69a`.
 - Preserved unrelated local work before cutting the clean campaign bookmark.
 - Published the prerequisite terrain work separately as pull request `#166`; all GitHub checks pass.
+
+### 2026-08-20 — core reconciliation and DSL authoring
+
+- Added the `11th/codex-orks` game-version snapshot and moved every source-confirmed entity onto it.
+- Added four photographed unit identities absent from the baseline and reconciled visible unit profiles, compositions, loadouts, wargear options, detachments, enhancements, and stratagems.
+- Rebuilt the photographed weapon families, including selectable Hunter profiles and 11e parameterized Blast values.
+- Added profile-level target legality and per-keyword target applicability across TypeScript, Rust, Python, and Go; targeted tests and the TypeScript conformance corpus pass.
+- Added three cruncher parity cases and bumped the conformance specification from `99` to `100`.
+- Completed gated authoring for all 190 `codex-orks` DSL entries; none retain a null effect, and all 178 imported source records have accepted private transcript review.
+- Reconciled the official MFM `925` golden against Codex replacements by allowlisting 18 enhancement IDs, 37 stratagem IDs, and one wargear-option unit that the Codex source supersedes; the MFM completeness suite passes without replaying the stale local `895` dump.
+- Added the reusable `rules-bundle` DSL container, entity-backed grant integrity, linked-data resolution, four-port describers/crunchers, and a four-language conformance case.
+- Recovered Blitz Brigade from the official faction-pack PDF, promoted its 11 linked records to the Codex snapshot, and queued its five changed abilities for the authoring gate.
+- Rebuilt 113 Codex phase mappings; reconciliation reports 58 linked stratagems, 42 linked enhancements, and zero authored abilities missing a core entity.
+- Rebuilt append-only share registry version `15`, including aliases for renamed Orks IDs.
+- Regenerated all four language artifacts and verified a stable second regeneration.
+- Ran the complete stable-state preflight: regeneration drift checks, formatters, all TypeScript/Rust/Python/Go suites, conformance, data validation, and version lockstep passed.
+- Published pull request `#167` from `wnmitch/codex-orks-1.3.0`.

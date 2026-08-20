@@ -44,7 +44,6 @@ regen:
     cargo run -p xtask -- bundle-data
     python3 python/codegen/sync_bundle.py
     python3 python/codegen/sync_spec.py
-    cd python && python3 -m pip install -e ".[dev]" --quiet
     python3 python/codegen/gen_typeddicts.py
     bash go/codegen/sync.sh
     cd tools && npm run codegen:data && npx tsc && npm run gen:conformance
@@ -141,6 +140,10 @@ version-lockstep:
 # Validate or regenerate the committed MFM source-shape contract.
 mfm-contract mode="check":
     cd tools && npm run mfm:contract -- --{{mode}}
+
+# Download the current MFM snapshot to gitignored _private/dump.json.
+mfm-download:
+    cd tools && npm run mfm:download
 
 # Compare a pinned BSData checkout to MFM; warnings are written only under _private.
 mfm-bsdata bsdata ref:

@@ -35,7 +35,7 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 | iron-hands | 71 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | leagues-of-votann | 54 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | necrons | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| orks | 69 | 0 | 0 | 0 | 0 | 0 | 0 | 9 |
+| orks | 69 | 0 | 0 | 0 | 0 | 0 | 2 | 31 |
 | raven-guard | 71 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | salamanders | 68 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | space-wolves | 102 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
@@ -45,7 +45,7 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 | ultramarines | 77 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | white-scars | 71 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | world-eaters | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2215** | **0** | **0** | **0** | **0** | **0** | **23** | **31** |
+| **TOTAL** | **2215** | **0** | **0** | **0** | **0** | **0** | **25** | **53** |
 
 ## (core)
 
@@ -120,6 +120,12 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 
 **Phases — authored vs prose-derived (review only, NOT applied):**
 - shock-assault-stormlance-task-force: [charge] vs [fight]
+
+## orks
+
+**Phases — authored vs prose-derived (review only, NOT applied):**
+- speediest-freeks-kult-of-speed: [shooting] vs [shooting,fight]
+- too-arrogant-to-die-bully-boyz: [fight] vs [shooting,fight]
 
 ## raven-guard
 

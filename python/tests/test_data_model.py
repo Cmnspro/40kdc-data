@@ -191,3 +191,122 @@ def test_gate_is_attacker_side_too_and_spares_unit_scoped_grants(dataset: Any) -
         {"phase": "shooting"},
     )
     assert keywords_from(aggressors, "surgical-precision") == ["lethal-hits"]
+
+
+def test_entity_backed_rules_bundle_expands_before_buff_translation() -> None:
+    from wh40kdc.data.bundle import empty_raw_data
+    from wh40kdc.data.dataset import Dataset
+
+    raw = empty_raw_data()
+    raw["abilities"] = [
+        {
+            "ability_id": "shared-rules",
+            "name": "Shared Rules",
+            "faction_id": "orks",
+            "effect": {
+                "type": "rules-bundle",
+                "steps": [
+                    {
+                        "type": "re-roll",
+                        "target": "unit",
+                        "modifier": {"roll": "hit", "subset": "ones"},
+                    },
+                    {
+                        "type": "re-roll",
+                        "target": "unit",
+                        "modifier": {"roll": "wound", "subset": "ones"},
+                    },
+                ],
+            },
+        },
+        {
+            "ability_id": "bundle-grant",
+            "name": "Bundle Grant",
+            "faction_id": "orks",
+            "effect": {
+                "type": "ability-grant",
+                "target": "unit",
+                "modifier": {"ability_id": "shared-rules", "rules_bundle": True},
+            },
+        },
+        {
+            "ability_id": "cycle-a",
+            "name": "Cycle A",
+            "faction_id": "orks",
+            "effect": {
+                "type": "rules-bundle",
+                "steps": [
+                    {
+                        "type": "ability-grant",
+                        "target": "unit",
+                        "modifier": {"ability_id": "cycle-b", "rules_bundle": True},
+                    }
+                ],
+            },
+        },
+        {
+            "ability_id": "cycle-b",
+            "name": "Cycle B",
+            "faction_id": "orks",
+            "effect": {
+                "type": "rules-bundle",
+                "steps": [
+                    {
+                        "type": "ability-grant",
+                        "target": "unit",
+                        "modifier": {"ability_id": "cycle-a", "rules_bundle": True},
+                    }
+                ],
+            },
+        },
+    ]
+    ability = Dataset(raw).abilities.get_in_faction("bundle-grant", "orks")
+    assert ability is not None
+
+    result = ability.describe_buffs(
+        {"kind": "ability", "abilityId": "bundle-grant", "abilityKind": "unit"},
+        {"phase": "shooting"},
+    )
+
+    assert [buff["contribution"] for buff in result["applied"]] == [
+        {"type": "reroll", "roll": "hit", "subset": "ones"},
+        {"type": "reroll", "roll": "wound", "subset": "ones"},
+    ]
+    assert result["unsupported"] == []
+
+    cycle = Dataset(raw).abilities.get_in_faction("cycle-a", "orks")
+    assert cycle is not None
+    cyclic_result = cycle.describe_buffs(
+        {"kind": "ability", "abilityId": "cycle-a", "abilityKind": "unit"},
+        {"phase": "shooting"},
+    )
+    assert cyclic_result["applied"] == []
+    assert [item["reason"] for item in cyclic_result["unsupported"]] == [
+        'effect type "ability-grant" is not modelled by the buff layer'
+    ]
+
+
+def test_weapon_keyword_target_gates_apply_in_linked_buff_apis(dataset: Any) -> None:
+    input_ = {
+        "unitId": "warbuggies",
+        "factionId": "orks",
+        "weaponProfiles": [{"weaponId": "extra-dakka", "profileIndex": 0}],
+    }
+    matching = dataset.buffs_for(input_, {"phase": "shooting", "targetKeywords": ["infantry"]})
+    assert any(
+        buff["contribution"].get("keywordRef", {}).get("keyword_id") == "lethal-hits"
+        for buff in matching
+    )
+
+    excluded_context = {"phase": "shooting", "targetKeywords": ["monster"]}
+    excluded = dataset.buffs_for(input_, excluded_context)
+    assert not any(
+        buff["contribution"].get("keywordRef", {}).get("keyword_id") == "lethal-hits"
+        for buff in excluded
+    )
+    stackable = dataset.stackable_buffs_for(input_, excluded_context)["buffs"]
+    assert not any(
+        buff["contribution"].get("keywordRef", {}).get("keyword_id") == "lethal-hits"
+        for group in stackable
+        for buff in group["buffs"]
+    )

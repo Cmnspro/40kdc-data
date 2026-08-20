@@ -275,6 +275,107 @@ describe("AbilityView.phases (joined via phase-mappings)", () => {
   });
 });
 
+describe("AbilityView reusable rules bundles", () => {
+  it("expands an entity-backed grant before translating buffs", () => {
+    const ds = new Dataset({
+      ...emptyRawData(),
+      abilities: [
+        {
+          ability_id: "shared-rules",
+          name: "Shared Rules",
+          authored_by: "40kdc-community",
+          faction_id: "orks",
+          game_version: { edition: "11th", dataslate: "test" },
+          effect: {
+            type: "rules-bundle",
+            steps: [
+              {
+                type: "re-roll",
+                target: "unit",
+                modifier: { roll: "hit", subset: "ones" },
+              },
+              {
+                type: "re-roll",
+                target: "unit",
+                modifier: { roll: "wound", subset: "ones" },
+              },
+            ],
+          },
+          scope: { range: "unit", duration: "permanent" },
+        } as never,
+        {
+          ability_id: "bundle-grant",
+          name: "Bundle Grant",
+          authored_by: "40kdc-community",
+          faction_id: "orks",
+          game_version: { edition: "11th", dataslate: "test" },
+          effect: {
+            type: "ability-grant",
+            target: "unit",
+            modifier: { ability_id: "shared-rules", rules_bundle: true },
+          },
+          scope: { range: "unit", duration: "permanent" },
+        } as never,
+        {
+          ability_id: "cycle-a",
+          name: "Cycle A",
+          authored_by: "40kdc-community",
+          faction_id: "orks",
+          game_version: { edition: "11th", dataslate: "test" },
+          effect: {
+            type: "rules-bundle",
+            steps: [
+              {
+                type: "ability-grant",
+                target: "unit",
+                modifier: { ability_id: "cycle-b", rules_bundle: true },
+              },
+            ],
+          },
+          scope: { range: "unit", duration: "permanent" },
+        } as never,
+        {
+          ability_id: "cycle-b",
+          name: "Cycle B",
+          authored_by: "40kdc-community",
+          faction_id: "orks",
+          game_version: { edition: "11th", dataslate: "test" },
+          effect: {
+            type: "rules-bundle",
+            steps: [
+              {
+                type: "ability-grant",
+                target: "unit",
+                modifier: { ability_id: "cycle-a", rules_bundle: true },
+              },
+            ],
+          },
+        } as never,
+      ],
+    });
+
+    const result = ds.abilities.getInFaction("bundle-grant", "orks")!.describeBuffs(
+      { kind: "ability", abilityId: "bundle-grant", abilityKind: "unit" },
+      { phase: "shooting" },
+    );
+
+    expect(result.applied.map((buff) => buff.contribution)).toEqual([
+      { type: "reroll", roll: "hit", subset: "ones" },
+      { type: "reroll", roll: "wound", subset: "ones" },
+    ]);
+    expect(result.unsupported).toEqual([]);
+
+    const cyclic = ds.abilities.getInFaction("cycle-a", "orks")!.describeBuffs(
+      { kind: "ability", abilityId: "cycle-a", abilityKind: "unit" },
+      { phase: "shooting" },
+    );
+    expect(cyclic.applied).toEqual([]);
+    expect(cyclic.unsupported.map(({ reason }) => reason)).toEqual([
+      'effect type "ability-grant" is not modelled by the buff layer',
+    ]);
+  });
+});
+
 describe("reverse links", () => {
   it("AbilityView.units lists units that have the ability", () => {
     expect(abilities.get("berzerker-frenzy")?.units.map((u) => u.id)).toContain(

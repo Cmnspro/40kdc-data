@@ -93,6 +93,7 @@ _TIMING_ALIASES: dict[str, str] = {
     "set-up-this-turn": "unit-set-up",
     "after-move-through-terrain-over-4-inches": "moved-through-tall-terrain",
     "after-moving-through-tall-terrain": "moved-through-tall-terrain",
+    "when-selected-to-shoot": "selected-to-shoot",
     "when-this-unit-selected-to-shoot": "selected-to-shoot",
 }
 
@@ -181,6 +182,7 @@ _EVENT_PHRASES: dict[str, str] = {
     "fall-back-move": "when the unit makes a Fall Back move",
     "falls-back": "when the unit Falls Back",
     "charge-move": "when the unit makes a Charge move",
+    "end-of-charge-move": "after the unit ends a Charge move",
     "moved-through-terrain": "when the unit moves through terrain",
     "moved-through-tall-terrain": 'when the unit moves through terrain over 4" tall',
     "enemy-unit-ended-move": "an enemy unit ends a move",
@@ -303,6 +305,18 @@ def describe_condition(c: Condition) -> str:
         return f"{negate}the {who} is below half strength"
     if ctype == "unit-has-keyword":
         return f'{negate}the unit has "{_str(p.get("keyword"))}"'
+    if ctype == "unit-model-count":
+        return (
+            f"{negate}the unit contains {_str(p.get('count_min'))}+ {_str(p.get('keyword'))} models"
+        )
+    if ctype == "uniform-ranged-loadout":
+        keyword = f"{_str(p.get('model_keyword'))} " if p.get("model_keyword") else ""
+        return (
+            f"{negate}all ranged weapons equipped by each {keyword}model in the unit are the same"
+        )
+    if ctype == "all-attacks-target-same-unit":
+        attack_type = f"{_str(p.get('attack_type'))} " if p.get("attack_type") else ""
+        return f"{negate}all of the unit's {attack_type}attacks target the same enemy unit"
     if ctype == "target-has-keyword":
         return f'{negate}the target has "{_str(p.get("keyword"))}"'
     if ctype == "model-is-leader":
@@ -352,6 +366,11 @@ def describe_condition(c: Condition) -> str:
             return f"{negate}{subject} was hit by {n}+ {atk}attacks{weapon}{bound_source}{window}"
         attack = "an attack" if not atk else f"a {atk}attack"
         return f"{negate}{subject} was hit by {attack}{weapon}{bound_source}{window}"
+    if ctype == "wounds-lost-from-attack":
+        subject = "the target" if p.get("subject") == "target" else "the unit"
+        attack_type = f"{_str(p.get('attack_type'))} " if p.get("attack_type") else ""
+        source = " from the triggering attacks" if p.get("source") == "triggering-attacks" else ""
+        return f"{negate}{subject} lost one or more wounds from {attack_type}attacks{source}"
     if ctype == "opponent-unit-within-range":
         if p.get("weapon_name") is not None:
             within = f"range of {dekebab(_str(p.get('weapon_name')))}"

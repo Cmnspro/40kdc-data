@@ -52,6 +52,7 @@ var timingAliases = map[string]string{
 	"set-up-this-turn":                      "unit-set-up",
 	"after-move-through-terrain-over-4-inches": "moved-through-tall-terrain",
 	"after-moving-through-tall-terrain":        "moved-through-tall-terrain",
+	"when-selected-to-shoot":                   "selected-to-shoot",
 	"when-this-unit-selected-to-shoot":         "selected-to-shoot",
 }
 
@@ -60,6 +61,7 @@ var timingAliases = map[string]string{
 var timingOnlyPhrases = map[string]string{
 	"once-per-battle":                  "once per battle",
 	"once-per-phase":                   "once per phase",
+	"once-per-battle-round":            "once per battle round",
 	"once-per-opponent-turn":           "once per opponent's turn",
 	"first-this-battle":                "the first time this battle",
 	"first-time-this-phase":            "the first time this phase",
@@ -138,6 +140,7 @@ var eventPhrases = map[string]string{
 	"fall-back-move":                  "when the unit makes a Fall Back move",
 	"falls-back":                      "when the unit Falls Back",
 	"charge-move":                     "when the unit makes a Charge move",
+	"end-of-charge-move":              "after the unit ends a Charge move",
 	"charge-declaration":              "when a Charge is declared",
 	"moved-through-terrain":           "when the unit moves through terrain",
 	"moved-through-tall-terrain":      "when the unit moves through terrain over 4\" tall",
@@ -296,6 +299,20 @@ func describeCondition(c map[string]any) string {
 		return negate + "the " + who + " is below half strength"
 	case "unit-has-keyword":
 		return negate + "the unit has \"" + cstr(p["keyword"]) + "\""
+	case "unit-model-count":
+		return negate + "the unit contains " + cstr(p["count_min"]) + "+ " + cstr(p["keyword"]) + " models"
+	case "uniform-ranged-loadout":
+		keyword := ""
+		if p["model_keyword"] != nil {
+			keyword = cstr(p["model_keyword"]) + " "
+		}
+		return negate + "all ranged weapons equipped by each " + keyword + "model in the unit are the same"
+	case "all-attacks-target-same-unit":
+		attackType := ""
+		if p["attack_type"] != nil {
+			attackType = cstr(p["attack_type"]) + " "
+		}
+		return negate + "all of the unit's " + attackType + "attacks target the same enemy unit"
 	case "target-has-keyword":
 		return negate + "the target has \"" + cstr(p["keyword"]) + "\""
 	case "model-is-leader":
@@ -363,6 +380,20 @@ func describeCondition(c map[string]any) string {
 			article = "a " + atk + "attack"
 		}
 		return negate + subject + " was hit by " + article + weapon + boundSource + window
+	case "wounds-lost-from-attack":
+		subject := "the unit"
+		if p["subject"] == "target" {
+			subject = "the target"
+		}
+		attackType := ""
+		if p["attack_type"] != nil && truthy(p["attack_type"]) {
+			attackType = cstr(p["attack_type"]) + " "
+		}
+		source := ""
+		if p["source"] == "triggering-attacks" {
+			source = " from the triggering attacks"
+		}
+		return negate + subject + " lost one or more wounds from " + attackType + "attacks" + source
 	case "opponent-unit-within-range":
 		var within string
 		rng := p["range"]

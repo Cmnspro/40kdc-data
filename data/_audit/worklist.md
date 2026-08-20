@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 38 stub abilities.
+Total: 31 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -14,10 +14,7 @@ Total: 38 stub abilities.
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | far-reaching-doom | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | support-artillery | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
-| astra-militarum | aerial-deployment | conditional | empty modifier |
 | astra-militarum | brutal-disciplinarian | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
-| chaos-knights | flush-the-quarry-helhunt-lance | conditional | effect type "movement-modifier" is not modelled by the buff layer |
-| chaos-knights | imperious-advance-traitoris-lance | conditional | effect type "movement-modifier" is not modelled by the buff layer |
 | chaos-space-marines | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | masters-of-the-maelstrom | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | chaos-space-marines | super-heavy-war-engine | stat-modifier | stat-modifier: operation "undefined" not supported |
@@ -28,15 +25,11 @@ Total: 38 stub abilities.
 | death-guard | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | drukhari | exacting-cruelty | stat-modifier | stat-modifier: operation "undefined" not supported |
-| emperors-children | daemonic-patrons | sequence | empty modifier |
 | emperors-children | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | emperors-children | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
 | genestealer-cults | hordes-of-the-faithful | stat-modifier | stat-modifier: operation "undefined" not supported |
-| genestealer-cults | underground-egress | conditional | empty modifier |
 | grey-knights | hallowed-ground | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
 | necrons | engrammatic-logic | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
-| orks | aerial-deployment | conditional | empty modifier |
-| orks | tuff-git-blitz-brigade | remove-battle-shock | effect type "remove-battle-shock" is not modelled by the buff layer |
 | thousand-sons | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | dark-ascension-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |

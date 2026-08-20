@@ -101,6 +101,7 @@ fn event_phrase(e: &str) -> Option<&'static str> {
         "fall-back-move" => "when the unit makes a Fall Back move",
         "falls-back" => "when the unit Falls Back",
         "charge-move" => "when the unit makes a Charge move",
+        "end-of-charge-move" => "after the unit ends a Charge move",
         "charge-declaration" => "when a Charge is declared",
         "moved-through-terrain" => "when the unit moves through terrain",
         "moved-through-tall-terrain" => "when the unit moves through terrain over 4\" tall",
@@ -176,6 +177,7 @@ fn timing_alias(t: &str) -> Option<&'static str> {
         "set-up-this-turn" => "unit-set-up",
         "after-move-through-terrain-over-4-inches" => "moved-through-tall-terrain",
         "after-moving-through-tall-terrain" => "moved-through-tall-terrain",
+        "when-selected-to-shoot" => "selected-to-shoot",
         "when-this-unit-selected-to-shoot" => "selected-to-shoot",
         _ => return None,
     })
@@ -460,6 +462,23 @@ fn describe_simple(s: &SimpleCondition) -> String {
             format!("{negate}the {who} is below half strength")
         }
         T::UnitHasKeyword => format!("{negate}the unit has \"{}\"", pj(p, "keyword")),
+        T::UnitModelCount => format!(
+            "{negate}the unit contains {}+ {} models",
+            pj(p, "count_min"),
+            pj(p, "keyword")
+        ),
+        T::UniformRangedLoadout => {
+            let keyword = ps(p, "model_keyword")
+                .map(|value| format!("{value} "))
+                .unwrap_or_default();
+            format!("{negate}all ranged weapons equipped by each {keyword}model in the unit are the same")
+        }
+        T::AllAttacksTargetSameUnit => {
+            let attack_type = ps(p, "attack_type")
+                .map(|value| format!("{value} "))
+                .unwrap_or_default();
+            format!("{negate}all of the unit's {attack_type}attacks target the same enemy unit")
+        }
         T::TargetHasKeyword => {
             format!("{negate}the target has \"{}\"", pj(p, "keyword"))
         }
@@ -522,6 +541,22 @@ fn describe_simple(s: &SimpleCondition) -> String {
             } else {
                 format!("{negate}{subject} was hit by a {atk}attack{weapon}{bound_source}{window}")
             }
+        }
+        T::WoundsLostFromAttack => {
+            let subject = if ps(p, "subject") == Some("target") {
+                "the target"
+            } else {
+                "the unit"
+            };
+            let attack_type = ps(p, "attack_type")
+                .map(|value| format!("{value} "))
+                .unwrap_or_default();
+            let source = if ps(p, "source") == Some("triggering-attacks") {
+                " from the triggering attacks"
+            } else {
+                ""
+            };
+            format!("{negate}{subject} lost one or more wounds from {attack_type}attacks{source}")
         }
         T::OpponentUnitWithinRange => {
             let rv = ["range", "range_inches", "within_inches"]

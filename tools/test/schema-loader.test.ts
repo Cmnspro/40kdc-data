@@ -116,6 +116,55 @@ describe("schema-loader", () => {
     expect(validate!({ ...base, game_modes: [] })).toBe(false);
     expect(validate!({ ...base, game_modes: ["combat-patrol", "combat-patrol"] })).toBe(false);
   });
+
+  it("rejects empty required-any keyword restrictions", () => {
+    const ajv = createValidator();
+    const validate = ajv.getSchema("https://40kdc.dev/schemas/core/weapon.schema.json");
+    expect(validate).toBeDefined();
+    const profile = {
+      name: "Test profile",
+      stats: { A: 1, S: 4, AP: 0, D: 1 },
+    };
+    const weapon = {
+      id: "test-weapon",
+      name: "Test Weapon",
+      type: "ranged",
+      profiles: [profile],
+      game_version: { edition: "11th", dataslate: "test" },
+    };
+    expect(validate!(weapon)).toBe(true);
+    expect(validate!({
+      ...weapon,
+      profiles: [{
+        ...profile,
+        target_restrictions: { required_keywords_any: [] },
+      }],
+    })).toBe(false);
+    expect(validate!({
+      ...weapon,
+      profiles: [{
+        ...profile,
+        keywords: [{
+          keyword_id: "lethal-hits",
+          parameters: { required_target_keywords_any: [] },
+        }],
+      }],
+    })).toBe(false);
+  });
+
+  it("validates closed dice-table effects", () => {
+    const ajv = createValidator();
+    const validate = ajv.getSchema("https://40kdc.dev/schemas/enrichment/ability-dsl/effect.schema.json");
+    expect(validate).toBeDefined();
+    const outcomes = [
+      { results: [1, 2, 3], effect: { type: "mortal-wounds", target: "target", modifier: { count: "D3" } } },
+      { results: [4, 5], effect: { type: "mortal-wounds", target: "target", modifier: { count: 3 } } },
+      { results: [6], effect: { type: "mortal-wounds", target: "target", modifier: { count: "D3+3" } } },
+    ];
+    expect(validate!({ type: "dice-table", dice: "D6", outcomes })).toBe(true);
+    expect(validate!({ type: "dice-table", dice: "D8", outcomes })).toBe(false);
+    expect(validate!({ type: "dice-table", dice: "D6", outcomes: [{ results: [1] }, outcomes[1]] })).toBe(false);
+  });
   it("rejects named-region lifecycle, control, and precedence drift", () => {
     const ajv = createValidator();
     const validate = ajv.getSchema("https://40kdc.dev/schemas/enrichment/ability-dsl/effect.schema.json");
@@ -317,5 +366,91 @@ describe("schema-loader", () => {
         consumer: { ...valid.consumer, relation: "within-selected-marker" },
       }),
     ).toBe(true);
+  });
+  it("enforces discriminated Transport occupancy contracts", () => {
+    const validate = createValidator().getSchema(
+      "https://40kdc.dev/schemas/enrichment/ability-dsl/effect.schema.json",
+    );
+    expect(validate).toBeDefined();
+    const groupedSingle = {
+      type: "transport-capacity-conversion",
+      target: "self",
+      modifier: {
+        occupancy_kind: "grouped-models",
+        subject_kind: "single-model",
+        models_per_group: 1,
+        spaces_per_group: 2,
+        rounding: "up",
+      },
+    };
+    expect(validate!(groupedSingle)).toBe(true);
+    expect(
+      validate!({
+        ...groupedSingle,
+        modifier: { ...groupedSingle.modifier, models_per_group: 2 },
+      }),
+    ).toBe(false);
+
+    const fixed = {
+      type: "transport-capacity-conversion",
+      target: "unit",
+      modifier: {
+        occupancy_kind: "fixed-model-spaces",
+        subject_kind: "unit-models",
+        spaces_per_model: 3,
+        transport_eligibility: { requires_capacity_keyword: "TERMINATOR" },
+      },
+    };
+    expect(validate!(fixed)).toBe(true);
+    expect(
+      validate!({
+        ...fixed,
+        modifier: {
+          ...fixed.modifier,
+          transport_eligibility: {
+            requires_capacity_keyword: "TERMINATOR",
+            embark_as_keyword: "INFANTRY",
+          },
+        },
+      }),
+    ).toBe(false);
+
+    const equivalent = {
+      type: "transport-capacity-conversion",
+      target: "unit",
+      modifier: {
+        occupancy_kind: "equivalent-model",
+        subject_kind: "unit-models",
+        equivalent_model_keyword: "TERMINATOR",
+      },
+    };
+    expect(validate!(equivalent)).toBe(true);
+    expect(
+      validate!({
+        ...equivalent,
+        modifier: {
+          ...equivalent.modifier,
+          equivalent_model_count: 2,
+        },
+      }),
+    ).toBe(false);
+  });
+
+  it("requires entity identity on reusable rules-bundle grants", () => {
+    const validate = createValidator().getSchema(
+      "https://40kdc.dev/schemas/enrichment/ability-dsl/effect.schema.json",
+    );
+    expect(validate).toBeDefined();
+    const valid = {
+      type: "ability-grant",
+      target: "unit",
+      modifier: { ability_id: "shared-rules", rules_bundle: true },
+    };
+
+    expect(validate!(valid)).toBe(true);
+    expect(validate!({ ...valid, modifier: { rules_bundle: true } })).toBe(false);
+    expect(validate!({ ...valid, modifier: { ability_id: "Not An Entity", rules_bundle: true } })).toBe(
+      false,
+    );
   });
 });

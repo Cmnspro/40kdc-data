@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { checkReferentialIntegrity, FACTION_HOME_KEYWORD } from "../src/integrity.js";
+import { checkReferentialIntegrity, diceTableInvariantErrors, FACTION_HOME_KEYWORD } from "../src/integrity.js";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -38,6 +38,45 @@ describe("referential integrity", () => {
     const result = await checkReferentialIntegrity(resolve(FIXTURES, "integrity-good"));
     expect(result.failed).toBe(0);
     expect(result.passed).toBe(1);
+  });
+
+  it("requires rules-bundle grants to resolve in their faction or the shared core pool", async () => {
+    const result = await checkReferentialIntegrity(resolve(FIXTURES, "integrity-bundle-grant"));
+    const messages = result.errors.flatMap((e) => e.errors.map((x) => x.message));
+
+    expect(result.failed).toBe(3);
+    expect(result.passed).toBe(1);
+    expect(messages).toContain(
+      'ability "dangling-bundle-grant": rules-bundle grant "missing-bundle" resolves to no ability entity in world-eaters enrichment or the shared core pool',
+    );
+    expect(messages).toContain(
+      'ability "foreign-bundle-grant": rules-bundle grant "foreign-bundle" resolves to no ability entity in world-eaters enrichment or the shared core pool',
+    );
+    expect(messages).toContain(
+      'ability "ordinary-bundle-grant": rules-bundle grant "ordinary-target" resolves to an ability whose effect is not rules-bundle',
+    );
+  });
+
+  it("requires dice tables to cover each face exactly once", () => {
+    const effect = {
+      type: "dice-table",
+      dice: "D6",
+      outcomes: [
+        { results: [1, 2, 3], effect: { type: "mortal-wounds" } },
+        { results: [3, 4, 5], effect: { type: "mortal-wounds" } },
+      ],
+    };
+    expect(diceTableInvariantErrors(effect)).toEqual([
+      "dice-table D6 omits result 6",
+      "dice-table D6 repeats result 3",
+    ]);
+    expect(diceTableInvariantErrors({
+      ...effect,
+      outcomes: [
+        { results: [1, 2, 3], effect: { type: "mortal-wounds" } },
+        { results: [4, 5, 6], effect: { type: "mortal-wounds" } },
+      ],
+    })).toEqual([]);
   });
 
   it("flags corrupt wargear-option weapon refs (dangling conjunction, captured qualifier, plural-of-weapon)", async () => {

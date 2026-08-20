@@ -55,6 +55,57 @@ test('composition mapping preserves sequence order, unordered duplicates, and no
   const orderedLeaves = ordered.assertions.filter(item => valueOf(item).predicate.startsWith('mechanic.effect.'))
   assert.deepEqual(argument(sequence, 'members'), orderedLeaves.map(item => item.semantic_key))
 
+  const bundled = mapEffectNodeToCandidates({
+    origin_id,
+    node: {
+      type: 'rules-bundle',
+      steps: [leaf('deep-strike'), leaf('fight-first')],
+    },
+  })
+  const bundle = byPredicate(bundled.assertions, 'mechanic.composition.rules-bundle')[0]
+  const bundledLeaves = bundled.assertions.filter(item => valueOf(item).predicate.startsWith('mechanic.effect.'))
+  assert.deepEqual(argument(bundle, 'members'), bundledLeaves.map(item => item.semantic_key))
+  assert.equal(argument(bundle, 'parameters'), undefined)
+  const named = mapEffectNodeToCandidates({
+    origin_id,
+    node: {
+      type: 'named-effect',
+      name: 'Fabricated Power',
+      kind: 'psychic',
+      level: 1,
+      effect: leaf('deep-strike'),
+    },
+  })
+  const namedEffect = byPredicate(named.assertions, 'mechanic.composition.named-effect')[0]
+  const namedLeaf = byPredicate(named.assertions, 'mechanic.effect.deep-strike')[0]
+  assert.equal(argument(namedEffect, 'members'), namedLeaf.semantic_key)
+  assert.deepEqual(argument(namedEffect, 'parameters'), {
+    name: 'Fabricated Power',
+    kind: 'psychic',
+    level: 1,
+  })
+
+  const tabled = mapEffectNodeToCandidates({
+    origin_id,
+    node: {
+      type: 'dice-table',
+      dice: 'D6',
+      outcomes: [
+        { results: [4, 5, 6], effect: leaf('deep-strike') },
+        { results: [1, 2, 3], effect: leaf('fight-first') },
+      ],
+    },
+  })
+  const table = byPredicate(tabled.assertions, 'mechanic.composition.dice-table')[0]
+  const tableLeaves = tabled.assertions
+    .filter(item => valueOf(item).predicate.startsWith('mechanic.effect.'))
+    .map(item => item.semantic_key)
+    .sort()
+  const outcomes = argument(table, 'members')
+  assert.deepEqual(outcomes.map(outcome => outcome.results).sort((left, right) => left[0] - right[0]), [[1, 2, 3], [4, 5, 6]])
+  assert.deepEqual(outcomes.map(outcome => outcome.effect).sort(), tableLeaves)
+  assert.deepEqual(argument(table, 'parameters'), { dice: 'D6' })
+
   const repeated = mapEffectNodeToCandidates({
     origin_id,
     node: { type: 'choice', options: [leaf('fight-first'), leaf('deep-strike'), leaf('fight-first')] },

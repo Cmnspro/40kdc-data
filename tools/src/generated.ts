@@ -103,6 +103,7 @@ export type GameEvent =
   | "fall-back-move"
   | "falls-back"
   | "charge-move"
+  | "end-of-charge-move"
   | "charge-declaration"
   | "moved-through-terrain"
   | "moved-through-tall-terrain"
@@ -283,7 +284,10 @@ export type AbilityEffect =
   | StanceSelectEffect
   | ChoiceEffect
   | SequenceEffect
+  | RulesBundleEffect
+  | NamedEffect
   | DiceGatedEffect
+  | DiceTableEffect
   | ConditionalEffect
   | DicePoolAllocationEffect
   | SelectUnitsEffect
@@ -326,12 +330,15 @@ export type SingleEffect = {
     | "fight-on-death"
     | "firing-deck"
     | "flyover"
+    | "heal-wounds"
+    | "hazard-rolls"
     | "invulnerable-save"
     | "keyword-grant"
     | "leadership-modifier"
     | "model-destruction"
     | "modifier-immunity"
     | "mortal-wounds"
+    | "detection-range-modifier"
     | "named-region-state"
     | "objective-control-modifier"
     | "objective-tag"
@@ -339,6 +346,7 @@ export type SingleEffect = {
     | "re-roll"
     | "recovery-pool"
     | "remove-battle-shock"
+    | "set-battle-shock"
     | "replace-roll-from-pool"
     | "resource-clear"
     | "resource-gain"
@@ -352,6 +360,8 @@ export type SingleEffect = {
     | "stratagem-targeting-permission"
     | "strategic-reserves-arrival"
     | "targeting-permission"
+    | "tracking-token"
+    | "transport-capacity-conversion"
     | "terrain-area-tag"
     | "unit-attachment"
     | "unit-keyword"
@@ -363,9 +373,11 @@ export type SingleEffect = {
     | "bearer"
     | "unit"
     | "attached-unit"
+    | "selected-models-unit"
     | "attacker"
     | "defender"
     | "target"
+    | "targets-of-selected-unit-attacks"
     | "friendly-within-aura"
     | "enemy-within-aura"
     | "all-friendly"
@@ -385,7 +397,10 @@ export type EffectNode =
   | StanceSelectEffect
   | ChoiceEffect
   | SequenceEffect
+  | RulesBundleEffect
+  | NamedEffect
   | DiceGatedEffect
+  | DiceTableEffect
   | ConditionalEffect
   | DicePoolAllocationEffect
   | SelectUnitsEffect
@@ -440,7 +455,10 @@ export type AbilityEffect1 =
   | StanceSelectEffect
   | ChoiceEffect
   | SequenceEffect
+  | RulesBundleEffect
+  | NamedEffect
   | DiceGatedEffect
+  | DiceTableEffect
   | ConditionalEffect
   | DicePoolAllocationEffect
   | SelectUnitsEffect
@@ -465,6 +483,26 @@ export type GameModes5 = [GameModeId, ...GameModeId[]];
  * @minItems 1
  */
 export type GameModes6 = [GameModeId, ...GameModeId[]];
+/**
+ * The keyword applies only when the target has at least one listed keyword.
+ *
+ * @minItems 1
+ */
+export type KeywordList8 = [Keyword, ...Keyword[]];
+/**
+ * The keyword does not apply when the target has any listed keyword.
+ */
+export type KeywordList9 = Keyword[];
+/**
+ * The profile can target a unit carrying at least one listed keyword.
+ *
+ * @minItems 1
+ */
+export type KeywordList10 = [Keyword, ...Keyword[]];
+/**
+ * The profile cannot target a unit carrying any listed keyword.
+ */
+export type KeywordList11 = Keyword[];
 /**
  * Game modes this weapon is legal or authored for; absent implies matched-play.
  *
@@ -491,6 +529,18 @@ export type RuleStateCoreRuleSlug =
   | "desperate-escape";
 /**
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "transport-occupancy-subject-kind".
+ */
+export type TransportOccupancySubjectKind = "unit-models" | "single-model";
+/**
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "transport-eligibility".
+ */
+export type TransportEligibility = {
+  [k: string]: unknown;
+};
+/**
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
  * via the `definition` "effect".
  */
 export type AbilityEffect2 =
@@ -498,7 +548,10 @@ export type AbilityEffect2 =
   | StanceSelectEffect
   | ChoiceEffect
   | SequenceEffect
+  | RulesBundleEffect
+  | NamedEffect
   | DiceGatedEffect
+  | DiceTableEffect
   | ConditionalEffect
   | DicePoolAllocationEffect
   | SelectUnitsEffect
@@ -1249,6 +1302,7 @@ export interface SimpleCondition {
     | "has-lost-wounds"
     | "wounds-remaining-at-or-below"
     | "was-hit-by-attack"
+    | "wounds-lost-from-attack"
     | "opponent-unit-within-range"
     | "within-range-of-objective"
     | "attack-is-type"
@@ -1280,7 +1334,10 @@ export interface SimpleCondition {
     | "faction-rule-active"
     | "battle-round"
     | "token-count-at-or-above"
-    | "unit-was-in-engagement-range-of";
+    | "unit-was-in-engagement-range-of"
+    | "unit-model-count"
+    | "uniform-ranged-loadout"
+    | "all-attacks-target-same-unit";
   parameters?: {
     [k: string]: unknown;
   };
@@ -1311,6 +1368,7 @@ export interface Scaling {
     | "enemy-models-in-range"
     | "friendly-models-in-range"
     | "models-in-bearer-unit"
+    | "models-in-or-embarked-in-bearer"
     | "enemy-units-in-range"
     | "wounds-lost";
   within_inches?: number;
@@ -1371,6 +1429,36 @@ export interface SequenceEffect {
   [k: string]: unknown;
 }
 /**
+ * A reusable named ability's complete effect bundle. Other abilities grant it through an ability-grant effect whose modifier.ability_id names the containing ability.
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "rules-bundle-effect".
+ */
+export interface RulesBundleEffect {
+  type: "rules-bundle";
+  /**
+   * @minItems 1
+   */
+  steps: [EffectNode, ...EffectNode[]];
+}
+/**
+ * A named sub-ability embedded in a larger rules bundle.
+ *
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "named-effect".
+ */
+export interface NamedEffect {
+  type: "named-effect";
+  name: string;
+  kind?: "psychic";
+  level?: number;
+  effect: EffectNode;
+  /**
+   * Whether the controlling player may decline to use this named sub-ability.
+   */
+  optional?: boolean;
+}
+/**
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
  * via the `definition` "dice-gated-effect".
  */
@@ -1388,6 +1476,43 @@ export interface DiceGatedEffect {
   on_success?: EffectNode | null;
   on_fail?: EffectNode | null;
   [k: string]: unknown;
+}
+/**
+ * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
+ * via the `definition` "dice-table-effect".
+ */
+export interface DiceTableEffect {
+  type: "dice-table";
+  /**
+   * One closed die whose faces are covered exactly once by outcomes.
+   */
+  dice: "D3" | "D6";
+  /**
+   * @minItems 2
+   */
+  outcomes: [
+    {
+      /**
+       * @minItems 1
+       */
+      results: [number, ...number[]];
+      effect: EffectNode;
+    },
+    {
+      /**
+       * @minItems 1
+       */
+      results: [number, ...number[]];
+      effect: EffectNode;
+    },
+    ...{
+      /**
+       * @minItems 1
+       */
+      results: [number, ...number[]];
+      effect: EffectNode;
+    }[]
+  ];
 }
 /**
  * This interface was referenced by `0KdcBundledSchemas`'s JSON-Schema
@@ -1461,6 +1586,16 @@ export interface ForEachUnitEffect {
   type: "for-each-unit";
   selector: {
     owner: "friendly" | "enemy";
+    /**
+     * Every listed keyword is required on each matching unit.
+     *
+     * @minItems 1
+     */
+    keywords?: [string, ...string[]];
+    /**
+     * Whether each iteration binds a whole unit or one matching model.
+     */
+    target_kind?: "unit" | "model";
     within_inches?: number;
   };
   effect: EffectNode;
@@ -1574,9 +1709,15 @@ export interface DesignateTargetEffect {
     scope: "enemy-unit" | "friendly-unit";
     count?: number;
     timing?: string;
+    within_inches?: number;
+    /**
+     * @minItems 1
+     */
+    keywords?: [string, ...string[]];
+    keyword_match?: "all" | "any";
   };
   applies: {
-    to: "target" | "attackers-of-target";
+    to: "target" | "attackers-of-target" | "bearer-attacks-target";
     effect: EffectNode;
   };
   duration?: "phase" | "turn" | "battle-round" | "battle" | "until-next-command-phase";
@@ -1790,7 +1931,10 @@ export interface PersistentDesignationEffect {
       | StanceSelectEffect
       | ChoiceEffect
       | SequenceEffect
+      | RulesBundleEffect
+      | NamedEffect
       | DiceGatedEffect
+      | DiceTableEffect
       | ConditionalEffect
       | DicePoolAllocationEffect
       | SelectUnitsEffect
@@ -2544,14 +2688,23 @@ export interface Weapon {
       keywords?: {
         keyword_id: EntityId;
         /**
-         * Reference-site parameters conforming to the catalog entry's required_parameters. Only the three documented keys are accepted; any other key is invalid.
+         * Reference-site parameters conforming to the catalog entry's required parameters and optional target-keyword applicability gates.
          */
         parameters?: {
           value?: StatValue;
           target_keyword?: string;
           threshold?: number;
+          required_target_keywords_any?: KeywordList8;
+          excluded_target_keywords?: KeywordList9;
         };
       }[];
+      /**
+       * Target legality for this profile. Distinct from Anti and other effects that modify attacks after a legal target is selected.
+       */
+      target_restrictions?: {
+        required_keywords_any?: KeywordList10;
+        excluded_keywords?: KeywordList11;
+      } | null;
     },
     ...{
       name: string;
@@ -2571,14 +2724,23 @@ export interface Weapon {
       keywords?: {
         keyword_id: EntityId;
         /**
-         * Reference-site parameters conforming to the catalog entry's required_parameters. Only the three documented keys are accepted; any other key is invalid.
+         * Reference-site parameters conforming to the catalog entry's required parameters and optional target-keyword applicability gates.
          */
         parameters?: {
           value?: StatValue;
           target_keyword?: string;
           threshold?: number;
+          required_target_keywords_any?: KeywordList8;
+          excluded_target_keywords?: KeywordList9;
         };
       }[];
+      /**
+       * Target legality for this profile. Distinct from Anti and other effects that modify attacks after a legal target is selected.
+       */
+      target_restrictions?: {
+        required_keywords_any?: KeywordList10;
+        excluded_keywords?: KeywordList11;
+      } | null;
     }[]
   ];
   game_version: GameVersionReference;
@@ -2651,6 +2813,7 @@ export interface AbilityDSLEntry {
     frequency:
       | "once-per-turn"
       | "once-per-phase"
+      | "once-per-battle-round"
       | "once-per-command-phase"
       | "once-per-opponent-turn"
       | "n-per-battle"
@@ -2699,7 +2862,9 @@ export interface AbilityScope {
     | "battle-round"
     | "battle"
     | "until-next-command-phase"
+    | "until-next-movement-phase"
     | "until-next-battle-round"
+    | "until-start-next-turn"
     | "one-use"
     | "permanent";
   range_inches?: number;
