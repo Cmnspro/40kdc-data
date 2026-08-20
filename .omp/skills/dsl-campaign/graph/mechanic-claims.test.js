@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { canonicalJson, sha256 } from './canonical.js'
@@ -122,7 +123,6 @@ test('frozen fixture independently reproduces every JavaScript identity', async 
   // The top-level SHA excludes only fixture_sha256, preventing self-referential hashing.
   const withoutFixtureHash = Object.fromEntries(Object.entries(fixture).filter(([key]) => key !== 'fixture_sha256'))
   assert.equal(hash(withoutFixtureHash), fixture.fixture_sha256)
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), createHash('sha256').update(await readFile(copiedFixturePath)).digest('hex'))
   assertAllExpectedHashes(fixture)
   assert.deepEqual(fixture.adapter, {
     adapter_id: MECHANIC_ADAPTER_ID,
@@ -151,6 +151,12 @@ test('frozen fixture independently reproduces every JavaScript identity', async 
     assert.equal(hash({ source_claim_occurrence_id: relation.source_claim_occurrence_id, target_claim_occurrence_id: relation.target_claim_occurrence_id, relation_type: relation.relation_type, decision_node_id: relation.decision_node_id }), relation.relation_id)
   }
   assert.deepEqual(expectedInvalidation({ kind: 'source_snapshot' }, fixture.invalidations.source_snapshot_change.invalidated), fixture.invalidations.source_snapshot_change)
+})
+
+test('sibling claim fixture matches the canonical bytes when available', { skip: !existsSync(copiedFixturePath) }, async () => {
+  const localHash = createHash('sha256').update(await readFile(fixturePath)).digest('hex')
+  const copiedHash = createHash('sha256').update(await readFile(copiedFixturePath)).digest('hex')
+  assert.equal(copiedHash, localHash)
 })
 
 test('fixture proves stability, revisions, authorization boundaries, and evaluation partitions', async () => {
