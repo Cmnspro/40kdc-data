@@ -59,11 +59,13 @@ describe("diagramModel classifies empty areas", () => {
   });
 
   it("leaves 11e terrain-area objectives unclassified as empty", () => {
-    const th = ds.terrainLayouts.get("take-and-hold-vs-disruption-2")!;
-    const { pieceCategories } = diagramModel(ds, th);
-    // The large-area objectives are real terrain areas — never "empty".
-    for (const id of ["area-large-31", "area-large-37"]) {
-      expect(pieceCategories.get(id)).not.toBe("empty");
+    const layout = ds.terrainLayouts.get("bm-take-vs-disrupt-02")!;
+    const { pieceCategories } = diagramModel(ds, layout);
+    const objectiveAreas = (layout.pieces ?? []).filter((piece) => piece.is_objective);
+
+    expect(objectiveAreas.length).toBeGreaterThan(0);
+    for (const piece of objectiveAreas) {
+      expect(pieceCategories.get(piece.id!)).not.toBe("empty");
     }
   });
 });
@@ -72,12 +74,13 @@ describe("resolved terrain piece render keys", () => {
   const ds = Dataset.embedded();
 
   it("remain unique when repeated templates reuse feature ids", () => {
-    const layout = ds.terrainLayouts.get("disruption-vs-disruption-1")!;
+    const layout = ds.terrainLayouts.get("bm-disrupt-vs-disrupt-01")!;
     const { pieces } = diagramModel(ds, layout);
     const rawIds = pieces.map((piece) => piece.id);
     const keys = pieces.map(pieceRenderKey);
 
-    expect(new Set(rawIds).size).toBeLessThan(rawIds.length);
+    expect(rawIds.every((id) => id !== null)).toBe(true);
+    expect(new Set(rawIds).size).toBe(rawIds.length);
     expect(new Set(keys).size).toBe(keys.length);
   });
 });
