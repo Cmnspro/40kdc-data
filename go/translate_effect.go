@@ -1477,21 +1477,36 @@ func auraClause(e, m map[string]any, ctx map[string]any) string {
 			who += " (excluding " + strings.Join(excluded, " ") + " units)"
 		}
 	}
-	within := who
+	recipient := keywordFilterClause(m["recipient_filter"], who)
+	within := recipient
 	if hasRange {
-		within = who + " within " + rangeText
+		within = recipient + " within " + rangeText
 	}
+	filtered := m["emitter_filter"] != nil || m["recipient_filter"] != nil
+	effectText := " is affected"
 	if inner, ok := getMap(m, "effect"); ok && inner != nil {
 		ctxCopy := map[string]any{}
 		for k, val := range ctx {
 			ctxCopy[k] = val
 		}
-		if m["eligible"] != nil {
+		if m["eligible"] != nil || filtered {
 			ctxCopy["selected_unit"] = true
 		}
-		return within + " " + describeEffectInline(inner, ctxCopy)
+		nested := describeEffectInline(inner, ctxCopy)
+		if filtered {
+			nested = strings.TrimSpace(strings.TrimPrefix(nested, "the unit"))
+			effectText = ", and each such unit " + nested
+		} else {
+			effectText = " " + nested
+		}
+	} else if filtered {
+		effectText = ", and each such unit is affected"
 	}
-	return within + " is affected"
+	if m["emitter_filter"] != nil {
+		emitter := keywordFilterClause(m["emitter_filter"], "this model")
+		return emitter + " projects an aura to " + within + effectText
+	}
+	return within + effectText
 }
 
 func namedRegionTitle(v any) string {
