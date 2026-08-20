@@ -1647,7 +1647,11 @@ fn aura_clause(e: &AuraEffect, ctx: &Ctx) -> String {
     let filtered = m.emitter_filter.is_some() || m.recipient_filter.is_some();
     let effect_text = match &m.effect {
         Some(inner) if filtered => {
-            let nested = inline(inner, ctx);
+            let recipient_ctx = Ctx {
+                selected_unit: true,
+                ..*ctx
+            };
+            let nested = inline(inner, &recipient_ctx);
             format!(
                 ", and each such unit {}",
                 nested
