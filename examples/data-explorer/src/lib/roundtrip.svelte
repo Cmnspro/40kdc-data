@@ -4,7 +4,7 @@
   import type { AbilityView } from "@alpaca-software/40kdc-data";
   import { explorer } from "./store.svelte.js";
   import { notes, fingerprintText } from "./notes.svelte.js";
-  import { groupAbilities } from "./ability-groups.js";
+  import { groupAbilities } from "../../../_shared/ability-groups.js";
   import {
     loadIndex,
     entryKind,
