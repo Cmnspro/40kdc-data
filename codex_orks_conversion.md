@@ -174,5 +174,5 @@ The private review surface lives at `_private/sources/codex-orks-11e/rev-2683/re
 - Reconciled six cited detachment costs to `1 DP`, sixteen fielded unit configurations to their published points, and Blitzboss to `20` points.
 - Added the `20`-point Dreadherder enhancement to Dread Mob and authored its two-clause mechanic through the gated DSL pipeline: conditional Lone Operative plus a turn-bounded selected-Walker Hit re-roll.
 - Recomputed the two published sample lists from repository point records at `2,000` and `1,495` points.
-- Added the official article record and MFM-backed competitive stratagem sources to the sibling raw-text store in commit `7e4bb3e0`.
+- Added the official article record and MFM-backed competitive stratagem sources to the sibling raw-text store in commit `0ef74ed1`.
 - Extended the append-only share registry to version `16` for the new enhancement and bumped the conformance specification to `101`.
