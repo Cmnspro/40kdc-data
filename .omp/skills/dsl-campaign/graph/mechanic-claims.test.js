@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict'
-import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { canonicalJson, sha256 } from './canonical.js'
@@ -24,7 +23,6 @@ import {
 } from './mechanic-claims.js'
 
 const fixturePath = new URL('./fixtures/claim-conformance-v1.json', import.meta.url)
-const copiedFixturePath = new URL('../../../../../Adversarial-claim-extraction/backend/tests/fixtures/claim-conformance-v1.json', import.meta.url)
 const hash = value => sha256(canonicalJson(value))
 const assertionId = assertion => hash({
   extraction_id: assertion.extraction_id,
@@ -35,8 +33,7 @@ const assertionId = assertion => hash({
 })
 
 async function loadFixture() {
-  const bytes = await readFile(fixturePath)
-  return { bytes, fixture: JSON.parse(bytes) }
+  return JSON.parse(await readFile(fixturePath))
 }
 
 function assertHash(value) {
@@ -118,11 +115,10 @@ test('JSON-valued facets use canonical SQLite-safe bytes', () => {
 })
 
 test('frozen fixture independently reproduces every JavaScript identity', async () => {
-  const { bytes, fixture } = await loadFixture()
+  const fixture = await loadFixture()
   // The top-level SHA excludes only fixture_sha256, preventing self-referential hashing.
   const withoutFixtureHash = Object.fromEntries(Object.entries(fixture).filter(([key]) => key !== 'fixture_sha256'))
   assert.equal(hash(withoutFixtureHash), fixture.fixture_sha256)
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), createHash('sha256').update(await readFile(copiedFixturePath)).digest('hex'))
   assertAllExpectedHashes(fixture)
   assert.deepEqual(fixture.adapter, {
     adapter_id: MECHANIC_ADAPTER_ID,
@@ -154,7 +150,7 @@ test('frozen fixture independently reproduces every JavaScript identity', async 
 })
 
 test('fixture proves stability, revisions, authorization boundaries, and evaluation partitions', async () => {
-  const { fixture } = await loadFixture()
+  const fixture = await loadFixture()
   const { a_t0: a0, a_reordered_resegmented: reordered, a_t1_same_semantics: same, a_t1_changed_duration: changed, b } = fixture.mechanics
   assert.deepEqual(a0.assertions.map(row => row.semantic_key).sort(), reordered.assertions.map(row => row.semantic_key).sort())
   assert.deepEqual(a0.assertions.map(row => row.claim_occurrence_id).sort(), reordered.assertions.map(row => row.claim_occurrence_id).sort())

@@ -359,14 +359,56 @@ pub fn describe_condition(c: &Condition) -> String {
 
 pub(super) fn describe_node(n: &ConditionNode) -> String {
     match n {
-        ConditionNode::CompoundCondition(c) => {
-            let parts: Vec<String> = c.operands.iter().map(describe_node).collect();
-            match c.operator {
-                CompoundConditionOperator::And => parts.join(" and "),
-                CompoundConditionOperator::Or => parts.join(" or "),
-                CompoundConditionOperator::Not => format!("not ({})", parts.join(", ")),
+        ConditionNode::CompoundCondition(c) => match c.operator {
+            CompoundConditionOperator::And => c
+                .operands
+                .iter()
+                .map(describe_node)
+                .collect::<Vec<_>>()
+                .join(" and "),
+            CompoundConditionOperator::Or => {
+                if c.operands.iter().all(|operand| {
+                    matches!(
+                        operand,
+                        ConditionNode::SimpleCondition(simple)
+                            if !simple.negated
+                                && simple.type_ == SimpleConditionType::UnitHasKeyword
+                    )
+                }) {
+                    let keywords = c
+                        .operands
+                        .iter()
+                        .filter_map(|operand| match operand {
+                            ConditionNode::SimpleCondition(simple) => {
+                                simple.parameters.get("keyword").map(effect::jval)
+                            }
+                            _ => None,
+                        })
+                        .collect::<Vec<_>>();
+                    let keyword_list = match keywords.len() {
+                        0 => String::new(),
+                        1 => keywords[0].clone(),
+                        2 => format!("{} or {}", keywords[0], keywords[1]),
+                        n => format!("{} or {}", keywords[..n - 1].join(", "), keywords[n - 1]),
+                    };
+                    format!("the unit has the {keyword_list} keywords")
+                } else {
+                    c.operands
+                        .iter()
+                        .map(describe_node)
+                        .collect::<Vec<_>>()
+                        .join(" or ")
+                }
             }
-        }
+            CompoundConditionOperator::Not => format!(
+                "not ({})",
+                c.operands
+                    .iter()
+                    .map(describe_node)
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ),
+        },
         ConditionNode::SimpleCondition(s) => describe_simple(s),
     }
 }

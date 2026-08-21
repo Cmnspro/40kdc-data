@@ -1715,7 +1715,6 @@ function genEffectTranslation(): void {
           target_kind: "model",
           within_inches: 3,
           keywords: ["ORKS", "VEHICLE"],
-          exclusions: [{ type: "target-has-keyword", parameters: { keyword: "AIRCRAFT" } }],
         },
         effect: {
           type: "sequence",

@@ -1818,22 +1818,23 @@ fn aura_clause(e: &AuraEffect, ctx: &Ctx) -> String {
     };
     let filtered = m.emitter_filter.is_some() || m.recipient_filter.is_some();
     let effect_text = match &m.effect {
-        Some(inner) if filtered => {
-            let nested = inline(inner, ctx);
-            format!(
-                ", and each such unit {}",
-                nested
-                    .strip_prefix("the unit")
-                    .unwrap_or(&nested)
-                    .trim_start()
-            )
-        }
         Some(inner) => {
             let recipient_ctx = Ctx {
-                selected_unit: m.eligible.is_some(),
+                selected_unit: filtered || m.eligible.is_some(),
                 ..*ctx
             };
-            format!(" {}", inline(inner, &recipient_ctx))
+            let nested = inline(inner, &recipient_ctx);
+            if filtered {
+                format!(
+                    ", and each such unit {}",
+                    nested
+                        .strip_prefix("the unit")
+                        .unwrap_or(&nested)
+                        .trim_start()
+                )
+            } else {
+                format!(" {nested}")
+            }
         }
         None if filtered => ", and each such unit is affected".to_string(),
         None => " is affected".to_string(),
@@ -3539,7 +3540,7 @@ fn select_units_subject(sel: &SelectUnitsEffectSelector) -> String {
     let eligibility = value
         .get("eligibility")
         .and_then(|raw| serde_json::from_value::<Condition>(raw.clone()).ok())
-        .map(|condition| format!(" that {}", selection_eligibility(&condition)))
+        .map(|condition| format!(" {}", selection_eligibility(&condition)))
         .unwrap_or_default();
     format!("{quantity} {owner}{keywords} {noun}{inclusive}{within}{visible}{eligibility}")
 }
@@ -3597,18 +3598,25 @@ fn select_units_inline(sel: &SelectUnitsEffectSelector, effect: &EffectNode, ctx
 }
 
 fn selection_eligibility(condition: &Condition) -> String {
-    if matches!(
-        &condition.0,
-        ConditionNode::SimpleCondition(simple)
-            if !simple.negated && simple.type_ == SimpleConditionType::IsBattleShocked
-    ) {
-        return "is Battle-shocked".to_string();
+    if let ConditionNode::SimpleCondition(simple) = &condition.0 {
+        if simple.type_ == SimpleConditionType::IsBattleShocked {
+            return if simple.negated {
+                "that is not Battle-shocked".to_string()
+            } else {
+                "that is Battle-shocked".to_string()
+            };
+        }
     }
     let predicate = describe_node(&condition.0);
-    predicate
-        .strip_prefix("the unit ")
-        .unwrap_or(&predicate)
-        .to_string()
+    if let Some(rest) = predicate.strip_prefix("the unit is ") {
+        format!("that is {rest}")
+    } else if let Some(rest) = predicate.strip_prefix("not the unit is ") {
+        format!("that is not {rest}")
+    } else if let Some(rest) = predicate.strip_prefix("the unit has ") {
+        format!("with {rest}")
+    } else {
+        format!("if {predicate}")
+    }
 }
 
 /// "each enemy unit within 6\"" — the `for-each-unit` selector phrase.
