@@ -187,11 +187,39 @@ export function validateInventory(inventory: CodexInventory): void {
     }
   }
   const suppliedDetachments = new Map(inventory.entities.detachments.map((row) => [string(row.id, "detachment.id"), row]));
+  const assertRoster = (
+    detachmentId: string,
+    detachment: Json,
+    entityName: "enhancements" | "stratagems",
+    rosterField: "enhancement_ids" | "stratagem_ids",
+  ): void => {
+    const label = entityName === "enhancements" ? "enhancement" : "stratagem";
+    const expected = asArray(detachment[rosterField], `detachment ${detachmentId}.${rosterField}`)
+      .map((id) => string(id, `detachment ${detachmentId}.${rosterField}`))
+      .sort();
+    const supplied = inventory.entities[entityName]
+      .filter((row) => row.detachment_id === detachmentId)
+      .map((row) => string(row.id, `${label}.id`))
+      .sort();
+    if (JSON.stringify(supplied) !== JSON.stringify(expected)) {
+      throw new Error(`covered detachment ${label} roster mismatch: ${detachmentId}`);
+    }
+    for (const row of inventory.entities[entityName].filter((candidate) => candidate.detachment_id === detachmentId)) {
+      const abilityId = string(row.ability_id, `${label} ${row.id}.ability_id`);
+      if (!abilityIds.has(abilityId)) throw new Error(`covered detachment has unresolved ${label} ability ${abilityId}`);
+    }
+  };
   for (const detachmentId of inventory.coverage.detachment_ids) {
     const detachment = suppliedDetachments.get(detachmentId);
     if (!detachment) throw new Error(`covered detachment lacks entity data: ${detachmentId}`);
     for (const ruleId of asArray(detachment.detachment_rule_ids, `detachment ${detachmentId}.detachment_rule_ids`)) {
       if (!abilityIds.has(string(ruleId, `detachment ${detachmentId}.detachment_rule_ids`))) throw new Error(`covered detachment has unresolved rule ${ruleId}`);
+    }
+    if (reviewFieldIsExact(inventory, "detachment", detachmentId, "enhancements")) {
+      assertRoster(detachmentId, detachment, "enhancements", "enhancement_ids");
+    }
+    if (reviewFieldIsExact(inventory, "detachment", detachmentId, "stratagems")) {
+      assertRoster(detachmentId, detachment, "stratagems", "stratagem_ids");
     }
   }
   for (const name of Object.keys(ENTITY_FILES) as EntityName[]) {
@@ -226,15 +254,49 @@ function replaceByKey(name: EntityName, current: Json[], supplied: Json[]): Json
   return [...current.filter((row) => !replacements.has(entityKey(name, row))), ...supplied];
 }
 
+function reviewFieldIsExact(
+  inventory: CodexInventory,
+  kind: ReviewKind,
+  id: string,
+  field: string,
+): boolean {
+  return inventory.reviews.find((review) => review.kind === kind && review.id === id)
+    ?.fields[field]?.status === "exact";
+}
+
+function exactReviewIds(inventory: CodexInventory, kind: ReviewKind, field: string): Set<string> {
+  return new Set(inventory.reviews
+    .filter((review) => review.kind === kind && review.fields[field]?.status === "exact")
+    .map((review) => review.id));
+}
+
+function replaceInPlaceByKey(
+  name: EntityName,
+  current: Json[],
+  supplied: Json[],
+  replacementScope: ReadonlySet<string>,
+): Json[] {
+  const replacements = new Map(supplied.map((row) => [entityKey(name, row), row]));
+  const projected = current.flatMap((row) => {
+    const key = entityKey(name, row);
+    const replacement = replacements.get(key);
+    if (replacement != null) {
+      replacements.delete(key);
+      return [replacement];
+    }
+    return replacementScope.has(key) ? [] : [row];
+  });
+  return [...projected, ...replacements.values()];
+}
+
 function removeCoverageRows(name: EntityName, rows: Json[], inventory: CodexInventory): Json[] {
   const units = new Set(inventory.coverage.unit_ids);
-  const detachments = new Set(inventory.coverage.detachment_ids);
   if (name === "unit_compositions" || name === "wargear_options") return rows.filter((row) => !units.has(string(row.unit_id, `${name}.unit_id`)));
-  if (name === "leader_attachments") {
-    const suppliedLeaders = new Set(inventory.entities.leader_attachments.map((row) => string(row.leader_id, "leader_attachment.leader_id")));
-    return rows.filter((row) => !suppliedLeaders.has(string(row.leader_id, "leader_attachment.leader_id")));
+  if (name === "enhancements" || name === "stratagems") {
+    const field = name === "enhancements" ? "enhancements" : "stratagems";
+    const exactDetachments = exactReviewIds(inventory, "detachment", field);
+    return rows.filter((row) => !exactDetachments.has(string(row.detachment_id, `${name}.detachment_id`)));
   }
-  if (name === "enhancements" || name === "stratagems") return rows.filter((row) => !detachments.has(string(row.detachment_id, `${name}.detachment_id`)));
   return rows;
 }
 
@@ -264,9 +326,37 @@ export function projectInventory(inventory: CodexInventory, current: Record<Enti
   const projected = {} as Record<EntityName, Json[]>;
   for (const name of Object.keys(ENTITY_FILES) as EntityName[]) {
     const base = removeCoverageRows(name, current[name], inventory);
-    projected[name] = (name === "unit_compositions" || name === "wargear_options" || name === "leader_attachments" || name === "enhancements" || name === "stratagems")
-      ? [...base, ...inventory.entities[name]]
-      : replaceByKey(name, base, inventory.entities[name]);
+    let supplied = inventory.entities[name];
+    if (name === "leader_attachments") {
+      const exactLeaders = exactReviewIds(inventory, "unit", "eligible_bodyguards");
+      supplied = supplied.filter((row) => exactLeaders.has(string(row.leader_id, "leader_attachment.leader_id")));
+      projected[name] = replaceInPlaceByKey(name, current[name], supplied, exactLeaders);
+      continue;
+    }
+    if (name === "enhancements" || name === "stratagems") {
+      const field = name === "enhancements" ? "enhancements" : "stratagems";
+      const exactDetachments = exactReviewIds(inventory, "detachment", field);
+      supplied = supplied.filter((row) => {
+        const detachmentId = string(row.detachment_id, `${name}.detachment_id`);
+        return !inventory.coverage.detachment_ids.includes(detachmentId) || exactDetachments.has(detachmentId);
+      });
+    } else if (name === "detachments") {
+      const currentById = new Map(current[name].map((row) => [entityKey(name, row), row]));
+      supplied = supplied.map((row) => {
+        const detachmentId = entityKey(name, row);
+        const prior = currentById.get(detachmentId);
+        const projectedRow = { ...row };
+        for (const [reviewField, rosterField] of [["enhancements", "enhancement_ids"], ["stratagems", "stratagem_ids"]] as const) {
+          if (reviewFieldIsExact(inventory, "detachment", detachmentId, reviewField)) continue;
+          if (prior?.[rosterField] === undefined) delete projectedRow[rosterField];
+          else projectedRow[rosterField] = prior[rosterField];
+        }
+        return projectedRow;
+      });
+    }
+    projected[name] = (name === "unit_compositions" || name === "wargear_options" || name === "enhancements" || name === "stratagems")
+      ? [...base, ...supplied]
+      : replaceByKey(name, base, supplied);
   }
   retire(projected, inventory);
   return projected;

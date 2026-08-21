@@ -110,6 +110,8 @@ export interface IngestResult {
   rawText: RawTextRecord[];
   created: number;
   mergedUnits: number;
+  /** Ability ids removed by snapshot replacement. Empty for additive ingestion. */
+  deletedAbilityIds: string[];
   /** Merges into an already-authored (non-stub) entry — surfaced for review. */
   mergedIntoAuthored: { ability_id: string; unit_id: string }[];
   /** Records carrying no usable raw_text — seeded but left unresolved for input. */
@@ -170,7 +172,7 @@ export function ingestFaction(
   const byId = new Map<string, Json>(abilities.map((a) => [a.ability_id, a]));
   const inputById = new Map<string, AuthorInputEntry>(existingInput.map((e) => [e.ability_id, e]));
   const result: IngestResult = {
-    abilities, authorInput: [], rawText: [], created: 0, mergedUnits: 0, mergedIntoAuthored: [], unresolved: [],
+    abilities, authorInput: [], rawText: [], created: 0, mergedUnits: 0, deletedAbilityIds: [], mergedIntoAuthored: [], unresolved: [],
   };
 
   for (const rec of records) {
@@ -265,13 +267,20 @@ export function ingestSnapshot(
     }
     return [{ ...ability, unit_ids: unitIds }];
   });
+  const retainedInput = existingInput
+    .filter((entry) => !deleted.has(entry.ability_id))
+    .map((entry) => ({
+      ...entry,
+      unit_ids: entry.unit_ids.filter((id) => !coveredUnits.has(id)),
+    }));
   const result = ingestFaction(
     scope.faction_id,
     records,
     retained,
-    existingInput.filter((entry) => !deleted.has(entry.ability_id)),
+    retainedInput,
   );
   const abilities = new Map(result.abilities.map((ability) => [ability.ability_id, ability]));
+  const authorInputById = new Map(result.authorInput.map((entry) => [entry.ability_id, entry]));
   for (const record of records) {
     const id = record.ability_id ?? kebab(record.name);
     const ability = abilities.get(id);
@@ -283,9 +292,118 @@ export function ingestSnapshot(
     ability.faction_id = record.faction_id ?? scope.faction_id;
     if (record.detachment_id) ability.detachment_id = record.detachment_id;
     else delete ability.detachment_id;
+    const input = authorInputById.get(id);
+    if (input) {
+      input.name = ability.name;
+      input.unit_ids = [...(ability.unit_ids ?? [])];
+      input.faction_id = ability.faction_id ?? scope.faction_id;
+      input.ability_type = ability.ability_type;
+    }
+  }
+  for (const rawText of result.rawText) {
+    const ability = abilities.get(rawText.ability_id);
+    if (!ability) continue;
+    rawText.name = ability.name;
+    rawText.faction_id = ability.faction_id ?? scope.faction_id;
+    rawText.detachment_id = ability.detachment_id ?? null;
+    rawText.unit_ids = [...(ability.unit_ids ?? [])];
+    rawText.ability_type = ability.ability_type;
+    rawText.game_version = { ...ability.game_version };
   }
   result.authorInput = result.authorInput.filter((entry) => !deleted.has(entry.ability_id));
+  result.deletedAbilityIds = [...deleted];
   return result;
+}
+
+const DETACHMENT_ABILITY_TYPES = new Set(["detachment", "enhancement", "stratagem"]);
+const PHASE_IDS = new Set(["command", "movement", "shooting", "charge", "fight"]);
+
+function ingestRecordId(record: IngestRecord): string {
+  return record.ability_id ?? kebab(record.name);
+}
+
+function hasCanonicalCoveredDetachment(
+  record: Pick<RawTextRecord, "ability_id" | "ability_type">,
+  coveredDetachments: ReadonlySet<string>,
+): boolean {
+  if (!DETACHMENT_ABILITY_TYPES.has(record.ability_type)) return false;
+  for (const detachmentId of coveredDetachments) {
+    if (record.ability_id.endsWith(`-${detachmentId}`)) return true;
+  }
+  return false;
+}
+
+export function projectPhaseMappings(
+  existing: Json[],
+  manifest: SnapshotManifest,
+  deletedAbilityIds: readonly string[],
+  activeAbilityIds?: ReadonlySet<string>,
+): Json[] {
+  const replacedIds = new Set([
+    ...manifest.records.map(ingestRecordId),
+    ...deletedAbilityIds,
+  ]);
+  const projected = existing.filter((mapping) =>
+    mapping.source_type !== "ability" ||
+    (!replacedIds.has(mapping.source_id) && (activeAbilityIds == null || activeAbilityIds.has(mapping.source_id))),
+  );
+  for (const record of manifest.records) {
+    if (!record.phases?.length) continue;
+    const phases = [...new Set(record.phases.map((phase) => phase.trim().toLowerCase()))];
+    for (const phase of phases) {
+      if (!PHASE_IDS.has(phase)) {
+        throw new Error(`invalid phase "${phase}" for ${record.ability_id ?? record.name}`);
+      }
+    }
+    projected.push({
+      source_id: ingestRecordId(record),
+      source_type: "ability",
+      phases,
+      game_version: { ...(record.game_version ?? manifest.replace_scope.game_version) },
+      authored_by: STUB_AUTHORED_BY,
+    });
+  }
+  return projected;
+}
+
+export function projectRawTextRecords(
+  existing: RawTextRecord[],
+  incoming: RawTextRecord[],
+  manifest: SnapshotManifest,
+): RawTextRecord[] {
+  const coveredUnits = new Set(manifest.replace_scope.unit_ids);
+  const coveredDetachments = new Set(manifest.replace_scope.detachment_ids);
+  const incomingIds = new Set(manifest.records.map(ingestRecordId));
+  const projected = new Map<string, RawTextRecord>();
+  for (const record of existing) {
+    const remainingUnits = (record.unit_ids ?? []).filter((id) => !coveredUnits.has(id));
+    const coveredOwner = (record.unit_ids ?? []).some((id) => coveredUnits.has(id));
+    const coveredDetachment = record.detachment_id != null && coveredDetachments.has(record.detachment_id);
+    const canonicalCoveredDetachment = hasCanonicalCoveredDetachment(record, coveredDetachments);
+    if (!incomingIds.has(record.ability_id) && (coveredDetachment || canonicalCoveredDetachment || (coveredOwner && remainingUnits.length === 0))) continue;
+    projected.set(record.ability_id, { ...record, unit_ids: remainingUnits });
+  }
+  const incomingById = new Map(incoming.map((record) => [record.ability_id, record]));
+  for (const source of manifest.records) {
+    const id = ingestRecordId(source);
+    const replacement = incomingById.get(id);
+    if (replacement) {
+      projected.set(id, replacement);
+      continue;
+    }
+    const prior = projected.get(id);
+    if (!prior) continue;
+    projected.set(id, {
+      ...prior,
+      name: source.name,
+      faction_id: source.faction_id ?? manifest.replace_scope.faction_id,
+      detachment_id: source.detachment_id ?? null,
+      unit_ids: [...new Set([...prior.unit_ids, ...(source.unit_ids ?? [])])],
+      ability_type: source.ability_type ?? prior.ability_type,
+      game_version: { ...(source.game_version ?? manifest.replace_scope.game_version) },
+    });
+  }
+  return [...projected.values()];
 }
 
 // ─── raw-text store I/O ──────────────────────────────────────────────
@@ -323,10 +441,9 @@ function ensureStoreRepo(): void {
 
 /**
  * Merge incoming raw-text records into the existing on-disk set, keyed by
- * `ability_id`. **Additive and non-destructive:** every existing entry is kept;
- * an entry for the same `ability_id` is updated in place (its prior text remains
- * in the store's git history); new abilities are appended. Existing entries are
- * never dropped — writing never deletes ability text already in the store.
+ * `ability_id`. Additive manifests keep every existing entry; snapshot
+ * manifests use {@link projectRawTextRecords} to replace only their declared
+ * ownership scope.
  */
 export function mergeRawTextRecords(existing: RawTextRecord[], incoming: RawTextRecord[]): RawTextRecord[] {
   const merged = new Map<string, RawTextRecord>(existing.map((e) => [e.ability_id, e]));
@@ -334,27 +451,53 @@ export function mergeRawTextRecords(existing: RawTextRecord[], incoming: RawText
   return Array.from(merged.values());
 }
 
-function writeRawTextStore(records: RawTextRecord[]): void {
+function writeRawTextStore(records: RawTextRecord[], snapshots: ReadonlyMap<string, SnapshotManifest>): void {
   mkdirSync(RAW_TEXT_STORE, { recursive: true });
   ensureStoreRepo();
   const readmePath = resolve(RAW_TEXT_STORE, "README.md");
   if (!existsSync(readmePath)) writeFileSync(readmePath, STORE_README);
 
-  // Group this run's records by faction and merge into per-faction files by id.
   const byFaction = new Map<string, RawTextRecord[]>();
-  for (const r of records) (byFaction.get(r.faction_id) ?? byFaction.set(r.faction_id, []).get(r.faction_id)!).push(r);
-  for (const [faction, recs] of byFaction) {
+  for (const record of records) {
+    const factionRecords = byFaction.get(record.faction_id);
+    if (factionRecords) factionRecords.push(record);
+    else byFaction.set(record.faction_id, [record]);
+  }
+  for (const faction of new Set([...byFaction.keys(), ...snapshots.keys()])) {
     const path = resolve(RAW_TEXT_STORE, `${faction}.json`);
     const existing: RawTextRecord[] = existsSync(path) ? readJSON(path) : [];
-    writeFileSync(path, JSON.stringify(mergeRawTextRecords(existing, recs), null, 2) + "\n");
+    const incoming = byFaction.get(faction) ?? [];
+    const snapshot = snapshots.get(faction);
+    const projected = snapshot
+      ? projectRawTextRecords(existing, incoming, snapshot)
+      : mergeRawTextRecords(existing, incoming);
+    writeFileSync(path, JSON.stringify(projected, null, 2) + "\n");
   }
 
-  // Update the flat index additively — only ability_ids in this run change; every
-  // other existing entry is left intact (never rebuilt-from-scratch / pruned).
-  const indexPath = resolve(RAW_TEXT_STORE, "index.json");
-  const index: Record<string, { faction: string; raw_text: string }> = existsSync(indexPath) ? readJSON(indexPath) : {};
-  for (const r of records) index[r.ability_id] = { faction: r.faction_id, raw_text: r.raw_text };
-  writeFileSync(indexPath, JSON.stringify(index, null, 2) + "\n");
+  const index: Record<string, Json> = {};
+  for (const file of readdirSync(RAW_TEXT_STORE)) {
+    if (!file.endsWith(".json") || file.startsWith("bundle-") || file === "index.json") continue;
+    let entries: Json;
+    try {
+      entries = readJSON(resolve(RAW_TEXT_STORE, file));
+    } catch {
+      continue;
+    }
+    if (!Array.isArray(entries)) continue;
+    const faction = file.replace(/\.json$/, "");
+    for (const entry of entries) {
+      if (!entry.ability_id) continue;
+      const owner = entry.faction_id ?? faction;
+      if (entry.ability_type === "stratagem" && (entry.when || entry.effect)) {
+        const indexed: Json = { faction: owner, when: entry.when ?? "", target: entry.target ?? "", effect: entry.effect ?? "" };
+        if (entry.restrictions) indexed.restrictions = entry.restrictions;
+        index[entry.ability_id] = indexed;
+      } else if (entry.raw_text) {
+        index[entry.ability_id] = { faction: owner, raw_text: entry.raw_text };
+      }
+    }
+  }
+  writeFileSync(resolve(RAW_TEXT_STORE, "index.json"), JSON.stringify(index, null, 2) + "\n");
 }
 
 function main(): void {
@@ -420,8 +563,9 @@ function main(): void {
     const inputPath = resolve(INPUT_DIR, `${faction}.json`);
     const existingInput: AuthorInputEntry[] = existsSync(inputPath) ? readJSON(inputPath) : [];
 
-    const r = snapshots.get(faction)
-      ? ingestSnapshot(snapshots.get(faction)!, existingAbilities, existingInput)
+    const snapshot = snapshots.get(faction);
+    const r = snapshot
+      ? ingestSnapshot(snapshot, existingAbilities, existingInput)
       : ingestFaction(faction, recs, existingAbilities, existingInput);
     totalCreated += r.created;
     totalMerged += r.mergedUnits;
@@ -433,6 +577,12 @@ function main(): void {
         `${r.rawText.length} raw-text records, ${r.unresolved.length} unresolved`,
     );
 
+    if (snapshot) {
+      const phasePath = resolve(ENRICHMENT_ROOT, faction, "phase-mappings.json");
+      const existingMappings: Json[] = existsSync(phasePath) ? readJSON(phasePath) : [];
+      const projectedMappings = projectPhaseMappings(existingMappings, snapshot, r.deletedAbilityIds, new Set(r.abilities.map((ability) => ability.ability_id as string)));
+      if (!dryRun) writeFileSync(phasePath, JSON.stringify(projectedMappings, null, 2) + "\n");
+    }
     if (!dryRun) {
       mkdirSync(resolve(ENRICHMENT_ROOT, faction), { recursive: true });
       writeFileSync(abilitiesPath, JSON.stringify(r.abilities, null, 2) + "\n");
@@ -441,7 +591,7 @@ function main(): void {
     }
   }
 
-  if (!dryRun) writeRawTextStore(allRawText);
+  if (!dryRun) writeRawTextStore(allRawText, snapshots);
 
   console.log(
     `\n${totalCreated} stubs created, ${totalMerged} unit links merged, ` +

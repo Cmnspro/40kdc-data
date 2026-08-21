@@ -1,10 +1,32 @@
 import { describe, expect, it } from "vitest";
-import { ingestFaction, ingestSnapshot, mergeRawTextRecords, type IngestRecord, type RawTextRecord } from "../src/author-ingest.js";
+import {
+  ingestFaction,
+  ingestSnapshot,
+  mergeRawTextRecords,
+  projectPhaseMappings,
+  projectRawTextRecords,
+  type IngestRecord,
+  type RawTextRecord,
+  type SnapshotManifest,
+} from "../src/author-ingest.js";
 import { reconcileFaction } from "../src/author-reconcile.js";
 
 const rec = (over: Partial<IngestRecord> & { name: string }): IngestRecord => ({
   faction: "orks",
   raw_text: "GW TEXT — must not leak into the repo",
+  ...over,
+});
+
+const raw = (ability_id: string, unit_ids: string[], over: Partial<RawTextRecord> = {}): RawTextRecord => ({
+  ability_id,
+  name: ability_id,
+  faction_id: "orks",
+  detachment_id: null,
+  unit_ids,
+  ability_type: "unit",
+  game_version: { edition: "11th", dataslate: "launch" },
+  source: { kind: "json", ref: "old", phases: null },
+  raw_text: `old ${ability_id}`,
   ...over,
 });
 
@@ -155,6 +177,130 @@ describe("ingestSnapshot", () => {
     expect(result.abilities.map((ability) => ability.ability_id)).toEqual(["shared-rule", "current-rule"]);
     expect(result.abilities[0].unit_ids).toEqual(["uncovered"]);
     expect(result.authorInput.map((entry) => entry.ability_id)).toEqual(["shared-rule", "current-rule"]);
+    expect(result.authorInput.find((entry) => entry.ability_id === "shared-rule")?.unit_ids).toEqual(["uncovered"]);
+  });
+
+
+  it("normalizes raw-store metadata after replacing an existing ability", () => {
+    const result = ingestSnapshot({
+      records: [rec({
+        name: "Current Name",
+        ability_id: "current",
+        ability_type: "unit",
+        unit_ids: ["covered"],
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+      })],
+      replace_scope: {
+        faction_id: "orks",
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+        unit_ids: ["covered"],
+        detachment_ids: ["old-detachment"],
+      },
+    }, [{
+      ability_id: "current",
+      name: "Old Name",
+      ability_type: "detachment",
+      detachment_id: "old-detachment",
+      unit_ids: ["covered"],
+      game_version: { edition: "11th", dataslate: "launch" },
+      effect: { type: "stat-modifier", modifier: {} },
+    }], []);
+    expect(result.rawText[0]).toMatchObject({
+      name: "Current Name",
+      faction_id: "orks",
+      detachment_id: null,
+      unit_ids: ["covered"],
+      ability_type: "unit",
+      game_version: { edition: "11th", dataslate: "codex-orks" },
+    });
+    expect(result.authorInput[0]).toMatchObject({
+      name: "Current Name",
+      faction_id: "orks",
+      unit_ids: ["covered"],
+      ability_type: "unit",
+    });
+  });
+  it("replaces mappings for incoming, deleted, and orphaned abilities", () => {
+    const manifest: SnapshotManifest = {
+      records: [
+        rec({ name: "Current", ability_id: "current", phases: ["Movement", "SHOOTING"] }),
+        rec({ name: "Phase-less", ability_id: "phase-less", phases: [] }),
+        rec({ name: "Omitted", ability_id: "omitted" }),
+      ],
+      replace_scope: {
+        faction_id: "orks",
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+        unit_ids: ["covered"],
+        detachment_ids: ["covered-detachment"],
+      },
+    };
+    const projected = projectPhaseMappings([
+      { source_id: "current", source_type: "ability", phases: ["fight"] },
+      { source_id: "phase-less", source_type: "ability", phases: ["fight"] },
+      { source_id: "omitted", source_type: "ability", phases: ["command"] },
+      { source_id: "stale", source_type: "ability", phases: ["charge"] },
+      { source_id: "orphan", source_type: "ability", phases: ["command"] },
+      { source_id: "other", source_type: "stratagem", phases: ["shooting"] },
+    ], manifest, ["stale"], new Set(["current", "phase-less", "omitted"]));
+    expect(projected).toEqual([
+      { source_id: "other", source_type: "stratagem", phases: ["shooting"] },
+      {
+        source_id: "current",
+        source_type: "ability",
+        phases: ["movement", "shooting"],
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+        authored_by: "40kdc-community",
+      },
+    ]);
+  });
+
+  it("rejects non-canonical phase names", () => {
+    const manifest: SnapshotManifest = {
+      records: [rec({ name: "Invalid", ability_id: "invalid", phases: ["__proto__"] })],
+      replace_scope: {
+        faction_id: "orks",
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+        unit_ids: [],
+        detachment_ids: [],
+      },
+    };
+    expect(() => projectPhaseMappings([], manifest, [])).toThrow(/invalid phase/);
+  });
+
+  it("replaces raw-store ownership while preserving uncovered owners and source holdovers", () => {
+    const manifest: SnapshotManifest = {
+      records: [
+        rec({ name: "Current", ability_id: "current", unit_ids: ["covered"], game_version: { edition: "11th", dataslate: "codex-orks" } }),
+        rec({ name: "Holdover", ability_id: "holdover", unit_ids: ["covered"], raw_text: "", game_version: { edition: "11th", dataslate: "codex-orks" } }),
+      ],
+      replace_scope: {
+        faction_id: "orks",
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+        unit_ids: ["covered"],
+        detachment_ids: ["covered-detachment"],
+      },
+    };
+    const incoming = raw("current", ["covered"], {
+      name: "Current",
+      game_version: { edition: "11th", dataslate: "codex-orks" },
+      raw_text: "current prose",
+    });
+    const projected = projectRawTextRecords([
+      raw("stale", ["covered"]),
+      raw("shared", ["covered", "uncovered"]),
+      raw("current", ["covered"]),
+      raw("holdover", ["covered", "uncovered"]),
+      raw("old-detachment", [], { detachment_id: "covered-detachment", ability_type: "detachment" }),
+      raw("legacy-covered-detachment", [], { ability_type: "stratagem" }),
+    ], [incoming], manifest);
+    expect(projected.map((entry) => entry.ability_id)).toEqual(["shared", "current", "holdover"]);
+    expect(projected.find((entry) => entry.ability_id === "shared")?.unit_ids).toEqual(["uncovered"]);
+    expect(projected.find((entry) => entry.ability_id === "current")?.raw_text).toBe("current prose");
+    expect(projected.find((entry) => entry.ability_id === "holdover")).toMatchObject({
+      unit_ids: ["uncovered", "covered"],
+      game_version: { edition: "11th", dataslate: "codex-orks" },
+      raw_text: "old holdover",
+    });
   });
 });
 

@@ -35,13 +35,21 @@ function inventory(): CodexInventory {
       wargear: [],
       wargear_options: [{ unit_id: "covered", id: "new-option", game_version: version }],
       leader_attachments: [],
-      detachments: [{ id: "detachment", detachment_rule_ids: ["detachment-rule"], game_version: version }],
-      enhancements: [{ id: "new-enhancement", detachment_id: "detachment", game_version: version }],
-      stratagems: [{ id: "new-stratagem", detachment_id: "detachment", game_version: version }],
+      detachments: [{
+        id: "detachment",
+        detachment_rule_ids: ["detachment-rule"],
+        enhancement_ids: ["new-enhancement"],
+        stratagem_ids: ["new-stratagem"],
+        game_version: version,
+      }],
+      enhancements: [{ id: "new-enhancement", detachment_id: "detachment", ability_id: "new-enhancement-rule", game_version: version }],
+      stratagems: [{ id: "new-stratagem", detachment_id: "detachment", ability_id: "new-stratagem-rule", game_version: version }],
     },
     abilities: [
       { ability_id: "new-rule", source_kind: "image", raw_text: "Private source prose" },
       { ability_id: "detachment-rule", source_kind: "image", raw_text: "Private source prose" },
+      { ability_id: "new-enhancement-rule", source_kind: "image", raw_text: "Private source prose" },
+      { ability_id: "new-stratagem-rule", source_kind: "image", raw_text: "Private source prose" },
     ],
     retire: {},
   };
@@ -81,15 +89,33 @@ describe("Codex inventory validation", () => {
     expect(() => validateInventory(malformed)).toThrow(/conflicting duplicate ids/);
   });
 
+  it("rejects covered detachment entities outside the reviewed roster", () => {
+    const malformed = inventory();
+    malformed.entities.stratagems.push({
+      id: "old-stratagem",
+      detachment_id: "detachment",
+      ability_id: "old-stratagem-rule",
+      game_version: version,
+    });
+    malformed.abilities.push({ ability_id: "old-stratagem-rule", source_kind: "image", raw_text: "Private source prose" });
+    expect(() => validateInventory(malformed)).toThrow(/stratagem roster mismatch/);
+  });
+
+  it("rejects covered detachment entities without a resolvable ability", () => {
+    const malformed = inventory();
+    malformed.entities.stratagems[0].ability_id = "missing-stratagem-rule";
+    expect(() => validateInventory(malformed)).toThrow(/unresolved stratagem ability/);
+  });
+
   it("emits only source records and an explicit replacement scope for authoring", () => {
     const manifest = authorManifest(inventory());
     expect(manifest.replace_scope).toEqual({ faction_id: "orks", game_version: version, unit_ids: ["covered"], detachment_ids: ["detachment"] });
-    expect(manifest.records).toHaveLength(2);
+    expect(manifest.records).toHaveLength(4);
   });
 });
 
 describe("Codex snapshot projection", () => {
-  it("replaces every covered composite record while preserving uncovered records and blocked attachments", () => {
+  it("replaces every exactly reviewed composite record", () => {
     const projected = projectInventory(inventory(), current());
     expect(projected.units.map((unit) => unit.id)).toEqual(["uncovered", "covered"]);
     expect(projected.units.find((unit) => unit.id === "covered")?.weapon_ids).toEqual(["new-weapon"]);
@@ -97,9 +123,50 @@ describe("Codex snapshot projection", () => {
     expect(projected.wargear_options.map((row) => row.id)).toEqual(["uncovered-option", "new-option"]);
     expect(projected.enhancements.map((row) => row.id)).toEqual(["uncovered-enhancement", "new-enhancement"]);
     expect(projected.stratagems.map((row) => row.id)).toEqual(["uncovered-stratagem", "new-stratagem"]);
+    expect(projected.leader_attachments).toEqual([]);
+  });
+
+
+  it("preserves current attachment eligibility when the source field is blocked", () => {
+    const sourceInventory = inventory();
+    sourceInventory.reviews[0].fields.eligible_bodyguards.status = "blocked-source";
+    sourceInventory.entities.leader_attachments = [{
+      leader_id: "covered",
+      bodyguard_unit_ids: ["guessed"],
+      game_version: version,
+    }];
+    const projected = projectInventory(sourceInventory, current());
     expect(projected.leader_attachments).toEqual(current().leader_attachments);
   });
 
+  it("preserves current detachment rosters when their source fields are blocked", () => {
+    const sourceInventory = inventory();
+    sourceInventory.reviews[1].fields.enhancements.status = "blocked-source";
+    sourceInventory.reviews[1].fields.stratagems.status = "blocked-source";
+    const projected = projectInventory(sourceInventory, current());
+    expect(projected.enhancements).toEqual(current().enhancements);
+    expect(projected.stratagems).toEqual(current().stratagems);
+    const detachment = projected.detachments.find((row) => row.id === "detachment");
+    expect(detachment).toMatchObject({ id: "detachment", detachment_rule_ids: ["detachment-rule"], game_version: version });
+    expect(detachment?.enhancement_ids).toBeUndefined();
+    expect(detachment?.stratagem_ids).toBeUndefined();
+  });
+
+  it("clears blocked roster fields for a new detachment with no current state", () => {
+    const sourceInventory = inventory();
+    sourceInventory.reviews[1].fields.enhancements.status = "blocked-source";
+    sourceInventory.reviews[1].fields.stratagems.status = "blocked-source";
+    const currentState = current();
+    currentState.detachments = currentState.detachments.filter((row) => row.id !== "detachment");
+    currentState.enhancements = currentState.enhancements.filter((row) => row.detachment_id !== "detachment");
+    currentState.stratagems = currentState.stratagems.filter((row) => row.detachment_id !== "detachment");
+    const projected = projectInventory(sourceInventory, currentState);
+    const detachment = projected.detachments.find((row) => row.id === "detachment");
+    expect(detachment?.enhancement_ids).toBeUndefined();
+    expect(detachment?.stratagem_ids).toBeUndefined();
+    expect(projected.enhancements).toEqual(currentState.enhancements);
+    expect(projected.stratagems).toEqual(currentState.stratagems);
+  });
   it("refuses retirement while any projected record still references the id", () => {
     const sourceInventory = inventory();
     sourceInventory.entities.units[0].weapon_ids = ["retired-weapon"];
