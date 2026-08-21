@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ingestFaction, mergeRawTextRecords, type IngestRecord, type RawTextRecord } from "../src/author-ingest.js";
+import { ingestFaction, ingestSnapshot, mergeRawTextRecords, type IngestRecord, type RawTextRecord } from "../src/author-ingest.js";
 import { reconcileFaction } from "../src/author-reconcile.js";
 
 const rec = (over: Partial<IngestRecord> & { name: string }): IngestRecord => ({
@@ -137,6 +137,24 @@ describe("ingestFaction", () => {
     const entries = r.authorInput.filter((e) => e.ability_id === "waaagh-energy");
     expect(entries).toHaveLength(1);
     expect(entries[0].resolved).toBe(true);
+  });
+});
+
+describe("ingestSnapshot", () => {
+  it("removes a stale covered owner while retaining an uncovered shared owner", () => {
+    const result = ingestSnapshot({
+      records: [{ ...rec({ name: "Current Rule", ability_id: "current-rule", unit_ids: ["covered"], game_version: { edition: "11th", dataslate: "codex-orks" } }) }],
+      replace_scope: { faction_id: "orks", game_version: { edition: "11th", dataslate: "codex-orks" }, unit_ids: ["covered"], detachment_ids: ["covered-detachment"] },
+    }, [
+      { ability_id: "stale-rule", name: "Stale", unit_ids: ["covered"], effect: { type: "stat-modifier", modifier: {} } },
+      { ability_id: "shared-rule", name: "Shared", unit_ids: ["covered", "uncovered"], effect: { type: "stat-modifier", modifier: {} } },
+    ], [
+      { faction: "orks", ability_id: "stale-rule", name: "Stale", unit_ids: ["covered"], target: null, scope: null, faction_id: "orks", ability_type: "unit", resolved: false },
+      { faction: "orks", ability_id: "shared-rule", name: "Shared", unit_ids: ["covered", "uncovered"], target: null, scope: null, faction_id: "orks", ability_type: "unit", resolved: false },
+    ]);
+    expect(result.abilities.map((ability) => ability.ability_id)).toEqual(["shared-rule", "current-rule"]);
+    expect(result.abilities[0].unit_ids).toEqual(["uncovered"]);
+    expect(result.authorInput.map((entry) => entry.ability_id)).toEqual(["shared-rule", "current-rule"]);
   });
 });
 

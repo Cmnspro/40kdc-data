@@ -83,7 +83,7 @@ export interface IngestRecord {
   phases?: string[];
   /** Provenance, e.g. "codex-orks-2024.pdf#p43" or an archive datasheet_id. */
   source_ref?: string;
-  source_kind?: "pdf" | "json";
+  source_kind?: "pdf" | "json" | "image";
   game_version?: { edition: string; dataslate: string };
 }
 
@@ -114,6 +114,18 @@ export interface IngestResult {
   mergedIntoAuthored: { ability_id: string; unit_id: string }[];
   /** Records carrying no usable raw_text — seeded but left unresolved for input. */
   unresolved: { ability_id: string; name: string; reason: string }[];
+}
+
+export interface ReplacementScope {
+  faction_id: string;
+  game_version: { edition: string; dataslate: string };
+  unit_ids: string[];
+  detachment_ids: string[];
+}
+
+export interface SnapshotManifest {
+  records: IngestRecord[];
+  replace_scope: ReplacementScope;
 }
 
 function newStub(rec: IngestRecord, abilityId: string): Json {
@@ -232,6 +244,50 @@ export function ingestFaction(
   return result;
 }
 
+/** Replace only the inventory-owned portion of a faction without discarding shared/uncovered owners. */
+export function ingestSnapshot(
+  manifest: SnapshotManifest,
+  existingAbilities: Json[],
+  existingInput: AuthorInputEntry[],
+): IngestResult {
+  const { replace_scope: scope, records } = manifest;
+  const coveredUnits = new Set(scope.unit_ids);
+  const coveredDetachments = new Set(scope.detachment_ids);
+  const incomingIds = new Set(records.map((record) => record.ability_id ?? kebab(record.name)));
+  const deleted = new Set<string>();
+  const retained = existingAbilities.flatMap((ability) => {
+    const unitIds = (ability.unit_ids ?? []).filter((id: string) => !coveredUnits.has(id));
+    const coveredOwner = (ability.unit_ids ?? []).some((id: string) => coveredUnits.has(id));
+    const coveredDetachment = ability.detachment_id != null && coveredDetachments.has(ability.detachment_id);
+    if (!incomingIds.has(ability.ability_id) && (coveredDetachment || (coveredOwner && unitIds.length === 0))) {
+      deleted.add(ability.ability_id);
+      return [];
+    }
+    return [{ ...ability, unit_ids: unitIds }];
+  });
+  const result = ingestFaction(
+    scope.faction_id,
+    records,
+    retained,
+    existingInput.filter((entry) => !deleted.has(entry.ability_id)),
+  );
+  const abilities = new Map(result.abilities.map((ability) => [ability.ability_id, ability]));
+  for (const record of records) {
+    const id = record.ability_id ?? kebab(record.name);
+    const ability = abilities.get(id);
+    if (!ability) continue;
+    ability.name = record.name;
+    ability.game_version = { ...(record.game_version ?? scope.game_version) };
+    ability.ability_type = record.ability_type ?? ability.ability_type;
+    ability.behavior = record.behavior ?? ability.behavior;
+    ability.faction_id = record.faction_id ?? scope.faction_id;
+    if (record.detachment_id) ability.detachment_id = record.detachment_id;
+    else delete ability.detachment_id;
+  }
+  result.authorInput = result.authorInput.filter((entry) => !deleted.has(entry.ability_id));
+  return result;
+}
+
 // ─── raw-text store I/O ──────────────────────────────────────────────
 
 const STORE_README = `# 40kdc-abilities — raw ability text store
@@ -325,10 +381,21 @@ function main(): void {
   }
 
   const records: IngestRecord[] = [];
+  const snapshots = new Map<string, SnapshotManifest>();
   for (const f of manifestFiles) {
     const parsed = readJSON(f);
-    if (!Array.isArray(parsed)) { console.error(`${f}: not a JSON array of ingest records — skipping.`); continue; }
-    records.push(...parsed);
+    if (Array.isArray(parsed)) {
+      records.push(...parsed);
+      continue;
+    }
+    if (parsed?.records && parsed?.replace_scope && Array.isArray(parsed.records)) {
+      const snapshot = parsed as SnapshotManifest;
+      if (snapshots.has(snapshot.replace_scope.faction_id)) throw new Error(`Multiple snapshots for ${snapshot.replace_scope.faction_id}`);
+      snapshots.set(snapshot.replace_scope.faction_id, snapshot);
+      records.push(...snapshot.records);
+      continue;
+    }
+    console.error(`${f}: not a JSON ingest array or snapshot manifest — skipping.`);
   }
   if (records.length === 0) {
     console.error("No ingest records found in the given manifest(s).");
@@ -353,7 +420,9 @@ function main(): void {
     const inputPath = resolve(INPUT_DIR, `${faction}.json`);
     const existingInput: AuthorInputEntry[] = existsSync(inputPath) ? readJSON(inputPath) : [];
 
-    const r = ingestFaction(faction, recs, existingAbilities, existingInput);
+    const r = snapshots.get(faction)
+      ? ingestSnapshot(snapshots.get(faction)!, existingAbilities, existingInput)
+      : ingestFaction(faction, recs, existingAbilities, existingInput);
     totalCreated += r.created;
     totalMerged += r.mergedUnits;
     totalUnresolved += r.unresolved.length;

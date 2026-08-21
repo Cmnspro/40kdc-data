@@ -1,5 +1,76 @@
 [
   {
+    "id": "lootas-wgo-mfm-1",
+    "unit_id": "lootas",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "big-shoota"
+    ],
+    "replacement_choice": [
+      [
+        "kustom-mega-blasta"
+      ],
+      [
+        "rokkit-launcha-lootas"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Spanner",
+      "any_number": true
+    }
+  },
+  {
+    "id": "burna-boyz-wgo-mfm-1",
+    "unit_id": "burna-boyz",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "big-shoota"
+    ],
+    "replacement_choice": [
+      [
+        "rokkit-launcha-burna-boyz"
+      ],
+      [
+        "kustom-mega-blasta"
+      ]
+    ],
+    "model_constraint": {
+      "model_name": "Spanner",
+      "any_number": true
+    }
+  },
+  {
+    "id": "gargantuan-squiggoth-wgo-mfm-1",
+    "unit_id": "gargantuan-squiggoth",
+    "faction_id": "orks",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "supa-kannon"
+      ],
+      [
+        "kannon-gargantuan-squiggoth"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
     "id": "warbikers-wgo-mfm-1",
     "unit_id": "warbikers",
     "faction_id": "orks",
@@ -78,31 +149,6 @@
       "grot-orderly"
     ],
     "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "lootas-wgo-mfm-1",
-    "unit_id": "lootas",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "big-shoota"
-    ],
-    "replacement_choice": [
-      [
-        "kustom-mega-blasta"
-      ],
-      [
-        "rokkit-launcha-lootas"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Spanner",
       "any_number": true
     }
   },
@@ -838,31 +884,6 @@
     }
   },
   {
-    "id": "burna-boyz-wgo-mfm-1",
-    "unit_id": "burna-boyz",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "big-shoota"
-    ],
-    "replacement_choice": [
-      [
-        "rokkit-launcha-burna-boyz"
-      ],
-      [
-        "kustom-mega-blasta"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Spanner",
-      "any_number": true
-    }
-  },
-  {
     "id": "beastboss-on-squigosaur-wgo-mfm-1",
     "unit_id": "beastboss-on-squigosaur",
     "faction_id": "orks",
@@ -975,27 +996,6 @@
     "replacement": [
       "twin-killsaw"
     ]
-  },
-  {
-    "id": "gargantuan-squiggoth-wgo-mfm-1",
-    "unit_id": "gargantuan-squiggoth",
-    "faction_id": "orks",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "supa-kannon"
-      ],
-      [
-        "kannon-gargantuan-squiggoth"
-      ]
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
   },
   {
     "id": "warboss-wgo-mfm-1",

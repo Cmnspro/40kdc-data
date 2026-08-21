@@ -1,5 +1,774 @@
 [
   {
+    "id": "armoured-duellists-blitz-brigade",
+    "name": "Armoured Duellists",
+    "category": "detachment",
+    "detachment_id": "blitz-brigade",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "armoured-duellists-blitz-brigade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "type": "battle-tactic"
+  },
+  {
+    "id": "bash-and-grab-freebooter-krew",
+    "name": "BASH AND GRAB",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "freebooter-krew",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "bigger-shells-for-bigger-gitz-dread-mob",
+    "name": "BIGGER SHELLS FOR BIGGER GITZ",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "dread-mob",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "boardin-rush-freebooter-krew",
+    "name": "BOARDIN’ RUSH",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "freebooter-krew",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "brutal-broadside-rollin-deff",
+    "name": "Brutal Broadside",
+    "category": "detachment",
+    "detachment_id": "rollin-deff",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "brutal-broadside-rollin-deff",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "call-dat-dakka-more-dakka",
+    "name": "CALL DAT DAKKA?",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "more-dakka",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "concealed-krumpin-equatorial-hordes",
+    "name": "Concealed Krumpin’",
+    "category": "detachment",
+    "detachment_id": "equatorial-hordes",
+    "cp_cost": 1,
+    "phases": [
+      "shooting",
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "concealed-krumpin-equatorial-hordes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "conniving-runts-dread-mob",
+    "name": "CONNIVING RUNTS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "dread-mob",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "dakka-dakka-dakka-dread-mob",
+    "name": "DAKKA! DAKKA! DAKKA!",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "dread-mob",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "deck-fraggers-freebooter-krew",
+    "name": "DECK FRAGGERS",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "freebooter-krew",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "ded-killy-construction-speedwaaagh",
+    "name": "Ded Killy Construction",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "speedwaaagh",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "ded-killy-construction-speedwaaagh",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "devastating-drift-rollin-deff",
+    "name": "Devastating Drift",
+    "category": "detachment",
+    "detachment_id": "rollin-deff",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "devastating-drift-rollin-deff",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "deyre-over-ere-equatorial-hordes",
+    "name": "Dey’re Over ‘Ere",
+    "category": "detachment",
+    "detachment_id": "equatorial-hordes",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "deyre-over-ere-equatorial-hordes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "dust-trails-speedwaaagh",
+    "name": "Dust Trails",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "speedwaaagh",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "dust-trails-speedwaaagh",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "evasive-manoova-speedwaaagh",
+    "name": "Evasive Manoova",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "speedwaaagh",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "evasive-manoova-speedwaaagh",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "extra-gubbinz-dread-mob",
+    "name": "EXTRA GUBBINZ",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "dread-mob",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "get-stuck-in-ardmob",
+    "name": "Get Stuck In",
+    "category": "detachment",
+    "detachment_id": "ardmob",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "get-stuck-in-ardmob",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "get-stuck-in-ladz-more-dakka",
+    "name": "GET STUCK IN, LADZ!",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "more-dakka",
+    "cp_cost": 2,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "grab-and-bash-freebooter-krew",
+    "name": "GRAB AND BASH",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "freebooter-krew",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "huge-show-offs-more-dakka",
+    "name": "HUGE SHOW-OFFS",
+    "category": "detachment",
+    "type": "epic-deed",
+    "detachment_id": "more-dakka",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "impending-crunch-rollin-deff",
+    "name": "Impending Crunch",
+    "category": "detachment",
+    "detachment_id": "rollin-deff",
+    "cp_cost": 1,
+    "phases": [
+      "charge"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "impending-crunch-rollin-deff",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "impervious-blitz-brigade",
+    "name": "Impervious",
+    "category": "detachment",
+    "detachment_id": "blitz-brigade",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "impervious-blitz-brigade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "klankin-klaws-dread-mob",
+    "name": "KLANKIN’ KLAWS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "dread-mob",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "krump-and-run-freebooter-krew",
+    "name": "KRUMP AND RUN",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "freebooter-krew",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "krump-em-ardmob",
+    "name": "Krump ’Em",
+    "category": "detachment",
+    "detachment_id": "ardmob",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "krump-em-ardmob",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "long-uncontrolled-bursts-more-dakka",
+    "name": "LONG, UNCONTROLLED BURSTS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "more-dakka",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "long-uncontrolled-bursts-rollin-deff",
+    "name": "Long, Uncontrolled Bursts",
+    "category": "detachment",
+    "detachment_id": "rollin-deff",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "long-uncontrolled-bursts-rollin-deff",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "medi-squigs-ardmob",
+    "name": "Medi-Squigs",
+    "category": "detachment",
+    "detachment_id": "ardmob",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "medi-squigs-ardmob",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mekanised-brutality-blitz-brigade",
+    "name": "Mekanised Brutality",
+    "category": "detachment",
+    "detachment_id": "blitz-brigade",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "mekanised-brutality-blitz-brigade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "mobile-dakkastorm-speedwaaagh",
+    "name": "Mobile Dakkastorm",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "speedwaaagh",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "mobile-dakkastorm-speedwaaagh",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "mount-up-ladz-blitz-brigade",
+    "name": "Mount Up, Ladz",
+    "category": "detachment",
+    "detachment_id": "blitz-brigade",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "mount-up-ladz-blitz-brigade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "on-da-move-speedwaaagh",
+    "name": "On Da Move",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "speedwaaagh",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "on-da-move-speedwaaagh",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "orks-is-still-orks-more-dakka",
+    "name": "ORKS IS STILL ORKS",
+    "category": "detachment",
+    "type": "battle-tactic",
+    "detachment_id": "more-dakka",
+    "cp_cost": 1,
+    "phases": [
+      "fight"
+    ],
+    "player_turn": "either",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "rolling-loot-heap-freebooter-krew",
+    "name": "ROLLING LOOT-HEAP",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "freebooter-krew",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "run-em-down-blitz-brigade",
+    "name": "Run ’em Down",
+    "category": "detachment",
+    "detachment_id": "blitz-brigade",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "run-em-down-blitz-brigade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "type": "strategic-ploy"
+  },
+  {
+    "id": "speshul-ammo-speedwaaagh",
+    "name": "Speshul Ammo",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "speedwaaagh",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "speshul-ammo-speedwaaagh",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "speshul-shells-more-dakka",
+    "name": "SPESHUL SHELLS",
+    "category": "detachment",
+    "type": "wargear",
+    "detachment_id": "more-dakka",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "speshul-shells-rollin-deff",
+    "name": "Speshul Shells",
+    "category": "detachment",
+    "detachment_id": "rollin-deff",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "speshul-shells-rollin-deff",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "stragglerz-equatorial-hordes",
+    "name": "Stragglerz",
+    "category": "detachment",
+    "detachment_id": "equatorial-hordes",
+    "cp_cost": 1,
+    "phases": [
+      "command"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "stragglerz-equatorial-hordes",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "superfuelled-boiler-dread-mob",
+    "name": "SUPERFUELLED BOILER",
+    "category": "detachment",
+    "type": "strategic-ploy",
+    "detachment_id": "dread-mob",
+    "cp_cost": 1,
+    "phases": [
+      "movement"
+    ],
+    "player_turn": "your-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": null,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    }
+  },
+  {
+    "id": "yooz-in-trouble-now-blitz-brigade",
+    "name": "Yooz in Trouble Now",
+    "category": "detachment",
+    "detachment_id": "blitz-brigade",
+    "cp_cost": 1,
+    "phases": [
+      "shooting"
+    ],
+    "player_turn": "opponent-turn",
+    "timing": "once-per-phase",
+    "target_restrictions": null,
+    "ability_id": "yooz-in-trouble-now-blitz-brigade",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "type": "strategic-ploy"
+  },
+  {
     "id": "always-lookin-fer-a-fight-bully-boyz",
     "name": "ALWAYS LOOKIN’ FER A FIGHT",
     "category": "detachment",
@@ -59,63 +828,6 @@
     "type": "battle-tactic"
   },
   {
-    "id": "armoured-duellists-blitz-brigade",
-    "name": "Armoured Duellists",
-    "category": "detachment",
-    "detachment_id": "blitz-brigade",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "armoured-duellists-blitz-brigade",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "type": "battle-tactic"
-  },
-  {
-    "id": "bash-and-grab-freebooter-krew",
-    "name": "BASH AND GRAB",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "freebooter-krew",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "bigger-shells-for-bigger-gitz-dread-mob",
-    "name": "BIGGER SHELLS FOR BIGGER GITZ",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "dread-mob",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "blitza-fire-kult-of-speed",
     "name": "BLITZA FIRE",
     "category": "detachment",
@@ -124,25 +836,6 @@
     "cp_cost": 1,
     "phases": [
       "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "boardin-rush-freebooter-krew",
-    "name": "BOARDIN’ RUSH",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "freebooter-krew",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
     ],
     "player_turn": "your-turn",
     "timing": "once-per-phase",
@@ -191,24 +884,6 @@
     }
   },
   {
-    "id": "brutal-broadside-rollin-deff",
-    "name": "Brutal Broadside",
-    "category": "detachment",
-    "detachment_id": "rollin-deff",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "brutal-broadside-rollin-deff",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "bulldozer-brutality-green-tide",
     "name": "BULLDOZER BRUTALITY",
     "category": "detachment",
@@ -219,25 +894,6 @@
       "fight"
     ],
     "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "call-dat-dakka-more-dakka",
-    "name": "CALL DAT DAKKA?",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "more-dakka",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -344,44 +1000,6 @@
     }
   },
   {
-    "id": "concealed-krumpin-equatorial-hordes",
-    "name": "Concealed Krumpin’",
-    "category": "detachment",
-    "detachment_id": "equatorial-hordes",
-    "cp_cost": 1,
-    "phases": [
-      "shooting",
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "concealed-krumpin-equatorial-hordes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "conniving-runts-dread-mob",
-    "name": "CONNIVING RUNTS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "dread-mob",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "cut-em-down-bully-boyz",
     "name": "CUT’ EM DOWN",
     "category": "detachment",
@@ -392,25 +1010,6 @@
       "movement"
     ],
     "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "dakka-dakka-dakka-dread-mob",
-    "name": "DAKKA! DAKKA! DAKKA!",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "dread-mob",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -458,44 +1057,6 @@
     }
   },
   {
-    "id": "deck-fraggers-freebooter-krew",
-    "name": "DECK FRAGGERS",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "freebooter-krew",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "ded-killy-construction-speedwaaagh",
-    "name": "Ded Killy Construction",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "speedwaaagh",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "ded-killy-construction-speedwaaagh",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "ded-sneaky-taktikal-brigade",
     "name": "DED SNEAKY",
     "category": "detachment",
@@ -530,42 +1091,6 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "devastating-drift-rollin-deff",
-    "name": "Devastating Drift",
-    "category": "detachment",
-    "detachment_id": "rollin-deff",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "devastating-drift-rollin-deff",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "deyre-over-ere-equatorial-hordes",
-    "name": "Dey’re Over ‘Ere",
-    "category": "detachment",
-    "detachment_id": "equatorial-hordes",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "deyre-over-ere-equatorial-hordes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
     }
   },
   {
@@ -624,25 +1149,6 @@
     }
   },
   {
-    "id": "dust-trails-speedwaaagh",
-    "name": "Dust Trails",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "speedwaaagh",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "dust-trails-speedwaaagh",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "ere-we-go-green-tide",
     "name": "’ERE WE GO",
     "category": "detachment",
@@ -671,44 +1177,6 @@
       "movement"
     ],
     "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "evasive-manoova-speedwaaagh",
-    "name": "Evasive Manoova",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "speedwaaagh",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "evasive-manoova-speedwaaagh",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "extra-gubbinz-dread-mob",
-    "name": "EXTRA GUBBINZ",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "dread-mob",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -773,43 +1241,6 @@
     }
   },
   {
-    "id": "get-stuck-in-ardmob",
-    "name": "Get Stuck In",
-    "category": "detachment",
-    "detachment_id": "ardmob",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "get-stuck-in-ardmob",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "get-stuck-in-ladz-more-dakka",
-    "name": "GET STUCK IN, LADZ!",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "more-dakka",
-    "cp_cost": 2,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "go-get-em-green-tide",
     "name": "GO GET ’EM!",
     "category": "detachment",
@@ -844,25 +1275,6 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "grab-and-bash-freebooter-krew",
-    "name": "GRAB AND BASH",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "freebooter-krew",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
     }
   },
   {
@@ -938,25 +1350,6 @@
     }
   },
   {
-    "id": "huge-show-offs-more-dakka",
-    "name": "HUGE SHOW-OFFS",
-    "category": "detachment",
-    "type": "epic-deed",
-    "detachment_id": "more-dakka",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "hulking-brutes-bully-boyz",
     "name": "HULKING BRUTES",
     "category": "detachment",
@@ -974,43 +1367,6 @@
       "dataslate": "codex-orks"
     },
     "type": "battle-tactic"
-  },
-  {
-    "id": "impending-crunch-rollin-deff",
-    "name": "Impending Crunch",
-    "category": "detachment",
-    "detachment_id": "rollin-deff",
-    "cp_cost": 1,
-    "phases": [
-      "charge"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "impending-crunch-rollin-deff",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "impervious-blitz-brigade",
-    "name": "Impervious",
-    "category": "detachment",
-    "detachment_id": "blitz-brigade",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "impervious-blitz-brigade",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "type": "strategic-ploy"
   },
   {
     "id": "infested-war-zone-runt-swarm",
@@ -1048,62 +1404,6 @@
       "dataslate": "codex-orks"
     },
     "type": "strategic-ploy"
-  },
-  {
-    "id": "klankin-klaws-dread-mob",
-    "name": "KLANKIN’ KLAWS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "dread-mob",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "krump-and-run-freebooter-krew",
-    "name": "KRUMP AND RUN",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "freebooter-krew",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "krump-em-ardmob",
-    "name": "Krump ’Em",
-    "category": "detachment",
-    "detachment_id": "ardmob",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "krump-em-ardmob",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
   },
   {
     "id": "krushin-impact-bully-boyz",
@@ -1161,80 +1461,6 @@
     }
   },
   {
-    "id": "long-uncontrolled-bursts-more-dakka",
-    "name": "LONG, UNCONTROLLED BURSTS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "more-dakka",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "long-uncontrolled-bursts-rollin-deff",
-    "name": "Long, Uncontrolled Bursts",
-    "category": "detachment",
-    "detachment_id": "rollin-deff",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "long-uncontrolled-bursts-rollin-deff",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "medi-squigs-ardmob",
-    "name": "Medi-Squigs",
-    "category": "detachment",
-    "detachment_id": "ardmob",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "medi-squigs-ardmob",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "mekanised-brutality-blitz-brigade",
-    "name": "Mekanised Brutality",
-    "category": "detachment",
-    "detachment_id": "blitz-brigade",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "mekanised-brutality-blitz-brigade",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "type": "strategic-ploy"
-  },
-  {
     "id": "mind-mostly-on-the-mission-taktikal-brigade",
     "name": "MIND MOSTLY ON THE MISSION",
     "category": "detachment",
@@ -1290,25 +1516,6 @@
     }
   },
   {
-    "id": "mobile-dakkastorm-speedwaaagh",
-    "name": "Mobile Dakkastorm",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "speedwaaagh",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "mobile-dakkastorm-speedwaaagh",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "more-gitz-over-ere-kult-of-speed",
     "name": "MORE GITZ OVER ’ERE!",
     "category": "detachment",
@@ -1326,25 +1533,6 @@
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
     }
-  },
-  {
-    "id": "mount-up-ladz-blitz-brigade",
-    "name": "Mount Up, Ladz",
-    "category": "detachment",
-    "detachment_id": "blitz-brigade",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "mount-up-ladz-blitz-brigade",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "type": "strategic-ploy"
   },
   {
     "id": "mow-em-down-war-horde",
@@ -1380,25 +1568,6 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "on-da-move-speedwaaagh",
-    "name": "On Da Move",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "speedwaaagh",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "on-da-move-speedwaaagh",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
     }
   },
   {
@@ -1440,63 +1609,6 @@
     "type": "epic-deed"
   },
   {
-    "id": "orks-is-still-orks-more-dakka",
-    "name": "ORKS IS STILL ORKS",
-    "category": "detachment",
-    "type": "battle-tactic",
-    "detachment_id": "more-dakka",
-    "cp_cost": 1,
-    "phases": [
-      "fight"
-    ],
-    "player_turn": "either",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "rolling-loot-heap-freebooter-krew",
-    "name": "ROLLING LOOT-HEAP",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "freebooter-krew",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "run-em-down-blitz-brigade",
-    "name": "Run ’em Down",
-    "category": "detachment",
-    "detachment_id": "blitz-brigade",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "run-em-down-blitz-brigade",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "type": "strategic-ploy"
-  },
-  {
     "id": "scarper-runt-swarm",
     "name": "SCARPER!",
     "category": "detachment",
@@ -1534,62 +1646,6 @@
     "type": "strategic-ploy"
   },
   {
-    "id": "speshul-ammo-speedwaaagh",
-    "name": "Speshul Ammo",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "speedwaaagh",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "speshul-ammo-speedwaaagh",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "speshul-shells-more-dakka",
-    "name": "SPESHUL SHELLS",
-    "category": "detachment",
-    "type": "wargear",
-    "detachment_id": "more-dakka",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "speshul-shells-rollin-deff",
-    "name": "Speshul Shells",
-    "category": "detachment",
-    "detachment_id": "rollin-deff",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "speshul-shells-rollin-deff",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "squig-flingin-kult-of-speed",
     "name": "SQUIG FLINGIN’",
     "category": "detachment",
@@ -1619,43 +1675,6 @@
       "shooting"
     ],
     "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": null,
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "stragglerz-equatorial-hordes",
-    "name": "Stragglerz",
-    "category": "detachment",
-    "detachment_id": "equatorial-hordes",
-    "cp_cost": 1,
-    "phases": [
-      "command"
-    ],
-    "player_turn": "your-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "stragglerz-equatorial-hordes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "superfuelled-boiler-dread-mob",
-    "name": "SUPERFUELLED BOILER",
-    "category": "detachment",
-    "type": "strategic-ploy",
-    "detachment_id": "dread-mob",
-    "cp_cost": 1,
-    "phases": [
-      "movement"
-    ],
-    "player_turn": "your-turn",
     "timing": "once-per-phase",
     "target_restrictions": null,
     "ability_id": null,
@@ -1849,24 +1868,5 @@
       "edition": "11th",
       "dataslate": "codex-orks"
     }
-  },
-  {
-    "id": "yooz-in-trouble-now-blitz-brigade",
-    "name": "Yooz in Trouble Now",
-    "category": "detachment",
-    "detachment_id": "blitz-brigade",
-    "cp_cost": 1,
-    "phases": [
-      "shooting"
-    ],
-    "player_turn": "opponent-turn",
-    "timing": "once-per-phase",
-    "target_restrictions": null,
-    "ability_id": "yooz-in-trouble-now-blitz-brigade",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "type": "strategic-ploy"
   }
 ]

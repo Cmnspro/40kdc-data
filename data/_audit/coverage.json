@@ -211,12 +211,12 @@
     },
     {
       "faction": "orks",
-      "total": 307,
-      "offensive": 59,
+      "total": 303,
+      "offensive": 56,
       "defensive": 13,
-      "inert": 239,
+      "inert": 238,
       "stub": 3,
-      "stubStructural": 0,
+      "stubStructural": 4,
       "gwTextLeak": 0,
       "defensiveSkipped": 2
     },
@@ -266,19 +266,19 @@
     }
   ],
   "totals": {
-    "total": 3272,
-    "offensive": 793,
+    "total": 3268,
+    "offensive": 790,
     "defensive": 264,
-    "inert": 2301,
+    "inert": 2300,
     "stub": 115,
-    "stubStructural": 31,
+    "stubStructural": 35,
     "gwTextLeak": 0,
     "defensiveSkipped": 56
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 467
+      "count": 466
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
@@ -298,7 +298,7 @@
     },
     {
       "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
-      "count": 59
+      "count": 60
     },
     {
       "reason": "effect type \"resurrection\" is not modelled by the buff layer",
@@ -318,7 +318,7 @@
     },
     {
       "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
-      "count": 35
+      "count": 34
     },
     {
       "reason": "effect type \"unit-keyword\" is not modelled by the buff layer",
@@ -345,6 +345,10 @@
       "count": 30
     },
     {
+      "reason": "stat-modifier: operation \"undefined\" not supported",
+      "count": 26
+    },
+    {
       "reason": "stat-modifier on \"M\" is outside the damage path",
       "count": 23
     },
@@ -361,23 +365,19 @@
       "count": 22
     },
     {
-      "reason": "stat-modifier: operation \"undefined\" not supported",
-      "count": 22
-    },
-    {
       "reason": "roll-modifier: operation \"set\" not supported",
       "count": 19
     },
     {
       "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
-      "count": 17
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context",
-      "count": 15
+      "count": 18
     },
     {
       "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
+      "count": 16
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context",
       "count": 15
     },
     {
@@ -461,10 +461,6 @@
       "count": 5
     },
     {
-      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
-      "count": 5
-    },
-    {
       "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
       "count": 4
     },
@@ -490,6 +486,10 @@
     },
     {
       "reason": "stat-modifier: narrows by \"weapon_name\" which the cruncher can't resolve here",
+      "count": 4
+    },
+    {
+      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
       "count": 4
     },
     {
@@ -25664,23 +25664,13 @@
     },
     {
       "faction": "orks",
-      "ability_id": "ghazghkull-s-waaagh-banner-aura",
-      "name": "Ghazghkull’s Waaagh! Banner (Aura)",
-      "shape": "keyword-grant",
-      "stub": false,
-      "offensive": true,
-      "defensive": false,
-      "gap": null
-    },
-    {
-      "faction": "orks",
       "ability_id": "supreme-commander",
       "name": "Supreme Commander",
-      "shape": "ability-grant",
+      "shape": "attack-restriction",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -26734,26 +26724,6 @@
     },
     {
       "faction": "orks",
-      "ability_id": "adrenaline-junkies",
-      "name": "Adrenaline Junkies",
-      "shape": "conditional",
-      "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": null
-    },
-    {
-      "faction": "orks",
-      "ability_id": "da-hunt-is-on",
-      "name": "Da Hunt Is On",
-      "shape": "designate-target",
-      "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": null
-    },
-    {
-      "faction": "orks",
       "ability_id": "try-dat-button-dread-mob",
       "name": "Try Dat Button!",
       "shape": "conditional",
@@ -26761,46 +26731,6 @@
       "offensive": false,
       "defensive": false,
       "gap": null
-    },
-    {
-      "faction": "orks",
-      "ability_id": "get-stuck-in",
-      "name": "Get Stuck In",
-      "shape": "keyword-grant",
-      "stub": false,
-      "offensive": true,
-      "defensive": false,
-      "gap": null
-    },
-    {
-      "faction": "orks",
-      "ability_id": "da-boss-is-watchin",
-      "name": "Da Boss Is Watchin’",
-      "shape": "conditional",
-      "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": null
-    },
-    {
-      "faction": "orks",
-      "ability_id": "mob-mentality",
-      "name": "Mob Mentality",
-      "shape": "conditional",
-      "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": null
-    },
-    {
-      "faction": "orks",
-      "ability_id": "lissen-ere",
-      "name": "Lissen ’Ere",
-      "shape": "sequence",
-      "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -27294,16 +27224,6 @@
     },
     {
       "faction": "orks",
-      "ability_id": "nazdreg-knows-best",
-      "name": "Nazdreg Knows Best",
-      "shape": "sequence",
-      "stub": false,
-      "offensive": true,
-      "defensive": false,
-      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
-    },
-    {
-      "faction": "orks",
       "ability_id": "never-too-busy-to-fight",
       "name": "Never Too Busy to Fight",
       "shape": "engagement-passthrough",
@@ -27461,16 +27381,6 @@
       "offensive": false,
       "defensive": false,
       "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
-    },
-    {
-      "faction": "orks",
-      "ability_id": "supreme-ironskin",
-      "name": "Supreme Ironskin",
-      "shape": "conditional",
-      "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": null
     },
     {
       "faction": "orks",
@@ -28371,6 +28281,56 @@
       "offensive": true,
       "defensive": false,
       "gap": "re-roll on \"advance\" (subset …) is outside the damage path"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "dreadherder-dread-mob",
+      "name": "Dreadherder",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "da-grand-warlords-ladz",
+      "name": "Da Grand Warlord's Ladz",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "makari-hoist-dat-banner",
+      "name": "Makari, Hoist Dat Banner",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "nazdregs-know-wotz",
+      "name": "Nazdreg's Know-wotz",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "supreme-kunnin",
+      "name": "Supreme Kunnin'",
+      "shape": "stat-modifier",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"undefined\" not supported"
     },
     {
       "faction": "tau-empire",

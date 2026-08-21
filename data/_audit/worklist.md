@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 31 stub abilities.
+Total: 35 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -30,6 +30,10 @@ Total: 31 stub abilities.
 | genestealer-cults | hordes-of-the-faithful | stat-modifier | stat-modifier: operation "undefined" not supported |
 | grey-knights | hallowed-ground | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
 | necrons | engrammatic-logic | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
+| orks | da-grand-warlords-ladz | stat-modifier | stat-modifier: operation "undefined" not supported |
+| orks | makari-hoist-dat-banner | stat-modifier | stat-modifier: operation "undefined" not supported |
+| orks | nazdregs-know-wotz | stat-modifier | stat-modifier: operation "undefined" not supported |
+| orks | supreme-kunnin | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | dark-ascension-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | thousand-sons | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |

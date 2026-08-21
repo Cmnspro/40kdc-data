@@ -499,17 +499,17 @@ export const repairUserPrompt = (items: { ability_id: string; rule: string; draf
 
 // ─── propose ─────────────────────────────────────────────────────────
 
-interface ProposeOpts { batch: number; model: string; fresh?: boolean; concurrency?: number }
+interface ProposeOpts { batch: number; model: string; fresh?: boolean; concurrency?: number; stubsOnly?: boolean }
 
 async function proposeFaction(faction: string, opts: ProposeOpts, validate: (x: unknown) => boolean): Promise<Json> {
   const inputPath = resolve(INPUT_DIR, `${faction}.json`);
   if (!existsSync(inputPath)) return { faction, skipped: "no author-input" };
-  const input: Json[] = readJSON(inputPath).filter((e: Json) => e.resolved);
-  if (input.length === 0) return { faction, skipped: "no resolved stubs" };
-
   const original = new Map<string, Json>();
   for (const a of readJSON(resolve(ENRICHMENT_ROOT, faction, "abilities.json")) as Json[]) original.set(a.ability_id, a);
-
+  const input = readJSON(inputPath)
+    .filter((e: Json) => e.resolved)
+    .filter((e: Json) => !opts.stubsOnly || hasEmptyModifier(original.get(e.ability_id)?.effect));
+  if (input.length === 0) return { faction, skipped: opts.stubsOnly ? "no resolved stubs" : "no resolved source rules" };
   // Resume: reuse prior proposals whose source rule is unchanged (skip errored ones so
   // they get retried). A checkpoint is written after every batch, so an interrupted run
   // loses at most the batch in flight. `--fresh` forces a full re-propose.
@@ -848,7 +848,7 @@ async function main(): Promise<void> {
     return;
   }
   if (!["propose", "repair", "apply"].includes(mode) || !target) {
-    console.error("Usage:\n  author-batch propose <faction|--all> [--batch N] [--model M] [--concurrency N] [--fresh]\n  author-batch repair  <faction|--all> [--types t1,t2] [--batch N] [--model M] [--concurrency N]\n  author-batch apply   <faction|--all> [--min-confidence high|medium] [--include-complex] [--reauthor] [--dry-run]\n  author-batch review");
+    console.error("Usage:\n  author-batch propose <faction|--all> [--batch N] [--model M] [--concurrency N] [--fresh] [--stubs-only]\n  author-batch repair  <faction|--all> [--types t1,t2] [--batch N] [--model M] [--concurrency N]\n  author-batch apply   <faction|--all> [--min-confidence high|medium] [--include-complex] [--reauthor] [--dry-run]\n  author-batch review");
     process.exit(1);
   }
 
@@ -857,7 +857,7 @@ async function main(): Promise<void> {
     const validateFn = ajv.getSchema(ABILITY_SCHEMA_ID);
     if (!validateFn) throw new Error(`ability schema not loaded: ${ABILITY_SCHEMA_ID}`);
     const validate = (x: unknown): boolean => !!validateFn(x);
-    const opts: ProposeOpts = { batch: Number(flag(argv, "--batch")) || 15, model: flag(argv, "--model") ?? "claude-haiku-4-5", fresh: argv.includes("--fresh"), concurrency: Number(flag(argv, "--concurrency")) || 1 };
+    const opts: ProposeOpts = { batch: Number(flag(argv, "--batch")) || 15, model: flag(argv, "--model") ?? "claude-haiku-4-5", fresh: argv.includes("--fresh"), concurrency: Number(flag(argv, "--concurrency")) || 1, stubsOnly: argv.includes("--stubs-only") };
     const summary: Json[] = [];
     for (const f of factionList(target, INPUT_DIR)) {
       try {
