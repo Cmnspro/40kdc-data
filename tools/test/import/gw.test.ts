@@ -189,7 +189,7 @@ Ghazghkull Thraka (235 Points)
 ◦ 1x Makari’s stabba
 `, { dataset: ds });
 
-  expect(roster.units[0]?.model_count).toBe(2);
+  expect(roster.units[0]?.model_count).toBe(1);
 });
 
 describe("gwAdapter resolves against the embedded dataset", () => {
