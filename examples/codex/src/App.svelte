@@ -36,7 +36,7 @@
 
   onMount(() => {
     let active = true;
-    void loadIndex(DEFAULT_SOURCE)
+    void loadIndex(DEFAULT_SOURCE, { force: true })
       .then(({ index }) => {
         if (!active) return;
         sourceIndex = index;
