@@ -142,3 +142,7 @@ Temporary model-adapter PATH omitted the active NVM bin, so npm failed before ru
 ## 2026-08-21T16:47:45Z — gpt-5.6-sol
 
 The raw-text store's verification script writes a 4.9 MiB unignored dist/bundle-abilities.json, which jj refuses to snapshot; verification requires manually deleting this transient output.
+
+## 2026-08-21T16:57:34Z — gpt-5.6-sol
+
+gh cannot infer a repository from a colocated jj workspace that lacks a .git directory; raw-store PR commands must pass the explicit -R repository.
