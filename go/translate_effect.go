@@ -120,13 +120,7 @@ func selectorEligibilityClause(sel map[string]any) string {
 	if !ok || eligibility == nil {
 		return ""
 	}
-	if eligibility["type"] == "is-battle-shocked" {
-		if eligibility["negated"] == true {
-			return " that is not Battle-shocked"
-		}
-		return " that is Battle-shocked"
-	}
-	return " that satisfy " + describeCondition(eligibility)
+	return " " + describeSelectionEligibility(eligibility)
 }
 
 // forEachUnitSubject renders the closed for-each-unit selector.
@@ -1596,6 +1590,8 @@ func keywordFilterClause(value any, noun string) string {
 	return result
 }
 
+var auraNestedSubjectRe = regexp.MustCompile(`^the unit\b\s*`)
+
 func auraClause(e, m map[string]any, ctx map[string]any) string {
 	// Range-extension of a named aura (e.g. Gift of Poxes: contagion +3").
 	if m["range_bonus"] != nil {
@@ -1606,45 +1602,61 @@ func auraClause(e, m map[string]any, ctx map[string]any) string {
 		return "the range of this model's " + named + "abilities is increased by " + ejstr(m["range_bonus"]) + "\""
 	}
 	var rangeText string
-	hasRange := false
 	if rng, ok := asList(m["range"]); ok {
 		parts := make([]string, len(rng))
 		for i, r := range rng {
 			parts[i] = ejstr(r) + "\""
 		}
 		rangeText = strings.Join(parts, "/") + " (by battle round)"
-		hasRange = true
 	} else if m["range"] != nil {
 		rangeText = ejstr(m["range"]) + "\""
-		hasRange = true
 	}
-	who := "each enemy unit"
+	owner := "enemy"
 	if e["target"] == "friendly-within-aura" {
-		who = "each friendly unit"
+		owner = "friendly"
 	}
-	if eligible, ok := getMap(m, "eligible"); ok && eligible != nil {
-		if required := getStrList(eligible, "required_keywords"); len(required) > 0 {
-			who = strings.TrimSuffix(who, " unit") + " " + strings.Join(required, " ") + " unit"
-		}
-		if excluded := getStrList(eligible, "excluded_keywords"); len(excluded) > 0 {
-			who += " (excluding " + strings.Join(excluded, " ") + " units)"
-		}
+	eligible, _ := getMap(m, "eligible")
+	who := "each " + owner
+	if required := getStrList(eligible, "required_keywords"); len(required) > 0 {
+		who += " " + strings.Join(required, " ")
 	}
-	within := who
-	if hasRange {
-		within = who + " within " + rangeText
+	who += " unit"
+	if excluded := getStrList(eligible, "excluded_keywords"); len(excluded) > 0 {
+		who += " (excluding " + strings.Join(excluded, " ") + " units)"
 	}
+	recipientFilter := m["recipient_filter"]
+	emitterFilter := m["emitter_filter"]
+	recipient := keywordFilterClause(recipientFilter, who)
+	within := recipient
+	if rangeText != "" {
+		within += " within " + rangeText
+	}
+	filtered := emitterFilter != nil || recipientFilter != nil
+	effectText := ""
 	if inner, ok := getMap(m, "effect"); ok && inner != nil {
-		ctxCopy := map[string]any{}
+		ctxCopy := make(map[string]any, len(ctx)+1)
 		for k, val := range ctx {
 			ctxCopy[k] = val
 		}
-		if m["eligible"] != nil {
+		if m["eligible"] != nil || filtered {
 			ctxCopy["selected_unit"] = true
 		}
-		return within + " " + describeEffectInline(inner, ctxCopy)
+		nested := describeEffectInline(inner, ctxCopy)
+		if filtered {
+			effectText = ", and each such unit " + auraNestedSubjectRe.ReplaceAllString(nested, "")
+		} else {
+			effectText = " " + nested
+		}
+	} else if filtered {
+		effectText = ", and each such unit is affected"
+	} else {
+		effectText = " is affected"
 	}
-	return within + " is affected"
+	if emitterFilter != nil {
+		emitter := keywordFilterClause(emitterFilter, "this model")
+		return emitter + " projects an aura to " + within + effectText
+	}
+	return within + effectText
 }
 
 func namedRegionTitle(v any) string {

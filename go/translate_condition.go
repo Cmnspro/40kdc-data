@@ -239,6 +239,26 @@ func regionMembershipPhrase(p map[string]any, negated bool) string {
 	return prefix + subject + " is " + relation + " " + region
 }
 
+func describeSelectionEligibility(c map[string]any) string {
+	if c["type"] == "is-battle-shocked" && !truthy(c["operator"]) {
+		if c["negated"] == true {
+			return "that is not Battle-shocked"
+		}
+		return "that is Battle-shocked"
+	}
+	phrase := describeCondition(c)
+	if suffix, ok := strings.CutPrefix(phrase, "the unit is "); ok {
+		return "that is " + suffix
+	}
+	if suffix, ok := strings.CutPrefix(phrase, "not the unit is "); ok {
+		return "that is not " + suffix
+	}
+	if suffix, ok := strings.CutPrefix(phrase, "the unit has "); ok {
+		return "with " + suffix
+	}
+	return "if " + phrase
+}
+
 func describeCondition(c map[string]any) string {
 	operands, _ := asList(c["operands"])
 	switch c["operator"] {
@@ -248,7 +268,16 @@ func describeCondition(c map[string]any) string {
 		}
 	case "or":
 		if len(operands) > 0 {
-			return joinConds(operands, " or ")
+			keywords := make([]string, 0, len(operands))
+			for _, operand := range operands {
+				condition, _ := asMap(operand)
+				if condition["negated"] == true || condition["type"] != "unit-has-keyword" {
+					return joinConds(operands, " or ")
+				}
+				parameters, _ := getMap(condition, "parameters")
+				keywords = append(keywords, cstr(parameters["keyword"]))
+			}
+			return "the unit has the " + orList(keywords) + " keywords"
 		}
 	case "not":
 		if len(operands) > 0 {
