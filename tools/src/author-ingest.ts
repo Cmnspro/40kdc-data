@@ -171,6 +171,7 @@ export function ingestFaction(
     // 1. Seed stub or additively merge unit links into the existing entry.
     let entry = byId.get(id);
     if (entry) {
+      if (rec.detachment_id && entry.detachment_id == null) entry.detachment_id = rec.detachment_id;
       for (const u of rec.unit_ids ?? []) {
         if (!entry.unit_ids.includes(u)) {
           entry.unit_ids.push(u);
@@ -240,7 +241,7 @@ Out-of-repo lookup mapping \`ability_id\` → original raw ability text, written
 the source prose it was authored from.
 
 This store is its **own git repository**, separate from 40kdc-data. The
-\`author:ingest\` tool \`git init\`s it on first run; commit it to version the raw text.
+\`author:ingest\` tool runs \`jj git init\` on first use; commit it to version the raw text.
 
 **This is GW-copyrighted text — never commit it into 40kdc-data, which tracks
 mechanics only.**
@@ -250,18 +251,17 @@ mechanics only.**
 `;
 
 /**
- * The store is always its own git-tracked repo (separate from 40kdc-data, which
- * holds mechanics only). Best-effort `git init` on first run — never write a
- * `.gitignore` that would stop the repo tracking its own text. If git is absent
- * the files are still written; the user can init the repo by hand.
+ * The store is always its own git-backed jj repo, separate from 40kdc-data.
+ * Best-effort initialization on first run; an existing jj-only workspace is
+ * already a repository even though it intentionally has no `.git` directory.
  */
 function ensureStoreRepo(): void {
-  if (existsSync(resolve(RAW_TEXT_STORE, ".git"))) return;
+  if (existsSync(resolve(RAW_TEXT_STORE, ".jj")) || existsSync(resolve(RAW_TEXT_STORE, ".git"))) return;
   try {
-    execFileSync("git", ["init", "-q", RAW_TEXT_STORE], { stdio: "ignore" });
-    console.log(`Initialized raw-text store as a git repo → ${RAW_TEXT_STORE} (commit to version the raw text).`);
+    execFileSync("jj", ["git", "init", RAW_TEXT_STORE], { stdio: "ignore" });
+    console.log(`Initialized raw-text store as a jj repo → ${RAW_TEXT_STORE} (commit to version the raw text).`);
   } catch {
-    console.warn(`Could not 'git init' the raw-text store (${RAW_TEXT_STORE}). Files written; initialize it as a git repo by hand.`);
+    console.warn(`Could not initialize the raw-text store (${RAW_TEXT_STORE}). Files written; initialize it as a jj repo by hand.`);
   }
 }
 

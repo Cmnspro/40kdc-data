@@ -112,7 +112,7 @@ def _walk(node: Any, source: BuffSource, opts: dict[str, Any], out: EffectTransl
         _translate_named_region_state(node, source, opts, out)
     elif node_type == "conditional":
         _translate_conditional(node, source, opts, out)
-    elif node_type == "sequence":
+    elif node_type in ("rules-bundle", "sequence"):
         for step in node.get("steps") or []:
             _walk(step, source, opts, out)
     elif node_type == "choice":
@@ -812,9 +812,7 @@ def _translate_named_region_state(
         return
     _walk(default_branch.get("effect"), source, opts, out)
     qualified_branch_raw = consumer.get("qualified_branch")
-    qualified_branch = (
-        qualified_branch_raw if _is_object(qualified_branch_raw) else None
-    )
+    qualified_branch = qualified_branch_raw if _is_object(qualified_branch_raw) else None
     if qualified_branch is not None:
         out["unsupported"].append(
             {
@@ -1047,7 +1045,7 @@ def _collect_gated_buffs(
             node.get("effect"), source, opts, _combine_applicability(applicability, app), out_buffs
         )
         return
-    if node_type == "sequence":
+    if node_type in ("rules-bundle", "sequence"):
         for step in node.get("steps") or []:
             _collect_gated_buffs(step, source, opts, applicability, out_buffs)
         return

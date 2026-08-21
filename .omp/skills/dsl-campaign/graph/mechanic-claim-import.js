@@ -9,8 +9,11 @@ import {
 
 const WRAPPER_CHILDREN = Object.freeze({
   sequence: [{ path: ['steps'], role: 'members', ordered: true, array: true }],
+  'rules-bundle': [{ path: ['steps'], role: 'members', ordered: true, array: true }],
+  'named-effect': [{ path: ['effect'], role: 'members' }],
   choice: [{ path: ['options'], role: 'members', array: true }],
   'dice-gated': [{ path: ['on_success'], role: 'on-success' }, { path: ['on_fail'], role: 'on-failure' }],
+  'dice-table': [{ path: ['outcomes'], child: ['effect'], role: 'members', array: true }],
   conditional: [{ path: ['condition'], role: 'condition', condition: true }, { path: ['effect'], role: 'members' }],
   'dice-pool-allocation': [{ path: ['options'], child: ['effect'], role: 'members', array: true }],
   'select-units': [{ path: ['effect'], role: 'members' }],
@@ -170,12 +173,29 @@ function resourceActionMenuCandidate(node, pointer, context, out) {
 }
 
 
+function diceTableCandidate(node, pointer, context, out) {
+  const members = (node.outcomes ?? []).map((outcome, index) => {
+    const member = structuredClone(outcome)
+    member.effect = mapEffect(outcome.effect, pointerJoin(pointer, 'outcomes', index, 'effect'), context, out)
+    return member
+  })
+  members.sort((left, right) => canonicalJson(left).localeCompare(canonicalJson(right)))
+  const args = [argument('members', members)]
+  const controls = controlsForWrapper(node, WRAPPER_CHILDREN['dice-table'])
+  if (Object.keys(controls).length) args.push(argument('parameters', controls))
+  const assertion = makeAssertion(claimValue('mechanic.composition.dice-table', args), pointer, context)
+  out.assertions.push(assertion)
+  return assertion.semantic_key
+}
+
+
 function mapEffect(node, pointer, context, out) {
   if (!node || typeof node !== 'object' || typeof node.type !== 'string') {
     out.unresolved.push(ontologyGap(pointer, 'effect-node', context.origin_id))
     return null
   }
   if (node.type === 'named-region-state') return namedRegionCandidate(node, pointer, context, out)
+  if (node.type === 'dice-table') return diceTableCandidate(node, pointer, context, out)
   const leafPredicate = `mechanic.effect.${node.type}`
   if (context.registry.predicates.has(leafPredicate)) {
     const assertion = leafCandidate(node, pointer, context)

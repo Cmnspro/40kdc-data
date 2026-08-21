@@ -101,6 +101,7 @@ fn event_phrase(e: &str) -> Option<&'static str> {
         "fall-back-move" => "when the unit makes a Fall Back move",
         "falls-back" => "when the unit Falls Back",
         "charge-move" => "when the unit makes a Charge move",
+        "end-of-charge-move" => "after the unit ends a Charge move",
         "charge-declaration" => "when a Charge is declared",
         "moved-through-terrain" => "when the unit moves through terrain",
         "moved-through-tall-terrain" => "when the unit moves through terrain over 4\" tall",
@@ -176,6 +177,7 @@ fn timing_alias(t: &str) -> Option<&'static str> {
         "set-up-this-turn" => "unit-set-up",
         "after-move-through-terrain-over-4-inches" => "moved-through-tall-terrain",
         "after-moving-through-tall-terrain" => "moved-through-tall-terrain",
+        "when-selected-to-shoot" => "selected-to-shoot",
         "when-this-unit-selected-to-shoot" => "selected-to-shoot",
         _ => return None,
     })
@@ -357,14 +359,56 @@ pub fn describe_condition(c: &Condition) -> String {
 
 pub(super) fn describe_node(n: &ConditionNode) -> String {
     match n {
-        ConditionNode::CompoundCondition(c) => {
-            let parts: Vec<String> = c.operands.iter().map(describe_node).collect();
-            match c.operator {
-                CompoundConditionOperator::And => parts.join(" and "),
-                CompoundConditionOperator::Or => parts.join(" or "),
-                CompoundConditionOperator::Not => format!("not ({})", parts.join(", ")),
+        ConditionNode::CompoundCondition(c) => match c.operator {
+            CompoundConditionOperator::And => c
+                .operands
+                .iter()
+                .map(describe_node)
+                .collect::<Vec<_>>()
+                .join(" and "),
+            CompoundConditionOperator::Or => {
+                if c.operands.iter().all(|operand| {
+                    matches!(
+                        operand,
+                        ConditionNode::SimpleCondition(simple)
+                            if !simple.negated
+                                && simple.type_ == SimpleConditionType::UnitHasKeyword
+                    )
+                }) {
+                    let keywords = c
+                        .operands
+                        .iter()
+                        .filter_map(|operand| match operand {
+                            ConditionNode::SimpleCondition(simple) => {
+                                simple.parameters.get("keyword").map(effect::jval)
+                            }
+                            _ => None,
+                        })
+                        .collect::<Vec<_>>();
+                    let keyword_list = match keywords.len() {
+                        0 => String::new(),
+                        1 => keywords[0].clone(),
+                        2 => format!("{} or {}", keywords[0], keywords[1]),
+                        n => format!("{} or {}", keywords[..n - 1].join(", "), keywords[n - 1]),
+                    };
+                    format!("the unit has the {keyword_list} keywords")
+                } else {
+                    c.operands
+                        .iter()
+                        .map(describe_node)
+                        .collect::<Vec<_>>()
+                        .join(" or ")
+                }
             }
-        }
+            CompoundConditionOperator::Not => format!(
+                "not ({})",
+                c.operands
+                    .iter()
+                    .map(describe_node)
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ),
+        },
         ConditionNode::SimpleCondition(s) => describe_simple(s),
     }
 }
@@ -460,6 +504,23 @@ fn describe_simple(s: &SimpleCondition) -> String {
             format!("{negate}the {who} is below half strength")
         }
         T::UnitHasKeyword => format!("{negate}the unit has \"{}\"", pj(p, "keyword")),
+        T::UnitModelCount => format!(
+            "{negate}the unit contains {}+ {} models",
+            pj(p, "count_min"),
+            pj(p, "keyword")
+        ),
+        T::UniformRangedLoadout => {
+            let keyword = ps(p, "model_keyword")
+                .map(|value| format!("{value} "))
+                .unwrap_or_default();
+            format!("{negate}all ranged weapons equipped by each {keyword}model in the unit are the same")
+        }
+        T::AllAttacksTargetSameUnit => {
+            let attack_type = ps(p, "attack_type")
+                .map(|value| format!("{value} "))
+                .unwrap_or_default();
+            format!("{negate}all of the unit's {attack_type}attacks target the same enemy unit")
+        }
         T::TargetHasKeyword => {
             format!("{negate}the target has \"{}\"", pj(p, "keyword"))
         }
@@ -522,6 +583,22 @@ fn describe_simple(s: &SimpleCondition) -> String {
             } else {
                 format!("{negate}{subject} was hit by a {atk}attack{weapon}{bound_source}{window}")
             }
+        }
+        T::WoundsLostFromAttack => {
+            let subject = if ps(p, "subject") == Some("target") {
+                "the target"
+            } else {
+                "the unit"
+            };
+            let attack_type = ps(p, "attack_type")
+                .map(|value| format!("{value} "))
+                .unwrap_or_default();
+            let source = if ps(p, "source") == Some("triggering-attacks") {
+                " from the triggering attacks"
+            } else {
+                ""
+            };
+            format!("{negate}{subject} lost one or more wounds from {attack_type}attacks{source}")
         }
         T::OpponentUnitWithinRange => {
             let rv = ["range", "range_inches", "within_inches"]

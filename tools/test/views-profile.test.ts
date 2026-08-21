@@ -158,6 +158,31 @@ describe("Dataset.buffsFor", () => {
     expect(buffs[0].contribution).toEqual({ type: "hit-mod", value: 1 });
   });
 
+  it("applies target-keyword gates through linked buff APIs", () => {
+    const input = {
+      unitId: "warbuggies",
+      factionId: "orks",
+      weaponProfiles: [{ weaponId: "extra-dakka", profileIndex: 0 }],
+    };
+    const matches = ds.buffsFor(input, { ...baseCtx, targetKeywords: ["infantry"] });
+    expect(matches.some((buff) =>
+      buff.contribution.type === "extra-keyword"
+      && buff.contribution.keywordRef.keyword_id === "lethal-hits"
+    )).toBe(true);
+
+    const excludedContext: EngineContext = { ...baseCtx, targetKeywords: ["monster"] };
+    const excluded = ds.buffsFor(input, excludedContext);
+    expect(excluded.some((buff) =>
+      buff.contribution.type === "extra-keyword"
+      && buff.contribution.keywordRef.keyword_id === "lethal-hits"
+    )).toBe(false);
+    const stackable = ds.stackableBuffsFor(input, excludedContext).buffs.flatMap((group) => group.buffs);
+    expect(stackable.some((buff) =>
+      buff.contribution.type === "extra-keyword"
+      && buff.contribution.keywordRef.keyword_id === "lethal-hits"
+    )).toBe(false);
+  });
+
   it("skips unknown weapon ids without throwing", () => {
     const buffs = ds.buffsFor(
       { weaponProfiles: [{ weaponId: "no-such-weapon", profileIndex: 0 }] },

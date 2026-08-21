@@ -52,7 +52,7 @@
       "properties": {
         "frequency": {
           "type": "string",
-          "enum": ["once-per-turn", "once-per-phase", "once-per-command-phase", "once-per-opponent-turn", "n-per-battle", "first-this-battle", "first-time-this-phase"]
+          "enum": ["once-per-turn", "once-per-phase", "once-per-battle-round", "once-per-command-phase", "once-per-opponent-turn", "n-per-battle", "first-this-battle", "first-time-this-phase"]
         },
         "count": { "type": "integer", "minimum": 1 },
         "per": { "type": "string", "enum": ["army", "unit", "model"] }

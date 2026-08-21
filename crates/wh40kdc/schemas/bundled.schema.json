@@ -116,6 +116,7 @@
         "fall-back-move",
         "falls-back",
         "charge-move",
+        "end-of-charge-move",
         "charge-declaration",
         "moved-through-terrain",
         "moved-through-tall-terrain",
@@ -3161,7 +3162,7 @@
                     },
                     "parameters": {
                       "type": "object",
-                      "description": "Reference-site parameters conforming to the catalog entry's required_parameters. Only the three documented keys are accepted; any other key is invalid.",
+                      "description": "Reference-site parameters conforming to the catalog entry's required parameters and optional target-keyword applicability gates.",
                       "properties": {
                         "value": {
                           "$ref": "#/$defs/stat-value"
@@ -3175,6 +3176,15 @@
                           "type": "integer",
                           "minimum": 2,
                           "maximum": 6
+                        },
+                        "required_target_keywords_any": {
+                          "$ref": "#/$defs/keyword-list",
+                          "minItems": 1,
+                          "description": "The keyword applies only when the target has at least one listed keyword."
+                        },
+                        "excluded_target_keywords": {
+                          "$ref": "#/$defs/keyword-list",
+                          "description": "The keyword does not apply when the target has any listed keyword."
                         }
                       },
                       "additionalProperties": false
@@ -3185,6 +3195,29 @@
                   ],
                   "additionalProperties": false
                 }
+              },
+              "target_restrictions": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "required_keywords_any": {
+                        "$ref": "#/$defs/keyword-list",
+                        "minItems": 1,
+                        "description": "The profile can target a unit carrying at least one listed keyword."
+                      },
+                      "excluded_keywords": {
+                        "$ref": "#/$defs/keyword-list",
+                        "description": "The profile cannot target a unit carrying any listed keyword."
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Target legality for this profile. Distinct from Anti and other effects that modify attacks after a legal target is selected."
               }
             },
             "required": [
@@ -3405,6 +3438,7 @@
               "enum": [
                 "once-per-turn",
                 "once-per-phase",
+                "once-per-battle-round",
                 "once-per-command-phase",
                 "once-per-opponent-turn",
                 "n-per-battle",
@@ -3546,6 +3580,7 @@
             "has-lost-wounds",
             "wounds-remaining-at-or-below",
             "was-hit-by-attack",
+            "wounds-lost-from-attack",
             "opponent-unit-within-range",
             "within-range-of-objective",
             "attack-is-type",
@@ -3577,7 +3612,10 @@
             "faction-rule-active",
             "battle-round",
             "token-count-at-or-above",
-            "unit-was-in-engagement-range-of"
+            "unit-was-in-engagement-range-of",
+            "unit-model-count",
+            "uniform-ranged-loadout",
+            "all-attacks-target-same-unit"
           ]
         },
         "parameters": {
@@ -3637,7 +3675,16 @@
           "$ref": "#/$defs/sequence-effect"
         },
         {
+          "$ref": "#/$defs/rules-bundle-effect"
+        },
+        {
+          "$ref": "#/$defs/named-effect"
+        },
+        {
           "$ref": "#/$defs/dice-gated-effect"
+        },
+        {
+          "$ref": "#/$defs/dice-table-effect"
         },
         {
           "$ref": "#/$defs/conditional-effect"
@@ -3691,6 +3738,7 @@
             "enemy-models-in-range",
             "friendly-models-in-range",
             "models-in-bearer-unit",
+            "models-in-or-embarked-in-bearer",
             "enemy-units-in-range",
             "wounds-lost"
           ]
@@ -3807,12 +3855,15 @@
             "fight-on-death",
             "firing-deck",
             "flyover",
+            "heal-wounds",
+            "hazard-rolls",
             "invulnerable-save",
             "keyword-grant",
             "leadership-modifier",
             "model-destruction",
             "modifier-immunity",
             "mortal-wounds",
+            "detection-range-modifier",
             "named-region-state",
             "objective-control-modifier",
             "objective-tag",
@@ -3820,6 +3871,7 @@
             "re-roll",
             "recovery-pool",
             "remove-battle-shock",
+            "set-battle-shock",
             "replace-roll-from-pool",
             "resource-clear",
             "resource-gain",
@@ -3833,6 +3885,8 @@
             "stratagem-targeting-permission",
             "strategic-reserves-arrival",
             "targeting-permission",
+            "tracking-token",
+            "transport-capacity-conversion",
             "terrain-area-tag",
             "unit-attachment",
             "unit-keyword",
@@ -3848,9 +3902,11 @@
             "bearer",
             "unit",
             "attached-unit",
+            "selected-models-unit",
             "attacker",
             "defender",
             "target",
+            "targets-of-selected-unit-attacks",
             "friendly-within-aura",
             "enemy-within-aura",
             "all-friendly",
@@ -3878,7 +3934,7 @@
           "$comment": "`cp-on-destroy`: gain `amount` CP each time the bearer's unit destroys an enemy model; optional `enemy_keyword` gates on the destroyed model's keyword (e.g. CHARACTER); `per` ('model'|'unit') is the granularity of the count."
         },
         {
-          "$comment": "`battle-shock-test`: the target takes Battle-shock tests on the given `dice` expression instead of the default 2D6 (e.g. '3D6' for Tyranid Synapse)."
+          "$comment": "`battle-shock-test`: the target makes a Battle-shock roll. Optional `dice` replaces the default 2D6 expression; `roll_modifier` applies a fixed signed modifier. To scale the modifier, use `operation` + `value` here and the single effect's sibling `scaling` block."
         },
         {
           "$comment": "`modifier-immunity`: the target ignores applied modifiers. `scope: characteristics` = ignore any/all modifiers to its characteristics (champion-of-humanity / obfuscation / ceramite family); `enemy-stratagems` / `enemy-abilities` = cannot be affected by enemy Stratagems / abilities. `exclude` lists characteristic codes the immunity does not cover. Roll-modifier immunity stays on `roll-modifier` { operation: ignore-modifiers }; a 'characteristics AND rolls' rule composes the two via a sequence."
@@ -3908,7 +3964,13 @@
           "$comment": "`unit-attachment`: this unit can join another friendly unit during the Declare Battle Formations step, becoming part of that Bodyguard unit. `led_by` (optional) is the keyword the joined unit must be led by; `mandatory` (optional) marks the attachment as forced (the unit must be attached to a Leader or it counts as destroyed)."
         },
         {
+          "$comment": "Typed Transport occupancy accounting. Grouped models encode ratios with explicit rounding applied once to the total matching-model occupancy quotient, including any partial group; fixed model spaces encode per-model occupancy; equivalent model encodes capacity counting by another model keyword. Base Transport capacity and unrelated embark/Firing Deck riders remain separate mechanics."
+        },
+        {
           "$comment": "`named-region-state` carries its structured producer and consumer state in the modifier object."
+        },
+        {
+          "$comment": "A reusable rules-bundle grant is an entity-backed reference, not a free-form grant label."
         }
       ]
     },
@@ -3955,6 +4017,64 @@
       "required": [
         "type",
         "steps"
+      ]
+    },
+    "rules-bundle-effect": {
+      "type": "object",
+      "description": "A reusable named ability's complete effect bundle. Other abilities grant it through an ability-grant effect whose modifier.ability_id names the containing ability.",
+      "properties": {
+        "type": {
+          "const": "rules-bundle"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect-node"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    "named-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "A named sub-ability embedded in a larger rules bundle.",
+      "properties": {
+        "type": {
+          "const": "named-effect"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "psychic"
+          ]
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "effect": {
+          "$ref": "#/$defs/effect-node"
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the controlling player may decline to use this named sub-ability."
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "effect"
       ]
     },
     "dice-gated-effect": {
@@ -4019,6 +4139,56 @@
         "type",
         "dice",
         "threshold"
+      ]
+    },
+    "dice-table-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Resolve one dice roll against an exhaustive outcome table. Each face belongs to exactly one outcome; overlap and coverage are enforced by referential integrity because JSON Schema cannot compare sibling arrays.",
+      "properties": {
+        "type": {
+          "const": "dice-table"
+        },
+        "dice": {
+          "type": "string",
+          "enum": [
+            "D3",
+            "D6"
+          ],
+          "description": "One closed die whose faces are covered exactly once by outcomes."
+        },
+        "outcomes": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "results": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 6
+                }
+              },
+              "effect": {
+                "$ref": "#/$defs/effect-node"
+              }
+            },
+            "required": [
+              "results",
+              "effect"
+            ]
+          }
+        }
+      },
+      "required": [
+        "type",
+        "dice",
+        "outcomes"
       ]
     },
     "conditional-effect": {
@@ -4129,6 +4299,15 @@
                 "enemy"
               ]
             },
+            "target_kind": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "model"
+              ],
+              "default": "unit",
+              "description": "Whether the selector binds whole units or individual models."
+            },
             "within_inches": {
               "type": "number",
               "exclusiveMinimum": 0
@@ -4214,6 +4393,24 @@
                 "friendly",
                 "enemy"
               ]
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Every listed keyword is required on each matching unit."
+            },
+            "target_kind": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "model"
+              ],
+              "default": "unit",
+              "description": "Whether each iteration binds a whole unit or one matching model."
             },
             "within_inches": {
               "type": "number",
@@ -4454,7 +4651,7 @@
     "designate-target-effect": {
       "type": "object",
       "additionalProperties": false,
-      "$comment": "Nominate one enemy unit (the designation/mark) and apply `applies.effect` keyed to it. `applies.to` decides the beneficiary: 'target' debuffs the marked unit itself (cover-strip, suppression); 'attackers-of-target' buffs every friendly attack made against it (Oath of Moment, Tau spotting). Supersedes the ad-hoc `context: vs-selected-keyword`/`vs-marked` workaround. `select.timing` is when the mark is chosen; `duration` how long it lasts.",
+      "$comment": "Nominate one enemy or friendly unit (the designation/mark) and apply `applies.effect` keyed to it. `applies.to` decides the beneficiary: 'target' affects the marked unit itself; 'attackers-of-target' buffs every friendly attack against it; 'bearer-attacks-target' buffs only attacks made by the ability's bearer against it. Selection can constrain range and require all or any listed keywords. `select.timing` is when the mark is chosen; `duration` how long it lasts.",
       "properties": {
         "type": {
           "const": "designate-target"
@@ -4480,6 +4677,26 @@
             },
             "timing": {
               "type": "string"
+            },
+            "within_inches": {
+              "type": "number",
+              "minimum": 0
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "keyword_match": {
+              "type": "string",
+              "enum": [
+                "all",
+                "any"
+              ],
+              "default": "all"
             }
           },
           "required": [
@@ -4494,7 +4711,8 @@
               "type": "string",
               "enum": [
                 "target",
-                "attackers-of-target"
+                "attackers-of-target",
+                "bearer-attacks-target"
               ]
             },
             "effect": {
@@ -4663,6 +4881,40 @@
       "required": [
         "type",
         "options"
+      ]
+    },
+    "transport-occupancy-subject-kind": {
+      "type": "string",
+      "enum": [
+        "unit-models",
+        "single-model"
+      ]
+    },
+    "transport-eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "requires_capacity_keyword": {
+          "type": "string",
+          "minLength": 1
+        },
+        "embark_as_keyword": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "requires_capacity_keyword"
+          ]
+        },
+        {
+          "required": [
+            "embark_as_keyword"
+          ]
+        }
       ]
     },
     "resource-gain-battle-size-counts": {
@@ -5634,7 +5886,9 @@
             "battle-round",
             "battle",
             "until-next-command-phase",
+            "until-next-movement-phase",
             "until-next-battle-round",
+            "until-start-next-turn",
             "one-use",
             "permanent"
           ]

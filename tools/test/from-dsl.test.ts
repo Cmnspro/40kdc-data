@@ -361,6 +361,26 @@ describe("effectToBuffs: compound", () => {
     expect(result.applied[1].contribution).toMatchObject({ roll: "wound" });
   });
 
+  it("rules bundle walks every reusable effect step", () => {
+    const result = effectToBuffs(
+      {
+        type: "rules-bundle",
+        steps: [
+          { type: "stat-modifier", target: "unit", modifier: { stat: "A", operation: "add", value: 1 } },
+          { type: "stat-modifier", target: "unit", modifier: { stat: "S", operation: "add", value: 1 } },
+        ],
+      },
+      armyRule,
+      ctx,
+    );
+
+    expect(result.applied.map((buff) => buff.contribution)).toEqual([
+      { type: "attacks-mod", value: 1 },
+      { type: "strength-mod", value: 1 },
+    ]);
+    expect(result.unsupported).toEqual([]);
+  });
+
   it("conditional gated by phase: fires only in matching phase", () => {
     const effect = {
       type: "conditional",

@@ -20,7 +20,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -110,7 +110,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -166,7 +166,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -248,7 +248,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -276,14 +276,14 @@
           "diameter": 60
         },
         "default_weapon_ids": [
-          "kan-klaw",
-          "kan-shoota"
+          "kan-blasta",
+          "kan-klaw"
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -396,7 +396,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -449,7 +449,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -503,7 +503,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -540,7 +540,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -574,7 +574,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -609,7 +609,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -650,7 +650,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -698,7 +698,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -752,7 +752,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -785,21 +785,21 @@
           "draft": true
         },
         "default_weapon_ids": [
+          "big-shoota",
+          "big-shoota",
+          "big-shoota",
+          "big-shoota",
+          "big-shoota",
+          "deffkannon-and-supa-rokkits",
           "mega-choppa",
           "skorcha",
-          "supa-gatler",
-          "twin-big-shoota",
-          "deffkannon",
-          "supa-rokkits",
-          "big-shoota",
-          "big-shoota",
-          "big-shoota"
+          "supa-gatler"
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -834,7 +834,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -884,7 +884,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -938,7 +938,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -962,37 +962,30 @@
     "faction_id": "orks",
     "models": [
       {
-        "name": "Boss Nob",
+        "name": "Nob",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "default_weapon_ids": [
-          "big-choppa",
-          "slugga"
+          "kustom-choppa-boyz",
+          "kombi-skorcha-boyz"
         ],
-        "is_leader_model": true,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
+        "is_leader_model": true
       },
       {
         "name": "Boy",
         "min": 9,
-        "max": 19,
+        "max": 18,
         "default_weapon_ids": [
-          "slugga",
-          "choppa"
+          "choppa-boyz",
+          "shoota-boyz-unit",
+          "slugga"
         ],
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
+        "is_leader_model": false
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1046,7 +1039,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1080,7 +1073,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1121,7 +1114,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1156,7 +1149,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1223,7 +1216,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1292,7 +1285,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1348,7 +1341,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1386,7 +1379,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1457,7 +1450,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1487,14 +1480,13 @@
         },
         "default_weapon_ids": [
           "armoured-hull",
-          "twin-supa-shoota-dakkajet",
           "twin-supa-shoota-dakkajet"
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1529,7 +1521,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1566,7 +1558,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1615,7 +1607,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1671,7 +1663,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1706,7 +1698,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1779,7 +1771,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1814,7 +1806,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1863,7 +1855,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1949,7 +1941,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -1989,7 +1981,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2077,38 +2069,18 @@
     "faction_id": "orks",
     "models": [
       {
-        "name": "Boss Nob",
-        "profile_name": "Nob",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "slugga",
-          "big-choppa"
-        ],
-        "is_leader_model": true,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
-      },
-      {
         "name": "Nob",
-        "min": 4,
-        "max": 9,
+        "min": 5,
+        "max": 10,
         "default_weapon_ids": [
-          "slugga",
-          "big-choppa"
-        ],
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
+          "kustom-krumpa",
+          "kustom-shoota-nobz"
+        ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2163,7 +2135,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2186,8 +2158,8 @@
         "min": 2,
         "max": 6,
         "default_weapon_ids": [
-          "kustom-shoota",
-          "power-klaw"
+          "kustom-shoota-meganobz",
+          "power-klaw-meganobz"
         ],
         "is_leader_model": false,
         "base_size_mm": {
@@ -2198,7 +2170,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2326,15 +2298,15 @@
           "length": 92
         },
         "default_weapon_ids": [
-          "twin-big-shoota",
+          "armoured-hull",
           "twin-supa-shoota-burna-bommer",
-          "armoured-hull"
+          "skorcha-missile-rack"
         ]
       }
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2373,7 +2345,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2409,7 +2381,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "pre-launch-provisional"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2439,7 +2411,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2470,7 +2442,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2500,7 +2472,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2531,7 +2503,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2563,7 +2535,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "launch"
+      "dataslate": "codex-orks"
     },
     "tiers": [
       {
@@ -2576,5 +2548,79 @@
         ]
       }
     ]
+  },
+  {
+    "unit_id": "nazdreg",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Nazdreg",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "unit_id": "gunwagon",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Gunwagon",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "crushin-bulk-gunwagon"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "unit_id": "runtherd",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Runtherd",
+        "min": 1,
+        "max": 1,
+        "default_weapon_ids": [
+          "slugga",
+          "runtherd-tools"
+        ],
+        "is_leader_model": true
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
+  },
+  {
+    "unit_id": "warbuggies",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Warbuggy",
+        "min": 1,
+        "max": 2,
+        "default_weapon_ids": [
+          "extra-dakka",
+          "mek-speshul",
+          "spiked-ram"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    }
   }
 ]

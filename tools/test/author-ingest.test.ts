@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ingestFaction, mergeRawTextRecords, type IngestRecord, type RawTextRecord } from "../src/author-ingest.js";
+import { reconcileFaction } from "../src/author-reconcile.js";
 
 const rec = (over: Partial<IngestRecord> & { name: string }): IngestRecord => ({
   faction: "orks",
@@ -101,12 +102,166 @@ describe("ingestFaction", () => {
     expect(ds.effect.type).toBe("deep-strike"); // untouched
   });
 
+  it("fills missing detachment ownership without replacing authored mechanics", () => {
+    const existing = [
+      {
+        ability_id: "try-dat-button-dread-mob",
+        name: "Try Dat Button!",
+        ability_type: "detachment",
+        effect: { type: "roll-modifier", target: "unit", modifier: { roll: "hit", operation: "add", value: 1 } },
+        scope: { range: "unit", duration: "phase" },
+        unit_ids: [],
+        game_version: { edition: "11th", dataslate: "codex-orks" },
+      },
+    ];
+    const r = ingestFaction(
+      "orks",
+      [rec({
+        name: "Try Dat Button!",
+        ability_id: "try-dat-button-dread-mob",
+        ability_type: "detachment",
+        detachment_id: "dread-mob",
+        unit_ids: [],
+      })],
+      existing,
+      [],
+    );
+    const ability = r.abilities.find((entry) => entry.ability_id === "try-dat-button-dread-mob")!;
+    expect(ability.detachment_id).toBe("dread-mob");
+    expect(ability.effect).toEqual(existing[0].effect);
+  });
+
   it("replaces a prior author-input entry for the same id (idempotent re-run)", () => {
     const prior = [{ faction: "orks", ability_id: "waaagh-energy", name: "Waaagh! Energy", unit_ids: [], target: null, scope: null, faction_id: null, ability_type: null, resolved: false, reason: "stale" }];
     const r = ingestFaction("orks", [rec({ name: "Waaagh! Energy", unit_ids: ["weirdboy"] })], [], prior);
     const entries = r.authorInput.filter((e) => e.ability_id === "waaagh-energy");
     expect(entries).toHaveLength(1);
     expect(entries[0].resolved).toBe(true);
+  });
+});
+
+describe("reconcileFaction", () => {
+  it("snapshot-scopes detachment entities while retaining additive unit links", () => {
+    const oldVersion = { edition: "11th", dataslate: "pre-launch-provisional" };
+    const currentVersion = { edition: "11th", dataslate: "codex-orks" };
+    const core = {
+      units: [{ id: "dakkajet", game_version: currentVersion, ability_ids: ["curated"] }],
+      stratagems: [{
+        id: "strafe",
+        name: "Strafe",
+        detachment_id: "flyboyz",
+        game_version: currentVersion,
+        ability_id: "stale-link",
+      }],
+      enhancements: [{
+        id: "legacy-upgrade",
+        name: "Legacy Upgrade",
+        detachment_id: "retired-detachment",
+        game_version: currentVersion,
+        ability_id: "legacy-upgrade",
+      },
+      {
+        id: "wrong-type-upgrade",
+        name: "Wrong Type Upgrade",
+        detachment_id: "retired-detachment",
+        game_version: currentVersion,
+        ability_id: "current-unit-rule",
+      },
+      {
+        id: "wrong-detachment-upgrade",
+        name: "Legacy Upgrade",
+        detachment_id: "other-detachment",
+        game_version: currentVersion,
+        ability_id: "legacy-upgrade",
+      },
+      ],
+      detachments: [
+        {
+          id: "flyboyz",
+          game_version: currentVersion,
+          detachment_rule_id: "old-rule",
+          detachment_rule_ids: ["old-rule"],
+        },
+        {
+          id: "dread-mob",
+          game_version: currentVersion,
+        },
+      ],
+    };
+    const abilities = [
+      {
+        ability_id: "old-rule",
+        name: "Old Rule",
+        ability_type: "detachment",
+        detachment_id: "flyboyz",
+        game_version: oldVersion,
+      },
+      {
+        ability_id: "skyborne-loons-flyboyz",
+        name: "Skyborne Loons",
+        ability_type: "detachment",
+        detachment_id: "flyboyz",
+        game_version: currentVersion,
+      },
+      {
+        ability_id: "old-strafe",
+        name: "Strafe",
+        ability_type: "stratagem",
+        detachment_id: "flyboyz",
+        game_version: oldVersion,
+      },
+      {
+        ability_id: "strafe-flyboyz",
+        name: "Strafe",
+        ability_type: "stratagem",
+        detachment_id: "flyboyz",
+        game_version: currentVersion,
+      },
+      {
+        ability_id: "try-dat-button-dread-mob",
+        name: "Try Dat Button!",
+        ability_type: "detachment",
+        detachment_id: "dread-mob",
+        game_version: oldVersion,
+      },
+      {
+        ability_id: "legacy-upgrade",
+        name: "Legacy Upgrade",
+        ability_type: "enhancement",
+        detachment_id: "retired-detachment",
+        game_version: oldVersion,
+      },
+      {
+        ability_id: "old-unit-rule",
+        name: "Old Unit Rule",
+        ability_type: "unit",
+        unit_ids: ["dakkajet"],
+        game_version: oldVersion,
+      },
+      {
+        ability_id: "current-unit-rule",
+        name: "Current Unit Rule",
+        ability_type: "unit",
+        unit_ids: ["dakkajet"],
+        game_version: currentVersion,
+      },
+    ];
+
+    const report = reconcileFaction("orks", core, abilities, true);
+
+    expect(core.units[0].ability_ids).toEqual(["curated", "old-unit-rule", "current-unit-rule"]);
+    expect(core.stratagems[0].ability_id).toBe("strafe-flyboyz");
+    expect(core.detachments[0].detachment_rule_id).toBe("skyborne-loons-flyboyz");
+    expect(core.detachments[0].detachment_rule_ids).toEqual(["skyborne-loons-flyboyz"]);
+    expect(core.detachments[1].detachment_rule_id).toBe("try-dat-button-dread-mob");
+    expect(core.detachments[1].detachment_rule_ids).toEqual(["try-dat-button-dread-mob"]);
+    expect(report.enhancements.alreadyLinked).toBe(1);
+    expect(report.enhancements.orphanCore).toEqual([
+      "wrong-type-upgrade",
+      "wrong-detachment-upgrade",
+    ]);
+    expect(report.detachments.multiRule).toEqual([]);
+    expect(report.missingCoreEntities).toEqual([]);
   });
 });
 

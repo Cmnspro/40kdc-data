@@ -139,3 +139,27 @@ def test_persistent_designation_requires_retained_selection_state() -> None:
             "effectFragment": effect,
         }
     ]
+
+
+def test_rules_bundle_walks_every_effect_step() -> None:
+    result = effect_to_buffs(
+        {
+            "type": "rules-bundle",
+            "steps": [
+                {
+                    "type": "re-roll",
+                    "target": "unit",
+                    "modifier": {"roll": "hit", "subset": "ones"},
+                },
+                {
+                    "type": "re-roll",
+                    "target": "unit",
+                    "modifier": {"roll": "wound", "subset": "ones"},
+                },
+            ],
+        },
+        _source(),
+        {"phase": "shooting"},
+    )
+    assert len(result["applied"]) == 2
+    assert result["unsupported"] == []

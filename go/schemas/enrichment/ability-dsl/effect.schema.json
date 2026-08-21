@@ -18,7 +18,16 @@
           "$ref": "#/$defs/sequence-effect"
         },
         {
+          "$ref": "#/$defs/rules-bundle-effect"
+        },
+        {
+          "$ref": "#/$defs/named-effect"
+        },
+        {
           "$ref": "#/$defs/dice-gated-effect"
+        },
+        {
+          "$ref": "#/$defs/dice-table-effect"
         },
         {
           "$ref": "#/$defs/conditional-effect"
@@ -72,6 +81,7 @@
             "enemy-models-in-range",
             "friendly-models-in-range",
             "models-in-bearer-unit",
+            "models-in-or-embarked-in-bearer",
             "enemy-units-in-range",
             "wounds-lost"
           ]
@@ -188,12 +198,15 @@
             "fight-on-death",
             "firing-deck",
             "flyover",
+            "heal-wounds",
+            "hazard-rolls",
             "invulnerable-save",
             "keyword-grant",
             "leadership-modifier",
             "model-destruction",
             "modifier-immunity",
             "mortal-wounds",
+            "detection-range-modifier",
             "named-region-state",
             "objective-control-modifier",
             "objective-tag",
@@ -201,6 +214,7 @@
             "re-roll",
             "recovery-pool",
             "remove-battle-shock",
+            "set-battle-shock",
             "replace-roll-from-pool",
             "resource-clear",
             "resource-gain",
@@ -214,6 +228,8 @@
             "stratagem-targeting-permission",
             "strategic-reserves-arrival",
             "targeting-permission",
+            "tracking-token",
+            "transport-capacity-conversion",
             "terrain-area-tag",
             "unit-attachment",
             "unit-keyword",
@@ -229,9 +245,11 @@
             "bearer",
             "unit",
             "attached-unit",
+            "selected-models-unit",
             "attacker",
             "defender",
             "target",
+            "targets-of-selected-unit-attacks",
             "friendly-within-aura",
             "enemy-within-aura",
             "all-friendly",
@@ -289,7 +307,7 @@
                 "required": [
                   "roll"
                 ],
-                "anyOf": [
+                "oneOf": [
                   {
                     "required": [
                       "subset"
@@ -756,7 +774,7 @@
           }
         },
         {
-          "$comment": "`battle-shock-test`: the target takes Battle-shock tests on the given `dice` expression instead of the default 2D6 (e.g. '3D6' for Tyranid Synapse).",
+          "$comment": "`battle-shock-test`: the target makes a Battle-shock roll. Optional `dice` replaces the default 2D6 expression; `roll_modifier` applies a fixed signed modifier. To scale the modifier, use `operation` + `value` here and the single effect's sibling `scaling` block.",
           "if": {
             "properties": {
               "type": {
@@ -775,11 +793,29 @@
                   "dice": {
                     "type": "string",
                     "minLength": 1
+                  },
+                  "roll_modifier": {
+                    "type": "number"
+                  },
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "add",
+                      "subtract"
+                    ]
+                  },
+                  "value": {
+                    "type": "number"
                   }
                 },
-                "required": [
-                  "dice"
-                ]
+                "dependentRequired": {
+                  "operation": [
+                    "value"
+                  ],
+                  "value": [
+                    "operation"
+                  ]
+                }
               }
             },
             "required": [
@@ -1230,6 +1266,169 @@
           }
         },
         {
+          "$comment": "Typed Transport occupancy accounting. Grouped models encode ratios with explicit rounding applied once to the total matching-model occupancy quotient, including any partial group; fixed model spaces encode per-model occupancy; equivalent model encodes capacity counting by another model keyword. Base Transport capacity and unrelated embark/Firing Deck riders remain separate mechanics.",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "transport-capacity-conversion"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target": {
+                "enum": [
+                  "self",
+                  "unit"
+                ]
+              },
+              "modifier": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "occupancy_kind": {
+                        "const": "grouped-models"
+                      },
+                      "subject_kind": {
+                        "$ref": "#/$defs/transport-occupancy-subject-kind"
+                      },
+                      "model_keyword": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "transport_eligibility": {
+                        "$ref": "#/$defs/transport-eligibility"
+                      },
+                      "models_per_group": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "spaces_per_group": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "rounding": {
+                        "type": "string",
+                        "enum": [
+                          "up",
+                          "down"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "occupancy_kind",
+                      "subject_kind",
+                      "models_per_group",
+                      "spaces_per_group",
+                      "rounding"
+                    ],
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "subject_kind": {
+                              "const": "single-model"
+                            }
+                          },
+                          "required": [
+                            "subject_kind"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "models_per_group": {
+                              "const": 1
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "occupancy_kind": {
+                        "const": "fixed-model-spaces"
+                      },
+                      "subject_kind": {
+                        "$ref": "#/$defs/transport-occupancy-subject-kind"
+                      },
+                      "model_keyword": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "transport_eligibility": {
+                        "$ref": "#/$defs/transport-eligibility"
+                      },
+                      "spaces_per_model": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "occupancy_kind",
+                      "subject_kind",
+                      "spaces_per_model"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "occupancy_kind": {
+                        "const": "equivalent-model"
+                      },
+                      "subject_kind": {
+                        "$ref": "#/$defs/transport-occupancy-subject-kind"
+                      },
+                      "model_keyword": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "transport_eligibility": {
+                        "$ref": "#/$defs/transport-eligibility"
+                      },
+                      "equivalent_model_keyword": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "equivalent_model_count": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "occupancy_kind",
+                      "subject_kind"
+                    ],
+                    "oneOf": [
+                      {
+                        "required": [
+                          "equivalent_model_keyword"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "equivalent_model_count"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "modifier"
+            ]
+          }
+        },
+        {
           "$comment": "`named-region-state` carries its structured producer and consumer state in the modifier object.",
           "if": {
             "properties": {
@@ -1245,6 +1444,129 @@
             "properties": {
               "modifier": {
                 "$ref": "#/$defs/named-region-state"
+              }
+            },
+            "required": [
+              "modifier"
+            ]
+          }
+        },
+        {
+          "$comment": "A reusable rules-bundle grant is an entity-backed reference, not a free-form grant label.",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "ability-grant"
+              },
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "rules_bundle": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "rules_bundle"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "modifier"
+            ]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "properties": {
+                  "ability_id": {
+                    "$ref": "../../defs/common.schema.json#/$defs/entity-id"
+                  },
+                  "rules_bundle": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "ability_id",
+                  "rules_bundle"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "detection-range-modifier"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "add",
+                      "set"
+                    ]
+                  },
+                  "value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "value"
+                ]
+              }
+            },
+            "required": [
+              "modifier"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "hazard-rolls"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "modifier": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "additional_per_engaged_unit": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "engaged_keyword": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "roll_modifier_if_battle_shocked": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "additional_per_engaged_unit",
+                  "engaged_keyword"
+                ]
               }
             },
             "required": [
@@ -1297,6 +1619,64 @@
       "required": [
         "type",
         "steps"
+      ]
+    },
+    "rules-bundle-effect": {
+      "type": "object",
+      "description": "A reusable named ability's complete effect bundle. Other abilities grant it through an ability-grant effect whose modifier.ability_id names the containing ability.",
+      "properties": {
+        "type": {
+          "const": "rules-bundle"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect-node"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    "named-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "A named sub-ability embedded in a larger rules bundle.",
+      "properties": {
+        "type": {
+          "const": "named-effect"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "psychic"
+          ]
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "effect": {
+          "$ref": "#/$defs/effect-node"
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the controlling player may decline to use this named sub-ability."
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "effect"
       ]
     },
     "dice-gated-effect": {
@@ -1361,6 +1741,56 @@
         "type",
         "dice",
         "threshold"
+      ]
+    },
+    "dice-table-effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "$comment": "Resolve one dice roll against an exhaustive outcome table. Each face belongs to exactly one outcome; overlap and coverage are enforced by referential integrity because JSON Schema cannot compare sibling arrays.",
+      "properties": {
+        "type": {
+          "const": "dice-table"
+        },
+        "dice": {
+          "type": "string",
+          "enum": [
+            "D3",
+            "D6"
+          ],
+          "description": "One closed die whose faces are covered exactly once by outcomes."
+        },
+        "outcomes": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "results": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 6
+                }
+              },
+              "effect": {
+                "$ref": "#/$defs/effect-node"
+              }
+            },
+            "required": [
+              "results",
+              "effect"
+            ]
+          }
+        }
+      },
+      "required": [
+        "type",
+        "dice",
+        "outcomes"
       ]
     },
     "conditional-effect": {
@@ -1471,6 +1901,15 @@
                 "enemy"
               ]
             },
+            "target_kind": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "model"
+              ],
+              "default": "unit",
+              "description": "Whether the selector binds whole units or individual models."
+            },
             "within_inches": {
               "type": "number",
               "exclusiveMinimum": 0
@@ -1556,6 +1995,24 @@
                 "friendly",
                 "enemy"
               ]
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Every listed keyword is required on each matching unit."
+            },
+            "target_kind": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "model"
+              ],
+              "default": "unit",
+              "description": "Whether each iteration binds a whole unit or one matching model."
             },
             "within_inches": {
               "type": "number",
@@ -1796,7 +2253,7 @@
     "designate-target-effect": {
       "type": "object",
       "additionalProperties": false,
-      "$comment": "Nominate one enemy unit (the designation/mark) and apply `applies.effect` keyed to it. `applies.to` decides the beneficiary: 'target' debuffs the marked unit itself (cover-strip, suppression); 'attackers-of-target' buffs every friendly attack made against it (Oath of Moment, Tau spotting). Supersedes the ad-hoc `context: vs-selected-keyword`/`vs-marked` workaround. `select.timing` is when the mark is chosen; `duration` how long it lasts.",
+      "$comment": "Nominate one enemy or friendly unit (the designation/mark) and apply `applies.effect` keyed to it. `applies.to` decides the beneficiary: 'target' affects the marked unit itself; 'attackers-of-target' buffs every friendly attack against it; 'bearer-attacks-target' buffs only attacks made by the ability's bearer against it. Selection can constrain range and require all or any listed keywords. `select.timing` is when the mark is chosen; `duration` how long it lasts.",
       "properties": {
         "type": {
           "const": "designate-target"
@@ -1822,6 +2279,26 @@
             },
             "timing": {
               "type": "string"
+            },
+            "within_inches": {
+              "type": "number",
+              "minimum": 0
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "keyword_match": {
+              "type": "string",
+              "enum": [
+                "all",
+                "any"
+              ],
+              "default": "all"
             }
           },
           "required": [
@@ -1836,7 +2313,8 @@
               "type": "string",
               "enum": [
                 "target",
-                "attackers-of-target"
+                "attackers-of-target",
+                "bearer-attacks-target"
               ]
             },
             "effect": {
@@ -2005,6 +2483,40 @@
       "required": [
         "type",
         "options"
+      ]
+    },
+    "transport-occupancy-subject-kind": {
+      "type": "string",
+      "enum": [
+        "unit-models",
+        "single-model"
+      ]
+    },
+    "transport-eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "requires_capacity_keyword": {
+          "type": "string",
+          "minLength": 1
+        },
+        "embark_as_keyword": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "requires_capacity_keyword"
+          ]
+        },
+        {
+          "required": [
+            "embark_as_keyword"
+          ]
+        }
       ]
     },
     "resource-gain-battle-size-counts": {

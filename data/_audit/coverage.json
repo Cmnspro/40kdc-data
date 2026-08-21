@@ -36,9 +36,9 @@
     {
       "faction": "adeptus-custodes",
       "total": 90,
-      "offensive": 21,
-      "defensive": 12,
-      "inert": 61,
+      "offensive": 22,
+      "defensive": 13,
+      "inert": 60,
       "stub": 3,
       "stubStructural": 0,
       "gwTextLeak": 0,
@@ -84,7 +84,7 @@
       "defensive": 16,
       "inert": 147,
       "stub": 3,
-      "stubStructural": 2,
+      "stubStructural": 1,
       "gwTextLeak": 0,
       "defensiveSkipped": 5
     },
@@ -92,7 +92,7 @@
       "faction": "chaos-daemons",
       "total": 157,
       "offensive": 39,
-      "defensive": 14,
+      "defensive": 15,
       "inert": 110,
       "stub": 7,
       "stubStructural": 0,
@@ -106,7 +106,7 @@
       "defensive": 9,
       "inert": 79,
       "stub": 2,
-      "stubStructural": 2,
+      "stubStructural": 0,
       "gwTextLeak": 0,
       "defensiveSkipped": 0
     },
@@ -150,7 +150,7 @@
       "defensive": 3,
       "inert": 62,
       "stub": 8,
-      "stubStructural": 3,
+      "stubStructural": 2,
       "gwTextLeak": 0,
       "defensiveSkipped": 1
     },
@@ -161,7 +161,7 @@
       "defensive": 7,
       "inert": 63,
       "stub": 1,
-      "stubStructural": 2,
+      "stubStructural": 1,
       "gwTextLeak": 0,
       "defensiveSkipped": 1
     },
@@ -201,9 +201,9 @@
     {
       "faction": "necrons",
       "total": 158,
-      "offensive": 30,
+      "offensive": 31,
       "defensive": 23,
-      "inert": 113,
+      "inert": 112,
       "stub": 2,
       "stubStructural": 1,
       "gwTextLeak": 0,
@@ -211,14 +211,14 @@
     },
     {
       "faction": "orks",
-      "total": 159,
-      "offensive": 34,
-      "defensive": 14,
-      "inert": 116,
-      "stub": 5,
-      "stubStructural": 2,
+      "total": 307,
+      "offensive": 59,
+      "defensive": 13,
+      "inert": 239,
+      "stub": 3,
+      "stubStructural": 0,
       "gwTextLeak": 0,
-      "defensiveSkipped": 3
+      "defensiveSkipped": 2
     },
     {
       "faction": "tau-empire",
@@ -266,35 +266,35 @@
     }
   ],
   "totals": {
-    "total": 3124,
-    "offensive": 766,
-    "defensive": 263,
-    "inert": 2180,
-    "stub": 117,
-    "stubStructural": 38,
+    "total": 3272,
+    "offensive": 793,
+    "defensive": 264,
+    "inert": 2301,
+    "stub": 115,
+    "stubStructural": 31,
     "gwTextLeak": 0,
-    "defensiveSkipped": 57
+    "defensiveSkipped": 56
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 455
+      "count": 467
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 159
+      "count": 161
     },
     {
       "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
-      "count": 128
+      "count": 124
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 105
+      "count": 117
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
-      "count": 84
+      "count": 85
     },
     {
       "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
@@ -302,7 +302,7 @@
     },
     {
       "reason": "effect type \"resurrection\" is not modelled by the buff layer",
-      "count": 57
+      "count": 56
     },
     {
       "reason": "effect type \"cp-refund\" is not modelled by the buff layer",
@@ -314,11 +314,11 @@
     },
     {
       "reason": "re-roll on \"charge\" (subset …) is outside the damage path",
-      "count": 38
+      "count": 37
     },
     {
       "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
-      "count": 33
+      "count": 35
     },
     {
       "reason": "effect type \"unit-keyword\" is not modelled by the buff layer",
@@ -326,31 +326,31 @@
     },
     {
       "reason": "effect type \"cp-gain\" is not modelled by the buff layer",
-      "count": 33
+      "count": 32
     },
     {
       "reason": "effect type \"rule-state\" is not modelled by the buff layer",
       "count": 32
     },
     {
-      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
+      "reason": "stat-modifier: operation \"set\" not supported",
       "count": 31
     },
     {
-      "reason": "stat-modifier: operation \"set\" not supported",
-      "count": 30
+      "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
+      "count": 31
     },
     {
       "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
       "count": 30
     },
     {
-      "reason": "effect type \"fight-on-death\" is not modelled by the buff layer",
+      "reason": "stat-modifier on \"M\" is outside the damage path",
       "count": 23
     },
     {
-      "reason": "stat-modifier on \"M\" is outside the damage path",
-      "count": 23
+      "reason": "effect type \"fight-on-death\" is not modelled by the buff layer",
+      "count": 22
     },
     {
       "reason": "effect type \"fight-first\" is not modelled by the buff layer",
@@ -369,11 +369,19 @@
       "count": 19
     },
     {
+      "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
+      "count": 17
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context",
       "count": 15
     },
     {
       "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
+      "count": 15
+    },
+    {
+      "reason": "roll-modifier on \"charge\" is outside the damage path",
       "count": 14
     },
     {
@@ -381,19 +389,23 @@
       "count": 14
     },
     {
-      "reason": "roll-modifier on \"charge\" is outside the damage path",
-      "count": 13
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
-      "count": 13
-    },
-    {
       "reason": "stat-modifier on \"D\" is outside the damage path",
-      "count": 12
+      "count": 11
     },
     {
       "reason": "stat-modifier T: defender-side stat; applies when the buffed unit is the target",
+      "count": 11
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"advanced-this-turn\" against current context",
+      "count": 10
+    },
+    {
+      "reason": "effect type \"engagement-passthrough\" is not modelled by the buff layer",
+      "count": 10
+    },
+    {
+      "reason": "dice-gated effect: stochastic; not expressible as a buff",
       "count": 10
     },
     {
@@ -405,27 +417,15 @@
       "count": 9
     },
     {
-      "reason": "effect type \"engagement-passthrough\" is not modelled by the buff layer",
-      "count": 9
-    },
-    {
-      "reason": "dice-gated effect: stochastic; not expressible as a buff",
-      "count": 9
-    },
-    {
       "reason": "effect type \"resource-spend\" is not modelled by the buff layer",
       "count": 9
     },
     {
-      "reason": "conditional: cannot evaluate condition \"advanced-this-turn\" against current context",
+      "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
       "count": 8
     },
     {
-      "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
-      "count": 7
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"is-battle-shocked\" against current context",
+      "reason": "re-roll on \"advance\" (subset …) is outside the damage path",
       "count": 7
     },
     {
@@ -433,11 +433,15 @@
       "count": 6
     },
     {
-      "reason": "effect type \"aura\" is not modelled by the buff layer",
+      "reason": "conditional: cannot evaluate condition \"attack-stat-compare\" against current context",
       "count": 6
     },
     {
-      "reason": "re-roll on \"advance\" (subset …) is outside the damage path",
+      "reason": "stat-modifier on \"W\" is outside the damage path",
+      "count": 6
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"is-battle-shocked\" against current context",
       "count": 6
     },
     {
@@ -445,15 +449,11 @@
       "count": 5
     },
     {
-      "reason": "roll-modifier: operation \"crit-on\" not supported",
-      "count": 5
-    },
-    {
-      "reason": "stat-modifier on \"W\" is outside the damage path",
-      "count": 5
-    },
-    {
       "reason": "effect type \"charge-roll-modifier\" is not modelled by the buff layer",
+      "count": 5
+    },
+    {
+      "reason": "stat-modifier on \"Ld\" is outside the damage path",
       "count": 5
     },
     {
@@ -461,15 +461,19 @@
       "count": 5
     },
     {
-      "reason": "conditional: cannot evaluate condition \"faction-rule-active\" against current context",
-      "count": 5
-    },
-    {
       "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
       "count": 5
     },
     {
+      "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
+      "count": 4
+    },
+    {
       "reason": "conditional: cannot evaluate condition \"units-destroyed\" against current context",
+      "count": 4
+    },
+    {
+      "reason": "roll-modifier: operation \"crit-on\" not supported",
       "count": 4
     },
     {
@@ -477,31 +481,19 @@
       "count": 4
     },
     {
-      "reason": "conditional: cannot evaluate condition \"attack-stat-compare\" against current context",
-      "count": 4
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context",
-      "count": 4
-    },
-    {
-      "reason": "stat-modifier on \"Ld\" is outside the damage path",
-      "count": 4
-    },
-    {
       "reason": "effect type \"terrain-area-tag\" is not modelled by the buff layer",
       "count": 4
     },
     {
-      "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
-      "count": 3
+      "reason": "conditional: cannot evaluate condition \"within-range-of-objective\" against current context",
+      "count": 4
+    },
+    {
+      "reason": "stat-modifier: narrows by \"weapon_name\" which the cruncher can't resolve here",
+      "count": 4
     },
     {
       "reason": "effect type \"shoot-on-death\" is not modelled by the buff layer",
-      "count": 3
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"attack-is-type\" against current context",
       "count": 3
     },
     {
@@ -525,11 +517,11 @@
       "count": 3
     },
     {
-      "reason": "conditional: cannot evaluate condition \"within-range-of-objective\" against current context",
+      "reason": "roll-modifier: operation \"undefined\" not supported",
       "count": 3
     },
     {
-      "reason": "roll-modifier: operation \"undefined\" not supported",
+      "reason": "effect type \"dice-table\" is not modelled by the buff layer",
       "count": 3
     },
     {
@@ -542,6 +534,10 @@
     },
     {
       "reason": "re-roll on \"attacks-characteristic\" (subset …) is outside the damage path",
+      "count": 2
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context",
       "count": 2
     },
     {
@@ -585,7 +581,19 @@
       "count": 2
     },
     {
-      "reason": "stat-modifier: narrows by \"weapon_name\" which the cruncher can't resolve here",
+      "reason": "aura without nested effect: not a combat buff",
+      "count": 2
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"engagement-state\" against current context",
+      "count": 2
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"faction-rule-active\" against current context",
+      "count": 2
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"disposition-matches\" against current context",
       "count": 2
     },
     {
@@ -598,6 +606,10 @@
     },
     {
       "reason": "roll-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
+      "count": 1
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"attack-is-type\" against current context",
       "count": 1
     },
     {
@@ -645,15 +657,35 @@
       "count": 1
     },
     {
-      "reason": "conditional: cannot evaluate condition \"engagement-state\" against current context",
-      "count": 1
-    },
-    {
       "reason": "effect type \"stratagem-targeting-permission\" is not modelled by the buff layer",
       "count": 1
     },
     {
       "reason": "roll-modifier on \"reanimation-protocols\" is outside the damage path",
+      "count": 1
+    },
+    {
+      "reason": "roll-modifier: narrows by \"weapon_name\" which the cruncher can't resolve here",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"transport-capacity-conversion\" is not modelled by the buff layer",
+      "count": 1
+    },
+    {
+      "reason": "re-roll: narrows by \"weapon_name\" which the cruncher can't resolve here",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"model-destruction\" is not modelled by the buff layer",
+      "count": 1
+    },
+    {
+      "reason": "roll-modifier on \"advance\" is outside the damage path",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"for-each-unit\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -6236,9 +6268,9 @@
       "name": "Revered Companions",
       "shape": "sequence",
       "stub": false,
-      "offensive": false,
-      "defensive": false,
-      "gap": "effect type \"aura\" is not modelled by the buff layer"
+      "offensive": true,
+      "defensive": true,
+      "gap": null
     },
     {
       "faction": "adeptus-mechanicus",
@@ -9598,7 +9630,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"attack-is-type\" against current context"
+      "gap": "effect type \"rule-state\" is not modelled by the buff layer"
     },
     {
       "faction": "agents-of-the-imperium",
@@ -10228,7 +10260,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"aura\" is not modelled by the buff layer"
+      "gap": "stat-modifier on \"Ld\" is outside the damage path"
     },
     {
       "faction": "agents-of-the-imperium",
@@ -11725,7 +11757,7 @@
       "ability_id": "aerial-deployment",
       "name": "Aerial Deployment",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": null
@@ -13234,10 +13266,10 @@
       "faction": "chaos-daemons",
       "ability_id": "daemon-lord-of-khorne-aura",
       "name": "Daemon Lord of Khorne (Aura)",
-      "shape": "conditional",
+      "shape": "aura",
       "stub": false,
       "offensive": true,
-      "defensive": false,
+      "defensive": true,
       "gap": null
     },
     {
@@ -14274,7 +14306,7 @@
       "faction": "chaos-knights",
       "ability_id": "taskmaster-aura",
       "name": "Taskmaster (Aura)",
-      "shape": "conditional",
+      "shape": "aura",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -14745,7 +14777,7 @@
       "ability_id": "flush-the-quarry-helhunt-lance",
       "name": "Flush the Quarry",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
@@ -15165,7 +15197,7 @@
       "ability_id": "imperious-advance-traitoris-lance",
       "name": "Imperious Advance",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
@@ -17628,7 +17660,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"aura\" is not modelled by the buff layer"
+      "gap": "aura without nested effect: not a combat buff"
     },
     {
       "faction": "death-guard",
@@ -20084,7 +20116,7 @@
       "faction": "emperors-children",
       "ability_id": "excessive-vigour-aura",
       "name": "Excessive Vigour (Aura)",
-      "shape": "conditional",
+      "shape": "aura",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -20385,7 +20417,7 @@
       "ability_id": "daemonic-patrons",
       "name": "Daemonic Patrons",
       "shape": "sequence",
-      "stub": true,
+      "stub": false,
       "offensive": true,
       "defensive": false,
       "gap": null
@@ -21275,7 +21307,7 @@
       "ability_id": "underground-egress",
       "name": "Underground Egress",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": null
@@ -24474,11 +24506,11 @@
       "faction": "necrons",
       "ability_id": "mechanical-augmentation-aura",
       "name": "Mechanical Augmentation (Aura)",
-      "shape": "stat-modifier",
+      "shape": "aura",
       "stub": false,
       "offensive": true,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
     },
     {
       "faction": "necrons",
@@ -24686,7 +24718,7 @@
       "name": "Triarch Abilities",
       "shape": "stance-select",
       "stub": false,
-      "offensive": false,
+      "offensive": true,
       "defensive": false,
       "gap": null
     },
@@ -25228,7 +25260,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"aura\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "necrons",
@@ -25293,22 +25325,22 @@
     {
       "faction": "orks",
       "ability_id": "waaagh-energy",
-      "name": "Waaagh! Energy",
-      "shape": "conditional",
+      "name": "Waaagh! Energy (Psyker level 1)",
+      "shape": "ability-grant",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": "stat-modifier on \"D\" is outside the damage path"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
       "ability_id": "da-jump-psychic",
-      "name": "Da Jump (Psychic)",
-      "shape": "mortal-wounds",
+      "name": "Da Jump (Psychic level 1)",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"mortal-wounds\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25353,12 +25385,12 @@
     {
       "faction": "orks",
       "ability_id": "deff-from-above",
-      "name": "Deff from Above",
-      "shape": "mortal-wounds",
+      "name": "Deff From Above",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"mortal-wounds\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "orks",
@@ -25424,7 +25456,7 @@
       "faction": "orks",
       "ability_id": "more-dakka",
       "name": "More Dakka",
-      "shape": "conditional",
+      "shape": "sequence",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -25434,11 +25466,11 @@
       "faction": "orks",
       "ability_id": "shokk-boosta",
       "name": "Shokk-boosta",
-      "shape": "sequence",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25504,11 +25536,11 @@
       "faction": "orks",
       "ability_id": "blastajet-force-field",
       "name": "Blastajet Force Field",
-      "shape": "invulnerable-save",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
-      "defensive": true,
-      "gap": null
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -25598,7 +25630,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25616,9 +25648,9 @@
       "name": "Big an’ Shooty",
       "shape": "conditional",
       "stub": false,
-      "offensive": false,
+      "offensive": true,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"faction-rule-active\" against current context"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25626,7 +25658,7 @@
       "name": "Prophet of Da Great Waaagh!",
       "shape": "conditional",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
       "gap": null
     },
@@ -25644,31 +25676,31 @@
       "faction": "orks",
       "ability_id": "supreme-commander",
       "name": "Supreme Commander",
-      "shape": "attack-restriction",
+      "shape": "ability-grant",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
       "ability_id": "trophy-hunters",
       "name": "Trophy Hunters",
-      "shape": "re-roll",
+      "shape": "roll-modifier",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "re-roll on \"charge\" (subset …) is outside the damage path"
+      "gap": "roll-modifier on \"charge\" is outside the damage path"
     },
     {
       "faction": "orks",
       "ability_id": "bomb-squigs",
       "name": "Bomb Squigs",
-      "shape": "mortal-wounds",
+      "shape": "sequence",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"mortal-wounds\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25693,12 +25725,12 @@
     {
       "faction": "orks",
       "ability_id": "waaagh-effigy-aura",
-      "name": "Waaagh! Effigy (Aura)",
-      "shape": "conditional",
+      "name": "Waaagh! Effigy",
+      "shape": "ability-grant",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -25724,11 +25756,11 @@
       "faction": "orks",
       "ability_id": "pulsa-rokkit",
       "name": "Pulsa Rokkit",
-      "shape": "conditional",
+      "shape": "designate-target",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
     },
     {
       "faction": "orks",
@@ -25814,11 +25846,11 @@
       "faction": "orks",
       "ability_id": "big-an-stompy",
       "name": "Big an’ Stompy",
-      "shape": "conditional",
+      "shape": "re-roll",
       "stub": false,
-      "offensive": false,
+      "offensive": true,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"faction-rule-active\" against current context"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25864,11 +25896,11 @@
       "faction": "orks",
       "ability_id": "boom-bomb",
       "name": "Boom Bomb",
-      "shape": "mortal-wounds",
+      "shape": "select-units",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"mortal-wounds\" is not modelled by the buff layer"
+      "gap": "effect type \"dice-table\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -25938,7 +25970,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "roll-modifier: operation \"crit-on\" not supported"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -25948,13 +25980,13 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"resurrection\" is not modelled by the buff layer"
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
     },
     {
       "faction": "orks",
       "ability_id": "kustom-force-field",
       "name": "Kustom Force Field",
-      "shape": "conditional",
+      "shape": "invulnerable-save",
       "stub": false,
       "offensive": false,
       "defensive": true,
@@ -26058,12 +26090,12 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"fight-on-death\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
       "ability_id": "da-bigger-dey-iz",
-      "name": "Da Bigger Dey Iz…",
+      "name": "Da Bigger Dey Iz...",
       "shape": "conditional",
       "stub": false,
       "offensive": false,
@@ -26074,11 +26106,11 @@
       "faction": "orks",
       "ability_id": "super-runts",
       "name": "Super Runts",
-      "shape": "conditional",
+      "shape": "sequence",
       "stub": false,
-      "offensive": true,
+      "offensive": false,
       "defensive": false,
-      "gap": null
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "orks",
@@ -26104,11 +26136,11 @@
       "faction": "orks",
       "ability_id": "thievin-scavengers",
       "name": "Thievin’ Scavengers",
-      "shape": "cp-gain",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"cp-gain\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26163,12 +26195,12 @@
     {
       "faction": "orks",
       "ability_id": "thundering-stampede",
-      "name": "Thundering Stampede",
+      "name": "Thundering Stampede (Aura)",
       "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "roll-modifier on \"charge\" is outside the damage path"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26184,10 +26216,10 @@
       "faction": "orks",
       "ability_id": "krumpin-time",
       "name": "Krumpin’ Time",
-      "shape": "feel-no-pain",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
-      "defensive": true,
+      "defensive": false,
       "gap": null
     },
     {
@@ -26234,11 +26266,11 @@
       "faction": "orks",
       "ability_id": "burna-bomb",
       "name": "Burna Bomb",
-      "shape": "mortal-wounds",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"mortal-wounds\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26265,7 +26297,7 @@
       "ability_id": "aerial-deployment",
       "name": "Aerial Deployment",
       "shape": "conditional",
-      "stub": true,
+      "stub": false,
       "offensive": false,
       "defensive": false,
       "gap": null
@@ -26444,21 +26476,21 @@
       "faction": "orks",
       "ability_id": "waaagh",
       "name": "Waaagh!",
-      "shape": "conditional",
+      "shape": "rules-bundle",
       "stub": false,
       "offensive": true,
-      "defensive": true,
-      "gap": null
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"advanced-this-turn\" against current context"
     },
     {
       "faction": "orks",
       "ability_id": "ramshackle-cover",
       "name": "Ramshackle Cover",
-      "shape": "rule-state",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"rule-state\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26474,11 +26506,11 @@
       "faction": "orks",
       "ability_id": "fortification",
       "name": "Fortification",
-      "shape": "sequence",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+      "gap": "conditional: cannot evaluate condition \"engagement-state\" against current context"
     },
     {
       "faction": "orks",
@@ -26588,7 +26620,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26634,11 +26666,11 @@
       "faction": "orks",
       "ability_id": "run-em-down-blitz-brigade",
       "name": "Run ’em Down",
-      "shape": "sequence",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26658,37 +26690,37 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context"
+      "gap": null
     },
     {
       "faction": "orks",
       "ability_id": "blitzkaptin-blitz-brigade",
       "name": "Blitzkaptin",
-      "shape": "select-units",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
       "ability_id": "supercharged-squig-oil-blitz-brigade",
       "name": "Supercharged Squig Oil",
-      "shape": "select-units",
+      "shape": "conditional",
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "re-roll on \"charge\" (subset …) is outside the damage path"
+      "gap": null
     },
     {
       "faction": "orks",
       "ability_id": "tuff-git-blitz-brigade",
       "name": "Tuff Git",
-      "shape": "remove-battle-shock",
-      "stub": true,
+      "shape": "conditional",
+      "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"remove-battle-shock\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "orks",
@@ -26722,7 +26754,7 @@
     },
     {
       "faction": "orks",
-      "ability_id": "try-dat-button",
+      "ability_id": "try-dat-button-dread-mob",
       "name": "Try Dat Button!",
       "shape": "conditional",
       "stub": false,
@@ -26794,11 +26826,11 @@
       "faction": "orks",
       "ability_id": "waaagh-banner",
       "name": "Waaagh! Banner",
-      "shape": "sequence",
+      "shape": "roll-modifier",
       "stub": false,
       "offensive": false,
-      "defensive": true,
-      "gap": "conditional: cannot evaluate condition \"faction-rule-active\" against current context"
+      "defensive": false,
+      "gap": "roll-modifier on \"charge\" is outside the damage path"
     },
     {
       "faction": "orks",
@@ -26859,6 +26891,1486 @@
       "offensive": false,
       "defensive": false,
       "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "aerial-manoeuvres",
+      "name": "Aerial Manoeuvres",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "ammo-runts",
+      "name": "Ammo Runts (Once per battle, per unit)",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "arrogant-invulnerability",
+      "name": "Arrogant Invulnerability",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "beast-snagga-following",
+      "name": "Beast Snagga Following",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "beastscent-psychic",
+      "name": "Beastscent",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "big-spender",
+      "name": "Big Spender",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "blitz-dem-gitz",
+      "name": "Blitz Dem Gitz",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: narrows by \"weapon_name\" which the cruncher can't resolve here"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "bomb-squig-kommandos",
+      "name": "Bomb Squig",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "bomb-squig-squighog-boyz",
+      "name": "Bomb Squig",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "dice-gated effect: stochastic; not expressible as a buff"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "bombdakka-support",
+      "name": "Bombdakka Support",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "boss-armour-runt",
+      "name": "Boss Armour Runt",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "boss-of-da-hunt",
+      "name": "Boss of da Hunt",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "brutal-impact",
+      "name": "Brutal Impact",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "bust-em",
+      "name": "Bust 'Em",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "clever-know-wots",
+      "name": "Clever Know-wots",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "cork-dat-red-bit",
+      "name": "Cork Dat Red Bit",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"resource-gain\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "crude-surgery",
+      "name": "Crude Surgery",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier on \"W\" is outside the damage path"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "dodge-dis",
+      "name": "Dodge Dis",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "downtrodden",
+      "name": "Downtrodden",
+      "shape": "transport-capacity-conversion",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"transport-capacity-conversion\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "dread-ard",
+      "name": "Dread ’Ard",
+      "shape": "damage-reduction",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "drive-by-skorchin",
+      "name": "Drive-by Skorchin’",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "even-more-dakka",
+      "name": "Even More Dakka",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "found-em",
+      "name": "Found ’Em!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "full-throttle",
+      "name": "Full Throttle",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "fully-loaded-butchery",
+      "name": "Fully Loaded Butchery",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "get-back-in-da-race",
+      "name": "Get Back in da Race!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "get-out-da-way",
+      "name": "Get Out da Way!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "go-fer-da-waz-spot",
+      "name": "Go fer da Waz Spot",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "gut-hatch",
+      "name": "Gut Hatch",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "hardy-bioniks",
+      "name": "Hardy Bioniks",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"attack-stat-compare\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "high-speed-carnage",
+      "name": "High-speed Carnage",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "idol-of-belligerence",
+      "name": "Idol of Belligerence",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "intimidating-motivation",
+      "name": "Intimidating Motivation",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "keep-huntin",
+      "name": "Keep Huntin’",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "krushin-impetus",
+      "name": "Krushin’ Impetus",
+      "shape": "select-units",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"mortal-wounds\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "kustom-dakka",
+      "name": "Kustom Dakka",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "madcap-artillery",
+      "name": "Madcap Artillery",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mobbed",
+      "name": "Mobbed",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mobile-arsenal",
+      "name": "Mobile Arsenal",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mobile-fortress",
+      "name": "Mobile Fortress",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "nazdreg-knows-best",
+      "name": "Nazdreg Knows Best",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "never-too-busy-to-fight",
+      "name": "Never Too Busy to Fight",
+      "shape": "engagement-passthrough",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"engagement-passthrough\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "nowhere-to-hide",
+      "name": "Nowhere to Hide",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "out-from-da-shadows",
+      "name": "Out From da Shadows",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "paired-krumpas",
+      "name": "Paired Krumpas",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "re-roll: narrows by \"weapon_name\" which the cruncher can't resolve here"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "pillin-out",
+      "name": "Pillin’ Out!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "pulse-jet",
+      "name": "Pulse Jet",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "push-dat-bit-back-in",
+      "name": "Push Dat Bit Back In",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "raucous-occupants",
+      "name": "Raucous Occupants",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"within-range-of-objective\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "rokkit-barrage",
+      "name": "Rokkit Barrage",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "rokkit-charge",
+      "name": "Rokkit Charge",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "runnin-wiv-da-herd",
+      "name": "Runnin’ Wiv da Herd",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "shokk-attack-engine",
+      "name": "Shokk Attack Engine",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "smashin-da-eads",
+      "name": "Smashin’ da ’Eads",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "spiteful-power-trip",
+      "name": "Spiteful Power Trip",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"attack-stat-compare\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "squig-barrage",
+      "name": "Squig Barrage",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "support-bubble",
+      "name": "Support Bubble",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "supreme-ironskin",
+      "name": "Supreme Ironskin",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "taktikal-know-wotz",
+      "name": "Taktikal Know-wotz",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "thatll-learn-ya",
+      "name": "That’ll Learn Ya",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"model-destruction\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "tide-of-muscle",
+      "name": "Tide of Muscle",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "tramplasquig-charge",
+      "name": "Tramplasquig Charge",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "turbo-engine",
+      "name": "Turbo Engine",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "warpath-psychic-kill-rig",
+      "name": "Warpath",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "warpath-psychic-weirdboy",
+      "name": "Warpath (Psychic level 1)",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "wurrboy-psychic",
+      "name": "Wurrboy Psychic",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "adrenaline-junkies-kult-of-speed",
+      "name": "Adrenaline Junkies",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "ard-as-nails-brute-bosses",
+      "name": "’Ard As Nails",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "ard-boyz-green-tide",
+      "name": "’Ard Boyz",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"set\" not supported"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "armed-to-da-teef-bully-boyz",
+      "name": "Armed To Da Teef",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "blitzboss-brute-bosses",
+      "name": "Blitzboss",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "breakin-heads-war-horde",
+      "name": "Breakin' Heads",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "brutal-but-kunnin-brute-bosses",
+      "name": "Brutal But Kunnin’",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "close-range-dakka-war-horde",
+      "name": "Close-Range Dakka",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "clownin-dakka-shoota-boyz",
+      "name": "Clownin’ Dakka",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "competitive-streak-kult-of-speed",
+      "name": "Competitive Streak",
+      "shape": "re-roll",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "re-roll on \"charge\" (subset …) is outside the damage path"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "da-boss-is-watchin-war-horde",
+      "name": "Da Boss Is Watchin’",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "da-gobshot-thunderbuss-brute-bosses",
+      "name": "Da Gobshot Thunderbuss",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "da-hunt-is-on-da-big-hunt",
+      "name": "Da Hunt Is On",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "da-krunch-wurrband",
+      "name": "Da Krunch",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "dakka-dakka-dakka-shoota-boyz",
+      "name": "Dakka! Dakka! Dakka!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "delicious-eating-squigs-kult-of-speed",
+      "name": "Delicious Eating Squigs",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "displays-of-savagery-bully-boyz",
+      "name": "Displays of Savagery",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "drive-by-bustin-wreckas",
+      "name": "Drive-by Bustin’",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "dubious-restraint-taktikal-brigade",
+      "name": "Dubious Restraint",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "eadbanger-wurrband",
+      "name": "’Eadbanger",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "enhanced-runt-maw-madcap-meks",
+      "name": "Enhanced Runt-Maw",
+      "shape": "select-units",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"leadership-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "ere-we-go-green-tide",
+      "name": "’Ere We Go",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "roll-modifier on \"advance\" is outside the damage path"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "extra-sneaky-runt-swarm",
+      "name": "Extra Sneaky",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "ferocious-show-off-green-tide",
+      "name": "Ferocious Show-Off",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "flyboss-flyboyz",
+      "name": "Flyboss",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "flyin-headbutt-flyboyz",
+      "name": "Flyin' Headbutt",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "follow-me-ladz-war-horde",
+      "name": "Follow Me Ladz",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "fungus-fuel-injection-war-horde",
+      "name": "Fungus-Fuel Injection",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "get-stuck-in-war-horde",
+      "name": "Get Stuck In",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "glory-hog-da-big-hunt",
+      "name": "Glory Hog",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "gooped-into-action-da-big-hunt",
+      "name": "Gooped Into Action",
+      "shape": "select-units",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "grab-it-wreckas",
+      "name": "Grab It",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "grot-shields-runt-swarm",
+      "name": "Grot Shields",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "gun-crazy-show-offs-wreckas",
+      "name": "Gun-Crazy Show-offs",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "headwoppas-killchoppa-war-horde",
+      "name": "Headwoppa's Killchoppa",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "hit-em-harder-war-horde",
+      "name": "Hit ’Em Harder",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "hulking-brutes-bully-boyz",
+      "name": "Hulking Brutes",
+      "shape": "choice",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "impulsive-recon-flyboyz",
+      "name": "Impulsive Recon",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "infested-war-zone-runt-swarm",
+      "name": "Infested War Zone",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "instinctive-hunters-da-big-hunt",
+      "name": "Instinctive Hunters",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "it-came-from-da-drops-da-big-hunt",
+      "name": "It Came From Da Drops",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": "stat-modifier T: defender-side stat; applies when the buffed unit is the target"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "kaptins-hat-wreckas",
+      "name": "Kaptin’s Hat",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "kill-kommando-taktikal-brigade",
+      "name": "Kill Kommando",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "kunnin-but-brutal-war-horde",
+      "name": "Kunnin’ But Brutal",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "kustom-dakka-shoota-boyz",
+      "name": "Kustom Dakka",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "long-uncontrolled-bursts-flyboyz",
+      "name": "Long, Uncontrolled Bursts",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mekwaaagh-mastermind-madcap-meks",
+      "name": "MEKWAAAGH! Mastermind",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mind-mostly-on-the-mission-taktikal-brigade",
+      "name": "Mind Mostly On the Mission",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "minefield-detail-runt-swarm",
+      "name": "Minefield Detail",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mob-handed-brutality-green-tide",
+      "name": "Mob-Handed Brutality",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mob-mentality-green-tide",
+      "name": "Mob Mentality",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "morgogs-finkin-cap-brute-bosses",
+      "name": "Morgog’s Finkin’ Cap",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "mow-em-down-war-horde",
+      "name": "Mow ’Em Down",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "never-enough-dakka-shoota-boyz",
+      "name": "Never Enough Dakka",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "orks-is-never-beaten-war-horde",
+      "name": "Orks Is Never Beaten",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "powers-of-da-waaagh-wurrband",
+      "name": "Powers Of Da Waaagh!",
+      "shape": "for-each-unit",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"for-each-unit\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "proper-killy-brute-bosses",
+      "name": "Proper Killy",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "scarper-runt-swarm",
+      "name": "Scarper!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "skyborne-loons-flyboyz",
+      "name": "Skyborne Loons",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "smoky-gubbinz-kult-of-speed",
+      "name": "Smoky Gubbinz",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "sneaky-little-gitz-runt-swarm",
+      "name": "Sneaky Little Gitz",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "speediest-freeks-kult-of-speed",
+      "name": "Speediest Freeks",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "supa-glowy-fing-shoota-boyz",
+      "name": "Supa-Glowy Fing",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "supa-snazz-dakka-upgrade-wreckas",
+      "name": "Supa-Snazz Dakka Upgrade",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "surly-as-a-squiggoth-brute-bosses",
+      "name": "Surly As A Squiggoth",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "suspiciously-well-organised-taktikal-brigade",
+      "name": "Suspiciously Well Organised",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "targetin-squigs-shoota-boyz",
+      "name": "Targetin’ Squigs",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "tellyporta-boss-bully-boyz",
+      "name": "Tellyporta Boss",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "temperamental-shokka-madcap-meks",
+      "name": "Temperamental Shokka",
+      "shape": "dice-table",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"dice-table\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "throat-slittas-upgrade-taktikal-brigade",
+      "name": "Throat-Slittas Upgrade",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "too-arrogant-to-die-bully-boyz",
+      "name": "Too Arrogant To Die",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "try-dat-button-madcap-meks",
+      "name": "Try Dat Button!",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "unbridled-carnage-green-tide",
+      "name": "Unbridled Carnage",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "unpredictable-genius-madcap-meks",
+      "name": "Unpredictable Genius",
+      "shape": "dice-table",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"dice-table\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "vindictive-artillerists-madcap-meks",
+      "name": "Vindictive Artillerists",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "warphead-wurrband",
+      "name": "Warphead",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "where-dya-fink-youre-going-da-big-hunt",
+      "name": "Where D’ya Fink You’re Going?",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "while-their-backs-are-turned-taktikal-brigade",
+      "name": "While Their Backs Are Turned",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "whirligig-evasion-flyboyz",
+      "name": "Whirligig Evasion",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "orks",
+      "ability_id": "wimp-kickaz-bully-boyz",
+      "name": "Wimp-Kickaz",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "wreckin-and-lootin-wreckas",
+      "name": "Wreckin’ and Lootin’",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "orks",
+      "ability_id": "riled-up",
+      "name": "Riled Up",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "re-roll on \"advance\" (subset …) is outside the damage path"
     },
     {
       "faction": "tau-empire",
@@ -27504,7 +29016,7 @@
       "faction": "tau-empire",
       "ability_id": "hero-of-the-empire-aura",
       "name": "Hero of the Empire (Aura)",
-      "shape": "conditional",
+      "shape": "aura",
       "stub": false,
       "offensive": true,
       "defensive": false,
@@ -28118,7 +29630,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"attack-is-type\" against current context"
+      "gap": null
     },
     {
       "faction": "tau-empire",
@@ -28258,7 +29770,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"aura\" is not modelled by the buff layer"
+      "gap": null
     },
     {
       "faction": "thousand-sons",
@@ -30948,7 +32460,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+      "gap": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context"
     },
     {
       "faction": "world-eaters",
@@ -31308,7 +32820,7 @@
       "stub": false,
       "offensive": false,
       "defensive": false,
-      "gap": "effect type \"aura\" is not modelled by the buff layer"
+      "gap": "aura without nested effect: not a combat buff"
     },
     {
       "faction": "world-eaters",

@@ -66,6 +66,7 @@ const TIMING_ALIASES: Record<string, string> = {
   "after-move-through-terrain-over-4-inches": "moved-through-tall-terrain",
   "after-moving-through-tall-terrain": "moved-through-tall-terrain",
   "when-this-unit-selected-to-shoot": "selected-to-shoot",
+  "when-selected-to-shoot": "selected-to-shoot",
 };
 
 /**
@@ -156,6 +157,7 @@ const EVENT_PHRASES: Record<string, string> = {
   "fall-back-move": "when the unit makes a Fall Back move",
   "falls-back": "when the unit Falls Back",
   "charge-move": "when the unit makes a Charge move",
+  "end-of-charge-move": "after the unit ends a Charge move",
   "charge-declaration": "when a Charge is declared",
   "moved-through-terrain": "when the unit moves through terrain",
   "moved-through-tall-terrain": "when the unit moves through terrain over 4\" tall",
@@ -280,6 +282,12 @@ export function describeCondition(c: Condition): string {
       return `${negate}the ${p.subject === "target" ? "target unit" : "unit"} is below half strength`;
     case "unit-has-keyword":
       return `${negate}the unit has "${str(p.keyword)}"`;
+    case "unit-model-count":
+      return `${negate}the unit contains ${str(p.count_min)}+ ${str(p.keyword)} models`;
+    case "uniform-ranged-loadout":
+      return `${negate}all ranged weapons equipped by each ${p.model_keyword ? `${str(p.model_keyword)} ` : ""}model in the unit are the same`;
+    case "all-attacks-target-same-unit":
+      return `${negate}all of the unit's ${p.attack_type ? `${str(p.attack_type)} ` : ""}attacks target the same enemy unit`;
     case "target-has-keyword":
       return `${negate}the target has "${str(p.keyword)}"`;
     case "model-is-leader":
@@ -319,6 +327,12 @@ export function describeCondition(c: Condition): string {
       const n = Number(p.count_min ?? 1);
       if (n > 1) return `${negate}${subject} was hit by ${n}+ ${atk}attacks${weapon}${boundSource}${window}`;
       return `${negate}${subject} was hit by ${atk === "" ? "an attack" : `a ${atk}attack`}${weapon}${boundSource}${window}`;
+    }
+    case "wounds-lost-from-attack": {
+      const subject = p.subject === "target" ? "the target" : "the unit";
+      const attackType = p.attack_type ? `${str(p.attack_type)} ` : "";
+      const source = p.source === "triggering-attacks" ? " from the triggering attacks" : "";
+      return `${negate}${subject} lost one or more wounds from ${attackType}attacks${source}`;
     }
     case "opponent-unit-within-range": {
       let where: string;

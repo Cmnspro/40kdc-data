@@ -90,3 +90,59 @@ The Bun-backed JS eval cannot import the graph runtime because it depends on Nod
 ## 2026-08-15T23:12:11Z — openai-codex/gpt-5.6-sol
 
 gh pr create in the jj workspace failed because the workspace has no .git directory. Pass --repo explicitly when opening PRs from /Users/will.mitchell/40kdc-dsl.
+
+## 2026-08-20T19:13:10Z — gpt-5.6
+
+The Codex workspace ran out of disk space during a JSON write because a 335 MB OCR orientation scratch directory remained under /tmp; the failed write had to be verified before retrying after cleanup.
+
+## 2026-08-20T22:37:07Z — gpt-5.6-sol
+
+The pack extractor resolves PDF and store arguments against the repository root even when invoked from tools; passing ../_private from the tools cwd escaped the repo and failed before extraction.
+
+## 2026-08-20T22:51:02Z — gpt-5.6-sol
+
+python/.venv is editable-installed against /private/tmp/40kdc-maps-ci-fix rather than this workspace, so focused pytest silently exercised stale source until PYTHONPATH=python/src was set.
+
+## 2026-08-20T22:57:16Z — gpt-5.6-sol
+
+npm run mfm:golden silently rewrote the committed MFM 925 golden and gaps from the local stale data_version 895 dump; the command needs a downgrade guard before writing.
+
+## 2026-08-21T00:00:39Z — openai-codex/gpt-5.6-sol
+
+author:ingest resolves manifest paths from tools/ despite AGENTS.md saying tool path args resolve from the repo root; a documented repo-relative _private/manifests path was reported missing.
+
+## 2026-08-21T00:17:58Z — openai-codex/gpt-5.6-sol
+
+AGENTS.md documents an upstream remote for 40kdc-data, but this workspace has no upstream remote;  fails and the actual canonical remote must be inferred from repository metadata.
+
+## 2026-08-21T00:37:55Z — openai-codex/gpt-5.6-sol
+
+The advertised silent-failure-hunter and pr-test-analyzer agents failed immediately with 'No model selected', so their review slices could not run.
+
+## 2026-08-21T04:19:52Z — codex
+
+author:input hard-fails when the optional ~/army-assist checkout is absent, even though the sibling raw-text store already contains the required rules; this blocks refreshing source-grounded repair inputs.
+
+## 2026-08-21T14:07:44Z — openai-codex/gpt-5.6-sol
+
+tsx -e could not resolve a local TypeScript module imported with a .js suffix, despite repository source imports using extensionless TypeScript paths; the validation one-liner failed before execution.
+
+## 2026-08-21T14:10:07Z — openai-codex/gpt-5.6-sol
+
+Codex raw-store records can carry phases: null despite phase comparison code expecting arrays; jq phase audits must normalize with // [].
+
+## 2026-08-21T14:30:08Z — openai-codex/gpt-5.6-sol
+
+The new just regen recipe attempted a global editable pip install on macOS and failed under PEP 668, blocking preflight despite all Python tooling already being installed. Regeneration should not mutate the package environment.
+
+## 2026-08-21T16:30:16Z — gpt-5.6-sol
+
+Temporary model-adapter PATH omitted the active NVM bin, so npm failed before running; prepend /tmp to the inherited PATH instead.
+
+## 2026-08-21T16:47:45Z — gpt-5.6-sol
+
+The raw-text store's verification script writes a 4.9 MiB unignored dist/bundle-abilities.json, which jj refuses to snapshot; verification requires manually deleting this transient output.
+
+## 2026-08-21T16:57:34Z — gpt-5.6-sol
+
+gh cannot infer a repository from a colocated jj workspace that lacks a .git directory; raw-store PR commands must pass the explicit -R repository.

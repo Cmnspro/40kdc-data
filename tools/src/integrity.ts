@@ -181,6 +181,38 @@ function loadAbilityIds(file: string, into: Set<string>): void {
   }
 }
 
+/** Collect violations of the closed dice-table face partition. */
+function collectDiceTableErrors(node: unknown, out: string[]): void {
+  if (Array.isArray(node)) {
+    for (const value of node) collectDiceTableErrors(value, out);
+    return;
+  }
+  if (node === null || typeof node !== "object") return;
+  const effect = node as Record<string, unknown>;
+  if (effect.type === "dice-table" && (effect.dice === "D3" || effect.dice === "D6") && Array.isArray(effect.outcomes)) {
+    const sides = effect.dice === "D3" ? 3 : 6;
+    const counts = Array.from({ length: sides + 1 }, () => 0);
+    for (const outcome of effect.outcomes) {
+      if (outcome === null || typeof outcome !== "object" || !("results" in outcome) || !Array.isArray(outcome.results)) continue;
+      for (const resultFace of outcome.results) {
+        if (typeof resultFace === "number" && Number.isInteger(resultFace) && resultFace >= 1 && resultFace <= sides) {
+          counts[resultFace]++;
+        }
+      }
+    }
+    const missing = counts.flatMap((count, face) => (face > 0 && count === 0 ? [face] : []));
+    const overlaps = counts.flatMap((count, face) => (face > 0 && count > 1 ? [face] : []));
+    if (missing.length > 0) out.push(`dice-table ${effect.dice} omits result${missing.length === 1 ? "" : "s"} ${missing.join(", ")}`);
+    if (overlaps.length > 0) out.push(`dice-table ${effect.dice} repeats result${overlaps.length === 1 ? "" : "s"} ${overlaps.join(", ")}`);
+  }
+  for (const value of Object.values(effect)) collectDiceTableErrors(value, out);
+}
+
+export function diceTableInvariantErrors(effect: unknown): string[] {
+  const errors: string[] = [];
+  collectDiceTableErrors(effect, errors);
+  return errors;
+}
 /**
  * Cross-entity referential integrity that per-file JSON Schema validation cannot
  * express:
@@ -208,6 +240,17 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
   // Shared core ability pool, available to every faction (optional).
   const coreAbilities = new Set<string>();
   loadAbilityIds(resolve(root, "enrichment/_core/abilities.json"), coreAbilities);
+  const coreAbilityById = new Map<string, AbilityLike & { id?: string; effect?: unknown }>();
+  try {
+    for (const ability of readArray<AbilityLike & { id?: string; effect?: unknown }>(
+      resolve(root, "enrichment/_core/abilities.json"),
+    )) {
+      const id = ability.ability_id ?? ability.id;
+      if (id) coreAbilityById.set(id, ability);
+    }
+  } catch {
+    // Optional shared core pool may be absent or unreadable.
+  }
 
   const unitFiles = await glob("core/*/units.json", { cwd: root, absolute: true });
   unitFiles.sort();
@@ -294,16 +337,27 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
   // fail those cross-faction references. faction-rule slugs resolve against the
   // `faction_rule_id` set declared on the factions.
   const allAbilityIds = new Set<string>(coreAbilities);
+  const abilityIdsByFaction = new Map<string, Set<string>>();
+  const abilityRecordsByFaction = new Map<string, Map<string, AbilityLike & { id?: string; effect?: unknown }>>();
   const abilityFiles = await glob("enrichment/*/abilities.json", { cwd: root, absolute: true });
   for (const f of abilityFiles) {
-    if (basename(dirname(f)).startsWith("_")) continue;
+    const faction = basename(dirname(f));
+    if (faction.startsWith("_")) continue;
     try {
+      const abilityIds = new Set<string>();
+      const abilityRecords = new Map<string, AbilityLike & { id?: string; effect?: unknown }>();
       for (const a of readArray<AbilityLike & { id?: string }>(f)) {
+        if (a.ability_id) {
+          allAbilityIds.add(a.ability_id);
+          abilityIds.add(a.ability_id);
+          abilityRecords.set(a.ability_id, a);
+        }
         if (a.id) allAbilityIds.add(a.id);
-        if (a.ability_id) allAbilityIds.add(a.ability_id);
       }
+      abilityIdsByFaction.set(faction, abilityIds);
+      abilityRecordsByFaction.set(faction, abilityRecords);
     } catch {
-      // structural problems are the AJV pass's job
+      // skip unreadable ability files
     }
   }
   const factionRuleIds = new Set<string>();
@@ -333,6 +387,22 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
     }
   };
 
+  /** Collect entity-backed ability grants, including reusable rules bundles. */
+  const collectAbilityGrantRefs = (node: unknown, out: string[]): void => {
+    if (Array.isArray(node)) {
+      for (const value of node) collectAbilityGrantRefs(value, out);
+    } else if (node !== null && typeof node === "object") {
+      const effect = node as Record<string, unknown>;
+      if (effect.type === "ability-grant" && effect.modifier !== null && typeof effect.modifier === "object") {
+        const modifier = effect.modifier as Record<string, unknown>;
+        const abilityId = modifier.ability_id;
+        if (modifier.rules_bundle === true && typeof abilityId === "string") out.push(abilityId);
+      }
+      for (const value of Object.values(effect)) collectAbilityGrantRefs(value, out);
+    }
+  };
+
+
   for (const file of abilityFiles) {
     const faction = basename(dirname(file));
     if (faction.startsWith("_")) continue;
@@ -348,12 +418,22 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
       const a = abilities[i];
       const refs: Array<{ kind: string; rule: string }> = [];
       collectRuleStateRefs(a.effect, refs);
-      // Only abilities carrying a rule-state ability/faction-rule slug have
-      // anything to resolve here; skip the rest so this check doesn't inflate the
-      // item counts the unit/wargear passes already own.
-      if (refs.length === 0) continue;
+      const abilityGrantRefs: string[] = [];
+      collectAbilityGrantRefs(a.effect, abilityGrantRefs);
+      const diceTableErrors: string[] = [];
+      collectDiceTableErrors(a.effect, diceTableErrors);
+      // Only abilities carrying an entity reference or dice-table invariant
+      // have anything to resolve here; skip the rest so this check does not
+      // inflate unrelated counts.
+      if (refs.length === 0 && abilityGrantRefs.length === 0 && diceTableErrors.length === 0) continue;
       result.totalItems++;
       const errs: Array<{ path: string; message: string }> = [];
+      for (const message of diceTableErrors) {
+        errs.push({
+          path: `/${i}/effect`,
+          message: `ability "${a.id ?? a.ability_id}": ${message}`,
+        });
+      }
       for (const { kind, rule } of refs) {
         if (kind === "ability" && !allAbilityIds.has(rule)) {
           errs.push({
@@ -364,6 +444,21 @@ export async function checkReferentialIntegrity(dataRoot?: string): Promise<Vali
           errs.push({
             path: `/${i}/effect`,
             message: `ability "${a.id ?? a.ability_id}": rule-state rule_kind:faction-rule "${rule}" is not a declared faction_rule_id`,
+          });
+        }
+      }
+      const factionAbilityRecords = abilityRecordsByFaction.get(faction);
+      for (const abilityId of abilityGrantRefs) {
+        const grantedAbility = factionAbilityRecords?.get(abilityId) ?? coreAbilityById.get(abilityId);
+        if (!grantedAbility) {
+          errs.push({
+            path: `/${i}/effect`,
+            message: `ability "${a.id ?? a.ability_id}": rules-bundle grant "${abilityId}" resolves to no ability entity in ${faction} enrichment or the shared core pool`,
+          });
+        } else if ((grantedAbility.effect as { type?: unknown } | undefined)?.type !== "rules-bundle") {
+          errs.push({
+            path: `/${i}/effect`,
+            message: `ability "${a.id ?? a.ability_id}": rules-bundle grant "${abilityId}" resolves to an ability whose effect is not rules-bundle`,
           });
         }
       }

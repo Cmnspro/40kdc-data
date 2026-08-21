@@ -227,6 +227,7 @@ function walk(
     case "conditional":
       translateConditional(currentNode, source, opts, out);
       return;
+    case "rules-bundle":
     case "sequence":
       for (const step of (currentNode.steps as unknown[]) ?? []) walk(step, source, opts, out);
       return;
@@ -1092,6 +1093,7 @@ function collectGatedBuffs(
       collectGatedBuffs(node.effect, source, opts, combineApplicability(applicability, app), outBuffs);
       return;
     }
+    case "rules-bundle":
     case "sequence":
       for (const step of (node.steps as unknown[]) ?? []) {
         collectGatedBuffs(step, source, opts, applicability, outBuffs);

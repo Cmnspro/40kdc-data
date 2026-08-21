@@ -362,3 +362,146 @@ func TestScoreSecondaryLogsClampedVP(t *testing.T) {
 		t.Errorf("secondary after remove-score = %d, want 0", got)
 	}
 }
+
+func TestEntityBackedRulesBundleExpandsBeforeBuffTranslation(t *testing.T) {
+	raw := emptyRawData()
+	raw["abilities"] = []any{
+		map[string]any{
+			"ability_id": "shared-rules",
+			"name":       "Shared Rules",
+			"faction_id": "orks",
+			"effect": map[string]any{
+				"type": "rules-bundle",
+				"steps": []any{
+					map[string]any{
+						"type":     "re-roll",
+						"target":   "unit",
+						"modifier": map[string]any{"roll": "hit", "subset": "ones"},
+					},
+					map[string]any{
+						"type":     "re-roll",
+						"target":   "unit",
+						"modifier": map[string]any{"roll": "wound", "subset": "ones"},
+					},
+				},
+			},
+		},
+		map[string]any{
+			"ability_id": "bundle-grant",
+			"name":       "Bundle Grant",
+			"faction_id": "orks",
+			"effect": map[string]any{
+				"type":   "ability-grant",
+				"target": "unit",
+				"modifier": map[string]any{
+					"ability_id":   "shared-rules",
+					"rules_bundle": true,
+				},
+			},
+		},
+		map[string]any{
+			"ability_id": "cycle-a",
+			"name":       "Cycle A",
+			"faction_id": "orks",
+			"effect": map[string]any{
+				"type": "rules-bundle",
+				"steps": []any{
+					map[string]any{
+						"type":     "ability-grant",
+						"target":   "unit",
+						"modifier": map[string]any{"ability_id": "cycle-b", "rules_bundle": true},
+					},
+				},
+			},
+		},
+		map[string]any{
+			"ability_id": "cycle-b",
+			"name":       "Cycle B",
+			"faction_id": "orks",
+			"effect": map[string]any{
+				"type": "rules-bundle",
+				"steps": []any{
+					map[string]any{
+						"type":     "ability-grant",
+						"target":   "unit",
+						"modifier": map[string]any{"ability_id": "cycle-a", "rules_bundle": true},
+					},
+				},
+			},
+		},
+	}
+	ability, ok := NewDataset(raw).Abilities.GetInFaction("bundle-grant", "orks")
+	if !ok {
+		t.Fatal("bundle-grant missing")
+	}
+
+	result := ability.describeBuffs(
+		map[string]any{"kind": "ability", "abilityId": "bundle-grant", "abilityKind": "unit"},
+		map[string]any{"phase": "shooting"},
+		"attacker",
+	)
+	if len(result.applied) != 2 || len(result.unsupported) != 0 {
+		t.Fatalf("translation = %#v", result)
+	}
+	for i, roll := range []string{"hit", "wound"} {
+		buff, _ := asMap(result.applied[i])
+		contribution, _ := getMap(buff, "contribution")
+		if getStr(contribution, "type") != "reroll" ||
+			getStr(contribution, "roll") != roll ||
+			getStr(contribution, "subset") != "ones" {
+			t.Fatalf("contribution[%d] = %#v", i, contribution)
+		}
+	}
+
+	cycle, ok := NewDataset(raw).Abilities.GetInFaction("cycle-a", "orks")
+	if !ok {
+		t.Fatal("cycle-a missing")
+	}
+	cyclicResult := cycle.describeBuffs(
+		map[string]any{"kind": "ability", "abilityId": "cycle-a", "abilityKind": "unit"},
+		map[string]any{"phase": "shooting"},
+		"attacker",
+	)
+	if len(cyclicResult.applied) != 0 || len(cyclicResult.unsupported) != 1 {
+		t.Fatalf("cyclic translation = %#v", cyclicResult)
+	}
+	unsupported, _ := asMap(cyclicResult.unsupported[0])
+	if got := getStr(unsupported, "reason"); got != `effect type "ability-grant" is not modelled by the buff layer` {
+		t.Fatalf("cyclic unsupported reason = %q", got)
+	}
+}
+
+func hasKeywordBuff(buffs []any, keywordID string) bool {
+	for _, buffValue := range buffs {
+		buff, _ := asMap(buffValue)
+		contribution, _ := getMap(buff, "contribution")
+		keywordRef, _ := getMap(contribution, "keywordRef")
+		if getStr(keywordRef, "keyword_id") == keywordID {
+			return true
+		}
+	}
+	return false
+}
+
+func TestWeaponKeywordTargetGatesApplyInLinkedBuffAPI(t *testing.T) {
+	ds := EmbeddedDataset()
+	input := map[string]any{
+		"unitId":    "warbuggies",
+		"factionId": "orks",
+		"weaponProfiles": []any{
+			map[string]any{"weaponId": "extra-dakka", "profileIndex": 0},
+		},
+	}
+	matching := ds.buffsFor(input, map[string]any{
+		"phase": "shooting", "targetKeywords": []any{"infantry"},
+	})
+	if !hasKeywordBuff(matching, "lethal-hits") {
+		t.Fatal("matching target lost conditional Lethal Hits")
+	}
+	excluded := ds.buffsFor(input, map[string]any{
+		"phase": "shooting", "targetKeywords": []any{"monster"},
+	})
+	if hasKeywordBuff(excluded, "lethal-hits") {
+		t.Fatal("excluded target retained conditional Lethal Hits")
+	}
+}

@@ -718,10 +718,16 @@ function resolveUnit(
     for (const alias of hit.raw.aliases ?? []) {
       unitModelNames.add(singularNameKey(alias));
     }
+    const composition = ds.unitCompositionOf(hit.raw);
     const compositionModelNames = new Set<string>();
-    for (const m of ds.unitCompositionOf(hit.raw)?.models ?? []) {
-      if (m.name) compositionModelNames.add(singularNameKey(m.name));
-      if (m.profile_name) compositionModelNames.add(singularNameKey(m.profile_name));
+    for (const model of composition?.models ?? []) {
+      if (model.name) compositionModelNames.add(singularNameKey(model.name));
+      if (model.profile_name) compositionModelNames.add(singularNameKey(model.profile_name));
+    }
+    for (const tier of composition?.tiers ?? []) {
+      for (const model of tier.models ?? []) {
+        if (model.name) compositionModelNames.add(singularNameKey(model.name));
+      }
     }
     const modelLineKeys = (raw: string): Set<string> => {
       const variants = [raw, ...raw.split(/\s+--?\s+/)];
@@ -761,7 +767,6 @@ function resolveUnit(
     const modelSum = modelLines.reduce((s, w) => s + w.count, 0);
     if (modelSum > 0) {
       wargearLines = parsed.wargear.filter((w) => !isModelLine(w.raw_name));
-      const composition = ds.unitCompositionOf(hit.raw);
       const rows = composition?.models ?? [];
       const parsedCountValid =
         (composition?.tiers ?? []).some((tier) => {
