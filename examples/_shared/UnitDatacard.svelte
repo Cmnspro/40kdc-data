@@ -11,7 +11,7 @@
   }: {
     unit: UnitView;
     abilityActions?: Snippet<[AbilityView, string]>;
-    /** Runtime-only source text keyed by ability id; omitted in authoring views. */
+    /** Runtime-only source text keyed by ability id. An empty map suppresses summaries for unsourced abilities. */
     abilityText?: Readonly<Record<string, string>>;
   } = $props();
 
@@ -161,7 +161,7 @@
       <h2>{group.label} Abilities</h2>
       <div class="dc-abilities">
         {#each group.abilities as ability (ability.id)}
-          {@const description = abilityText?.[ability.id] ?? describe(ability)}
+          {@const description = abilityText === undefined ? describe(ability) : abilityText[ability.id] ?? ""}
           <div class="dc-ability">
             <div class="body">
               <div class="ab-name">{ability.name}</div>
