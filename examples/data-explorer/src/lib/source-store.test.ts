@@ -94,6 +94,23 @@ describe("loadIndex", () => {
     expect(res.label).toBe("owner/repo@x");
   });
 
+  it("bypasses the cached index when force is requested", async () => {
+    let calls = 0;
+    const fetchImpl = (async () => {
+      calls += 1;
+      return {
+        ok: true,
+        status: 200,
+        statusText: "OK",
+        json: async () => sample,
+      } as Response;
+    }) as typeof fetch;
+
+    await loadIndex("owner/repo@refresh", { fetchImpl });
+    await loadIndex("owner/repo@refresh", { fetchImpl, force: true });
+    expect(calls).toBe(2);
+  });
+
   it("throws on a non-ok response", async () => {
     await expect(
       loadIndex("owner/repo@y", { fetchImpl: fakeFetch(false, null) }),
