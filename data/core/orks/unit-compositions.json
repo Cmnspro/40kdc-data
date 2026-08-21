@@ -1,40 +1,5 @@
 [
   {
-    "unit_id": "weirdboy",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Weirdboy",
-        "min": 1,
-        "max": 1,
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 40
-        },
-        "default_weapon_ids": [
-          "weirdboy-staff",
-          "eadbanger"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Weirdboy",
-            "min": 1,
-            "max": 1
-          }
-        ]
-      }
-    ]
-  },
-  {
     "unit_id": "megatrakk-scrapjet",
     "faction_id": "orks",
     "models": [
@@ -66,6 +31,361 @@
         "models": [
           {
             "name": "Megatrakk Scrapjet",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "kustom-boosta-blasta",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Kustom Boosta-blasta",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 150,
+          "length": 95
+        },
+        "default_weapon_ids": [
+          "burna-exhausts",
+          "rivet-kannon",
+          "spiked-ram",
+          "grot-blasta"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Kustom Boosta-blasta",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "lootas",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Spanner",
+        "profile_name": "Loota",
+        "min": 1,
+        "max": 2,
+        "default_weapon_ids": [
+          "big-shoota",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        }
+      },
+      {
+        "name": "Loota",
+        "min": 4,
+        "max": 8,
+        "default_weapon_ids": [
+          "deffgun",
+          "close-combat-weapon"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Loota",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Loota",
+            "min": 8,
+            "max": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "wurrboy",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Wurrboy",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "eyez-of-mork",
+          "close-combat-weapon-wurrboy"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Wurrboy",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "shokkjump-dragsta",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Shokkjump Dragsta",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 150,
+          "length": 95
+        },
+        "default_weapon_ids": [
+          "rokkits",
+          "saw-blades",
+          "kustom-shokk-rifle"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Shokkjump Dragsta",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "burna-boyz",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Spanner",
+        "profile_name": "Burna Boy",
+        "min": 1,
+        "max": 2,
+        "default_weapon_ids": [
+          "close-combat-weapon-burna-boyz",
+          "big-shoota"
+        ],
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        }
+      },
+      {
+        "name": "Burna Boy",
+        "min": 4,
+        "max": 8,
+        "default_weapon_ids": [
+          "cuttin-flames",
+          "burna"
+        ],
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Burna Boy",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      },
+      {
+        "models": [
+          {
+            "name": "Spanner",
+            "min": 2,
+            "max": 2
+          },
+          {
+            "name": "Burna Boy",
+            "min": 8,
+            "max": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "boomdakka-snazzwagon",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Boomdakka Snazzwagon",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "oval",
+          "width": 150,
+          "length": 95
+        },
+        "default_weapon_ids": [
+          "grot-blasta",
+          "big-shoota",
+          "mek-speshul",
+          "spiked-wheels-boomdakka-snazzwagon"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Boomdakka Snazzwagon",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "gargantuan-squiggoth",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Gargantuan Squiggoth",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "hull",
+          "draft": true
+        },
+        "default_weapon_ids": [
+          "huge-tusks"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Gargantuan Squiggoth",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unit_id": "weirdboy",
+    "faction_id": "orks",
+    "models": [
+      {
+        "name": "Weirdboy",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 40
+        },
+        "default_weapon_ids": [
+          "weirdboy-staff",
+          "eadbanger"
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Weirdboy",
             "min": 1,
             "max": 1
           }
@@ -190,44 +510,6 @@
     ]
   },
   {
-    "unit_id": "kustom-boosta-blasta",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Kustom Boosta-blasta",
-        "min": 1,
-        "max": 1,
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "oval",
-          "width": 150,
-          "length": 95
-        },
-        "default_weapon_ids": [
-          "burna-exhausts",
-          "rivet-kannon",
-          "spiked-ram",
-          "grot-blasta"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Kustom Boosta-blasta",
-            "min": 1,
-            "max": 1
-          }
-        ]
-      }
-    ]
-  },
-  {
     "unit_id": "painboy",
     "faction_id": "orks",
     "models": [
@@ -301,75 +583,6 @@
             "name": "Killa Kan",
             "min": 4,
             "max": 6
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unit_id": "lootas",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Spanner",
-        "profile_name": "Loota",
-        "min": 1,
-        "max": 2,
-        "default_weapon_ids": [
-          "big-shoota",
-          "close-combat-weapon"
-        ],
-        "is_leader_model": true,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
-      },
-      {
-        "name": "Loota",
-        "min": 4,
-        "max": 8,
-        "default_weapon_ids": [
-          "deffgun",
-          "close-combat-weapon"
-        ],
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Spanner",
-            "min": 1,
-            "max": 1
-          },
-          {
-            "name": "Loota",
-            "min": 4,
-            "max": 4
-          }
-        ]
-      },
-      {
-        "models": [
-          {
-            "name": "Spanner",
-            "min": 2,
-            "max": 2
-          },
-          {
-            "name": "Loota",
-            "min": 8,
-            "max": 8
           }
         ]
       }
@@ -673,26 +886,14 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "morks-roar",
-          "gorks-klaw"
-        ],
-        "is_leader_model": true,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 80
-        }
-      },
-      {
-        "name": "Makari",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "makaris-stabba"
+          "adamantine-eadbutt",
+          "gorks-klaw",
+          "morks-roar"
         ],
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
-          "diameter": 25
+          "diameter": 80
         }
       }
     ],
@@ -705,11 +906,6 @@
         "models": [
           {
             "name": "Ghazghkull Thraka",
-            "min": 1,
-            "max": 1
-          },
-          {
-            "name": "Makari",
             "min": 1,
             "max": 1
           }
@@ -1394,41 +1590,6 @@
     ]
   },
   {
-    "unit_id": "wurrboy",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Wurrboy",
-        "min": 1,
-        "max": 1,
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        },
-        "default_weapon_ids": [
-          "eyez-of-mork",
-          "close-combat-weapon-wurrboy"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Wurrboy",
-            "min": 1,
-            "max": 1
-          }
-        ]
-      }
-    ]
-  },
-  {
     "unit_id": "beastboss",
     "faction_id": "orks",
     "models": [
@@ -1579,7 +1740,7 @@
       {
         "name": "Beast Snagga Nob",
         "min": 1,
-        "max": 1,
+        "max": 2,
         "default_weapon_ids": [
           "power-snappa",
           "slugga"
@@ -1593,7 +1754,7 @@
       {
         "name": "Beast Snagga Boy",
         "min": 9,
-        "max": 19,
+        "max": 18,
         "default_weapon_ids": [
           "slugga",
           "choppa-beast-snagga-boyz"
@@ -1628,13 +1789,13 @@
         "models": [
           {
             "name": "Beast Snagga Nob",
-            "min": 1,
-            "max": 1
+            "min": 2,
+            "max": 2
           },
           {
             "name": "Beast Snagga Boy",
-            "min": 10,
-            "max": 19
+            "min": 18,
+            "max": 18
           }
         ]
       }
@@ -1705,43 +1866,6 @@
         "models": [
           {
             "name": "Mek",
-            "min": 1,
-            "max": 1
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unit_id": "shokkjump-dragsta",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Shokkjump Dragsta",
-        "min": 1,
-        "max": 1,
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "oval",
-          "width": 150,
-          "length": 95
-        },
-        "default_weapon_ids": [
-          "rokkits",
-          "saw-blades",
-          "kustom-shokk-rifle"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Shokkjump Dragsta",
             "min": 1,
             "max": 1
           }
@@ -1996,75 +2120,6 @@
     ]
   },
   {
-    "unit_id": "burna-boyz",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Spanner",
-        "profile_name": "Burna Boy",
-        "min": 1,
-        "max": 2,
-        "default_weapon_ids": [
-          "close-combat-weapon-burna-boyz",
-          "big-shoota"
-        ],
-        "is_leader_model": true,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
-      },
-      {
-        "name": "Burna Boy",
-        "min": 4,
-        "max": 8,
-        "default_weapon_ids": [
-          "cuttin-flames",
-          "burna"
-        ],
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "round",
-          "diameter": 32
-        }
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Spanner",
-            "min": 1,
-            "max": 1
-          },
-          {
-            "name": "Burna Boy",
-            "min": 4,
-            "max": 4
-          }
-        ]
-      },
-      {
-        "models": [
-          {
-            "name": "Spanner",
-            "min": 2,
-            "max": 2
-          },
-          {
-            "name": "Burna Boy",
-            "min": 8,
-            "max": 8
-          }
-        ]
-      }
-    ]
-  },
-  {
     "unit_id": "nobz",
     "faction_id": "orks",
     "models": [
@@ -2206,78 +2261,6 @@
             "name": "Meganob",
             "min": 6,
             "max": 6
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unit_id": "boomdakka-snazzwagon",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Boomdakka Snazzwagon",
-        "min": 1,
-        "max": 1,
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "oval",
-          "width": 150,
-          "length": 95
-        },
-        "default_weapon_ids": [
-          "grot-blasta",
-          "big-shoota",
-          "mek-speshul",
-          "spiked-wheels-boomdakka-snazzwagon"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Boomdakka Snazzwagon",
-            "min": 1,
-            "max": 1
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unit_id": "gargantuan-squiggoth",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Gargantuan Squiggoth",
-        "min": 1,
-        "max": 1,
-        "is_leader_model": false,
-        "base_size_mm": {
-          "shape": "hull",
-          "draft": true
-        },
-        "default_weapon_ids": [
-          "huge-tusks"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Gargantuan Squiggoth",
-            "min": 1,
-            "max": 1
           }
         ]
       }
@@ -2557,13 +2540,29 @@
         "name": "Nazdreg",
         "min": 1,
         "max": 1,
+        "default_weapon_ids": [
+          "kustom-blasta-x",
+          "kustom-blasta-x-melee",
+          "moonchewa"
+        ],
         "is_leader_model": true
       }
     ],
     "game_version": {
       "edition": "11th",
       "dataslate": "codex-orks"
-    }
+    },
+    "tiers": [
+      {
+        "models": [
+          {
+            "name": "Nazdreg",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "unit_id": "gunwagon",

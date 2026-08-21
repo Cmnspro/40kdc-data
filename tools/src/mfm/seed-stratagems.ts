@@ -62,6 +62,8 @@ export interface StratSeedReport {
   skippedNoDir: string[];
   /** No canon row (unsluggable / missing name). */
   skippedNoCanon: string[];
+  /** Dump rows excluded by an existing detachment's exact current roster. */
+  skippedOutsideRoster: string[];
   /** Coreless (no detachment) dump stratagems, held for manual review — the 12
    *  universal core stratagems are already complete in the repo, so a coreless
    *  "new-in-dump" is a spelling/scoping mismatch with an existing core entity
@@ -69,10 +71,39 @@ export interface StratSeedReport {
   skippedCoreless: string[];
 }
 
+type DetachmentRoster = Map<string, Set<string>>;
+
+function readDetachmentRosters(dir: string): DetachmentRoster {
+  const detachmentPath = path.join(CORE_DIR, dir, "detachments.json");
+  const rosters: DetachmentRoster = new Map();
+  if (!fs.existsSync(detachmentPath)) return rosters;
+
+  for (const detachment of readJsonArray<{ id: string; stratagem_ids?: string[] }>(detachmentPath)) {
+    if (detachment.stratagem_ids) {
+      rosters.set(detachment.id, new Set(detachment.stratagem_ids));
+    }
+  }
+  return rosters;
+}
+
+function rosterFor(
+  rostersByDirectory: Map<string, DetachmentRoster>,
+  dir: string,
+  detachmentId: string,
+): Set<string> | undefined {
+  let rosters = rostersByDirectory.get(dir);
+  if (!rosters) {
+    rosters = readDetachmentRosters(dir);
+    rostersByDirectory.set(dir, rosters);
+  }
+  return rosters.get(detachmentId);
+}
+
 export function seedStratagems(
   dump: MfmDump,
   opts: { includeCombatPatrol?: boolean } = {},
 ): StratSeedReport {
+  const rostersByDirectory = new Map<string, DetachmentRoster>();
   const canon = buildStratCanon(dump);
   const detById = dump.byId("detachment");
 
@@ -99,6 +130,7 @@ export function seedStratagems(
     skippedNoDir: [],
     skippedNoCanon: [],
     skippedCoreless: [],
+    skippedOutsideRoster: [],
   };
   const touched = new Set<string>();
 
@@ -139,6 +171,10 @@ export function seedStratagems(
       dirLabel = dir;
       const dn = dump.enName(detById.get(s.detachmentId));
       detachment_id = dn ? nameToId(dn) : undefined;
+      if (detachment_id && rosterFor(rostersByDirectory, dir, detachment_id)?.has(id) === false) {
+        report.skippedOutsideRoster.push(id);
+        continue;
+      }
     }
 
     const en = (s.localisations?.en ?? {}) as { whenRules?: string };
