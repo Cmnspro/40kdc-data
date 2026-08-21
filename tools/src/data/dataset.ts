@@ -485,7 +485,7 @@ export class Dataset {
    * unit. Together the two queries give the bidirectional attachment graph the
    * SPA needs to offer a partner dropdown from either end.
    */
-  bodyguardsAttachableFrom(leaderUnitId: string): UnitView[] {
+  bodyguardsAttachableFrom(leaderUnitId: string, factionId?: string): UnitView[] {
     const seen = new Set<string>();
     const out: UnitView[] = [];
     const add = (unit: UnitView | undefined) => {
@@ -495,12 +495,15 @@ export class Dataset {
     };
     for (const la of this.leaderAttachments) {
       if (la.leader_id !== leaderUnitId) continue;
-      for (const bodyguardId of la.eligible_bodyguard_ids) add(this.units.getAny(bodyguardId));
-      // Keyword eligibility: every unit whose keyword set contains all of the
-      // entry's keywords is also a valid bodyguard (e.g. Imperium Battleline
-      // Infantry for an Inquisitor).
+      const bodyguards = la.eligible_bodyguard_ids.map((id) =>
+        factionId ? this.units.getInFaction(id, factionId) : this.units.getAny(id),
+      );
+      if (factionId && bodyguards.every((unit) => unit === undefined) && !la.eligible_bodyguard_keywords?.length) continue;
+      for (const bodyguard of bodyguards) add(bodyguard);
       if (la.eligible_bodyguard_keywords?.length) {
-        for (const view of this.units.all) if (matchesBodyguardKeywords(la, view.raw)) add(view);
+        for (const view of this.units.all) {
+          if ((!factionId || view.raw.faction_id === factionId) && matchesBodyguardKeywords(la, view.raw)) add(view);
+        }
       }
     }
     return out.sort((a, b) => a.name.localeCompare(b.name));

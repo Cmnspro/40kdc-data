@@ -52,7 +52,7 @@ export type CodexPage =
 
 function factionPageData(faction: FactionView) {
   return {
-    factionRule: resolveAbility(faction.raw.faction_rule_id),
+    factionRule: resolveAbility(faction.raw.faction_rule_id, faction.id),
     units: [...faction.units].sort((left, right) => left.name.localeCompare(right.name)),
     detachments: detachmentsForFaction(faction.id),
   };

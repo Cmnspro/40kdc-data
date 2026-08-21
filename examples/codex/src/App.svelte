@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Enhancement, Stratagem } from "@alpaca-software/40kdc-data";
+  import { dataset, type Enhancement, type Stratagem } from "@alpaca-software/40kdc-data";
   import AppFooter from "../../_shared/AppFooter.svelte";
   import AppHeader from "../../_shared/AppHeader.svelte";
   import UnitDatacard from "../../_shared/UnitDatacard.svelte";
@@ -9,7 +9,7 @@
   import {
     DEFAULT_SOURCE,
     entryToText,
-    loadIndex,
+    loadFactionIndex,
     type StoreIndex,
   } from "../../data-explorer/src/lib/source-store.js";
   import { resolveCodexRoute } from "./lib/catalog.js";
@@ -35,8 +35,15 @@
   });
 
   onMount(() => {
+    const factionId = page.kind === "faction" || page.kind === "unit" || page.kind === "detachment"
+      ? page.faction.id
+      : null;
+    if (!factionId) {
+      sourceState = "unavailable";
+      return;
+    }
     let active = true;
-    void loadIndex(DEFAULT_SOURCE, { force: true })
+    void loadFactionIndex(DEFAULT_SOURCE, factionId, { force: true })
       .then(({ index }) => {
         if (!active) return;
         sourceIndex = index;
@@ -105,7 +112,7 @@
   }
 
   function sourceDescription(abilityId: string, fallback: string): string {
-    return sourceIndex ? entryToText(sourceIndex[abilityId]) : fallback;
+    return entryToText(sourceIndex?.[abilityId]) || fallback;
   }
 
   async function shareCurrentPage(): Promise<void> {
@@ -247,7 +254,7 @@
               {#if shareResult === "shared"}<p class="share-status" role="status">Shared</p>{/if}
               {#if shareResult === "copied"}<p class="share-status" role="status">Link copied</p>{/if}
               {#if shareResult === "unavailable"}<label class="manual-url"><span>Copy this link</span><input readonly value={sharedUrl} /></label>{/if}
-              <UnitDatacard unit={page.unit} abilityText={abilityText} />
+              <UnitDatacard unit={page.unit} abilityText={abilityText} attachmentBodyguards={dataset.bodyguardsAttachableFrom(page.unit.id, page.faction.id).map((unit) => ({ id: unit.id, name: unit.name }))} />
             </div>
           {:else}
             <header id="detachments" class="page-heading">
@@ -281,7 +288,7 @@
               <h2 id="enhancements-title">Enhancements</h2>
               {#if page.detachment.enhancements.length}
                 {#each page.detachment.enhancements as enhancement (enhancement.id)}
-                  {@const ability = resolveAbility(enhancement.ability_id)}
+                  {@const ability = resolveAbility(enhancement.ability_id, page.faction.id)}
                   {@const sourceText = sourceDescription(ability?.id ?? "", ability?.description ?? "")}
                   <div class="rule-card"><h3>{enhancement.name} <small>{enhancementMeta(enhancement)}</small></h3>
                     {#if keywordLine("Requires", enhancement.keyword_restrictions)}<p class="restriction">{keywordLine("Requires", enhancement.keyword_restrictions)}</p>{/if}
@@ -296,7 +303,7 @@
               <h2 id="stratagems-title">Stratagems</h2>
               {#if page.detachment.stratagems.length}
                 {#each page.detachment.stratagems as stratagem (stratagem.id)}
-                  {@const ability = resolveAbility(stratagem.ability_id)}
+                  {@const ability = resolveAbility(stratagem.ability_id, page.faction.id)}
                   {@const restrictions = stratagem.target_restrictions}
                   {@const sourceText = sourceDescription(ability?.id ?? "", ability?.description ?? "")}
                   <div class="rule-card"><h3>{stratagem.name}</h3><p class="meta">{stratagemMeta(stratagem)}</p>

@@ -8,11 +8,13 @@
     unit,
     abilityActions,
     abilityText,
+    attachmentBodyguards = [],
   }: {
     unit: UnitView;
     abilityActions?: Snippet<[AbilityView, string]>;
-    /** Runtime-only source text keyed by ability id. An empty map suppresses summaries for unsourced abilities. */
+    /** Runtime-only source text keyed by ability id. */
     abilityText?: Readonly<Record<string, string>>;
+    attachmentBodyguards?: readonly { id: string; name: string }[];
   } = $props();
 
   const profiles = $derived(unit.raw.profiles);
@@ -161,7 +163,7 @@
       <h2>{group.label} Abilities</h2>
       <div class="dc-abilities">
         {#each group.abilities as ability (ability.id)}
-          {@const description = abilityText === undefined ? describe(ability) : abilityText[ability.id] ?? ""}
+          {@const description = abilityText?.[ability.id] || describe(ability)}
           <div class="dc-ability">
             <div class="body">
               <div class="ab-name">{ability.name}</div>
@@ -175,6 +177,10 @@
       </div>
     </section>
   {/each}
+
+  {#if attachmentBodyguards.length}
+    <div class="dc-keywords"><div class="kw-line"><b>Can lead</b>{attachmentBodyguards.map((unit) => unit.name).join(", ")}</div></div>
+  {/if}
 
   <div class="dc-keywords">
     {#if unit.raw.keywords?.length}
