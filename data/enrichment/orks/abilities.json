@@ -1474,14 +1474,14 @@
     },
     "version": "2025-q3",
     "effect": {
-      "type": "ability-grant",
+      "type": "attack-restriction",
       "target": "self",
       "modifier": {
-        "grant_type": "mandatory-warlord-designation"
+        "restriction": "must-be-warlord"
       }
     },
     "scope": {
-      "range": "self",
+      "range": "unit",
       "duration": "permanent"
     },
     "unit_ids": [
