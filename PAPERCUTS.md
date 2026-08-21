@@ -134,3 +134,11 @@ Codex raw-store records can carry phases: null despite phase comparison code exp
 ## 2026-08-21T14:30:08Z — openai-codex/gpt-5.6-sol
 
 The new just regen recipe attempted a global editable pip install on macOS and failed under PEP 668, blocking preflight despite all Python tooling already being installed. Regeneration should not mutate the package environment.
+
+## 2026-08-21T16:30:16Z — gpt-5.6-sol
+
+Temporary model-adapter PATH omitted the active NVM bin, so npm failed before running; prepend /tmp to the inherited PATH instead.
+
+## 2026-08-21T16:47:45Z — gpt-5.6-sol
+
+The raw-text store's verification script writes a 4.9 MiB unignored dist/bundle-abilities.json, which jj refuses to snapshot; verification requires manually deleting this transient output.
