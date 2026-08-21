@@ -104,6 +104,10 @@
     return keywords?.length ? `${label}: ${keywords.join(", ")}` : null;
   }
 
+  function sourceDescription(abilityId: string, fallback: string): string {
+    return sourceIndex ? entryToText(sourceIndex[abilityId]) : fallback;
+  }
+
   async function shareCurrentPage(): Promise<void> {
     if (route.kind === "home" || route.kind === "not-found") return;
     sharedUrl = new URL(codexHref(route), window.location.origin).href;
@@ -203,7 +207,7 @@
             <section id="faction-rule" class="reader-section" aria-labelledby="faction-rule-title">
               <h2 id="faction-rule-title">Faction Rule</h2>
               {#if page.factionRule}
-                {@const factionRuleText = sourceIndex ? entryToText(sourceIndex[page.factionRule.id]) || page.factionRule.description : page.factionRule.description}
+                {@const factionRuleText = sourceDescription(page.factionRule.id, page.factionRule.description)}
                 <div class="rule-card"><h3>{page.factionRule.name}</h3>{#if factionRuleText}<p>{factionRuleText}</p>{/if}</div>
               {:else}
                 <p class="empty-state">No faction rule published for this faction.</p>
@@ -258,7 +262,7 @@
               <h2 id="detachment-rule-title">Detachment Rule</h2>
               {#if page.detachment.rules.length}
                 {#each page.detachment.rules as rule (rule.id)}
-                  {@const ruleText = sourceIndex ? entryToText(sourceIndex[rule.id]) || rule.description : rule.description}
+                  {@const ruleText = sourceDescription(rule.id, rule.description)}
                   <div class="rule-card"><h3>{rule.name}</h3>{#if ruleText}<p>{ruleText}</p>{/if}</div>
                 {/each}
               {:else}<p class="empty-state">No detachment rule published for this detachment.</p>{/if}
@@ -278,7 +282,7 @@
               {#if page.detachment.enhancements.length}
                 {#each page.detachment.enhancements as enhancement (enhancement.id)}
                   {@const ability = resolveAbility(enhancement.ability_id)}
-                  {@const sourceText = ability && sourceIndex ? entryToText(sourceIndex[ability.id]) || ability.description : ability?.description}
+                  {@const sourceText = sourceDescription(ability?.id ?? "", ability?.description ?? "")}
                   <div class="rule-card"><h3>{enhancement.name} <small>{enhancementMeta(enhancement)}</small></h3>
                     {#if keywordLine("Requires", enhancement.keyword_restrictions)}<p class="restriction">{keywordLine("Requires", enhancement.keyword_restrictions)}</p>{/if}
                     {#if keywordLine("Excludes", enhancement.exclusion_keywords)}<p class="restriction">{keywordLine("Excludes", enhancement.exclusion_keywords)}</p>{/if}
@@ -294,7 +298,7 @@
                 {#each page.detachment.stratagems as stratagem (stratagem.id)}
                   {@const ability = resolveAbility(stratagem.ability_id)}
                   {@const restrictions = stratagem.target_restrictions}
-                  {@const sourceText = ability && sourceIndex ? entryToText(sourceIndex[ability.id]) || ability.description : ability?.description}
+                  {@const sourceText = sourceDescription(ability?.id ?? "", ability?.description ?? "")}
                   <div class="rule-card"><h3>{stratagem.name}</h3><p class="meta">{stratagemMeta(stratagem)}</p>
                     {#if restrictions}
                       {#if keywordLine("Targets", restrictions.required_keywords)}<p class="restriction">{keywordLine("Targets", restrictions.required_keywords)}</p>{/if}
