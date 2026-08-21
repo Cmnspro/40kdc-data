@@ -7705,7 +7705,9 @@
               },
               {
                 "type": "player-turn-is",
-                "parameters": {"turn": "your"}
+                "parameters": {
+                  "turn": "your"
+                }
               },
               {
                 "type": "timing-is",
@@ -8627,7 +8629,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -8813,7 +8817,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -8941,7 +8947,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -8993,7 +9001,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -9089,7 +9099,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -9835,7 +9847,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -9912,7 +9926,9 @@
               },
               {
                 "type": "player-turn-is",
-                "parameters": {"turn": "your"}
+                "parameters": {
+                  "turn": "your"
+                }
               }
             ]
           },
@@ -10357,7 +10373,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -11545,7 +11563,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -11954,7 +11974,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "disposition-matches",
@@ -13090,7 +13112,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -16060,7 +16084,9 @@
                   },
                   {
                     "type": "player-turn-is",
-                    "parameters": {"turn": "your"}
+                    "parameters": {
+                      "turn": "your"
+                    }
                   }
                 ]
               },
@@ -17016,7 +17042,9 @@
           },
           {
             "type": "player-turn-is",
-            "parameters": {"turn": "your"}
+            "parameters": {
+              "turn": "your"
+            }
           },
           {
             "type": "timing-is",
@@ -17153,6 +17181,85 @@
     "ability_type": "faction",
     "behavior": "passive",
     "faction_id": "orks",
+    "community_notes": "community-authored from 11e source"
+  },
+  {
+    "ability_id": "dreadherder-dread-mob",
+    "name": "Dreadherder",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "codex-orks"
+    },
+    "version": "2025-q3",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-within-range-of",
+            "parameters": {
+              "target_type": "friendly",
+              "range": 3,
+              "keyword": "ORKS WALKER",
+              "exclude_keyword": "BIG MEK"
+            }
+          },
+          "effect": {
+            "type": "ability-grant",
+            "target": "self",
+            "modifier": {
+              "grant_type": "lone-operative"
+            }
+          }
+        },
+        {
+          "type": "designate-target",
+          "designation": "dreadherder-target",
+          "select": {
+            "scope": "friendly-unit",
+            "count": 1,
+            "within_inches": 3,
+            "keywords": [
+              "ORKS",
+              "WALKER"
+            ],
+            "timing": "shooting-phase"
+          },
+          "applies": {
+            "to": "target",
+            "effect": {
+              "type": "re-roll",
+              "target": "unit",
+              "modifier": {
+                "roll": "hit",
+                "subset": "ones"
+              }
+            }
+          },
+          "duration": "turn"
+        }
+      ]
+    },
+    "scope": {
+      "range": "aura-custom",
+      "range_inches": 3,
+      "duration": "battle"
+    },
+    "unit_ids": [],
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "detachment_id": "dread-mob",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "BIG MEK"
+      ]
+    },
     "community_notes": "community-authored from 11e source"
   }
 ]

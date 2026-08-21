@@ -167,3 +167,11 @@ The private review surface lives at `_private/sources/codex-orks-11e/rev-2683/re
 - Regenerated all four language artifacts and verified a stable second regeneration.
 - Ran the complete stable-state preflight: regeneration drift checks, formatters, all TypeScript/Rust/Python/Go suites, conformance, data validation, and version lockstep passed.
 - Published pull request `#167` from `wnmitch/codex-orks-1.3.0`.
+
+### 2026-08-20 — official army article audit
+
+- Audited the official Warhammer Community article `build-a-better-waaagh-warhammer-community-cooks-up-their-ideal-ork-armies` as a post-Codex source.
+- Reconciled six cited detachment costs to `1 DP`, sixteen fielded unit configurations to their published points, and Blitzboss to `20` points.
+- Added the `20`-point Dreadherder enhancement to Dread Mob and authored its two-clause mechanic through the gated DSL pipeline: conditional Lone Operative plus a turn-bounded selected-Walker Hit re-roll.
+- Recomputed the two published sample lists from repository point records at `2,000` and `1,495` points.
+- Added the official article record and MFM-backed competitive stratagem sources to the sibling raw-text store in commit `7e4bb3e0`.
