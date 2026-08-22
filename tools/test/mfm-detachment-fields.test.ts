@@ -202,9 +202,9 @@ describe.skipIf(!fs.existsSync(DEFAULT_DUMP_PATH))("detachment-fields over the r
       detachment_rule_ids?: string[];
     };
     expect(rec.detachment_rule_id ?? rec.detachment_rule_ids?.join()).not.toContain("order");
-    // The two scoped-vs-bare id-form drifts are also surfaced (not auto-normalized).
+    // Current scoped-vs-bare id-form drift is surfaced; retired detachments are not.
     expect(reviews.some((r) => r.id === "murdertalon-raiders")).toBe(true);
-    expect(reviews.some((r) => r.id === "more-dakka")).toBe(true);
+    expect(reviews.some((r) => r.id === "more-dakka")).toBe(false);
   });
 
   it("surfaces detachments whose dump rule has no authored ability as a worklist", () => {
