@@ -34,6 +34,7 @@ import { repoDirs, repoDirForFactionName } from "./faction-map.js";
 import type { StagedWrite } from "./apply.js";
 import { modeOfPublication } from "./game-mode.js";
 import { stratagemRepoId, buildStratCanon, deriveTrigger } from "./stratagems.js";
+import { acceptedGapIds } from "./accepted-gaps.js";
 
 const PROVISIONAL = { edition: "11th", dataslate: "pre-launch-provisional" };
 const DEFAULT_TIMING = "once-per-phase";
@@ -104,6 +105,7 @@ export function seedStratagems(
   opts: { includeCombatPatrol?: boolean } = {},
 ): StratSeedReport {
   const rostersByDirectory = new Map<string, DetachmentRoster>();
+  const acceptedStratagemsByDirectory = new Map<string, ReadonlySet<string>>();
   const canon = buildStratCanon(dump);
   const detById = dump.byId("detachment");
 
@@ -138,10 +140,6 @@ export function seedStratagems(
     const id = stratagemRepoId(dump, s);
     if (!id || repoIds.has(id)) continue;
 
-    if (!opts.includeCombatPatrol && modeOfPublication(dump, s.publicationId) === "combat-patrol") {
-      report.heldBackCombatPatrol.push(id);
-      continue;
-    }
 
     const c = canon.get(id);
     if (!c) {
@@ -171,6 +169,19 @@ export function seedStratagems(
       dirLabel = dir;
       const dn = dump.enName(detById.get(s.detachmentId));
       detachment_id = dn ? nameToId(dn) : undefined;
+      let acceptedStratagems = acceptedStratagemsByDirectory.get(dir);
+      if (!acceptedStratagems) {
+        acceptedStratagems = acceptedGapIds("stratagems", dir);
+        acceptedStratagemsByDirectory.set(dir, acceptedStratagems);
+      }
+      if (acceptedStratagems.has(id)) {
+        report.skippedOutsideRoster.push(id);
+        continue;
+      }
+      if (!opts.includeCombatPatrol && modeOfPublication(dump, s.publicationId) === "combat-patrol") {
+        report.heldBackCombatPatrol.push(id);
+        continue;
+      }
       if (detachment_id && rosterFor(rostersByDirectory, dir, detachment_id)?.has(id) === false) {
         report.skippedOutsideRoster.push(id);
         continue;

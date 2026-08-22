@@ -27,6 +27,7 @@ import { readJsonArray, CORE_DIR } from "./repo-files.js";
 import { repoDirForFactionName, repoDirs } from "./faction-map.js";
 import { buildCanon, dispositionIdMap } from "./dispositions.js";
 import type { StagedWrite } from "./apply.js";
+import { acceptedGapIds } from "./accepted-gaps.js";
 
 
 const CONFIRMED = { edition: "11th", dataslate: "launch" } as const;
@@ -222,10 +223,22 @@ export function runSeedDetachments(
   };
   const touchedDets = new Set<string>();
   const touchedEnhs = new Set<string>();
+  const acceptedDetachmentsByDir = new Map<string, ReadonlySet<string>>();
+
 
   for (const c of candidates.sort((a, b) => a.dir.localeCompare(b.dir) || a.id.localeCompare(b.id))) {
     if (onlyDir && c.dir !== onlyDir) continue;
     const res = result(c.dir);
+    let acceptedDetachments = acceptedDetachmentsByDir.get(c.dir);
+    if (!acceptedDetachments) {
+      acceptedDetachments = acceptedGapIds("detachments", c.dir);
+      acceptedDetachmentsByDir.set(c.dir, acceptedDetachments);
+    }
+    if (acceptedDetachments.has(c.id)) {
+      res.skipped.push({ id: c.id, reason: `detachment "${c.id}" is an accepted MFM gap in ${c.dir}` });
+      continue;
+    }
+
     const dets = loadDets(c.dir);
 
     // Existing rows are enriched by subsequent ordered passes.

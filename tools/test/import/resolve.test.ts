@@ -287,10 +287,10 @@ describe("name resolution: faction-prefixed shared chassis and unit aliases", ()
 // stripped canon.
 describe("enhancement RAW-name resolution (import-correctness)", () => {
   it("resolves an Upgrade enhancement by its RAW '(Upgrade)' roster name", () => {
-    const hit = ds.enhancements.find("Boarding Ramps (Upgrade)");
-    expect(hit?.id).toBe("boarding-ramps-upgrade-rollin-deff");
+    const hit = ds.enhancements.find("Symphonic Payload (Upgrade)");
+    expect(hit?.id).toBe("symphonic-payload-upgrade-chorus-of-condemnation");
     // The stored display name keeps the tag (what a roster line carries).
-    expect(hit?.name).toBe("Boarding Ramps (Upgrade)");
+    expect(hit?.name).toBe("Symphonic Payload (Upgrade)");
   });
 
   it("keeps every '(Upgrade)'/'(Aura)'/'(Psychic)'-tagged name in lockstep with its id", () => {
