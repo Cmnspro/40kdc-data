@@ -260,31 +260,30 @@ function crossProductDump(): MfmDump {
   });
 }
 
-describe("deriveWargear — multi-slot replaces delta (over-listing guard)", () => {
+describe("deriveWargear — exact cross-product factorization", () => {
   const CP_VALID = new Set(["bolt-pistol", "plasma-pistol", "chainsword", "power-fist"]);
   const resolveCP = (name: string) => {
     const id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     return CP_VALID.has(id) ? id : null;
   };
 
-  it("factors a two-slot cross-product into per-slot replaces, not the whole base set", () => {
+  it("factors an exact two-slot cross-product into two independent per-slot swaps", () => {
     const d = deriveWargear(crossProductDump(), "ds1", resolveCP);
     expect(d.unresolved).toEqual([]);
     expect(d.defaultsByModel.get("Warrior")).toEqual(["bolt-pistol", "chainsword"]);
 
+    // The enumeration is exactly {bp|pp} × {cs|pf}, so it factors losslessly:
+    // TWO single-slot options, and no both-slot bundle record at all (the
+    // bundle shape both over-lists and lets per-record caps stack).
+    expect(d.options).toHaveLength(2);
     const byRepl = (repl: string) => d.options.find((o) => (o.replacement ?? []).join(",") === repl);
     const aSwap = byRepl("plasma-pistol");
     const bSwap = byRepl("power-fist");
-    const bothSwap = byRepl("plasma-pistol,power-fist");
     expect(aSwap, "plasma-pistol swap option").toBeDefined();
     expect(bSwap, "power-fist swap option").toBeDefined();
-    expect(bothSwap, "both-slot swap option").toBeDefined();
-
-    // Each single-slot swap removes ONLY its own base weapon — the per-slot delta.
     expect(aSwap!.replaces).toEqual(["bolt-pistol"]);
     expect(bSwap!.replaces).toEqual(["chainsword"]);
-    // The both-slot branch legitimately swaps both, so it (and only it) lists both.
-    expect(bothSwap!.replaces).toEqual(["bolt-pistol", "chainsword"]);
+    expect(d.notes.some((n) => n.includes("factored into 2 independent slot swaps"))).toBe(true);
 
     // Regression guard: no option that swaps in a single weapon may list more than
     // one base weapon in `replaces`. Reverting to `removed = baseSet` trips this.
@@ -293,6 +292,159 @@ describe("deriveWargear — multi-slot replaces delta (over-listing guard)", () 
         expect(o.replaces ?? [], `single-weapon swap ${JSON.stringify(o.replacement)} over-lists replaces`).toHaveLength(1);
       }
     }
+  });
+});
+
+/**
+ * The Death Company Marines with Jump Packs shape: ONE whole-loadout set
+ * enumerating a 4×4 cross-product — {heavy bolt pistol | hand flamer | inferno
+ * pistol | plasma pistol} × {Astartes chainsword | power fist | power weapon |
+ * eviscerator} = 16 branches — plus two mini-scoped limited sets: eviscerator
+ * (1 at 5 models, 2 at 10) and power fist/power weapon (2 at 5, 3 at 10).
+ * Removed-key grouping used to leave the eviscerator in TWO records (the
+ * eviscerator+pistol bundles and the lone chainsword swap), each stamped
+ * per_n_models: 5 — the checker sums per-record caps, so 4 eviscerators passed
+ * on a 10-model squad. Exact factorization puts it in ONE record.
+ */
+function deathCompanyDump(): MfmDump {
+  const wi = (id: string, name: string) => ({ id, wargearType: "weapon", localisations: { en: { name } } });
+  const pistols = ["wi-hbp", "wi-hf", "wi-ip", "wi-pp"];
+  const melee = ["wi-acs", "wi-pf", "wi-pw", "wi-ev"];
+  const loadout_choice: { id: string; loadoutChoiceSetId: string }[] = [];
+  const loadout_choice_wargear_item: { id: string; count: number; wargearItemId: string; loadoutChoiceId: string }[] = [];
+  let n = 0;
+  for (const p of pistols) {
+    for (const m of melee) {
+      n++;
+      loadout_choice.push({ id: `lc${n}`, loadoutChoiceSetId: "lcs-dc" });
+      loadout_choice_wargear_item.push(
+        { id: `li${n}a`, count: 1, wargearItemId: p, loadoutChoiceId: `lc${n}` },
+        { id: `li${n}b`, count: 1, wargearItemId: m, loadoutChoiceId: `lc${n}` },
+      );
+    }
+  }
+  return new MfmDump({
+    data: {
+      miniature: [{ id: "m-dc", displayOrder: 0, localisations: { en: { name: "Death Company Marine with Jump Packs" } } }],
+      unit_composition: [
+        { id: "uc1", datasheetId: "ds1", isDefault: true, displayOrder: 1, points: 120, referenceGroupingKeywordId: null },
+      ],
+      unit_composition_miniature: [{ id: "ucm1", min: 5, max: 10, unitCompositionId: "uc1", miniatureId: "m-dc" }],
+      wargear_item: [
+        wi("wi-hbp", "Heavy bolt pistol"),
+        wi("wi-hf", "Hand flamer"),
+        wi("wi-ip", "Inferno pistol"),
+        wi("wi-pp", "Plasma pistol"),
+        wi("wi-acs", "Astartes chainsword"),
+        wi("wi-pf", "Power fist"),
+        wi("wi-pw", "Power weapon"),
+        wi("wi-ev", "Eviscerator"),
+      ],
+      wargear_option_group: [
+        { id: "g-dc", displayOrder: 1, datasheetId: "ds1", miniatureId: "m-dc", isStaticWargear: false },
+      ],
+      wargear_option: [
+        { id: "wo-hbp", wargearItemId: "wi-hbp", wargearOptionGroupId: "g-dc", inputType: "stepper", defaultValue: 5, points: 0, displayOrder: 1 },
+        { id: "wo-acs", wargearItemId: "wi-acs", wargearOptionGroupId: "g-dc", inputType: "stepper", defaultValue: 5, points: 0, displayOrder: 2 },
+      ],
+      loadout_choice_set: [
+        { id: "lcs-dc", limit: 1, allowDuplicates: false, datasheetId: "ds1", miniatureId: "m-dc", alternate: false },
+      ],
+      loadout_choice,
+      loadout_choice_wargear_item,
+      limited_wargear_choice_set: [
+        { id: "lim-ev", mandatory: false, datasheetId: "ds1", miniatureId: "m-dc" },
+        { id: "lim-mel", mandatory: false, datasheetId: "ds1", miniatureId: "m-dc" },
+      ],
+      limited_wargear_choice: [
+        { id: "lwc-ev", limitedWargearChoiceSetId: "lim-ev" },
+        { id: "lwc-pf", limitedWargearChoiceSetId: "lim-mel" },
+        { id: "lwc-pw", limitedWargearChoiceSetId: "lim-mel" },
+      ],
+      limited_wargear_choice_wargear_item: [
+        { id: "y1", count: 1, wargearItemId: "wi-ev", limitedWargearChoiceId: "lwc-ev" },
+        { id: "y2", count: 1, wargearItemId: "wi-pf", limitedWargearChoiceId: "lwc-pf" },
+        { id: "y3", count: 1, wargearItemId: "wi-pw", limitedWargearChoiceId: "lwc-pw" },
+      ],
+      wargear_limit: [
+        { id: "wl-ev0", modelCount: 0, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim-ev" },
+        { id: "wl-ev10", modelCount: 10, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim-ev" },
+        { id: "wl-mel0", modelCount: 0, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim-mel" },
+        { id: "wl-mel10", modelCount: 10, choiceLimit: 3, duplicateLimit: null, limitedWargearChoiceSetId: "lim-mel" },
+      ],
+    },
+  });
+}
+
+describe("deriveWargear — Death Company shape (split-allowance regression)", () => {
+  const DC_VALID = new Set([
+    "heavy-bolt-pistol",
+    "hand-flamer",
+    "inferno-pistol",
+    "plasma-pistol",
+    "astartes-chainsword",
+    "power-fist",
+    "power-weapon",
+    "eviscerator",
+  ]);
+  const resolveDC = (name: string) => {
+    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return DC_VALID.has(id) ? id : null;
+  };
+  const d = deriveWargear(deathCompanyDump(), "ds1", resolveDC);
+
+  it("factors the 16-branch enumeration into the two datasheet slots", () => {
+    expect(d.unresolved).toEqual([]);
+    expect(d.notes.some((note) => note.includes("factored into 2 independent slot swaps"))).toBe(true);
+    expect(d.options).toHaveLength(3);
+  });
+
+  it("the eviscerator lands in exactly ONE record, per-5 capped (no cap stacking)", () => {
+    const granting = d.options.filter((o) => {
+      const branches = o.replacement ? [o.replacement] : (o.replacement_choice ?? []);
+      return branches.some((b) => b.includes("eviscerator"));
+    });
+    expect(granting).toHaveLength(1);
+    expect(granting[0].replaces).toEqual(["astartes-chainsword"]);
+    expect(granting[0].replacement).toEqual(["eviscerator"]);
+    expect(granting[0].model_constraint).toEqual({ per_n_models: 5 });
+  });
+
+  it("the pistol slot is one option with the three pistol branches", () => {
+    const pistol = d.options.find((o) => (o.replaces ?? []).join(",") === "heavy-bolt-pistol");
+    expect(pistol, "pistol slot option").toBeDefined();
+    expect(pistol!.replacement_choice).toEqual([["hand-flamer"], ["inferno-pistol"], ["plasma-pistol"]]);
+    expect(pistol!.model_constraint).toEqual({ any_number: true });
+  });
+
+  it("the melee slot's fist/weapon partition carries the flat-budget cap", () => {
+    const meleeSwap = d.options.find((o) =>
+      (o.replacement_choice ?? []).some((b) => b.includes("power-fist")),
+    );
+    expect(meleeSwap, "fist/weapon option").toBeDefined();
+    expect(meleeSwap!.replaces).toEqual(["astartes-chainsword"]);
+    expect(meleeSwap!.replacement_choice).toEqual([["power-fist"], ["power-weapon"]]);
+    expect(meleeSwap!.model_constraint).toEqual({ max_count: 3 });
+  });
+
+  it("with the allowance in one record, no eviscerator budget is emitted", () => {
+    const records = d.options.map((o, i) => ({
+      id: `wgo-${i}`,
+      unit_id: "death-company-marines-with-jump-packs",
+      faction_id: "adeptus-astartes",
+      game_version: { edition: "11th", dataslate: "x" },
+      model_constraint: o.model_constraint,
+      ...(o.replaces ? { replaces: o.replaces } : {}),
+      ...(o.replacement ? { replacement: o.replacement } : {}),
+      ...(o.replacement_choice ? { replacement_choice: o.replacement_choice } : {}),
+    }));
+    const budgets = limitedSetBudgets(deathCompanyDump(), "ds1", resolveDC, records);
+    expect(budgets.some((b) => b.items.includes("eviscerator"))).toBe(false);
+    // The shared fist/weapon set still emits its offset pair (2-at-5 / 3-at-10).
+    expect(budgets).toEqual([
+      { items: ["power-fist", "power-weapon"], count: 2, per_models: 5 },
+      { items: ["power-fist", "power-weapon"], count: 3, per_models: 0 },
+    ]);
   });
 });
 
@@ -1052,6 +1204,52 @@ describe("limitedSetBudgets — choice bundles, copy counts, and exclusions", ()
     expect(limitedSetBudgets(dump, "ds1", budgetResolve, [trooperSwap])).toEqual([
       { items: ["chainfist"], count: 1, per_models: 5 },
     ]);
+  });
+
+  it("emits a mini-scoped single-weapon budget when derived records split the allowance", () => {
+    // A NON-factorable enumeration can leave one limited-set weapon in a bundle
+    // record AND a lone-swap record of the same miniature; per-record
+    // per_n_models caps then stack the single allowance. The summed budget is
+    // the only correct enforcement there.
+    const dump = new MfmDump({
+      data: {
+        wargear_item: [
+          { id: "wi-ev", wargearType: "weapon", localisations: { en: { name: "Eviscerator" } } },
+        ],
+        limited_wargear_choice_set: [{ id: "lim", mandatory: false, datasheetId: "ds1", miniatureId: "m1" }],
+        limited_wargear_choice: [{ id: "lwc", limitedWargearChoiceSetId: "lim" }],
+        limited_wargear_choice_wargear_item: [
+          { id: "x1", count: 1, wargearItemId: "wi-ev", limitedWargearChoiceId: "lwc" },
+        ],
+        wargear_limit: [
+          { id: "wl0", modelCount: 0, choiceLimit: 1, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+          { id: "wl1", modelCount: 10, choiceLimit: 2, duplicateLimit: null, limitedWargearChoiceSetId: "lim" },
+        ],
+      },
+    });
+    const bundleSwap = {
+      id: "wgo-bundle",
+      unit_id: "u1",
+      faction_id: "f1",
+      game_version: { edition: "11th", dataslate: "x" },
+      model_constraint: { per_n_models: 5 },
+      replaces: ["heavy-bolt-pistol", "astartes-chainsword"],
+      replacement_choice: [["inferno-pistol", "eviscerator"]],
+    };
+    const loneSwap = {
+      id: "wgo-lone",
+      unit_id: "u1",
+      faction_id: "f1",
+      game_version: { edition: "11th", dataslate: "x" },
+      model_constraint: { per_n_models: 5 },
+      replaces: ["astartes-chainsword"],
+      replacement: ["eviscerator"],
+    };
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve, [bundleSwap, loneSwap])).toEqual([
+      { items: ["eviscerator"], count: 2, per_models: 10 },
+    ]);
+    // One granting record → the per-record cap is the correct total; no budget.
+    expect(limitedSetBudgets(dump, "ds1", budgetResolve, [loneSwap])).toEqual([]);
   });
 
   it("drops a set whose every item is excluded", () => {

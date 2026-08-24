@@ -1181,21 +1181,13 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolt-pistol"
+      "astartes-chainsword-death-company-marines-with-jump-packs"
     ],
-    "replacement_choice": [
-      [
-        "hand-flamer"
-      ],
-      [
-        "plasma-pistol-death-company-marines-with-jump-packs"
-      ],
-      [
-        "inferno-pistol"
-      ]
+    "replacement": [
+      "eviscerator"
     ],
     "model_constraint": {
-      "any_number": true
+      "per_n_models": 5
     }
   },
   {
@@ -1208,25 +1200,18 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolt-pistol",
       "astartes-chainsword-death-company-marines-with-jump-packs"
     ],
     "replacement_choice": [
       [
-        "inferno-pistol",
-        "eviscerator"
+        "power-fist"
       ],
       [
-        "eviscerator",
-        "plasma-pistol-death-company-marines-with-jump-packs"
-      ],
-      [
-        "hand-flamer",
-        "eviscerator"
+        "power-weapon"
       ]
     ],
     "model_constraint": {
-      "per_n_models": 5
+      "max_count": 3
     }
   },
   {
@@ -1239,80 +1224,21 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolt-pistol",
-      "astartes-chainsword-death-company-marines-with-jump-packs"
+      "heavy-bolt-pistol"
     ],
     "replacement_choice": [
       [
-        "power-fist",
-        "inferno-pistol"
-      ],
-      [
-        "power-weapon",
-        "inferno-pistol"
-      ],
-      [
-        "hand-flamer",
-        "power-weapon"
-      ],
-      [
-        "plasma-pistol-death-company-marines-with-jump-packs",
-        "power-fist"
-      ],
-      [
-        "power-fist",
         "hand-flamer"
       ],
       [
-        "power-weapon",
+        "inferno-pistol"
+      ],
+      [
         "plasma-pistol-death-company-marines-with-jump-packs"
       ]
     ],
     "model_constraint": {
       "any_number": true
-    }
-  },
-  {
-    "id": "death-company-marines-with-jump-packs-wgo-mfm-4",
-    "unit_id": "death-company-marines-with-jump-packs",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "astartes-chainsword-death-company-marines-with-jump-packs"
-    ],
-    "replacement_choice": [
-      [
-        "power-weapon"
-      ],
-      [
-        "power-fist"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 3
-    }
-  },
-  {
-    "id": "death-company-marines-with-jump-packs-wgo-mfm-5",
-    "unit_id": "death-company-marines-with-jump-packs",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "astartes-chainsword-death-company-marines-with-jump-packs"
-    ],
-    "replacement": [
-      "eviscerator"
-    ],
-    "model_constraint": {
-      "per_n_models": 5
     }
   },
   {
@@ -2031,25 +1957,14 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolt-pistol",
       "astartes-chainsword-talonstrike-kill-team"
     ],
     "replacement_choice": [
       [
-        "power-weapon",
-        "plasma-pistol-talonstrike-kill-team"
+        "power-fist"
       ],
       [
-        "power-fist",
-        "plasma-pistol-talonstrike-kill-team"
-      ],
-      [
-        "power-weapon",
-        "hand-flamer"
-      ],
-      [
-        "power-fist",
-        "hand-flamer"
+        "power-weapon"
       ]
     ],
     "model_constraint": {
@@ -2067,14 +1982,14 @@
     },
     "is_free": true,
     "replaces": [
-      "astartes-chainsword-talonstrike-kill-team"
+      "heavy-bolt-pistol"
     ],
     "replacement_choice": [
       [
-        "power-weapon"
+        "hand-flamer"
       ],
       [
-        "power-fist"
+        "plasma-pistol-talonstrike-kill-team"
       ]
     ],
     "model_constraint": {
@@ -2084,31 +1999,6 @@
   },
   {
     "id": "talonstrike-kill-team-wgo-mfm-3",
-    "unit_id": "talonstrike-kill-team",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "heavy-bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol-talonstrike-kill-team"
-      ],
-      [
-        "hand-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Kill Team Sergeant with Jump Pack",
-      "any_number": true
-    }
-  },
-  {
-    "id": "talonstrike-kill-team-wgo-mfm-4",
     "unit_id": "talonstrike-kill-team",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -2128,7 +2018,7 @@
     }
   },
   {
-    "id": "talonstrike-kill-team-wgo-mfm-5",
+    "id": "talonstrike-kill-team-wgo-mfm-4",
     "unit_id": "talonstrike-kill-team",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -3128,10 +3018,10 @@
     },
     "is_free": true,
     "replaces": [
-      "relic-weapon"
+      "storm-bolter-captain-in-terminator-armour"
     ],
     "replacement": [
-      "relic-fist-captain-in-terminator-armour"
+      "combi-weapon"
     ],
     "model_constraint": {
       "any_number": true
@@ -3147,30 +3037,9 @@
     },
     "is_free": true,
     "replaces": [
-      "storm-bolter-captain-in-terminator-armour"
-    ],
-    "replacement": [
-      "combi-weapon"
-    ],
-    "model_constraint": {
-      "any_number": true
-    }
-  },
-  {
-    "id": "captain-in-terminator-armour-wgo-mfm-3",
-    "unit_id": "captain-in-terminator-armour",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "storm-bolter-captain-in-terminator-armour",
       "relic-weapon"
     ],
     "replacement": [
-      "combi-weapon",
       "relic-fist-captain-in-terminator-armour"
     ],
     "model_constraint": {
@@ -3723,13 +3592,13 @@
     ],
     "replacement_choice": [
       [
-        "combat-knife-scout-squad"
+        "astartes-chainsword-scout-squad"
       ],
       [
         "astartes-shotgun"
       ],
       [
-        "astartes-chainsword-scout-squad"
+        "combat-knife-scout-squad"
       ]
     ],
     "model_constraint": {
@@ -4793,25 +4662,14 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolt-pistol",
-      "astartes-chainsword-assault-intercessors-with-jump-packs"
+      "heavy-bolt-pistol"
     ],
     "replacement_choice": [
       [
-        "hand-flamer",
-        "power-fist"
-      ],
-      [
-        "power-weapon",
         "hand-flamer"
       ],
       [
-        "plasma-pistol-assault-intercessors-with-jump-packs",
-        "power-fist"
-      ],
-      [
-        "plasma-pistol-assault-intercessors-with-jump-packs",
-        "power-weapon"
+        "plasma-pistol-assault-intercessors-with-jump-packs"
       ]
     ],
     "model_constraint": {
@@ -4829,31 +4687,6 @@
     },
     "is_free": true,
     "replaces": [
-      "heavy-bolt-pistol"
-    ],
-    "replacement_choice": [
-      [
-        "plasma-pistol-assault-intercessors-with-jump-packs"
-      ],
-      [
-        "hand-flamer"
-      ]
-    ],
-    "model_constraint": {
-      "model_name": "Assault Intercessor Sergeant with Jump Pack",
-      "any_number": true
-    }
-  },
-  {
-    "id": "assault-intercessors-with-jump-packs-wgo-mfm-3",
-    "unit_id": "assault-intercessors-with-jump-packs",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
       "astartes-chainsword-assault-intercessors-with-jump-packs"
     ],
     "replacement_choice": [
@@ -4870,7 +4703,7 @@
     }
   },
   {
-    "id": "assault-intercessors-with-jump-packs-wgo-mfm-4",
+    "id": "assault-intercessors-with-jump-packs-wgo-mfm-3",
     "unit_id": "assault-intercessors-with-jump-packs",
     "faction_id": "adeptus-astartes",
     "game_version": {
@@ -6119,10 +5952,10 @@
     },
     "is_free": true,
     "replaces": [
-      "astartes-chainsword-blood-claws"
+      "bolt-pistol"
     ],
     "replacement": [
-      "power-weapon"
+      "plasma-pistol-blood-claws"
     ],
     "model_constraint": {
       "model_name": "Blood Claw Pack Leader",
@@ -6139,32 +5972,10 @@
     },
     "is_free": true,
     "replaces": [
-      "bolt-pistol",
       "astartes-chainsword-blood-claws"
     ],
     "replacement": [
-      "power-weapon",
-      "plasma-pistol-blood-claws"
-    ],
-    "model_constraint": {
-      "model_name": "Blood Claw Pack Leader",
-      "any_number": true
-    }
-  },
-  {
-    "id": "blood-claws-wgo-mfm-3",
-    "unit_id": "blood-claws",
-    "faction_id": "adeptus-astartes",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "bolt-pistol"
-    ],
-    "replacement": [
-      "plasma-pistol-blood-claws"
+      "power-weapon"
     ],
     "model_constraint": {
       "model_name": "Blood Claw Pack Leader",
