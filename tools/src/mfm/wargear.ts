@@ -721,9 +721,15 @@ export interface WargearBudget {
  * the champion = 3) is deliberately NOT a budget — the per-weapon bound already
  * sums the weapon's capacity across the model types that may take it, which is the
  * correct total. Forcing it into a unit-wide budget would wrongly cap that total at
- * the troopers' ratio alone. Items resolved via `resolve`; unresolved-item budgets
- * are dropped. The binding ratio is the smallest `choiceLimit/modelCount` across
- * the set's `wargear_limit` rows (GW lists the same ratio at several breakpoints).
+ * the troopers' ratio alone. EXCEPTION: when the derived options grant the weapon
+ * from ≥2 records, the per-record `per_n_models` caps stack the SAME allowance
+ * (a non-factorable enumeration can leave the weapon in a bundle record AND a
+ * lone-swap record of one miniature) — there the summed budget is the only
+ * correct enforcement, and the cross-model case can't reach this path because
+ * a weapon another model type grants was already excluded above. Items resolved
+ * via `resolve`; unresolved-item budgets are dropped. The binding ratio is the
+ * smallest `choiceLimit/modelCount` across the set's `wargear_limit` rows (GW
+ * lists the same ratio at several breakpoints).
  */
 export function limitedSetBudgets(
   dump: MfmDump,
@@ -815,6 +821,17 @@ export function limitedSetBudgets(
     );
   }
 
+  // Distinct derived records granting an item — ≥2 means per-record caps would
+  // stack one allowance (the split-allowance exception in the doc above).
+  const grantingRecords = (id: string): number => {
+    let n = 0;
+    for (const o of unitOptions) {
+      const branches = o.replacement ? [o.replacement] : (o.replacement_choice ?? []);
+      if (branches.some((b) => b.includes(id))) n++;
+    }
+    return n;
+  };
+
   const out: WargearBudget[] = [];
   for (const s of [...sets].sort((a, b) => a.id.localeCompare(b.id))) {
     const setMini = s.miniatureId ? miniNameOf(s.miniatureId) : null;
@@ -893,8 +910,10 @@ export function limitedSetBudgets(
     }
 
     const sorted = [...items].sort();
+    const splitAllowance =
+      items.size === 1 && s.miniatureId != null && grantingRecords(sorted[0]) >= 2;
     if (ratioCount != null && ratioPer != null) {
-      if (items.size >= 2 || s.miniatureId == null) {
+      if (items.size >= 2 || s.miniatureId == null || splitAllowance) {
         // Shared ratio allowances (≥2 items) AND datasheet-wide single-weapon ratio
         // sets become summed budgets: the dump scopes these to the whole unit, so the
         // squad-wide sum is the correct cap. A flat baseline that is looser than the
@@ -937,6 +956,114 @@ export function limitedSetBudgets(
     }
   }
   return out;
+}
+
+/**
+ * Factor a whole-loadout enumeration into independent per-slot menus — but ONLY
+ * when the branch set is EXACTLY the cross-product of those menus, which makes
+ * the factorization lossless (the reachable per-model loadouts are identical).
+ *
+ * The dump often enumerates independent slots as their full cross-product
+ * (Death Company jump packs: {heavy bolt pistol | hand flamer | inferno |
+ * plasma} × {chainsword | power fist | power weapon | eviscerator} = 16
+ * branches). Removed-key grouping shreds that into OVERLAPPING records — the
+ * lone-swap branches and the both-slot bundles land in different records — with
+ * two failure modes: a mini-scoped limited-set allowance (eviscerator, 1 per 5)
+ * is stamped on several records and the checker sums the caps (4 eviscerators
+ * pass on a 10-model squad), and readers face a wall of bundle branches for
+ * what the datasheet states as independent swaps.
+ *
+ * Verification is structural and exact, no heuristics:
+ *   - branches are deduped; any repeated item inside a branch, or an empty
+ *     branch ("take none" menus are additions, not slots), disqualifies;
+ *   - the base loadout must itself be a branch (every slot's "keep" pick is
+ *     explicit) and every branch must have the same width k;
+ *   - slots = connected components of the never-co-occur graph over the items
+ *     (in an exact cross-product, same-slot items never share a branch and
+ *     cross-slot items always do);
+ *   - every branch picks exactly one item per slot, and the number of distinct
+ *     branches equals Π slot sizes — distinct one-per-slot branches inject into
+ *     the cross-product, so equal cardinality proves full coverage.
+ * Anything short of exact returns null and the caller falls back to
+ * removed-key grouping (bundles like Custodian blade+shield stay bundles).
+ *
+ * Returns groups in the removed-key shape: one per slot that actually offers a
+ * swap (`removed` = the slot's base item, `added` = its single-item branches);
+ * a fixed one-item slot contributes nothing.
+ */
+function factorCrossProduct(
+  branches: string[][],
+  baseSet: string[],
+): Map<string, { removed: string[]; added: string[][] }> | null {
+  const keys = new Set<string>();
+  const uniq: string[][] = [];
+  for (const b of branches) {
+    if (b.length === 0 || new Set(b).size !== b.length) return null;
+    const k = [...b].sort().join("|");
+    if (!keys.has(k)) {
+      keys.add(k);
+      uniq.push(b);
+    }
+  }
+  // The smallest true cross-product is 2×2; the base branch must be a member.
+  if (uniq.length < 4) return null;
+  if (baseSet.length === 0 || new Set(baseSet).size !== baseSet.length) return null;
+  if (!keys.has([...baseSet].sort().join("|"))) return null;
+  const width = uniq[0].length;
+  if (width < 2 || uniq.some((b) => b.length !== width)) return null;
+
+  // Slots = connected components of the "never co-occur" graph.
+  const items = [...new Set(uniq.flat())];
+  const co = new Map<string, Set<string>>(items.map((i) => [i, new Set<string>()]));
+  for (const b of uniq) {
+    for (const x of b) for (const y of b) if (x !== y) co.get(x)!.add(y);
+  }
+  const slotOf = new Map<string, number>();
+  const slots: string[][] = [];
+  for (const seed of items) {
+    if (slotOf.has(seed)) continue;
+    const slot: string[] = [];
+    const queue = [seed];
+    slotOf.set(seed, slots.length);
+    while (queue.length > 0) {
+      const cur = queue.pop()!;
+      slot.push(cur);
+      for (const cand of items) {
+        if (slotOf.has(cand) || co.get(cur)!.has(cand)) continue;
+        slotOf.set(cand, slots.length);
+        queue.push(cand);
+      }
+    }
+    slots.push(slot);
+  }
+  if (slots.length !== width) return null;
+
+  // Every branch must pick exactly one item per slot…
+  for (const b of uniq) {
+    const seen = new Set<number>();
+    for (const x of b) {
+      const s = slotOf.get(x)!;
+      if (seen.has(s)) return null;
+      seen.add(s);
+    }
+    if (seen.size !== width) return null;
+  }
+  // …and the enumeration must be the FULL cross-product (injective + equal
+  // cardinality ⇒ surjective).
+  let product = 1;
+  for (const s of slots) product *= s.length;
+  if (product !== uniq.length) return null;
+
+  const out = new Map<string, { removed: string[]; added: string[][] }>();
+  for (const slot of slots) {
+    const baseItems = slot.filter((x) => baseSet.includes(x));
+    if (baseItems.length !== 1) return null; // implied by base ∈ branches; defensive
+    const [base] = baseItems;
+    const others = slot.filter((x) => x !== base).sort();
+    if (others.length === 0) continue; // fixed slot — no option to offer
+    out.set(base, { removed: [base], added: others.map((x) => [x]) });
+  }
+  return out.size > 0 ? out : null;
 }
 
 /**
@@ -1056,22 +1183,36 @@ export function deriveWargear(
       }
       baseSet = perPick;
     }
-    const groups = new Map<string, { removed: string[]; added: string[][] }>();
-    const seenAdded = new Set<string>();
-    for (const b of branches) {
-      const removed = multisetDiff(baseSet, b);
-      const added = multisetDiff(b, baseSet);
-      if (removed.length === 0 && added.length === 0) continue; // == base, no-op
-      const rKey = [...removed].sort().join("|");
-      const aKey = `${rKey}>>${[...added].sort().join("|")}`;
-      if (seenAdded.has(aKey)) continue; // duplicate delta
-      seenAdded.add(aKey);
-      const g = groups.get(rKey) ?? { removed, added: [] };
-      // A pure-removal branch (added empty) can't be a replacement; skip it — the
-      // base already covers "not taking the upgrade".
-      if (added.length > 0) g.added.push(added);
-      groups.set(rKey, g);
+    // An exact cross-product enumeration factors losslessly into independent
+    // per-slot swaps (see factorCrossProduct) — the shape the datasheet states.
+    // Anything short of exact keeps the removed-key grouping below, which
+    // preserves genuine bundles (blade+shield) as atomic replacement branches.
+    const factored =
+      setLimit === 1 && !allowDup && set.miniatureId
+        ? factorCrossProduct(branches, baseSet)
+        : null;
+    if (factored) {
+      notes.push(
+        `cross-product loadout set ${set.id.slice(0, 8)} factored into ${factored.size} independent slot swap${factored.size === 1 ? "" : "s"} (${mini ?? "all"})`,
+      );
     }
+    const groups = factored ?? new Map<string, { removed: string[]; added: string[][] }>();
+    const seenAdded = new Set<string>();
+    if (!factored)
+      for (const b of branches) {
+        const removed = multisetDiff(baseSet, b);
+        const added = multisetDiff(b, baseSet);
+        if (removed.length === 0 && added.length === 0) continue; // == base, no-op
+        const rKey = [...removed].sort().join("|");
+        const aKey = `${rKey}>>${[...added].sort().join("|")}`;
+        if (seenAdded.has(aKey)) continue; // duplicate delta
+        seenAdded.add(aKey);
+        const g = groups.get(rKey) ?? { removed, added: [] };
+        // A pure-removal branch (added empty) can't be a replacement; skip it — the
+        // base already covers "not taking the upgrade".
+        if (added.length > 0) g.added.push(added);
+        groups.set(rKey, g);
+      }
 
     for (const { removed, added } of groups.values()) {
       if (added.length === 0) continue;
