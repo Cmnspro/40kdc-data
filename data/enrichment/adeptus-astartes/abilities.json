@@ -13082,5 +13082,5500 @@
     ],
     "ability_type": "unit",
     "behavior": "activated"
+  },
+  {
+    "ability_id": "a-deadly-prize-vanguard-spearhead",
+    "name": "A Deadly Prize",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "objective-tag",
+          "target": "unit",
+          "modifier": {
+            "tag": "sabotaged",
+            "source": "this-action"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "enemy-unit-ended-move"
+            }
+          },
+          "effect": {
+            "type": "dice-gated",
+            "dice": "D6",
+            "threshold": 2,
+            "comparison": "gte",
+            "on_success": {
+              "type": "mortal-wounds",
+              "target": "target",
+              "modifier": {
+                "count": "D3"
+              }
+            },
+            "on_fail": null
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "community_notes": "Sabotaged marker remains under your control with no models in range until the opponent controls it at the start or end of any turn; the mortal wounds fire on enemy units ending a Normal/Advance/Fall Back/Charge move within range of the sabotaged marker (marker proximity not tracked by the buff layer)"
+  },
+  {
+    "ability_id": "adaptive-strategy-gladius-task-force",
+    "name": "Adaptive Strategy",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Combat Doctrine",
+      "options": [
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "granted",
+            "rule_kind": "keyword",
+            "rule": "devastator-doctrine"
+          }
+        },
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "granted",
+            "rule_kind": "keyword",
+            "rule": "tactical-doctrine"
+          }
+        },
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "granted",
+            "rule_kind": "keyword",
+            "rule": "assault-doctrine"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "until-next-command-phase"
+    },
+    "community_notes": "The chosen Combat Doctrine is active for that unit instead of any doctrine active for the army, even if already selected this battle"
+  },
+  {
+    "ability_id": "calculated-feint-vanguard-spearhead",
+    "name": "Calculated Feint",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "charge-declaration",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "self",
+        "range": 12
+      }
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "reactive",
+            "distance": "D6"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "Phobos"
+                }
+              },
+              {
+                "type": "unit-has-keyword",
+                "parameters": {
+                  "keyword": "Scout Squad"
+                }
+              }
+            ]
+          },
+          "effect": {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "reactive",
+              "distance": 6,
+              "replaces_default": true
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Cannot select a unit within Engagement Range of enemy units"
+  },
+  {
+    "ability_id": "honour-the-chapter-gladius-task-force",
+    "name": "Honour The Chapter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Lance"
+            ],
+            "weapon_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "faction-rule-active",
+            "parameters": {
+              "rule": "assault-doctrine"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "AP",
+              "operation": "add",
+              "value": -1,
+              "attack_type": "melee"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    }
+  },
+  {
+    "ability_id": "only-in-death-does-duty-end-gladius-task-force",
+    "name": "Only In Death Does Duty End",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "selected-to-fight",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "fight-on-death",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Only models that have not yet fought this phase fight on death; the destroyed model fights after the attacking unit finishes its attacks, then is removed"
+  },
+  {
+    "ability_id": "squad-tactics-gladius-task-force",
+    "name": "Squad Tactics",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "self",
+        "range": 8
+      },
+      "move_types": [
+        "normal",
+        "advance",
+        "fall-back"
+      ]
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "reactive",
+            "distance": "D6"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "faction-rule-active",
+            "parameters": {
+              "rule": "tactical-doctrine"
+            }
+          },
+          "effect": {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "reactive",
+              "distance": 6,
+              "replaces_default": true
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Cannot select a unit within Engagement Range of enemy units"
+  },
+  {
+    "ability_id": "storm-of-fire-gladius-task-force",
+    "name": "Storm Of Fire",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Ignores Cover"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "faction-rule-active",
+            "parameters": {
+              "rule": "devastator-doctrine"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "AP",
+              "operation": "add",
+              "value": -1,
+              "attack_type": "ranged"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "strike-from-the-shadows-vanguard-spearhead",
+    "name": "Strike From The Shadows",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "BS",
+            "operation": "subtract",
+            "value": 1,
+            "attack_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1,
+            "attack_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "after-unit-resolves-attacks"
+            }
+          },
+          "effect": {
+            "type": "battle-shock-test",
+            "target": "target",
+            "modifier": {}
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Improvements apply only to attacks against enemy units more than 12\" away; if enemy models were destroyed, one destroyed model's unit takes a Battle-shock test. Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "surgical-strikes-vanguard-spearhead",
+    "name": "Surgical Strikes",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Precision"
+        ],
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to fight this phase"
+  },
+  {
+    "ability_id": "advanced-deployment-armoured-speartip",
+    "name": "Advanced Deployment",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "disembark",
+      "target": "unit",
+      "modifier": {
+        "after": "advance"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Disembarking units count as having made a Normal move and cannot declare a charge this turn unless the Transport has the Assault Ramp ability. Target must not have been selected to move this phase"
+  },
+  {
+    "ability_id": "battle-drill-recall-anvil-siege-force",
+    "name": "Battle Drill Recall",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "remained-stationary",
+            "parameters": {}
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Critical Hits 5+"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "ceramite-sledgehammer-armoured-speartip",
+    "name": "Ceramite Sledgehammer",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "passthrough": [
+              "all-terrain"
+            ],
+            "applies_to_moves": [
+              "normal",
+              "advance"
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Heavy Transport"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "movement-modifier",
+                "target": "unit",
+                "modifier": {
+                  "passthrough": [
+                    "non-titanic-models"
+                  ],
+                  "applies_to_moves": [
+                    "normal",
+                    "advance"
+                  ]
+                }
+              },
+              {
+                "type": "auto-result",
+                "target": "unit",
+                "modifier": {
+                  "test": "desperate-escape",
+                  "result": "pass"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "A Heavy Transport can move through and within Engagement Range of enemy models (excluding Monsters and Vehicles) but cannot end its move in Engagement Range of them. Target must not have been selected to move this phase"
+  },
+  {
+    "ability_id": "duty-and-honour-1st-company-task-force",
+    "name": "Duty And Honour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-tag",
+      "target": "unit",
+      "modifier": {
+        "tag": "secured",
+        "source": "this-action"
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "community_notes": "The objective marker remains under your control until your opponent's Level of Control over it exceeds yours at the end of a phase. Target: one Terminator, Bladeguard/Sternguard/Vanguard Veteran Squad unit within range of an objective marker you control"
+  },
+  {
+    "ability_id": "hail-of-vengeance-anvil-siege-force",
+    "name": "Hail Of Vengeance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-enemy-unit-fires",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "shoot-as-if-shooting-phase"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Usable on a unit that lost one or more models to the attacking unit's attacks; the shooting must target only that enemy unit, and only if it is an eligible target"
+  },
+  {
+    "ability_id": "heroes-of-the-chapter-1st-company-task-force",
+    "name": "Heroes Of The Chapter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-below-half-strength",
+            "parameters": {}
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target: one Terminator, Bladeguard/Sternguard/Vanguard Veteran Squad unit not yet selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "legendary-fortitude-1st-company-task-force",
+    "name": "Legendary Fortitude",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "end-of-charge-move",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "D",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "community_notes": "Subtract 1 from the Damage characteristic of attacks allocated to models in the unit. Target: one Terminator, Bladeguard/Sternguard/Vanguard Veteran Squad unit within Engagement Range of the charging enemy unit"
+  },
+  {
+    "ability_id": "machine-wrath-armoured-speartip",
+    "name": "Machine Wrath",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "on-unit-destroyed",
+      "subject": "self"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "self",
+          "modifier": {
+            "move_type": "reactive",
+            "passthrough": [
+              "non-titanic-models"
+            ]
+          }
+        },
+        {
+          "type": "auto-result",
+          "target": "self",
+          "modifier": {
+            "test": "desperate-escape",
+            "result": "pass"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "one-use"
+    },
+    "community_notes": "Usable on a destroyed Heavy Transport with Deadly Demise if a 6 was rolled for that ability: it makes a Normal or Fall Back move before Deadly Demise resolves and before embarked units perform Emergency Disembarkation; it can move through and within Engagement Range of enemy models (excluding Monsters and Vehicles) but cannot end the move there"
+  },
+  {
+    "ability_id": "no-threat-too-great-anvil-siege-force",
+    "name": "No Threat Too Great",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Monster"
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Vehicle"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "wound",
+          "result_scope": "any-result",
+          "attack_type": "ranged"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "not-one-backwards-step-anvil-siege-force",
+    "name": "Not One Backwards Step",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-control-modifier",
+      "target": "unit",
+      "modifier": {
+        "operation": "multiply",
+        "value": 2
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "community_notes": "The unit must Remain Stationary this turn. Target: one Infantry unit within range of an objective marker"
+  },
+  {
+    "ability_id": "orbital-teleportarium-1st-company-task-force",
+    "name": "Orbital Teleportarium",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "redeploy",
+            "to_reserves": true
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "ingress-move",
+            "from": "strategic-reserves"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "one-use"
+    },
+    "community_notes": "Terminator unit only; it arrives in the Reinforcements step of your next Movement phase using Deep Strike. Cannot select a unit within Engagement Range of enemy units"
+  },
+  {
+    "ability_id": "purgation-doctrine-armoured-speartip",
+    "name": "Purgation Doctrine",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "disembarked-from-transport",
+            "parameters": {}
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "The Wound-roll bonus requires having disembarked from a Heavy Transport this turn. Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "rigid-discipline-anvil-siege-force",
+    "name": "Rigid Discipline",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": 6,
+        "applies_to_moves": [
+          "fall-back"
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used at the end of the Fight phase on a unit in Engagement Range; the Fall Back move must end wholly within your deployment zone or within range of an objective marker"
+  },
+  {
+    "ability_id": "terrifying-proficiency-1st-company-task-force",
+    "name": "Terrifying Proficiency",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "charged-this-turn",
+            "parameters": {}
+          },
+          {
+            "type": "units-destroyed",
+            "parameters": {
+              "side": "enemy",
+              "window": "this-phase",
+              "count_min": 1
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "enemy-within-aura",
+            "modifier": {
+              "grant_type": "battle-shock-test"
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "unit-below-half-strength",
+              "parameters": {}
+            },
+            "effect": {
+              "type": "roll-modifier",
+              "target": "enemy-within-aura",
+              "modifier": {
+                "roll": "battle-shock",
+                "operation": "subtract",
+                "value": 1
+              }
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "until-next-command-phase"
+    },
+    "community_notes": "The tests happen in your opponent's next Command phase; affected units take no other Battle-shock tests that phase. Target: one Terminator, Bladeguard/Sternguard/Vanguard Veteran Squad unit"
+  },
+  {
+    "ability_id": "adaptive-operations-subversion-assets",
+    "name": "Adaptive Operations",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "subversion-assets",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "shoot-while-performing-action"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used when a Phobos or Scout Squad unit starts an Action: that Action does not prevent the unit from being eligible to shoot"
+  },
+  {
+    "ability_id": "angels-defiant-bastion-task-force",
+    "name": "Angels Defiant",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "on-unit-selected",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "attack-stat-compare",
+        "parameters": {
+          "attacker_stat": "S",
+          "comparison": "greater-than",
+          "target_stat": "T"
+        }
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "attacker",
+        "modifier": {
+          "roll": "wound",
+          "operation": "subtract",
+          "value": 1
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Battleline unit targeted by the attacking unit; applies while the attack's Strength exceeds the unit's Toughness"
+  },
+  {
+    "ability_id": "augmented-targeting-ceramite-sentinels",
+    "name": "Augmented Targeting",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Weapon ability",
+      "options": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Lethal Hits"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-tag",
+            "parameters": {
+              "tag": "entrenched"
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1",
+                "Lethal Hits"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Select Sustained Hits 1 or Lethal Hits; an Entrenched unit gets both instead. Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "cloaked-position-subversion-assets",
+    "name": "Cloaked Position",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "subversion-assets",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "detection-range-modifier",
+      "target": "unit",
+      "modifier": {
+        "operation": "add",
+        "value": -3
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "community_notes": "Target: one unengaged Phobos or Scout Squad unit, at the start of the opponent's Movement phase"
+  },
+  {
+    "ability_id": "codex-discipline-bastion-task-force",
+    "name": "Codex Discipline",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "subset": "ones"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-tag",
+            "parameters": {
+              "tag": "auspex-scanned",
+              "subject": "target"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "subset": "ones"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "The Wound re-roll applies against auspex-scanned targets. Target must not have been selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "evasive-repositioning-ceramite-sentinels",
+    "name": "Evasive Repositioning",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-enemy-unit-fires",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D6"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Usable on an Infantry or Mounted unit targeted by the attacking unit; an Entrenched unit may re-roll the D6 move distance"
+  },
+  {
+    "ability_id": "guided-disruption-bastion-task-force",
+    "name": "Guided Disruption",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "unit-has-tag",
+            "parameters": {
+              "tag": "auspex-scanned",
+              "subject": "target"
+            }
+          },
+          {
+            "operator": "not",
+            "operands": [
+              {
+                "operator": "or",
+                "operands": [
+                  {
+                    "type": "target-has-keyword",
+                    "parameters": {
+                      "keyword": "Monster"
+                    }
+                  },
+                  {
+                    "type": "target-has-keyword",
+                    "parameters": {
+                      "keyword": "Vehicle"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "target",
+            "modifier": {
+              "stat": "M",
+              "operation": "subtract",
+              "value": 2
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "target",
+            "modifier": {
+              "roll": "charge",
+              "operation": "subtract",
+              "value": 2
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "until-start-next-turn"
+    },
+    "community_notes": "Used just after a Battleline unit finishes its attacks: an enemy unit auspex-scanned by those attacks (excluding Monsters and Vehicles) is pinned until the start of your next turn"
+  },
+  {
+    "ability_id": "heresy-undone-bastion-task-force",
+    "name": "Heresy Undone",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "shoot-after-advance-or-fall-back"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "charge-after-advance-or-fall-back"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Non-Battleline unit; every target of that charge and those attacks must be an auspex-scanned unit"
+  },
+  {
+    "ability_id": "light-of-vengeance-bastion-task-force",
+    "name": "Light Of Vengeance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Weapon ability",
+      "options": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Lethal Hits"
+            ]
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "The chosen ability applies while targeting an auspex-scanned unit, or on all targets if the bearer is Battleline. Target must not have been selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "priority-strike-ceramite-sentinels",
+    "name": "Priority Strike",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Character"
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Monster"
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Vehicle"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "wound",
+          "result_scope": "any-result"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Infantry or Mounted unit not yet selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "shock-bombardment-bastion-task-force",
+    "name": "Shock Bombardment",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-tag",
+        "parameters": {
+          "tag": "auspex-scanned",
+          "subject": "target"
+        }
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "target",
+        "modifier": {
+          "roll": "hit",
+          "operation": "subtract",
+          "value": 1
+        }
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "until-start-next-turn"
+    },
+    "community_notes": "Used just after a Battleline unit finishes its attacks: an enemy unit auspex-scanned by those attacks is suppressed (-1 to hit) until the start of your next turn"
+  },
+  {
+    "ability_id": "stand-to-the-end-ceramite-sentinels",
+    "name": "Stand To The End",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "selected-to-fight",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 4,
+      "comparison": "gte",
+      "on_success": {
+        "type": "fight-on-death",
+        "target": "unit",
+        "modifier": {}
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Roll per destroyed model that has not yet fought, adding 1 if the unit is Entrenched; on a 4+ the model fights after the attacking unit finishes, then is removed"
+  },
+  {
+    "ability_id": "unyielding-might-ceramite-sentinels",
+    "name": "Unyielding Might",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-control-modifier",
+      "target": "unit",
+      "modifier": {
+        "operation": "add",
+        "value": 1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "until-next-command-phase"
+    },
+    "community_notes": "Target: one unit within Engagement Range of enemy units"
+  },
+  {
+    "ability_id": "anti-grav-surge-fulguris-task-force",
+    "name": "Anti-Grav Surge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "fulguris-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "one-use"
+    },
+    "community_notes": "Target: one unengaged Speeder unit, at the end of the opponent's Fight phase"
+  },
+  {
+    "ability_id": "burning-vengeance-firestorm-assault-force",
+    "name": "Burning Vengeance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-enemy-unit-fires",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "disembark",
+          "target": "unit",
+          "modifier": {}
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "shoot-as-if-shooting-phase"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used on a Transport targeted by the attacking unit: one embarked unit disembarks as if it were your Movement phase and shoots as if it were your Shooting phase, targeting only that enemy unit (if eligible)"
+  },
+  {
+    "ability_id": "crucible-of-battle-firestorm-assault-force",
+    "name": "Crucible Of Battle",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "wound",
+        "operation": "add",
+        "value": 1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Applies to attacks against the closest eligible target within 6\". Infantry unit not yet selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "data-link-augury-fulguris-task-force",
+    "name": "Data-Link Augury",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "fulguris-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "detection-range-modifier",
+      "target": "target",
+      "modifier": {
+        "operation": "add",
+        "value": 6
+      }
+    },
+    "scope": {
+      "range": "any-visible",
+      "duration": "phase"
+    },
+    "community_notes": "Used when a Speeder unit is selected to shoot: one enemy unit within 24\" gets +6\" detection range until your unit has shot"
+  },
+  {
+    "ability_id": "immolation-protocols-firestorm-assault-force",
+    "name": "Immolation Protocols",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Devastating Wounds"
+        ],
+        "weapon_keyword": "Torrent"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Torrent weapons only. Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "kill-shot-headhunter-task-force",
+    "name": "Kill Shot",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Monster"
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Vehicle"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "subset": "ones"
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "unit-below-starting-strength",
+              "parameters": {
+                "subject": "target"
+              }
+            },
+            "effect": {
+              "type": "re-roll",
+              "target": "unit",
+              "modifier": {
+                "roll": "wound",
+                "result_scope": "any-result"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Tank Ace unit not yet selected to shoot; the full Wound re-roll replaces the re-roll of 1s against targets below Starting Strength. Cannot combine with Target Weak Point in the same phase"
+  },
+  {
+    "ability_id": "machine-vengeance-headhunter-task-force",
+    "name": "Machine Vengeance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-enemy-unit-fires",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "shoot-as-if-shooting-phase"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Tank Ace unit (excluding models with 16+ Wounds) targeted by the attacking unit; must target only that enemy unit, if visible and eligible"
+  },
+  {
+    "ability_id": "onslaught-of-fire-firestorm-assault-force",
+    "name": "Onslaught Of Fire",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "after-unit-resolves-attacks"
+            }
+          },
+          "effect": {
+            "type": "battle-shock-test",
+            "target": "target",
+            "modifier": {}
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Unit must have disembarked from a Transport this turn and not yet been selected to shoot; the Hit bonus applies against the closest eligible target within 12\"; if enemy models were destroyed, one destroyed model's unit takes a Battle-shock test"
+  },
+  {
+    "ability_id": "rapid-embarkation-firestorm-assault-force",
+    "name": "Rapid Embarkation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "embark-at-end-of-fight-phase"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "One empty Transport and one Infantry unit wholly within 6\" of it: the Infantry unit embarks. Cannot target a unit in Engagement Range, one that cannot normally embark, or one that disembarked this turn"
+  },
+  {
+    "ability_id": "rapid-gunnery-headhunter-task-force",
+    "name": "Rapid Gunnery",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "shoot-after-fall-back"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "reactive-evasion-fulguris-task-force",
+    "name": "Reactive Evasion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "fulguris-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "self",
+        "range": 8
+      }
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D3+3"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target: that unengaged Speeder unit"
+  },
+  {
+    "ability_id": "reactive-repositioning-headhunter-task-force",
+    "name": "Reactive Repositioning",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "self",
+        "range": 8
+      },
+      "move_types": [
+        "normal",
+        "advance",
+        "fall-back"
+      ]
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D6"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Tank Ace unit, excluding units containing models with 16+ Wounds"
+  },
+  {
+    "ability_id": "target-weak-point-headhunter-task-force",
+    "name": "Target Weak Point",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "or",
+        "operands": [
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Monster"
+            }
+          },
+          {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Vehicle"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "unit",
+        "modifier": {
+          "stat": "AP",
+          "operation": "add",
+          "value": -1,
+          "attack_type": "ranged"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Tank Ace unit not yet selected to shoot. Cannot combine with Kill Shot in the same phase"
+  },
+  {
+    "ability_id": "ancient-fury-ironstorm-spearhead",
+    "name": "Ancient Fury",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "self",
+          "modifier": {
+            "stat": "M",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "self",
+          "modifier": {
+            "stat": "T",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "self",
+          "modifier": {
+            "stat": "Ld",
+            "operation": "subtract",
+            "value": 1
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "self",
+          "modifier": {
+            "stat": "OC",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "self",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "until-next-command-phase"
+    },
+    "community_notes": "Walker model only; Leadership improves by 1 (lower is better)"
+  },
+  {
+    "ability_id": "blind-screen-orbital-assault-force",
+    "name": "Blind Screen",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "on-unit-selected",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Stealth"
+            ]
+          }
+        },
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "granted",
+            "rule_kind": "core-rule",
+            "rule": "benefit-of-cover"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Targets one non-Titanic unit selected as a target plus one friendly Smoke Vehicle or Drop Pod within 9\"; both gain Stealth and Benefit of Cover against ranged attacks"
+  },
+  {
+    "ability_id": "blitzing-fusillade-stormlance-task-force",
+    "name": "Blitzing Fusillade",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Assault"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ],
+            "weapon_keyword": "Assault"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Weapons that already had Assault gain Sustained Hits 1 as well. Target must not have been selected to shoot this phase"
+  },
+  {
+    "ability_id": "full-throttle-stormlance-task-force",
+    "name": "Full Throttle",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "M",
+            "operation": "add",
+            "value": 6
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Mounted"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 9
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Mounted or non-Walker Vehicle unit: when it Advances, no Advance roll is made \u2014 instead add 6\" to Move (9\" for Mounted); the bonuses do not stack"
+  },
+  {
+    "ability_id": "mercy-is-weakness-ironstorm-spearhead",
+    "name": "Mercy Is Weakness",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "unit-below-starting-strength",
+        "parameters": {
+          "subject": "target"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1"
+              ]
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "Vehicle"
+              }
+            },
+            "effect": {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keywords": [
+                  "Critical Hits 5+"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Applies to attacks against units below Starting Strength. Target must not have been selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "onward-for-the-emperor-orbital-assault-force",
+    "name": "Onward For The Emperor",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "embark-at-end-of-fight-phase"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Infantry unit not set up this turn, wholly within 6\" of a friendly Transport it can embark within"
+  },
+  {
+    "ability_id": "power-of-the-machine-spirit-ironstorm-spearhead",
+    "name": "Power Of The Machine Spirit",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-enemy-unit-fires",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "shoot-as-if-shooting-phase"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Vehicle unit reduced to Below Half-strength by the attacking unit's attacks; must target only that enemy unit, if eligible"
+  },
+  {
+    "ability_id": "ride-hard-ride-fast-stormlance-task-force",
+    "name": "Ride Hard, Ride Fast",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "on-unit-selected",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "roll-modifier",
+      "target": "attacker",
+      "modifier": {
+        "roll": "wound",
+        "operation": "subtract",
+        "value": 1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Mounted or Fly Vehicle unit selected as a target of the attacking unit"
+  },
+  {
+    "ability_id": "shock-assault-stormlance-task-force",
+    "name": "Shock Assault",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Lance"
+        ],
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used when the unit is selected to fight"
+  },
+  {
+    "ability_id": "shock-onslaught-orbital-assault-force",
+    "name": "Shock Onslaught",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "pile-in",
+            "distance": 6
+          }
+        },
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "consolidation",
+            "distance": 6
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to fight this phase"
+  },
+  {
+    "ability_id": "suppression-strafing-orbital-assault-force",
+    "name": "Suppression Strafing",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-battle-round",
+      "per": "army"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "target",
+          "modifier": {
+            "grant_type": "battle-shock-test"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "target",
+          "modifier": {
+            "roll": "battle-shock",
+            "operation": "subtract",
+            "value": 1
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "is-battle-shocked",
+            "parameters": {
+              "subject": "target"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "target",
+            "modifier": {
+              "roll": "hit",
+              "operation": "subtract",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-visible",
+      "duration": "until-start-next-turn"
+    },
+    "community_notes": "One enemy unit visible to and within 18\" of your unit takes a Battle-shock test at -1; if failed it is suppressed (-1 to hit) until the start of your next turn"
+  },
+  {
+    "ability_id": "tactical-decapitation-orbital-assault-force",
+    "name": "Tactical Decapitation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Precision"
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "Character"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Target must not have been selected to shoot or fight this phase"
+  },
+  {
+    "ability_id": "unbowed-conviction-ironstorm-spearhead",
+    "name": "Unbowed Conviction",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "modifier-immunity",
+          "target": "unit",
+          "modifier": {
+            "scope": "characteristics"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "any",
+            "operation": "ignore-modifiers"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "community_notes": "Unit below Starting Strength; may ignore any or all modifiers to characteristics and rolls/tests, excluding saving throws"
+  },
+  {
+    "ability_id": "vengeful-animus-ironstorm-spearhead",
+    "name": "Vengeful Animus",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "on-unit-destroyed",
+      "subject": "self"
+    },
+    "effect": {
+      "type": "auto-result",
+      "target": "self",
+      "modifier": {
+        "roll": "deadly-demise",
+        "result": "pass"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "one-use"
+    },
+    "community_notes": "Vehicle model with Deadly Demise, used as it is destroyed: mortal wounds are inflicted automatically instead of rolling the D6"
+  },
+  {
+    "ability_id": "wind-swift-evasion-stormlance-task-force",
+    "name": "Wind-Swift Evasion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "self",
+        "range": 8
+      },
+      "move_types": [
+        "normal",
+        "advance",
+        "fall-back"
+      ]
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": 6
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Infantry or Mounted unit; cannot select a unit within Engagement Range of enemy units"
+  },
+  {
+    "ability_id": "the-imperiums-sword-1st-company-task-force",
+    "name": "The Imperium\u2019s Sword",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "start-of-phase"
+            }
+          },
+          "effect": {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "A",
+              "operation": "add",
+              "value": 1,
+              "attack_type": "melee"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "The unit-wide +1 Attacks is a once-per-battle activation at the start of any phase, lasting until the end of that phase"
+  },
+  {
+    "ability_id": "fear-made-manifest-aura-1st-company-task-force",
+    "name": "Fear Made Manifest (Aura)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "enhancement",
+    "behavior": "aura",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "not",
+        "operands": [
+          {
+            "operator": "or",
+            "operands": [
+              {
+                "type": "target-has-keyword",
+                "parameters": {
+                  "keyword": "Monster"
+                }
+              },
+              {
+                "type": "target-has-keyword",
+                "parameters": {
+                  "keyword": "Vehicle"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "model-destruction",
+        "target": "enemy-within-aura"
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Each time an enemy unit (excluding Monsters/Vehicles) within 6\" fails a Battle-shock test, one model in it is destroyed (controller's choice); once per battle you can destroy D3 models instead"
+  },
+  {
+    "ability_id": "rites-of-war-1st-company-task-force",
+    "name": "Rites of War",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "objective-control-modifier",
+          "target": "bearer",
+          "modifier": {
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "start-of-phase"
+            }
+          },
+          "effect": {
+            "type": "objective-control-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Terminator"
+      ]
+    },
+    "community_notes": "The unit-wide +1 OC is a once-per-battle activation at the start of any phase, lasting until the end of that phase"
+  },
+  {
+    "ability_id": "iron-resolve-1st-company-task-force",
+    "name": "Iron Resolve",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "1st-company-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "feel-no-pain",
+          "target": "bearer",
+          "modifier": {
+            "threshold": 5
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "on-unit-selected"
+            }
+          },
+          "effect": {
+            "type": "feel-no-pain",
+            "target": "unit",
+            "modifier": {
+              "threshold": 5
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Terminator"
+      ]
+    },
+    "community_notes": "The unit-wide Feel No Pain 5+ is a once-per-battle activation after the bearer's unit is targeted, lasting until the end of the phase"
+  },
+  {
+    "ability_id": "indomitable-fury-anvil-siege-force",
+    "name": "Indomitable Fury",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 2,
+      "comparison": "gte",
+      "on_success": {
+        "type": "resurrection",
+        "target": "bearer",
+        "modifier": {
+          "wounds": "full"
+        }
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "self",
+      "duration": "one-use"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Gravis"
+      ]
+    },
+    "community_notes": "The first time the bearer is destroyed, roll at the end of the phase: on a 2+ set it back up as close as possible to where it was destroyed, outside Engagement Range, with full wounds"
+  },
+  {
+    "ability_id": "fleet-commander-anvil-siege-force",
+    "name": "Fleet Commander",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "model"
+    },
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 3,
+      "comparison": "gte",
+      "on_success": {
+        "type": "mortal-wounds",
+        "target": "target",
+        "modifier": {
+          "count": "D3"
+        }
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Captain"
+      ]
+    },
+    "community_notes": "Once per battle orbital-line bombardment: place a marker in your Shooting phase, a second within 12\" next Shooting phase, draw a line between them and roll one D6 per unit the line crosses \u2014 on a 3+ that unit suffers D3 mortal wounds"
+  },
+  {
+    "ability_id": "stoic-defender-anvil-siege-force",
+    "name": "Stoic Defender",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "conditional",
+        "condition": {
+          "type": "within-range-of-objective",
+          "parameters": {
+            "controlled": "friendly"
+          }
+        },
+        "effect": {
+          "type": "feel-no-pain",
+          "target": "unit",
+          "modifier": {
+            "threshold": 6
+          }
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "While the led unit is Battle-shocked, models' OC is halved instead of set to 0 (not modeled)"
+  },
+  {
+    "ability_id": "architect-of-war-anvil-siege-force",
+    "name": "Architect of War",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "anvil-siege-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "unit",
+        "modifier": {
+          "keywords": [
+            "Ignores Cover"
+          ],
+          "weapon_type": "ranged"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "liberator-armoured-speartip",
+    "name": "Liberator",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "end-of-phase"
+            }
+          },
+          {
+            "type": "within-range-of-objective",
+            "parameters": {
+              "controlled": "friendly"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "objective-tag",
+        "target": "unit",
+        "modifier": {
+          "tag": "secured",
+          "source": "this-action"
+        }
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "At the end of your Command phase, an objective you control in range of the bearer's unit (or its Heavy Transport) stays under your control until the opponent's Level of Control exceeds yours at the end of a phase"
+  },
+  {
+    "ability_id": "tip-of-the-spear-armoured-speartip",
+    "name": "Tip of the Spear",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "post-deployment"
+        }
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "self",
+        "modifier": {
+          "move_type": "scout",
+          "distance": 6
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "If the bearer starts the battle embarked within a Transport, that Transport gains Scouts 6\""
+  },
+  {
+    "ability_id": "shock-deployment-armoured-speartip",
+    "name": "Shock Deployment",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "disembarked-from-transport",
+        "parameters": {}
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "unit",
+        "modifier": {
+          "keywords": [
+            "Sustained Hits 1"
+          ],
+          "weapon_type": "ranged"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Terminator or Gravis model only; applies when the bearer's unit shoots after disembarking from a Transport this turn"
+  },
+  {
+    "ability_id": "armoured-commander-armoured-speartip",
+    "name": "Armoured Commander",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "armoured-speartip",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "model"
+    },
+    "effect": {
+      "type": "strategic-reserves-arrival",
+      "target": "unit"
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Once per turn in your Movement phase: one friendly Transport in Strategic Reserves treats the battle round as one higher for set-up purposes"
+  },
+  {
+    "ability_id": "eye-of-the-primarch-bastion-task-force",
+    "name": "Eye of the Primarch",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Precision"
+        ],
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Applies to the bearer and Battleline models in the bearer's unit"
+  },
+  {
+    "ability_id": "hero-of-the-chapter-bastion-task-force",
+    "name": "Hero of the Chapter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "unit-keyword-grant",
+        "target": "bearer",
+        "modifier": {
+          "keyword": "BATTLELINE"
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "blades-of-valour-bastion-task-force",
+    "name": "Blades of Valour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": -1,
+        "attack_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Applies to melee weapons of the bearer and Battleline models in the bearer's unit"
+  },
+  {
+    "ability_id": "bombast-omnivox-bastion-task-force",
+    "name": "Bombast Omnivox",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "bastion-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 4,
+      "comparison": "gte",
+      "on_success": {
+        "type": "cp-gain",
+        "target": "self",
+        "modifier": {
+          "amount": 1
+        }
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Each time the bearer's unit is targeted by a Stratagem, roll one D6 (+1 if the unit is Battleline): on a 4+ you gain 1CP"
+  },
+  {
+    "ability_id": "artificer-armour-gladius-task-force",
+    "name": "Artificer Armour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "Sv",
+            "operation": "set",
+            "value": 2
+          }
+        },
+        {
+          "type": "feel-no-pain",
+          "target": "bearer",
+          "modifier": {
+            "threshold": 5
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "the-honour-vehement-gladius-task-force",
+    "name": "The Honour Vehement",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "faction-rule-active",
+            "parameters": {
+              "rule": "assault-doctrine"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "stat-modifier",
+                "target": "bearer",
+                "modifier": {
+                  "stat": "A",
+                  "operation": "add",
+                  "value": 2,
+                  "attack_type": "melee"
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "bearer",
+                "modifier": {
+                  "stat": "S",
+                  "operation": "add",
+                  "value": 2,
+                  "attack_type": "melee"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Under the Assault Doctrine the bonus is +2 instead of +1 (not cumulative)"
+  },
+  {
+    "ability_id": "adept-of-the-codex-gladius-task-force",
+    "name": "Adept of the Codex",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "rule-state",
+      "target": "unit",
+      "modifier": {
+        "direction": "granted",
+        "rule_kind": "keyword",
+        "rule": "tactical-doctrine"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "until-next-command-phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Captain"
+      ]
+    },
+    "community_notes": "At the start of your Command phase, instead of selecting an army-wide Combat Doctrine you can make the Tactical Doctrine active for the bearer's unit only, even if already selected this battle"
+  },
+  {
+    "ability_id": "fire-discipline-gladius-task-force",
+    "name": "Fire Discipline",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "gladius-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1"
+              ],
+              "weapon_type": "ranged"
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "faction-rule-active",
+              "parameters": {
+                "rule": "devastator-doctrine"
+              }
+            },
+            "effect": {
+              "type": "re-roll",
+              "target": "unit",
+              "modifier": {
+                "roll": "advance",
+                "result_scope": "any-result"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "champion-of-humanity-firestorm-assault-force",
+    "name": "Champion of Humanity",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "modifier-immunity",
+            "target": "unit",
+            "modifier": {
+              "scope": "characteristics"
+            }
+          },
+          {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "any",
+              "operation": "ignore-modifiers"
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tacticus"
+      ]
+    },
+    "community_notes": "Excluding modifiers to saving throws"
+  },
+  {
+    "ability_id": "war-tempered-artifice-firestorm-assault-force",
+    "name": "War-tempered Artifice",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "bearer",
+      "modifier": {
+        "stat": "S",
+        "operation": "add",
+        "value": 3,
+        "attack_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "forged-in-battle-firestorm-assault-force",
+    "name": "Forged in Battle",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "auto-result",
+        "target": "unit",
+        "modifier": {
+          "roll": "hit",
+          "result": 6
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Once per turn, after making a Hit roll or a saving throw for a model in the led unit, change the result to an unmodified 6"
+  },
+  {
+    "ability_id": "adamantine-mantle-firestorm-assault-force",
+    "name": "Adamantine Mantle",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "firestorm-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "bearer",
+      "modifier": {
+        "stat": "D",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Attacks allocated to the bearer lose 1 Damage; attacks made with Melta or Torrent weapons have their Damage changed to 1 instead (weapon-keyword gate not modeled)"
+  },
+  {
+    "ability_id": "bellicose-weapon-spirits-upgrade-fulguris-task-force",
+    "name": "Bellicose Weapon Spirits (Upgrade)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "fulguris-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "damage",
+            "result_scope": "any-result"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "attacks",
+            "result_scope": "any-result"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Speeder"
+      ]
+    },
+    "community_notes": "Re-roll Damage rolls and rolls to determine the Attacks characteristic of a weapon"
+  },
+  {
+    "ability_id": "raptorial-cogitator-core-upgrade-fulguris-task-force",
+    "name": "Raptorial Cogitator Core (Upgrade)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "fulguris-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Ignores Cover"
+        ],
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Speeder"
+      ]
+    }
+  },
+  {
+    "ability_id": "honour-indefatigable-ceramite-sentinels",
+    "name": "Honour Indefatigable",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 2,
+      "comparison": "gte",
+      "on_success": {
+        "type": "resurrection",
+        "target": "bearer",
+        "modifier": {
+          "wounds": "full"
+        }
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "self",
+      "duration": "one-use"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Gravis"
+      ]
+    },
+    "community_notes": "The first time the bearer is destroyed, roll at the end of the phase: on a 2+ set it back up as close as possible to where it was destroyed, outside Engagement Range, with full wounds"
+  },
+  {
+    "ability_id": "castellum-omnivox-ceramite-sentinels",
+    "name": "Castellum Omnivox",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Castellum Omnivox",
+      "options": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "action-after-fall-back"
+          }
+        },
+        {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "shoot-after-fall-back"
+              }
+            },
+            {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "charge-after-fall-back"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Each time the bearer's unit Falls Back, choose one option to apply until the end of the turn"
+  },
+  {
+    "ability_id": "defensive-mastery-ceramite-sentinels",
+    "name": "Defensive Mastery",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ceramite-sentinels",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "all-friendly",
+      "modifier": {
+        "move_type": "redeploy",
+        "max_units": 3,
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "one-use"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "After both players deploy, redeploy up to three Adeptus Astartes units; they may be placed in Strategic Reserves regardless of the reserves limit"
+  },
+  {
+    "ability_id": "redoubtable-machine-spirit-headhunter-task-force",
+    "name": "Redoubtable Machine Spirit",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "invulnerable-save",
+          "target": "bearer",
+          "modifier": {
+            "invuln_sv": 5
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "timing-is",
+            "parameters": {
+              "timing": "start-of-command-phase"
+            }
+          },
+          "effect": {
+            "type": "heal-wounds",
+            "target": "bearer",
+            "modifier": {
+              "amount": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "The wound is regained at the end of your Command phase"
+  },
+  {
+    "ability_id": "gunnery-honours-headhunter-task-force",
+    "name": "Gunnery Honours",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "usage": {
+      "frequency": "once-per-phase",
+      "per": "model"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "bearer",
+          "modifier": {
+            "roll": "hit",
+            "result_scope": "any-result"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "bearer",
+          "modifier": {
+            "roll": "wound",
+            "result_scope": "any-result"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "bearer",
+          "modifier": {
+            "roll": "damage",
+            "result_scope": "any-result"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Once per phase: one Hit roll, one Wound roll and one Damage roll"
+  },
+  {
+    "ability_id": "firestorm-coordinators-headhunter-task-force",
+    "name": "Firestorm Coordinators",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "bearer",
+      "modifier": {
+        "keywords": [
+          "Sustained Hits 1"
+        ],
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Vehicle"
+      ]
+    }
+  },
+  {
+    "ability_id": "astartes-tank-ace-aura-headhunter-task-force",
+    "name": "Astartes Tank Ace (Aura)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "headhunter-task-force",
+    "ability_type": "enhancement",
+    "behavior": "aura",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "phase-is",
+        "parameters": {
+          "phase": "shooting"
+        }
+      },
+      "effect": {
+        "type": "conditional",
+        "condition": {
+          "operator": "and",
+          "operands": [
+            {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "Adeptus Astartes"
+              }
+            },
+            {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "Vehicle"
+              }
+            }
+          ]
+        },
+        "effect": {
+          "type": "keyword-grant",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "keywords": [
+              "Assault"
+            ],
+            "weapon_type": "ranged"
+          }
+        }
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Vehicle"
+      ]
+    }
+  },
+  {
+    "ability_id": "fury-of-the-storm-stormlance-task-force",
+    "name": "Fury of the Storm",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1,
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "charged-this-turn",
+            "parameters": {}
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "stat-modifier",
+                "target": "bearer",
+                "modifier": {
+                  "stat": "S",
+                  "operation": "add",
+                  "value": 2,
+                  "attack_type": "melee"
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "bearer",
+                "modifier": {
+                  "stat": "AP",
+                  "operation": "add",
+                  "value": -2,
+                  "attack_type": "melee"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Mounted"
+      ]
+    },
+    "community_notes": "After ending a Charge move the improvement is 2 instead of 1 until the end of the turn (not cumulative)"
+  },
+  {
+    "ability_id": "portents-of-wisdom-stormlance-task-force",
+    "name": "Portents of Wisdom",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "advance",
+          "result_scope": "any-result"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "feinting-withdrawal-stormlance-task-force",
+    "name": "Feinting Withdrawal",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "ability-grant",
+        "target": "unit",
+        "modifier": {
+          "grant_type": "shoot-after-fall-back"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "hunters-instincts-stormlance-task-force",
+    "name": "Hunter\u2019s Instincts",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "stormlance-task-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "strategic-reserves-arrival",
+      "target": "unit"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Mounted"
+      ]
+    },
+    "community_notes": "While the bearer's unit is in Strategic Reserves, treat the battle round as one higher for set-up purposes"
+  },
+  {
+    "ability_id": "celerity-librarius-conclave",
+    "name": "Celerity",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "librarius-conclave",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "charge-after-advance"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Biomancy Discipline"
+            }
+          },
+          "effect": {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "charge-after-fall-back"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Psyker"
+      ]
+    },
+    "community_notes": "The Fall Back clause requires the Biomancy Discipline ability"
+  },
+  {
+    "ability_id": "prescience-librarius-conclave",
+    "name": "Prescience",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "librarius-conclave",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "enemy-unit-ended-move",
+      "subject": "enemy-unit",
+      "proximity": {
+        "of": "self",
+        "range": 8
+      }
+    },
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "reactive",
+            "distance": "D6"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Divination Discipline"
+            }
+          },
+          "effect": {
+            "type": "movement-modifier",
+            "target": "unit",
+            "modifier": {
+              "move_type": "reactive",
+              "distance": 6,
+              "replaces_default": true
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Psyker"
+      ],
+      "excluded_keywords": [
+        "Terminator"
+      ]
+    },
+    "community_notes": "Unit must be unengaged"
+  },
+  {
+    "ability_id": "obfuscation-librarius-conclave",
+    "name": "Obfuscation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "librarius-conclave",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "attack-restriction",
+          "target": "unit",
+          "modifier": {
+            "restriction": "no-snap-shooting"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Telepathy Discipline"
+            }
+          },
+          "effect": {
+            "type": "detection-range-modifier",
+            "target": "unit",
+            "modifier": {
+              "operation": "add",
+              "value": -3
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Psyker"
+      ]
+    },
+    "community_notes": "Enemy units cannot target this unit with snap shooting attacks"
+  },
+  {
+    "ability_id": "temporal-corridor-librarius-conclave",
+    "name": "Temporal Corridor",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "librarius-conclave",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Telekinesis Discipline"
+            }
+          },
+          "effect": {
+            "type": "deep-strike",
+            "target": "unit"
+          }
+        },
+        {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "movement-modifier",
+              "target": "unit",
+              "modifier": {
+                "move_type": "redeploy",
+                "to_reserves": true
+              }
+            },
+            {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "ingress-move",
+                "from": "strategic-reserves"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Psyker"
+      ]
+    },
+    "community_notes": "At the end of the opponent's Fight phase, if unengaged, the unit can be placed in Strategic Reserves and make an ingress move in your next Movement phase (including your first turn)"
+  },
+  {
+    "ability_id": "fusillade-librarius-conclave",
+    "name": "Fusillade",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "librarius-conclave",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Lethal Hits"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Pyromancy Discipline"
+            }
+          },
+          "effect": {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Sustained Hits 1"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Psyker"
+      ]
+    }
+  },
+  {
+    "ability_id": "the-blade-driven-deep-vanguard-spearhead",
+    "name": "The Blade Driven Deep",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "is-attached"
+      },
+      "effect": {
+        "type": "movement-modifier",
+        "target": "unit",
+        "modifier": {
+          "move_type": "infiltrate"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "ghostweave-cloak-vanguard-spearhead",
+    "name": "Ghostweave Cloak",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "bearer",
+      "modifier": {
+        "keywords": [
+          "Stealth",
+          "Lone Operative"
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "execute-and-redeploy-vanguard-spearhead",
+    "name": "Execute and Redeploy",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "shoot-and-scoot",
+        "distance": 6
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Phobos"
+      ]
+    },
+    "community_notes": "After the bearer's unit shoots, if unengaged, it can make a Normal move of up to 6\" but cannot declare a charge this turn; once per Shooting phase"
+  },
+  {
+    "ability_id": "shadow-war-veteran-vanguard-spearhead",
+    "name": "Shadow War Veteran",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "vanguard-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "aura",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "model"
+    },
+    "effect": {
+      "type": "stratagem-cost-modifier",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "operation": "increase",
+        "amount": 1,
+        "applies_to": "stratagems-targeting-bearer"
+      }
+    },
+    "scope": {
+      "range": "aura-12",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Phobos"
+      ]
+    },
+    "community_notes": "Lord of Deceit (Aura): once per turn, a Stratagem your opponent uses on one of their units within 12\" costs 1CP more"
+  },
+  {
+    "ability_id": "laurels-of-thunder-orbital-assault-force",
+    "name": "Laurels of Thunder",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "timing-is",
+        "parameters": {
+          "timing": "reinforcements"
+        }
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "charge",
+          "result_scope": "any-result"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "Re-roll Charge rolls in a turn in which the bearer's unit was set up on the battlefield"
+  },
+  {
+    "ability_id": "veteran-of-the-vanguard-orbital-assault-force",
+    "name": "Veteran of the Vanguard",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "scout",
+        "distance": 6
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "orbital-uplink-reliquary-orbital-assault-force",
+    "name": "Orbital Uplink Reliquary",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "all-friendly",
+      "modifier": {
+        "move_type": "redeploy",
+        "max_units": 3,
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "one-use"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "After both players deploy, redeploy up to three Adeptus Astartes units; they may be placed in Strategic Reserves regardless of the reserves limit"
+  },
+  {
+    "ability_id": "target-augury-web-ironstorm-spearhead",
+    "name": "Target Augury Web",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Adeptus Astartes"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Vehicle"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "keyword-grant",
+        "target": "friendly-within-aura",
+        "modifier": {
+          "keywords": [
+            "Lethal Hits"
+          ]
+        }
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "until-next-command-phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Techmarine"
+      ]
+    },
+    "community_notes": "In your Command phase, select one Vehicle model within 6\" of the bearer"
+  },
+  {
+    "ability_id": "the-flesh-is-weak-ironstorm-spearhead",
+    "name": "The Flesh Is Weak",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "feel-no-pain",
+      "target": "bearer",
+      "modifier": {
+        "threshold": 4
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    }
+  },
+  {
+    "ability_id": "adept-of-the-omnissiah-ironstorm-spearhead",
+    "name": "Adept of the Omnissiah",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-save-roll",
+      "subject": "friendly-unit",
+      "proximity": {
+        "of": "bearer",
+        "range": 6
+      }
+    },
+    "usage": {
+      "frequency": "once-per-battle-round",
+      "per": "model"
+    },
+    "effect": {
+      "type": "stat-modifier",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "stat": "D",
+        "operation": "set",
+        "value": 0,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Techmarine"
+      ]
+    },
+    "community_notes": "Once per battle round, when a saving throw is failed for a friendly Vehicle model within 6\", change that attack's Damage to 0"
+  },
+  {
+    "ability_id": "master-of-machine-war-ironstorm-spearhead",
+    "name": "Master of Machine War",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "ironstorm-spearhead",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Adeptus Astartes"
+            }
+          },
+          {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "Vehicle"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "ability-grant",
+            "target": "friendly-within-aura",
+            "modifier": {
+              "grant_type": "shoot-after-advance"
+            }
+          },
+          {
+            "type": "ability-grant",
+            "target": "friendly-within-aura",
+            "modifier": {
+              "grant_type": "shoot-after-fall-back"
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "until-next-command-phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes"
+      ]
+    },
+    "community_notes": "In your Command phase, select one Vehicle model within 6\" of the bearer"
+  },
+  {
+    "ability_id": "shroud-field-subversion-assets",
+    "name": "Shroud Field",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "subversion-assets",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "bearer",
+      "modifier": {
+        "keywords": [
+          "Lone Operative",
+          "Stealth"
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Phobos"
+      ]
+    }
+  },
+  {
+    "ability_id": "death-in-the-dark-upgrade-subversion-assets",
+    "name": "Death in the Dark (Upgrade)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "subversion-assets",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-tag",
+        "parameters": {
+          "tag": "hidden",
+          "subject": "target"
+        }
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "hit",
+          "operation": "add",
+          "value": 1
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Infantry",
+        "Phobos"
+      ]
+    },
+    "community_notes": "Applies to attacks targeting a hidden unit"
+  },
+  {
+    "ability_id": "dedicated-gunship-orbital-assault-force",
+    "name": "Dedicated Gunship",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "adeptus-astartes",
+    "detachment_id": "orbital-assault-force",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "model"
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "one-use"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Adeptus Astartes",
+        "Terminator"
+      ]
+    },
+    "community_notes": "Once per battle, at the end of the opponent's Fight phase, if unengaged, the bearer's unit is placed into Strategic Reserves"
   }
 ]
