@@ -239,7 +239,8 @@
         "flamer"
       ],
       [
-        "hot-shot-laspistol"
+        "hot-shot-laspistol",
+        "medi-pack"
       ]
     ],
     "model_constraint": {
@@ -261,7 +262,8 @@
         "regimental-standard"
       ],
       [
-        "hot-shot-laspistol"
+        "hot-shot-laspistol",
+        "medi-pack"
       ]
     ],
     "model_constraint": {
@@ -522,7 +524,7 @@
     }
   },
   {
-    "id": "leman-russ-battle-tank-wgo-bsd-1",
+    "id": "leman-russ-battle-tank-wgo-mfm-1",
     "unit_id": "leman-russ-battle-tank",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -530,20 +532,79 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-battle-tank-wgo-mfm-2",
+    "unit_id": "leman-russ-battle-tank",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
     "replacement_choice": [
       [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
         "heavy-bolter"
       ],
       [
         "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon",
+        "plasma-cannon"
       ]
     ],
-    "replaces": [
-      "lascannon"
-    ]
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "leman-russ-battle-tank-wgo-bsd-2",
+    "id": "leman-russ-battle-tank-wgo-mfm-3",
     "unit_id": "leman-russ-battle-tank",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -561,20 +622,20 @@
         "heavy-flamer"
       ],
       [
-        "multi-melta",
-        "multi-melta"
-      ],
-      [
         "plasma-cannon",
         "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-battle-tank-wgo-bsd-3",
+    "id": "leman-russ-battle-tank-wgo-mfm-4",
     "unit_id": "leman-russ-battle-tank",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -584,34 +645,45 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-stubber"
+        "storm-bolter"
       ],
       [
-        "storm-bolter"
+        "heavy-stubber"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-battle-tank-wgo-bsd-4",
-    "unit_id": "leman-russ-battle-tank",
+    "id": "stormsword-wgo-mfm-1",
+    "unit_id": "stormsword",
     "faction_id": "astra-militarum",
     "game_version": {
       "edition": "11th",
       "dataslate": "launch"
     },
     "is_free": true,
+    "replacement_choice": [
+      [
+        "twin-heavy-flamer",
+        "twin-heavy-flamer",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ]
+    ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ]
+      "any_number": true
+    }
   },
   {
-    "id": "stormsword-wgo-bsd-1",
+    "id": "stormsword-wgo-mfm-2",
     "unit_id": "stormsword",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -623,36 +695,22 @@
       "twin-heavy-flamer",
       "twin-heavy-flamer"
     ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
-  },
-  {
-    "id": "stormsword-wgo-bsd-2",
-    "unit_id": "stormsword",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
     "replacement_choice": [
       [
-        "lascannon",
-        "lascannon",
         "twin-heavy-bolter",
         "twin-heavy-bolter"
       ],
       [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
         "lascannon",
-        "lascannon",
-        "twin-heavy-flamer",
-        "twin-heavy-flamer"
+        "lascannon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -824,7 +882,7 @@
     }
   },
   {
-    "id": "leman-russ-exterminator-wgo-bsd-1",
+    "id": "leman-russ-exterminator-wgo-mfm-1",
     "unit_id": "leman-russ-exterminator",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -834,49 +892,92 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "replaces": [
-      "lascannon"
-    ]
-  },
-  {
-    "id": "leman-russ-exterminator-wgo-bsd-2",
-    "unit_id": "leman-russ-exterminator",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "heavy-bolter",
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer",
-        "heavy-flamer"
+        "plasma-cannon",
+        "plasma-cannon"
       ],
       [
         "multi-melta",
         "multi-melta"
       ],
       [
-        "plasma-cannon",
-        "plasma-cannon"
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-exterminator-wgo-bsd-3",
+    "id": "leman-russ-exterminator-wgo-mfm-2",
+    "unit_id": "leman-russ-exterminator",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-exterminator-wgo-mfm-3",
     "unit_id": "leman-russ-exterminator",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -886,18 +987,18 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-stubber"
+        "storm-bolter"
       ],
       [
-        "storm-bolter"
+        "heavy-stubber"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-exterminator-wgo-bsd-4",
+    "id": "leman-russ-exterminator-wgo-mfm-4",
     "unit_id": "leman-russ-exterminator",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -905,12 +1006,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "model_constraint": {
-      "max_count": 1
-    },
     "replacement": [
       "hunter-killer-missile"
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
     "id": "bullgryn-squad-wgo-mfm-1",
@@ -1053,7 +1154,34 @@
     }
   },
   {
-    "id": "hellhammer-wgo-bsd-1",
+    "id": "hellhammer-wgo-mfm-1",
+    "unit_id": "hellhammer",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-flamer-hellhammer",
+        "twin-heavy-flamer-hellhammer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "hellhammer-wgo-mfm-2",
     "unit_id": "hellhammer",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1065,36 +1193,22 @@
       "twin-heavy-flamer-hellhammer",
       "twin-heavy-flamer-hellhammer"
     ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
-  },
-  {
-    "id": "hellhammer-wgo-bsd-2",
-    "unit_id": "hellhammer",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
     "replacement_choice": [
       [
         "lascannon",
         "lascannon",
         "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
         "twin-heavy-bolter"
       ],
       [
-        "lascannon",
-        "lascannon",
-        "twin-heavy-flamer-hellhammer",
-        "twin-heavy-flamer-hellhammer"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1263,7 +1377,7 @@
     }
   },
   {
-    "id": "leman-russ-executioner-wgo-bsd-1",
+    "id": "leman-russ-executioner-wgo-mfm-1",
     "unit_id": "leman-russ-executioner",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1271,20 +1385,63 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
     "replacement_choice": [
       [
+        "multi-melta",
+        "multi-melta",
         "heavy-bolter"
       ],
       [
         "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-flamer",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
       ]
     ],
-    "replaces": [
-      "lascannon"
-    ]
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "leman-russ-executioner-wgo-bsd-2",
+    "id": "leman-russ-executioner-wgo-mfm-2",
     "unit_id": "leman-russ-executioner",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1298,12 +1455,12 @@
         "heavy-bolter"
       ],
       [
-        "heavy-flamer",
-        "heavy-flamer"
-      ],
-      [
         "multi-melta",
         "multi-melta"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
       ],
       [
         "plasma-cannon",
@@ -1311,11 +1468,11 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-executioner-wgo-bsd-3",
+    "id": "leman-russ-executioner-wgo-mfm-3",
     "unit_id": "leman-russ-executioner",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1332,11 +1489,11 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-executioner-wgo-bsd-4",
+    "id": "leman-russ-executioner-wgo-mfm-4",
     "unit_id": "leman-russ-executioner",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1344,12 +1501,12 @@
       "dataslate": "launch"
     },
     "is_free": true,
-    "model_constraint": {
-      "max_count": 1
-    },
     "replacement": [
       "hunter-killer-missile"
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
     "id": "tempestus-scions-wgo-mfm-1",
@@ -1440,7 +1597,7 @@
     }
   },
   {
-    "id": "stormlord-wgo-bsd-1",
+    "id": "stormlord-wgo-mfm-1",
     "unit_id": "stormlord",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1452,13 +1609,26 @@
       "twin-heavy-flamer-stormlord",
       "twin-heavy-flamer-stormlord"
     ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "stormlord-wgo-bsd-2",
+    "id": "stormlord-wgo-mfm-2",
     "unit_id": "stormlord",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1468,20 +1638,20 @@
     "is_free": true,
     "replacement_choice": [
       [
+        "twin-heavy-flamer-stormlord",
+        "twin-heavy-flamer-stormlord",
         "lascannon",
-        "lascannon",
-        "twin-heavy-bolter",
-        "twin-heavy-bolter"
+        "lascannon"
       ],
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer-stormlord",
-        "twin-heavy-flamer-stormlord"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -1546,7 +1716,8 @@
     ],
     "replacement_choice": [
       [
-        "hot-shot-laspistol"
+        "hot-shot-laspistol",
+        "melta-mine"
       ],
       [
         "plasma-gun-kasrkin"
@@ -1721,7 +1892,7 @@
       ]
     ],
     "model_constraint": {
-      "model_name": "Cadian Veteran Guardsman with chainsword",
+      "model_name": "Cadian Veteran Guardsman",
       "any_number": true
     }
   },
@@ -1753,7 +1924,7 @@
       ]
     ],
     "model_constraint": {
-      "model_name": "Cadian Veteran Guardsman with regimental standard",
+      "model_name": "Cadian Veteran Guardsman",
       "any_number": true
     }
   },
@@ -1778,7 +1949,7 @@
       ]
     ],
     "model_constraint": {
-      "model_name": "Cadian Veteran Guardsman with chainsword",
+      "model_name": "Cadian Veteran Guardsman",
       "any_number": true
     }
   },
@@ -1849,6 +2020,9 @@
         "regimental-standard"
       ],
       [
+        "medi-pack"
+      ],
+      [
         "master-vox"
       ]
     ],
@@ -1895,7 +2069,7 @@
     }
   },
   {
-    "id": "doomhammer-wgo-bsd-1",
+    "id": "doomhammer-wgo-mfm-1",
     "unit_id": "doomhammer",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1907,13 +2081,26 @@
       "twin-heavy-flamer-doomhammer",
       "twin-heavy-flamer-doomhammer"
     ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "doomhammer-wgo-bsd-2",
+    "id": "doomhammer-wgo-mfm-2",
     "unit_id": "doomhammer",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -1923,20 +2110,20 @@
     "is_free": true,
     "replacement_choice": [
       [
+        "twin-heavy-flamer-doomhammer",
+        "twin-heavy-flamer-doomhammer",
         "lascannon",
-        "lascannon",
-        "twin-heavy-bolter",
-        "twin-heavy-bolter"
+        "lascannon"
       ],
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer-doomhammer",
-        "twin-heavy-flamer-doomhammer"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2173,25 +2360,24 @@
     }
   },
   {
-    "id": "banesword-wgo-bsd-1",
-    "unit_id": "banesword",
+    "id": "death-korps-of-krieg-wgo-mfm-6",
+    "unit_id": "death-korps-of-krieg",
     "faction_id": "astra-militarum",
     "game_version": {
       "edition": "11th",
       "dataslate": "launch"
     },
     "is_free": true,
-    "replaces": [
-      "twin-heavy-flamer-banesword",
-      "twin-heavy-flamer-banesword"
-    ],
     "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
+      "death-korps-medi-pack"
+    ],
+    "model_constraint": {
+      "model_name": "Death Korps Trooper",
+      "per_n_models": 10
+    }
   },
   {
-    "id": "banesword-wgo-bsd-2",
+    "id": "banesword-wgo-mfm-1",
     "unit_id": "banesword",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2203,18 +2389,49 @@
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-bolter",
-        "twin-heavy-bolter"
+        "twin-heavy-flamer-banesword",
+        "twin-heavy-flamer-banesword"
       ],
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-flamer-banesword",
-        "twin-heavy-flamer-banesword"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "banesword-wgo-mfm-2",
+    "unit_id": "banesword",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer-banesword",
+      "twin-heavy-flamer-banesword"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
     }
   },
   {
@@ -2374,7 +2591,7 @@
     }
   },
   {
-    "id": "leman-russ-punisher-wgo-bsd-1",
+    "id": "leman-russ-punisher-wgo-mfm-1",
     "unit_id": "leman-russ-punisher",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2383,35 +2600,6 @@
     },
     "is_free": true,
     "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "replaces": [
-      "lascannon"
-    ]
-  },
-  {
-    "id": "leman-russ-punisher-wgo-bsd-2",
-    "unit_id": "leman-russ-punisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "heavy-bolter",
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer",
-        "heavy-flamer"
-      ],
       [
         "multi-melta",
         "multi-melta"
@@ -2419,14 +2607,102 @@
       [
         "plasma-cannon",
         "plasma-cannon"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-punisher-wgo-bsd-3",
+    "id": "leman-russ-punisher-wgo-mfm-2",
+    "unit_id": "leman-russ-punisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-punisher-wgo-mfm-3",
+    "unit_id": "leman-russ-punisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-punisher-wgo-mfm-4",
     "unit_id": "leman-russ-punisher",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2436,31 +2712,15 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-stubber"
+        "storm-bolter"
       ],
       [
-        "storm-bolter"
+        "heavy-stubber"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
-  },
-  {
-    "id": "leman-russ-punisher-wgo-bsd-4",
-    "unit_id": "leman-russ-punisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ]
   },
   {
     "id": "krieg-command-squad-wgo-mfm-1",
@@ -2521,16 +2781,16 @@
     ],
     "replacement_choice": [
       [
-        "plasma-gun"
+        "flamer"
       ],
       [
         "grenade-launcher"
       ],
       [
-        "flamer"
+        "meltagun"
       ],
       [
-        "meltagun"
+        "plasma-gun"
       ]
     ],
     "model_constraint": {
@@ -2581,7 +2841,23 @@
     }
   },
   {
-    "id": "leman-russ-demolisher-wgo-bsd-1",
+    "id": "leman-russ-demolisher-wgo-mfm-1",
+    "unit_id": "leman-russ-demolisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-2",
     "unit_id": "leman-russ-demolisher",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2591,83 +2867,110 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-bolter"
+        "storm-bolter"
+      ],
+      [
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-3",
+    "unit_id": "leman-russ-demolisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "multi-melta",
+        "multi-melta"
       ],
       [
         "heavy-flamer"
-      ]
-    ],
-    "replaces": [
-      "lascannon"
-    ]
-  },
-  {
-    "id": "leman-russ-demolisher-wgo-bsd-2",
-    "unit_id": "leman-russ-demolisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
+      ],
       [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
         "heavy-bolter",
         "heavy-bolter"
       ],
       [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-demolisher-wgo-mfm-4",
+    "unit_id": "leman-russ-demolisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
         "heavy-flamer",
         "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon"
       ],
       [
         "multi-melta",
         "multi-melta"
       ],
       [
-        "plasma-cannon",
-        "plasma-cannon"
+        "heavy-bolter",
+        "heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
-  },
-  {
-    "id": "leman-russ-demolisher-wgo-bsd-3",
-    "unit_id": "leman-russ-demolisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "heavy-stubber"
-      ],
-      [
-        "storm-bolter"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    }
-  },
-  {
-    "id": "leman-russ-demolisher-wgo-bsd-4",
-    "unit_id": "leman-russ-demolisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ]
   },
   {
     "id": "taurox-wgo-mfm-1",
@@ -2686,7 +2989,34 @@
     }
   },
   {
-    "id": "banehammer-wgo-bsd-1",
+    "id": "banehammer-wgo-mfm-1",
+    "unit_id": "banehammer",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-flamer-banehammer",
+        "twin-heavy-flamer-banehammer",
+        "lascannon",
+        "lascannon"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "banehammer-wgo-mfm-2",
     "unit_id": "banehammer",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2698,36 +3028,22 @@
       "twin-heavy-flamer-banehammer",
       "twin-heavy-flamer-banehammer"
     ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
-  },
-  {
-    "id": "banehammer-wgo-bsd-2",
-    "unit_id": "banehammer",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
     "replacement_choice": [
       [
-        "lascannon",
-        "lascannon",
         "twin-heavy-bolter",
-        "twin-heavy-bolter"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
       ],
       [
-        "lascannon",
-        "lascannon",
-        "twin-heavy-flamer-banehammer",
-        "twin-heavy-flamer-banehammer"
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
@@ -2768,7 +3084,23 @@
     }
   },
   {
-    "id": "leman-russ-commander-wgo-bsd-1",
+    "id": "leman-russ-commander-wgo-mfm-1",
+    "unit_id": "leman-russ-commander",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-2",
     "unit_id": "leman-russ-commander",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2778,30 +3110,54 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "demolisher-battle-cannon"
+        "storm-bolter"
       ],
       [
-        "eradicator-nova-cannon"
+        "heavy-stubber"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-commander-wgo-mfm-3",
+    "unit_id": "leman-russ-commander",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "leman-russ-battle-cannon"
+    ],
+    "replacement_choice": [
+      [
+        "demolisher-battle-cannon"
       ],
       [
         "executioner-plasma-cannon"
       ],
       [
-        "exterminator-autocannon"
+        "eradicator-nova-cannon"
       ],
       [
         "punisher-gatling-cannon"
       ],
       [
         "vanquisher-battle-cannon"
+      ],
+      [
+        "exterminator-autocannon"
       ]
     ],
-    "replaces": [
-      "leman-russ-battle-cannon"
-    ]
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "leman-russ-commander-wgo-bsd-2",
+    "id": "leman-russ-commander-wgo-mfm-4",
     "unit_id": "leman-russ-commander",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2809,20 +3165,63 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
     "replacement_choice": [
       [
+        "heavy-bolter",
+        "heavy-bolter",
         "heavy-bolter"
       ],
       [
         "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
       ]
     ],
-    "replaces": [
-      "lascannon"
-    ]
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "leman-russ-commander-wgo-bsd-3",
+    "id": "leman-russ-commander-wgo-mfm-5",
     "unit_id": "leman-russ-commander",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2831,6 +3230,10 @@
     },
     "is_free": true,
     "replacement_choice": [
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
       [
         "heavy-bolter",
         "heavy-bolter"
@@ -2842,52 +3245,11 @@
       [
         "multi-melta",
         "multi-melta"
-      ],
-      [
-        "plasma-cannon",
-        "plasma-cannon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
-  },
-  {
-    "id": "leman-russ-commander-wgo-bsd-4",
-    "unit_id": "leman-russ-commander",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "heavy-stubber"
-      ],
-      [
-        "storm-bolter"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    }
-  },
-  {
-    "id": "leman-russ-commander-wgo-bsd-5",
-    "unit_id": "leman-russ-commander",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ]
   },
   {
     "id": "valkyrie-wgo-mfm-1",
@@ -2946,25 +3308,7 @@
     }
   },
   {
-    "id": "shadowsword-wgo-bsd-1",
-    "unit_id": "shadowsword",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "twin-heavy-flamer-shadowsword",
-      "twin-heavy-flamer-shadowsword"
-    ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
-  },
-  {
-    "id": "shadowsword-wgo-bsd-2",
+    "id": "shadowsword-wgo-mfm-1",
     "unit_id": "shadowsword",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -2987,7 +3331,38 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "shadowsword-wgo-mfm-2",
+    "unit_id": "shadowsword",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer-shadowsword",
+      "twin-heavy-flamer-shadowsword"
+    ],
+    "replacement_choice": [
+      [
+        "lascannon",
+        "lascannon",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
     }
   },
   {
@@ -3127,7 +3502,7 @@
     }
   },
   {
-    "id": "leman-russ-vanquisher-wgo-bsd-1",
+    "id": "leman-russ-vanquisher-wgo-mfm-1",
     "unit_id": "leman-russ-vanquisher",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -3137,26 +3512,9 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-bolter"
+        "plasma-cannon",
+        "plasma-cannon"
       ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "replaces": [
-      "lascannon"
-    ]
-  },
-  {
-    "id": "leman-russ-vanquisher-wgo-bsd-2",
-    "unit_id": "leman-russ-vanquisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
       [
         "heavy-bolter",
         "heavy-bolter"
@@ -3168,18 +3526,94 @@
       [
         "multi-melta",
         "multi-melta"
-      ],
-      [
-        "plasma-cannon",
-        "plasma-cannon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-vanquisher-wgo-bsd-3",
+    "id": "leman-russ-vanquisher-wgo-mfm-2",
+    "unit_id": "leman-russ-vanquisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter",
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-flamer",
+        "heavy-flamer"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-vanquisher-wgo-mfm-3",
+    "unit_id": "leman-russ-vanquisher",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replacement": [
+      "hunter-killer-missile"
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-vanquisher-wgo-mfm-4",
     "unit_id": "leman-russ-vanquisher",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -3189,31 +3623,15 @@
     "is_free": true,
     "replacement_choice": [
       [
-        "heavy-stubber"
+        "storm-bolter"
       ],
       [
-        "storm-bolter"
+        "heavy-stubber"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
-  },
-  {
-    "id": "leman-russ-vanquisher-wgo-bsd-4",
-    "unit_id": "leman-russ-vanquisher",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "hunter-killer-missile"
-    ]
   },
   {
     "id": "basilisk-wgo-mfm-1",
@@ -3251,25 +3669,7 @@
     }
   },
   {
-    "id": "baneblade-wgo-bsd-1",
-    "unit_id": "baneblade",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replaces": [
-      "twin-heavy-flamer-baneblade",
-      "twin-heavy-flamer-baneblade"
-    ],
-    "replacement": [
-      "twin-heavy-bolter",
-      "twin-heavy-bolter"
-    ]
-  },
-  {
-    "id": "baneblade-wgo-bsd-2",
+    "id": "baneblade-wgo-mfm-1",
     "unit_id": "baneblade",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -3281,18 +3681,49 @@
       [
         "lascannon",
         "lascannon",
-        "twin-heavy-bolter",
-        "twin-heavy-bolter"
-      ],
-      [
-        "lascannon",
-        "lascannon",
         "twin-heavy-flamer-baneblade",
         "twin-heavy-flamer-baneblade"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "baneblade-wgo-mfm-2",
+    "unit_id": "baneblade",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "twin-heavy-flamer-baneblade",
+      "twin-heavy-flamer-baneblade"
+    ],
+    "replacement_choice": [
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "twin-heavy-bolter",
+        "lascannon",
+        "lascannon"
+      ],
+      [
+        "twin-heavy-bolter",
+        "twin-heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
     }
   },
   {
@@ -3336,7 +3767,8 @@
       "trench-club-krieg-combat-engineers"
     ],
     "replacement": [
-      "close-combat-weapon-krieg-combat-engineers"
+      "close-combat-weapon-krieg-combat-engineers",
+      "remote-mine"
     ],
     "model_constraint": {
       "model_name": "Krieg Combat Engineer",
@@ -3480,59 +3912,7 @@
     }
   },
   {
-    "id": "leman-russ-eradicator-wgo-bsd-1",
-    "unit_id": "leman-russ-eradicator",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer"
-      ]
-    ],
-    "replaces": [
-      "lascannon"
-    ]
-  },
-  {
-    "id": "leman-russ-eradicator-wgo-bsd-2",
-    "unit_id": "leman-russ-eradicator",
-    "faction_id": "astra-militarum",
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    },
-    "is_free": true,
-    "replacement_choice": [
-      [
-        "heavy-bolter",
-        "heavy-bolter"
-      ],
-      [
-        "heavy-flamer",
-        "heavy-flamer"
-      ],
-      [
-        "multi-melta",
-        "multi-melta"
-      ],
-      [
-        "plasma-cannon",
-        "plasma-cannon"
-      ]
-    ],
-    "model_constraint": {
-      "max_count": 1
-    }
-  },
-  {
-    "id": "leman-russ-eradicator-wgo-bsd-3",
+    "id": "leman-russ-eradicator-wgo-mfm-1",
     "unit_id": "leman-russ-eradicator",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -3549,11 +3929,11 @@
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "leman-russ-eradicator-wgo-bsd-4",
+    "id": "leman-russ-eradicator-wgo-mfm-2",
     "unit_id": "leman-russ-eradicator",
     "faction_id": "astra-militarum",
     "game_version": {
@@ -3561,12 +3941,107 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "lascannon"
+    ],
+    "replacement_choice": [
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-flamer"
+      ],
+      [
+        "multi-melta",
+        "multi-melta",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon",
+        "heavy-flamer"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-flamer",
+        "heavy-bolter"
+      ],
+      [
+        "heavy-flamer",
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-eradicator-wgo-mfm-3",
+    "unit_id": "leman-russ-eradicator",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     },
+    "is_free": true,
+    "replacement_choice": [
+      [
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "plasma-cannon",
+        "plasma-cannon"
+      ],
+      [
+        "multi-melta",
+        "multi-melta"
+      ],
+      [
+        "heavy-bolter",
+        "heavy-bolter"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "leman-russ-eradicator-wgo-mfm-4",
+    "unit_id": "leman-russ-eradicator",
+    "faction_id": "astra-militarum",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
     "replacement": [
       "hunter-killer-missile"
-    ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
     "id": "cadian-recon-squad-wgo-mfm-1",
@@ -3578,7 +4053,8 @@
     },
     "is_free": true,
     "replacement": [
-      "vox-caster"
+      "vox-caster",
+      "vox-relay-beacon"
     ],
     "model_constraint": {
       "model_name": "Recon Trooper",
