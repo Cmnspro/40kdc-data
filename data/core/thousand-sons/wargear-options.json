@@ -1,6 +1,6 @@
 [
   {
-    "id": "helbrute-wgo-bsd-1",
+    "id": "helbrute-wgo-mfm-1",
     "unit_id": "helbrute",
     "faction_id": "thousand-sons",
     "game_version": {
@@ -8,28 +8,201 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "missile-launcher",
+      "multi-melta"
+    ],
     "replacement_choice": [
+      [
+        "helbrute-fist",
+        "helbrute-fist",
+        "inferno-combi-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "twin-lascannon",
+        "inferno-combi-bolter",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "twin-inferno-heavy-bolter"
+      ],
+      [
+        "power-scourge",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-hammer",
+        "heavy-flamer"
+      ],
+      [
+        "power-scourge",
+        "twin-lascannon"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-fist",
+        "inferno-combi-bolter"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-fist",
+        "heavy-flamer",
+        "heavy-flamer"
+      ],
+      [
+        "twin-inferno-heavy-bolter",
+        "power-scourge"
+      ],
+      [
+        "helbrute-plasma-cannon",
+        "helbrute-fist",
+        "heavy-flamer"
+      ],
+      [
+        "twin-autocannon",
+        "power-scourge"
+      ],
+      [
+        "helbrute-hammer",
+        "twin-lascannon"
+      ],
+      [
+        "helbrute-hammer",
+        "inferno-combi-bolter",
+        "helbrute-fist"
+      ],
+      [
+        "twin-lascannon",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-plasma-cannon",
+        "power-scourge"
+      ],
+      [
+        "helbrute-fist",
+        "twin-lascannon",
+        "heavy-flamer"
+      ],
+      [
+        "helbrute-hammer",
+        "twin-inferno-heavy-bolter"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-plasma-cannon",
+        "helbrute-hammer"
+      ],
+      [
+        "inferno-combi-bolter",
+        "helbrute-fist",
+        "power-scourge"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-plasma-cannon"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-fist",
+        "inferno-combi-bolter"
+      ],
+      [
+        "twin-autocannon",
+        "heavy-flamer",
+        "helbrute-fist"
+      ],
+      [
+        "inferno-combi-bolter",
+        "helbrute-fist",
+        "twin-inferno-heavy-bolter"
+      ],
+      [
+        "helbrute-hammer",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "helbrute-plasma-cannon",
+        "inferno-combi-bolter"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "heavy-flamer",
+        "power-scourge"
+      ],
+      [
+        "heavy-flamer",
+        "helbrute-fist",
+        "helbrute-fist"
+      ],
+      [
+        "helbrute-fist",
+        "twin-inferno-heavy-bolter",
+        "heavy-flamer"
+      ],
+      [
+        "twin-autocannon",
+        "helbrute-hammer"
+      ],
+      [
+        "inferno-combi-bolter",
+        "inferno-combi-bolter",
+        "helbrute-fist",
+        "helbrute-fist"
+      ]
+    ],
+    "model_constraint": {
+      "any_number": true
+    }
+  },
+  {
+    "id": "helbrute-wgo-mfm-2",
+    "unit_id": "helbrute",
+    "faction_id": "thousand-sons",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "is_free": true,
+    "replaces": [
+      "missile-launcher"
+    ],
+    "replacement_choice": [
+      [
+        "helbrute-hammer"
+      ],
       [
         "heavy-flamer",
         "helbrute-fist"
       ],
       [
-        "helbrute-fist",
-        "inferno-combi-bolter"
+        "helbrute-fist"
       ],
       [
-        "helbrute-hammer"
+        "helbrute-fist",
+        "inferno-combi-bolter"
       ],
       [
         "power-scourge"
       ]
     ],
-    "replaces": [
-      "missile-launcher"
-    ]
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
-    "id": "helbrute-wgo-bsd-2",
+    "id": "helbrute-wgo-mfm-3",
     "unit_id": "helbrute",
     "faction_id": "thousand-sons",
     "game_version": {
@@ -37,9 +210,14 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "multi-melta"
+    ],
     "replacement_choice": [
       [
-        "heavy-flamer",
+        "twin-lascannon"
+      ],
+      [
         "helbrute-fist"
       ],
       [
@@ -47,21 +225,22 @@
         "inferno-combi-bolter"
       ],
       [
-        "helbrute-plasma-cannon"
+        "twin-autocannon"
       ],
       [
-        "twin-autocannon"
+        "heavy-flamer",
+        "helbrute-fist"
       ],
       [
         "twin-inferno-heavy-bolter"
       ],
       [
-        "twin-lascannon"
+        "helbrute-plasma-cannon"
       ]
     ],
-    "replaces": [
-      "multi-melta"
-    ]
+    "model_constraint": {
+      "any_number": true
+    }
   },
   {
     "id": "chaos-land-raider-wgo-mfm-1",
@@ -154,7 +333,7 @@
     }
   },
   {
-    "id": "chaos-rhino-wgo-bsd-1",
+    "id": "chaos-rhino-wgo-mfm-1",
     "unit_id": "chaos-rhino",
     "faction_id": "thousand-sons",
     "game_version": {
@@ -164,18 +343,29 @@
     "is_free": true,
     "replacement_choice": [
       [
+        "inferno-combi-weapon"
+      ],
+      [
+        "havoc-launcher"
+      ],
+      [
+        "havoc-launcher",
         "inferno-combi-bolter"
       ],
       [
-        "inferno-combi-weapon"
+        "inferno-combi-weapon",
+        "havoc-launcher"
+      ],
+      [
+        "inferno-combi-bolter"
       ]
     ],
     "model_constraint": {
-      "max_count": 1
+      "any_number": true
     }
   },
   {
-    "id": "chaos-rhino-wgo-bsd-2",
+    "id": "chaos-rhino-wgo-mfm-2",
     "unit_id": "chaos-rhino",
     "faction_id": "thousand-sons",
     "game_version": {
@@ -183,12 +373,21 @@
       "dataslate": "launch"
     },
     "is_free": true,
+    "replaces": [
+      "inferno-combi-bolter"
+    ],
+    "replacement_choice": [
+      [
+        "havoc-launcher",
+        "inferno-combi-weapon"
+      ],
+      [
+        "havoc-launcher"
+      ]
+    ],
     "model_constraint": {
-      "max_count": 1
-    },
-    "replacement": [
-      "havoc-launcher"
-    ]
+      "any_number": true
+    }
   },
   {
     "id": "rubric-marines-wgo-mfm-1",
