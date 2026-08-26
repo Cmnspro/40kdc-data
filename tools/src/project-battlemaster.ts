@@ -2045,18 +2045,20 @@ function projectFromRestApi(
       }
 
       // Place this terrain piece on the board.
-      // BM coordinates: board-center y-up. fp.origin is the CENTER of the
-      // footprint bounding rect on the board. The template footprint polygon
-      // is in y-down local space with (0,0) at the top-left of the bounding
-      // rect. Compute the centroid's offset from the rect center (nearly zero
-      // for the nubbed outlines), rotate it, and add fp.origin.
+      // BM coordinates: board-center y-up. fp.origin is the piece-local (0, 0)
+      // corner of the footprint frame — the same frame the outline points and
+      // part origins live in — and the piece frame rotates around it ("piece
+      // frame rotates around footprint.origin", public data API docs). The
+      // template footprint polygon is in y-down local space with (0, 0) at
+      // that corner. Express the centroid in the y-up piece frame, rotate it
+      // about the origin, and add fp.origin.
       const variantFp = variants.get(comp.id)!.footprint;
       const centroid = polygonCentroid(footprintVertices(variantFp));
-      const centroidFromCenter: Vec2 = {
-        x: centroid.x - fp.widthIn / 2,
-        y: fp.heightIn / 2 - centroid.y,
+      const centroidFromOrigin: Vec2 = {
+        x: centroid.x,
+        y: fp.heightIn - centroid.y,
       };
-      const rotated = rotateCcwYUp(centroidFromCenter, fp.rotationDeg);
+      const rotated = rotateCcwYUp(centroidFromOrigin, fp.rotationDeg);
       const centroidOnBoard: Vec2 = {
         x: rotated.x + fp.origin.x,
         y: rotated.y + fp.origin.y,

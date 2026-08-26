@@ -285,19 +285,22 @@ describe("Battlemaster read-only projector", () => {
       projection.terrain_layouts[0]!,
       projection.terrain_templates,
     );
+    // fp.origin (0, 0) is the piece-local corner, so the 6.003x4.003 footprint
+    // spans board x [30, 36.003], y [17.997, 22]; the 4x2 part at part-local
+    // origin (1, 1) lands at x [31, 35], y [19, 21].
     expect(resolved[1]).toMatchObject({
       id: "area-01--feature-1",
       vertices: [
-        { x: 27.9985, y: 23.0015 },
-        { x: 31.9985, y: 23.0015 },
-        { x: 31.9985, y: 21.0015 },
-        { x: 27.9985, y: 21.0015 },
+        { x: 31, y: 21 },
+        { x: 35, y: 21 },
+        { x: 35, y: 19 },
+        { x: 31, y: 19 },
       ],
       walls: [
         {
           points: [
-            { x: 27.9985, y: 23.0015 },
-            { x: 31.9985, y: 23.0015 },
+            { x: 31, y: 21 },
+            { x: 35, y: 21 },
           ],
           thickness: 0.25,
         },
