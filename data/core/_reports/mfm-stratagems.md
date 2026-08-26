@@ -1,4 +1,4 @@
-# MFM stratagems — APPLIED
+# MFM stratagems — DRY RUN
 
 APPLIED (first-class dump columns): `cp_cost` ← cpCost, `player_turn` ← key,
 `type` ← category (fill-only), `category` ← detachmentId presence.
@@ -20,7 +20,7 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 | black-templars | 93 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | blood-angels | 106 | 0 | 0 | 0 | 0 | 0 | 3 | 0 |
 | chaos-daemons | 46 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| chaos-knights | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| chaos-knights | 39 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | chaos-space-marines | 96 | 0 | 0 | 0 | 0 | 0 | 1 | 1 |
 | crimson-fists | 66 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | dark-angels | 106 | 0 | 0 | 0 | 0 | 0 | 3 | 0 |
@@ -45,7 +45,7 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 | ultramarines | 77 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | white-scars | 71 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | world-eaters | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **2166** | **0** | **0** | **0** | **0** | **0** | **25** | **48** |
+| **TOTAL** | **2166** | **0** | **0** | **0** | **0** | **0** | **26** | **48** |
 
 ## (core)
 
@@ -83,6 +83,11 @@ Avarice→command, Scriptural Prognosis→all-five), so authored phases win.
 - death-from-the-skies-the-angelic-host: [charge] vs [movement]
 - no-barrier-to-retribution-wrath-of-the-doomed: [shooting] vs [charge]
 - shock-assault-stormlance-task-force: [charge] vs [fight]
+
+## chaos-knights
+
+**Phases — authored vs prose-derived (review only, NOT applied):**
+- storm-of-darkness-traitoris-lance: [shooting] vs [shooting,fight]
 
 ## chaos-space-marines
 

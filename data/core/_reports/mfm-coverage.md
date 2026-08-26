@@ -1,4 +1,4 @@
-# MFM coverage — dump data_version 925
+# MFM coverage — dump data_version 931
 
 Dump-vs-repo coverage by faction dir. **New** = in dump, no repo entity.
 **Repo-only** = in repo, absent from the (Legends-free) dump → dropped (Legends/Forge-World; see cull-legends).
