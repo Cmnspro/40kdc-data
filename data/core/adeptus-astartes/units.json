@@ -856,12 +856,12 @@
   },
   {
     "id": "emperors-champion",
-    "name": "Emperor’s Champion",
+    "name": "Emperor\u2019s Champion",
     "faction_id": "adeptus-astartes",
     "role": "character",
     "profiles": [
       {
-        "name": "Emperor’s Champion",
+        "name": "Emperor\u2019s Champion",
         "M": 8,
         "T": 4,
         "W": 5,
@@ -883,7 +883,7 @@
       "Grenades",
       "Imperium",
       "Tacticus",
-      "Emperor’s Champion"
+      "Emperor\u2019s Champion"
     ],
     "faction_keywords": [
       "Adeptus Astartes",
@@ -3360,12 +3360,12 @@
   },
   {
     "id": "lion-eljonson",
-    "name": "Lion El’Jonson",
+    "name": "Lion El\u2019Jonson",
     "faction_id": "adeptus-astartes",
     "role": "epic-hero",
     "profiles": [
       {
-        "name": "Lion El’Jonson",
+        "name": "Lion El\u2019Jonson",
         "M": 8,
         "T": 9,
         "W": 10,
@@ -3387,7 +3387,7 @@
       "Epic Hero",
       "Imperium",
       "Primarch",
-      "Lion El’Jonson"
+      "Lion El\u2019Jonson"
     ],
     "faction_keywords": [
       "Adeptus Astartes",
@@ -5071,12 +5071,12 @@
   },
   {
     "id": "korsarro-khan",
-    "name": "Kor’sarro Khan",
+    "name": "Kor\u2019sarro Khan",
     "faction_id": "adeptus-astartes",
     "role": "epic-hero",
     "profiles": [
       {
-        "name": "Kor’sarro Khan",
+        "name": "Kor\u2019sarro Khan",
         "M": 6,
         "T": 4,
         "W": 5,
@@ -5099,7 +5099,7 @@
       "Imperium",
       "Tacticus",
       "Captain",
-      "Kor’sarro Khan"
+      "Kor\u2019sarro Khan"
     ],
     "faction_keywords": [
       "Adeptus Astartes",
@@ -6758,12 +6758,12 @@
   },
   {
     "id": "vulkan-hestan",
-    "name": "Vulkan He’stan",
+    "name": "Vulkan He\u2019stan",
     "faction_id": "adeptus-astartes",
     "role": "epic-hero",
     "profiles": [
       {
-        "name": "Vulkan He’stan",
+        "name": "Vulkan He\u2019stan",
         "M": 6,
         "T": 4,
         "W": 5,
@@ -6787,7 +6787,7 @@
       "Imperium",
       "Tacticus",
       "Captain",
-      "Vulkan He’stan"
+      "Vulkan He\u2019stan"
     ],
     "faction_keywords": [
       "Adeptus Astartes",
@@ -12556,7 +12556,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 40
-    }
+    },
+    "ability_ids": [
+      "overlapping-detonations"
+    ]
   },
   {
     "id": "land-speeder",
@@ -12615,6 +12618,10 @@
         "keyword": "Speeder",
         "required_detachment_id": "fulguris-task-force"
       }
+    ],
+    "ability_ids": [
+      "purgation-run",
+      "deep-strike"
     ]
   },
   {
@@ -12667,7 +12674,11 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 40
-    }
+    },
+    "ability_ids": [
+      "relic-shield",
+      "master-of-war"
+    ]
   },
   {
     "id": "assault-force-intercessor-squad",
@@ -12719,7 +12730,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 32
-    }
+    },
+    "ability_ids": [
+      "stalwart-defenders"
+    ]
   },
   {
     "id": "assault-force-land-speeder",
@@ -12822,7 +12836,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 40
-    }
+    },
+    "ability_ids": [
+      "empyric-insight"
+    ]
   },
   {
     "id": "assault-force-vanguard-veteran-squad-with-jump-packs",
@@ -12874,7 +12891,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 32
-    }
+    },
+    "ability_ids": [
+      "rapid-reactions"
+    ]
   },
   {
     "id": "emperors-champion-vedrenn",
@@ -13143,7 +13163,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 40
-    }
+    },
+    "ability_ids": [
+      "targeted-intercession"
+    ]
   },
   {
     "id": "sanguinary-spearhead-assault-intercessor-squad",
@@ -13196,7 +13219,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 32
-    }
+    },
+    "ability_ids": [
+      "targeted-intercession"
+    ]
   },
   {
     "id": "sanguinary-spearhead-sanguinary-guard",
@@ -13249,7 +13275,10 @@
     "base_size_mm": {
       "shape": "round",
       "diameter": 40
-    }
+    },
+    "ability_ids": [
+      "born-to-fight"
+    ]
   },
   {
     "id": "master-zacharial",
