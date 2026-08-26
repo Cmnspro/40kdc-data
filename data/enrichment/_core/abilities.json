@@ -21,5 +21,283 @@
       "range": "unit",
       "duration": "phase"
     }
+  },
+  {
+    "ability_id": "command-re-roll",
+    "name": "Command Re-Roll",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "re-roll",
+      "target": "unit",
+      "modifier": {
+        "roll": "any",
+        "result_scope": "any-result"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Re-roll one Advance, Charge, Damage, Hazard, Hit, Save or Wound roll, or a roll determining a weapon's number of attacks, just after making it; for multi-dice rolls re-roll one chosen die, except Charge rolls which are re-rolled in full"
+  },
+  {
+    "ability_id": "counter-offensive",
+    "name": "Counter-Offensive",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-unit-resolves-attacks",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "fight-first",
+      "target": "unit"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used in the Fight step just after an enemy unit resolves its attacks: your unit gains Fights First and must be the next unit you select to fight"
+  },
+  {
+    "ability_id": "crushing-impact",
+    "name": "Crushing Impact",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "end-of-charge-move",
+      "subject": "self"
+    },
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 5,
+      "comparison": "gte",
+      "on_success": {
+        "type": "mortal-wounds",
+        "target": "target",
+        "modifier": {
+          "count": 1
+        }
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "engagement-range",
+      "duration": "phase"
+    },
+    "community_notes": "Monster/Vehicle unit after a Charge move: select one engaged enemy unit and one engaged model in your unit, roll D6 equal to that model's Toughness \u2014 each 5+ inflicts 1 mortal wound on the enemy unit (max 6), and each 1 inflicts 1 mortal wound on your own unit"
+  },
+  {
+    "ability_id": "epic-challenge",
+    "name": "Epic Challenge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Precision"
+        ],
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used when a Character unit is selected to fight: one Character model's melee weapons gain [PRECISION]"
+  },
+  {
+    "ability_id": "explosives",
+    "name": "Explosives",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 4,
+      "comparison": "gte",
+      "on_success": {
+        "type": "mortal-wounds",
+        "target": "target",
+        "modifier": {
+          "count": 1
+        }
+      },
+      "on_fail": null
+    },
+    "scope": {
+      "range": "any-visible",
+      "duration": "phase"
+    },
+    "community_notes": "One unengaged Explosives/Grenades unit that is eligible to shoot and did not Advance: select one such model and one unengaged enemy unit within 8\" and visible to it, then roll six D6 \u2014 each 4+ inflicts 1 mortal wound"
+  },
+  {
+    "ability_id": "fire-overwatch",
+    "name": "Fire Overwatch",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "end-of-phase",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "snap-shooting"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "At the end of the opponent's Movement phase, one friendly unengaged unit (excluding Titanic) shoots using snap shooting"
+  },
+  {
+    "ability_id": "heroic-intervention",
+    "name": "Heroic Intervention",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "end-of-phase",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "reactive-charge"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "At the end of the opponent's Charge phase, one friendly unengaged unit within 12\" of enemy units resolves a charge (Vehicles only if Character/Walker); a mode is selected before the charge roll, e.g. Leap to Defend restricts targets to units that charged this phase within maximum distance"
+  },
+  {
+    "ability_id": "insane-bravery",
+    "name": "Insane Bravery",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "army"
+    },
+    "effect": {
+      "type": "auto-result",
+      "target": "unit",
+      "modifier": {
+        "test": "battle-shock",
+        "result": "pass"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used just before making a Battle-shock roll for the unit: that roll is automatically successful. Once per battle"
+  },
+  {
+    "ability_id": "rapid-ingress",
+    "name": "Rapid Ingress",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "end-of-phase",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "ingress-move",
+        "from": "strategic-reserves"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "At the end of the opponent's Movement phase, one friendly unit in Strategic Reserves (excluding Aircraft) makes an ingress move. Cannot be used in the first battle round"
+  },
+  {
+    "ability_id": "smokescreen",
+    "name": "Smokescreen",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "trigger": {
+      "event": "start-of-phase",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "rule-state",
+      "target": "unit",
+      "modifier": {
+        "direction": "granted",
+        "rule_kind": "core-rule",
+        "rule": "benefit-of-cover"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "At the start of the opponent's Shooting phase, one friendly Smoke unit: attacks targeting it \u2014 or targeting units not fully visible because of its models \u2014 have the target benefiting from cover"
   }
 ]
