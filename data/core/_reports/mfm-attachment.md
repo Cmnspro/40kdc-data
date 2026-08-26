@@ -7,10 +7,10 @@ eligibility merged by `leader_id` (existing records preserved where the dump is 
 | Dir | Matched | Roles Δ | Leaders (dump) | Leaders (kept) | Unresolved leaders |
 |---|--:|--:|--:|--:|--:|
 | adepta-sororitas | 13 | 0 | 13 | 0 | 0 |
-| adeptus-astartes | 69 | 1 | 69 | 0 | 0 |
+| adeptus-astartes | 69 | 0 | 69 | 0 | 0 |
 | adeptus-custodes | 8 | 0 | 8 | 0 | 0 |
 | adeptus-mechanicus | 6 | 0 | 6 | 0 | 0 |
-| aeldari | 24 | 2 | 24 | 0 | 0 |
+| aeldari | 24 | 3 | 24 | 0 | 0 |
 | agents-of-the-imperium | 9 | 0 | 9 | 0 | 0 |
 | astra-militarum | 14 | 0 | 14 | 0 | 0 |
 | chaos-daemons | 18 | 0 | 18 | 0 | 0 |
@@ -29,14 +29,10 @@ eligibility merged by `leader_id` (existing records preserved where the dump is 
 | world-eaters | 5 | 0 | 5 | 0 | 0 |
 | **TOTAL** | **288** | **3** | **288** | **0** | **0** |
 
-## adeptus-astartes
-
-**attachment_role changes (old → new):**
-- `ravenwing-command-squad`: leader → support
-
 ## aeldari
 
 **attachment_role changes (old → new):**
-- `clanblade`: (none) → leader
-- `stonesinger`: (none) → support
+- `the-visarch`: leader → support
+- `warlock-conclave`: leader → support
+- `warlock-skyrunners`: leader → support
 

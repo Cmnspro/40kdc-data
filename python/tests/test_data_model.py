@@ -288,9 +288,7 @@ def test_entity_backed_rules_bundle_expands_before_buff_translation() -> None:
 
 def test_weapon_keyword_target_gates_apply_in_linked_buff_apis(dataset: Any) -> None:
     input_ = {
-        "unitId": "warbuggies",
-        "factionId": "orks",
-        "weaponProfiles": [{"weaponId": "extra-dakka", "profileIndex": 0}],
+        "weaponProfiles": [{"weaponId": "big-shoota", "profileIndex": 0}],
     }
     matching = dataset.buffs_for(input_, {"phase": "shooting", "targetKeywords": ["infantry"]})
     assert any(

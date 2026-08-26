@@ -1,4 +1,4 @@
-# MFM faction fields — APPLIED
+# MFM faction fields — DRY RUN
 
 Fill-only reconcile of `faction_rule_id` (single owned army rule), `parent_faction_id`
 (dump faction hierarchy), and `aliases` (localized common name, additive). Authored
@@ -8,16 +8,16 @@ values are confirmed or surfaced for review, never overwritten. Prose untouched.
 |---|--:|--:|--:|--:|--:|--:|--:|
 | adepta-sororitas | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | adeptus-astartes | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| adeptus-custodes | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| adeptus-custodes | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | adeptus-mechanicus | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | agents-of-the-imperium | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | astra-militarum | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | black-templars | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
-| blood-angels | 0 | 0 | 1 | 0 | 1 | 0 | 0 |
+| blood-angels | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 | chaos-knights | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | chaos-space-marines | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | dark-angels | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
-| death-guard | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| death-guard | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | deathwatch | 0 | 0 | 1 | 0 | 1 | 0 | 0 |
 | drukhari | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | emperors-children | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
@@ -39,8 +39,11 @@ values are confirmed or surfaced for review, never overwritten. Prose untouched.
 | white-scars | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
 | world-eaters | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 
-## blood-angels
-- faction_rule_id REVIEW: authored the-red-thirst vs owned [oath-of-moment, space-marine-chapters, the-sons-of-sanguinius]
+## adeptus-custodes
+- faction_rule_id REVIEW: authored martial-ka-tah vs owned [martial-katah]
+
+## death-guard
+- faction_rule_id REVIEW: authored nurgle-s-gift-aura vs owned [nurgles-gift, pact-of-decay]
 
 ## deathwatch
 - faction_rule_id REVIEW: authored mission-tactics vs owned [kill-teams, oath-of-moment, space-marine-chapters]

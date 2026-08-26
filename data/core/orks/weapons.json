@@ -106,96 +106,6 @@
     }
   },
   {
-    "id": "kan-shoota",
-    "name": "Kan shoota",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Kan shoota",
-        "range": 36,
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "grotzooka",
-    "name": "Grotzooka",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Grotzooka",
-        "range": 18,
-        "stats": {
-          "A": "D3+3",
-          "S": 6,
-          "AP": -1,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "ignores-cover"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "rokkit-launcha",
-    "name": "Rokkit launcha",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Rokkit launcha",
-        "range": 24,
-        "stats": {
-          "A": "D3",
-          "S": 9,
-          "AP": -2,
-          "D": 3,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "deffgun",
     "name": "Deffgun",
     "type": "ranged",
@@ -219,60 +129,6 @@
             "parameters": {
               "value": 1
             }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "deffkannon",
-    "name": "Deffkannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Deffkannon",
-        "range": 72,
-        "stats": {
-          "A": "3D6",
-          "S": 14,
-          "AP": -3,
-          "D": "D6",
-          "BS": 5
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "supa-rokkits",
-    "name": "Supa-rokkits",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Supa-rokkits",
-        "range": 100,
-        "stats": {
-          "A": "D6",
-          "S": 12,
-          "AP": -3,
-          "D": "D6+2",
-          "BS": 5
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
           }
         ]
       }
@@ -535,29 +391,6 @@
     }
   },
   {
-    "id": "close-combat-weapon-nobz",
-    "name": "Close combat weapon",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Close combat weapon",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
     "id": "close-combat-weapon-wurrboy",
     "name": "Close combat weapon",
     "type": "melee",
@@ -694,280 +527,6 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "psychic-powers",
-    "name": "Psychic Powers",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Da Stomp",
-        "range": 24,
-        "stats": {
-          "A": "D6+2",
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast"
-          },
-          {
-            "keyword_id": "psychic"
-          }
-        ]
-      },
-      {
-        "name": "'Eadbanger",
-        "range": 24,
-        "stats": {
-          "A": 1,
-          "S": 8,
-          "AP": -3,
-          "D": 2,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "precision"
-          },
-          {
-            "keyword_id": "psychic"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "waaagh-staff",
-    "name": "Waaagh! Staff",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Bash",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 8,
-          "AP": -1,
-          "D": 2,
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "psychic"
-          }
-        ]
-      },
-      {
-        "name": "Clobber",
-        "range": "Melee",
-        "stats": {
-          "A": 4,
-          "S": 8,
-          "AP": -2,
-          "D": 2,
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "devastating-wounds"
-          },
-          {
-            "keyword_id": "hazardous"
-          },
-          {
-            "keyword_id": "psychic"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "kombi-rokkit",
-    "name": "Kombi-rokkit",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Kombi-rokkit",
-        "range": 24,
-        "stats": {
-          "A": 1,
-          "S": 10,
-          "AP": -2,
-          "D": 3,
-          "BS": 5
-        }
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "kombi-shoota",
-    "name": "Kombi-shoota",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Kombi-shoota",
-        "range": 24,
-        "stats": {
-          "A": 2,
-          "S": 4,
-          "AP": 0,
-          "D": 1,
-          "BS": 5
-        }
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "blasta",
-    "name": "Blasta",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Blasta",
-        "range": 18,
-        "stats": {
-          "A": 1,
-          "S": 3,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "close-quarters"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "lobbin-bombs",
-    "name": "Lobbin' Bombs",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Lobbin' Bombs",
-        "range": 6,
-        "stats": {
-          "A": 1,
-          "S": 4,
-          "AP": -1,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "hazardous"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "scavenged-shivs",
-    "name": "Scavenged Shivs",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Scavenged Shivs",
-        "range": "Melee",
-        "stats": {
-          "A": 1,
-          "S": 2,
-          "AP": 0,
-          "D": 1,
-          "WS": 5
-        }
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "launch"
-    }
-  },
-  {
-    "id": "crushin-bulk",
-    "name": "Crushin’ Bulk",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Crushin’ Bulk",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 9,
-          "AP": -1,
-          "D": 2,
-          "WS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "cleave",
-            "parameters": {
-              "value": 1
-            }
-          },
-          {
-            "keyword_id": "extra-attacks"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "gitslasha",
-    "name": "Gitslasha",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Gitslasha",
-        "range": "Melee",
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "WS": 3
-        },
-        "keywords": []
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
     }
   },
   {
@@ -2080,36 +1639,6 @@
     }
   },
   {
-    "id": "crushin-bulk-gunwagon",
-    "name": "Crushin’ bulk",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Crushin’ bulk",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "S": 8,
-          "AP": -2,
-          "D": 2,
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "cleave",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
     "id": "da-grabzappa",
     "name": "Da Grabzappa",
     "type": "melee",
@@ -2322,48 +1851,6 @@
     }
   },
   {
-    "id": "extra-dakka",
-    "name": "Extra Dakka",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Extra Dakka",
-        "range": 12,
-        "stats": {
-          "A": 4,
-          "S": 5,
-          "AP": -1,
-          "D": 1,
-          "BS": 5
-        },
-        "keywords": [
-          {
-            "keyword_id": "assault"
-          },
-          {
-            "keyword_id": "lethal-hits",
-            "parameters": {
-              "excluded_target_keywords": [
-                "Monster",
-                "Vehicle"
-              ]
-            }
-          },
-          {
-            "keyword_id": "sustained-hits",
-            "parameters": {
-              "value": 1
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
     "id": "fixits-wrench",
     "name": "Fixit’s wrench",
     "type": "melee",
@@ -2522,33 +2009,6 @@
         "stats": {
           "A": 2,
           "S": 8,
-          "AP": -2,
-          "D": 2,
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "extra-attacks"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "grabbin-klaw-gunwagon",
-    "name": "Grabbin’ klaw",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Grabbin’ klaw",
-        "range": "Melee",
-        "stats": {
-          "A": 2,
-          "S": 10,
           "AP": -2,
           "D": 2,
           "WS": 3
@@ -2783,61 +2243,6 @@
     }
   },
   {
-    "id": "kannon-gunwagon",
-    "name": "Kannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Frag",
-        "range": 36,
-        "stats": {
-          "A": 4,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast",
-            "parameters": {
-              "value": 3
-            }
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 4
-            }
-          }
-        ]
-      },
-      {
-        "name": "Shell",
-        "range": 36,
-        "stats": {
-          "A": 2,
-          "S": 10,
-          "AP": -2,
-          "D": "D6+1",
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
     "id": "killa-jet",
     "name": "Killa Jet",
     "type": "ranged",
@@ -2900,49 +2305,6 @@
           "AP": -2,
           "D": 2,
           "BS": 5
-        },
-        "keywords": [
-          {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Infantry",
-              "threshold": 3
-            }
-          },
-          {
-            "keyword_id": "blast",
-            "parameters": {
-              "value": 1
-            }
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 4
-            }
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "killkannon-gunwagon",
-    "name": "Killkannon",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Killkannon",
-        "range": 24,
-        "stats": {
-          "A": 4,
-          "S": 6,
-          "AP": -3,
-          "D": 2,
-          "BS": 4
         },
         "keywords": [
           {
@@ -3356,109 +2718,6 @@
     "game_version": {
       "edition": "11th",
       "dataslate": "pre-launch-provisional"
-    }
-  },
-  {
-    "id": "kustom-blasta-x",
-    "name": "Kustom Blasta X",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Gatler",
-        "range": 24,
-        "stats": {
-          "A": 6,
-          "BS": 4,
-          "S": 8,
-          "AP": -2,
-          "D": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "hazardous"
-          }
-        ]
-      },
-      {
-        "name": "Shoota",
-        "range": 18,
-        "stats": {
-          "A": 4,
-          "BS": 4,
-          "S": 5,
-          "AP": -1,
-          "D": 1
-        },
-        "keywords": [
-          {
-            "keyword_id": "lethal-hits",
-            "parameters": {
-              "excluded_target_keywords": [
-                "Monster",
-                "Vehicle"
-              ]
-            }
-          },
-          {
-            "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          }
-        ]
-      },
-      {
-        "name": "Skorcha",
-        "range": 12,
-        "stats": {
-          "A": "D6+1",
-          "S": 5,
-          "AP": -1,
-          "D": 1
-        },
-        "keywords": [
-          {
-            "keyword_id": "torrent"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "kustom-blasta-x-melee",
-    "name": "Kustom Blasta X",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Kustom Blasta X",
-        "range": "Melee",
-        "stats": {
-          "A": 6,
-          "WS": 2,
-          "S": 5,
-          "AP": -1,
-          "D": 1
-        },
-        "keywords": [
-          {
-            "keyword_id": "cleave",
-            "parameters": {
-              "value": 1
-            }
-          },
-          {
-            "keyword_id": "extra-attacks"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
     }
   },
   {
@@ -3887,39 +3146,6 @@
     }
   },
   {
-    "id": "lobba-gunwagon",
-    "name": "Lobba",
-    "type": "ranged",
-    "profiles": [
-      {
-        "name": "Lobba",
-        "range": 48,
-        "stats": {
-          "A": 3,
-          "S": 5,
-          "AP": 0,
-          "D": 1,
-          "BS": 4
-        },
-        "keywords": [
-          {
-            "keyword_id": "blast",
-            "parameters": {
-              "value": 3
-            }
-          },
-          {
-            "keyword_id": "indirect-fire"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
     "id": "mega-choppa",
     "name": "Mega-choppa",
     "type": "melee",
@@ -3994,39 +3220,6 @@
           },
           {
             "keyword_id": "torrent"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "id": "moonchewa",
-    "name": "Moonchewa",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Moonchewa",
-        "range": "Melee",
-        "stats": {
-          "A": 5,
-          "WS": 2,
-          "S": 12,
-          "AP": -2,
-          "D": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "cleave",
-            "parameters": {
-              "value": 1
-            }
-          },
-          {
-            "keyword_id": "twin-linked"
           }
         ]
       }
@@ -6066,11 +5259,11 @@
   },
   {
     "id": "twin-killsaw",
-    "name": "Twin Killsaws",
+    "name": "Twin killsaws",
     "type": "melee",
     "profiles": [
       {
-        "name": "Twin Killsaws",
+        "name": "Twin killsaws",
         "range": "Melee",
         "stats": {
           "A": 3,
@@ -6088,7 +5281,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     }
   },
   {
@@ -6491,39 +5684,6 @@
     }
   },
   {
-    "id": "wreckin-ball-gunwagon",
-    "name": "Wreckin’ ball",
-    "type": "melee",
-    "profiles": [
-      {
-        "name": "Wreckin’ ball",
-        "range": "Melee",
-        "stats": {
-          "A": 1,
-          "S": 10,
-          "AP": 0,
-          "D": "D6",
-          "WS": 3
-        },
-        "keywords": [
-          {
-            "keyword_id": "cleave",
-            "parameters": {
-              "value": 2
-            }
-          },
-          {
-            "keyword_id": "extra-attacks"
-          }
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
     "id": "wurrtower",
     "name": "Wurrtower",
     "type": "ranged",
@@ -6622,58 +5782,323 @@
     }
   },
   {
-    "id": "zzap-gun-gunwagon",
-    "name": "Zzap gun",
+    "id": "psychic-powers",
+    "name": "Psychic Powers",
     "type": "ranged",
     "profiles": [
       {
-        "name": "Zzap gun",
-        "range": 36,
+        "name": "Da Stomp",
+        "range": 24,
         "stats": {
-          "A": 2,
-          "S": 8,
-          "AP": -2,
-          "D": 4,
+          "A": "D6+2",
+          "S": 4,
+          "AP": 0,
+          "D": 1,
           "BS": 4
         },
         "keywords": [
           {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Monster",
-              "threshold": 4,
-              "required_target_keywords_any": [
-                "Monster"
-              ]
-            }
+            "keyword_id": "blast"
           },
           {
-            "keyword_id": "anti",
-            "parameters": {
-              "target_keyword": "Vehicle",
-              "threshold": 4,
-              "required_target_keywords_any": [
-                "Vehicle"
-              ]
-            }
+            "keyword_id": "psychic"
+          }
+        ]
+      },
+      {
+        "name": "'Eadbanger",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 8,
+          "AP": -3,
+          "D": 2,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "precision"
           },
           {
-            "keyword_id": "devastating-wounds",
-            "parameters": {
-              "required_target_keywords_any": [
-                "Monster",
-                "Vehicle"
-              ]
-            }
+            "keyword_id": "psychic"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "waaagh-staff",
+    "name": "Waaagh! Staff",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Bash",
+        "range": "Melee",
+        "stats": {
+          "A": 3,
+          "S": 8,
+          "AP": -1,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "psychic"
+          }
+        ]
+      },
+      {
+        "name": "Clobber",
+        "range": "Melee",
+        "stats": {
+          "A": 4,
+          "S": 8,
+          "AP": -2,
+          "D": 2,
+          "WS": 3
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          },
+          {
+            "keyword_id": "hazardous"
+          },
+          {
+            "keyword_id": "psychic"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "rokkit-launcha",
+    "name": "Rokkit launcha",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Rokkit launcha",
+        "range": 24,
+        "stats": {
+          "A": "D3+3",
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 5
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "kombi-rokkit",
+    "name": "Kombi-rokkit",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kombi-rokkit",
+        "range": 24,
+        "stats": {
+          "A": 1,
+          "S": 10,
+          "AP": -2,
+          "D": 3,
+          "BS": 5
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "kombi-shoota",
+    "name": "Kombi-shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kombi-shoota",
+        "range": 24,
+        "stats": {
+          "A": 2,
+          "S": 4,
+          "AP": 0,
+          "D": 1,
+          "BS": 5
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "blasta",
+    "name": "Blasta",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Blasta",
+        "range": 18,
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "close-quarters"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "lobbin-bombs",
+    "name": "Lobbin' Bombs",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Lobbin' Bombs",
+        "range": 6,
+        "stats": {
+          "A": 1,
+          "S": 4,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "hazardous"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "scavenged-shivs",
+    "name": "Scavenged Shivs",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Scavenged Shivs",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 2,
+          "AP": 0,
+          "D": 1,
+          "WS": 5
+        }
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "makaris-stabba",
+    "name": "Makari’s stabba",
+    "type": "melee",
+    "profiles": [
+      {
+        "name": "Makari’s stabba",
+        "range": "Melee",
+        "stats": {
+          "A": 1,
+          "S": 3,
+          "AP": 0,
+          "D": 1,
+          "WS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "grotzooka",
+    "name": "Grotzooka",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Grotzooka",
+        "range": 18,
+        "stats": {
+          "A": "D3+3",
+          "S": 6,
+          "AP": -1,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "ignores-cover"
+          },
+          {
+            "keyword_id": "blast"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "kan-shoota",
+    "name": "Kan shoota",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Kan shoota",
+        "range": 36,
+        "stats": {
+          "A": 3,
+          "S": 5,
+          "AP": 0,
+          "D": 1,
+          "BS": 4
+        },
+        "keywords": [
+          {
+            "keyword_id": "devastating-wounds"
           },
           {
             "keyword_id": "rapid-fire",
-            "parameters": {
-              "value": 2
-            }
-          },
-          {
-            "keyword_id": "sustained-hits",
             "parameters": {
               "value": 2
             }
@@ -6683,7 +6108,61 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "supa-rokkits",
+    "name": "Supa-rokkits",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Supa-rokkits",
+        "range": 100,
+        "stats": {
+          "A": "D6",
+          "S": 12,
+          "AP": -3,
+          "D": "D6+2",
+          "BS": 5
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    }
+  },
+  {
+    "id": "deffkannon",
+    "name": "Deffkannon",
+    "type": "ranged",
+    "profiles": [
+      {
+        "name": "Deffkannon",
+        "range": 72,
+        "stats": {
+          "A": "3D6",
+          "S": 14,
+          "AP": -3,
+          "D": "D6",
+          "BS": 5
+        },
+        "keywords": [
+          {
+            "keyword_id": "blast"
+          }
+        ]
+      }
+    ],
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
     }
   }
 ]

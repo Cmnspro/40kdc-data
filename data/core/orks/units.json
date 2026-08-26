@@ -789,10 +789,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -824,12 +824,12 @@
     "points": [
       {
         "models": 3,
-        "cost": 75
+        "cost": 60
       },
       {
         "models": 4,
         "models_max": 6,
-        "cost": 140
+        "cost": 120
       }
     ],
     "keywords": [
@@ -864,10 +864,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "deffkoptas",
@@ -888,12 +888,12 @@
     "points": [
       {
         "models": 3,
-        "cost": 80
+        "cost": 75
       },
       {
         "models": 4,
         "models_max": 6,
-        "cost": 160
+        "cost": 140
       }
     ],
     "keywords": [
@@ -928,10 +928,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "painboy",
@@ -953,7 +953,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 45
+        "cost": 90
       }
     ],
     "keywords": [
@@ -985,10 +985,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "support"
   },
   {
@@ -1010,12 +1010,29 @@
     "points": [
       {
         "models": 3,
-        "cost": 130
+        "cost": 120,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 4,
         "models_max": 6,
-        "cost": 260
+        "cost": 240,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 3,
+        "cost": 130,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 4,
+        "models_max": 6,
+        "cost": 250,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1036,8 +1053,11 @@
       "max": 6
     },
     "weapon_ids": [
-      "kan-blasta",
-      "kan-klaw"
+      "kan-klaw",
+      "kan-shoota",
+      "rokkit-launcha",
+      "grotzooka",
+      "skorcha"
     ],
     "ability_ids": [
       "shooty-power-trip",
@@ -1045,10 +1065,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "big-mek",
@@ -1070,7 +1090,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 85
+        "cost": 70
       }
     ],
     "keywords": [
@@ -1103,10 +1123,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1142,7 +1162,7 @@
       },
       {
         "models": 8,
-        "cost": 280
+        "cost": 270
       }
     ],
     "keywords": [
@@ -1178,10 +1198,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_budgets": [
       {
         "items": [
@@ -1212,7 +1232,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 125
+        "cost": 80
       }
     ],
     "keywords": [
@@ -1244,10 +1264,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1269,7 +1289,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 175
+        "cost": 165
       }
     ],
     "keywords": [
@@ -1306,10 +1326,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "battlewagon",
@@ -1330,7 +1350,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 150
+        "cost": 145
       }
     ],
     "keywords": [
@@ -1372,10 +1392,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_costs": [
       {
         "item_id": "ard-case",
@@ -1409,7 +1429,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 80
+        "cost": 75
       }
     ],
     "keywords": [
@@ -1444,10 +1464,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -1469,7 +1489,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 345
+        "cost": 270,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 290,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1509,10 +1537,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "ghazghkull-thraka",
@@ -1533,8 +1561,8 @@
     ],
     "points": [
       {
-        "models": 1,
-        "cost": 300
+        "models": 2,
+        "cost": 235
       }
     ],
     "keywords": [
@@ -1552,13 +1580,13 @@
       "diameter": 80
     },
     "model_count": {
-      "min": 1,
-      "max": 1
+      "min": 2,
+      "max": 2
     },
     "weapon_ids": [
       "morks-roar",
-      "adamantine-eadbutt",
-      "gorks-klaw"
+      "gorks-klaw",
+      "makaris-stabba"
     ],
     "ability_ids": [
       "da-grand-warlords-ladz",
@@ -1568,10 +1596,11 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false,
+    "attachment_role": "leader"
   },
   {
     "id": "breaka-boyz",
@@ -1592,7 +1621,15 @@
     "points": [
       {
         "models": 6,
-        "cost": 135
+        "cost": 125,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 6,
+        "cost": 135,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1625,10 +1662,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "stompa",
@@ -1649,7 +1686,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 700
+        "cost": 600,
+        "unit_count_min": 1,
+        "unit_count_max": 1
+      },
+      {
+        "models": 1,
+        "cost": 700,
+        "unit_count_min": 2,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1673,10 +1718,12 @@
     },
     "weapon_ids": [
       "big-shoota",
-      "deffkannon-and-supa-rokkits",
       "mega-choppa",
       "skorcha",
-      "supa-gatler"
+      "supa-gatler",
+      "deffkannon",
+      "supa-rokkits",
+      "twin-big-shoota"
     ],
     "ability_ids": [
       "deadly-demise-2d6",
@@ -1689,10 +1736,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "biged-bossbunka",
@@ -1749,10 +1796,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "tankbustas",
@@ -1783,7 +1830,15 @@
     "points": [
       {
         "models": 6,
-        "cost": 145
+        "cost": 125,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 6,
+        "cost": 135,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1817,10 +1872,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_budgets": [
       {
         "items": [
@@ -1861,7 +1916,7 @@
     "points": [
       {
         "models": 10,
-        "cost": 125
+        "cost": 120
       }
     ],
     "keywords": [
@@ -1903,14 +1958,14 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_budgets": [
       {
         "items": [
-          "burna"
+          "burna-kommandos"
         ],
         "count": 1,
         "per_models": 0
@@ -1924,7 +1979,7 @@
       },
       {
         "items": [
-          "kustom-shoota"
+          "kustom-shoota-kommandos"
         ],
         "count": 2,
         "per_models": 0
@@ -1968,12 +2023,29 @@
     "points": [
       {
         "models": 10,
-        "cost": 90
+        "cost": 75,
+        "unit_count_min": 1,
+        "unit_count_max": 3
       },
       {
         "models": 11,
         "models_max": 20,
-        "cost": 180
+        "cost": 160,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 10,
+        "cost": 85,
+        "unit_count_min": 4,
+        "unit_count_max": null
+      },
+      {
+        "models": 11,
+        "models_max": 20,
+        "cost": 170,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -1995,17 +2067,17 @@
     },
     "weapon_ids": [
       "big-shoota-boyz",
-      "burna-boyz-unit",
       "kombi-rokkit-boyz",
-      "kombi-skorcha-boyz",
       "kustom-shoota-boyz",
       "rokkit-launcha-boyz",
-      "shoota-boyz-unit",
       "slugga",
       "big-choppa-boyz",
       "choppa-boyz",
-      "kustom-choppa-boyz",
-      "power-klaw-boyz"
+      "power-klaw-boyz",
+      "shoota",
+      "close-combat-weapon",
+      "kombi-weapon",
+      "kombi-shoota"
     ],
     "ability_ids": [
       "ammo-runts",
@@ -2016,14 +2088,14 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_budgets": [
       {
         "items": [
-          "big-shoota",
+          "big-shoota-boyz",
           "rokkit-launcha-boyz"
         ],
         "count": 1,
@@ -2051,7 +2123,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 60
+        "cost": 55,
+        "unit_count_min": 1,
+        "unit_count_max": 3
+      },
+      {
+        "models": 1,
+        "cost": 65,
+        "unit_count_min": 4,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -2089,10 +2169,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "painboss",
@@ -2145,7 +2225,7 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
     "points_provisional": false,
@@ -2170,7 +2250,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 325
+        "cost": 255,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 275,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -2212,10 +2300,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "mek-gunz",
@@ -2236,15 +2324,39 @@
     "points": [
       {
         "models": 1,
-        "cost": 55
+        "cost": 45,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 2,
-        "cost": 110
+        "cost": 90,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 3,
-        "cost": 165
+        "cost": 135,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 55,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 2,
+        "cost": 100,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 3,
+        "cost": 145,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -2276,10 +2388,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "stormboyz",
@@ -2310,12 +2422,12 @@
     "points": [
       {
         "models": 5,
-        "cost": 70
+        "cost": 65
       },
       {
         "models": 6,
         "models_max": 10,
-        "cost": 140
+        "cost": 130
       }
     ],
     "keywords": [
@@ -2347,10 +2459,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "conditional_keywords": [
       {
         "keyword": "Battleline",
@@ -2435,7 +2547,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 115
+        "cost": 105
       }
     ],
     "keywords": [
@@ -2467,10 +2579,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "deff-dread",
@@ -2491,7 +2603,15 @@
     "points": [
       {
         "models": 1,
-        "cost": 130
+        "cost": 110,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 1,
+        "cost": 120,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -2525,10 +2645,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "beastboss",
@@ -2550,7 +2670,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 85
+        "cost": 80
       }
     ],
     "keywords": [
@@ -2585,10 +2705,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2641,10 +2761,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "big-mek-in-mega-armour",
@@ -2666,7 +2786,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 90
+        "cost": 80
       }
     ],
     "keywords": [
@@ -2703,10 +2823,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2728,7 +2848,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 80
+        "cost": 85
       }
     ],
     "keywords": [
@@ -2760,10 +2880,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "beast-snagga-boyz",
@@ -2795,7 +2915,7 @@
     "points": [
       {
         "models": 10,
-        "cost": 85
+        "cost": 90
       },
       {
         "models": 11,
@@ -2834,17 +2954,17 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_budgets": [
       {
         "items": [
           "close-combat-weapon-beast-snagga-boyz",
           "thump-gun"
         ],
-        "count": 1,
+        "count": 2,
         "per_models": 10
       }
     ]
@@ -2869,7 +2989,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 80
+        "cost": 70
       }
     ],
     "keywords": [
@@ -2904,10 +3024,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2930,7 +3050,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 45
+        "cost": 55
       }
     ],
     "keywords": [
@@ -2962,10 +3082,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -2988,7 +3108,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 170
+        "cost": 125
       }
     ],
     "keywords": [
@@ -3022,10 +3142,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3048,7 +3168,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 50
+        "cost": 80
       }
     ],
     "keywords": [
@@ -3078,10 +3198,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3112,24 +3232,24 @@
     ],
     "points": [
       {
+        "models": 11,
+        "cost": 45
+      },
+      {
+        "models": 22,
+        "cost": 90
+      },
+      {
         "models": 10,
         "cost": 45
       },
       {
-        "models": 11,
-        "cost": 55
-      },
-      {
         "models": 20,
-        "cost": 90
+        "cost": 80
       },
       {
         "models": 21,
-        "cost": 100
-      },
-      {
-        "models": 22,
-        "cost": 110
+        "cost": 85
       }
     ],
     "keywords": [
@@ -3161,10 +3281,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "conditional_keywords": [
       {
         "keyword": "Battleline",
@@ -3192,13 +3312,13 @@
     "points": [
       {
         "models": 1,
-        "cost": 95,
+        "cost": 70,
         "unit_count_min": 1,
         "unit_count_max": 1
       },
       {
         "models": 1,
-        "cost": 105,
+        "cost": 80,
         "unit_count_min": 2,
         "unit_count_max": null
       }
@@ -3233,10 +3353,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3258,7 +3378,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 175
+        "cost": 145
       }
     ],
     "keywords": [
@@ -3299,10 +3419,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "conditional_keywords": [
       {
         "keyword": "Wagon",
@@ -3329,12 +3449,29 @@
     "points": [
       {
         "models": 5,
-        "cost": 125
+        "cost": 105,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 6,
         "models_max": 10,
-        "cost": 250
+        "cost": 210,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 5,
+        "cost": 115,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 6,
+        "models_max": 10,
+        "cost": 220,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -3353,13 +3490,11 @@
       "max": 10
     },
     "weapon_ids": [
-      "big-skorcha-nobz",
-      "kustom-shoota-nobz",
-      "kombi-rokkit-nobz",
       "big-choppa-nobz",
-      "kustom-choppa-nobz",
-      "kustom-krumpa",
-      "paired-kustom-krumpas"
+      "slugga",
+      "kombi-weapon",
+      "close-combat-weapon",
+      "power-klaw"
     ],
     "ability_ids": [
       "ammo-runts",
@@ -3369,10 +3504,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "wargear_budgets": [
       {
         "items": [
@@ -3403,7 +3538,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 140
+        "cost": 95
       }
     ],
     "keywords": [
@@ -3439,10 +3574,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3464,20 +3599,53 @@
     "points": [
       {
         "models": 2,
-        "cost": 75
+        "cost": 60,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 3,
-        "cost": 110
+        "cost": 90,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 4,
         "models_max": 5,
-        "cost": 185
+        "cost": 150,
+        "unit_count_min": 1,
+        "unit_count_max": 2
       },
       {
         "models": 6,
-        "cost": 225
+        "cost": 180,
+        "unit_count_min": 1,
+        "unit_count_max": 2
+      },
+      {
+        "models": 2,
+        "cost": 80,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 3,
+        "cost": 110,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 4,
+        "models_max": 5,
+        "cost": 170,
+        "unit_count_min": 3,
+        "unit_count_max": null
+      },
+      {
+        "models": 6,
+        "cost": 200,
+        "unit_count_min": 3,
+        "unit_count_max": null
       }
     ],
     "keywords": [
@@ -3510,20 +3678,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
-    "wargear_costs": [
-      {
-        "item_id": "killsaw-meganobz",
-        "cost": 5
-      },
-      {
-        "item_id": "twin-killsaw",
-        "cost": 5
-      }
-    ]
+    "points_provisional": false
   },
   {
     "id": "burna-bommer",
@@ -3544,7 +3702,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 125
+        "cost": 115
       }
     ],
     "keywords": [
@@ -3577,10 +3735,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true
+    "points_provisional": false
   },
   {
     "id": "hunta-rig",
@@ -3601,7 +3759,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 165
+        "cost": 125
       }
     ],
     "keywords": [
@@ -3639,10 +3797,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "conditional_keywords": [
       {
         "keyword": "Wagon",
@@ -3670,7 +3828,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 100
+        "cost": 85
       }
     ],
     "keywords": [
@@ -3707,10 +3865,10 @@
     ],
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "attachment_role": "leader"
   },
   {
@@ -3733,7 +3891,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 35
+        "cost": 50
       }
     ],
     "keywords": [
@@ -3750,10 +3908,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "weapon_ids": [
       "shoota",
       "choppa-bannernob"
@@ -3787,7 +3945,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 135
+        "cost": 115
       }
     ],
     "keywords": [
@@ -3804,10 +3962,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "weapon_ids": [
       "blitzkannon",
       "rokkit-launcha-big-mek-dakkarig",
@@ -3843,7 +4001,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 50
+        "cost": 55
       }
     ],
     "keywords": [
@@ -3860,10 +4018,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "weapon_ids": [
       "slugga-bigboss",
       "two-handed-big-choppa"
@@ -3898,7 +4056,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 70
+        "cost": 60
       }
     ],
     "keywords": [
@@ -3915,10 +4073,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "weapon_ids": [
       "kustom-shoota",
       "rokkit-launcha-wartrakk",
@@ -3950,7 +4108,7 @@
     "points": [
       {
         "models": 1,
-        "cost": 200
+        "cost": 175
       }
     ],
     "keywords": [
@@ -3971,10 +4129,10 @@
     },
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "is_legend": false,
-    "points_provisional": true,
+    "points_provisional": false,
     "weapon_ids": [
       "grabba-dragga",
       "psyko-gatler",
@@ -3992,224 +4150,6 @@
       "shokk-attack-engine",
       "throttlerokkit-shokka-engine",
       "turbo-engine"
-    ]
-  },
-  {
-    "id": "nazdreg",
-    "name": "Nazdreg",
-    "faction_id": "orks",
-    "role": "character",
-    "profiles": [
-      {
-        "name": "Nazdreg",
-        "M": 5,
-        "T": 7,
-        "W": 8,
-        "Sv": 2,
-        "invuln_sv": 5,
-        "Ld": 6,
-        "OC": 1
-      }
-    ],
-    "keywords": [
-      "Infantry",
-      "Character",
-      "Epic Hero",
-      "Explosives",
-      "Mega Armour",
-      "Warboss"
-    ],
-    "faction_keywords": [
-      "Orks"
-    ],
-    "model_count": {
-      "min": 1,
-      "max": 1
-    },
-    "weapon_ids": [
-      "kustom-blasta-x",
-      "kustom-blasta-x-melee",
-      "moonchewa"
-    ],
-    "ability_ids": [
-      "intimidating-motivation",
-      "nazdregs-know-wotz",
-      "supreme-kunnin"
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "is_legend": false,
-    "points_provisional": true,
-    "attachment_role": "leader",
-    "points": [
-      {
-        "models": 1,
-        "cost": 175
-      }
-    ]
-  },
-  {
-    "id": "gunwagon",
-    "name": "Gunwagon",
-    "faction_id": "orks",
-    "profiles": [
-      {
-        "name": "Gunwagon",
-        "M": 10,
-        "T": 10,
-        "W": 16,
-        "Sv": 3,
-        "invuln_sv": 6,
-        "Ld": 7,
-        "OC": 5
-      }
-    ],
-    "keywords": [
-      "Vehicle",
-      "Frame",
-      "Transport",
-      "Wagon"
-    ],
-    "faction_keywords": [
-      "Orks"
-    ],
-    "model_count": {
-      "min": 1,
-      "max": 1
-    },
-    "weapon_ids": [
-      "big-shoota",
-      "kannon-gunwagon",
-      "killkannon-gunwagon",
-      "lobba-gunwagon",
-      "zzap-gun-gunwagon",
-      "grabbin-klaw-gunwagon",
-      "wreckin-ball-gunwagon",
-      "crushin-bulk-gunwagon"
-    ],
-    "ability_ids": [
-      "mobile-arsenal"
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "is_legend": false,
-    "points_provisional": true,
-    "transport_capacity": {
-      "capacity": 12
-    },
-    "points": [
-      {
-        "models": 1,
-        "cost": 150
-      }
-    ]
-  },
-  {
-    "id": "runtherd",
-    "name": "Runtherd",
-    "faction_id": "orks",
-    "role": "character",
-    "profiles": [
-      {
-        "name": "Runtherd",
-        "M": 6,
-        "T": 5,
-        "W": 3,
-        "Sv": 5,
-        "invuln_sv": null,
-        "Ld": 7,
-        "OC": 1
-      }
-    ],
-    "keywords": [
-      "Infantry",
-      "Character"
-    ],
-    "faction_keywords": [
-      "Orks"
-    ],
-    "model_count": {
-      "min": 1,
-      "max": 1
-    },
-    "weapon_ids": [
-      "slugga",
-      "runtherd-tools"
-    ],
-    "ability_ids": [
-      "thatll-learn-ya"
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "is_legend": false,
-    "points_provisional": true,
-    "attachment_role": "support",
-    "points": [
-      {
-        "models": 1,
-        "cost": 10
-      }
-    ]
-  },
-  {
-    "id": "warbuggies",
-    "name": "Warbuggies",
-    "faction_id": "orks",
-    "profiles": [
-      {
-        "name": "Warbuggy",
-        "M": 12,
-        "T": 7,
-        "W": 9,
-        "Sv": 4,
-        "invuln_sv": 6,
-        "Ld": 7,
-        "OC": 3
-      }
-    ],
-    "keywords": [
-      "Vehicle",
-      "Explosives",
-      "Speed Freeks"
-    ],
-    "faction_keywords": [
-      "Orks"
-    ],
-    "model_count": {
-      "min": 1,
-      "max": 2
-    },
-    "weapon_ids": [
-      "extra-dakka",
-      "mek-speshul",
-      "rivet-kannon",
-      "spiked-ram"
-    ],
-    "ability_ids": [
-      "drive-by-skorchin",
-      "outflank"
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "is_legend": false,
-    "points_provisional": true,
-    "points": [
-      {
-        "models": 1,
-        "cost": 70
-      },
-      {
-        "models": 2,
-        "cost": 140
-      }
     ]
   }
 ]

@@ -2,7 +2,7 @@
 
 Mode: **write**
 
-Pools emitted: **19**, skipped: **2**.
+Pools emitted: **19**, skipped: **3**.
 
 ## Emitted
 
@@ -32,4 +32,5 @@ Pools emitted: **19**, skipped: **2**.
 
 - `31a47518-f0d5-48c1-8cf8-f1f3ea1c008b` (Titanicus Traitoris): Chaos Warbringer Nemesis Titan; Chaos Warhound Titan; Chaos Reaver Titan; Chaos Warlord Titan
 - `5c07d9ae-8023-43c2-ac7d-6de32fd268b3` (Adeptus Titanicus): Warhound Titan; Warlord Titan; Reaver Titan; Warbringer Nemesis Titan
+- `802478f9-3982-4990-80f7-1bd316e0c312` (802478f9-3982-4990-80f7-1bd316e0c312): 
 

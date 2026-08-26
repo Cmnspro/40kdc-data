@@ -84,7 +84,7 @@
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "points_provisional": false,
     "upgrade_tag": false,
@@ -102,7 +102,7 @@
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "points_provisional": false,
     "upgrade_tag": false,
@@ -120,7 +120,7 @@
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "points_provisional": false,
     "upgrade_tag": false,
@@ -139,7 +139,7 @@
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "points_provisional": false,
     "upgrade_tag": false,
@@ -165,13 +165,13 @@
     "id": "follow-me-ladz-war-horde",
     "name": "Follow Me Ladz",
     "detachment_id": "war-horde",
-    "cost": 0,
-    "points_provisional": true,
+    "cost": 25,
+    "points_provisional": false,
     "ability_id": "follow-me-ladz-war-horde",
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "keyword_restrictions": [
       "Orks"
@@ -179,15 +179,15 @@
   },
   {
     "id": "headwoppas-killchoppa-war-horde",
-    "name": "Headwoppa's Killchoppa",
+    "name": "Headwoppa’s Killchoppa",
     "detachment_id": "war-horde",
-    "cost": 0,
-    "points_provisional": true,
+    "cost": 20,
+    "points_provisional": false,
     "ability_id": "headwoppas-killchoppa-war-horde",
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "keyword_restrictions": [
       "Orks"
@@ -195,15 +195,15 @@
   },
   {
     "id": "kunnin-but-brutal-war-horde",
-    "name": "Kunnin’ But Brutal",
+    "name": "Kunnin’ but Brutal",
     "detachment_id": "war-horde",
-    "cost": 0,
-    "points_provisional": true,
+    "cost": 15,
+    "points_provisional": false,
     "ability_id": "kunnin-but-brutal-war-horde",
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "keyword_restrictions": [
       "Orks"
@@ -213,34 +213,33 @@
     "id": "glory-hog-da-big-hunt",
     "name": "Glory Hog",
     "detachment_id": "da-big-hunt",
-    "cost": 0,
-    "points_provisional": true,
+    "cost": 30,
+    "points_provisional": false,
     "ability_id": "glory-hog-da-big-hunt",
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "keyword_restrictions": [
-      "Beast",
-      "Snagga"
+      "Beastboss on Squigosaur"
     ]
   },
   {
     "id": "ferocious-show-off-green-tide",
-    "name": "Ferocious Show-Off",
+    "name": "Ferocious Show Off",
     "detachment_id": "green-tide",
-    "cost": 0,
-    "points_provisional": true,
+    "cost": 10,
+    "points_provisional": false,
     "ability_id": "ferocious-show-off-green-tide",
     "is_unique": true,
     "game_version": {
       "edition": "11th",
-      "dataslate": "codex-orks"
+      "dataslate": "launch"
     },
     "keyword_restrictions": [
-      "Orks",
-      "Infantry"
+      "Infantry",
+      "Orks"
     ]
   },
   {
@@ -747,6 +746,326 @@
     },
     "keyword_restrictions": [
       "Nobz"
+    ]
+  },
+  {
+    "id": "tellyporta-bully-boyz",
+    "name": "Tellyporta",
+    "detachment_id": "bully-boyz",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Warboss in Mega Armour"
+    ]
+  },
+  {
+    "id": "brutal-but-kunnin-green-tide",
+    "name": "Brutal But Kunnin’",
+    "detachment_id": "green-tide",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Orks"
+    ]
+  },
+  {
+    "id": "raucous-warcaller-green-tide",
+    "name": "Raucous Warcaller",
+    "detachment_id": "green-tide",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Orks"
+    ]
+  },
+  {
+    "id": "speed-makes-right-kult-of-speed",
+    "name": "Speed Makes Right",
+    "detachment_id": "kult-of-speed",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Orks"
+    ]
+  },
+  {
+    "id": "supa-cybork-body-war-horde",
+    "name": "Supa-Cybork Body",
+    "detachment_id": "war-horde",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Orks"
+    ]
+  },
+  {
+    "id": "surly-as-a-squiggoth-da-big-hunt",
+    "name": "Surly As A Squiggoth",
+    "detachment_id": "da-big-hunt",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Beastboss on Squigosaur"
+    ]
+  },
+  {
+    "id": "bloodthirsty-belligerence-green-tide",
+    "name": "Bloodthirsty Belligerence",
+    "detachment_id": "green-tide",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Orks"
+    ]
+  },
+  {
+    "id": "squig-hide-tyres-kult-of-speed",
+    "name": "Squig-hide Tyres",
+    "detachment_id": "kult-of-speed",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Deffkilla Wartrike"
+    ]
+  },
+  {
+    "id": "wazblasta-kult-of-speed",
+    "name": "Wazblasta",
+    "detachment_id": "kult-of-speed",
+    "cost": 10,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Deffkilla Wartrike"
+    ]
+  },
+  {
+    "id": "big-gob-bully-boyz",
+    "name": "Big Gob",
+    "detachment_id": "bully-boyz",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Warboss"
+    ]
+  },
+  {
+    "id": "proper-killy-da-big-hunt",
+    "name": "Proper Killy",
+    "detachment_id": "da-big-hunt",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Beast Snagga"
+    ]
+  },
+  {
+    "id": "slippery-git-taktikal-brigade",
+    "name": "Slippery Git",
+    "detachment_id": "taktikal-brigade",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Warboss"
+    ],
+    "attachment_bodyguard_ids": [
+      "kommandos"
+    ],
+    "exclusion_keywords": [
+      "Mega Armour"
+    ]
+  },
+  {
+    "id": "fasta-than-yooz-kult-of-speed",
+    "name": "Fasta Than Yooz",
+    "detachment_id": "kult-of-speed",
+    "cost": 35,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Orks"
+    ]
+  },
+  {
+    "id": "eadstompa-bully-boyz",
+    "name": "’Eadstompa",
+    "detachment_id": "bully-boyz",
+    "cost": 10,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Warboss"
+    ]
+  },
+  {
+    "id": "skrag-every-stash-da-big-hunt",
+    "name": "Skrag Every Stash!",
+    "detachment_id": "da-big-hunt",
+    "cost": 25,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Beast Snagga"
+    ]
+  },
+  {
+    "id": "da-biggest-boss-bully-boyz",
+    "name": "Da Biggest Boss",
+    "detachment_id": "bully-boyz",
+    "cost": 15,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Infantry",
+      "Warboss"
+    ]
+  },
+  {
+    "id": "morks-kunnin-taktikal-brigade",
+    "name": "Mork’s Kunnin’",
+    "detachment_id": "taktikal-brigade",
+    "cost": 20,
+    "ability_id": null,
+    "is_unique": true,
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "launch"
+    },
+    "points_provisional": false,
+    "upgrade_tag": false,
+    "max_targets": 1,
+    "keyword_restrictions": [
+      "Orks"
     ]
   }
 ]
