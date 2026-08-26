@@ -4223,7 +4223,9 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "assault-intercessor-squad"
+      "assault-intercessor-squad",
+      "captain-raldeo",
+      "sanguinary-spearhead-assault-intercessor-squad"
     ],
     "ability_type": "unit",
     "behavior": "passive"
@@ -5775,7 +5777,8 @@
       "duration": "permanent"
     },
     "unit_ids": [
-      "captain-with-jump-pack"
+      "captain-with-jump-pack",
+      "assault-force-captain"
     ],
     "ability_type": "unit",
     "behavior": "passive"
@@ -18600,5 +18603,173 @@
       ]
     },
     "community_notes": "Once per battle, at the end of the opponent's Fight phase, if unengaged, the bearer's unit is placed into Strategic Reserves"
+  },
+  {
+    "ability_id": "master-of-war",
+    "name": "Master of War",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "ability_type": "unit",
+    "unit_ids": [
+      "assault-force-captain"
+    ],
+    "behavior": "reactive",
+    "trigger": {
+      "event": "end-of-phase",
+      "subject": "enemy-unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "reactive-charge"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "At the end of the opponent's Charge phase, if this unit is unengaged and within 6\" of one or more enemy units, it can resolve a charge; when making the charge roll, a result greater than 6 (after modifiers) is changed to 6"
+  },
+  {
+    "ability_id": "stalwart-defenders",
+    "name": "Stalwart Defenders",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "ability_type": "unit",
+    "unit_ids": [
+      "assault-force-intercessor-squad"
+    ],
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "within-range-of-objective",
+        "parameters": {}
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "unit",
+        "modifier": {
+          "stat": "AP",
+          "operation": "add",
+          "value": 1,
+          "incoming": true
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "community_notes": "While every model in this unit is within range of an objective marker, attacks that target this unit have -1 AP"
+  },
+  {
+    "ability_id": "empyric-insight",
+    "name": "Empyric Insight",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "ability_type": "unit",
+    "unit_ids": [
+      "assault-force-librarian"
+    ],
+    "behavior": "passive",
+    "effect": {
+      "type": "modifier-immunity",
+      "target": "unit",
+      "modifier": {
+        "scope": "characteristics"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "community_notes": "This unit's ranged attacks can ignore modifiers to BS and to Hit rolls and Wound rolls (the DSL's modifier immunity is broader than the printed ranged-only scope)"
+  },
+  {
+    "ability_id": "rapid-reactions",
+    "name": "Rapid Reactions",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "ability_type": "unit",
+    "unit_ids": [
+      "assault-force-vanguard-veteran-squad-with-jump-packs"
+    ],
+    "behavior": "reactive",
+    "trigger": {
+      "event": "after-enemy-unit-fires",
+      "subject": "enemy-unit"
+    },
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D6+1"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Once per turn, in the opponent's Shooting phase, after an enemy unit that targeted this unit has shot: this unit can make a normal move of up to D6+1\""
+  },
+  {
+    "ability_id": "born-to-fight",
+    "name": "Born To Fight",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "ability_type": "unit",
+    "unit_ids": [
+      "sanguinary-spearhead-sanguinary-guard"
+    ],
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "engagement-state",
+        "parameters": {
+          "state": "within-engagement-range"
+        }
+      },
+      "effect": {
+        "type": "objective-control-modifier",
+        "target": "unit",
+        "modifier": {
+          "operation": "add",
+          "value": 2
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "permanent"
+    },
+    "community_notes": "While this unit is within Engagement Range of one or more enemy units, it has +2 OC"
   }
 ]
