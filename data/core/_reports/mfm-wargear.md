@@ -23,12 +23,12 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 | imperial-knights | 23 | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 | leagues-of-votann | 26 | 33 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | necrons | 57 | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| orks | 63 | 61 | 7 | 5 | 1 | 1 | 0 | 2 | 0 | 2 | 6 | 0 | 4 |
+| orks | 63 | 61 | 3 | 5 | 1 | 13 | 0 | 0 | 0 | 2 | 1 | 0 | 0 |
 | tau-empire | 47 | 94 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | thousand-sons | 32 | 41 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 0 |
 | tyranids | 57 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
 | world-eaters | 29 | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 |
-| **TOTAL** | **1097** | **1339** | **7** | **5** | **1** | **1** | **0** | **2** | **0** | **12** | **29** | **214** | **4** |
+| **TOTAL** | **1097** | **1339** | **3** | **5** | **1** | **13** | **0** | **0** | **0** | **12** | **24** | **214** | **0** |
 
 ## adeptus-astartes
 
@@ -115,11 +115,7 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 ## orks
 
 **Default loadout changes:**
-- dakkajet / Dakkajet: ["armoured-hull","twin-supa-shoota-dakkajet"] → ["twin-supa-shoota-dakkajet","twin-supa-shoota-dakkajet","armoured-hull"]
-- boyz / Boy: ["choppa-boyz","shoota-boyz-unit","slugga"] → ["slugga","choppa-boyz"]
-- ghazghkull-thraka / Ghazghkull Thraka: ["adamantine-eadbutt","gorks-klaw","morks-roar"] → ["morks-roar","gorks-klaw"]
-- burna-bommer / Burna-bommer: ["armoured-hull","twin-supa-shoota-burna-bommer","skorcha-missile-rack"] → ["twin-big-shoota","twin-supa-shoota-burna-bommer","armoured-hull"]
-- nobz / Nob: ["kustom-krumpa","kustom-shoota-nobz"] → ["slugga","big-choppa-nobz"]
+- ghazghkull-thraka / Makari: [] → ["makaris-stabba"]
 - killa-kans / Killa Kan: ["kan-blasta","kan-klaw"] → ["kan-shoota","kan-klaw"]
 - stompa / Stompa: ["big-shoota","big-shoota","big-shoota","big-shoota","big-shoota","deffkannon-and-supa-rokkits","mega-choppa","skorcha","supa-gatler"] → ["big-shoota","big-shoota","big-shoota","deffkannon","skorcha","supa-gatler","supa-rokkits","twin-big-shoota","mega-choppa"]
 
@@ -129,11 +125,6 @@ dump-absent (repo-only) units. Unresolved weapon names are triaged, never guesse
 
 **Notes (cap approximations / alternates):**
 - meganobz: source spelling synchronized: "Twin Killsaws" → "Twin killsaws" (twin-killsaw)
-- boyz: composition has row(s) absent from the dump (Nob) while 1 dump row(s) are missing — manual reconcile, not auto-synthesized
-- ghazghkull-thraka: synthesized model row "Makari" (min 1/max 1, leader=false) from dump composition
-- ghazghkull-thraka: synthesized composition min 2 ≠ unit model_count.min 1 — review
-- ghazghkull-thraka: synthesized composition max 2 ≠ unit model_count.max 1 — review
-- nobz: synthesized model row "Boss Nob" (min 1/max 1, leader=true) from dump composition
 
 ## tyranids
 

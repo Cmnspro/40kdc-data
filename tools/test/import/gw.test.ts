@@ -171,7 +171,7 @@ Nobz (105 pts)
     expect(unit.wargear).toEqual([{ raw_name: "Power klaw", count: 5 }]);
   });
 
-it("does not add a synthetic model to complete named model groups", () => {
+it("keeps all explicit named models without adding another", () => {
   const roster = importRoster(`Fabricated roster (235 points)
 Orks
 Bully Boyz (1 Detachment Point)
@@ -189,7 +189,7 @@ Ghazghkull Thraka (235 Points)
 ◦ 1x Makari’s stabba
 `, { dataset: ds });
 
-  expect(roster.units[0]?.model_count).toBe(1);
+  expect(roster.units[0]?.model_count).toBe(2);
 });
 
 describe("gwAdapter resolves against the embedded dataset", () => {

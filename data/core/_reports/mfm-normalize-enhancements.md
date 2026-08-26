@@ -6,7 +6,7 @@ Renames the authored enhancement name + id to the RAW GW form (keep the
 so a stripped repo name never matches an imported roster line.
 
 - **Id renames (distinct):** 0
-- **Name changes (rows):** 0
+- **Name changes (rows):** 3
 - **Detachment refs rewritten:** 0
 - **Ambiguous bases skipped:** 0
 

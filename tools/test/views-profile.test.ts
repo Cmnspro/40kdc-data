@@ -160,9 +160,7 @@ describe("Dataset.buffsFor", () => {
 
   it("applies target-keyword gates through linked buff APIs", () => {
     const input = {
-      unitId: "warbuggies",
-      factionId: "orks",
-      weaponProfiles: [{ weaponId: "extra-dakka", profileIndex: 0 }],
+      weaponProfiles: [{ weaponId: "big-shoota", profileIndex: 0 }],
     };
     const matches = ds.buffsFor(input, { ...baseCtx, targetKeywords: ["infantry"] });
     expect(matches.some((buff) =>

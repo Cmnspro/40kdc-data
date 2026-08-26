@@ -253,7 +253,7 @@ describe("Codex profile targeting", () => {
   });
 
   it("filters conditional weapon keywords by target keyword", () => {
-    const weapon = ds.weapons.getAny("extra-dakka")!.raw;
+    const weapon = ds.weapons.getAny("big-shoota")!.raw;
     const cultists = ds.units.getAny("cultist-mob")!.raw;
     const knight = ds.units.getAny("knight-paladin")!.raw;
     const base = {

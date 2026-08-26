@@ -30,7 +30,7 @@ Only those two fields change; `game_version` is left for a later confirm pass.
 | iron-hands | 17 | 0 | 0 | 0 |
 | leagues-of-votann | 11 | 0 | 0 | 0 |
 | necrons | 13 | 0 | 0 | 0 |
-| orks | 14 | 0 | 0 | 0 |
+| orks | 8 | 6 | 0 | 7 |
 | raven-guard | 17 | 0 | 0 | 0 |
 | salamanders | 17 | 0 | 0 | 0 |
 | space-wolves | 24 | 0 | 0 | 0 |
@@ -40,5 +40,33 @@ Only those two fields change; `game_version` is left for a later confirm pass.
 | ultramarines | 18 | 0 | 0 | 0 |
 | white-scars | 17 | 0 | 0 | 0 |
 | world-eaters | 9 | 0 | 0 | 0 |
-| **TOTAL** | **483** | **0** | **0** | **0** |
+| **TOTAL** | **477** | **6** | **0** | **7** |
+
+## orks
+
+**Detachment-point changes** (old → new):
+- dread-mob: 1 → 2
+- blitz-brigade: 1 → 2
+- kult-of-speed: 1 → 2
+- da-big-hunt: 1 → 2
+- bully-boyz: 1 → 2
+- green-tide: 1 → 3
+
+**Repo detachments absent from dump** (left provisional):
+- brute-bosses
+- flyboyz
+- madcap-meks
+- runt-swarm
+- shoota-boyz
+- wreckas
+- wurrband
+
+## New detachments in dump (no repo entity — author in a follow-up)
+
+- ardmob
+- equatorial-hordes
+- freebooter-krew
+- more-dakka
+- rollin-deff
+- speedwaaagh
 

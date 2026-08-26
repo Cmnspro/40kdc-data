@@ -10,8 +10,10 @@
  *
  * Subcommands (more land in later phases):
  *   coverage      Report dump-vs-repo coverage; writes no data. (phase 1)
- *   dispositions  (phase 2)  enhancements (phase 3)  points (phase 4)
- *   wargear       (phase 5)  stratagems (phase 6)
+ *   dispositions  (phase 2)  enhancements (phase 3)
+ *   points-and-composition-tiers  Atomically reconcile the coupled unit-price
+ *                                 and discrete-composition size contract (phase 4)
+ *   points (phase 4)  wargear (phase 5)  stratagems (phase 6)
  *   missions      Reconcile mission scoring-card numbers (vp/vp_max/cumulative)
  *                 + exclusive_group guard, for secondary + generic primary cards
  *   chapter-scope Reconcile Space Marine chapter access in the shared
@@ -681,7 +683,56 @@ async function runDetachmentFieldsCmd(dump: MfmDump, write: boolean): Promise<vo
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
 }
 
-async function runPointsCmd(dump: MfmDump, write: boolean): Promise<void> {
+/**
+ * Merge the only two MFM passes that intentionally update the same unit records:
+ * point tiers and composition-derived `model_count`. They are derived independently
+ * from the same dump, but must land atomically when a datasheet changes size.
+ */
+export function mergePointsAndCompositionTierWrites(
+  pointWrites: readonly StagedWrite[],
+  compositionTierWrites: readonly StagedWrite[],
+): StagedWrite[] {
+  const merged = new Map(pointWrites.map((write) => [write.path, write]));
+  for (const tierWrite of compositionTierWrites) {
+    const pointWrite = merged.get(tierWrite.path);
+    if (!pointWrite) {
+      merged.set(tierWrite.path, tierWrite);
+      continue;
+    }
+    if (
+      !tierWrite.path.endsWith("/units.json") ||
+      !Array.isArray(pointWrite.value) ||
+      !Array.isArray(tierWrite.value)
+    ) {
+      throw new Error(
+        `points-and-composition-tiers unexpectedly overlap at ${tierWrite.path}`,
+      );
+    }
+
+    const tierUnits = new Map(
+      tierWrite.value
+        .filter((unit): unit is Record<string, unknown> => !!unit && typeof unit === "object")
+        .map((unit) => [unit.id, unit]),
+    );
+    merged.set(tierWrite.path, {
+      path: pointWrite.path,
+      value: pointWrite.value.map((unit) => {
+        if (!unit || typeof unit !== "object") return unit;
+        const tierUnit = tierUnits.get((unit as { id?: unknown }).id);
+        return tierUnit && "model_count" in tierUnit
+          ? { ...unit, model_count: tierUnit.model_count }
+          : unit;
+      }),
+    });
+  }
+  return [...merged.values()];
+}
+
+async function runPointsCmd(
+  dump: MfmDump,
+  write: boolean,
+  compositionTiers?: ReturnType<typeof runCompositionTiers>,
+): Promise<void> {
   const report = runPoints(dump, write);
   fs.mkdirSync(REPORT_DIR, { recursive: true });
   const reportPath = path.join(REPORT_DIR, "mfm-points.md");
@@ -713,8 +764,32 @@ async function runPointsCmd(dump: MfmDump, write: boolean): Promise<void> {
       `allied added ${sum((d) => d.alliedAdded.length)}, ambiguous-kept ${sum((d) => d.ambiguousSkipped.length)}, ` +
       `repo-only ${sum((d) => d.repoOnly.length)}, new-in-dump ${report.newInDump.length}.`
   );
-  await applyWrites(report.staged, { write, label: "points" });
+  await applyWrites(
+    compositionTiers
+      ? mergePointsAndCompositionTierWrites(report.staged, compositionTiers.staged)
+      : report.staged,
+    { write, label: compositionTiers ? "points-and-composition-tiers" : "points" },
+  );
   if (!write) console.log("DRY RUN — no files written. Re-run with --write to apply.");
+}
+
+async function runPointsAndCompositionTiersCmd(dump: MfmDump, write: boolean): Promise<void> {
+  const report = runCompositionTiers(dump);
+  const sum = (f: (d: (typeof report.dirs)[number]) => number) =>
+    report.dirs.reduce((a, d) => a + f(d), 0);
+  console.log(
+    `Composition tiers — matched ${sum((d) => d.matched)}, units tiered ${sum((d) => d.unitsTiered)}, ` +
+      `model rows adjusted ${sum((d) => d.rowsAdjusted)}, model_count re-synced ${sum((d) => d.modelCountResynced)}, ` +
+      `skipped (kill-team / structure differs) ${report.skipped.length}.`,
+  );
+  if (report.skipped.length) {
+    fs.mkdirSync(UNMATCHED_DIR, { recursive: true });
+    fs.writeFileSync(
+      path.join(UNMATCHED_DIR, "unmatched-composition-tiers.json"),
+      JSON.stringify(report.skipped, null, 2) + "\n",
+    );
+  }
+  await runPointsCmd(dump, write, report);
 }
 
 async function runCullCmd(dump: MfmDump, write: boolean): Promise<void> {
@@ -1194,6 +1269,7 @@ export const INGEST_MFM_COMMANDS = [
   "detachment-fields",
   "conditional-keywords",
   "points",
+  "points-and-composition-tiers",
   "cull-legends",
   "stratagems",
   "seed-stratagems",
@@ -1239,7 +1315,7 @@ export async function runIngestMfmCommand(
   else if (command === "points") await runPointsCmd(dump, options.write);
   else if (command === "cull-legends") await runCullCmd(dump, options.write);
   else if (command === "stratagems") await runStratagemsCmd(dump, options.write);
-  else if (command === "seed-stratagems") await runSeedStratagemsCmd(dump, options.write, options.includeCombatPatrol);
+  else if (command === "points-and-composition-tiers") await runPointsAndCompositionTiersCmd(dump, options.write);
   else if (command === "missions") await runMissionsCmd(dump, options.write);
   else if (command === "mission-matchups") await runMissionMatchupsCmd(dump, options.write);
   else if (command === "base-sizes") await runBaseSizesCmd(dump, options.write);

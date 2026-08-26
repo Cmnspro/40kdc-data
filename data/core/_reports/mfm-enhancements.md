@@ -33,7 +33,7 @@ values and absent source relations clear them. Prose is never read or written.
 | iron-hands | 60 | 0 | 0 | 0 | 0 | 0 | 0 |
 | leagues-of-votann | 36 | 0 | 0 | 0 | 0 | 0 | 1 |
 | necrons | 44 | 0 | 0 | 0 | 0 | 0 | 2 |
-| orks | 45 | 0 | 0 | 0 | 0 | 0 | 7 |
+| orks | 13 | 5 | 0 | 0 | 2 | 0 | 30 |
 | raven-guard | 59 | 0 | 0 | 0 | 0 | 0 | 1 |
 | salamanders | 57 | 0 | 0 | 0 | 0 | 0 | 0 |
 | space-wolves | 80 | 0 | 0 | 0 | 0 | 0 | 1 |
@@ -43,7 +43,7 @@ values and absent source relations clear them. Prose is never read or written.
 | ultramarines | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | white-scars | 60 | 0 | 0 | 0 | 0 | 0 | 0 |
 | world-eaters | 28 | 0 | 0 | 0 | 0 | 0 | 0 |
-| **TOTAL** | **1628** | **0** | **0** | **0** | **0** | **0** | **27** |
+| **TOTAL** | **1596** | **5** | **0** | **0** | **2** | **0** | **50** |
 
 ## aeldari
 
@@ -91,14 +91,48 @@ values and absent source relations clear them. Prose is never read or written.
 
 ## orks
 
+**Cost changes** (old → new):
+- follow-me-ladz-war-horde: 0 → 25
+- headwoppas-killchoppa-war-horde: 0 → 20
+- kunnin-but-brutal-war-horde: 0 → 15
+- glory-hog-da-big-hunt: 0 → 30
+- ferocious-show-off-green-tide: 0 → 10
+
+**Eligibility changes:**
+- glory-hog-da-big-hunt: {"keyword_restrictions":["Beast","Snagga"],"keyword_restriction_groups":null} → {"keyword_restrictions":["Beastboss on Squigosaur"],"keyword_restriction_groups":null}
+- ferocious-show-off-green-tide: {"keyword_restrictions":["Orks","Infantry"],"keyword_restriction_groups":null} → {"keyword_restrictions":["Infantry","Orks"],"keyword_restriction_groups":null}
+
 **Repo enhancements absent from dump** (left as-is):
-- skwad-leader-taktikal-brigade
-- mek-kaptin-taktikal-brigade
-- gob-boomer-taktikal-brigade
-- targetin-squigs-more-dakka
-- zog-off-and-eat-dakka-more-dakka
-- dead-shiny-shootas-rollin-deff
-- da-gobshot-thunderbuss-rollin-deff
+- dreadherder-dread-mob
+- ard-boyz-green-tide
+- blitzboss-brute-bosses
+- brutal-but-kunnin-brute-bosses
+- competitive-streak-kult-of-speed
+- da-boss-is-watchin-war-horde
+- da-gobshot-thunderbuss-brute-bosses
+- da-krunch-wurrband
+- eadbanger-wurrband
+- enhanced-runt-maw-madcap-meks
+- extra-sneaky-runt-swarm
+- flyboss-flyboyz
+- impulsive-recon-flyboyz
+- it-came-from-da-drops-da-big-hunt
+- kaptins-hat-wreckas
+- kill-kommando-taktikal-brigade
+- mekwaaagh-mastermind-madcap-meks
+- minefield-detail-runt-swarm
+- morgogs-finkin-cap-brute-bosses
+- proper-killy-brute-bosses
+- smoky-gubbinz-kult-of-speed
+- supa-glowy-fing-shoota-boyz
+- supa-snazz-dakka-upgrade-wreckas
+- surly-as-a-squiggoth-brute-bosses
+- targetin-squigs-shoota-boyz
+- tellyporta-boss-bully-boyz
+- temperamental-shokka-madcap-meks
+- throat-slittas-upgrade-taktikal-brigade
+- warphead-wurrband
+- wimp-kickaz-bully-boyz
 
 ## raven-guard
 
@@ -124,7 +158,61 @@ values and absent source relations clear them. Prose is never read or written.
 - synaptic-tyrant-warrior-bioform-onslaught
 - sensory-assimilation-warrior-bioform-onslaught
 
-## Combat-Patrol enhancements held back (1 — pass --include-combat-patrol to author)
+## Seeded matched-play enhancements (17)
 
+- orks/big-gob-bully-boyz (Big Gob) → bully-boyz
+- orks/bloodthirsty-belligerence-green-tide (Bloodthirsty Belligerence) → green-tide
+- orks/brutal-but-kunnin-green-tide (Brutal But Kunnin’) → green-tide
+- orks/da-biggest-boss-bully-boyz (Da Biggest Boss) → bully-boyz
+- orks/eadstompa-bully-boyz (’Eadstompa) → bully-boyz
+- orks/fasta-than-yooz-kult-of-speed (Fasta Than Yooz) → kult-of-speed
+- orks/morks-kunnin-taktikal-brigade (Mork’s Kunnin’) → taktikal-brigade
+- orks/proper-killy-da-big-hunt (Proper Killy) → da-big-hunt
+- orks/raucous-warcaller-green-tide (Raucous Warcaller) → green-tide
+- orks/skrag-every-stash-da-big-hunt (Skrag Every Stash!) → da-big-hunt
+- orks/slippery-git-taktikal-brigade (Slippery Git) → taktikal-brigade
+- orks/speed-makes-right-kult-of-speed (Speed Makes Right) → kult-of-speed
+- orks/squig-hide-tyres-kult-of-speed (Squig-hide Tyres) → kult-of-speed
+- orks/supa-cybork-body-war-horde (Supa-Cybork Body) → war-horde
+- orks/surly-as-a-squiggoth-da-big-hunt (Surly As A Squiggoth) → da-big-hunt
+- orks/tellyporta-bully-boyz (Tellyporta) → bully-boyz
+- orks/wazblasta-kult-of-speed (Wazblasta) → kult-of-speed
+
+## Enhancement seeds skipped (16)
+
+- bionik-workshop-freebooter-krew: detachment freebooter-krew has no repo entity
+- boarding-ramps-upgrade-rollin-deff: detachment rollin-deff has no repo entity
+- da-gobshot-thunderbuss-more-dakka: detachment more-dakka has no repo entity
+- da-kaptin-freebooter-krew: detachment freebooter-krew has no repo entity
+- dakkamek-speedwaaagh: detachment speedwaaagh has no repo entity
+- dead-shiny-shootas-upgrade-more-dakka: detachment more-dakka has no repo entity
+- extra-platin-ardmob: matched-play enhancement has no points cost
+- git-spotter-squig-freebooter-krew: detachment freebooter-krew has no repo entity
+- kunnin-hunta-equatorial-hordes: detachment equatorial-hordes has no repo entity
+- kustom-shokk-box-speedwaaagh: detachment speedwaaagh has no repo entity
+- master-meknologist-speedwaaagh: detachment speedwaaagh has no repo entity
+- rallying-war-cry-ardmob: matched-play enhancement has no points cost
+- razgits-magik-map-freebooter-krew: detachment freebooter-krew has no repo entity
+- supa-burny-fuel-speedwaaagh: detachment speedwaaagh has no repo entity
+- targetin-gizmos-upgrade-rollin-deff: detachment rollin-deff has no repo entity
+- unkillable-scourge-equatorial-hordes: detachment equatorial-hordes has no repo entity
+
+## Unresolved enhancements in dump (no unambiguous repo detachment)
+
+- bionik-workshop-freebooter-krew
+- boarding-ramps-upgrade-rollin-deff
+- da-gobshot-thunderbuss-more-dakka
+- da-kaptin-freebooter-krew
+- dakkamek-speedwaaagh
+- dead-shiny-shootas-upgrade-more-dakka
 - extra-platin-ardmob
+- git-spotter-squig-freebooter-krew
+- kunnin-hunta-equatorial-hordes
+- kustom-shokk-box-speedwaaagh
+- master-meknologist-speedwaaagh
+- rallying-war-cry-ardmob
+- razgits-magik-map-freebooter-krew
+- supa-burny-fuel-speedwaaagh
+- targetin-gizmos-upgrade-rollin-deff
+- unkillable-scourge-equatorial-hordes
 

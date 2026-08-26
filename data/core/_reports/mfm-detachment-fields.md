@@ -31,7 +31,7 @@ authored separately and is untouched.
 | iron-hands | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 1 |
 | leagues-of-votann | 11 | 0 | 11 | 0 | 11 | 0 | 10 | 0 | 1 |
 | necrons | 13 | 0 | 13 | 0 | 13 | 0 | 12 | 0 | 1 |
-| orks | 14 | 0 | 14 | 0 | 14 | 0 | 11 | 1 | 2 |
+| orks | 8 | 0 | 8 | 0 | 8 | 0 | 1 | 7 | 0 |
 | raven-guard | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 1 |
 | salamanders | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 1 |
 | space-wolves | 8 | 0 | 8 | 0 | 8 | 0 | 0 | 0 | 8 |
@@ -41,7 +41,7 @@ authored separately and is untouched.
 | ultramarines | 2 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 2 |
 | white-scars | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 1 |
 | world-eaters | 9 | 0 | 9 | 0 | 9 | 0 | 8 | 0 | 1 |
-| **TOTAL** | **292** | **0** | **292** | **0** | **292** | **0** | **225** | **3** | **64** |
+| **TOTAL** | **286** | **0** | **286** | **0** | **286** | **0** | **215** | **9** | **62** |
 
 ## adepta-sororitas
 - detachment_rule_ids UNAUTHORED sanctuary-guardians: dump rule(s) [blessed-believers] have no authored ability yet
@@ -133,9 +133,13 @@ authored separately and is untouched.
 - detachment_rule_ids UNAUTHORED amonhotekhs-guard: dump rule(s) [territorial-imperatives] have no authored ability yet
 
 ## orks
-- detachment_rule_ids REVIEW more-dakka: authored [dakka-dakka-dakka-more-dakka] vs dump [dakka-dakka-dakka]
-- detachment_rule_ids UNAUTHORED ardmob: dump rule(s) [ard-as-nails] have no authored ability yet
-- detachment_rule_ids UNAUTHORED equatorial-hordes: dump rule(s) [jungle-know-wotz] have no authored ability yet
+- detachment_rule_ids REVIEW dread-mob: authored [try-dat-button-dread-mob] vs dump [try-dat-button]
+- detachment_rule_ids REVIEW kult-of-speed: authored [adrenaline-junkies-kult-of-speed] vs dump [adrenaline-junkies]
+- detachment_rule_ids REVIEW da-big-hunt: authored [da-hunt-is-on-da-big-hunt] vs dump [da-hunt-is-on]
+- detachment_rule_ids REVIEW war-horde: authored [get-stuck-in-war-horde] vs dump [get-stuck-in]
+- detachment_rule_ids REVIEW bully-boyz: authored [displays-of-savagery-bully-boyz] vs dump [da-boss-is-watchin]
+- detachment_rule_ids REVIEW green-tide: authored [mob-handed-brutality-green-tide] vs dump [mob-mentality]
+- detachment_rule_ids REVIEW taktikal-brigade: authored [suspiciously-well-organised-taktikal-brigade] vs dump [lissen-ere]
 
 ## raven-guard
 - detachment_rule_ids UNAUTHORED shadowmark-talon: dump rule(s) [masters-of-shadow, unparalleled-tactician] have no authored ability yet

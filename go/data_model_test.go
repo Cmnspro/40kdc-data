@@ -486,10 +486,8 @@ func hasKeywordBuff(buffs []any, keywordID string) bool {
 func TestWeaponKeywordTargetGatesApplyInLinkedBuffAPI(t *testing.T) {
 	ds := EmbeddedDataset()
 	input := map[string]any{
-		"unitId":    "warbuggies",
-		"factionId": "orks",
 		"weaponProfiles": []any{
-			map[string]any{"weaponId": "extra-dakka", "profileIndex": 0},
+			map[string]any{"weaponId": "big-shoota", "profileIndex": 0},
 		},
 	}
 	matching := ds.buffsFor(input, map[string]any{

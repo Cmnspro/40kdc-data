@@ -558,7 +558,7 @@
           "diameter": 60
         },
         "default_weapon_ids": [
-          "kan-blasta",
+          "kan-shoota",
           "kan-klaw"
         ]
       }
@@ -886,15 +886,27 @@
         "min": 1,
         "max": 1,
         "default_weapon_ids": [
-          "adamantine-eadbutt",
-          "gorks-klaw",
-          "morks-roar"
+          "morks-roar",
+          "gorks-klaw"
         ],
         "is_leader_model": false,
         "base_size_mm": {
           "shape": "round",
           "diameter": 80
         }
+      },
+      {
+        "name": "Makari",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": false,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 80
+        },
+        "default_weapon_ids": [
+          "makaris-stabba"
+        ]
       }
     ],
     "game_version": {
@@ -906,6 +918,11 @@
         "models": [
           {
             "name": "Ghazghkull Thraka",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "name": "Makari",
             "min": 1,
             "max": 1
           }
@@ -984,12 +1001,12 @@
           "big-shoota",
           "big-shoota",
           "big-shoota",
-          "big-shoota",
-          "big-shoota",
-          "deffkannon-and-supa-rokkits",
-          "mega-choppa",
+          "deffkannon",
           "skorcha",
-          "supa-gatler"
+          "supa-gatler",
+          "supa-rokkits",
+          "twin-big-shoota",
+          "mega-choppa"
         ]
       }
     ],
@@ -1158,25 +1175,28 @@
     "faction_id": "orks",
     "models": [
       {
-        "name": "Nob",
-        "min": 1,
-        "max": 2,
-        "default_weapon_ids": [
-          "kustom-choppa-boyz",
-          "kombi-skorcha-boyz"
-        ],
-        "is_leader_model": true
-      },
-      {
         "name": "Boy",
         "min": 9,
-        "max": 18,
+        "max": 19,
         "default_weapon_ids": [
-          "choppa-boyz",
-          "shoota-boyz-unit",
-          "slugga"
+          "slugga",
+          "choppa-boyz"
         ],
         "is_leader_model": false
+      },
+      {
+        "name": "Boss Nob",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
+        "default_weapon_ids": [
+          "slugga",
+          "big-choppa-boyz"
+        ]
       }
     ],
     "game_version": {
@@ -1187,28 +1207,28 @@
       {
         "models": [
           {
-            "name": "Boss Nob",
-            "min": 1,
-            "max": 1
-          },
-          {
             "name": "Boy",
             "min": 9,
             "max": 9
+          },
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
           }
         ]
       },
       {
         "models": [
           {
-            "name": "Boss Nob",
-            "min": 1,
-            "max": 1
-          },
-          {
             "name": "Boy",
             "min": 10,
             "max": 19
+          },
+          {
+            "name": "Boss Nob",
+            "min": 1,
+            "max": 1
           }
         ]
       }
@@ -1640,8 +1660,9 @@
           "length": 92
         },
         "default_weapon_ids": [
-          "armoured-hull",
-          "twin-supa-shoota-dakkajet"
+          "twin-supa-shoota-dakkajet",
+          "twin-supa-shoota-dakkajet",
+          "armoured-hull"
         ]
       }
     ],
@@ -1740,7 +1761,7 @@
       {
         "name": "Beast Snagga Nob",
         "min": 1,
-        "max": 2,
+        "max": 1,
         "default_weapon_ids": [
           "power-snappa",
           "slugga"
@@ -1754,7 +1775,7 @@
       {
         "name": "Beast Snagga Boy",
         "min": 9,
-        "max": 18,
+        "max": 19,
         "default_weapon_ids": [
           "slugga",
           "choppa-beast-snagga-boyz"
@@ -1789,13 +1810,13 @@
         "models": [
           {
             "name": "Beast Snagga Nob",
-            "min": 2,
-            "max": 2
+            "min": 1,
+            "max": 1
           },
           {
             "name": "Beast Snagga Boy",
-            "min": 18,
-            "max": 18
+            "min": 10,
+            "max": 19
           }
         ]
       }
@@ -2124,12 +2145,26 @@
     "faction_id": "orks",
     "models": [
       {
-        "name": "Nob",
-        "min": 5,
-        "max": 10,
+        "name": "Boss Nob",
+        "min": 1,
+        "max": 1,
+        "is_leader_model": true,
+        "base_size_mm": {
+          "shape": "round",
+          "diameter": 32
+        },
         "default_weapon_ids": [
-          "kustom-krumpa",
-          "kustom-shoota-nobz"
+          "slugga",
+          "big-choppa-nobz"
+        ]
+      },
+      {
+        "name": "Nob",
+        "min": 4,
+        "max": 9,
+        "default_weapon_ids": [
+          "slugga",
+          "big-choppa-nobz"
         ]
       }
     ],
@@ -2281,9 +2316,9 @@
           "length": 92
         },
         "default_weapon_ids": [
-          "armoured-hull",
+          "twin-big-shoota",
           "twin-supa-shoota-burna-bommer",
-          "skorcha-missile-rack"
+          "armoured-hull"
         ]
       }
     ],
@@ -2531,95 +2566,5 @@
         ]
       }
     ]
-  },
-  {
-    "unit_id": "nazdreg",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Nazdreg",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "kustom-blasta-x",
-          "kustom-blasta-x-melee",
-          "moonchewa"
-        ],
-        "is_leader_model": true
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    },
-    "tiers": [
-      {
-        "models": [
-          {
-            "name": "Nazdreg",
-            "min": 1,
-            "max": 1
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unit_id": "gunwagon",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Gunwagon",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "crushin-bulk-gunwagon"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "unit_id": "runtherd",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Runtherd",
-        "min": 1,
-        "max": 1,
-        "default_weapon_ids": [
-          "slugga",
-          "runtherd-tools"
-        ],
-        "is_leader_model": true
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
-  },
-  {
-    "unit_id": "warbuggies",
-    "faction_id": "orks",
-    "models": [
-      {
-        "name": "Warbuggy",
-        "min": 1,
-        "max": 2,
-        "default_weapon_ids": [
-          "extra-dakka",
-          "mek-speshul",
-          "spiked-ram"
-        ]
-      }
-    ],
-    "game_version": {
-      "edition": "11th",
-      "dataslate": "codex-orks"
-    }
   }
 ]
