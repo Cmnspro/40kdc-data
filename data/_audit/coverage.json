@@ -35,12 +35,12 @@
     },
     {
       "faction": "adeptus-custodes",
-      "total": 90,
-      "offensive": 22,
-      "defensive": 13,
-      "inert": 60,
+      "total": 155,
+      "offensive": 43,
+      "defensive": 18,
+      "inert": 99,
       "stub": 3,
-      "stubStructural": 0,
+      "stubStructural": 4,
       "gwTextLeak": 0,
       "defensiveSkipped": 3
     },
@@ -288,30 +288,30 @@
     }
   ],
   "totals": {
-    "total": 3714,
-    "offensive": 908,
-    "defensive": 286,
-    "inert": 2611,
+    "total": 3779,
+    "offensive": 929,
+    "defensive": 291,
+    "inert": 2650,
     "stub": 115,
-    "stubStructural": 40,
+    "stubStructural": 44,
     "gwTextLeak": 0,
     "defensiveSkipped": 56
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 561
+      "count": 568
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 215
-    },
-    {
-      "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
-      "count": 127
+      "count": 222
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
+      "count": 130
+    },
+    {
+      "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
       "count": 127
     },
     {
@@ -320,11 +320,11 @@
     },
     {
       "reason": "effect type \"objective-control-modifier\" is not modelled by the buff layer",
-      "count": 63
+      "count": 64
     },
     {
       "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
-      "count": 63
+      "count": 64
     },
     {
       "reason": "effect type \"resurrection\" is not modelled by the buff layer",
@@ -347,15 +347,15 @@
       "count": 39
     },
     {
+      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
+      "count": 37
+    },
+    {
       "reason": "stat-modifier: operation \"set\" not supported",
       "count": 36
     },
     {
       "reason": "effect type \"unit-keyword\" is not modelled by the buff layer",
-      "count": 33
-    },
-    {
-      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
       "count": 33
     },
     {
@@ -367,15 +367,19 @@
       "count": 31
     },
     {
+      "reason": "dice-gated effect: stochastic; not expressible as a buff",
+      "count": 29
+    },
+    {
       "reason": "stat-modifier on \"M\" is outside the damage path",
       "count": 28
     },
     {
-      "reason": "dice-gated effect: stochastic; not expressible as a buff",
-      "count": 27
+      "reason": "effect type \"fight-first\" is not modelled by the buff layer",
+      "count": 26
     },
     {
-      "reason": "effect type \"fight-first\" is not modelled by the buff layer",
+      "reason": "stat-modifier on \"D\" is outside the damage path",
       "count": 26
     },
     {
@@ -391,28 +395,24 @@
       "count": 24
     },
     {
-      "reason": "stat-modifier on \"D\" is outside the damage path",
-      "count": 22
-    },
-    {
       "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
       "count": 21
+    },
+    {
+      "reason": "roll-modifier: operation \"ignore-modifiers\" not supported",
+      "count": 20
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context",
+      "count": 19
     },
     {
       "reason": "roll-modifier: operation \"set\" not supported",
       "count": 19
     },
     {
-      "reason": "roll-modifier: operation \"ignore-modifiers\" not supported",
-      "count": 19
-    },
-    {
       "reason": "conditional: cannot evaluate condition \"unit-within-range-of\" against current context",
       "count": 18
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context",
-      "count": 17
     },
     {
       "reason": "roll-modifier on \"charge\" is outside the damage path",
@@ -443,16 +443,16 @@
       "count": 10
     },
     {
+      "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
+      "count": 10
+    },
+    {
       "reason": "re-roll on \"advance\" (subset …) is outside the damage path",
       "count": 10
     },
     {
       "reason": "effect type \"resource-spend\" is not modelled by the buff layer",
       "count": 10
-    },
-    {
-      "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
-      "count": 9
     },
     {
       "reason": "conditional: cannot evaluate condition \"advanced-this-turn\" against current context",
@@ -469,6 +469,18 @@
     {
       "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
       "count": 8
+    },
+    {
+      "reason": "stat-modifier on \"W\" is outside the damage path",
+      "count": 7
+    },
+    {
+      "reason": "effect type \"charge-roll-modifier\" is not modelled by the buff layer",
+      "count": 7
+    },
+    {
+      "reason": "effect type \"unit-tag\" is not modelled by the buff layer",
+      "count": 6
     },
     {
       "reason": "conditional: cannot evaluate condition \"opponent-unit-within-range\" against current context",
@@ -491,19 +503,15 @@
       "count": 6
     },
     {
-      "reason": "stat-modifier on \"W\" is outside the damage path",
-      "count": 6
-    },
-    {
-      "reason": "effect type \"charge-roll-modifier\" is not modelled by the buff layer",
-      "count": 6
-    },
-    {
       "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
       "count": 5
     },
     {
-      "reason": "effect type \"unit-tag\" is not modelled by the buff layer",
+      "reason": "effect type \"battle-shock-test\" is not modelled by the buff layer",
+      "count": 5
+    },
+    {
+      "reason": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
       "count": 5
     },
     {
@@ -547,6 +555,10 @@
       "count": 4
     },
     {
+      "reason": "effect type \"remove-battle-shock\" is not modelled by the buff layer",
+      "count": 4
+    },
+    {
       "reason": "effect type \"terrain-area-tag\" is not modelled by the buff layer",
       "count": 4
     },
@@ -556,10 +568,6 @@
     },
     {
       "reason": "stat-modifier on \"WS\" is outside the damage path",
-      "count": 4
-    },
-    {
-      "reason": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
       "count": 4
     },
     {
@@ -592,10 +600,6 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"battle-round\" against current context",
-      "count": 3
-    },
-    {
-      "reason": "effect type \"remove-battle-shock\" is not modelled by the buff layer",
       "count": 3
     },
     {
@@ -672,10 +676,6 @@
     },
     {
       "reason": "conditional: cannot evaluate condition \"destroyed-by-attack-type\" against current context",
-      "count": 2
-    },
-    {
-      "reason": "effect type \"battle-shock-test\" is not modelled by the buff layer",
       "count": 2
     },
     {
@@ -7711,6 +7711,656 @@
       "offensive": true,
       "defensive": true,
       "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "defiant-to-the-last-lions-of-the-emperor",
+      "name": "Defiant to the Last",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "gilded-champion-lions-of-the-emperor",
+      "name": "Gilded Champion",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "manoeuvre-and-fire-lions-of-the-emperor",
+      "name": "Manoeuvre and Fire",
+      "shape": "fallback-and-act",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"fallback-and-act\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "peerless-warrior-lions-of-the-emperor",
+      "name": "Peerless Warrior",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "swift-as-the-eagle-lions-of-the-emperor",
+      "name": "Swift as the Eagle",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "unleash-the-lions-lions-of-the-emperor",
+      "name": "Unleash the Lions",
+      "shape": "unit-tag",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"unit-tag\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "earning-of-a-name-auric-champions",
+      "name": "Earning of a Name",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "shoulder-the-mantle-auric-champions",
+      "name": "Shoulder the Mantle",
+      "shape": "unit-attachment",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"unit-attachment\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "slayer-of-champions-auric-champions",
+      "name": "Slayer of Champions",
+      "shape": "designate-target",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "superhuman-reserves-auric-champions",
+      "name": "Superhuman Reserves",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "the-emperors-auspice-auric-champions",
+      "name": "The Emperor's Auspice",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "vigil-unending-auric-champions",
+      "name": "Vigil Unending",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "emperors-vengeance-solar-spearhead",
+      "name": "Emperor's Vengeance",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "flawless-construction-solar-spearhead",
+      "name": "Flawless Construction",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "punishment-inescapable-solar-spearhead",
+      "name": "Punishment Inescapable",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "roll-modifier: operation \"ignore-modifiers\" not supported"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "relentless-persecution-solar-spearhead",
+      "name": "Relentless Persecution",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "unstoppable-solar-spearhead",
+      "name": "Unstoppable",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "wrathful-advance-solar-spearhead",
+      "name": "Wrathful Advance",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "arcane-genetic-alchemy-shield-host",
+      "name": "Arcane Genetic Alchemy",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "archeotech-munitions-shield-host",
+      "name": "Archeotech Munitions",
+      "shape": "choice",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "avenge-the-fallen-shield-host",
+      "name": "Avenge the Fallen",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "multipotentiality-shield-host",
+      "name": "Multipotentiality",
+      "shape": "fallback-and-act",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"fallback-and-act\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "unwavering-sentinels-shield-host",
+      "name": "Unwavering Sentinels",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "vigilance-eternal-shield-host",
+      "name": "Vigilance Eternal",
+      "shape": "objective-control-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"objective-control-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "anathema-blademastery-null-maiden-vigil",
+      "name": "Anathema Blademastery",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "desperations-price-null-maiden-vigil",
+      "name": "Desperation's Price",
+      "shape": "battle-shock-test",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"battle-shock-test\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "psy-chaff-volley-null-maiden-vigil",
+      "name": "Psy-Chaff Volley",
+      "shape": "designate-target",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "psychic-abominations-null-maiden-vigil",
+      "name": "Psychic Abominations",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "purgation-sweep-null-maiden-vigil",
+      "name": "Purgation Sweep",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "witch-hunters-null-maiden-vigil",
+      "name": "Witch Hunters",
+      "shape": "choice",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "emperors-executioners-talons-of-the-emperor",
+      "name": "Emperor's Executioners",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "empyric-severance-talons-of-the-emperor",
+      "name": "Empyric Severance",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "hunt-as-one-talons-of-the-emperor",
+      "name": "Hunt as One",
+      "shape": "fallback-and-act",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"fallback-and-act\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "shield-of-honour-talons-of-the-emperor",
+      "name": "Shield of Honour",
+      "shape": "attack-restriction",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "taloned-pincer-talons-of-the-emperor",
+      "name": "Taloned Pincer",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "talons-interlocked-talons-of-the-emperor",
+      "name": "Talons Interlocked",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "gilded-spear-tristraens-gilded-blades",
+      "name": "Gilded Spear",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "inevitable-wrath-tristraens-gilded-blades",
+      "name": "Inevitable Wrath",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "never-outmatched-tristraens-gilded-blades",
+      "name": "Never Outmatched",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "superior-creation-lions-of-the-emperor",
+      "name": "Superior Creation",
+      "shape": "dice-gated",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "dice-gated effect: stochastic; not expressible as a buff"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "praesidius-lions-of-the-emperor",
+      "name": "Praesidius",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "fierce-conqueror-lions-of-the-emperor",
+      "name": "Fierce Conqueror",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "admonimortis-lions-of-the-emperor",
+      "name": "Admonimortis",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "blade-imperator-auric-champions",
+      "name": "Blade Imperator",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "dice-gated effect: stochastic; not expressible as a buff"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "inspirational-exemplar-auric-champions",
+      "name": "Inspirational Exemplar",
+      "shape": "remove-battle-shock",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"remove-battle-shock\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "veiled-blade-auric-champions",
+      "name": "Veiled Blade",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "martial-philosopher-auric-champions",
+      "name": "Martial Philosopher",
+      "shape": "fallback-and-act",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"fallback-and-act\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "adamantine-talisman-solar-spearhead",
+      "name": "Adamantine Talisman",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "augury-uplink-solar-spearhead",
+      "name": "Augury Uplink",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "honoured-fallen-aura-solar-spearhead",
+      "name": "Honoured Fallen (Aura)",
+      "shape": "re-roll",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "veteran-of-the-kataphraktoi-solar-spearhead",
+      "name": "Veteran of the Kataphraktoi",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "from-the-hall-of-armouries-shield-host",
+      "name": "From the Hall of Armouries",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "castellans-mark-shield-host",
+      "name": "Castellan's Mark",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "auric-mantle-shield-host",
+      "name": "Auric Mantle",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier on \"W\" is outside the damage path"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "panoptispex-shield-host",
+      "name": "Panoptispex",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "raptor-blade-null-maiden-vigil",
+      "name": "Raptor Blade",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "enhanced-voidsheen-cloak-null-maiden-vigil",
+      "name": "Enhanced Voidsheen Cloak",
+      "shape": "damage-reduction",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "huntress-eye-null-maiden-vigil",
+      "name": "Huntress' Eye",
+      "shape": "battle-shock-test",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"battle-shock-test\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "oblivion-knight-null-maiden-vigil",
+      "name": "Oblivion Knight",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "radiant-mantle-talons-of-the-emperor",
+      "name": "Radiant Mantle",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "gift-of-terran-artifice-talons-of-the-emperor",
+      "name": "Gift of Terran Artifice",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "champion-of-the-imperium-talons-of-the-emperor",
+      "name": "Champion of the Imperium",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "aegis-projector-talons-of-the-emperor",
+      "name": "Aegis Projector",
+      "shape": "damage-reduction",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "comrades-in-wrath-tristraens-gilded-blades",
+      "name": "Comrades in Wrath",
+      "shape": "charge-roll-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"charge-roll-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adeptus-custodes",
+      "ability_id": "shattering-charge-tristraens-gilded-blades",
+      "name": "Shattering Charge",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"battle-shock-test\" is not modelled by the buff layer"
     },
     {
       "faction": "adeptus-mechanicus",
