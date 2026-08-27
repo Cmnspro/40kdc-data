@@ -65,7 +65,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
   },
   {
     "ability_id": "devoted-to-destruction",
@@ -218,7 +218,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
   },
   {
     "ability_id": "deadly-demise-d6",
@@ -504,7 +504,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
   },
   {
     "ability_id": "scouts-6",
@@ -809,7 +809,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
   },
   {
     "ability_id": "empyric-guidance-psychic",
@@ -1759,7 +1759,7 @@
     "unit_ids": [],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
   },
   {
     "ability_id": "scuttling-walker",
@@ -2445,7 +2445,7 @@
     ],
     "ability_type": "unit",
     "behavior": "passive",
-    "community_notes": "auto-generated stub — needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
+    "community_notes": "auto-generated stub \u2014 needs manual authoring (source: 10e Datasheets_abilities; rules text omitted for IP)"
   },
   {
     "ability_id": "savage-exaltation",
@@ -5191,5 +5191,2209 @@
       "duration": "permanent"
     },
     "community_notes": "[APPROX] Drops the \"unmodified\" qualifier on the Damage 1 gate, and \"any armour saving throw\" is modeled as a generic save modifier (invulnerable saves are not distinguished). Full rule in raw-text store."
+  },
+  {
+    "ability_id": "chronosorcerous-bleed-changehost-of-deceit",
+    "name": "Chronosorcerous Bleed",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "designate-target",
+      "designation": "chronosorcerous-bleed",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "within_inches": 12
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "charge-roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "operation": "add",
+            "value": -1
+          }
+        }
+      },
+      "duration": "phase"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used at the start of the opponent's Charge phase by an unengaged Thousand Sons Psyker or Scintillating Legions unit; the selected enemy unit must be visible and within 12\"."
+  },
+  {
+    "ability_id": "deceptive-glamour-changehost-of-deceit",
+    "name": "Deceptive Glamour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "engaged-enemies-must-prefer-scintillating-legions-targets"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "[APPROX] Enemy models within Engagement Range of this unit can only target it if there are no eligible Scintillating Legions targets for their attacks; the forced target-priority rule is encoded as an opaque grant. Full rule in raw-text store."
+  },
+  {
+    "ability_id": "ethereal-phantasm-changehost-of-deceit",
+    "name": "Ethereal Phantasm",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D6"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] Triggered after an enemy unit ends a Normal, Advance or Fall Back move within 8\" of an unengaged Scintillating Legions unit. The move is up to D6\", or a flat 6\" instead while wholly within 6\" of one or more friendly Thousand Sons units; the flat-6 upgrade is not encoded."
+  },
+  {
+    "ability_id": "fractal-disjunction-changehost-of-deceit",
+    "name": "Fractal Disjunction",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "attack-restriction",
+      "target": "unit",
+      "modifier": {
+        "restriction": "targeting-range-limit",
+        "range": 18
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "excluded_keywords": [
+        "Monster"
+      ]
+    },
+    "community_notes": "Scintillating Legions units (excluding Monsters) only; the unit can only be selected as the target of a ranged attack if the attacking model is within 18\"."
+  },
+  {
+    "ability_id": "glimmershift-portal-changehost-of-deceit",
+    "name": "Glimmershift Portal",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Used at the end of the opponent's Fight phase on up to two Scintillating Legions units (excluding Monsters), or one Scintillating Legions Monster unit, that are more than 3\" horizontally away from all enemy units; they are removed and placed into Strategic Reserves."
+  },
+  {
+    "ability_id": "sulphurous-veil-changehost-of-deceit",
+    "name": "Sulphurous Veil",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "hit",
+        "operation": "add",
+        "value": -1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Each time an attack targets this unit, subtract 1 from the Hit roll (incoming modifier)."
+  },
+  {
+    "ability_id": "cyberspirit-machinations-warpforged-cabal",
+    "name": "Cyberspirit Machinations",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "fallback-and-act",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Requires a friendly Thousand Sons Psyker unit within 6\" of the Vehicle when used."
+  },
+  {
+    "ability_id": "ensorcelled-infusion-warpforged-cabal",
+    "name": "Ensorcelled Infusion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Psychic"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Requires a friendly Thousand Sons Psyker unit within 6\"; applies to ranged weapons equipped by Vehicle models in the unit."
+  },
+  {
+    "ability_id": "hex-marked-armour-warpforged-cabal",
+    "name": "Hex-Marked Armour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Worsens the Armour Penetration of incoming attacks by 1 until the attacking unit has finished making its attacks."
+  },
+  {
+    "ability_id": "malevolent-animus-warpforged-cabal",
+    "name": "Malevolent Animus",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "modifier-immunity",
+          "target": "unit",
+          "modifier": {
+            "scope": "characteristics"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "any",
+            "operation": "ignore-modifiers"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "until-next-command-phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Requires a friendly Thousand Sons Psyker unit within 6\" when used; modifiers to saving throws are still applied (the exclusion is not encoded)."
+  },
+  {
+    "ability_id": "mutate-landscape-warpforged-cabal",
+    "name": "Mutate Landscape",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "objective-control-modifier",
+          "target": "unit",
+          "modifier": {
+            "sticky": true
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "mutated-objective-hazard"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Psyker"
+      ]
+    },
+    "community_notes": "[APPROX] The controlled objective becomes mutated: it stays under your control until the opponent's Level of Control exceeds yours at the end of a phase, and while mutated each enemy unit ending a Normal, Advance, Fall Back or Charge move within range suffers D3 mortal wounds on a D6 roll of 4+; the hazard rider is encoded as an opaque grant."
+  },
+  {
+    "ability_id": "warpflame-gargoyles-warpforged-cabal",
+    "name": "Warpflame Gargoyles",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "mortal-wounds",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "dice": "6D6",
+            "threshold": 5,
+            "comparison": "gte",
+            "mortal_per_success": 1,
+            "target_scope": "one-engaged-enemy"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "grant_type": "battle-shock-test"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "engagement-range",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Used just after an enemy unit ends a Charge move within Engagement Range of the Vehicle; roll six D6, one mortal wound per 5+, then that enemy unit takes a Battle-shock test."
+  },
+  {
+    "ability_id": "arcane-focus-grand-coven",
+    "name": "Arcane Focus",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "re-roll",
+      "target": "unit",
+      "modifier": {
+        "roll": "psychic-test",
+        "result_scope": "any-result"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "Used just after taking a Psychic test for a model that Channelled the Warp, before resolving the Ritual; re-roll all of the D6 rolled for that test, including the additional Channelling die."
+  },
+  {
+    "ability_id": "desecration-of-worlds-grand-coven",
+    "name": "Desecration of Worlds",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-control-modifier",
+      "target": "unit",
+      "modifier": {
+        "sticky": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Psyker"
+      ]
+    },
+    "community_notes": "The objective marker the unit is in range of remains under your control until the opponent's Level of Control over it is greater than yours at the end of a phase."
+  },
+  {
+    "ability_id": "destined-by-fate-grand-coven",
+    "name": "Destined by Fate",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "damage-reduction",
+      "target": "self",
+      "modifier": {
+        "reduction": "to-zero"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Psyker"
+      ]
+    },
+    "community_notes": "Used just after a saving throw is failed for the Psyker model; the Damage characteristic of that attack is changed to 0. With fast dice rolling, select one of the failed saves."
+  },
+  {
+    "ability_id": "devastating-sorcery-grand-coven",
+    "name": "Devastating Sorcery",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "Range",
+            "operation": "add",
+            "value": 9,
+            "weapon_keyword": "Psychic",
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "result_scope": "any-result",
+            "weapon_keyword": "Psychic"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "result_scope": "any-result",
+            "weapon_keyword": "Psychic"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Psyker"
+      ]
+    }
+  },
+  {
+    "ability_id": "egotistical-power-grand-coven",
+    "name": "Egotistical Power",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "kindred-sorcery-choice-override"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "until-next-command-phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Psyker"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "kindred-sorcery",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "Select Imbued Manifestation, Psychic Maelstrom or Wrath of the Immaterium; that Kindred Sorcery ability applies to this unit instead of any other, even if it was already selected this battle."
+  },
+  {
+    "ability_id": "psychic-dominion-grand-coven",
+    "name": "Psychic Dominion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "feel-no-pain",
+          "target": "unit",
+          "modifier": {
+            "threshold": 4,
+            "scope": "psychic"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "incoming-psychic-attacks-hazardous"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "[APPROX] Attacks made against this unit with Psychic weapons gain [HAZARDOUS] (encoded as an opaque grant) and models in the unit have Feel No Pain 4+ against Psychic Attacks."
+  },
+  {
+    "ability_id": "blessed-transmutations-warpmeld-pact",
+    "name": "Blessed Transmutations",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "return-destroyed-models",
+        "amount": "D3+1"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzaangors"
+      ]
+    },
+    "community_notes": "Used in your Command phase on a Tzaangors unit below Starting Strength within 12\" of a friendly Thousand Sons Psyker model; return up to D3+1 destroyed models (excluding Characters) to the unit."
+  },
+  {
+    "ability_id": "deranged-ferocity-warpmeld-pact",
+    "name": "Deranged Ferocity",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "pile-in",
+            "distance": 6
+          }
+        },
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "consolidation",
+            "distance": 6
+          }
+        },
+        {
+          "type": "fight-eligibility-extension",
+          "target": "unit",
+          "modifier": {
+            "range": 3
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzeentch",
+        "Mutant"
+      ]
+    },
+    "community_notes": "Models within 3\" of enemy models are eligible to fight and can target an enemy unit within 3\" of them that is within Engagement Range of their unit."
+  },
+  {
+    "ability_id": "gift-of-change-warpmeld-pact",
+    "name": "Gift of Change",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "once-per-battle-round"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "summon-chaos-spawn-on-death"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "community_notes": "[APPROX] Used on a just-destroyed Thousand Sons Character model (excluding Monsters); at the end of the phase add one Tzeentch Chaos Spawn unit of one model to your army, set up as close as possible to where the model was destroyed and outside Engagement Range."
+  },
+  {
+    "ability_id": "touched-by-tzeentch-warpmeld-pact",
+    "name": "Touched by Tzeentch",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "ability_id": "shoot-after-advance"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "ability_id": "charge-after-advance"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzeentch",
+        "Mutant"
+      ]
+    },
+    "community_notes": "The unit is eligible to shoot or declare a charge in a turn in which it Advanced (one of the two, chosen when acting)."
+  },
+  {
+    "ability_id": "twisted-mirage-warpmeld-pact",
+    "name": "Twisted Mirage",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "strategic-reserves-arrival",
+          "target": "unit",
+          "modifier": {
+            "min_distance": 6
+          }
+        },
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "suppressed",
+            "rule_kind": "core-rule",
+            "rule": "charge"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzeentch",
+        "Mutant"
+      ]
+    },
+    "community_notes": "The unit arriving from Strategic Reserves can be set up anywhere more than 6\" horizontally from all enemy units (more than 8\" for a Monster unit); it is not eligible to charge this turn."
+  },
+  {
+    "ability_id": "warped-vicissitude-warpmeld-pact",
+    "name": "Warped Vicissitude",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "invulnerable-save",
+      "target": "unit",
+      "modifier": {
+        "invuln_sv": 4
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzaangors"
+      ]
+    }
+  },
+  {
+    "ability_id": "ardent-automata-rubricae-phalanx",
+    "name": "Ardent Automata",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "fallback-and-act",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubricae"
+      ]
+    }
+  },
+  {
+    "ability_id": "implacable-guardians-rubricae-phalanx",
+    "name": "Implacable Guardians",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "damage-reduction",
+      "target": "unit",
+      "modifier": {
+        "reduction": 1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubric Marines",
+        "Psyker"
+      ]
+    },
+    "community_notes": "Each time an attack is allocated to a model in the unit (excluding Psyker models), subtract 1 from its Damage characteristic; the Psyker-model exclusion is not encoded."
+  },
+  {
+    "ability_id": "inexorable-advance-rubricae-phalanx",
+    "name": "Inexorable Advance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "ignore-move-and-advance-modifiers"
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Assault"
+            ],
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubricae"
+      ]
+    }
+  },
+  {
+    "ability_id": "infernal-fusillade-rubricae-phalanx",
+    "name": "Infernal Fusillade",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Psychic"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "S",
+            "operation": "set",
+            "value": 5,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Psyker"
+      ]
+    },
+    "community_notes": "Applies only to inferno bolt pistols, inferno boltguns, inferno combi-bolters and inferno combi-weapons equipped by models in the unit; the weapon-name scoping is not encoded."
+  },
+  {
+    "ability_id": "revenge-of-the-rubricae-rubricae-phalanx",
+    "name": "Revenge of the Rubricae",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "shoot-as-if-shooting-phase"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubricae"
+      ]
+    },
+    "community_notes": "Used just after a Thousand Sons Psyker model is destroyed within 6\" of the unit; after the attacking unit has shot, this unit can shoot, but may only target the enemy unit that destroyed the Psyker (if eligible)."
+  },
+  {
+    "ability_id": "unwavering-phalanx-rubricae-phalanx",
+    "name": "Unwavering Phalanx",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "wound",
+        "operation": "add",
+        "value": -1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubric Marines"
+      ]
+    },
+    "community_notes": "Used just after an enemy unit ends a Charge move within Engagement Range; each time an attack targets this unit, subtract 1 from the Wound roll (incoming modifier)."
+  },
+  {
+    "ability_id": "embroiling-energies-prism-of-zadophon",
+    "name": "Embroiling Energies",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "prism-of-zadophon",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Close-quarters"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubric Marines"
+      ]
+    },
+    "community_notes": "Applies only to the unit's malefic curse weapon; the weapon-name scoping is not encoded."
+  },
+  {
+    "ability_id": "spell-warded-armour-prism-of-zadophon",
+    "name": "Spell-warded Armour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "prism-of-zadophon",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "attack-stat-compare",
+        "parameters": {
+          "attacker_stat": "S",
+          "comparison": "greater-than",
+          "target_stat": "T"
+        }
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "wound",
+          "operation": "add",
+          "value": -1,
+          "incoming": true,
+          "attack_type": "ranged"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Rubric Marines"
+      ]
+    },
+    "community_notes": "Ranged attacks targeting this unit with a Strength greater than the unit's Toughness have -1 to Wound rolls."
+  },
+  {
+    "ability_id": "twist-of-fate-prism-of-zadophon",
+    "name": "Twist of Fate",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "prism-of-zadophon",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "invulnerable-save",
+      "target": "unit",
+      "modifier": {
+        "invuln_sv": 4
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Mutant"
+      ]
+    }
+  },
+  {
+    "ability_id": "nethershriek-mind-eater-changehost-of-deceit",
+    "name": "Nethershriek Mind-Eater",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "designate-target",
+      "designation": "nethershriek-mind-eater",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "within_inches": 12
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "ability-grant",
+              "target": "unit",
+              "modifier": {
+                "grant_type": "battle-shock-test"
+              }
+            },
+            {
+              "type": "conditional",
+              "condition": {
+                "type": "is-battle-shocked"
+              },
+              "effect": {
+                "type": "mortal-wounds",
+                "target": "unit",
+                "modifier": {
+                  "amount": 3
+                }
+              }
+            }
+          ]
+        }
+      },
+      "duration": "phase"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Thousand Sons or Lord of Change model only. At the start of your Shooting phase, one visible enemy unit within 12\" takes a Battle-shock test; if failed, it suffers 3 mortal wounds."
+  },
+  {
+    "ability_id": "diabolic-savant-changehost-of-deceit",
+    "name": "Diabolic Savant",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "bearer",
+      "modifier": {
+        "roll": "psychic-test",
+        "operation": "add",
+        "value": 1
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Infantry"
+      ]
+    },
+    "community_notes": "Applies while the bearer is within 6\" of one or more friendly Scintillating Legions units, each time the bearer Channels the Warp; the proximity gate is not encoded."
+  },
+  {
+    "ability_id": "duplicitous-malediction-changehost-of-deceit",
+    "name": "Duplicitous Malediction",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "redeploy",
+            "to_reserves": true
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "community_notes": "Thousand Sons or Lord of Change model only. After deployment, redeploy up to three Thousand Sons units; they can be placed into Strategic Reserves regardless of how many units are already there."
+  },
+  {
+    "ability_id": "tome-of-true-names-changehost-of-deceit",
+    "name": "Tome of True Names",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "changehost-of-deceit",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "unit"
+    },
+    "effect": {
+      "type": "invulnerable-save",
+      "target": "bearer",
+      "modifier": {
+        "invuln_sv": 2
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "warp-syphon-warpforged-cabal",
+    "name": "Warp Syphon",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "re-roll-channelling-die-at-vehicle-wound-cost"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "[APPROX] While within 6\" of a friendly Thousand Sons Vehicle unit, after rolling the additional Channelling die but before checking doubles or triples, the bearer may have a selected Vehicle unit suffer 1 mortal wound to re-roll that die; encoded as an opaque grant. Full rule in raw-text store."
+  },
+  {
+    "ability_id": "perplexing-cloak-warpforged-cabal",
+    "name": "Perplexing Cloak",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "ability_id": "lone-operative"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Infantry"
+      ]
+    },
+    "community_notes": "Applies while the bearer is within 3\" of one or more friendly Thousand Sons Vehicle units; the proximity gate is not encoded."
+  },
+  {
+    "ability_id": "biomechanical-mutation-warpforged-cabal",
+    "name": "Biomechanical Mutation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "and",
+        "operands": [
+          {
+            "type": "phase-is",
+            "parameters": {
+              "phase": "command"
+            }
+          },
+          {
+            "type": "player-turn-is",
+            "parameters": {
+              "turn": "self"
+            }
+          }
+        ]
+      },
+      "effect": {
+        "type": "heal-wounds",
+        "target": "friendly-within-aura",
+        "modifier": {
+          "amount": "D3"
+        }
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "In your Command phase, one friendly Thousand Sons Vehicle model within 6\" regains up to D3 lost wounds."
+  },
+  {
+    "ability_id": "warp-cursed-runemaster-warpforged-cabal",
+    "name": "Warp-Cursed Runemaster",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpforged-cabal",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "extend-ritual-range-6"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "Applies while the bearer is within 6\" of one or more friendly Thousand Sons Vehicle units; the proximity gate is not encoded."
+  },
+  {
+    "ability_id": "lord-of-forbidden-lore-grand-coven",
+    "name": "Lord of Forbidden Lore",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "extend-ritual-range-6"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    }
+  },
+  {
+    "ability_id": "incandaeum-grand-coven",
+    "name": "Incandaeum",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "select-doombolt-ignoring-attempt-limit"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Exalted Sorcerer"
+      ]
+    },
+    "community_notes": "Once per battle, when selecting a Ritual for the bearer, Doombolt can be selected even if a model from your army has already attempted to manifest it this phase."
+  },
+  {
+    "ability_id": "umbralefic-crystal-grand-coven",
+    "name": "Umbralefic Crystal",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "army"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "place-into-strategic-reserves"
+          }
+        },
+        {
+          "type": "deep-strike",
+          "target": "unit",
+          "modifier": {}
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "perform-ingress-move"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "In your Command phase, if the bearer's unit is unengaged: place it into Strategic Reserves; it has Deep Strike until the start of your next Shooting phase and must make an ingress move in your next Movement phase (including on your first turn)."
+  },
+  {
+    "ability_id": "eldritch-vortex-of-etaph-grand-coven",
+    "name": "Eldritch Vortex of E'Taph",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "grand-coven",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "weapon_keyword": "Psychic"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "D",
+            "operation": "add",
+            "value": 1,
+            "weapon_keyword": "Psychic"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    }
+  },
+  {
+    "ability_id": "warpmeld-dagger-warpmeld-pact",
+    "name": "Warpmeld Dagger",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "boost-psychic-test-via-mortal-wounds"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzaangor Shaman"
+      ]
+    },
+    "community_notes": "[APPROX] When attempting a Ritual, just before determining the Psychic test result, the bearer can suffer D3 mortal wounds; if not destroyed, add 1 to the test result for each mortal wound suffered. Encoded as an opaque grant. Full rule in raw-text store."
+  },
+  {
+    "ability_id": "diamond-of-distortion-warpmeld-pact",
+    "name": "Diamond of Distortion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "model-is-leader"
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "hit",
+          "operation": "add",
+          "value": -1,
+          "incoming": true
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzaangor Shaman"
+      ]
+    },
+    "community_notes": "While the bearer is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll (incoming modifier)."
+  },
+  {
+    "ability_id": "bray-lord-warpmeld-pact",
+    "name": "Bray Lord",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "scouts-6"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "community_notes": "Sorcerer or Infernal Master model only; the bearer has the Scouts 6\" ability."
+  },
+  {
+    "ability_id": "flowing-flesh-warpmeld-pact",
+    "name": "Flowing Flesh",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "warpmeld-pact",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "feel-no-pain",
+          "target": "bearer",
+          "modifier": {
+            "threshold": 4
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "W",
+            "operation": "set",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzaangor Shaman"
+      ]
+    }
+  },
+  {
+    "ability_id": "risen-rubricae-rubricae-phalanx",
+    "name": "Risen Rubricae",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "infiltrators-for-selected-rubricae"
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "[APPROX] At the start of the Declare Battle Formations step, select either two Rubricae Battleline units or one other Rubricae unit from your army; models in the selected units gain the Infiltrators ability. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "arcane-thralls-aura-rubricae-phalanx",
+    "name": "Arcane Thralls (Aura)",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "enhancement",
+    "behavior": "aura",
+    "effect": {
+      "type": "aura",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "range": 9,
+        "effect": {
+          "type": "conditional",
+          "condition": {
+            "type": "unit-has-keyword",
+            "parameters": {
+              "keyword": "RUBRICAE"
+            }
+          },
+          "effect": {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "battle-shock",
+              "result_scope": "any-result"
+            }
+          }
+        }
+      }
+    },
+    "scope": {
+      "range": "aura-9",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    }
+  },
+  {
+    "ability_id": "lord-of-the-rubricae-rubricae-phalanx",
+    "name": "Lord of the Rubricae",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "model-is-leader"
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "hit",
+          "operation": "add",
+          "value": 1
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons"
+      ]
+    },
+    "community_notes": "While the bearer is leading a unit, add 1 to Hit rolls for attacks made by Rubricae models in that unit; the per-model Rubricae scoping is not encoded."
+  },
+  {
+    "ability_id": "stave-abominus-rubricae-phalanx",
+    "name": "Stave Abominus",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "rubricae-phalanx",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "bearer",
+      "modifier": {
+        "keywords": [
+          "Sustained Hits D3",
+          "Devastating Wounds"
+        ],
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Thousand Sons",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "foresight-of-the-changer-prism-of-zadophon",
+    "name": "Foresight of the Changer",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "prism-of-zadophon",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": "D3+1"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Tzaangor Shaman"
+      ]
+    },
+    "community_notes": "In the opponent's Movement phase, when an enemy unit ends a move within 8\" of the bearer's unengaged unit, that unit can make a Normal move of up to D3+1\"."
+  },
+  {
+    "ability_id": "warp-tainted-shells-prism-of-zadophon",
+    "name": "Warp-tainted Shells",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "thousand-sons",
+    "detachment_id": "prism-of-zadophon",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "bearer",
+      "modifier": {
+        "keywords": [
+          "Psychic"
+        ],
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Daemon Prince"
+      ]
+    },
+    "community_notes": "Applies only to the bearer's infernal cannon; the weapon-name scoping is not encoded."
   }
 ]
