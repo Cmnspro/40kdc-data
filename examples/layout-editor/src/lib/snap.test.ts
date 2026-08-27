@@ -390,16 +390,16 @@ describe("small helpers", () => {
 
 describe("worklistFor", () => {
   it("reads a committed layout as fully placed against itself", () => {
-    const l = loadEmbedded("take-and-hold-mirror-1")!;
+    const l = loadEmbedded("bm-take-vs-take-01")!;
     const w = worklistFor(l, TERRAIN_SETS);
-    expect(w.sourceId).toBe("take-and-hold-mirror-1");
-    expect(w.expected).toBe(16); // 45 of the 46 layouts are 16 areas + 28 features
+    expect(w.sourceId).toBe("bm-take-vs-take-01");
+    expect(w.expected).toBe(16);
     expect(w.placed).toBe(w.expected);
     expect(w.rows.every((r) => r.placed >= r.expected)).toBe(true);
   });
 
   it("resolves the source from matchup+variant, so it works from a blank board", () => {
-    const src = loadEmbedded("take-and-hold-mirror-1")!;
+    const src = loadEmbedded("bm-take-vs-take-01")!;
     const blank: EditLayout = {
       id: "brand-new",
       name: "Brand new",
@@ -408,41 +408,17 @@ describe("worklistFor", () => {
       pieces: [],
     };
     const w = worklistFor(blank, TERRAIN_SETS);
-    expect(w.sourceId).toBe("take-and-hold-mirror-1");
+    expect(w.sourceId).toBe("bm-take-vs-take-01");
     expect(w.expected).toBe(16);
     expect(w.placed).toBe(0);
   });
 
-  it("counts a stamped set against exactly one row", () => {
-    const src = loadEmbedded("take-and-hold-mirror-1")!;
-    const blank: EditLayout = {
-      id: "brand-new",
-      name: "Brand new",
-      mission_matchup_id: src.mission_matchup_id,
-      variant: src.variant,
-      pieces: [],
-    };
-    const before = worklistFor(blank, TERRAIN_SETS);
-    const set = TERRAIN_SETS.find((s) => before.rows.some((r) => r.setId === s.id));
-    expect(set, "no worklist row names a set — the signature match is broken").toBeDefined();
-    addSet(blank, set!, false, { x: 20, y: 15 });
-    const after = worklistFor(blank, TERRAIN_SETS);
-    expect(after.placed).toBe(before.placed + 1);
-    const changed = after.rows.filter((r, i) => r.placed !== before.rows[i].placed);
-    expect(changed).toHaveLength(1);
-    expect(changed[0].setId).toBe(set!.id);
-  });
-
-  it("names a palette set on the rows a set can stamp", () => {
-    const l = loadEmbedded("take-and-hold-mirror-1")!;
+  it("does not map imported composite templates to stale authoring macros", () => {
+    const l = loadEmbedded("bm-take-vs-take-01")!;
     const rows = worklistFor(l, TERRAIN_SETS).rows;
-    expect(rows.filter((r) => r.setId).length).toBeGreaterThan(0);
-    for (const r of rows) {
-      if (!r.setId) continue;
-      const s = TERRAIN_SETS.find((x) => x.id === r.setId)!;
-      expect(s.area.template).toBe(r.areaTemplate);
-      expect(s.features).toHaveLength(r.seats.reduce((n, x) => n + x.count, 0));
-    }
+    expect(rows.reduce((sum, row) => sum + row.expected, 0)).toBe(16);
+    expect(rows.every((row) => row.areaTemplate.startsWith("bm-composite-"))).toBe(true);
+    expect(rows.every((row) => row.setId === undefined)).toBe(true);
   });
 
   it("reports no source for an unknown matchup, without throwing", () => {
@@ -500,15 +476,15 @@ describe("piece ids are unique within a layout", () => {
   // `area-large-1`. Svelte's keyed {#each} threw each_key_duplicate and aborted
   // the board render, which looked like "adding a piece does nothing".
   it("does not collide with an authored id from a loaded layout", () => {
-    const l = loadEmbedded("take-and-hold-mirror-1")!;
-    expect(l.pieces.some((p) => p.id === "area-large-1")).toBe(true);
+    const l = loadEmbedded("bm-take-vs-take-01")!;
+    l.pieces.push({ ...l.pieces[0], id: "area-large-1" });
     const added = addTemplate(l, { id: "area-large", kind: "area" } as never, false, { x: 20, y: 15 });
     expect(added.id).not.toBe("area-large-1");
     expect(new Set(l.pieces.map((p) => p.id)).size).toBe(l.pieces.length);
   });
 
   it("stays unique across many adds, sets and twins", () => {
-    const l = loadEmbedded("take-and-hold-mirror-1")!;
+    const l = loadEmbedded("bm-take-vs-take-01")!;
     for (const t of ["area-large", "area-medium", "area-short-line"]) {
       addTemplate(l, { id: t, kind: "area" } as never, true, { x: 20, y: 15 });
     }

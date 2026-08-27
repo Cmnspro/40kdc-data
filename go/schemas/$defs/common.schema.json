@@ -277,6 +277,24 @@
         }
       ]
     },
+    "wall": {
+      "type": "object",
+      "description": "A wall polyline: an open path of 2+ vertices with optional thickness, in the same local frame as the footprint.",
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/vec2" },
+          "minItems": 2
+        },
+        "thickness": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Wall thickness in inches. Omit for thin walls."
+        }
+      },
+      "required": ["points"],
+      "additionalProperties": false
+    },
     "terrain-area-keyword": {
       "type": "string",
       "enum": [

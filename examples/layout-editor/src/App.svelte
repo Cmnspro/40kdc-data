@@ -72,7 +72,7 @@
   import AppFooter from "../../_shared/AppFooter.svelte";
   import { MISSION_MATRIX_URL, PATREON_URL, SALVO_URL } from "../../_shared/links.js";
 
-  const initialLayout = loadEmbedded("take-and-hold-mirror-1", true) ?? blankLayout();
+  const initialLayout = loadEmbedded("bm-take-vs-take-01", true) ?? blankLayout();
   let symmetric = $state(true);
   // Board-only visibility of the pinned keystone dimension lines; the pins
   // themselves stay on the pieces.
@@ -112,9 +112,23 @@
   let referenceOpacity = $state(0.45);
   // Session-only fade for the authored terrain overlay while tracing a reference map.
   let terrainOpacity = $state(1);
+  type BattlemasterProjectionSource =
+    | {
+      kind: "rest-api";
+      public_data_docs: string;
+      owner: string;
+      fetched_at: string;
+    }
+    | {
+      kind: "tabletop-simulator-workshop-save";
+      public_data_docs: string;
+      baked_at: string;
+      catalog_id: string;
+    };
+
   interface BattlemasterProjectionPayload {
     readonly: true;
-    source: { baked_at: string; catalog_id: string; public_data_docs: string };
+    source: BattlemasterProjectionSource;
     terrain_templates: TerrainTemplate[];
     terrain_layouts: TerrainLayout[];
   }
@@ -234,29 +248,36 @@
     );
   }
 
+  function isBattlemasterProjectionSource(value: unknown): value is BattlemasterProjectionSource {
+    if (!isRecord(value) || typeof value.public_data_docs !== "string") return false;
+
+    if (value.kind === "rest-api") {
+      return typeof value.owner === "string" && typeof value.fetched_at === "string";
+    }
+
+    return value.kind === "tabletop-simulator-workshop-save" &&
+      typeof value.baked_at === "string" &&
+      typeof value.catalog_id === "string";
+  }
+
   function readBattlemasterProjection(value: unknown): BattlemasterProjectionPayload {
     if (!isRecord(value) ||
       value.readonly !== true ||
-      !isRecord(value.source) ||
-      typeof value.source.baked_at !== "string" ||
-      typeof value.source.catalog_id !== "string" ||
-      typeof value.source.public_data_docs !== "string" ||
+      !isBattlemasterProjectionSource(value.source) ||
       !Array.isArray(value.terrain_templates) ||
       !value.terrain_templates.every(isTerrainTemplate) ||
       !Array.isArray(value.terrain_layouts) ||
       !value.terrain_layouts.every(isTerrainLayout)) {
       throw new Error("Battlemaster returned an invalid terrain projection.");
     }
-    return {
-      readonly: true,
-      source: {
-        baked_at: value.source.baked_at,
-        catalog_id: value.source.catalog_id,
-        public_data_docs: value.source.public_data_docs,
-      },
-      terrain_templates: value.terrain_templates,
-      terrain_layouts: value.terrain_layouts,
-    };
+    return value as unknown as BattlemasterProjectionPayload;
+  }
+
+  function battlemasterSourceLabel(source: BattlemasterProjectionSource): string {
+    if (source.kind === "rest-api") {
+      return `${source.owner} · ${source.fetched_at}`;
+    }
+    return `${source.catalog_id} · ${source.baked_at}`;
   }
 
   function applyBattlemasterLayout(projected: TerrainLayout): void {
@@ -282,7 +303,7 @@
       }
       const projection = readBattlemasterProjection(body);
       battlemasterProjection = projection;
-      battlemasterSource = `${projection.source.catalog_id} · ${projection.source.baked_at}`;
+      battlemasterSource = battlemasterSourceLabel(projection.source);
       const target = projection.terrain_layouts.find((candidate) => candidate.id === layout.id) ??
         projection.terrain_layouts[0];
       if (target) applyBattlemasterLayout(target);

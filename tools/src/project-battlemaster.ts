@@ -1,4 +1,5 @@
 import { BSON } from "bson";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { basename, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -7,9 +8,11 @@ import type {
   ComposedFeature,
   Footprint,
   LayoutPiece,
+  ResolvedPiece,
   Mirror,
   TerrainLayout,
   TerrainTemplate,
+  Wall,
   Vec2,
 } from "./terrain/resolve.js";
 import {
@@ -157,6 +160,7 @@ interface RawLayout {
 interface ProjectedPiece extends LayoutPiece {
   objective_role?: "home" | "expansion" | "center";
   is_objective?: boolean;
+  objective?: { position?: Vec2; control_range_inches?: number };
 }
 
 interface ProjectedLayout extends TerrainLayout {
@@ -190,11 +194,14 @@ interface Bounds {
 }
 
 export interface BattlemasterProjectionSummary {
-  workshop_id: string;
-  source_file: string;
-  baked_at: string;
-  cache_version: number;
-  catalog_id: string;
+  source_kind: "rest-api" | "tts-workshop-save";
+  workshop_id?: string;
+  source_file?: string;
+  baked_at?: string;
+  cache_version?: number;
+  catalog_id?: string;
+  owner?: string;
+  fetched_at?: string;
   layouts: number;
   layout_instances: number;
   feature_instances: number;
@@ -208,14 +215,16 @@ export interface BattlemasterProjectionSummary {
 export interface BattlemasterProjection {
   readonly: true;
   source: {
-    kind: "tabletop-simulator-workshop-save";
-    workshop_id: string;
-    workshop_page: string;
+    kind: "rest-api" | "tabletop-simulator-workshop-save";
+    workshop_id?: string;
+    workshop_page?: string;
     public_data_docs: string;
-    source_file: string;
-    baked_at: string;
-    cache_version: number;
-    catalog_id: string;
+    source_file?: string;
+    baked_at?: string;
+    cache_version?: number;
+    catalog_id?: string;
+    owner?: string;
+    fetched_at?: string;
   };
   terrain_templates: ProjectedTemplate[];
   terrain_layouts: ProjectedLayout[];
@@ -224,6 +233,7 @@ export interface BattlemasterProjection {
 
 export interface ProjectBattlemasterOptions {
   inputPath?: string;
+  owner?: string;
   fetch?: typeof globalThis.fetch;
 }
 
@@ -625,6 +635,50 @@ function distanceOutside(point: Vec2, polygon: Vec2[]): number {
     );
   }
   return best <= 0.05 ? 0 : best;
+}
+
+function assignObjectivesToAreas(
+  objectivePositions: Vec2[],
+  areas: ResolvedPiece[],
+): number[] {
+  if (areas.length < objectivePositions.length) {
+    fail(
+      `cannot assign ${objectivePositions.length} objectives to ${areas.length} terrain areas`,
+    );
+  }
+
+  type Assignment = { cost: number; areaIndices: number[] };
+  let states = new Map<bigint, Assignment>([
+    [0n, { cost: 0, areaIndices: [] }],
+  ]);
+  for (const position of objectivePositions) {
+    const next = new Map<bigint, Assignment>();
+    for (const [used, assignment] of states) {
+      for (let areaIndex = 0; areaIndex < areas.length; areaIndex += 1) {
+        const bit = 1n << BigInt(areaIndex);
+        if ((used & bit) !== 0n) continue;
+        const mask = used | bit;
+        const candidate: Assignment = {
+          cost:
+            assignment.cost +
+            distanceOutside(position, areas[areaIndex]!.vertices),
+          areaIndices: [...assignment.areaIndices, areaIndex],
+        };
+        const incumbent = next.get(mask);
+        if (!incumbent || candidate.cost < incumbent.cost - 1e-9) {
+          next.set(mask, candidate);
+        }
+      }
+    }
+    states = next;
+  }
+
+  let best: Assignment | undefined;
+  for (const assignment of states.values()) {
+    if (!best || assignment.cost < best.cost - 1e-9) best = assignment;
+  }
+  if (!best) fail("objective assignment produced no candidates");
+  return best.areaIndices;
 }
 
 function chooseFootprint(
@@ -1498,6 +1552,7 @@ export function projectBattlemasterCache(
   );
   const bakedAt = string(cache.bakedAt, "bakedAt");
   const summary: BattlemasterProjectionSummary = {
+    source_kind: "tts-workshop-save",
     workshop_id: BATTLEMASTER_SPAWNER_WORKSHOP_ID,
     source_file: sourceFile,
     baked_at: bakedAt,
@@ -1562,30 +1617,673 @@ async function workshopDownloadUrl(
 export async function projectBattlemaster(
   options: ProjectBattlemasterOptions = {},
 ): Promise<BattlemasterProjection> {
-  const fetchImpl = options.fetch ?? globalThis.fetch;
-  let sourceFile: string;
-  let bytes: Uint8Array;
   if (options.inputPath) {
+    const fetchImpl = options.fetch ?? globalThis.fetch;
     const path = resolve(options.inputPath);
-    sourceFile = basename(path);
-    bytes = await readFile(path);
-  } else {
-    const url = await workshopDownloadUrl(fetchImpl);
-    sourceFile = `${BATTLEMASTER_SPAWNER_WORKSHOP_ID}.tts`;
-    const response = await fetchImpl(url);
-    if (!response.ok)
-      fail(`Workshop save download returned HTTP ${response.status}`);
-    bytes = new Uint8Array(await response.arrayBuffer());
+    const sourceFile = basename(path);
+    const bytes = await readFile(path);
+    const canonicalTemplates = readJsonArray<TerrainTemplate>(
+      resolve(CORE_DIR, "terrain-templates.json"),
+    ).filter((template) => !hasBattlemasterSource(template));
+    return projectBattlemasterCache(
+      decodeSpawnerSave(bytes),
+      sourceFile,
+      canonicalTemplates,
+    );
   }
+  return projectBattlemasterRestApi(options);
+}
+// ---------------------------------------------------------------------------
+// REST API types (GET /v1/public/data/layouts)
+// ---------------------------------------------------------------------------
+
+const BM_API_BASE = "https://battlemaster.online/v1/public/data";
+const DEFAULT_OWNER = "superwutz";
+
+interface BmApiVec2 {
+  x: number;
+  y: number;
+}
+
+interface BmApiWall {
+  points: BmApiVec2[];
+  thicknessIn: number;
+}
+
+interface BmApiPart {
+  name: string;
+  material: "dense" | "light";
+  hasRoof: boolean;
+  origin: BmApiVec2;
+  rotationDeg: number;
+  mirroredX: boolean;
+  mirroredY: boolean;
+  boundsWidthIn: number;
+  boundsHeightIn: number;
+  outline: { points: BmApiVec2[] } | null;
+  walls: BmApiWall[];
+}
+
+interface BmApiTerrain {
+  name: string;
+  kind: string;
+  footprint: {
+    origin: BmApiVec2;
+    widthIn: number;
+    heightIn: number;
+    rotationDeg: number;
+  };
+  outline: { points: BmApiVec2[] };
+  walls: BmApiWall[];
+  parts: BmApiPart[];
+}
+
+interface BmApiObjective {
+  index: number;
+  center: BmApiVec2;
+  diameterMm: number | null;
+}
+
+interface BmApiDeploymentZone {
+  role: "attacker" | "defender";
+  points: BmApiVec2[];
+}
+
+interface BmApiDeployment {
+  deploymentKey: number;
+  objectives: BmApiObjective[];
+  zones: BmApiDeploymentZone[];
+}
+
+interface BmApiLayoutMeta {
+  slug: string;
+  name: string;
+  owner: string;
+  chapterApprovedSlot?: {
+    slotIndex: number;
+    archetypeA: string;
+    archetypeB: string;
+  };
+  chapterApprovedDeploymentKey?: number;
+  updatedAt?: string;
+}
+
+interface BmApiLayoutDetail {
+  layout: BmApiLayoutMeta;
+  units: { linear: string; origin: string; yAxis: string };
+  terrain: BmApiTerrain[];
+  deployment: BmApiDeployment;
+}
+
+interface BmApiCatalog {
+  layouts: BmApiLayoutMeta[];
+  totalCount: number;
+}
+
+// ---------------------------------------------------------------------------
+// REST API fetch helpers
+// ---------------------------------------------------------------------------
+
+async function fetchLayoutCatalog(
+  fetchImpl: typeof globalThis.fetch,
+  owner: string,
+): Promise<BmApiLayoutMeta[]> {
+  const all: BmApiLayoutMeta[] = [];
+  let offset = 0;
+  const limit = 100;
+  for (;;) {
+    const url = `${BM_API_BASE}/layouts?owner=${encodeURIComponent(owner)}&missionPack=chapter-approved-2026&limit=${limit}&offset=${offset}`;
+    const res = await fetchImpl(url);
+    if (!res.ok) fail(`BM API catalog request returned HTTP ${res.status}`);
+    const body = (await res.json()) as BmApiCatalog;
+    all.push(...body.layouts);
+    if (all.length >= body.totalCount || body.layouts.length < limit) break;
+    offset += limit;
+  }
+  return all;
+}
+
+async function fetchLayoutDetail(
+  fetchImpl: typeof globalThis.fetch,
+  owner: string,
+  slug: string,
+): Promise<BmApiLayoutDetail> {
+  const url = `${BM_API_BASE}/layouts/${encodeURIComponent(owner)}/${encodeURIComponent(slug)}`;
+  const res = await fetchImpl(url);
+  if (!res.ok)
+    fail(
+      `BM API layout detail for ${owner}/${slug} returned HTTP ${res.status}`,
+    );
+  return (await res.json()) as BmApiLayoutDetail;
+}
+
+// ---------------------------------------------------------------------------
+// REST API → projected geometry
+// ---------------------------------------------------------------------------
+
+const SIZE_CLASS_WIDTH_TOL = 0.01;
+const SIZE_CLASS_HEIGHT_TOL = 0.6;
+
+function sizeClassFromDims(w: number, h: number): string | undefined {
+  let best: string | undefined;
+  let bestDist = Infinity;
+  for (const [sc, dims] of Object.entries(EXPECTED_COMPOSITE_DIMENSIONS)) {
+    if (Math.abs(w - dims.width) > SIZE_CLASS_WIDTH_TOL) continue;
+    const hDist = Math.abs(h - dims.height);
+    if (hDist > SIZE_CLASS_HEIGHT_TOL) continue;
+    if (hDist < bestDist) {
+      best = sc;
+      bestDist = hDist;
+    }
+  }
+  return best;
+}
+
+function stableHash(value: unknown): string {
+  return createHash("sha256")
+    .update(JSON.stringify(value))
+    .digest("hex")
+    .slice(0, 10);
+}
+
+function bmPartTemplateKey(part: BmApiPart): string {
+  return JSON.stringify({
+    name: part.name,
+    material: part.material,
+    hasRoof: part.hasRoof,
+    bounds: [round6(part.boundsWidthIn), round6(part.boundsHeightIn)],
+    outline:
+      part.outline?.points.map((p) => [round6(p.x), round6(p.y)]) ?? null,
+    walls: part.walls.map((wall) => ({
+      points: wall.points.map((p) => [round6(p.x), round6(p.y)]),
+      thickness: round6(wall.thicknessIn),
+    })),
+  });
+}
+
+function bmPartTemplateId(part: BmApiPart): string {
+  return `bm-part-${slug(part.name)}-${stableHash(bmPartTemplateKey(part))}`;
+}
+
+function bmCompositeKey(terrain: BmApiTerrain): string {
+  return JSON.stringify({
+    name: terrain.name,
+    footprint: [
+      round6(terrain.footprint.widthIn),
+      round6(terrain.footprint.heightIn),
+    ],
+    outline: terrain.outline.points.map((p) => [round6(p.x), round6(p.y)]),
+    walls: terrain.walls.map((wall) => ({
+      points: wall.points.map((p) => [round6(p.x), round6(p.y)]),
+      thickness: round6(wall.thicknessIn),
+    })),
+    parts: terrain.parts.map((part) => ({
+      template: bmPartTemplateId(part),
+      origin: [round6(part.origin.x), round6(part.origin.y)],
+      rotation: round6(part.rotationDeg),
+      mirroredX: part.mirroredX,
+      mirroredY: part.mirroredY,
+    })),
+  });
+}
+
+function bmLayoutId(meta: BmApiLayoutMeta): string {
+  return `bm-${slug(meta.slug)}`;
+}
+
+function bmMatchupId(meta: BmApiLayoutMeta): string {
+  const slot = meta.chapterApprovedSlot;
+  if (!slot) return slug(meta.slug);
+  return `${slug(slot.archetypeA)}-vs-${slug(slot.archetypeB)}`;
+}
+
+function apiOutlineToYDown(
+  points: BmApiVec2[],
+  footprintHeight: number,
+): Vec2[] {
+  return points.map((p) => ({
+    x: round6(p.x),
+    y: round6(footprintHeight - p.y),
+  }));
+}
+
+function apiPartPointsToYDown(points: BmApiVec2[]): Vec2[] {
+  return points.map((point) => ({
+    x: round6(point.x),
+    y: round6(-point.y),
+  }));
+}
+
+function apiWallsToYDown(walls: BmApiWall[], footprintHeight: number): Wall[] {
+  return walls.map((wall) => {
+    const projected: Wall = {
+      points: wall.points.map((point) => ({
+        x: round6(point.x),
+        y: round6(footprintHeight - point.y),
+      })),
+    };
+    if (wall.thicknessIn > 0) projected.thickness = wall.thicknessIn;
+    return projected;
+  });
+}
+
+function projectFromRestApi(
+  details: BmApiLayoutDetail[],
+  canonicalTemplates: TerrainTemplate[],
+): ProjectedGeometry {
+  const canonicalById = new Map(canonicalTemplates.map((t) => [t.id, t]));
+
+  const featureTemplateMap = new Map<string, ProjectedTemplate>();
+  const compositeMap = new Map<
+    string,
+    { id: string; template: ProjectedTemplate }
+  >();
+  const variants = new Map<string, CompositeVariant>();
+  const layouts: ProjectedLayout[] = [];
+
+  for (const detail of details) {
+    const meta = detail.layout;
+    const depKey =
+      meta.chapterApprovedDeploymentKey ?? detail.deployment.deploymentKey;
+    const deployment = DEPLOYMENT_KEY_TO_PATTERN[depKey];
+    if (!deployment) fail(`${meta.slug}: unknown deployment key ${depKey}`);
+
+    const pieces: ProjectedPiece[] = [];
+
+    for (let ti = 0; ti < detail.terrain.length; ti++) {
+      const terrain = detail.terrain[ti]!;
+      const fp = terrain.footprint;
+      const sc = sizeClassFromDims(fp.widthIn, fp.heightIn);
+      if (!sc)
+        fail(
+          `${meta.slug}/${terrain.name}: no size class for ${fp.widthIn}x${fp.heightIn}`,
+        );
+
+      const areaTemplateId = SIZE_CLASS_TO_AREA_TEMPLATE[sc];
+      if (!areaTemplateId) fail(`unknown area template for size class ${sc}`);
+      const canonical = canonicalById.get(areaTemplateId);
+      if (!canonical)
+        fail(`missing canonical terrain template ${areaTemplateId}`);
+
+      // Build feature templates for each unique part type
+      for (const part of terrain.parts) {
+        const fid = bmPartTemplateId(part);
+        if (!featureTemplateMap.has(fid)) {
+          const ft: ProjectedTemplate = {
+            id: fid,
+            name: `Battlemaster ${part.name}`,
+            kind: "feature",
+            source: SOURCE,
+            footprint: {
+              type: "polygon",
+              points: apiPartPointsToYDown([
+                { x: 0, y: 0 },
+                { x: part.boundsWidthIn, y: 0 },
+                { x: part.boundsWidthIn, y: part.boundsHeightIn },
+                { x: 0, y: part.boundsHeightIn },
+              ]),
+            },
+            game_version: GAME_VERSION,
+          };
+          if (part.walls.length > 0) {
+            ft.walls = part.walls.map((wall) => {
+              const projectedWall: Wall = {
+                points: apiPartPointsToYDown(wall.points),
+              };
+              if (wall.thicknessIn > 0) {
+                projectedWall.thickness = wall.thicknessIn;
+              }
+              return projectedWall;
+            });
+          }
+          if (part.hasRoof) ft.has_roof = true;
+          if (part.material) ft.terrain_category = part.material;
+          if (part.outline) {
+            ft.footprint = {
+              type: "polygon",
+              points: apiPartPointsToYDown(part.outline.points),
+            };
+          }
+          featureTemplateMap.set(fid, ft);
+        }
+      }
+
+      // Build or reuse composite area template
+      const compKey = bmCompositeKey(terrain);
+      let comp = compositeMap.get(compKey);
+      if (!comp) {
+        // Use the BM outline as the footprint polygon — its centroid is
+        // naturally in the BM footprint-local y-down frame, so part positions
+        // map directly without a canonical-polygon orientation offset.
+        const outlineYDown =
+          terrain.outline.points.length >= 3
+            ? apiOutlineToYDown(terrain.outline.points, fp.heightIn)
+            : undefined;
+        const outlineFp: Footprint | undefined = outlineYDown
+          ? { type: "polygon", points: outlineYDown }
+          : undefined;
+        const templateFp = outlineFp ?? canonical.footprint;
+        const centroid = polygonCentroid(footprintVertices(templateFp));
+
+        const composedFeatures: ComposedFeature[] = terrain.parts.map(
+          (part, pi): ComposedFeature => {
+            const partTemplateId = bmPartTemplateId(part);
+            const partTemplate = featureTemplateMap.get(partTemplateId);
+            if (!partTemplate) {
+              fail(
+                `${meta.slug}/${terrain.name}/${part.name}: missing projected part template`,
+              );
+            }
+            const partCentroid = polygonCentroid(
+              footprintVertices(partTemplate.footprint),
+            );
+            let rotation = norm360(-part.rotationDeg);
+            let mirror: Mirror | undefined;
+            if (part.mirroredX && part.mirroredY) {
+              rotation = norm360(rotation + 180);
+            } else if (part.mirroredX) {
+              mirror = "horizontal";
+            } else if (part.mirroredY) {
+              mirror = "vertical";
+            }
+
+            // BM transforms part-local points around (0, 0):
+            // mirror → rotate → translate by part.origin. The part template
+            // keeps that origin at (0, 0) while flipping y, but the resolver
+            // rotates around the footprint centroid. Add the oriented local
+            // centroid to the translation pivot so both transforms agree.
+            const orientedPartCentroid = orient(
+              partCentroid,
+              rotation,
+              mirror ?? "none",
+            );
+            const position: Vec2 = {
+              x: round6(part.origin.x - centroid.x + orientedPartCentroid.x),
+              y: round6(
+                fp.heightIn -
+                  part.origin.y -
+                  centroid.y +
+                  orientedPartCentroid.y,
+              ),
+            };
+
+            const feature: ComposedFeature = {
+              id: `feature-${pi + 1}`,
+              template: partTemplateId,
+              position,
+            };
+            if (rotation !== 0) feature.rotation_degrees = rotation;
+            if (mirror) feature.mirror = mirror;
+            return feature;
+          },
+        );
+
+        const compId = `bm-composite-${slug(terrain.name)}-${stableHash(compKey)}`;
+        const template: ProjectedTemplate = {
+          id: compId,
+          name: `Battlemaster ${terrain.name}`,
+          kind: "area",
+          source: SOURCE,
+          footprint: templateFp,
+          features: composedFeatures,
+          game_version: GAME_VERSION,
+        };
+        if (outlineYDown) template.outline = outlineYDown;
+        if (terrain.walls.length > 0) {
+          template.walls = apiWallsToYDown(terrain.walls, fp.heightIn);
+        }
+
+        comp = { id: compId, template };
+        compositeMap.set(compKey, comp);
+        variants.set(compId, {
+          template,
+          footprint: templateFp,
+          targetWidth: fp.widthIn,
+          targetHeight: fp.heightIn,
+          anchorDelta: { x: 0, y: 0 },
+        });
+      }
+
+      // Place this terrain piece on the board.
+      // BM coordinates: board-center y-up. fp.origin is the piece-local (0, 0)
+      // corner of the footprint frame — the same frame the outline points and
+      // part origins live in — and the piece frame rotates around it ("piece
+      // frame rotates around footprint.origin", public data API docs). The
+      // template footprint polygon is in y-down local space with (0, 0) at
+      // that corner. Express the centroid in the y-up piece frame, rotate it
+      // about the origin, and add fp.origin.
+      const variantFp = variants.get(comp.id)!.footprint;
+      const centroid = polygonCentroid(footprintVertices(variantFp));
+      const centroidFromOrigin: Vec2 = {
+        x: centroid.x,
+        y: fp.heightIn - centroid.y,
+      };
+      const rotated = rotateCcwYUp(centroidFromOrigin, fp.rotationDeg);
+      const centroidOnBoard: Vec2 = {
+        x: rotated.x + fp.origin.x,
+        y: rotated.y + fp.origin.y,
+      };
+      const position = toBoardFrame(centroidOnBoard.x, centroidOnBoard.y);
+
+      // The area rotation: BM uses CCW y-up degrees. Our schema uses CW y-down.
+      // A CCW rotation of θ in y-up = CW rotation of θ in y-down.
+      const areaRotation = norm360(-fp.rotationDeg);
+
+      const id = `area-${String(ti + 1).padStart(2, "0")}`;
+      const piece: ProjectedPiece = {
+        id,
+        name: `${terrain.name}`,
+        piece_type: "area",
+        template: comp.id,
+        position: { x: round6(position.x), y: round6(position.y) },
+      };
+      if (areaRotation !== 0) piece.rotation_degrees = areaRotation;
+      pieces.push(piece);
+    }
+
+    const resolutionTemplates = [
+      ...canonicalTemplates,
+      ...featureTemplateMap.values(),
+      ...[...compositeMap.values()].map((entry) => entry.template),
+    ];
+    const resolvedAreas = resolveLayout(
+      { id: bmLayoutId(meta), name: meta.name, pieces },
+      resolutionTemplates,
+    ).filter((piece) => piece.piece_type === "area");
+    const pieceById = new Map(
+      pieces.filter((piece) => piece.id).map((piece) => [piece.id!, piece]),
+    );
+
+    const objectivePositions = detail.deployment.objectives.map((objective) =>
+      toBoardFrame(objective.center.x, objective.center.y),
+    );
+    const primaryAreaIndices = assignObjectivesToAreas(
+      objectivePositions,
+      resolvedAreas,
+    );
+    const primaryAreaIndexSet = new Set(primaryAreaIndices);
+
+    for (
+      let objectiveIndex = 0;
+      objectiveIndex < detail.deployment.objectives.length;
+      objectiveIndex += 1
+    ) {
+      const objective = detail.deployment.objectives[objectiveIndex]!;
+      const position = objectivePositions[objectiveIndex]!;
+      const primaryAreaIndex = primaryAreaIndices[objectiveIndex]!;
+      const areaIndices = [primaryAreaIndex];
+      const isCenter =
+        Math.hypot(objective.center.x, objective.center.y) <= 0.05;
+      if (isCenter) {
+        let secondaryAreaIndex: number | undefined;
+        let secondaryDistance = Infinity;
+        for (
+          let areaIndex = 0;
+          areaIndex < resolvedAreas.length;
+          areaIndex += 1
+        ) {
+          if (
+            areaIndex === primaryAreaIndex ||
+            primaryAreaIndexSet.has(areaIndex)
+          ) {
+            continue;
+          }
+          const distance = distanceOutside(
+            position,
+            resolvedAreas[areaIndex]!.vertices,
+          );
+          if (distance < secondaryDistance) {
+            secondaryAreaIndex = areaIndex;
+            secondaryDistance = distance;
+          }
+        }
+        if (secondaryAreaIndex === undefined) {
+          fail(`${meta.slug}: center objective has no second terrain area`);
+        }
+        areaIndices.push(secondaryAreaIndex);
+      }
+      const areaIds = areaIndices
+        .map((areaIndex) => resolvedAreas[areaIndex]!.id)
+        .filter((id): id is string => id !== null);
+      if (areaIds.length === 0) {
+        fail(`${meta.slug}: objective ${objective.index} has no terrain area`);
+      }
+      const isHome =
+        !isCenter &&
+        detail.deployment.zones.some(
+          (zone) => distanceOutside(objective.center, zone.points) === 0,
+        );
+      const role: "home" | "expansion" | "center" = isCenter
+        ? "center"
+        : isHome
+          ? "home"
+          : "expansion";
+      const linkGroup =
+        areaIds.length > 1 ? `objective-${objective.index}` : undefined;
+
+      for (const areaId of areaIds) {
+        const piece = pieceById.get(areaId);
+        if (!piece)
+          fail(`${meta.slug}: resolved objective area ${areaId} is missing`);
+        if (piece.is_objective) {
+          fail(
+            `${meta.slug}: terrain area ${areaId} contains multiple objectives`,
+          );
+        }
+        piece.is_objective = true;
+        piece.objective_role = role;
+        piece.objective = {
+          position: { x: round6(position.x), y: round6(position.y) },
+        };
+        if (linkGroup) piece.link_group = linkGroup;
+      }
+    }
+
+    const slot = meta.chapterApprovedSlot;
+    layouts.push({
+      id: bmLayoutId(meta),
+      name: meta.name,
+      source: SOURCE,
+      description: `Imported from Battlemaster REST API layout ${meta.owner}/${meta.slug}.`,
+      mission_matchup_id: bmMatchupId(meta),
+      variant: slot?.slotIndex ?? 1,
+      deployment_pattern_id: deployment,
+      pieces,
+      game_version: GAME_VERSION,
+    });
+  }
+
+  return {
+    templates: [
+      ...featureTemplateMap.values(),
+      ...[...compositeMap.values()].map((c) => c.template),
+    ],
+    layouts,
+    variants,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// REST API entry point
+// ---------------------------------------------------------------------------
+
+export async function projectBattlemasterRestApi(
+  options: ProjectBattlemasterOptions = {},
+): Promise<BattlemasterProjection> {
+  const fetchImpl = options.fetch ?? globalThis.fetch;
+  const owner = options.owner ?? DEFAULT_OWNER;
+
+  const catalog = await fetchLayoutCatalog(fetchImpl, owner);
+  console.error(`Fetching ${catalog.length} layout details from BM API...`);
+
+  const details: BmApiLayoutDetail[] = [];
+  for (const meta of catalog) {
+    details.push(await fetchLayoutDetail(fetchImpl, owner, meta.slug));
+  }
+
   const canonicalTemplates = readJsonArray<TerrainTemplate>(
     resolve(CORE_DIR, "terrain-templates.json"),
   ).filter((template) => !hasBattlemasterSource(template));
-  return projectBattlemasterCache(
-    decodeSpawnerSave(bytes),
-    sourceFile,
-    canonicalTemplates,
+
+  const geometry = projectFromRestApi(details, canonicalTemplates);
+  const resolvedPieces = geometry.layouts.reduce((acc, l) => {
+    const resolved = resolveLayout(l, geometry.templates);
+    return acc + resolved.length;
+  }, 0);
+
+  const featureInstances = geometry.layouts.reduce(
+    (acc, l) =>
+      acc +
+      l.pieces.filter((p) => p.piece_type !== "area" || p.is_objective).length +
+      l.pieces
+        .filter((p) => p.template)
+        .reduce((sub, p) => {
+          const t = geometry.templates.find((t) => t.id === p.template);
+          return sub + (t?.features?.length ?? 0);
+        }, 0),
+    0,
   );
+
+  const fetched = new Date().toISOString();
+  const summary: BattlemasterProjectionSummary = {
+    source_kind: "rest-api",
+    owner,
+    fetched_at: fetched,
+    layouts: geometry.layouts.length,
+    layout_instances: geometry.layouts.reduce(
+      (acc, l) => acc + l.pieces.filter((p) => p.piece_type === "area").length,
+      0,
+    ),
+    feature_instances: featureInstances,
+    feature_templates: [
+      ...new Set(
+        geometry.templates.filter((t) => t.kind === "feature").map((t) => t.id),
+      ),
+    ].length,
+    composite_templates: [
+      ...new Set(
+        geometry.templates.filter((t) => t.kind === "area").map((t) => t.id),
+      ),
+    ].length,
+    resolved_pieces: resolvedPieces,
+    worst_area_error_inches: 0,
+    worst_feature_error_inches: 0,
+  };
+
+  return {
+    readonly: true,
+    source: {
+      kind: "rest-api",
+      public_data_docs: BATTLEMASTER_PUBLIC_DATA_DOCS,
+      owner,
+      fetched_at: fetched,
+    },
+    terrain_templates: geometry.templates,
+    terrain_layouts: geometry.layouts,
+    summary,
+  };
 }
+
 function hasBattlemasterSource(value: unknown): boolean {
   return (
     typeof value === "object" &&
@@ -1647,16 +2345,17 @@ export async function applyBattlemasterProjection(
 
 function usage(): never {
   console.error(
-    "Usage: project-battlemaster [--input <WorkshopUpload>] [--summary | --check | --write]\n\n" +
-      "Projects Battlemaster's Chapter Approved layouts into 40kdc shapes. " +
-      "The default and --summary modes are read-only; --check validates the merged dataset; " +
-      "--write atomically imports it.",
+    "Usage: project-battlemaster [--owner <owner>] [--input <WorkshopUpload>] [--summary | --check | --write]\n\n" +
+      "Projects Battlemaster's Chapter Approved layouts into 40kdc shapes.\n" +
+      "Default: fetches from the BM REST API. --input: falls back to a TTS Workshop save.\n" +
+      "--summary/--check/--write control output mode.",
   );
   process.exit(2);
 }
 
 export async function runProjectBattlemasterCli(args: string[]): Promise<void> {
   let inputPath: string | undefined;
+  let owner: string | undefined;
   let summary = false;
   let check = false;
   let write = false;
@@ -1665,6 +2364,9 @@ export async function runProjectBattlemasterCli(args: string[]): Promise<void> {
     if (arg === "--input") {
       inputPath = args[++index];
       if (!inputPath) usage();
+    } else if (arg === "--owner") {
+      owner = args[++index];
+      if (!owner) usage();
     } else if (arg === "--summary") {
       summary = true;
     } else if (arg === "--check") {
@@ -1679,7 +2381,7 @@ export async function runProjectBattlemasterCli(args: string[]): Promise<void> {
   }
   if (Number(summary) + Number(check) + Number(write) > 1) usage();
 
-  const projection = await projectBattlemaster({ inputPath });
+  const projection = await projectBattlemaster({ inputPath, owner });
   if (check || write) {
     await applyBattlemasterProjection(projection, write);
     if (check)

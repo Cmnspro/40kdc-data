@@ -145,6 +145,11 @@ class Footprint3(TypedDict):
 Footprint: TypeAlias = Footprint1 | Footprint2 | Footprint3
 
 
+class Wall(TypedDict):
+    points: list[Vec2]
+    thickness: NotRequired[float]
+
+
 TerrainAreaKeyword: TypeAlias = Literal["obscuring", "hidden", "plunging-fire"]
 
 
@@ -524,6 +529,9 @@ class TerrainTemplate(TypedDict):
     default_terrain_area_keywords: NotRequired[list[TerrainAreaKeyword]]
     features: NotRequired[list[ComposedFeature]]
     terrain_category: NotRequired[Literal["exposed", "light", "dense"]]
+    walls: NotRequired[list[Wall]]
+    has_roof: NotRequired[bool]
+    outline: NotRequired[list[Vec2]]
     game_version: GameVersionRef
 
 

@@ -363,7 +363,7 @@
       <line x1={divider.from.x} y1={divider.from.y} x2={divider.to.x} y2={divider.to.y} class="divider" />
     {/if}
 
-    {#each resolved as p (p.id ?? p.name)}
+    {#each resolved as p, pi}
       {@const ep = p.id ? editById.get(p.id) : undefined}
       {@const tplCat = templateById(ep?.template)?.terrain_category ?? ''}
       <polygon
@@ -380,6 +380,19 @@
         aria-label={p.name ?? p.id ?? "piece"}
         onpointerdown={(e) => onPointerDown(e, p)}
       />
+    {/each}
+
+    <!-- wall polylines: resolved board-space walls from feature templates -->
+    {#each resolved as p, pi}
+      {#if p.walls}
+        {#each p.walls as w, wi}
+          <polyline
+            points={polyPts(w.points)}
+            class="wall {p.terrain_category ?? ''}"
+            stroke-width={w.thickness ?? 0.25}
+          />
+        {/each}
+      {/if}
     {/each}
 
     {#each uppers as u (u.id)}
@@ -637,6 +650,20 @@
     stroke: oklch(0.58 0.21 25);
     stroke-width: 0.22;
     stroke-dasharray: 0.4 0.3;
+  }
+  .wall {
+    fill: none;
+    stroke: oklch(0.3 0.04 30);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+  .wall.dense {
+    stroke: oklch(0.28 0.06 150);
+  }
+  .wall.light {
+    stroke: oklch(0.35 0.05 60);
+    stroke-dasharray: 0.4 0.25;
   }
   .upper {
     fill: none;
