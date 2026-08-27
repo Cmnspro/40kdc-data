@@ -5,7 +5,7 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 40 stub abilities.
+Total: 44 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
@@ -15,6 +15,10 @@ Total: 40 stub abilities.
 | adeptus-astartes | onslaught-of-fire-firestorm-assault-force | sequence | empty modifier |
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |
 | adeptus-astartes | strike-from-the-shadows-vanguard-spearhead | sequence | stat-modifier on "BS" is outside the damage path |
+| adeptus-custodes | desperations-price-null-maiden-vigil | battle-shock-test | effect type "battle-shock-test" is not modelled by the buff layer |
+| adeptus-custodes | huntress-eye-null-maiden-vigil | battle-shock-test | effect type "battle-shock-test" is not modelled by the buff layer |
+| adeptus-custodes | inspirational-exemplar-auric-champions | remove-battle-shock | effect type "remove-battle-shock" is not modelled by the buff layer |
+| adeptus-custodes | shoulder-the-mantle-auric-champions | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | aeldari | far-reaching-doom | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | support-artillery | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | astra-militarum | brutal-disciplinarian | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
