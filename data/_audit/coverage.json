@@ -13,12 +13,12 @@
     },
     {
       "faction": "adepta-sororitas",
-      "total": 100,
-      "offensive": 29,
-      "defensive": 10,
-      "inert": 64,
+      "total": 155,
+      "offensive": 46,
+      "defensive": 16,
+      "inert": 96,
       "stub": 7,
-      "stubStructural": 0,
+      "stubStructural": 2,
       "gwTextLeak": 0,
       "defensiveSkipped": 1
     },
@@ -288,27 +288,27 @@
     }
   ],
   "totals": {
-    "total": 3779,
-    "offensive": 929,
-    "defensive": 291,
-    "inert": 2650,
+    "total": 3834,
+    "offensive": 946,
+    "defensive": 297,
+    "inert": 2682,
     "stub": 115,
-    "stubStructural": 44,
+    "stubStructural": 46,
     "gwTextLeak": 0,
     "defensiveSkipped": 56
   },
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 568
+      "count": 573
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 222
+      "count": 225
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
-      "count": 130
+      "count": 131
     },
     {
       "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
@@ -319,16 +319,16 @@
       "count": 84
     },
     {
-      "reason": "effect type \"objective-control-modifier\" is not modelled by the buff layer",
-      "count": 64
+      "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
+      "count": 67
     },
     {
-      "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
-      "count": 64
+      "reason": "effect type \"objective-control-modifier\" is not modelled by the buff layer",
+      "count": 65
     },
     {
       "reason": "effect type \"resurrection\" is not modelled by the buff layer",
-      "count": 57
+      "count": 58
     },
     {
       "reason": "effect type \"cp-refund\" is not modelled by the buff layer",
@@ -336,7 +336,7 @@
     },
     {
       "reason": "effect type \"rule-state\" is not modelled by the buff layer",
-      "count": 43
+      "count": 44
     },
     {
       "reason": "re-roll on \"charge\" (subset …) is outside the damage path",
@@ -347,12 +347,12 @@
       "count": 39
     },
     {
-      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
-      "count": 37
+      "reason": "stat-modifier: operation \"set\" not supported",
+      "count": 38
     },
     {
-      "reason": "stat-modifier: operation \"set\" not supported",
-      "count": 36
+      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
+      "count": 38
     },
     {
       "reason": "effect type \"unit-keyword\" is not modelled by the buff layer",
@@ -364,7 +364,7 @@
     },
     {
       "reason": "effect type \"disembark-after-move\" is not modelled by the buff layer",
-      "count": 31
+      "count": 32
     },
     {
       "reason": "dice-gated effect: stochastic; not expressible as a buff",
@@ -375,11 +375,11 @@
       "count": 28
     },
     {
-      "reason": "effect type \"fight-first\" is not modelled by the buff layer",
-      "count": 26
+      "reason": "stat-modifier on \"D\" is outside the damage path",
+      "count": 28
     },
     {
-      "reason": "stat-modifier on \"D\" is outside the damage path",
+      "reason": "effect type \"fight-first\" is not modelled by the buff layer",
       "count": 26
     },
     {
@@ -395,12 +395,12 @@
       "count": 24
     },
     {
-      "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
-      "count": 21
+      "reason": "roll-modifier: operation \"ignore-modifiers\" not supported",
+      "count": 22
     },
     {
-      "reason": "roll-modifier: operation \"ignore-modifiers\" not supported",
-      "count": 20
+      "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
+      "count": 21
     },
     {
       "reason": "conditional: cannot evaluate condition \"unit-below-starting-strength\" against current context",
@@ -419,12 +419,28 @@
       "count": 16
     },
     {
+      "reason": "effect type \"resource-spend\" is not modelled by the buff layer",
+      "count": 13
+    },
+    {
       "reason": "effect type \"engagement-passthrough\" is not modelled by the buff layer",
       "count": 13
     },
     {
+      "reason": "effect type \"auto-result\" is not modelled by the buff layer",
+      "count": 12
+    },
+    {
       "reason": "stat-modifier T: defender-side stat; applies when the buffed unit is the target",
       "count": 12
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"unit-below-half-strength\" against current context",
+      "count": 11
+    },
+    {
+      "reason": "re-roll on \"advance\" (subset …) is outside the damage path",
+      "count": 11
     },
     {
       "reason": "conditional: cannot evaluate condition \"attack-stat-compare\" against current context",
@@ -435,23 +451,7 @@
       "count": 11
     },
     {
-      "reason": "effect type \"auto-result\" is not modelled by the buff layer",
-      "count": 10
-    },
-    {
-      "reason": "conditional: cannot evaluate condition \"unit-below-half-strength\" against current context",
-      "count": 10
-    },
-    {
       "reason": "effect type \"unit-attachment\" is not modelled by the buff layer",
-      "count": 10
-    },
-    {
-      "reason": "re-roll on \"advance\" (subset …) is outside the damage path",
-      "count": 10
-    },
-    {
-      "reason": "effect type \"resource-spend\" is not modelled by the buff layer",
       "count": 10
     },
     {
@@ -463,12 +463,28 @@
       "count": 9
     },
     {
+      "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
+      "count": 8
+    },
+    {
       "reason": "stat-modifier on \"Ld\" is outside the damage path",
       "count": 8
     },
     {
       "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
       "count": 8
+    },
+    {
+      "reason": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context",
+      "count": 7
+    },
+    {
+      "reason": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
+      "count": 7
+    },
+    {
+      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
+      "count": 7
     },
     {
       "reason": "stat-modifier on \"W\" is outside the damage path",
@@ -487,7 +503,15 @@
       "count": 6
     },
     {
-      "reason": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context",
+      "reason": "roll-modifier: operation \"undefined\" not supported",
+      "count": 6
+    },
+    {
+      "reason": "effect type \"modifier-immunity\" is not modelled by the buff layer",
+      "count": 6
+    },
+    {
+      "reason": "effect type \"battle-shock-test\" is not modelled by the buff layer",
       "count": 6
     },
     {
@@ -499,27 +523,11 @@
       "count": 6
     },
     {
-      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
-      "count": 6
-    },
-    {
-      "reason": "effect type \"resource-gain\" is not modelled by the buff layer",
-      "count": 5
-    },
-    {
-      "reason": "effect type \"battle-shock-test\" is not modelled by the buff layer",
-      "count": 5
-    },
-    {
-      "reason": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
-      "count": 5
-    },
-    {
-      "reason": "roll-modifier: operation \"undefined\" not supported",
-      "count": 5
-    },
-    {
       "reason": "conditional: cannot evaluate condition \"units-destroyed\" against current context",
+      "count": 4
+    },
+    {
+      "reason": "effect type \"disembark\" is not modelled by the buff layer",
       "count": 4
     },
     {
@@ -540,10 +548,6 @@
     },
     {
       "reason": "stat-modifier on \"OC\" is outside the damage path",
-      "count": 4
-    },
-    {
-      "reason": "effect type \"modifier-immunity\" is not modelled by the buff layer",
       "count": 4
     },
     {
@@ -583,10 +587,6 @@
       "count": 3
     },
     {
-      "reason": "effect type \"disembark\" is not modelled by the buff layer",
-      "count": 3
-    },
-    {
       "reason": "effect type \"strategic-reserves-arrival\" is not modelled by the buff layer",
       "count": 3
     },
@@ -620,6 +620,10 @@
     },
     {
       "reason": "re-roll on \"attacks-characteristic\" (subset …) is outside the damage path",
+      "count": 2
+    },
+    {
+      "reason": "effect type \"pool-add-die\" is not modelled by the buff layer",
       "count": 2
     },
     {
@@ -692,6 +696,18 @@
     },
     {
       "reason": "re-roll on \"any\" (subset …) is outside the damage path",
+      "count": 1
+    },
+    {
+      "reason": "re-roll on \"miracle-dice\" (subset …) is outside the damage path",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"cp-on-destroy\" is not modelled by the buff layer",
+      "count": 1
+    },
+    {
+      "reason": "effect type \"heal-wounds\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -796,10 +812,6 @@
     },
     {
       "reason": "roll-modifier on \"psychic-test\" is outside the damage path",
-      "count": 1
-    },
-    {
-      "reason": "effect type \"pool-add-die\" is not modelled by the buff layer",
       "count": 1
     },
     {
@@ -1921,6 +1933,556 @@
       "offensive": false,
       "defensive": false,
       "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "boundless-zeal-penitent-host",
+      "name": "Boundless Zeal",
+      "shape": "fallback-and-act",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"fallback-and-act\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "devout-fanaticism-penitent-host",
+      "name": "Devout Fanaticism",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "final-redemption-penitent-host",
+      "name": "Final Redemption",
+      "shape": "objective-control-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"objective-control-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "lash-of-guilt-penitent-host",
+      "name": "Lash of Guilt",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "passion-of-the-penitent-penitent-host",
+      "name": "Passion of the Penitent",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "roll-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "purity-of-suffering-penitent-host",
+      "name": "Purity of Suffering",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "divine-intervention-hallowed-martyrs",
+      "name": "Divine Intervention",
+      "shape": "resurrection",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"resurrection\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "praise-the-fallen-hallowed-martyrs",
+      "name": "Praise the Fallen",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "righteous-vengeance-hallowed-martyrs",
+      "name": "Righteous Vengeance",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"unit-below-half-strength\" against current context"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "sanctified-immolation-hallowed-martyrs",
+      "name": "Sanctified Immolation",
+      "shape": "auto-result",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"auto-result\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "spirit-of-the-martyr-hallowed-martyrs",
+      "name": "Spirit of the Martyr",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"undefined\" against current context"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "suffering-and-sacrifice-hallowed-martyrs",
+      "name": "Suffering and Sacrifice",
+      "shape": "attack-restriction",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "blazing-ire-bringers-of-flame",
+      "name": "Blazing Ire",
+      "shape": "sequence",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"disembark\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "carry-forth-the-faithful-bringers-of-flame",
+      "name": "Carry Forth the Faithful",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "re-roll on \"advance\" (subset …) is outside the damage path"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "cleansing-flames-bringers-of-flame",
+      "name": "Cleansing Flames",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "righteous-blows-bringers-of-flame",
+      "name": "Righteous Blows",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "rites-of-fire-bringers-of-flame",
+      "name": "Rites of Fire",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "shield-of-aversion-bringers-of-flame",
+      "name": "Shield of Aversion",
+      "shape": "attack-restriction",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "bastion-of-faith-champions-of-faith",
+      "name": "Bastion of Faith",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "indefatigable-dedication-champions-of-faith",
+      "name": "Indefatigable Dedication",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "path-of-the-righteous-champions-of-faith",
+      "name": "Path of the Righteous",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "shield-of-denial-champions-of-faith",
+      "name": "Shield of Denial",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "suffer-not-the-unfaithful-champions-of-faith",
+      "name": "Suffer Not the Unfaithful",
+      "shape": "choice",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "to-the-heart-of-heresy-champions-of-faith",
+      "name": "To the Heart of Heresy",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "angelic-descent-army-of-faith",
+      "name": "Angelic Descent",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "blinding-radiance-army-of-faith",
+      "name": "Blinding Radiance",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "divine-guidance-army-of-faith",
+      "name": "Divine Guidance",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "faith-and-fury-army-of-faith",
+      "name": "Faith and Fury",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "light-of-the-emperor-army-of-faith",
+      "name": "Light of the Emperor",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"modifier-immunity\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "shield-of-faith-army-of-faith",
+      "name": "Shield of Faith",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "fervent-devotion-sanctuary-guardians",
+      "name": "Fervent Devotion",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "fires-of-damnation-sanctuary-guardians",
+      "name": "Fires of Damnation",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "take-cover-sanctuary-guardians",
+      "name": "Take Cover",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "psalm-of-righteous-judgement-penitent-host",
+      "name": "Psalm of Righteous Judgement",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"resource-spend\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "verse-of-holy-piety-penitent-host",
+      "name": "Verse of Holy Piety",
+      "shape": "rule-state",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"rule-state\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "refrain-of-enduring-faith-penitent-host",
+      "name": "Refrain of Enduring Faith",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "catechism-of-divine-penitence-penitent-host",
+      "name": "Catechism of Divine Penitence",
+      "shape": "unit-keyword-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "saintly-example-hallowed-martyrs",
+      "name": "Saintly Example",
+      "shape": "resource-gain",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"resource-gain\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "through-suffering-strength-hallowed-martyrs",
+      "name": "Through Suffering, Strength",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "chaplet-of-sacrifice-hallowed-martyrs",
+      "name": "Chaplet of Sacrifice",
+      "shape": "re-roll",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "re-roll on \"miracle-dice\" (subset …) is outside the damage path"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "mantle-of-ophelia-hallowed-martyrs",
+      "name": "Mantle of Ophelia",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier: operation \"set\" not supported"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "righteous-rage-bringers-of-flame",
+      "name": "Righteous Rage",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "effect type \"resource-spend\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "manual-of-saint-griselda-bringers-of-flame",
+      "name": "Manual of Saint Griselda",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"resource-spend\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "fire-and-fury-bringers-of-flame",
+      "name": "Fire and Fury",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "iron-surplice-of-saint-istalela-bringers-of-flame",
+      "name": "Iron Surplice of Saint Istalela",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": "stat-modifier: operation \"set\" not supported"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "triptych-of-judgement-champions-of-faith",
+      "name": "Triptych of Judgement",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"modifier-immunity\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "mark-of-devotion-champions-of-faith",
+      "name": "Mark of Devotion",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "eyes-of-the-oracle-champions-of-faith",
+      "name": "Eyes of the Oracle",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "effect type \"cp-on-destroy\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "sanctified-amulet-champions-of-faith",
+      "name": "Sanctified Amulet",
+      "shape": "attack-restriction",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "litanies-of-faith-army-of-faith",
+      "name": "Litanies of Faith",
+      "shape": "resource-gain",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"resource-gain\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "blade-of-saint-ellynor-army-of-faith",
+      "name": "Blade of Saint Ellynor",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "divine-aspect-army-of-faith",
+      "name": "Divine Aspect",
+      "shape": "battle-shock-test",
+      "stub": true,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"battle-shock-test\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "triptych-of-the-macharian-crusade-army-of-faith",
+      "name": "Triptych of the Macharian Crusade",
+      "shape": "auto-result",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"auto-result\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "divine-miracle-sanctuary-guardians",
+      "name": "Divine Miracle",
+      "shape": "heal-wounds",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"heal-wounds\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "adepta-sororitas",
+      "ability_id": "righteous-fervour-sanctuary-guardians",
+      "name": "Righteous Fervour",
+      "shape": "rules-bundle",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
     },
     {
       "faction": "adeptus-astartes",
