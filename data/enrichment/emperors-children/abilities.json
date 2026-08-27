@@ -3287,5 +3287,3043 @@
       "duration": "battle-round"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+  },
+  {
+    "ability_id": "beautiful-death-slaaneshs-chosen",
+    "name": "Beautiful Death",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "not",
+        "operands": [
+          {
+            "type": "has-fought-this-phase",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "dice-gated",
+        "dice": "D6",
+        "threshold": 4,
+        "comparison": "gte",
+        "on_success": {
+          "type": "fight-on-death",
+          "target": "unit",
+          "modifier": {}
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Character"
+      ]
+    },
+    "community_notes": "Add 1 to the roll while this unit is your army's Favoured Champions; the Favoured Champions bonus is not encoded."
+  },
+  {
+    "ability_id": "devoted-duellists-slaaneshs-chosen",
+    "name": "Devoted Duellists",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Sustained Hits 1"
+        ],
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Character"
+      ]
+    },
+    "community_notes": "Targets one or more Character units that have not fought this phase; the ability applies only while attacking one selected enemy unit."
+  },
+  {
+    "ability_id": "diabolic-majesty-slaaneshs-chosen",
+    "name": "Diabolic Majesty",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-battle-round"
+    },
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "grant_type": "battle-shock-test"
+          }
+        },
+        {
+          "type": "bs-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "operation": "subtract",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Used just after a Character unit becomes your army's Favoured Champions; each enemy unit within 6\" takes a Battle-shock test with -1 to the result."
+  },
+  {
+    "ability_id": "heightened-jealousy-slaaneshs-chosen",
+    "name": "Heightened Jealousy",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "unit-has-keyword",
+        "parameters": {
+          "keyword": "CHARACTER"
+        }
+      },
+      "effect": {
+        "type": "stat-modifier",
+        "target": "all-friendly",
+        "modifier": {
+          "stat": "S",
+          "operation": "add",
+          "value": 1
+        }
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Applies to Emperor's Children Character units that are NOT your army's Favoured Champions; the Favoured Champions exclusion is not encoded."
+  },
+  {
+    "ability_id": "refusal-to-be-outdone-slaaneshs-chosen",
+    "name": "Refusal to Be Outdone",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "re-roll",
+      "target": "unit",
+      "modifier": {
+        "roll": "charge",
+        "result_scope": "any-result"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Character"
+      ]
+    },
+    "community_notes": "Used when charging within 12\" of an engaged enemy unit; the unit must end the charge move engaged with one or more of those enemy units."
+  },
+  {
+    "ability_id": "vengeful-surge-slaaneshs-chosen",
+    "name": "Vengeful Surge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "surge",
+        "distance": "D6"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Character"
+      ]
+    },
+    "community_notes": "If the unit is not your army's Favoured Champions, you can re-roll the surge-distance dice; the re-roll rider is not encoded."
+  },
+  {
+    "ability_id": "dark-apparitions-carnival-of-excess",
+    "name": "Dark Apparitions",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "redeploy",
+            "to_reserves": true
+          }
+        },
+        {
+          "type": "deep-strike",
+          "target": "unit",
+          "modifier": {
+            "min_distance": 6
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Daemonettes"
+      ]
+    },
+    "community_notes": "The 6\" (instead of 9\") Deep Strike return applies only in the Reinforcements step of your next Movement phase and requires setting up wholly within 8\" of one or more friendly Emperor's Children units."
+  },
+  {
+    "ability_id": "ecstatic-slaughter-carnival-of-excess",
+    "name": "Ecstatic Slaughter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "reactive-charge"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Used after a Legions of Excess unit destroys an enemy unit in the Fight phase; a friendly unengaged Emperor's Children unit within 6\" of it can declare a charge. If it already fought this phase, it cannot fight again."
+  },
+  {
+    "ability_id": "sustained-by-agony-carnival-of-excess",
+    "name": "Sustained by Agony",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Sustained by Agony",
+      "options": [
+        {
+          "type": "heal-wounds",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "amount": 3
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "grant_type": "return-destroyed-models",
+            "amount": "D3+3"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "After this unit destroys an enemy unit in the Fight phase, one friendly Legions of Excess unit within 6\" either has one model recover up to 3 lost wounds or, if it is a Daemonettes unit, returns up to D3+3 destroyed models instead."
+  },
+  {
+    "ability_id": "sycophantic-surge-carnival-of-excess",
+    "name": "Sycophantic Surge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "ability_id": "charge-after-advance"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "ability_id": "charge-after-fallback"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Legions of Excess"
+      ]
+    },
+    "community_notes": "At least one target of the charge must be within Engagement Range of one or more Emperor's Children units from your army."
+  },
+  {
+    "ability_id": "uncanny-reactions-carnival-of-excess",
+    "name": "Uncanny Reactions",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "hit",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Slaanesh"
+      ]
+    }
+  },
+  {
+    "ability_id": "violent-crescendo-carnival-of-excess",
+    "name": "Violent Crescendo",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "pile-in",
+            "distance": 6
+          }
+        },
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "consolidation",
+            "distance": 6
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Slaanesh"
+      ]
+    },
+    "community_notes": "Pile-in and Consolidation moves need not end closer to the closest enemy model, provided they end as close as possible to the closest enemy unit."
+  },
+  {
+    "ability_id": "cruel-bladesman-peerless-bladesmen",
+    "name": "Cruel Bladesman",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": -1,
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "The unit must have made a Charge move this turn."
+  },
+  {
+    "ability_id": "cut-down-the-weak-peerless-bladesmen",
+    "name": "Cut Down the Weak",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "reactive-charge"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Used just after an enemy unit Falls Back within 6\"; the charge must target that enemy unit and the unit receives no Charge bonus this turn. Vehicles can only be selected if they are Walkers."
+  },
+  {
+    "ability_id": "death-ecstasy-peerless-bladesmen",
+    "name": "Death Ecstasy",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "not",
+        "operands": [
+          {
+            "type": "has-fought-this-phase",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "fight-on-death",
+        "target": "unit",
+        "modifier": {}
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "deft-parry-peerless-bladesmen",
+    "name": "Deft Parry",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "hit",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "incessant-violence-peerless-bladesmen",
+    "name": "Incessant Violence",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "consolidation",
+        "distance": 6
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "The unit must end the Consolidation move within Engagement Range of one or more enemy units."
+  },
+  {
+    "ability_id": "terrifying-spectacle-peerless-bladesmen",
+    "name": "Terrifying Spectacle",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "grant_type": "battle-shock-test"
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Used in the opponent's Command phase on a unit that Charged and destroyed an enemy unit last turn; each enemy unit within 6\" takes a Battle-shock test, at -1 if Below Half-strength, and affected units skip their other Battle-shock tests this phase."
+  },
+  {
+    "ability_id": "advance-and-claim-rapid-evisceration",
+    "name": "Advance and Claim",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-control-modifier",
+      "target": "unit",
+      "modifier": {
+        "sticky": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Transport"
+      ]
+    },
+    "community_notes": "The Transport must have one or more non-Battle-shocked Tormentors units embarked; the objective it is in range of becomes sticky."
+  },
+  {
+    "ability_id": "ceaseless-onslaught-rapid-evisceration",
+    "name": "Ceaseless Onslaught",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "charge-after-disembark"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "The unit disembarked from a Transport that made a Normal move this turn and is eligible to declare a charge this phase."
+  },
+  {
+    "ability_id": "dynamic-breakthrough-rapid-evisceration",
+    "name": "Dynamic Breakthrough",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "engagement-passthrough",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Models can move through enemy models (excluding Monsters and Vehicles) without ending in Engagement Range; Desperate Escape tests are automatically passed."
+  },
+  {
+    "ability_id": "on-to-the-next-rapid-evisceration",
+    "name": "On to the Next",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "embark-after-fight"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "At the end of the Fight phase, a unit that destroyed an enemy unit this phase and is wholly within 6\" of a friendly Transport it can embark within may embark, even in a turn it disembarked."
+  },
+  {
+    "ability_id": "outflanking-strike-rapid-evisceration",
+    "name": "Outflanking Strike",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Transport"
+      ]
+    },
+    "community_notes": "At the end of the opponent's Fight phase, one Transport (or up to two Dedicated Transports) wholly within 9\" of a battlefield edge is placed into Strategic Reserves."
+  },
+  {
+    "ability_id": "reactive-disembarkation-rapid-evisceration",
+    "name": "Reactive Disembarkation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "disembark",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Transport"
+      ]
+    },
+    "community_notes": "Used when the Transport is targeted; one embarked Emperor's Children unit disembarks anywhere wholly within 6\" of the Transport and outside Engagement Range."
+  },
+  {
+    "ability_id": "capricious-reactions-mercurial-host",
+    "name": "Capricious Reactions",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "hit",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "combat-stimms-mercurial-host",
+    "name": "Combat Stimms",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "wound",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "cruel-raiders-mercurial-host",
+    "name": "Cruel Raiders",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "At the end of the opponent's Fight phase, a unit wholly within 9\" of a battlefield edge and more than 3\" horizontally from all enemy units is placed into Strategic Reserves."
+  },
+  {
+    "ability_id": "dark-vigour-mercurial-host",
+    "name": "Dark Vigour",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "reactive",
+        "distance": 6
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "excluded_keywords": [
+        "Beasts",
+        "Vehicle"
+      ]
+    },
+    "community_notes": "Triggered just after an enemy unit ends a Normal, Advance or Fall Back move within 8\"; the unit makes a Normal move of up to 6\"."
+  },
+  {
+    "ability_id": "honour-the-prince-mercurial-host",
+    "name": "Honour the Prince",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "advance-6-instead-of-roll"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    },
+    "community_notes": "If the unit Advances, no Advance roll is made; instead add 6\" to the Move characteristic of its models until the end of the phase."
+  },
+  {
+    "ability_id": "violent-excess-mercurial-host",
+    "name": "Violent Excess",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Sustained Hits 1"
+        ],
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "catalytic-stimulus-court-of-the-phoenician",
+    "name": "Catalytic Stimulus",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "surge",
+        "distance": "D6"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Used just after an enemy unit has shot, on a unit that lost one or more wounds to those attacks."
+  },
+  {
+    "ability_id": "close-quarters-excruciation-court-of-the-phoenician",
+    "name": "Close-Quarters Excruciation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Applies only to attacks made by Emperor's Children models against eligible targets within 12\"; the range gate is not encoded."
+  },
+  {
+    "ability_id": "contemptuous-disregard-court-of-the-phoenician",
+    "name": "Contemptuous Disregard",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "wound",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true,
+        "applies_when": "attacker-strength-greater-than-target-toughness"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "euphoric-inspiration-court-of-the-phoenician",
+    "name": "Euphoric Inspiration",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "aura",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "range": 6,
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "charge",
+            "result_scope": "any-result"
+          }
+        }
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Daemon"
+      ]
+    }
+  },
+  {
+    "ability_id": "prideful-superiority-court-of-the-phoenician",
+    "name": "Prideful Superiority",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "target-has-keyword",
+        "parameters": {
+          "keyword": "CHARACTER"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "result_scope": "any-result"
+            }
+          },
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "result_scope": "any-result"
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "sinuous-breach-court-of-the-phoenician",
+    "name": "Sinuous Breach",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "passthrough": [
+          "all-terrain"
+        ],
+        "applies_to_moves": [
+          "normal",
+          "advance",
+          "charge"
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Daemon"
+      ]
+    }
+  },
+  {
+    "ability_id": "armour-of-abhorrence-coterie-of-the-conceited",
+    "name": "Armour of Abhorrence",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Worsens the Armour Penetration of incoming attacks by 1 until the attacking unit has finished making its attacks."
+  },
+  {
+    "ability_id": "embrace-the-pain-coterie-of-the-conceited",
+    "name": "Embrace the Pain",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "engaged-enemies-must-target-this-unit"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    },
+    "community_notes": "[APPROX] Each enemy model within Engagement Range of this unit must select it as the target of its attacks; encoded as an opaque grant."
+  },
+  {
+    "ability_id": "martial-perfection-coterie-of-the-conceited",
+    "name": "Martial Perfection",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "re-roll",
+      "target": "unit",
+      "modifier": {
+        "roll": "hit",
+        "result_scope": "any-result"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "protection-of-the-dark-prince-coterie-of-the-conceited",
+    "name": "Protection of the Dark Prince",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "feel-no-pain",
+          "target": "unit",
+          "modifier": {
+            "threshold": 6
+          }
+        },
+        {
+          "type": "feel-no-pain",
+          "target": "unit",
+          "modifier": {
+            "threshold": 4,
+            "scope": "mortal"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "unbound-arrogance-coterie-of-the-conceited",
+    "name": "Unbound Arrogance",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "once-per-battle-round"
+    },
+    "effect": {
+      "type": "resource-gain",
+      "target": "self",
+      "modifier": {
+        "pool_id": "pact-pledge",
+        "amount": 1
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "pledges-to-the-dark-prince",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "Used just after the unit destroys an enemy unit; increases your pledge to Slaanesh by 1."
+  },
+  {
+    "ability_id": "unshakeable-opponents-coterie-of-the-conceited",
+    "name": "Unshakeable Opponents",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "ignore-modifiers"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "operation": "ignore-modifiers"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Also ignores modifiers to the attack's Ballistic Skill or Weapon Skill characteristic."
+  },
+  {
+    "ability_id": "duellists-death-callous-blades",
+    "name": "Duellist's Death",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "callous-blades",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "operator": "not",
+        "operands": [
+          {
+            "type": "has-fought-this-phase",
+            "parameters": {}
+          }
+        ]
+      },
+      "effect": {
+        "type": "dice-gated",
+        "dice": "D6",
+        "threshold": 4,
+        "comparison": "gte",
+        "on_success": {
+          "type": "fight-on-death",
+          "target": "unit",
+          "modifier": {}
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Callous Blades"
+      ]
+    },
+    "community_notes": "Add 1 to the roll if the unit has Flawless Blades; the bonus is not encoded."
+  },
+  {
+    "ability_id": "profane-desecration-callous-blades",
+    "name": "Profane Desecration",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "callous-blades",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-control-modifier",
+      "target": "unit",
+      "modifier": {
+        "sticky": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Callous Blades"
+      ]
+    },
+    "community_notes": "At the end of your Movement phase, one objective the unit controls becomes secured."
+  },
+  {
+    "ability_id": "shatter-strike-callous-blades",
+    "name": "Shatter Strike",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "callous-blades",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "D",
+        "operation": "add",
+        "value": 1,
+        "weapon_type": "melee"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Callous Blades",
+        "Flawless Blades"
+      ]
+    }
+  },
+  {
+    "ability_id": "eager-to-prove-slaaneshs-chosen",
+    "name": "Eager to Prove",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "re-roll",
+      "target": "unit",
+      "modifier": {
+        "roll": "charge",
+        "result_scope": "any-result"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "While the bearer's unit is your army's Favoured Champions, also add 2\" to the Move characteristic of its models; the Favoured Champions rider is not encoded."
+  },
+  {
+    "ability_id": "repulsed-by-weakness-slaaneshs-chosen",
+    "name": "Repulsed by Weakness",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "desperate-escape-tests-on-fall-back"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "[APPROX] Enemy units (excluding Monsters and Vehicles) Falling Back from within Engagement Range of the bearer's unit take Desperate Escape tests, at -1 while the bearer's unit is your army's Favoured Champions. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "proud-and-vainglorious-slaaneshs-chosen",
+    "name": "Proud and Vainglorious",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "battle-shock",
+            "result_scope": "any-result"
+          }
+        },
+        {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "leadership",
+            "result_scope": "any-result"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "While the bearer's unit is your army's Favoured Champions, also add 1 to the Objective Control characteristic of its models; the rider is not encoded."
+  },
+  {
+    "ability_id": "slayer-of-champions-slaaneshs-chosen",
+    "name": "Slayer of Champions",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "slaaneshs-chosen",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "bearer",
+          "modifier": {
+            "keywords": [
+              "Precision"
+            ],
+            "weapon_type": "melee"
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "CHARACTER"
+            }
+          },
+          "effect": {
+            "type": "sequence",
+            "steps": [
+              {
+                "type": "stat-modifier",
+                "target": "bearer",
+                "modifier": {
+                  "stat": "S",
+                  "operation": "add",
+                  "value": 1,
+                  "weapon_type": "melee"
+                }
+              },
+              {
+                "type": "stat-modifier",
+                "target": "bearer",
+                "modifier": {
+                  "stat": "AP",
+                  "operation": "add",
+                  "value": -1,
+                  "weapon_type": "melee"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "empyric-suffusion-carnival-of-excess",
+    "name": "Empyric Suffusion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "cp-refund",
+      "target": "unit",
+      "modifier": {
+        "amount": 1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "The Heroic Intervention stratagem costs 1 CP less when targeting the bearer's unit."
+  },
+  {
+    "ability_id": "dark-blessings-carnival-of-excess",
+    "name": "Dark Blessings",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "unit"
+    },
+    "effect": {
+      "type": "invulnerable-save",
+      "target": "bearer",
+      "modifier": {
+        "invuln_sv": 3
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "possessed-blade-carnival-of-excess",
+    "name": "Possessed Blade",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "melee"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "bearer",
+          "modifier": {
+            "grant_type": "empower-possessed-blade"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "[APPROX] One selected melee weapon gains +1 Attacks. Additionally, each time the bearer is selected to fight it can empower that weapon: +1 Damage plus [DEVASTATING WOUNDS] and [HAZARDOUS] for those attacks. The optional empowerment is encoded as an opaque grant."
+  },
+  {
+    "ability_id": "warp-walker-carnival-of-excess",
+    "name": "Warp Walker",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "carnival-of-excess",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "advance-6-instead-of-roll"
+          }
+        },
+        {
+          "type": "engagement-passthrough",
+          "target": "unit",
+          "modifier": {}
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "community_notes": "Emperor's Children or Keeper of Secrets model only. Models in the unit can move through enemy models on Normal, Advance and Fall Back moves (not ending in Engagement Range) and automatically pass Desperate Escape tests."
+  },
+  {
+    "ability_id": "faultless-opportunist-peerless-bladesmen",
+    "name": "Faultless Opportunist",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "cp-refund",
+          "target": "unit",
+          "modifier": {
+            "amount": 1
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "heroic-intervention-limit-exempt"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "The Heroic Intervention stratagem can target the bearer's unit regardless of other uses this phase, costs 1 CP less when doing so, and does not prevent uses on other units."
+  },
+  {
+    "ability_id": "blinding-speed-peerless-bladesmen",
+    "name": "Blinding Speed",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "unit"
+    },
+    "effect": {
+      "type": "fight-first",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "distortion-peerless-bladesmen",
+    "name": "Distortion",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "melee"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "D",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "melee"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "rise-to-the-challenge-peerless-bladesmen",
+    "name": "Rise to the Challenge",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "peerless-bladesmen",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "fight-one-additional-time"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "exquisite-swordsmanship",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "At the end of the Fight phase, if the bearer is within Engagement Range of three or more enemy models, it can fight one additional time, applying one Exquisite Swordsmanship ability to those attacks."
+  },
+  {
+    "ability_id": "sublime-prescience-rapid-evisceration",
+    "name": "Sublime Prescience",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "treat-battle-round-one-higher-for-reserves"
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    },
+    "community_notes": "In your Movement phase, one friendly Emperor's Children Transport in Strategic Reserves treats the battle round as one higher for arrival purposes."
+  },
+  {
+    "ability_id": "spearhead-striker-rapid-evisceration",
+    "name": "Spearhead Striker",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "disembarked-from-transport",
+        "parameters": {}
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "re-roll",
+            "target": "unit",
+            "modifier": {
+              "roll": "charge",
+              "result_scope": "any-result"
+            }
+          },
+          {
+            "type": "ability-grant",
+            "target": "unit",
+            "modifier": {
+              "grant_type": "cannot-be-targeted-by-fire-overwatch"
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    }
+  },
+  {
+    "ability_id": "accomplished-tactician-rapid-evisceration",
+    "name": "Accomplished Tactician",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "grant_type": "embark-after-enemy-shooting"
+      }
+    },
+    "scope": {
+      "range": "aura-9",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    },
+    "community_notes": "[APPROX] In the opponent's Shooting phase, just after an enemy unit has shot, one friendly Emperor's Children unit within 9\" of the bearer that was hit can embark within a friendly Transport it is wholly within 6\" of. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "heretek-adept-rapid-evisceration",
+    "name": "Heretek Adept",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "rapid-evisceration",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "once-per-battle-round"
+    },
+    "effect": {
+      "type": "damage-reduction",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "reduction": "to-zero"
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Infantry"
+      ]
+    },
+    "community_notes": "When a saving throw is failed for a friendly Emperor's Children Vehicle model within 6\" of the bearer, change that attack's Damage characteristic to 0."
+  },
+  {
+    "ability_id": "steeped-in-suffering-mercurial-host",
+    "name": "Steeped in Suffering",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "below-starting-strength"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "hit",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "type": "target-has-keyword",
+            "parameters": {
+              "keyword": "below-half-strength"
+            }
+          },
+          "effect": {
+            "type": "roll-modifier",
+            "target": "unit",
+            "modifier": {
+              "roll": "wound",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "intoxicating-musk-mercurial-host",
+    "name": "Intoxicating Musk",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "wound",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true,
+        "attack_type": "melee",
+        "applies_when": "attacker-strength-greater-than-target-toughness"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    }
+  },
+  {
+    "ability_id": "tactical-perfection-mercurial-host",
+    "name": "Tactical Perfection",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "redeploy",
+            "to_reserves": true
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "After deployment, redeploy up to two Emperor's Children units, optionally into Strategic Reserves regardless of the usual limits."
+  },
+  {
+    "ability_id": "loathsome-dexterity-mercurial-host",
+    "name": "Loathsome Dexterity",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "mercurial-host",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "engagement-passthrough",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Models in the bearer's unit can move through enemy models on Normal, Advance and Fall Back moves (not ending in Engagement Range); Desperate Escape tests are automatically passed."
+  },
+  {
+    "ability_id": "tears-of-the-phoenix-court-of-the-phoenician",
+    "name": "Tears of the Phoenix",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "operation": "ignore-modifiers",
+            "attack_type": "melee"
+          }
+        },
+        {
+          "type": "roll-modifier",
+          "target": "unit",
+          "modifier": {
+            "roll": "wound",
+            "operation": "ignore-modifiers",
+            "attack_type": "melee"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Also ignores modifiers to the attack's Weapon Skill characteristic."
+  },
+  {
+    "ability_id": "exalted-patron-court-of-the-phoenician",
+    "name": "Exalted Patron",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "bearer",
+      "modifier": {
+        "stat": "M",
+        "operation": "add",
+        "value": 1
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Lord Exultant"
+      ]
+    }
+  },
+  {
+    "ability_id": "soulstain-made-manifest-court-of-the-phoenician",
+    "name": "Soulstain Made Manifest",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "grant_type": "battle-shock-test"
+          }
+        },
+        {
+          "type": "bs-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "operation": "subtract",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "engagement-range",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "At the start of the Fight phase, one enemy unit within Engagement Range of the bearer takes a Battle-shock test with -1 to the result."
+  },
+  {
+    "ability_id": "spiritsliver-court-of-the-phoenician",
+    "name": "Spiritsliver",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "court-of-the-phoenician",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "melee"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "melee"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children",
+        "Daemon Prince"
+      ]
+    }
+  },
+  {
+    "ability_id": "pledge-of-dark-glory-coterie-of-the-conceited",
+    "name": "Pledge of Dark Glory",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "model-is-leader"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "Ld",
+              "operation": "add",
+              "value": -1
+            }
+          },
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "OC",
+              "operation": "add",
+              "value": 1
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Improves Leadership by 1 (lower is better, encoded as -1) and Objective Control by 1 while the bearer is leading a unit."
+  },
+  {
+    "ability_id": "pledge-of-mortal-pain-coterie-of-the-conceited",
+    "name": "Pledge of Mortal Pain",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "designate-target",
+      "designation": "pledge-of-mortal-pain",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "within_inches": 12
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "leadership-test-or-3-mortal-wounds"
+          }
+        }
+      },
+      "duration": "phase"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "[APPROX] At the start of your Shooting phase, one visible enemy unit within 12\" takes a Leadership test (-2 if Battle-shocked); if failed, it suffers 3 mortal wounds. The test-then-damage is encoded as an opaque grant."
+  },
+  {
+    "ability_id": "pledge-of-unholy-fortune-coterie-of-the-conceited",
+    "name": "Pledge of Unholy Fortune",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "usage": {
+      "frequency": "once-per-turn",
+      "per": "unit"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "bearer",
+      "modifier": {
+        "grant_type": "treat-roll-as-unmodified-6"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "Once per turn, just after making a Hit roll, Wound roll or saving throw for a model in the bearer's unit, if the bearer is not Battle-shocked, treat the result as an unmodified 6."
+  },
+  {
+    "ability_id": "pledge-of-eternal-servitude-coterie-of-the-conceited",
+    "name": "Pledge of Eternal Servitude",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "coterie-of-the-conceited",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "resurrection",
+      "target": "self",
+      "modifier": {
+        "count": 1,
+        "trigger": "first-destruction",
+        "timing": "end-of-phase",
+        "wounds_remaining": "D6",
+        "placement": "closest-to-destruction"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Emperor's Children"
+      ]
+    },
+    "community_notes": "The return is gated on passing a Leadership test taken for the bearer at the end of the phase; the test gate is not encoded. Wounds regained are capped at the bearer's Wounds characteristic."
+  },
+  {
+    "ability_id": "invigorating-agonies-callous-blades",
+    "name": "Invigorating Agonies",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "callous-blades",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "army"
+    },
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "surge",
+        "distance": "D3+1"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Callous Blades",
+        "Lord Exultant"
+      ]
+    },
+    "community_notes": "In the opponent's Shooting phase, after an enemy unit has shot and hit this unit, the unit can make a surge move of up to D3+1\"."
+  },
+  {
+    "ability_id": "martial-perfection-callous-blades",
+    "name": "Martial Perfection",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "emperors-children",
+    "detachment_id": "callous-blades",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "army"
+    },
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "hit",
+        "operation": "subtract",
+        "value": 1,
+        "incoming": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Callous Blades",
+        "Infractors"
+      ]
+    },
+    "community_notes": "Unit Upgrade (Infractors unit only, not a Character Enhancement): once per battle, in the Fight phase when an enemy unit targets this unit, attacks that target it get -1 to Hit rolls."
   }
 ]
