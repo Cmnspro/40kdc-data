@@ -5,10 +5,12 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 44 stub abilities.
+Total: 46 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
+| adepta-sororitas | blazing-ire-bringers-of-flame | sequence | effect type "disembark" is not modelled by the buff layer |
+| adepta-sororitas | divine-aspect-army-of-faith | battle-shock-test | effect type "battle-shock-test" is not modelled by the buff layer |
 | adeptus-astartes | burning-vengeance-firestorm-assault-force | sequence | effect type "disembark" is not modelled by the buff layer |
 | adeptus-astartes | heroes-of-ultramar | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
