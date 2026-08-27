@@ -244,10 +244,10 @@
     },
     {
       "faction": "tau-empire",
-      "total": 129,
-      "offensive": 29,
-      "defensive": 6,
-      "inert": 96,
+      "total": 183,
+      "offensive": 45,
+      "defensive": 8,
+      "inert": 132,
       "stub": 3,
       "stubStructural": 0,
       "gwTextLeak": 0,
@@ -288,10 +288,10 @@
     }
   ],
   "totals": {
-    "total": 3660,
-    "offensive": 892,
-    "defensive": 284,
-    "inert": 2575,
+    "total": 3714,
+    "offensive": 908,
+    "defensive": 286,
+    "inert": 2611,
     "stub": 115,
     "stubStructural": 40,
     "gwTextLeak": 0,
@@ -300,19 +300,19 @@
   "unsupportedReasons": [
     {
       "reason": "effect type \"ability-grant\" is not modelled by the buff layer",
-      "count": 541
+      "count": 561
     },
     {
       "reason": "effect type \"movement-modifier\" is not modelled by the buff layer",
-      "count": 211
+      "count": 215
+    },
+    {
+      "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
+      "count": 127
     },
     {
       "reason": "conditional: cannot evaluate condition \"undefined\" against current context",
       "count": 127
-    },
-    {
-      "reason": "effect type \"mortal-wounds\" is not modelled by the buff layer",
-      "count": 125
     },
     {
       "reason": "effect type \"leadership-modifier\" is not modelled by the buff layer",
@@ -320,11 +320,11 @@
     },
     {
       "reason": "effect type \"objective-control-modifier\" is not modelled by the buff layer",
-      "count": 62
+      "count": 63
     },
     {
       "reason": "effect type \"attack-restriction\" is not modelled by the buff layer",
-      "count": 62
+      "count": 63
     },
     {
       "reason": "effect type \"resurrection\" is not modelled by the buff layer",
@@ -335,16 +335,16 @@
       "count": 56
     },
     {
+      "reason": "effect type \"rule-state\" is not modelled by the buff layer",
+      "count": 43
+    },
+    {
       "reason": "re-roll on \"charge\" (subset …) is outside the damage path",
       "count": 42
     },
     {
-      "reason": "effect type \"rule-state\" is not modelled by the buff layer",
-      "count": 41
-    },
-    {
       "reason": "effect type \"deep-strike\" is not modelled by the buff layer",
-      "count": 38
+      "count": 39
     },
     {
       "reason": "stat-modifier: operation \"set\" not supported",
@@ -355,11 +355,11 @@
       "count": 33
     },
     {
-      "reason": "effect type \"cp-gain\" is not modelled by the buff layer",
-      "count": 32
+      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
+      "count": 33
     },
     {
-      "reason": "effect type \"fallback-and-act\" is not modelled by the buff layer",
+      "reason": "effect type \"cp-gain\" is not modelled by the buff layer",
       "count": 32
     },
     {
@@ -368,14 +368,14 @@
     },
     {
       "reason": "stat-modifier on \"M\" is outside the damage path",
+      "count": 28
+    },
+    {
+      "reason": "dice-gated effect: stochastic; not expressible as a buff",
       "count": 27
     },
     {
       "reason": "effect type \"fight-first\" is not modelled by the buff layer",
-      "count": 26
-    },
-    {
-      "reason": "dice-gated effect: stochastic; not expressible as a buff",
       "count": 26
     },
     {
@@ -391,15 +391,15 @@
       "count": 24
     },
     {
-      "reason": "roll-modifier: operation \"set\" not supported",
-      "count": 19
+      "reason": "stat-modifier on \"D\" is outside the damage path",
+      "count": 22
     },
     {
       "reason": "designate-target debuff on the marked unit: not a buff on the bearer",
-      "count": 19
+      "count": 21
     },
     {
-      "reason": "stat-modifier on \"D\" is outside the damage path",
+      "reason": "roll-modifier: operation \"set\" not supported",
       "count": 19
     },
     {
@@ -463,15 +463,19 @@
       "count": 9
     },
     {
+      "reason": "stat-modifier on \"Ld\" is outside the damage path",
+      "count": 8
+    },
+    {
       "reason": "stat-modifier AP on the attacker: defender-side AP reduction is not modelled by the buff layer",
       "count": 8
     },
     {
-      "reason": "stat-modifier on \"Ld\" is outside the damage path",
-      "count": 7
+      "reason": "conditional: cannot evaluate condition \"opponent-unit-within-range\" against current context",
+      "count": 6
     },
     {
-      "reason": "conditional: cannot evaluate condition \"opponent-unit-within-range\" against current context",
+      "reason": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context",
       "count": 6
     },
     {
@@ -483,7 +487,15 @@
       "count": 6
     },
     {
+      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
+      "count": 6
+    },
+    {
       "reason": "stat-modifier on \"W\" is outside the damage path",
+      "count": 6
+    },
+    {
+      "reason": "effect type \"charge-roll-modifier\" is not modelled by the buff layer",
       "count": 6
     },
     {
@@ -495,15 +507,7 @@
       "count": 5
     },
     {
-      "reason": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context",
-      "count": 5
-    },
-    {
-      "reason": "effect type \"unit-keyword-grant\" is not modelled by the buff layer",
-      "count": 5
-    },
-    {
-      "reason": "effect type \"charge-roll-modifier\" is not modelled by the buff layer",
+      "reason": "roll-modifier: operation \"undefined\" not supported",
       "count": 5
     },
     {
@@ -527,6 +531,10 @@
       "count": 4
     },
     {
+      "reason": "stat-modifier on \"OC\" is outside the damage path",
+      "count": 4
+    },
+    {
       "reason": "effect type \"modifier-immunity\" is not modelled by the buff layer",
       "count": 4
     },
@@ -547,11 +555,11 @@
       "count": 4
     },
     {
-      "reason": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
+      "reason": "stat-modifier on \"WS\" is outside the damage path",
       "count": 4
     },
     {
-      "reason": "roll-modifier: operation \"undefined\" not supported",
+      "reason": "stat-modifier: narrows by \"weapon_keyword\" which the cruncher can't resolve here",
       "count": 4
     },
     {
@@ -563,15 +571,19 @@
       "count": 3
     },
     {
+      "reason": "stat-modifier on \"BS\" is outside the damage path",
+      "count": 3
+    },
+    {
       "reason": "effect type \"disembark\" is not modelled by the buff layer",
       "count": 3
     },
     {
-      "reason": "stat-modifier on \"OC\" is outside the damage path",
+      "reason": "effect type \"strategic-reserves-arrival\" is not modelled by the buff layer",
       "count": 3
     },
     {
-      "reason": "effect type \"strategic-reserves-arrival\" is not modelled by the buff layer",
+      "reason": "re-roll on \"hit\" (subset …) is outside the damage path",
       "count": 3
     },
     {
@@ -588,10 +600,6 @@
     },
     {
       "reason": "re-roll on \"battle-shock\" (subset …) is outside the damage path",
-      "count": 3
-    },
-    {
-      "reason": "stat-modifier on \"WS\" is outside the damage path",
       "count": 3
     },
     {
@@ -615,10 +623,6 @@
       "count": 2
     },
     {
-      "reason": "stat-modifier on \"BS\" is outside the damage path",
-      "count": 2
-    },
-    {
       "reason": "effect type \"model-destruction\" is not modelled by the buff layer",
       "count": 2
     },
@@ -628,10 +632,6 @@
     },
     {
       "reason": "re-roll on \"attacks\" (subset …) is outside the damage path",
-      "count": 2
-    },
-    {
-      "reason": "re-roll on \"hit\" (subset …) is outside the damage path",
       "count": 2
     },
     {
@@ -33081,6 +33081,546 @@
       "offensive": false,
       "defensive": false,
       "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "fail-safe-detonator-retaliation-cadre",
+      "name": "Fail-safe Detonator",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "grav-inhibitor-field-retaliation-cadre",
+      "name": "Grav-Inhibitor Field",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "stimm-injectors-retaliation-cadre",
+      "name": "Stimm Injectors",
+      "shape": "feel-no-pain",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "the-arrokon-protocol-retaliation-cadre",
+      "name": "The Arro'kon Protocol",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "the-shortened-blade-retaliation-cadre",
+      "name": "The Shortened Blade",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"deep-strike\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "the-torchstar-gambit-retaliation-cadre",
+      "name": "The Torchstar Gambit",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "aggressive-mobility-montka",
+      "name": "Aggressive Mobility",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "combat-debarkation-montka",
+      "name": "Combat Debarkation",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "conditional: cannot evaluate condition \"disembarked-from-transport\" against current context"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "counterfire-defence-systems-montka",
+      "name": "Counterfire Defence Systems",
+      "shape": "damage-reduction",
+      "stub": false,
+      "offensive": false,
+      "defensive": true,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "focused-fire-montka",
+      "name": "Focused Fire",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "pinpoint-counter-offensive-montka",
+      "name": "Pinpoint Counter-Offensive",
+      "shape": "designate-target",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "re-roll on \"hit\" (subset …) is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "pulse-onslaught-montka",
+      "name": "Pulse Onslaught",
+      "shape": "designate-target",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "a-trap-well-laid-kroot-hunting-pack",
+      "name": "A Trap Well Laid",
+      "shape": "designate-target",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "emp-grenades-kroot-hunting-pack",
+      "name": "EMP Grenades",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier on \"WS\" is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "guerrilla-warriors-kroot-hunting-pack",
+      "name": "Guerrilla Warriors",
+      "shape": "fallback-and-act",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"fallback-and-act\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "hidden-hunters-kroot-hunting-pack",
+      "name": "Hidden Hunters",
+      "shape": "attack-restriction",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"attack-restriction\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "join-the-hunt-kroot-hunting-pack",
+      "name": "Join the Hunt",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "the-grisly-feast-kroot-hunting-pack",
+      "name": "The Grisly Feast",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "experimental-ammunition-experimental-prototype-cadre",
+      "name": "Experimental Ammunition",
+      "shape": "choice",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "a-tempting-trap-kauyon",
+      "name": "A Tempting Trap",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "combat-embarkation-kauyon",
+      "name": "Combat Embarkation",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "coordinate-to-engage-kauyon",
+      "name": "Coordinate to Engage",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "photon-grenades-kauyon",
+      "name": "Photon Grenades",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "point-blank-ambush-kauyon",
+      "name": "Point-Blank Ambush",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "wall-of-mirrors-kauyon",
+      "name": "Wall of Mirrors",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "alien-expertise-auxiliary-cadre",
+      "name": "Alien Expertise",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "experimental-modifications-auxiliary-cadre",
+      "name": "Experimental Modifications",
+      "shape": "stat-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "guided-by-unity-auxiliary-cadre",
+      "name": "Guided By Unity",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "rapid-acquisition-sudden-dawn-cadre",
+      "name": "Rapid Acquisition",
+      "shape": "objective-control-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"objective-control-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "suppressing-fire-sudden-dawn-cadre",
+      "name": "Suppressing Fire",
+      "shape": "designate-target",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "designate-target debuff on the marked unit: not a buff on the bearer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "swift-embarkation-sudden-dawn-cadre",
+      "name": "Swift Embarkation",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "puretide-engram-neurochip-retaliation-cadre",
+      "name": "Puretide Engram Neurochip",
+      "shape": "dice-gated",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "dice-gated effect: stochastic; not expressible as a buff"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "starflare-ignition-system-retaliation-cadre",
+      "name": "Starflare Ignition System",
+      "shape": "movement-modifier",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "internal-grenade-racks-retaliation-cadre",
+      "name": "Internal Grenade Racks",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"unit-keyword-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "prototype-weapon-system-retaliation-cadre",
+      "name": "Prototype Weapon System",
+      "shape": "choice",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "exemplar-of-the-montka-montka",
+      "name": "Exemplar of the Mont'ka",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "strike-swiftly-montka",
+      "name": "Strike Swiftly",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "strategic-conqueror-montka",
+      "name": "Strategic Conqueror",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "coordinated-exploitation-montka",
+      "name": "Coordinated Exploitation",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "kroothawk-flock-kroot-hunting-pack",
+      "name": "Kroothawk Flock",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "nomadic-hunter-kroot-hunting-pack",
+      "name": "Nomadic Hunter",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"M\" is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "root-carved-weapons-kroot-hunting-pack",
+      "name": "Root-carved Weapons",
+      "shape": "keyword-grant",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "borthrod-gland-kroot-hunting-pack",
+      "name": "Borthrod Gland",
+      "shape": "conditional",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "roll-modifier: operation \"undefined\" not supported"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "supernova-launcher-experimental-prototype-cadre",
+      "name": "Supernova Launcher",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "thermoneutronic-projector-experimental-prototype-cadre",
+      "name": "Thermoneutronic Projector",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "plasma-accelerator-rifle-experimental-prototype-cadre",
+      "name": "Plasma Accelerator Rifle",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": "stat-modifier on \"D\" is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "exemplar-of-the-kauyon-kauyon",
+      "name": "Exemplar of the Kauyon",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "precision-of-the-patient-hunter-kauyon",
+      "name": "Precision of the Patient Hunter",
+      "shape": "roll-modifier",
+      "stub": false,
+      "offensive": true,
+      "defensive": false,
+      "gap": null
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "solid-image-projection-unit-kauyon",
+      "name": "Solid-image Projection Unit",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"movement-modifier\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "through-unity-devastation-kauyon",
+      "name": "Through Unity, Devastation",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "student-of-kauyon-auxiliary-cadre",
+      "name": "Student of Kauyon",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "admired-leader-auxiliary-cadre",
+      "name": "Admired Leader",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "stat-modifier on \"Ld\" is outside the damage path"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "earth-caste-modifications-sudden-dawn-cadre",
+      "name": "Earth Caste Modifications",
+      "shape": "sequence",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
+    },
+    {
+      "faction": "tau-empire",
+      "ability_id": "proximity-scanners-sudden-dawn-cadre",
+      "name": "Proximity Scanners",
+      "shape": "ability-grant",
+      "stub": false,
+      "offensive": false,
+      "defensive": false,
+      "gap": "effect type \"ability-grant\" is not modelled by the buff layer"
     },
     {
       "faction": "thousand-sons",

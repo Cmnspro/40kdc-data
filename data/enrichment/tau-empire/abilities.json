@@ -2165,7 +2165,7 @@
         "range": 6,
         "recipient_filter": {
           "required_keywords": [
-            "T’au Empire"
+            "T\u2019au Empire"
           ]
         },
         "effect": {
@@ -4701,5 +4701,2300 @@
       "duration": "battle"
     },
     "community_notes": "community-authored from 10e source (provisional 11e); see #21"
+  },
+  {
+    "ability_id": "fail-safe-detonator-retaliation-cadre",
+    "name": "Fail-safe Detonator",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "deadly-demise-choose-result"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "[APPROX] Used when a Battlesuit model is destroyed: if it has Deadly Demise, choose the roll result to be 1 or 6 instead of rolling; otherwise roll one D6 per unit within 6\" and on a 4+ that unit suffers D3 mortal wounds. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "grav-inhibitor-field-retaliation-cadre",
+    "name": "Grav-Inhibitor Field",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "grant_type": "battle-shock-test"
+          }
+        },
+        {
+          "type": "mortal-wounds",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "dice": "D6-per-model",
+            "threshold": 6,
+            "comparison": "gte",
+            "mortal_per_success": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Used just after an enemy unit declares a charge against the Battlesuit unit: that enemy unit takes a Battle-shock test and you roll one D6 per model in it, suffering 1 mortal wound per 6."
+  },
+  {
+    "ability_id": "stimm-injectors-retaliation-cadre",
+    "name": "Stimm Injectors",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "feel-no-pain",
+      "target": "unit",
+      "modifier": {
+        "threshold": 6
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    }
+  },
+  {
+    "ability_id": "the-arrokon-protocol-retaliation-cadre",
+    "name": "The Arro'kon Protocol",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Sustained Hits 1"
+        ],
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Applies only against enemy units containing 6 or more models; against units of 11 or more models the attacks gain [SUSTAINED HITS 2] instead. The model-count scaling is not encoded."
+  },
+  {
+    "ability_id": "the-shortened-blade-retaliation-cadre",
+    "name": "The Shortened Blade",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "deep-strike",
+          "target": "unit",
+          "modifier": {
+            "min_distance": 6
+          }
+        },
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "suppressed",
+            "rule_kind": "core-rule",
+            "rule": "charge"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "A unit arriving via Deep Strike can be set up more than 6\" horizontally from all enemy models; it cannot declare a charge this turn."
+  },
+  {
+    "ability_id": "the-torchstar-gambit-retaliation-cadre",
+    "name": "The Torchstar Gambit",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "shoot-and-scoot"
+          }
+        },
+        {
+          "type": "rule-state",
+          "target": "unit",
+          "modifier": {
+            "direction": "suppressed",
+            "rule_kind": "core-rule",
+            "rule": "charge"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit",
+        "Fly"
+      ]
+    },
+    "community_notes": "After its attacks are resolved, an unengaged unit can make a Normal move but cannot declare a charge this turn."
+  },
+  {
+    "ability_id": "aggressive-mobility-montka",
+    "name": "Aggressive Mobility",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "advance-6-instead-of-roll"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "If the unit Advances, no Advance roll is made; instead add 6\" to the Move characteristic of its models until the end of the phase."
+  },
+  {
+    "ability_id": "combat-debarkation-montka",
+    "name": "Combat Debarkation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "disembarked-from-transport",
+        "parameters": {}
+      },
+      "effect": {
+        "type": "re-roll",
+        "target": "unit",
+        "modifier": {
+          "roll": "wound",
+          "result_scope": "any-result"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Infantry"
+      ]
+    },
+    "community_notes": "Applies only to attacks that target the closest enemy unit; the closest-target gate is not encoded."
+  },
+  {
+    "ability_id": "counterfire-defence-systems-montka",
+    "name": "Counterfire Defence Systems",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "damage-reduction",
+      "target": "unit",
+      "modifier": {
+        "reduction": 1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    }
+  },
+  {
+    "ability_id": "focused-fire-montka",
+    "name": "Focused Fire",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": -1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "Targets two T'au Empire units and one enemy unit: both units can only attack that enemy unit this phase, with AP improved by 1. Cannot be used in the fourth or fifth battle rounds."
+  },
+  {
+    "ability_id": "pinpoint-counter-offensive-montka",
+    "name": "Pinpoint Counter-Offensive",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "designate-target",
+      "designation": "pinpoint-counter-offensive",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "re-roll",
+          "target": "unit",
+          "modifier": {
+            "roll": "hit",
+            "result_scope": "any-result"
+          }
+        }
+      },
+      "duration": "battle"
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "community_notes": "Used on a just-destroyed T'au Empire unit (excluding Kroot): for the rest of the battle, T'au Empire units (excluding Kroot) re-roll Hit rolls against the enemy unit that destroyed it."
+  },
+  {
+    "ability_id": "pulse-onslaught-montka",
+    "name": "Pulse Onslaught",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "designate-target",
+      "designation": "pulse-onslaught-shaken",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "M",
+                "operation": "add",
+                "value": -2
+              }
+            },
+            {
+              "type": "roll-modifier",
+              "target": "unit",
+              "modifier": {
+                "roll": "advance",
+                "operation": "subtract",
+                "value": 2
+              }
+            },
+            {
+              "type": "charge-roll-modifier",
+              "target": "unit",
+              "modifier": {
+                "operation": "subtract",
+                "value": 2
+              }
+            }
+          ]
+        }
+      },
+      "duration": "turn"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Infantry"
+      ]
+    },
+    "community_notes": "The selected enemy unit (excluding Monsters and Vehicles) hit by this unit's attacks is shaken until the end of your opponent's next turn."
+  },
+  {
+    "ability_id": "a-trap-well-laid-kroot-hunting-pack",
+    "name": "A Trap Well Laid",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "designate-target",
+      "designation": "a-trap-well-laid",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-attacks"
+      },
+      "applies": {
+        "to": "attackers-of-target",
+        "effect": {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1
+          }
+        }
+      },
+      "duration": "phase"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot"
+      ]
+    },
+    "community_notes": "Applies to attacks made by Kroot models against the selected unit, unless the attacking unit is Battle-shocked."
+  },
+  {
+    "ability_id": "emp-grenades-kroot-hunting-pack",
+    "name": "EMP Grenades",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "stat": "WS",
+            "operation": "add",
+            "value": 1
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "stat": "BS",
+            "operation": "add",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot",
+        "Grenades"
+      ]
+    },
+    "community_notes": "Worsens the Weapon Skill and Ballistic Skill characteristics of the selected enemy Vehicle unit's weapons by 1 (higher is worse)."
+  },
+  {
+    "ability_id": "guerrilla-warriors-kroot-hunting-pack",
+    "name": "Guerrilla Warriors",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "fallback-and-act",
+      "target": "unit",
+      "modifier": {}
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot"
+      ]
+    }
+  },
+  {
+    "ability_id": "hidden-hunters-kroot-hunting-pack",
+    "name": "Hidden Hunters",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "attack-restriction",
+      "target": "unit",
+      "modifier": {
+        "restriction": "targeting-range-limit",
+        "range": 18
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot"
+      ]
+    },
+    "community_notes": "The unit can only be selected as the target of a ranged attack if the attacking model is within 18\"."
+  },
+  {
+    "ability_id": "join-the-hunt-kroot-hunting-pack",
+    "name": "Join the Hunt",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "usage": {
+      "frequency": "n-per-battle",
+      "count": 1,
+      "per": "army"
+    },
+    "effect": {
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "replace-destroyed-unit-in-reserves"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot"
+      ]
+    },
+    "community_notes": "[APPROX] Used on a just-destroyed Kroot Infantry or Kroot Hounds unit: add an identical unit to your army in Strategic Reserves at Starting Strength. Cannot return destroyed Character units to Attached units. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "the-grisly-feast-kroot-hunting-pack",
+    "name": "The Grisly Feast",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "enemy-within-aura",
+      "modifier": {
+        "grant_type": "battle-shock-test"
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot"
+      ]
+    },
+    "community_notes": "Used on a unit that destroyed an enemy unit this Fight phase: in the opponent's next Command phase each enemy unit within 6\" takes a Battle-shock test (-1 if Below Half-strength) and skips its other Battle-shock tests that phase."
+  },
+  {
+    "ability_id": "experimental-ammunition-experimental-prototype-cadre",
+    "name": "Experimental Ammunition",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "experimental-prototype-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Experimental Ammunition",
+      "options": [
+        {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "S",
+                "operation": "add",
+                "value": 1,
+                "weapon_type": "ranged"
+              }
+            },
+            {
+              "type": "stat-modifier",
+              "target": "unit",
+              "modifier": {
+                "stat": "AP",
+                "operation": "add",
+                "value": -1,
+                "weapon_type": "ranged"
+              }
+            },
+            {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keywords": [
+                  "Hazardous"
+                ],
+                "weapon_type": "ranged"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Battlesuit",
+        "Character"
+      ]
+    }
+  },
+  {
+    "ability_id": "a-tempting-trap-kauyon",
+    "name": "A Tempting Trap",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "unit",
+      "modifier": {
+        "roll": "wound",
+        "operation": "add",
+        "value": 1,
+        "attack_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "The first use designates one objective marker outside the opponent's deployment zone as your Trap objective; the bonus applies only to ranged attacks against enemy units within range of it. Cannot be used in the first or second battle rounds."
+  },
+  {
+    "ability_id": "combat-embarkation-kauyon",
+    "name": "Combat Embarkation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "embark-when-charged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Infantry"
+      ]
+    },
+    "community_notes": "[APPROX] Used just after an enemy unit declares a charge against this unit: the unit embarks within a friendly Transport if every model is within 3\" of it and capacity suffices. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "coordinate-to-engage-kauyon",
+    "name": "Coordinate to Engage",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "target-has-keyword",
+        "parameters": {
+          "keyword": "SPOTTED"
+        }
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "BS",
+              "operation": "add",
+              "value": -1
+            }
+          },
+          {
+            "type": "conditional",
+            "condition": {
+              "type": "unit-has-keyword",
+              "parameters": {
+                "keyword": "MARKERLIGHT"
+              }
+            },
+            "effect": {
+              "type": "keyword-grant",
+              "target": "unit",
+              "modifier": {
+                "keywords": [
+                  "Ignores Cover"
+                ],
+                "weapon_type": "ranged"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "Used on a unit just selected as an Observer: its attacks against their Spotted unit have Ballistic Skill improved by 1 and, if the unit has Markerlight, [IGNORES COVER]."
+  },
+  {
+    "ability_id": "photon-grenades-kauyon",
+    "name": "Photon Grenades",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "grant_type": "battle-shock-test"
+          }
+        },
+        {
+          "type": "charge-roll-modifier",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "operation": "subtract",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Grenades"
+      ]
+    },
+    "community_notes": "Used just after an enemy unit declares a charge against this unengaged unit: the charging unit takes a Battle-shock test and has -2 to Charge rolls this phase."
+  },
+  {
+    "ability_id": "point-blank-ambush-kauyon",
+    "name": "Point-Blank Ambush",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": -1,
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "Applies only to ranged attacks against enemy units within 9\"; cannot be used in the first or second battle rounds."
+  },
+  {
+    "ability_id": "wall-of-mirrors-kauyon",
+    "name": "Wall of Mirrors",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "At the end of the opponent's Fight phase, one unengaged Stealth, Ghostkeel or Commander Shadowsun unit is placed into Strategic Reserves."
+  },
+  {
+    "ability_id": "alien-expertise-auxiliary-cadre",
+    "name": "Alien Expertise",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "auxiliary-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "ability_id": "charge-after-advance"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "community_notes": "Kroot or Vespid Stingwings unit only; the Advance move does not prevent the unit from being eligible to declare a charge."
+  },
+  {
+    "ability_id": "experimental-modifications-auxiliary-cadre",
+    "name": "Experimental Modifications",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "auxiliary-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "stat-modifier",
+      "target": "unit",
+      "modifier": {
+        "stat": "AP",
+        "operation": "add",
+        "value": -1
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "community_notes": "Kroot or Vespid Stingwings unit only; applies to the unit's attacks when selected to attack in the Shooting or Fight phase."
+  },
+  {
+    "ability_id": "guided-by-unity-auxiliary-cadre",
+    "name": "Guided By Unity",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "auxiliary-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "unit",
+      "modifier": {
+        "keywords": [
+          "Lethal Hits"
+        ],
+        "weapon_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "Applies only to ranged attacks against units within 9\" of a friendly Kroot or Vespid Stingwings unit; the proximity gate is not encoded. Cannot target Kroot or Vespid Stingwings units."
+  },
+  {
+    "ability_id": "rapid-acquisition-sudden-dawn-cadre",
+    "name": "Rapid Acquisition",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "sudden-dawn-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "objective-control-modifier",
+      "target": "unit",
+      "modifier": {
+        "sticky": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Sudden Dawn Cadre"
+      ]
+    },
+    "community_notes": "At the end of your Movement phase, one objective the unit controls becomes secured."
+  },
+  {
+    "ability_id": "suppressing-fire-sudden-dawn-cadre",
+    "name": "Suppressing Fire",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "sudden-dawn-cadre",
+    "ability_type": "stratagem",
+    "behavior": "activated",
+    "effect": {
+      "type": "designate-target",
+      "designation": "suppressing-fire-pinned",
+      "select": {
+        "scope": "enemy-unit",
+        "count": 1,
+        "timing": "after-this-unit-shoots"
+      },
+      "applies": {
+        "to": "target",
+        "effect": {
+          "type": "stat-modifier",
+          "target": "unit",
+          "modifier": {
+            "stat": "M",
+            "operation": "add",
+            "value": -2
+          }
+        }
+      },
+      "duration": "turn"
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "turn"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Sudden Dawn Cadre",
+        "Infantry"
+      ]
+    },
+    "community_notes": "One enemy unit hit by this unit's attacks is pinned (-2\" Move) until the start of your next Command phase."
+  },
+  {
+    "ability_id": "swift-embarkation-sudden-dawn-cadre",
+    "name": "Swift Embarkation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "sudden-dawn-cadre",
+    "ability_type": "stratagem",
+    "behavior": "reactive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "embark-after-fight"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Sudden Dawn Cadre",
+        "Infantry"
+      ]
+    },
+    "community_notes": "At the end of the opponent's Fight phase, an unengaged unit that was eligible to fight, wholly within 6\" of a friendly Sudden Dawn Cadre Transport it can embark within, embarks within it."
+  },
+  {
+    "ability_id": "puretide-engram-neurochip-retaliation-cadre",
+    "name": "Puretide Engram Neurochip",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "effect": {
+      "type": "dice-gated",
+      "dice": "D6",
+      "threshold": 4,
+      "comparison": "gte",
+      "on_success": {
+        "type": "cp-gain",
+        "target": "self",
+        "modifier": {
+          "amount": 1
+        }
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Each time you target the bearer's unit with a Stratagem, roll one D6: on a 4+ you gain 1 CP."
+  },
+  {
+    "ability_id": "starflare-ignition-system-retaliation-cadre",
+    "name": "Starflare Ignition System",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "enhancement",
+    "behavior": "reactive",
+    "effect": {
+      "type": "movement-modifier",
+      "target": "unit",
+      "modifier": {
+        "move_type": "redeploy",
+        "to_reserves": true
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "At the end of the opponent's turn, if the bearer's unit is unengaged, it can be removed from the battlefield and placed into Strategic Reserves."
+  },
+  {
+    "ability_id": "internal-grenade-racks-retaliation-cadre",
+    "name": "Internal Grenade Racks",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "unit-keyword-grant",
+          "target": "bearer",
+          "modifier": {
+            "keyword": "GRENADES"
+          }
+        },
+        {
+          "type": "mortal-wounds",
+          "target": "enemy-within-aura",
+          "modifier": {
+            "dice": "6D6",
+            "threshold": 4,
+            "comparison": "gte",
+            "mortal_per_success": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "The mortal wounds trigger each time the bearer ends a Normal move, against one enemy unit it moved over: roll six D6, 1 mortal wound per 4+."
+  },
+  {
+    "ability_id": "prototype-weapon-system-retaliation-cadre",
+    "name": "Prototype Weapon System",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "retaliation-cadre",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "choice",
+      "choice_label": "Prototype Weapon System",
+      "options": [
+        {
+          "type": "keyword-grant",
+          "target": "bearer",
+          "modifier": {
+            "keywords": [
+              "Lethal Hits"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "keyword-grant",
+          "target": "bearer",
+          "modifier": {
+            "keywords": [
+              "Sustained Hits 1"
+            ],
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire",
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Selected each time the bearer is selected to shoot; applies to the bearer's ranged weapons until those attacks are resolved."
+  },
+  {
+    "ability_id": "exemplar-of-the-montka-montka",
+    "name": "Exemplar of the Mont'ka",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "killing-blow-extended-round-4"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "killing-blow",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "While the bearer is leading a unit, the Killing Blow detachment rule applies to that unit during the fourth battle round as well. Kroot Shaper models cannot take this."
+  },
+  {
+    "ability_id": "strike-swiftly-montka",
+    "name": "Strike Swiftly",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "friendly-within-aura",
+      "modifier": {
+        "grant_type": "scouts-6"
+      }
+    },
+    "scope": {
+      "range": "aura-6",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "In the Resolve Pre-battle Abilities step, up to two friendly T'au Empire units within 6\" that lack Scouts gain the Scouts 6\" ability."
+  },
+  {
+    "ability_id": "strategic-conqueror-montka",
+    "name": "Strategic Conqueror",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "designated-objective-oc-bonus"
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "[APPROX] At the start of the first battle round select one objective marker; while the bearer is on the battlefield, friendly T'au Empire models within range of it get +1 Objective Control. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "coordinated-exploitation-montka",
+    "name": "Coordinated Exploitation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "montka",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "guided-units-sustained-hits-1-vs-spotted"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "for-the-greater-good",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "[APPROX] While the bearer is leading a unit, each time that unit is an Observer, ranged weapons of a Guided unit gain [SUSTAINED HITS 1] while targeting their Spotted unit. Encoded as an opaque grant. Kroot Shaper models cannot take this."
+  },
+  {
+    "ability_id": "kroothawk-flock-kroot-hunting-pack",
+    "name": "Kroothawk Flock",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "keyword-grant",
+          "target": "unit",
+          "modifier": {
+            "keywords": [
+              "Ignores Cover"
+            ],
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "self",
+          "modifier": {
+            "grant_type": "deny-reinforcements-within-12"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot"
+      ]
+    },
+    "community_notes": "Enemy units arriving as Reinforcements cannot be set up within 12\" horizontally of the bearer; encoded as an opaque grant."
+  },
+  {
+    "ability_id": "nomadic-hunter-kroot-hunting-pack",
+    "name": "Nomadic Hunter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "model-is-leader"
+      },
+      "effect": {
+        "type": "sequence",
+        "steps": [
+          {
+            "type": "stat-modifier",
+            "target": "unit",
+            "modifier": {
+              "stat": "M",
+              "operation": "add",
+              "value": 3
+            }
+          },
+          {
+            "type": "keyword-grant",
+            "target": "unit",
+            "modifier": {
+              "keywords": [
+                "Assault"
+              ],
+              "weapon_type": "ranged"
+            }
+          }
+        ]
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot Trail Shaper"
+      ]
+    }
+  },
+  {
+    "ability_id": "root-carved-weapons-kroot-hunting-pack",
+    "name": "Root-carved Weapons",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "keyword-grant",
+      "target": "bearer",
+      "modifier": {
+        "keywords": [
+          "Precision",
+          "Devastating Wounds"
+        ]
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot War Shaper"
+      ]
+    },
+    "community_notes": "Applies to all weapons equipped by the bearer."
+  },
+  {
+    "ability_id": "borthrod-gland-kroot-hunting-pack",
+    "name": "Borthrod Gland",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kroot-hunting-pack",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "conditional",
+      "condition": {
+        "type": "model-is-leader"
+      },
+      "effect": {
+        "type": "roll-modifier",
+        "target": "unit",
+        "modifier": {
+          "roll": "hit",
+          "critical_on": 5,
+          "attack_type": "melee"
+        }
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot Flesh Shaper"
+      ]
+    },
+    "community_notes": "While the bearer is leading a unit, melee attacks made by models in that unit score Critical Hits on unmodified Hit rolls of 5+."
+  },
+  {
+    "ability_id": "supernova-launcher-experimental-prototype-cadre",
+    "name": "Supernova Launcher",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "experimental-prototype-cadre",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 3,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "D",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Applies to one Airbursting Fragmentation Projector selected in the Declare Battle Formations step; the weapon-name scoping is not encoded."
+  },
+  {
+    "ability_id": "thermoneutronic-projector-experimental-prototype-cadre",
+    "name": "Thermoneutronic Projector",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "experimental-prototype-cadre",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 2,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "D",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Applies to one T'au Flamer selected in the Declare Battle Formations step; the weapon-name scoping is not encoded."
+  },
+  {
+    "ability_id": "plasma-accelerator-rifle-experimental-prototype-cadre",
+    "name": "Plasma Accelerator Rifle",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "experimental-prototype-cadre",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "S",
+            "operation": "add",
+            "value": 2,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "A",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "AP",
+            "operation": "add",
+            "value": -1,
+            "weapon_type": "ranged"
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "bearer",
+          "modifier": {
+            "stat": "D",
+            "operation": "add",
+            "value": 1,
+            "weapon_type": "ranged"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Battlesuit"
+      ]
+    },
+    "community_notes": "Applies to one Plasma Rifle selected in the Declare Battle Formations step; the weapon-name scoping is not encoded."
+  },
+  {
+    "ability_id": "exemplar-of-the-kauyon-kauyon",
+    "name": "Exemplar of the Kauyon",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "patient-hunter-from-round-2"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "patient-hunter",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "While the bearer is leading a unit, the Patient Hunter detachment rule applies to that unit from the second battle round instead of the third. Kroot Shaper models cannot take this."
+  },
+  {
+    "ability_id": "precision-of-the-patient-hunter-kauyon",
+    "name": "Precision of the Patient Hunter",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "roll-modifier",
+      "target": "bearer",
+      "modifier": {
+        "roll": "hit",
+        "operation": "add",
+        "value": 1,
+        "attack_type": "ranged"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "From the third battle round onwards, also add 1 to the Wound roll; the round-gated wound bonus is not encoded."
+  },
+  {
+    "ability_id": "solid-image-projection-unit-kauyon",
+    "name": "Solid-image Projection Unit",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "movement-modifier",
+          "target": "unit",
+          "modifier": {
+            "move_type": "redeploy",
+            "to_reserves": true
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "reserves-limit-exempt"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "After deployment, redeploy up to three T'au Empire units, optionally into Strategic Reserves regardless of the usual limits."
+  },
+  {
+    "ability_id": "through-unity-devastation-kauyon",
+    "name": "Through Unity, Devastation",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "kauyon",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "unit",
+      "modifier": {
+        "grant_type": "guided-units-lethal-hits-vs-spotted"
+      }
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "interactions": [
+      {
+        "ability_ref": "for-the-greater-good",
+        "type": "combos-with"
+      }
+    ],
+    "community_notes": "[APPROX] While the bearer is leading a unit, each time that unit is an Observer, ranged weapons of a Guided unit gain [LETHAL HITS] while targeting their Spotted unit. Encoded as an opaque grant. Kroot Shaper models cannot take this."
+  },
+  {
+    "ability_id": "student-of-kauyon-auxiliary-cadre",
+    "name": "Student of Kauyon",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "auxiliary-cadre",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "ability-grant",
+      "target": "all-friendly",
+      "modifier": {
+        "grant_type": "deep-strike-for-selected-kroot-units"
+      }
+    },
+    "scope": {
+      "range": "any-on-battlefield",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Kroot Shaper"
+      ]
+    },
+    "community_notes": "[APPROX] In the Declare Battle Formations step, up to three friendly Kroot Carnivores or Farstalker Kinband units gain Deep Strike. Encoded as an opaque grant."
+  },
+  {
+    "ability_id": "admired-leader-auxiliary-cadre",
+    "name": "Admired Leader",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "auxiliary-cadre",
+    "ability_type": "enhancement",
+    "behavior": "activated",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "stat-modifier",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "stat": "Ld",
+            "operation": "add",
+            "value": -1
+          }
+        },
+        {
+          "type": "stat-modifier",
+          "target": "friendly-within-aura",
+          "modifier": {
+            "stat": "OC",
+            "operation": "add",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "aura-12",
+      "duration": "until-next-command-phase"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "T'au Empire"
+      ]
+    },
+    "community_notes": "In your Command phase, one Kroot or Vespid Stingwings unit within 12\" gets improved Leadership (encoded as -1, lower is better) and +1 Objective Control until the start of your next Command phase. Kroot models cannot take this."
+  },
+  {
+    "ability_id": "earth-caste-modifications-sudden-dawn-cadre",
+    "name": "Earth Caste Modifications",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "sudden-dawn-cadre",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "ability-grant",
+          "target": "bearer",
+          "modifier": {
+            "grant_type": "suppress-shot-target-hit-penalty"
+          }
+        },
+        {
+          "type": "ability-grant",
+          "target": "unit",
+          "modifier": {
+            "grant_type": "ingress-within-6"
+          }
+        }
+      ]
+    },
+    "scope": {
+      "range": "unit",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Sudden Dawn Cadre",
+        "Commander in Enforcer Battlesuit"
+      ]
+    },
+    "community_notes": "[APPROX] After this unit shoots, one enemy unit hit is suppressed (-1 to Hit rolls) until the start of your next turn; and this unit's ingress moves can be set up more than 6\" (instead of 8\") from enemies at the cost of not charging that turn. Both encoded as opaque grants."
+  },
+  {
+    "ability_id": "proximity-scanners-sudden-dawn-cadre",
+    "name": "Proximity Scanners",
+    "authored_by": "40kdc-community",
+    "game_version": {
+      "edition": "11th",
+      "dataslate": "pre-launch-provisional"
+    },
+    "version": "2025-q3",
+    "supersedes": null,
+    "unit_ids": [],
+    "faction_id": "tau-empire",
+    "detachment_id": "sudden-dawn-cadre",
+    "ability_type": "enhancement",
+    "behavior": "passive",
+    "effect": {
+      "type": "ability-grant",
+      "target": "self",
+      "modifier": {
+        "grant_type": "disembarking-pulse-weapons-attack-bonus"
+      }
+    },
+    "scope": {
+      "range": "self",
+      "duration": "battle"
+    },
+    "applies_to": {
+      "required_keywords": [
+        "Sudden Dawn Cadre",
+        "Devilfish"
+      ]
+    },
+    "community_notes": "[APPROX] Unit Upgrade (Devilfish unit, not a Character Enhancement): when a friendly unit disembarks from this unit, its pulse blaster and pulse carbine weapons get +1 Attacks. Encoded as an opaque grant."
   }
 ]
