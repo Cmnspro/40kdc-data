@@ -5,13 +5,16 @@ structural stub — an effect carrying an empty-modifier placeholder node that s
 DSL authored. This is the actionable counterpart to the per-faction `stub*` counts in
 [`CONTRIBUTING.md`](../../CONTRIBUTING.md) and [`summary.md`](summary.md).
 
-Total: 35 stub abilities.
+Total: 40 stub abilities.
 
 | faction | ability | shape | needs |
 |---|---|---|---|
+| adeptus-astartes | burning-vengeance-firestorm-assault-force | sequence | effect type "disembark" is not modelled by the buff layer |
 | adeptus-astartes | heroes-of-ultramar | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | adeptus-astartes | mission-tactics | stat-modifier | stat-modifier: operation "undefined" not supported |
+| adeptus-astartes | onslaught-of-fire-firestorm-assault-force | sequence | empty modifier |
 | adeptus-astartes | sagas | stat-modifier | stat-modifier: operation "undefined" not supported |
+| adeptus-astartes | strike-from-the-shadows-vanguard-spearhead | sequence | stat-modifier on "BS" is outside the damage path |
 | aeldari | far-reaching-doom | stat-modifier | stat-modifier: operation "undefined" not supported |
 | aeldari | support-artillery | unit-attachment | effect type "unit-attachment" is not modelled by the buff layer |
 | astra-militarum | brutal-disciplinarian | select-units | effect type "remove-battle-shock" is not modelled by the buff layer |
@@ -20,12 +23,14 @@ Total: 35 stub abilities.
 | chaos-space-marines | super-heavy-war-engine | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
 | chaos-space-marines | wracking-agonies-psychic | stat-modifier | stat-modifier: operation "undefined" not supported |
+| dark-angels | overpowering-exaction-lions-blade-task-force | battle-shock-test | effect type "battle-shock-test" is not modelled by the buff layer |
 | death-guard | daemonforge | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | dark-ascension-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | frenzy | stat-modifier | stat-modifier: operation "undefined" not supported |
 | death-guard | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
 | drukhari | exacting-cruelty | stat-modifier | stat-modifier: operation "undefined" not supported |
 | emperors-children | mind-breaking-mutations-aura | stat-modifier | stat-modifier: operation "undefined" not supported |
+| emperors-children | reactive-disembarkation-rapid-evisceration | disembark | effect type "disembark" is not modelled by the buff layer |
 | emperors-children | the-scent-of-blood | stat-modifier | stat-modifier: operation "undefined" not supported |
 | genestealer-cults | hordes-of-the-faithful | stat-modifier | stat-modifier: operation "undefined" not supported |
 | grey-knights | hallowed-ground | sequence | effect type "terrain-area-tag" is not modelled by the buff layer |
