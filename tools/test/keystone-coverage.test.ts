@@ -2,7 +2,12 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import type { TerrainLayout, TerrainTemplate } from "../src/terrain/resolve.js";
+import {
+  resolveLayout,
+  type Keystone,
+  type TerrainLayout,
+  type TerrainTemplate,
+} from "../src/terrain/resolve.js";
 import { BOARD_INCHES, keystoneMeasurements } from "../src/terrain/keystones.js";
 import {
   authorKeystones,
@@ -57,6 +62,44 @@ describe("Battlemaster layout keystone coverage", () => {
             : BOARD_INCHES.height;
         expect(m.distance, `${layout.id}/${m.piece_id}/${m.edge}`).toBeGreaterThanOrEqual(0);
         expect(m.distance, `${layout.id}/${m.piece_id}/${m.edge}`).toBeLessThanOrEqual(extent);
+      }
+    }
+  });
+
+  it("measures the rotation anchor perpendicular to the anchor pair (the direction rotation actually moves)", () => {
+    const byTemplate = new Map(templates.map((t) => [t.id, t] as const));
+    for (const layout of bmLayouts) {
+      const resolved = resolveLayout(layout, templates);
+      let cursor = 0;
+      for (const piece of layout.pieces ?? []) {
+        const rp = resolved[cursor]!;
+        cursor += 1;
+        if (!piece.parent_area_id && piece.template) {
+          cursor += byTemplate.get(piece.template)?.features?.length ?? 0;
+        }
+        if (isAxisAligned(piece)) continue;
+        const byAnchor = new Map<number, Keystone[]>();
+        for (const k of piece.keystones ?? []) {
+          if (k.ref.kind !== "vertex") continue;
+          byAnchor.set(k.ref.index, [...(byAnchor.get(k.ref.index) ?? []), k]);
+        }
+        const aEntry = [...byAnchor.entries()].find(([, ks]) => ks.length === 2);
+        const bEntry = [...byAnchor.entries()].find(([, ks]) => ks.length === 1);
+        expect(aEntry, `${layout.id}/${piece.id} corner anchor`).toBeDefined();
+        expect(bEntry, `${layout.id}/${piece.id} rotation anchor`).toBeDefined();
+        const a = rp.vertices[aEntry![0]]!;
+        const b = rp.vertices[bEntry![0]]!;
+        // Rotating about A swings B perpendicular to A→B, so the single
+        // measurement at B must run along that perpendicular: a mostly
+        // horizontal pair measures to a horizontal (top/bottom) edge and
+        // vice versa — otherwise the number barely changes under rotation.
+        const pairMostlyHorizontal = Math.abs(b.x - a.x) >= Math.abs(b.y - a.y);
+        const edge = bEntry![1][0]!.edge;
+        const measuresVertically = edge === "top" || edge === "bottom";
+        expect(
+          measuresVertically,
+          `${layout.id}/${piece.id} rotation anchor measures to ${edge}`,
+        ).toBe(pairMostlyHorizontal);
       }
     }
   });

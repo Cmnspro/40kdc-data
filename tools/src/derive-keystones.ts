@@ -17,9 +17,12 @@
  * outline vertex farthest from A (the best lever), with a SINGLE measurement:
  * once A is pinned the piece itself fixes the distance A→B, so one more edge
  * distance pins the rotation (WTC-style three-number dimensioning). B measures
- * to the edge most perpendicular to the A→B direction — the constraint that
- * best separates the two circle intersections the single measurement allows,
- * with the card's diagram disambiguating the rest.
+ * PERPENDICULAR to the A→B direction — rotating the piece about A swings B
+ * along that perpendicular, so it is the direction the number actually
+ * constrains (a measurement along A→B barely changes under rotation and is
+ * near-redundant with A's own edge distance). It also lands the two circle
+ * intersections the single measurement allows on opposite sides of A, where
+ * the card's diagram trivially disambiguates them.
  *
  * `is_objective` pieces are included: in the Battlemaster data they are full
  * terrain composites that HOST an objective marker (the marker sits inside the
@@ -121,17 +124,19 @@ function deriveForPiece(rp: ResolvedPiece, axisAligned: boolean): Keystone[] {
     }
   }
   const b = rp.vertices[bIndex]!;
-  // The edge most perpendicular to A→B: a vertical (left/right) edge when the
-  // pair runs mostly horizontally, a horizontal (top/bottom) edge otherwise.
-  // Reflection-stable: point reflection preserves |Δx| and |Δy|.
+  // Measure B perpendicular to A→B: rotation about A swings B along that
+  // perpendicular, so it is the only direction the number constrains. For a
+  // mostly-horizontal pair that means a top/bottom distance (a left/right one
+  // would stay ~constant under rotation — near-redundant with A's own
+  // measurement). Reflection-stable: point reflection preserves |Δx| and |Δy|.
   const bKeystone: Keystone =
     Math.abs(b.x - a.x) >= Math.abs(b.y - a.y)
       ? {
-          edge: b.x < BOARD_INCHES.width / 2 ? "left" : "right",
+          edge: b.y < BOARD_INCHES.height / 2 ? "top" : "bottom",
           ref: { kind: "vertex", index: bIndex },
         }
       : {
-          edge: b.y < BOARD_INCHES.height / 2 ? "top" : "bottom",
+          edge: b.x < BOARD_INCHES.width / 2 ? "left" : "right",
           ref: { kind: "vertex", index: bIndex },
         };
   return [...keystonesForVertex(a, aIndex), bKeystone];
