@@ -4,7 +4,11 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import type { TerrainLayout, TerrainTemplate } from "../src/terrain/resolve.js";
 import { BOARD_INCHES, keystoneMeasurements } from "../src/terrain/keystones.js";
-import { authorKeystones, keystonePairingViolations } from "../src/derive-keystones.js";
+import {
+  authorKeystones,
+  isAxisAligned,
+  keystonePairingViolations,
+} from "../src/derive-keystones.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const layouts = JSON.parse(
@@ -21,10 +25,19 @@ describe("Battlemaster layout keystone coverage", () => {
     expect(bmLayouts).toHaveLength(45);
   });
 
-  it("gives every piece exactly two keystones (objective-hosting terrain included)", () => {
+  it("anchors one corner on straight pieces, two on oblique ones (rotation needs a second point)", () => {
     for (const layout of bmLayouts) {
       for (const piece of layout.pieces ?? []) {
-        expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(2);
+        const anchors = new Set(
+          (piece.keystones ?? []).map((k) => (k.ref.kind === "vertex" ? k.ref.index : -1)),
+        );
+        if (isAxisAligned(piece)) {
+          expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(2);
+          expect(anchors.size, `${layout.id}/${piece.id} anchors`).toBe(1);
+        } else {
+          expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(4);
+          expect(anchors.size, `${layout.id}/${piece.id} anchors`).toBe(2);
+        }
       }
     }
   });
@@ -32,7 +45,11 @@ describe("Battlemaster layout keystone coverage", () => {
   it("derives an on-board distance for every keystone", () => {
     for (const layout of bmLayouts) {
       const measured = keystoneMeasurements(layout, templates);
-      expect(measured, layout.id).toHaveLength((layout.pieces ?? []).length * 2);
+      const expected = (layout.pieces ?? []).reduce(
+        (n, p) => n + (isAxisAligned(p) ? 2 : 4),
+        0,
+      );
+      expect(measured, layout.id).toHaveLength(expected);
       for (const m of measured) {
         const extent =
           m.edge === "left" || m.edge === "right"

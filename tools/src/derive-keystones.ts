@@ -7,11 +7,16 @@
  * derived by `keystoneMeasurements`, so nothing here can disagree with the
  * layout.
  *
- * Heuristic (the hand-authored KOTC colosseum idiom, generalized): each
- * terrain piece gets two keystones anchored to the SAME footprint vertex — the
- * vertex of the placed outline nearest the piece's nearest board corner (the
- * natural tape-measure target), measured to its nearest horizontal edge
- * (top/bottom) and its nearest vertical edge (left/right), in that order.
+ * Heuristic (the hand-authored KOTC colosseum idiom, extended to rotated
+ * pieces): every piece gets an anchor at vertex A — the vertex of the placed
+ * outline nearest the piece's nearest board corner (the natural tape-measure
+ * target) — measured to its nearest horizontal edge (top/bottom) and nearest
+ * vertical edge (left/right), in that order. An axis-aligned piece (rotation
+ * a multiple of 90°) is fully placeable from that one corner and stays at two
+ * keystones. An obliquely rotated piece gets a SECOND anchor at vertex B, the
+ * outline vertex farthest from A (the best lever): one measured corner only
+ * pins a point, and the second pins the rotation, without drowning the card
+ * in dimension lines for pieces that sit straight.
  *
  * `is_objective` pieces are included: in the Battlemaster data they are full
  * terrain composites that HOST an objective marker (the marker sits inside the
@@ -24,9 +29,11 @@
  * (the same tolerance the layout intake's keystone-pairing check used) — both
  * halves of a printed card measure alike. Any violation fails the run.
  *
- * Usage: npx tsx tools/src/derive-keystones.ts [--write]
+ * Usage: npx tsx tools/src/derive-keystones.ts [--write] [--rederive]
  * Dry run prints the per-layout summary; --write persists
- * data/core/terrain-layouts.json.
+ * data/core/terrain-layouts.json. --rederive clears the bm-* layouts'
+ * keystones first (for re-runs after a geometry re-import or a heuristic
+ * change) — hand-authored layouts like the KOTC colosseum are never touched.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -57,27 +64,62 @@ function centroid(rp: ResolvedPiece): { x: number; y: number } {
   return { x: x / rp.vertices.length, y: y / rp.vertices.length };
 }
 
-/** The two keystones for a placed piece: nearest-corner vertex, measured to
- * the nearest horizontal and vertical board edges (KOTC ordering). */
-function deriveForPiece(rp: ResolvedPiece): Keystone[] {
+/** The two keystones for one anchor vertex: measured to its nearest
+ * horizontal and vertical board edges (KOTC ordering). */
+function keystonesForVertex(v: { x: number; y: number }, index: number): Keystone[] {
+  return [
+    {
+      edge: v.y < BOARD_INCHES.height / 2 ? "top" : "bottom",
+      ref: { kind: "vertex", index },
+    },
+    {
+      edge: v.x < BOARD_INCHES.width / 2 ? "left" : "right",
+      ref: { kind: "vertex", index },
+    },
+  ];
+}
+
+/** Whether a piece sits straight on the board (rotation a multiple of 90°) —
+ * placeable from a single measured corner. */
+export function isAxisAligned(piece: { rotation_degrees?: number }): boolean {
+  const r = piece.rotation_degrees ?? 0;
+  return ((r % 90) + 90) % 90 === 0;
+}
+
+/** The keystones for a placed piece: vertex A nearest the piece's nearest
+ * board corner (pins a point) with two edge measurements — plus, for oblique
+ * pieces only, vertex B farthest from A (pins the rotation) with two more. */
+function deriveForPiece(rp: ResolvedPiece, axisAligned: boolean): Keystone[] {
   const c = centroid(rp);
   const corner = {
     x: c.x < BOARD_INCHES.width / 2 ? 0 : BOARD_INCHES.width,
     y: c.y < BOARD_INCHES.height / 2 ? 0 : BOARD_INCHES.height,
   };
-  let index = 0;
+  let aIndex = 0;
   let best = Infinity;
   for (let i = 0; i < rp.vertices.length; i++) {
     const v = rp.vertices[i]!;
     const d = (v.x - corner.x) ** 2 + (v.y - corner.y) ** 2;
     if (d < best - 1e-9) {
       best = d;
-      index = i;
+      aIndex = i;
+    }
+  }
+  const a = rp.vertices[aIndex]!;
+  if (axisAligned) return keystonesForVertex(a, aIndex);
+  let bIndex = aIndex;
+  let farthest = -Infinity;
+  for (let i = 0; i < rp.vertices.length; i++) {
+    const v = rp.vertices[i]!;
+    const d = (v.x - a.x) ** 2 + (v.y - a.y) ** 2;
+    if (d > farthest + 1e-9) {
+      farthest = d;
+      bIndex = i;
     }
   }
   return [
-    { edge: corner.y === 0 ? "top" : "bottom", ref: { kind: "vertex", index } },
-    { edge: corner.x === 0 ? "left" : "right", ref: { kind: "vertex", index } },
+    ...keystonesForVertex(a, aIndex),
+    ...keystonesForVertex(rp.vertices[bIndex]!, bIndex),
   ];
 }
 
@@ -105,8 +147,39 @@ function explicitResolved(
   return out;
 }
 
+const flipEdge = (e: Keystone["edge"]): Keystone["edge"] =>
+  e === "left" ? "right" : e === "right" ? "left" : e === "top" ? "bottom" : "top";
+
+/** A keystone point-reflected onto the twin piece: flipped board edge, anchor
+ * vertex resolved geometrically (the reflection must land within 0.25″ of a
+ * twin vertex — the editor/audit convention; index arithmetic is unsafe since
+ * twins often sit at the same angle rather than θ+180). */
+function mirrorOntoTwin(
+  k: Keystone,
+  primary: ResolvedPiece,
+  twin: ResolvedPiece,
+): Keystone | null {
+  if (k.ref.kind !== "vertex") return null;
+  const v = primary.vertices[k.ref.index];
+  if (!v) return null;
+  const r = { x: BOARD_INCHES.width - v.x, y: BOARD_INCHES.height - v.y };
+  let bestIndex = -1;
+  let best = Infinity;
+  twin.vertices.forEach((w, i) => {
+    const d = Math.hypot(w.x - r.x, w.y - r.y);
+    if (d < best) {
+      best = d;
+      bestIndex = i;
+    }
+  });
+  if (bestIndex < 0 || best > 0.25) return null;
+  return { edge: flipEdge(k.edge), ref: { kind: "vertex", index: bestIndex } };
+}
+
 /** Author keystones in place for every bare terrain piece of the `bm-*`
- * layouts. Returns the number of pieces authored. */
+ * layouts. Each 180°-twin pair is derived ONCE and mirrored onto the twin, so
+ * both halves of a card carry point-reflected keystones by construction (the
+ * `pairKeystones` audit's invariant). Returns the number of pieces authored. */
 export function authorKeystones(
   layouts: TerrainLayout[],
   templates: TerrainTemplate[],
@@ -116,11 +189,46 @@ export function authorKeystones(
     if (!layout.id.startsWith("bm-")) continue;
     const pieces = layout.pieces ?? [];
     const resolved = explicitResolved(layout, templates);
+
+    // Twin recovery by point-reflected centroid (same tolerance as the
+    // pairing validation below).
+    const twinOf = new Map<number, number>();
+    for (let i = 0; i < pieces.length; i++) {
+      if (twinOf.has(i)) continue;
+      const c = centroid(resolved[i]!);
+      const r = { x: BOARD_INCHES.width - c.x, y: BOARD_INCHES.height - c.y };
+      for (let j = 0; j < pieces.length; j++) {
+        if (j === i || twinOf.has(j)) continue;
+        const cj = centroid(resolved[j]!);
+        if (
+          Math.abs(cj.x - r.x) <= TWIN_CENTROID_TOLERANCE_IN &&
+          Math.abs(cj.y - r.y) <= TWIN_CENTROID_TOLERANCE_IN
+        ) {
+          twinOf.set(i, j);
+          twinOf.set(j, i);
+          break;
+        }
+      }
+    }
+
     for (let i = 0; i < pieces.length; i++) {
       const piece = pieces[i]!;
       if (piece.keystones && piece.keystones.length > 0) continue;
-      piece.keystones = deriveForPiece(resolved[i]!);
+      const derived = deriveForPiece(resolved[i]!, isAxisAligned(piece));
+      piece.keystones = derived;
       piecesAuthored += 1;
+
+      const j = twinOf.get(i);
+      if (j === undefined || j === i) continue;
+      const twinPiece = pieces[j]!;
+      if (twinPiece.keystones && twinPiece.keystones.length > 0) continue;
+      const mirrored = derived.map((k) => mirrorOntoTwin(k, resolved[i]!, resolved[j]!));
+      if (mirrored.every((k): k is Keystone => k !== null)) {
+        twinPiece.keystones = mirrored;
+        piecesAuthored += 1;
+      }
+      // A failed mirror leaves the twin bare; the loop derives it
+      // independently and the pairing validation reports any drift.
     }
   }
   return piecesAuthored;
@@ -163,13 +271,16 @@ export function keystonePairingViolations(
       }
       // The twin's keystones anchor the reflected vertex to the opposite
       // edges, so the sorted distance pairs must match.
+      const expected = isAxisAligned(pieces[i]!) ? 2 : 4;
       const a = [...(byPiece.get(i) ?? [])].sort((x, y) => x - y);
       const b = [...(byPiece.get(twin) ?? [])].sort((x, y) => x - y);
-      if (a.length !== 2 || b.length !== 2) {
-        violations.push(`${layout.id}: piece ${pieces[i]!.id ?? i} expected 2 keystones`);
+      if (a.length !== expected || b.length !== expected) {
+        violations.push(
+          `${layout.id}: piece ${pieces[i]!.id ?? i} expected ${expected} keystones`,
+        );
         continue;
       }
-      for (let k = 0; k < 2; k++) {
+      for (let k = 0; k < expected; k++) {
         if (Math.abs(a[k]! - b[k]!) > PAIR_TOLERANCE_IN) {
           violations.push(
             `${layout.id}: pieces ${pieces[i]!.id ?? i}/${pieces[twin]!.id ?? twin} measure apart ` +
@@ -187,6 +298,12 @@ function main(): void {
   const layouts = JSON.parse(readFileSync(LAYOUTS_PATH, "utf8")) as TerrainLayout[];
   const templates = JSON.parse(readFileSync(TEMPLATES_PATH, "utf8")) as TerrainTemplate[];
 
+  if (process.argv.includes("--rederive")) {
+    for (const layout of layouts) {
+      if (!layout.id.startsWith("bm-")) continue;
+      for (const piece of layout.pieces ?? []) delete piece.keystones;
+    }
+  }
   const piecesAuthored = authorKeystones(layouts, templates);
   const violations = keystonePairingViolations(layouts, templates);
 
