@@ -14,12 +14,6 @@ const templates = JSON.parse(
   readFileSync(join(ROOT, "data", "core", "terrain-templates.json"), "utf8"),
 ) as TerrainTemplate[];
 
-interface Piece {
-  id?: string;
-  is_objective?: boolean;
-  keystones?: unknown[];
-}
-
 const bmLayouts = layouts.filter((l) => l.id.startsWith("bm-"));
 
 describe("Battlemaster layout keystone coverage", () => {
@@ -27,14 +21,10 @@ describe("Battlemaster layout keystone coverage", () => {
     expect(bmLayouts).toHaveLength(45);
   });
 
-  it("gives every terrain piece exactly two keystones and objectives none", () => {
+  it("gives every piece exactly two keystones (objective-hosting terrain included)", () => {
     for (const layout of bmLayouts) {
-      for (const piece of (layout.pieces ?? []) as Piece[]) {
-        if (piece.is_objective === true) {
-          expect(piece.keystones, `${layout.id}/${piece.id}`).toBeUndefined();
-        } else {
-          expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(2);
-        }
+      for (const piece of layout.pieces ?? []) {
+        expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(2);
       }
     }
   });
@@ -42,10 +32,7 @@ describe("Battlemaster layout keystone coverage", () => {
   it("derives an on-board distance for every keystone", () => {
     for (const layout of bmLayouts) {
       const measured = keystoneMeasurements(layout, templates);
-      const terrain = ((layout.pieces ?? []) as Piece[]).filter(
-        (p) => p.is_objective !== true,
-      );
-      expect(measured, layout.id).toHaveLength(terrain.length * 2);
+      expect(measured, layout.id).toHaveLength((layout.pieces ?? []).length * 2);
       for (const m of measured) {
         const extent =
           m.edge === "left" || m.edge === "right"

@@ -13,9 +13,10 @@
  * natural tape-measure target), measured to its nearest horizontal edge
  * (top/bottom) and its nearest vertical edge (left/right), in that order.
  *
- * Objective-marker pieces are skipped (they are not physical terrain a table
- * crew places by tape measure), as is any piece that already carries authored
- * keystones.
+ * `is_objective` pieces are included: in the Battlemaster data they are full
+ * terrain composites that HOST an objective marker (the marker sits inside the
+ * footprint), so a table crew places them by tape measure like any other
+ * piece. Pieces that already carry authored keystones are never overwritten.
  *
  * The Battlemaster boards are 180°-rotationally symmetric, so the derivation
  * is validated by pairing: every terrain piece must have a twin whose centroid
@@ -33,7 +34,6 @@ import { fileURLToPath } from "node:url";
 import {
   resolveLayout,
   type Keystone,
-  type LayoutPiece,
   type ResolvedPiece,
   type TerrainLayout,
   type TerrainTemplate,
@@ -46,11 +46,6 @@ const TEMPLATES_PATH = join(ROOT, "data", "core", "terrain-templates.json");
 
 const PAIR_TOLERANCE_IN = 0.25;
 const TWIN_CENTROID_TOLERANCE_IN = 0.5;
-
-/** The schema carries `is_objective` on layout pieces; the resolver's
- * `LayoutPiece` type models only the fields resolution needs. */
-const isObjective = (p: LayoutPiece): boolean =>
-  (p as { is_objective?: boolean }).is_objective === true;
 
 function centroid(rp: ResolvedPiece): { x: number; y: number } {
   let x = 0;
@@ -123,7 +118,6 @@ export function authorKeystones(
     const resolved = explicitResolved(layout, templates);
     for (let i = 0; i < pieces.length; i++) {
       const piece = pieces[i]!;
-      if (isObjective(piece)) continue;
       if (piece.keystones && piece.keystones.length > 0) continue;
       piece.keystones = deriveForPiece(resolved[i]!);
       piecesAuthored += 1;
@@ -152,9 +146,7 @@ export function keystonePairingViolations(
       list.push(m.distance);
       byPiece.set(m.piece_index, list);
     }
-    const terrainIdx = pieces
-      .map((p, i) => (isObjective(p) ? -1 : i))
-      .filter((i) => i >= 0);
+    const terrainIdx = pieces.map((_, i) => i);
     for (const i of terrainIdx) {
       const c = centroid(resolved[i]!);
       const reflected = { x: BOARD_INCHES.width - c.x, y: BOARD_INCHES.height - c.y };
