@@ -35,7 +35,7 @@ describe("Battlemaster layout keystone coverage", () => {
           expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(2);
           expect(anchors.size, `${layout.id}/${piece.id} anchors`).toBe(1);
         } else {
-          expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(4);
+          expect(piece.keystones, `${layout.id}/${piece.id}`).toHaveLength(3);
           expect(anchors.size, `${layout.id}/${piece.id} anchors`).toBe(2);
         }
       }
@@ -46,7 +46,7 @@ describe("Battlemaster layout keystone coverage", () => {
     for (const layout of bmLayouts) {
       const measured = keystoneMeasurements(layout, templates);
       const expected = (layout.pieces ?? []).reduce(
-        (n, p) => n + (isAxisAligned(p) ? 2 : 4),
+        (n, p) => n + (isAxisAligned(p) ? 2 : 3),
         0,
       );
       expect(measured, layout.id).toHaveLength(expected);

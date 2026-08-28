@@ -14,9 +14,12 @@
  * vertical edge (left/right), in that order. An axis-aligned piece (rotation
  * a multiple of 90°) is fully placeable from that one corner and stays at two
  * keystones. An obliquely rotated piece gets a SECOND anchor at vertex B, the
- * outline vertex farthest from A (the best lever): one measured corner only
- * pins a point, and the second pins the rotation, without drowning the card
- * in dimension lines for pieces that sit straight.
+ * outline vertex farthest from A (the best lever), with a SINGLE measurement:
+ * once A is pinned the piece itself fixes the distance A→B, so one more edge
+ * distance pins the rotation (WTC-style three-number dimensioning). B measures
+ * to the edge most perpendicular to the A→B direction — the constraint that
+ * best separates the two circle intersections the single measurement allows,
+ * with the card's diagram disambiguating the rest.
  *
  * `is_objective` pieces are included: in the Battlemaster data they are full
  * terrain composites that HOST an objective marker (the marker sits inside the
@@ -88,7 +91,7 @@ export function isAxisAligned(piece: { rotation_degrees?: number }): boolean {
 
 /** The keystones for a placed piece: vertex A nearest the piece's nearest
  * board corner (pins a point) with two edge measurements — plus, for oblique
- * pieces only, vertex B farthest from A (pins the rotation) with two more. */
+ * pieces only, one more at vertex B, farthest from A (pins the rotation). */
 function deriveForPiece(rp: ResolvedPiece, axisAligned: boolean): Keystone[] {
   const c = centroid(rp);
   const corner = {
@@ -117,10 +120,21 @@ function deriveForPiece(rp: ResolvedPiece, axisAligned: boolean): Keystone[] {
       bIndex = i;
     }
   }
-  return [
-    ...keystonesForVertex(a, aIndex),
-    ...keystonesForVertex(rp.vertices[bIndex]!, bIndex),
-  ];
+  const b = rp.vertices[bIndex]!;
+  // The edge most perpendicular to A→B: a vertical (left/right) edge when the
+  // pair runs mostly horizontally, a horizontal (top/bottom) edge otherwise.
+  // Reflection-stable: point reflection preserves |Δx| and |Δy|.
+  const bKeystone: Keystone =
+    Math.abs(b.x - a.x) >= Math.abs(b.y - a.y)
+      ? {
+          edge: b.x < BOARD_INCHES.width / 2 ? "left" : "right",
+          ref: { kind: "vertex", index: bIndex },
+        }
+      : {
+          edge: b.y < BOARD_INCHES.height / 2 ? "top" : "bottom",
+          ref: { kind: "vertex", index: bIndex },
+        };
+  return [...keystonesForVertex(a, aIndex), bKeystone];
 }
 
 /** Walk the resolver's emission contract: the resolved piece for each explicit
@@ -271,7 +285,7 @@ export function keystonePairingViolations(
       }
       // The twin's keystones anchor the reflected vertex to the opposite
       // edges, so the sorted distance pairs must match.
-      const expected = isAxisAligned(pieces[i]!) ? 2 : 4;
+      const expected = isAxisAligned(pieces[i]!) ? 2 : 3;
       const a = [...(byPiece.get(i) ?? [])].sort((x, y) => x - y);
       const b = [...(byPiece.get(twin) ?? [])].sort((x, y) => x - y);
       if (a.length !== expected || b.length !== expected) {
